@@ -18,16 +18,15 @@ namespace FileFlows.Plugin.Helpers
             if (di.Exists)
                 return true;
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if (IsWindows)
                 di.Create();
             else
                 CreateLinuxDir(logger, di);
-            //if (Chmod(directory))
-            //    Logger?.ILog("Succesfully set permissions on directory");
-            //else
-            //    Logger?.ILog("Failed to set permissions on directory");
+
             return di.Exists;
         }
+
+        private static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
         public static bool CreateLinuxDir(ILogger logger, DirectoryInfo di)
         {
@@ -77,26 +76,34 @@ namespace FileFlows.Plugin.Helpers
 
 
 
-        public static bool ChangeOwner(ILogger logger, string filePath, bool recursive = true, bool file = false)
+        public static bool ChangeOwner(ILogger logger, string filePath, bool recursive = true, bool file = false, bool execute = false)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return true; // its windows, lets just pretend we did this
+
+            bool log = filePath.Contains("Runner-") == false;
 
             if (file == false)
             {
                 if (filePath.EndsWith(Path.DirectorySeparatorChar) == false)
                     filePath += Path.DirectorySeparatorChar;
 
-                logger?.ILog("Changing owner on folder: " + filePath);
+                if(log)
+                    logger?.ILog("Changing owner on folder: " + filePath);
             }
             else
             {
-                logger?.ILog("Changing owner on file: " + filePath);
+                if (log)
+                    logger?.ILog("Changing owner on file: " + filePath);
                 recursive = false;
             }
 
+            string puid = Environment.GetEnvironmentVariable("PUID")?.EmptyAsNull() ?? "nobody";
+            string pgid = Environment.GetEnvironmentVariable("PGID")?.EmptyAsNull() ?? "users";
 
-            string cmd = $"chown{(recursive ? " -R" : "")} nobody:users {EscapePathForLinux(filePath)}";
+            string cmd = $"chown{(recursive ? " -R" : "")} {puid}:{pgid} {EscapePathForLinux(filePath)}";
+            if (log)
+                logger.ILog("Change owner command: " + cmd);
 
             try
             {
@@ -115,7 +122,7 @@ namespace FileFlows.Plugin.Helpers
                     process.WaitForExit();
 
                     if (process.ExitCode == 0)
-                        return SetPermissions(logger, filePath);
+                        return SetPermissions(logger, filePath, file: file, execute: execute);
                     logger?.ELog("Failed changing owner:" + process.StartInfo.FileName, process.StartInfo.Arguments + Environment.NewLine + output);
                     if (string.IsNullOrWhiteSpace(error) == false)
                         logger?.ELog("Error output:" + output);
@@ -130,26 +137,30 @@ namespace FileFlows.Plugin.Helpers
         }
 
 
-        public static bool SetPermissions(ILogger logger, string filePath, bool recursive = true, bool file = false)
+        public static bool SetPermissions(ILogger logger, string filePath, bool recursive = true, bool file = false, bool execute = false)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return true; // its windows, lets just pretend we did this
+
+            bool log = filePath.Contains("Runner-") == false;
 
             if (file == false)
             {
                 if (filePath.EndsWith(Path.DirectorySeparatorChar) == false)
                     filePath += Path.DirectorySeparatorChar;
-                logger?.ILog("Setting permissions on folder: " + filePath);
+                if(log)
+                    logger?.ILog("Setting permissions on folder: " + filePath);
             }
             else
             {
-                logger?.ILog("Setting permissions on file: " + filePath);
+                if (log)
+                    logger?.ILog("Setting permissions on file: " + filePath);
                 recursive = false;
             }
 
 
 
-            string cmd = $"chmod{(recursive ? " -R" : "")} 777 {EscapePathForLinux(filePath)}";
+            string cmd = $"chmod{(recursive ? " -R" : "")} {(execute ? 777 : 666)} {EscapePathForLinux(filePath)}";
 
             try
             {
@@ -184,8 +195,23 @@ namespace FileFlows.Plugin.Helpers
 
         private static string EscapePathForLinux(string path)
         {
-            path = Regex.Replace(path, "([\\'\"\\$\\?\\*()\\s])", "\\$1");
+            path = Regex.Replace(path, "([\\'\"\\$\\?\\*()\\s&])", "\\$1");
             return path;
+        }
+
+        public static void SaveFile(ILogger logger, string file, byte[] data)
+        {
+            File.WriteAllBytes(file, data);
+            if (IsWindows)
+                return;
+            ChangeOwner(logger, file, file:true);
+        }
+        public static void ExtractFile(ILogger logger, string file, string destination)
+        {
+            System.IO.Compression.ZipFile.ExtractToDirectory(file, destination);
+            if (IsWindows)
+                return;
+            ChangeOwner(logger,destination, execute: true);
         }
     }
 }

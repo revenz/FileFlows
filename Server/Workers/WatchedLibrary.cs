@@ -58,6 +58,12 @@ namespace FileFlows.Server.Workers
                         continue;
                     }
 
+                    if (this.Library.ExcludeHidden)
+                    {
+                        if (FileIsHidden(fullpath))
+                            continue;
+                    }
+
 
                     if (IsMatch(fullpath) == false || fullpath.EndsWith("_"))
                         continue;
@@ -163,6 +169,26 @@ namespace FileFlows.Server.Workers
                     Logger.Instance.ELog("Error in queue: " + ex.Message + Environment.NewLine + ex.StackTrace);
                 }
             }
+        }
+
+        private bool FileIsHidden(string fullpath)
+        {
+            FileAttributes attributes = File.GetAttributes(fullpath);
+            if ((attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+                return true;
+
+            // recursively search the directories to see if its hidden
+            var dir = new FileInfo(fullpath).Directory;
+            int count = 0;
+            while(dir.Parent != null)
+            {
+                if (dir.Attributes.HasFlag(FileAttributes.Hidden))
+                    return true;
+                dir = dir.Parent;
+                if (++count > 20)
+                    break; // infinite recrusion safety check
+            }
+            return false;
         }
 
         public void Dispose()

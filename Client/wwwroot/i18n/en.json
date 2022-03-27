@@ -201,6 +201,8 @@
         "Priority-Help": "The priority with which files should be processed. If a higher priority library has files waiting to be processed, those will be done first.",
         "Filter": "Filter",
         "Filter-Help": "An optional filter regular expression to run against matching files.\nExample: \\.(mp4|mkv|avi|mpg|mov)$",
+        "ExcludeHidden": "Exclude Hidden",
+        "ExcludeHidden-Help": "When enabled, hidden files and folders will not be scanned",
         "UseFingerprinting": "Use Fingerprinting",
         "UseFingerprinting-Help": "When enabled, files will have a checksum run against them when being imported and after a flow is completed.  Any matching checksum files will be skipped from future library imports.",
         "ScanInterval": "Scan Interval",

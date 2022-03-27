@@ -191,6 +191,11 @@
             fields.Add(new ElementField
             {
                 InputType = FormInputType.Switch,
+                Name = nameof(library.ExcludeHidden)
+            });
+            fields.Add(new ElementField
+            {
+                InputType = FormInputType.Switch,
                 Name = nameof(library.UseFingerprinting)
             });
             var fieldScan = new ElementField

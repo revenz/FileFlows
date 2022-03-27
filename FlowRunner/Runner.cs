@@ -437,13 +437,15 @@ public class Runner
             }
 
             string destDir = Path.Combine(nodeParameters.TempPath, plugin.PackageName);
-            if (Directory.Exists(destDir))
-                Directory.Delete(destDir, true);
-            File.WriteAllBytes(file, data);
+
+            Plugin.Helpers.FileHelper.CreateDirectoryIfNotExists(nodeParameters.Logger, destDir);
+
+            Plugin.Helpers.FileHelper.SaveFile(nodeParameters.Logger, file, data);
+            
             nodeParameters.Logger?.ILog($"Time taken to download plugin '{plugin.PackageName}': " + (DateTime.Now.Subtract(dtDownload)));
 
             DateTime dtExtract = DateTime.Now;
-            System.IO.Compression.ZipFile.ExtractToDirectory(file, destDir);
+            Plugin.Helpers.FileHelper.ExtractFile(nodeParameters.Logger, file, destDir);
             File.Delete(file);
 
             // check if there are runtime specific files that need to be moved

@@ -87,8 +87,6 @@
             using (var process = new Process())
             {
                 this.process = process;
-                // If you run bash-script on Linux it is possible that ExitCode can be 255.
-                // To fix it you can try to add '#!/bin/bash' header to the script.
 
                 process.StartInfo.FileName = args.Command;                
                 if (args.ArgumentList?.Any() == true)

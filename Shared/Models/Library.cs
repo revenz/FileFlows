@@ -23,6 +23,11 @@ namespace FileFlows.Shared.Models
         /// </summary>
         public bool UseFingerprinting { get; set; }
 
+        /// <summary>
+        /// Gets or sets if hidden files and folders should be excluded from the library
+        /// </summary>
+        public bool ExcludeHidden { get; set; }
+
         public string Schedule { get; set; }
 
         /// <summary>
