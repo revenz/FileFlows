@@ -1,0 +1,164 @@
+name: build
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dotnet: [ '6.x' ]
+
+    steps:
+      - name: Checkout FileFlows
+        uses: actions/checkout@v3
+        with:
+          path: FileFlows
+      
+      - name: Install dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+      
+      - name: Install dependencies
+        run: choco install -y 7zip wixtoolset 
+      
+      - name: Install ffmpeg
+        run: |
+          Invoke-WebRequest -Uri 'https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z' -OutFile 'ffmpeg.7z' 
+          7z x ffmpeg.7z
+          rm ffmpeg.7z
+          mkdir -p c:\utils\ffmpeg\
+          mv ffmpeg-*/bin/* c:\utils\ffmpeg\
+
+      - name: Checkout FileFlowsPlugins
+        uses: actions/checkout@v3
+        with: 
+          repository: revenz/FileFlowsPlugins
+          path: FileFlowsPlugins
+
+      - name: Build pluigins
+        working-directory: ./FileFlowsPlugins/build
+        run: |
+          mkdir -p ../../FileFlows/deploy/Plugins
+          .\buildplugins.ps1 ../../FileFlows/deploy/Plugins
+      
+      - name: Build
+        working-directory: ./FileFlows/build
+        run: .\build.ps1
+
+      - name: Upload Zip
+        if: ${{ matrix.dotnet == '6.x' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: FileFlows-Zip
+          path: |
+            ./FileFlows/deploy
+
+      - name: Create Tar
+        working-directory: ./FileFlows/deploy
+        run: |
+          # Extract zip and create tar
+          7z x FileFlows-*.zip -aos
+          rm FileFlows-*.zip
+          rm FileFlows-*.msi
+          cd ..
+          tar -cvzf FileFlows.tar.gz -C "./deploy" *
+
+      - name: Upload Tar
+        if: ${{ matrix.dotnet == '6.x' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: FileFlows-Tar
+          path: |
+            ./FileFlows/FileFlows.tar.gz
+
+      
+
+  docker:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout FileFlows
+        uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: FileFlows-Tar
+          path: ./deploy
+
+      - name: Docker meta
+        id: docker_meta
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        if: ${{ env.DOCKER_USERNAME != null }}
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/fileflows
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        if: steps.docker_meta.outcome == 'success'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      
+      - name: Build
+        if: steps.docker_meta.outcome == 'skipped'
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64
+          file: ./Dockerfile
+          push: false
+          tags: fileflows:action
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - name: Build and push
+        id: docker_build
+        if: steps.docker_meta.outcome == 'success'
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Image digest
+        if: steps.docker_meta.outcome == 'success'
+        run: echo ${{ steps.docker_build.outputs.digest }}
+      
