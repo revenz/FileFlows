@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS base
+FROM lsiobase/ubuntu:jammy AS base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV PATH=$PATH:/root/.dotnet:/root/.dotnet/tools
@@ -11,15 +11,17 @@ ENV LIBVA_DRIVERS_PATH="/usr/lib/x86_64-linux-gnu/dri" \
     NVIDIA_VISIBLE_DEVICES="all" \
     DOTNET_CLI_TELEMETRY_OPTOUT=true
 
-ARG DEPS="git wget dos2unix software-properties-common libssl-dev comskip"
+ARG DEPS="git wget dos2unix libssl-dev comskip mkvtoolnix aom-tools svt-av1 x265 x264"
 ARG VAAPI_DEPS="vainfo intel-media-va-driver-non-free libva-dev libmfx-dev intel-media-va-driver-non-free intel-media-va-driver-non-free i965-va-driver-shaders mesa-va-drivers"
 RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository universe && \
+    apt-get update && \
     ARCH=$(dpkg --print-architecture) && \
     if [ $ARCH -eq 'amd64' ]; \
     then apt-get install -y ${DEPS} ${VAAPI_DEPS}; \
     else apt-get install -y ${DEPS}; \
     fi && \
-    add-apt-repository universe && \
     rm -rf /var/lib/apt/lists/*
 
 
