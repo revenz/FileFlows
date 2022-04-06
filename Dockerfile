@@ -35,7 +35,7 @@ RUN ARCH=$(dpkg --print-architecture) && \
     apt-get update && \
     apt-get install -y ./jellyfin-ffmpeg*.deb && \
     rm -rf ./jellyfin-ffmpeg*.deb && \
-    ln /usr/lib/jellyfin-ffmpeg/ffmpeg /usr/bin/ffmpeg && \
+    ln /usr/lib/jellyfin-ffmpeg/ffmpeg /usr/local/bin/ffmpeg && \
     rm -rf /var/lib/apt/lists/* && \
     ffmpeg --help
 
