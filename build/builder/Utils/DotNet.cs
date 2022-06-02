@@ -16,7 +16,6 @@ public class DotNet
             parameters += "-c " + settings.Configuration + " ";
         if (string.IsNullOrEmpty(settings.OutputDirectory) == false)
             parameters += "-o \"" + settings.OutputDirectory + "\" ";
-        parameters += "--verbosity quiet ";
 
         var result = Utils.Exec(BuildOptions.IsWindows ? "dotnet.exe" : "dotnet", parameters);
         if(result.exitCode != 0)
