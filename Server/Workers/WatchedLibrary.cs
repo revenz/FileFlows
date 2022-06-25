@@ -422,7 +422,7 @@ public class WatchedLibrary:IDisposable
         {
             try
             {
-                if (new Regex(Library.Filter, RegexOptions.IgnoreCase).IsMatch(input))
+                if (Regex.IsMatch(input, Library.ExclusionFilter, RegexOptions.IgnoreCase))
                     return false;
             }
             catch (Exception) { }
@@ -432,7 +432,7 @@ public class WatchedLibrary:IDisposable
         {
             try
             {
-                return new Regex(Library.Filter, RegexOptions.IgnoreCase).IsMatch(input);
+                return Regex.IsMatch(input, Library.Filter, RegexOptions.IgnoreCase);
             }
             catch (Exception) { }
         }
