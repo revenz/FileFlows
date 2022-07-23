@@ -21,3 +21,8 @@ jobs:
       run: dotnet restore
     - name: Generate Repo
       run: dotnet run --repo
+    - name: Update files on GitHub
+      uses: test-room-7/action-update-file@v1.6.0
+      with:
+        commit-msg: generated repo.json
+        file-path: repo.json
