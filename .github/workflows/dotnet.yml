@@ -23,6 +23,10 @@ jobs:
       run: dotnet run --repo
     - name: check for changes
       run: git status
+    - name: set username
+      run: git config user.name "Automated"
+    - name: set email
+      run: git config user.email "auto@auto.test"
     - name: stage changed files
       run: git add .
     - name: commit changed files
