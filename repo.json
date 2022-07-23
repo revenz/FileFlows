@@ -1,1 +1,86 @@
-todo
+{
+  "SharedScripts": [
+    {
+      "Path": "Shared/SABnzbd.js",
+      "Name": "SABnzbd",
+      "Description": "Class that interacts with the SABnzbd API",
+      "Revision": 1
+    },
+    {
+      "Path": "Shared/tester.js",
+      "Name": "Tester",
+      "Description": "Test class not used",
+      "Revision": 1
+    },
+    {
+      "Path": "Shared/FileFlowsApi.js",
+      "Name": "FileFlows API",
+      "Description": "Class that interacts with the FileFlows API",
+      "Revision": 1
+    }
+  ],
+  "ProcessScripts": [
+    {
+      "Path": "Process/DownloadClients/PauseSABNZbd.js",
+      "Name": "SABnzbd - Pause Downloads",
+      "Description": "Pauses SABnzbd if the current file processing queue is greater than 30 files\nIf the processing queue is not greater than 30 files, then it will resume SABnzbd",
+      "Revision": 1
+    }
+  ],
+  "FlowScripts": [
+    {
+      "Path": "Flows/test.js",
+      "Name": "test.js",
+      "Description": "Checks if a file is older than the specified days",
+      "Revision": 1
+    },
+    {
+      "Path": "Flows/Utilities/7Zip - Compress to Zip.js",
+      "Name": "7Zip - Compress to Zip.js",
+      "Description": "Requires a 7Zip tool to be configured and will zip files",
+      "Revision": 1
+    },
+    {
+      "Path": "Flows/Video/Video - Has 5.1 Audio.js",
+      "Name": "Video - Has 5.1 Audio.js",
+      "Description": "Determines if a video has a 5.1 channel track",
+      "Revision": 1
+    },
+    {
+      "Path": "Flows/Video/Video - Resolution.js",
+      "Name": "Video - Resolution.js",
+      "Description": "Determines a video\u0027s resolution and outputs accordingly",
+      "Revision": 1
+    },
+    {
+      "Path": "Flows/Video/Video - Downscale greater than 1080p.js",
+      "Name": "Video - Downscale greater than 1080p.js",
+      "Description": "If a video\u0027s resolution is greater than 1080p, this script will set the variable {EncodingParameters} to downscale the video to 1080p.\nUsed with the VideoEncode node.",
+      "Revision": 1
+    },
+    {
+      "Path": "Flows/Video/Video - Bitrate greater than.js",
+      "Name": "Video - Bitrate greater than.js",
+      "Description": "Checks if a video\u0027s bitrate is greater than specified.",
+      "Revision": 1
+    },
+    {
+      "Path": "Flows/Video/Video - Has Audio.js",
+      "Name": "Video - Has Audio.js",
+      "Description": "Checks if there is an audio track on a video file",
+      "Revision": 1
+    },
+    {
+      "Path": "Flows/Hardware/NVIDIA - Below Encoder Limit.js",
+      "Name": "NVIDIA - Below Encoder Limit.js",
+      "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
+      "Revision": 1
+    },
+    {
+      "Path": "Flows/File/File - Older Than.js",
+      "Name": "File - Older Than.js",
+      "Description": "Checks if a file is older than the specified days",
+      "Revision": 1
+    }
+  ]
+}
