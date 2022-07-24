@@ -13,7 +13,7 @@ class RepoGenerator
         var repo = new Repository();
         repo.SharedScripts = GetScripts("Shared");
         repo.SystemScripts = GetScripts("System");
-        repo.FlowScripts = GetScripts("Flows");
+        repo.FlowScripts = GetScripts("Flow");
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true
         });   
