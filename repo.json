@@ -30,55 +30,55 @@
   "FlowScripts": [
     {
       "Path": "Flows/test.js",
-      "Name": "test.js",
+      "Name": "test",
       "Description": "Checks if a file is older than the specified days",
       "Revision": 1
     },
     {
       "Path": "Flows/Utilities/7Zip - Compress to Zip.js",
-      "Name": "7Zip - Compress to Zip.js",
+      "Name": "7Zip - Compress to Zip",
       "Description": "Requires a 7Zip tool to be configured and will zip files",
       "Revision": 1
     },
     {
       "Path": "Flows/Video/Video - Has 5.1 Audio.js",
-      "Name": "Video - Has 5.1 Audio.js",
+      "Name": "Video - Has 5.1 Audio",
       "Description": "Determines if a video has a 5.1 channel track",
       "Revision": 1
     },
     {
       "Path": "Flows/Video/Video - Resolution.js",
-      "Name": "Video - Resolution.js",
+      "Name": "Video - Resolution",
       "Description": "Determines a video\u0027s resolution and outputs accordingly",
       "Revision": 1
     },
     {
       "Path": "Flows/Video/Video - Downscale greater than 1080p.js",
-      "Name": "Video - Downscale greater than 1080p.js",
+      "Name": "Video - Downscale greater than 1080p",
       "Description": "If a video\u0027s resolution is greater than 1080p, this script will set the variable {EncodingParameters} to downscale the video to 1080p.\nUsed with the VideoEncode node.",
       "Revision": 1
     },
     {
       "Path": "Flows/Video/Video - Bitrate greater than.js",
-      "Name": "Video - Bitrate greater than.js",
+      "Name": "Video - Bitrate greater than",
       "Description": "Checks if a video\u0027s bitrate is greater than specified.",
       "Revision": 1
     },
     {
       "Path": "Flows/Video/Video - Has Audio.js",
-      "Name": "Video - Has Audio.js",
+      "Name": "Video - Has Audio",
       "Description": "Checks if there is an audio track on a video file",
       "Revision": 1
     },
     {
       "Path": "Flows/Hardware/NVIDIA - Below Encoder Limit.js",
-      "Name": "NVIDIA - Below Encoder Limit.js",
+      "Name": "NVIDIA - Below Encoder Limit",
       "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
       "Revision": 1
     },
     {
       "Path": "Flows/File/File - Older Than.js",
-      "Name": "File - Older Than.js",
+      "Name": "File - Older Than",
       "Description": "Checks if a file is older than the specified days",
       "Revision": 1
     }
