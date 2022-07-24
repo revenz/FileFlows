@@ -8,8 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>  
-    <PackageReference Include="Jint" Version="3.0.0-beta-2039" /> 
-    <PackageReference Include="Microsoft.TypeScript.Compiler" Version="3.1.5" /> 
+    <Reference Include="FileFlows.ScriptExecution"> 
+      <HintPath>FileFlows.ScriptExecution.dll</HintPath>
+    </Reference>
+
   </ItemGroup>
 
 </Project>

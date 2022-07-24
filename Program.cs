@@ -8,13 +8,6 @@ string code = File.ReadAllText(args[0]);
 
 var cl = CommandLine.Parse(args);
 
-var execArgs = new ScriptExecutionArgs
-{
-    Code = code,
-    AdditionalArguments = new (),
-    Variables = cl.Variables
-};
-
 
 if(args[0].Contains("System") == false)
 {
@@ -34,9 +27,21 @@ if(args[0].Contains("System") == false)
     // all scripts must contain the "Script" method we then add this to call that 
     string entryPoint = $"var scriptResult = Script({epParams});\nexport const result = scriptResult;";
 
-    execArgs.Code = (code + "\n\n" + entryPoint).Replace("\t", "   ").Trim();
+    code = (code + "\n\n" + entryPoint).Replace("\t", "   ").Trim();
 
 }
+var logger = new Logger();
 
-execArgs.AdditionalArguments = cl.Parameters;
-new ScriptExecutor().Execute(execArgs);
+var executor = new Executor();
+executor.Code = code;
+executor.Logger = new FileFlows.ScriptExecution.Logger();
+executor.Logger.ELogAction = (largs) => logger.ELog(largs);
+executor.Logger.WLogAction = (largs) => logger.WLog(largs);
+executor.Logger.ILogAction = (largs) => logger.ILog(largs);
+executor.Logger.DLogAction = (largs) => logger.DLog(largs);
+executor.HttpClient = new HttpClient();
+executor.Variables = cl.Variables;
+executor.AdditionalArguments = cl.Parameters;
+executor.SharedDirectory = new DirectoryInfo("Shared").FullName;
+
+executor.Execute();
