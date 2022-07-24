@@ -16,7 +16,7 @@ var execArgs = new ScriptExecutionArgs
 };
 
 
-if(args[0].Contains("Process") == false)
+if(args[0].Contains("System") == false)
 {
     // its a flow script
 

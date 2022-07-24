@@ -12,7 +12,7 @@ class RepoGenerator
     {
         var repo = new Repository();
         repo.SharedScripts = GetScripts("Shared");
-        repo.ProcessScripts = GetScripts("Process");
+        repo.SystemScripts = GetScripts("Process");
         repo.FlowScripts = GetScripts("Flows");
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true
@@ -74,9 +74,9 @@ class Repository
     /// </summary>
     public List<Script> SharedScripts { get; set; } = new List<Script>();
     /// <summary>
-    /// Gets or sets the process scripts
+    /// Gets or sets the system scripts
     /// </summary>
-    public List<Script> ProcessScripts { get; set; } = new List<Script>();
+    public List<Script> SystemScripts { get; set; } = new List<Script>();
     /// <summary>
     /// Gets or sets the flow scripts
     /// </summary>
