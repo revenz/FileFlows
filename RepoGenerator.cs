@@ -54,7 +54,7 @@ class RepoGenerator
                     script.Revision = int.Parse(part.Substring("@revision ".Length).Trim());
             }
             if(string.IsNullOrWhiteSpace(script.Name))
-                script.Name = file.Name;
+                script.Name = file.Name[..^(file.Extension.Length)];
             if(string.IsNullOrWhiteSpace(script.Description))
                 throw new Exception("No description found in: " + file.FullName);
             if(script.Revision < 1)
@@ -69,8 +69,17 @@ class RepoGenerator
 
 class Repository 
 {
+    /// <summary>
+    /// Gets or sets the shared scripts
+    /// </summary>
     public List<Script> SharedScripts { get; set; } = new List<Script>();
+    /// <summary>
+    /// Gets or sets the process scripts
+    /// </summary>
     public List<Script> ProcessScripts { get; set; } = new List<Script>();
+    /// <summary>
+    /// Gets or sets the flow scripts
+    /// </summary>
     public List<Script> FlowScripts { get; set; } = new List<Script>();
 }
 
