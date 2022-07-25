@@ -21,7 +21,11 @@ export class FileFlowsApi
         return url + 'api/' + endpoint;
     }
 
-    getStatus(status)
+    /**
+     * Gets the total of each file status in the system
+     * @returns the file status
+     */
+    getStatus()
     {
         let url = this.getUrl('library-file/status');
         let response = http.GetAsync(url).Result;
@@ -29,10 +33,45 @@ export class FileFlowsApi
         if(response.IsSuccessStatusCode === false)
             throw responseBody;        
         let data = JSON.parse(responseBody);
-        let item = data.find(x => x.Status === status);
-        if(!item)
-            return 0;
-        return item.Count;
+        let status = { 
+            Unprocessed: 0, // 0
+            Processed: 0, // 1
+            Processing: 0, // 2
+            FlowNotFound: 0, // 3
+            Failed: 0, // 4
+            Duplicate: 0, // 5
+            MappingIssue: 0, // 6
+            MissingLibrary: 0, // 7
+
+            OutOfSchedule: 0, // -1
+            Disabled: 0, // -2
+            OnHold: 0, // -3
+        };
+        for(let item of data) {
+            if(item.Status === -3)
+                status.OnHold = item.Count;
+            else if(item.Status === -2)
+                status.Disabled = item.Count;
+            else if(item.Status === -1)
+                status.OutOfSchedule = item.Count;
+            else if(item.Status === 0)
+                status.Unprocessed = item.Count
+            else if(item.Status === 1)
+                status.Processed = item.Count
+            else if(item.Status === 2)
+                status.Processing = item.Count
+            else if(item.Status === 3)
+                status.FlowNotFound = item.Count
+            else if(item.Status === 4)
+                status.Failed = item.Count
+            else if(item.Status === 5)
+                status.Duplicate = item.Count
+            else if(item.Status === 6)
+                status.MappingIssue = item.Count
+            else if(item.Status === 7)
+                status.MissingLibrary = item.Count
+        }
+        return status;
     }
 
     /**
@@ -41,7 +80,7 @@ export class FileFlowsApi
      * @returns the number of unprocessed files
      */
     getUnprocessedCount() {
-        return this.getStatus(0);
+        return this.getStatus().Unprocessed;
     }
 
     /**
@@ -49,7 +88,7 @@ export class FileFlowsApi
      * @returns the number of processing files
      */
     getProcessingCount(){
-        return this.getStatus(1);
+        return this.getStatus().Processing;
     }
 
     /**
@@ -57,6 +96,6 @@ export class FileFlowsApi
      * @returns the number of processed files
      */
     getProcessedCount(){
-        return this.getStatus(2);
+        return this.getStatus().Processed;
     }
 }

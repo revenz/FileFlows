@@ -9,11 +9,13 @@ import { SABnzbd } from '../../Shared/SABnzbd.js';
 import { FileFlowsApi } from '../../Shared/FileFlowsApi';
 
 let ffApi = new FileFlowsApi();
-let unprocessed = ffApi.getUnprocessedCount();
-Logger.ILog('unprocessed: ', unprocessed);
+let status = ffApi.getStatus();
+Logger.ILog('Unprocessed: ' + status.Unprocessed);
+Logger.ILog('Processing: ' + status.Processing);
+Logger.ILog('Processed: ' + status.Processed);
 
 let sabnzbd = new SABnzbd();
-if(unprocessed > 30)
+if(status.Unprocessed > 30)
     sabnzbd.pause();
 else
     sabnzbd.resume();

@@ -50,6 +50,6 @@ export class SABnzbd
         let responseBody = response.Content.ReadAsStringAsync().Result;
         if(response.IsSuccessStatusCode === false)
             throw responseBody;
-        Logger.ILog('Status Code: ', response.StatusCode);
+        Logger.ILog('Status Code: ' + response.StatusCode);
     }
 }
