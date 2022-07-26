@@ -8,9 +8,9 @@ export class FileFlowsApi
     URL;
 
     constructor(){
-        this.URL = Variables['FileFlowsUrl'];
+        this.URL = Variables['FileFlows.Url'];
         if(!this.URL)
-            MissingVariable('FileFlowsUrl');
+            MissingVariable('FileFlows.Url');
     }
 
     getUrl(endpoint)
