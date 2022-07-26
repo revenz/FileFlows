@@ -35,6 +35,23 @@ export class SABnzbd
         this.send('resume');
     }
 
+    /**
+     * Gets the free disk space
+     * @returns Free disk space in gigabytes
+     */
+    getFreeDiskSpace(){
+        let url = this.getUrl('queue');
+        let response = http.GetAsync(url).Result;
+        let responseBody = response.Content.ReadAsStringAsync().Result;
+        if(response.IsSuccessStatusCode === false)
+            throw responseBody;
+        let queue = JSON.parse(responseBody);
+        let gbs = parseFloat(queue?.queue?.diskspace1, 10);
+        if(isNaN(gbs))
+            return -1;
+        return gbs;
+    }
+
     getUrl(mode)
     {
         let url = '' + this.URL;

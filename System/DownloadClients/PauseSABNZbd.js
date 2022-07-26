@@ -18,4 +18,14 @@ let sabnzbd = new SABnzbd();
 if(status.Unprocessed > 30)
     sabnzbd.pause();
 else
-    sabnzbd.resume();
+{
+    // check diskspace before resuming
+    let freeGBs = sabnzbd.getFreeDiskSpace();
+    if(freeGBs > 100)
+    {
+        Logger.ILog(`Free space left: ${freeGBs}`)
+        sabnzbd.resume();
+    }
+    else
+        Logger.ILog(`Free space less ${freeGBs} than 50GB, not resuming`);
+}
