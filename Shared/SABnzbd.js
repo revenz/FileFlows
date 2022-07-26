@@ -1,7 +1,7 @@
 /**
  * Class that interacts with the SABnzbd API 
  * @name SABnzbd
- * @revision 1
+ * @revision 2
  */
 export class SABnzbd
 {
@@ -10,12 +10,12 @@ export class SABnzbd
 
     constructor()
     {
-        this.URL = Variables['SABnzbd_Url'];
+        this.URL = Variables['SABnzbd.Url'];
         if(!this.URL)
-            MissingVariable('SABnzbd_Url');
-        this.API_KEY = Variables['SABnzbd_ApiKey'];
+            MissingVariable('SABnzbd.Url');
+        this.API_KEY = Variables['SABnzbd.ApiKey'];
         if(!this.API_KEY)
-            MissingVariable('SABnzbd_ApiKey');
+            MissingVariable('SABnzbd.ApiKey');
     }
 
     /**
