@@ -31,8 +31,14 @@ For example
 dotnet run '.\flow\Hardware\NVIDIA - Below Encoder Limit.js' --EncoderLimit 2
 ```
 ```
-dotnet run .\System\DownloadClients\PauseSABNZbd.js --var:FileFlowsUrl http://fileflows.lan --var:SABnzbd_Url http://sabnzbd.lan/ --var:SABnzbd_ApiKey 123456789ABCDEFGHIJKLMNOP
+dotnet run .\System\DownloadClients\PauseSABNZbd.js --var:FileFlows.Url http://fileflows.lan --var:SABnzbd.Url http://sabnzbd.lan/ --var:SABnzbd.ApiKey 123456789ABCDEFGHIJKLMNOP
 ```
+
+## Variables
+Variables are used by System and Shared scripts to read in user configurable values, e.g. a API URL or Access Token.
+
+The should be in the format of [Product].[Name], for example FileFlows.Url
+
 
 ## Dotnet Tester Command Line
 
