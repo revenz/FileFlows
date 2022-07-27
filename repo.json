@@ -1,25 +1,25 @@
 {
   "SharedScripts": [
     {
-      "Path": "Shared/SABnzbd.js",
+      "Path": "Scripts/Shared/SABnzbd.js",
       "Name": "SABnzbd",
       "Description": "Class that interacts with the SABnzbd API",
       "Revision": 2
     },
     {
-      "Path": "Shared/tester.js",
+      "Path": "Scripts/Shared/tester.js",
       "Name": "Tester",
       "Description": "Test class not used",
       "Revision": 1
     },
     {
-      "Path": "Shared/FileFlowsApi.js",
+      "Path": "Scripts/Shared/FileFlowsApi.js",
       "Name": "FileFlows API",
       "Description": "Class that interacts with the FileFlows API",
       "Revision": 1
     },
     {
-      "Path": "Shared/Gotify.js",
+      "Path": "Scripts/Shared/Gotify.js",
       "Name": "Gotify",
       "Description": "Class that interacts with Gotify",
       "Revision": 1
@@ -27,7 +27,7 @@
   ],
   "SystemScripts": [
     {
-      "Path": "System/DownloadClients/PauseSABNZbd.js",
+      "Path": "Scripts/System/DownloadClients/PauseSABNZbd.js",
       "Name": "SABnzbd - Pause Downloads",
       "Description": "Pauses SABnzbd if the current file processing queue is greater than 30 files\nIf the processing queue is not greater than 30 files, then it will resume SABnzbd",
       "Revision": 4
@@ -35,93 +35,93 @@
   ],
   "FlowScripts": [
     {
-      "Path": "Flow/test.js",
+      "Path": "Scripts/Flow/test.js",
       "Name": "test",
       "Description": "Checks if a file is older than the specified days",
       "Revision": 1
     },
     {
-      "Path": "Flow/Utilities/7Zip - Compress to Zip.js",
+      "Path": "Scripts/Flow/Utilities/7Zip - Compress to Zip.js",
       "Name": "7Zip - Compress to Zip",
       "Description": "Requires a 7Zip tool to be configured and will zip files",
       "Revision": 1
     },
     {
-      "Path": "Flow/Video/Video - Has 5.1 Audio.js",
+      "Path": "Scripts/Flow/Video/Video - Has 5.1 Audio.js",
       "Name": "Video - Has 5.1 Audio",
       "Description": "Determines if a video has a 5.1 channel track",
       "Revision": 1
     },
     {
-      "Path": "Flow/Video/Video - Resolution.js",
+      "Path": "Scripts/Flow/Video/Video - Resolution.js",
       "Name": "Video - Resolution",
       "Description": "Determines a video\u0027s resolution and outputs accordingly",
       "Revision": 1
     },
     {
-      "Path": "Flow/Video/Video - Downscale greater than 1080p.js",
+      "Path": "Scripts/Flow/Video/Video - Downscale greater than 1080p.js",
       "Name": "Video - Downscale greater than 1080p",
       "Description": "If a video\u0027s resolution is greater than 1080p, this script will set the variable {EncodingParameters} to downscale the video to 1080p.\nUsed with the VideoEncode node.",
       "Revision": 1
     },
     {
-      "Path": "Flow/Video/Video - Bitrate greater than.js",
+      "Path": "Scripts/Flow/Video/Video - Bitrate greater than.js",
       "Name": "Video - Bitrate greater than",
       "Description": "Checks if a video\u0027s bitrate is greater than specified.",
       "Revision": 1
     },
     {
-      "Path": "Flow/Video/Video - Has Audio.js",
+      "Path": "Scripts/Flow/Video/Video - Has Audio.js",
       "Name": "Video - Has Audio",
       "Description": "Checks if there is an audio track on a video file",
       "Revision": 1
     },
     {
-      "Path": "Flow/Hardware/NVIDIA - Below Encoder Limit.js",
+      "Path": "Scripts/Flow/Hardware/NVIDIA - Below Encoder Limit.js",
       "Name": "NVIDIA - Below Encoder Limit",
       "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
       "Revision": 1
     },
     {
-      "Path": "Flow/File/File - Older Than.js",
+      "Path": "Scripts/Flow/File/File - Older Than.js",
       "Name": "File - Older Than",
       "Description": "Checks if a file is older than the specified days",
       "Revision": 1
     }
   ],
-  "Templates": [
+  "FunctionTemplates": [
     {
-      "Path": "Templates/Video/Video - Bitrate Greater Than.js",
+      "Path": "Scripts/Function/Video/Video - Bitrate Greater Than.js",
       "Name": "Video - Bitrate Greater Than",
       "Description": "Checks if a video files bitrate is greater than a specific bitrate",
       "Revision": 1
     },
     {
-      "Path": "Templates/Video/Video - Resolution.js",
+      "Path": "Scripts/Function/Video/Video - Resolution.js",
       "Name": "Video - Resolution",
       "Description": "A switch statement for video resolution",
       "Revision": 1
     },
     {
-      "Path": "Templates/Video/Video - Downscale Greater then 1080p.js",
+      "Path": "Scripts/Function/Video/Video - Downscale Greater then 1080p.js",
       "Name": "Video - Downscale Greater then 1080p",
       "Description": "Adds a downscale filter to FFMPEG Builder any file greater than 1080p",
       "Revision": 1
     },
     {
-      "Path": "Templates/Video/Video - Manual HandBrakeCLI.js",
+      "Path": "Scripts/Function/Video/Video - Manual HandBrakeCLI.js",
       "Name": "Video - Manual HandBrakeCLI",
       "Description": "Custom Handbrake CLI command",
       "Revision": 1
     },
     {
-      "Path": "Templates/Video/Video - Manual FFMPEG.js",
+      "Path": "Scripts/Function/Video/Video - Manual FFMPEG.js",
       "Name": "Video - Manual FFMPEG",
       "Description": "Custom FFMPEG command",
       "Revision": 1
     },
     {
-      "Path": "Templates/File/File - Greater Than 1GB.js",
+      "Path": "Scripts/Function/File/File - Greater Than 1GB.js",
       "Name": "File - Greater Than 1GB",
       "Description": "Checks if a file is larger than 1 GB",
       "Revision": 1
