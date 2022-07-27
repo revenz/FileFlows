@@ -17,7 +17,7 @@ let maxQueueLength = Variables['SABnzbd.MaxQueueLength'];
 if(maxQueueLength)
     maxQueueLength = parseInt(maxQueueLength, 10);
 if(!maxQueueLength || isNaN(maxQueueLength))
-    maxQueueLength = 30;
+    maxQueueLength = 20;
 Logger.ILog("Max Queue Length: " + maxQueueLength);
 
 let sabnzbd = new SABnzbd();
