@@ -71,7 +71,7 @@ class RepoGenerator
             if(string.IsNullOrWhiteSpace(script.Name))
                 script.Name = file.Name[..^(file.Extension.Length)];
 
-            script.Path = "Scripts/" + basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
+            script.Path = (type == ScriptType.Template ? "Templates/" : "Scripts/") + basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
             scripts.Add(script);
         }
         return scripts;
