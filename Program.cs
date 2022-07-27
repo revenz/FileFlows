@@ -42,6 +42,6 @@ executor.Logger.DLogAction = (largs) => ScriptLogger.DLog(largs);
 executor.HttpClient = new HttpClient();
 executor.Variables = cl.Variables;
 executor.AdditionalArguments = cl.Parameters;
-executor.SharedDirectory = new DirectoryInfo("Shared").FullName;
+executor.SharedDirectory = new DirectoryInfo("Scripts/Shared").FullName;
 
 executor.Execute();

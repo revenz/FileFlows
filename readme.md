@@ -1,6 +1,6 @@
-# FileFlows Script Repository
+# FileFlows Repository
 
-This is the official script repository for FileFlows.
+This is the official repository for FileFlows.
 
 You can make create a new script and submit a pull request to get it included in the official repository
 
@@ -17,6 +17,10 @@ These do not have to follow such a strict format as the the Flow scripts as thes
 3. Shared Scripts
 These are scripts that can be imported by other scripts and will not directly be called by FileFlows
 
+## Types of Templates
+1. Function
+These are templates that are shown to the user when they edit a [Function](https://docs.fileflows.com/plugins/basic-nodes/function) node.
+
 ## Creating a Script
 Each script should be in the appropriate folder and be correctly named.
 
@@ -28,10 +32,10 @@ dotnet run ScriptName parameters
 
 For example
 ```
-dotnet run '.\flow\Hardware\NVIDIA - Below Encoder Limit.js' --EncoderLimit 2
+dotnet run '.\Scripts\Flow\Hardware\NVIDIA - Below Encoder Limit.js' --EncoderLimit 2
 ```
 ```
-dotnet run .\System\DownloadClients\PauseSABNZbd.js --var:FileFlows.Url http://fileflows.lan --var:SABnzbd.Url http://sabnzbd.lan/ --var:SABnzbd.ApiKey 123456789ABCDEFGHIJKLMNOP
+dotnet run .\Scripts\System\DownloadClients\PauseSABNZbd.js --var:FileFlows.Url http://fileflows.lan --var:SABnzbd.Url http://sabnzbd.lan/ --var:SABnzbd.ApiKey 123456789ABCDEFGHIJKLMNOP
 ```
 
 ## Variables

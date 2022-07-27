@@ -11,10 +11,10 @@ class RepoGenerator
     public static void Run()
     {
         var repo = new Repository();
-        repo.SharedScripts = GetScripts("Shared", ScriptType.Shared);
-        repo.SystemScripts = GetScripts("System", ScriptType.System);
-        repo.FlowScripts = GetScripts("Flow", ScriptType.Flow);
-        repo.Templates = GetScripts("Templates", ScriptType.Template);
+        repo.SharedScripts = GetScripts("Scripts/Shared", ScriptType.Shared);
+        repo.SystemScripts = GetScripts("Scripts/System", ScriptType.System);
+        repo.FlowScripts = GetScripts("Scripts/Flow", ScriptType.Flow);
+        repo.FunctionTemplates = GetScripts("Templates/Function", ScriptType.Template);
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true
         });   
@@ -71,7 +71,7 @@ class RepoGenerator
             if(string.IsNullOrWhiteSpace(script.Name))
                 script.Name = file.Name[..^(file.Extension.Length)];
 
-            script.Path = basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
+            script.Path = "Scripts/" + basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
             scripts.Add(script);
         }
         return scripts;
@@ -103,9 +103,9 @@ class Repository
     public List<Script> FlowScripts { get; set; } = new List<Script>();
 
     /// <summary>
-    /// Gets a list of templates 
+    /// Gets a list of function templates 
     /// </summary>
-    public List<Script> Templates { get; set; } = new List<Script>();
+    public List<Script> FunctionTemplates { get; set; } = new List<Script>();
 }
 
 class Script 
