@@ -1,4 +1,8 @@
-// @outputs 1
+/**
+ * Custom FFMPEG command
+ * @revision 1
+ * @outputs 1
+ */
 
 let output = Flow.TempPath + '/' + Flow.NewGuid() + '.mkv';
 let ffmpeg = Flow.GetToolPath('ffmpeg');

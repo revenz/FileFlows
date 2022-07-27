@@ -11,16 +11,17 @@ class RepoGenerator
     public static void Run()
     {
         var repo = new Repository();
-        repo.SharedScripts = GetScripts("Shared");
-        repo.SystemScripts = GetScripts("System");
-        repo.FlowScripts = GetScripts("Flow");
+        repo.SharedScripts = GetScripts("Shared", ScriptType.Shared);
+        repo.SystemScripts = GetScripts("System", ScriptType.System);
+        repo.FlowScripts = GetScripts("Flow", ScriptType.Flow);
+        repo.Templates = GetScripts("Templates", ScriptType.Template);
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true
         });   
         File.WriteAllText("repo.json", json);
     }
 
-    private static List<Script> GetScripts(string path)
+    private static List<Script> GetScripts(string path, ScriptType type)
     {        
         List<Script> scripts = new List<Script>();
         var rgxComments = new Regex(@"\/\*(\*)?(.*?)\*\/", RegexOptions.Singleline);
@@ -28,6 +29,8 @@ class RepoGenerator
         foreach(var file in basePath.GetFiles("*.js", SearchOption.AllDirectories))
         {
             string content = File.ReadAllText(file.FullName);
+            var script = new Script();
+
             // if this throws an exception, the script is invalid, we're not trying to make this generator bullet proof, we want exceptions if the script is bad
             string comments = rgxComments.Match(content).Value;
             comments = string.Join("\n", comments.Split(new string[] { "\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries).Select(x => {
@@ -42,7 +45,7 @@ class RepoGenerator
             })).Trim();
             if(comments.StartsWith("@") == false)
                 comments = "@description " + comments;
-            var script = new Script();
+            bool outputs = false;
             foreach(Match match in Regex.Matches(comments, "@[^@]+")) 
             {
                 string part = match.Value;
@@ -52,19 +55,36 @@ class RepoGenerator
                     script.Name = part.Substring("@name ".Length).Trim();
                 else if(part.StartsWith("@revision "))
                     script.Revision = int.Parse(part.Substring("@revision ".Length).Trim());
+                else if(part.StartsWith("@outputs "))
+                    outputs = true;
             }
-            if(string.IsNullOrWhiteSpace(script.Name))
-                script.Name = file.Name[..^(file.Extension.Length)];
             if(string.IsNullOrWhiteSpace(script.Description))
                 throw new Exception("No description found in: " + file.FullName);
             if(script.Revision < 1)
                 throw new Exception("No revision found in: " + file.FullName);
+
+                
+            if(type == ScriptType.Template && outputs == false)
+                throw new Exception($"Template '{file}' must define outputs!");
+            
+
+            if(string.IsNullOrWhiteSpace(script.Name))
+                script.Name = file.Name[..^(file.Extension.Length)];
 
             script.Path = basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
             scripts.Add(script);
         }
         return scripts;
     }
+}
+
+enum ScriptType 
+{
+    Flow = 0,
+    System = 1,
+    Shared = 2,
+    Template = 3
+
 }
 
 class Repository 
@@ -81,6 +101,11 @@ class Repository
     /// Gets or sets the flow scripts
     /// </summary>
     public List<Script> FlowScripts { get; set; } = new List<Script>();
+
+    /// <summary>
+    /// Gets a list of templates 
+    /// </summary>
+    public List<Script> Templates { get; set; } = new List<Script>();
 }
 
 class Script 

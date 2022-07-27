@@ -1,4 +1,8 @@
-// @outputs 2
+/**
+ * Checks if a video files bitrate is greater than a specific bitrate
+ * @revision 1
+ * @outputs 2
+ */
 
 // check if the bitrate for a video is over a certain amount
 let MAX_BITRATE = 3_000_000; // bitrate is 3,000 KBps

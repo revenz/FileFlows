@@ -1,4 +1,8 @@
-// @outputs 2
+/**
+ * Adds a downscale filter to FFMPEG Builder any file greater than 1080p
+ * @revision 1
+ * @outputs 2
+ */
 
 // this template downscales a video with a width larger than 1920 down to 1920
 // it is suppose to be used before a 'Video Encode' node and can create a variable

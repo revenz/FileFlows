@@ -1,4 +1,8 @@
-// @outputs 1
+/**
+ * Custom Handbrake CLI command
+ * @revision 1
+ * @outputs 1
+ */
 
 // You need to configure HandBrakeCLI as a tool under the tools page for this to work
 // refer to the FFMPEG tool as a reference

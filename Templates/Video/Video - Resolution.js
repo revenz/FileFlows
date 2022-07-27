@@ -1,4 +1,8 @@
-// @outputs 4
+/**
+ * A switch statement for video resolution
+ * @revision 1
+ * @outputs 4
+ */
 
 // get the first video stream, likely the only one
 let video = Variables.vi?.VideoInfo?.VideoStreams[0];
