@@ -14,7 +14,7 @@ class RepoGenerator
         repo.SharedScripts = GetScripts("Scripts/Shared", ScriptType.Shared);
         repo.SystemScripts = GetScripts("Scripts/System", ScriptType.System);
         repo.FlowScripts = GetScripts("Scripts/Flow", ScriptType.Flow);
-        repo.FunctionTemplates = GetScripts("Templates/Function", ScriptType.Template);
+        repo.FunctionScripts = GetScripts("Scripts/Function", ScriptType.Template);
         repo.FlowTemplates = GetTemplates("Templates/Flow");
         repo.LibraryTemplates = GetTemplates("Templates/Library");
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
@@ -125,9 +125,9 @@ class Repository
     public List<RepositoryObject> FlowScripts { get; set; } = new List<RepositoryObject>();
 
     /// <summary>
-    /// Gets or sets a list of function templates 
+    /// Gets or sets a list of function scripts 
     /// </summary>
-    public List<RepositoryObject> FunctionTemplates { get; set; } = new List<RepositoryObject>();
+    public List<RepositoryObject> FunctionScripts { get; set; } = new List<RepositoryObject>();
 
     /// <summary>
     /// Gets or sets a list of library templates 
