@@ -126,5 +126,105 @@
       "Description": "Checks if a file is larger than 1 GB",
       "Revision": 1
     }
+  ],
+  "LibraryTemplates": [
+    {
+      "Path": "Templates/Library/SABnzbdMusic.json",
+      "Name": "SABnzbd Music",
+      "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert music into a target format, and place those music files in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Library/PlexDVR.json",
+      "Name": "Plex DVR",
+      "Description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Library/Samples-Trailers-Previews.json",
+      "Name": "Samples/Trailers/Previews",
+      "Description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necassary.\nUseful for a matching \u0027SABnzbd Videos\u0027 library so the folder can be cleanly deleted after the main file is processed.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Library/PictureLibrary.json",
+      "Name": "Picture Library",
+      "Description": "Generic picture library that searches for common picture file extensions",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Library/SABnzbdVideos.json",
+      "Name": "SABnzbd Videos",
+      "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert videos into a target format, and place those videos in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Library/VideoLibrary.json",
+      "Name": "Video Library",
+      "Description": "Generic video library that searches for common video file extensions",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Library/MusicLibrary.json",
+      "Name": "Music Library",
+      "Description": "Generic music library that searches for common music file extensions",
+      "Revision": 1
+    }
+  ],
+  "FlowTemplates": [
+    {
+      "Path": "Templates/Flow/Video/ConvertIVideo.json",
+      "Name": "Convert Video",
+      "Description": "A flow that will convert and replace the original file",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Video/ConvertVideoAndCopy.json",
+      "Name": "Convert Video and Copy",
+      "Description": "A flow that will convert and copy a file",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Video/ConvertVideoAndMove.json",
+      "Name": "Convert Video and Move",
+      "Description": "A flow that will convert and move a file",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Video/VideoFile.json",
+      "Name": "Video File",
+      "Description": "A blank Video template with a single \u0022Video File\u0022 input node.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Image/ImageFile.json",
+      "Name": "Image File",
+      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Audio/ConvertAudioAndMove.json",
+      "Name": "Convert Audio and Move",
+      "Description": "Will convert audio to the specified format and move them to a different destination directory.\n\nThis is useful to use as a go between for a download client like SABnzbd and a program such as Lidarr or Headphones.\n\nThe file will not be re-encoded as it\u0027s already in the target codec.\n\nThe file will be moved to a different directory, regardless if it needed to be encoded or not.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Audio/ConvertAudio.json",
+      "Name": "Convert Audio",
+      "Description": "Will convert audio files to the specified format and replace the original file.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Audio/ConvertAudioAndCopy.json",
+      "Name": "Convert Audio and Copy",
+      "Description": "Will convert audio files to the specified format and copies it to a new location.\n\nIf the original file is already in the target format the file will not be re-encoded but it will still be copied.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Audio/AudioFile.json",
+      "Name": "Audio File",
+      "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
+      "Revision": 1
+    }
   ]
 }
