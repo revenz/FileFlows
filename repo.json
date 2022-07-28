@@ -203,6 +203,24 @@
       "Revision": 1
     },
     {
+      "Path": "Templates/Flow/Basic/Failure.json",
+      "Name": "Flow Failure",
+      "Description": "A flow that will be executed when a Flow fails unexpectedly.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Basic/Folder.json",
+      "Name": "Folder",
+      "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Basic/File.json",
+      "Name": "File",
+      "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
+      "Revision": 1
+    },
+    {
       "Path": "Templates/Flow/Audio/ConvertAudioAndMove.json",
       "Name": "Convert Audio and Move",
       "Description": "Will convert audio to the specified format and move them to a different destination directory.\n\nThis is useful to use as a go between for a download client like SABnzbd and a program such as Lidarr or Headphones.\n\nThe file will not be re-encoded as it\u0027s already in the target codec.\n\nThe file will be moved to a different directory, regardless if it needed to be encoded or not.",
