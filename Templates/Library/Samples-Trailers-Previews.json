@@ -1,0 +1,11 @@
+{
+    "name": "Samples/Trailers/Previews",
+    "revision": 1,
+    "group": "Download Clients",
+    "description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necassary.\nUseful for a matching 'SABnzbd Videos' library so the folder can be cleanly deleted after the main file is processed.",
+    "filter": "^((?!(_UNPACK|_FAILED)).)*(sample|trailer|preview)(.*?)\\.(mp4|mkv|avi|mpe|mpg|mov|mpv|flv|wmv|webm|avchd|h(\\.)?26[45])$",
+    "path": "/media/downloads/complete",
+    "scanInterval": 60,
+    "fileSizeDetectionInterval": 5,
+    "priority": 10
+}

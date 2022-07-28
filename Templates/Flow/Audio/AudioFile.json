@@ -1,0 +1,13 @@
+{
+    "name": "Audio File",
+    "revision": 1,
+    "group": "Audio",
+    "order": 1,
+    "description": "A blank Audio template with a single \"Audio File\" input node.",
+    "parts": [
+        {
+            "node": "MusicFile",
+            "uid": "00000000-0000-0000-0000-000000000001"
+        }
+    ]
+}

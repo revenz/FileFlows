@@ -1,0 +1,14 @@
+{
+    "name": "Flow Failure",
+    "revision": 1,
+    "group": "Basic",
+    "order": 3,
+    "type": 1,
+    "description": "A flow that will be executed when a Flow fails unexpectedly.",
+    "parts": [
+        {
+            "node": "FlowFailure",
+            "uid": "00000000-0000-0000-0000-000000000001"
+        }
+    ]
+}

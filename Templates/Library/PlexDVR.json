@@ -1,0 +1,10 @@
+{
+    "name": "Plex DVR",
+    "revision": 1,
+    "group": "DVR",
+    "description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
+    "filter": "^((?!\\.grab).)*\\.(ts|mp4|mkv|avi|mpg|mov|h(\\.)?26[45])$",
+    "path": "/media/recordings",
+    "scanInterval": 60,
+    "fileSizeDetectionInterval": 30
+}

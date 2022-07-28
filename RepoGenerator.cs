@@ -15,21 +15,23 @@ class RepoGenerator
         repo.SystemScripts = GetScripts("Scripts/System", ScriptType.System);
         repo.FlowScripts = GetScripts("Scripts/Flow", ScriptType.Flow);
         repo.FunctionTemplates = GetScripts("Templates/Function", ScriptType.Template);
+        repo.FlowTemplates = GetTemplates("Templates/Flow");
+        repo.LibraryTemplates = GetTemplates("Templates/Library");
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true
         });   
         File.WriteAllText("repo.json", json);
     }
 
-    private static List<Script> GetScripts(string path, ScriptType type)
+    private static List<RepositoryObject> GetScripts(string path, ScriptType type)
     {        
-        List<Script> scripts = new List<Script>();
+        List<RepositoryObject> scripts = new List<RepositoryObject>();
         var rgxComments = new Regex(@"\/\*(\*)?(.*?)\*\/", RegexOptions.Singleline);
         var basePath = new DirectoryInfo(path);
         foreach(var file in basePath.GetFiles("*.js", SearchOption.AllDirectories))
         {
             string content = File.ReadAllText(file.FullName);
-            var script = new Script();
+            var script = new RepositoryObject();
 
             // if this throws an exception, the script is invalid, we're not trying to make this generator bullet proof, we want exceptions if the script is bad
             string comments = rgxComments.Match(content).Value;
@@ -76,6 +78,26 @@ class RepoGenerator
         }
         return scripts;
     }
+
+    
+
+    private static List<RepositoryObject> GetTemplates(string path)
+    {        
+        List<RepositoryObject> templates = new List<RepositoryObject>();
+        var rgxComments = new Regex(@"\/\*(\*)?(.*?)\*\/", RegexOptions.Singleline);
+        var basePath = new DirectoryInfo(path);
+        JsonSerializerOptions options = new JsonSerializerOptions(){    
+            PropertyNameCaseInsensitive = true
+        };
+        foreach(var file in basePath.GetFiles("*.json", SearchOption.AllDirectories))
+        {
+            string content = File.ReadAllText(file.FullName);
+            var template = JsonSerializer.Deserialize<RepositoryObject>(content, options);
+            template.Path = "Templates/" + basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
+            templates.Add(template);
+        }
+        return templates;
+    }
 }
 
 enum ScriptType 
@@ -92,23 +114,33 @@ class Repository
     /// <summary>
     /// Gets or sets the shared scripts
     /// </summary>
-    public List<Script> SharedScripts { get; set; } = new List<Script>();
+    public List<RepositoryObject> SharedScripts { get; set; } = new List<RepositoryObject>();
     /// <summary>
     /// Gets or sets the system scripts
     /// </summary>
-    public List<Script> SystemScripts { get; set; } = new List<Script>();
+    public List<RepositoryObject> SystemScripts { get; set; } = new List<RepositoryObject>();
     /// <summary>
     /// Gets or sets the flow scripts
     /// </summary>
-    public List<Script> FlowScripts { get; set; } = new List<Script>();
+    public List<RepositoryObject> FlowScripts { get; set; } = new List<RepositoryObject>();
 
     /// <summary>
-    /// Gets a list of function templates 
+    /// Gets or sets a list of function templates 
     /// </summary>
-    public List<Script> FunctionTemplates { get; set; } = new List<Script>();
+    public List<RepositoryObject> FunctionTemplates { get; set; } = new List<RepositoryObject>();
+
+    /// <summary>
+    /// Gets or sets a list of library templates 
+    /// </summary>
+    public List<RepositoryObject> LibraryTemplates { get; set; } = new List<RepositoryObject>();
+
+    /// <summary>
+    /// Gets or sets a list of flow templates 
+    /// </summary>
+    public List<RepositoryObject> FlowTemplates { get; set; } = new List<RepositoryObject>();
 }
 
-class Script 
+class RepositoryObject 
 {
     /// <summary>
     /// Gets or sets the path of the script

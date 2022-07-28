@@ -1,0 +1,194 @@
+{
+    "name": "Convert Audio and Move",
+    "revision": 1,
+    "description": "Will convert audio to the specified format and move them to a different destination directory.\n\nThis is useful to use as a go between for a download client like SABnzbd and a program such as Lidarr or Headphones.\n\nThe file will not be re-encoded as it's already in the target codec.\n\nThe file will be moved to a different directory, regardless if it needed to be encoded or not.",
+    "group": "Audio",
+    "save": true,
+    "parts": [
+        {
+            "node": "MusicFile",
+            "uid": "00000000-0000-0000-0000-000000000001",
+            "xPos": 370,
+            "yPos": 30,
+            "connections": [
+                {
+                    "input": 1,
+                    "output": 1,
+                    "node": "00000000-0000-0000-0000-000000000002"
+                }
+            ]
+        },
+        {
+            "node": "ConvertAudio",
+            "uid": "00000000-0000-0000-0000-000000000002",
+            "xPos": 370,
+            "yPos": 180,
+            "connections": [
+                {
+                    "input": 1,
+                    "output": 1,
+                    "node": "00000000-0000-0000-0000-000000000003"
+                },
+                {
+                    "input": 1,
+                    "output": 2,
+                    "node": "00000000-0000-0000-0000-000000000003"
+                }
+            ],
+            "model": {
+                "Outputs": 1,
+                "SkipIfCodecMatches": true
+            }
+        },
+        {
+            "node": "MoveFile",
+            "uid": "00000000-0000-0000-0000-000000000003",
+            "xPos": 370,
+            "yPos": 350,
+            "connections": [
+                {
+                    "output": 1,
+                    "input": 1,
+                    "node": "00000000-0000-0000-0000-000000000004"
+                }
+            ],
+            "model": {
+                "MoveFolder": true,
+                "DeleteOriginal": true,
+                "DestinationPath": "/media"
+            }
+        },
+        {
+            "node": "Function",
+            "name": "Delete Dir?",
+            "uid": "00000000-0000-0000-0000-000000000004",
+            "xPos": 370,
+            "yPos": 480,
+            "outputs": 2,
+            "connections": [
+                {
+                    "input": 1,
+                    "output": 1,
+                    "node": "00000000-0000-0000-0000-000000000005"
+                }
+            ],
+            "model": {
+                "Outputs": 2
+            }
+        },
+        {
+            "node": "DeleteSourceDirectory",
+            "uid": "00000000-0000-0000-0000-000000000005",
+            "xPos": 200,
+            "yPos": 620,
+            "model": {
+                "IfEmpty": true,
+                "IncludePatterns": [
+                    "mp3",
+                    "aac",
+                    "ogg",
+                    "flac",
+                    "wav",
+                    "m4a"
+                ]
+            }
+        }
+    ],
+    "fields": [
+        {
+            "uid": "00000000-0000-0000-0000-000000000002",
+            "type": "Select",
+            "name": "Codec",
+            "label": "Audio Codec",
+            "help": "The audio codec to use for encoding",
+            "parameters": {
+                "options": [
+                    {
+                        "label": "AAC",
+                        "value": "aac"
+                    },
+                    {
+                        "label": "MP3",
+                        "value": "mp3"
+                    },
+                    {
+                        "label": "OGG",
+                        "value": "ogg"
+                    },
+                    {
+                        "label": "WAV",
+                        "value": "wav"
+                    }
+                ]
+            }
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000002",
+            "type": "Select",
+            "name": "Bitrate",
+            "label": "Bitrate",
+            "help": "The bitrate for the audio file",
+            "parameters": {
+                "options": [
+                    {
+                        "label": "64 Kbps",
+                        "value": 64
+                    },
+                    {
+                        "label": "96 Kbps",
+                        "value": 96
+                    },
+                    {
+                        "label": "128 Kbps",
+                        "value": 128
+                    },
+                    {
+                        "label": "160 Kbps",
+                        "value": 160
+                    },
+                    {
+                        "label": "192 Kbps",
+                        "value": 192
+                    },
+                    {
+                        "label": "224 Kbps",
+                        "value": 224
+                    },
+                    {
+                        "label": "256 Kbps",
+                        "value": 256
+                    },
+                    {
+                        "label": "288 Kbps",
+                        "value": 288
+                    },
+                    {
+                        "label": "320 Kbps",
+                        "value": 320
+                    }
+                ]
+            }
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000003",
+            "type": "Directory",
+            "required": true,
+            "label": "Destination",
+            "help": "The destination directory where the final file should be saved to",
+            "name": "DestinationPath",
+            "default": "/media"
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000004",
+            "type": "Switch",
+            "name": "Code",
+            "default": true,
+            "label": "Delete Source Directory",
+            "help": "If the source directory should be deleted.  This will only be deleted if there are no other music files found in this directory",
+            "value": {
+                "true": "/* return 1 here to delete the source directory */\nreturn 1;",
+                "false": "/* return 2 here to NOT delete the source directory */\nreturn 2;"
+            }
+        }
+    ]
+}

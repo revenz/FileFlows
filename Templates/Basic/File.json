@@ -1,0 +1,13 @@
+{
+    "name": "File",
+    "revision": 1,
+    "group": "Basic",
+    "order": 1,
+    "description": "A blank file template with a single \"Input File\" input node.",
+    "parts": [
+        {
+            "node": "InputFile",
+            "uid": "00000000-0000-0000-0000-000000000001"
+        }
+    ]
+}

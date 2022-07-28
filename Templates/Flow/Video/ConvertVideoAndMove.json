@@ -1,0 +1,389 @@
+{
+    "name": "Convert Video and Move",
+    "revision": 1,
+    "group": "Video",
+    "description": "A flow that will convert and move a file",
+    "save": true,
+    "Parts": [
+        {
+            "Uid": "00000000-0000-0000-0000-000000000001",
+            "Name": "",
+            "node": "VideoFile",
+            "xPos": 100,
+            "yPos": 90,
+            "Outputs": 1,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000002"
+                }
+            ],
+            "Model": null
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000002",
+            "Name": "FFMPEG Builder: Start",
+            "node": "FfmpegBuilderStart",
+            "xPos": 100,
+            "yPos": 230,
+            "Outputs": 1,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000003"
+                }
+            ],
+            "Model": {}
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000003",
+            "Name": "FFMPEG Builder: Remux to MKV",
+            "node": "FfmpegBuilderRemuxToMkv",
+            "xPos": 100,
+            "yPos": 380,
+            "Outputs": 1,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000004"
+                }
+            ],
+            "Model": {}
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000004",
+            "Name": "FFMPEG Builder: Video Encode",
+            "node": "FfmpegBuilderVideoEncode",
+            "xPos": 100,
+            "yPos": 510,
+            "Outputs": 1,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000009"
+                }
+            ],
+            "Model": {
+                "Codec": "h265 10BIT",
+                "HardwareEncoding": true,
+                "Quality": 28
+            }
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000005",
+            "Name": "Add Audio",
+            "node": "FfmpegBuilderAudioAddTrack",
+            "xPos": 1050,
+            "yPos": 60,
+            "Outputs": 1,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000006"
+                }
+            ],
+            "Model": {
+                "Index": 0,
+                "Codec": "aac",
+                "Channels": 0,
+                "Bitrate": 0
+            }
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000006",
+            "Name": "FFMPEG Builder: Executor",
+            "node": "FfmpegBuilderExecutor",
+            "xPos": 1050,
+            "yPos": 260,
+            "Outputs": 2,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000007"
+                },
+                {
+                    "Input": 1,
+                    "Output": 2,
+                    "node": "00000000-0000-0000-0000-000000000007"
+                }
+            ],
+            "Model": {
+                "HardwareDecoding": true
+            }
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000007",
+            "Name": "Move File",
+            "node": "MoveFile",
+            "xPos": 1050,
+            "yPos": 440,
+            "Outputs": 1,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000012"
+                }
+            ],
+            "Model": {
+                "MoveFolder": true,
+                "DeleteOriginal": true,
+                "DestinationPath": "/media"
+            }
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000008",
+            "Name": "FFMPEG Builder: Crop Black Bars",
+            "node": "FfmpegBuilderCropBlackBars",
+            "xPos": 400,
+            "yPos": 300,
+            "Outputs": 2,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000010"
+                },
+                {
+                    "Input": 1,
+                    "Output": 2,
+                    "node": "00000000-0000-0000-0000-000000000010"
+                }
+            ],
+            "Model": {
+                "CroppingThreshold": 10
+            }
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000009",
+            "Name": "Crop Black Bars?",
+            "node": "Function",
+            "xPos": 440,
+            "yPos": 90,
+            "Outputs": 2,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000008"
+                },
+                {
+                    "Input": 1,
+                    "Output": 2,
+                    "node": "00000000-0000-0000-0000-000000000010"
+                }
+            ],
+            "Model": {
+                "Outputs": 2,
+                "Code": "/* return 2 here to skip detecting black bars */\nreturn 2;"
+            }
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000010",
+            "Name": "Remove Other Audio?",
+            "node": "Function",
+            "xPos": 720,
+            "yPos": 250,
+            "Outputs": 2,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 2,
+                    "node": "00000000-0000-0000-0000-000000000005"
+                },
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000011"
+                }
+            ],
+            "Model": {
+                "Outputs": 2,
+                "Code": "/* return 1 here to remove other audio */\nreturn 1;"
+            }
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000011",
+            "Name": "Remove All Audio",
+            "node": "FfmpegBuilderAudioTrackRemover",
+            "xPos": 680,
+            "yPos": 470,
+            "Outputs": 2,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000005"
+                },
+                {
+                    "Input": 1,
+                    "Output": 2,
+                    "node": "00000000-0000-0000-0000-000000000005"
+                }
+            ],
+            "Model": {
+                "StreamType": "Audio",
+                "RemoveAll": true,
+                "RemoveIndex": 0,
+                "Pattern": null,
+                "NotMatching": false,
+                "UseLanguageCode": false
+            }
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000012",
+            "node": "Function",
+            "name": "Delete Dir?",
+            "xPos": 1050,
+            "yPos": 590,
+            "outputs": 2,
+            "connections": [
+                {
+                    "Input": 1,
+                    "Output": 1,
+                    "node": "00000000-0000-0000-0000-000000000013"
+                }
+            ],
+            "model": {
+                "Outputs": 2
+            }
+        },
+        {
+            "Uid": "00000000-0000-0000-0000-000000000013",
+            "Name": "Delete Source Folder",
+            "node": "DeleteSourceDirectory",
+            "xPos": 890,
+            "yPos": 750,
+            "Outputs": 2,
+            "connections": [
+                {}
+            ],
+            "Model": {
+                "IfEmpty": true,
+                "IncludePatterns": []
+            }
+        }
+    ],
+    "fields": [
+        {
+            "uid": "00000000-0000-0000-0000-000000000004",
+            "type": "Select",
+            "label": "Video Codec",
+            "help": "The video codec to use for encoding",
+            "parameters": {
+                "options": [
+                    {
+                        "label": "H.264",
+                        "value": {
+                            "Codec": "h264",
+                            "HardwareEncoding": true,
+                            "Quality": 23
+                        }
+                    },
+                    {
+                        "label": "H.264 (10-Bit)",
+                        "value": {
+                            "Codec": "h264 10BIT",
+                            "HardwareEncoding": true,
+                            "Quality": 23
+                        }
+                    },
+                    {
+                        "label": "H.265",
+                        "value": {
+                            "Codec": "h265",
+                            "HardwareEncoding": true,
+                            "Quality": 28
+                        }
+                    },
+                    {
+                        "label": "H.265 (10-Bit)",
+                        "value": {
+                            "Codec": "h265 10BIT",
+                            "HardwareEncoding": true,
+                            "Quality": 28
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000005",
+            "type": "Select",
+            "name": "Codec",
+            "label": "Audio Codec",
+            "help": "The audio codec to use for encoding",
+            "parameters": {
+                "options": [
+                    {
+                        "label": "Keep Original Audio",
+                        "value": "ORIGINAL"
+                    },
+                    {
+                        "label": "AC3",
+                        "value": "ac3"
+                    },
+                    {
+                        "label": "AAC",
+                        "value": "aac"
+                    },
+                    {
+                        "label": "EAC3",
+                        "value": "eac3"
+                    }
+                ]
+            }
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000007",
+            "type": "Directory",
+            "required": true,
+            "label": "Destination",
+            "help": "The destination directory where the final file should be move to",
+            "name": "DestinationPath",
+            "default": "/media"
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000012",
+            "type": "Switch",
+            "name": "Code",
+            "default": true,
+            "label": "Delete Source Directory",
+            "help": "If the source directory should be deleted.  This will only be deleted if there are no other video files found in this directory",
+            "value": {
+                "true": "/* return 1 here to delete the source directory */\nreturn 1;",
+                "false": "/* return 2 here to NOT delete the source directory */\nreturn 2;"
+            }
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000009",
+            "type": "Switch",
+            "name": "Code",
+            "default": false,
+            "label": "Crop Black Bars",
+            "help": "Automatically crop black bars if detected",
+            "value": {
+                "true": "/* return 1 here to detect black bars */\nreturn 1;",
+                "false": "/* return 2 here to skip detecting black bars */\nreturn 2;"
+            }
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000010",
+            "type": "Switch",
+            "name": "Code",
+            "default": false,
+            "label": "Remove Other Audio",
+            "help": "When set all other audio tracks will be removed except the one you added",
+            "value": {
+                "true": "/* return 1 here to remove other audio tracks */\nreturn 1;",
+                "false": "/* return 2 here to skip removing other audio tracks */\nreturn 2;"
+            }
+        }
+    ]
+}

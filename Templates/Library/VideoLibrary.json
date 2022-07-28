@@ -1,0 +1,10 @@
+{
+    "name": "Video Library",
+    "revision": 1,
+    "group": "Generic",
+    "description": "Generic video library that searches for common video file extensions",
+    "filter": "\\.(ts|mp4|mkv|avi|mpe|mpg|mov|mpv|flv|wmv|webm|avchd|h(\\.)?26[45])$",
+    "path": "/media/videos",
+    "scanInterval": 60,
+    "fileSizeDetectionInterval": 5
+}

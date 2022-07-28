@@ -1,0 +1,13 @@
+{
+    "name": "Image File",
+    "revision": 1,
+    "group": "Image",
+    "order": 1,
+    "description": "A blank Image template with a single \"Image File\" input node.",
+    "parts": [
+        {
+            "node": "ImageFile",
+            "uid": "00000000-0000-0000-0000-000000000001"
+        }
+    ]
+}

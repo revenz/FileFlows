@@ -1,0 +1,134 @@
+{
+    "name": "Convert Audio and Copy",
+    "revision": 1,
+    "description": "Will convert audio files to the specified format and copies it to a new location.\n\nIf the original file is already in the target format the file will not be re-encoded but it will still be copied.",
+    "group": "Audio",
+    "save": true,
+    "parts": [
+        {
+            "node": "MusicFile",
+            "uid": "00000000-0000-0000-0000-000000000001",
+            "xPos": 370,
+            "yPos": 50,
+            "connections": [
+                {
+                    "input": 1,
+                    "output": 1,
+                    "node": "00000000-0000-0000-0000-000000000002"
+                }
+            ]
+        },
+        {
+            "node": "ConvertAudio",
+            "uid": "00000000-0000-0000-0000-000000000002",
+            "xPos": 370,
+            "yPos": 220,
+            "connections": [
+                {
+                    "input": 1,
+                    "output": 1,
+                    "node": "00000000-0000-0000-0000-000000000003"
+                },
+                {
+                    "input": 1,
+                    "output": 2,
+                    "node": "00000000-0000-0000-0000-000000000003"
+                }
+            ],
+            "model": {
+                "SkipIfCodecMatches": true
+            }
+        },
+        {
+            "node": "CopyFile",
+            "uid": "00000000-0000-0000-0000-000000000003",
+            "xPos": 370,
+            "yPos": 420
+        }
+    ],
+    "fields": [
+        {
+            "uid": "00000000-0000-0000-0000-000000000002",
+            "type": "Select",
+            "name": "Codec",
+            "label": "Audio Codec",
+            "help": "The audio codec to use for encoding",
+            "parameters": {
+                "options": [
+                    {
+                        "label": "AAC",
+                        "value": "aac"
+                    },
+                    {
+                        "label": "MP3",
+                        "value": "mp3"
+                    },
+                    {
+                        "label": "OGG",
+                        "value": "ogg"
+                    },
+                    {
+                        "label": "WAV",
+                        "value": "wav"
+                    }
+                ]
+            }
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000002",
+            "type": "Select",
+            "name": "Bitrate",
+            "label": "Bitrate",
+            "help": "The bitrate for the audio file",
+            "parameters": {
+                "options": [
+                    {
+                        "label": "64 Kbps",
+                        "value": 64
+                    },
+                    {
+                        "label": "96 Kbps",
+                        "value": 96
+                    },
+                    {
+                        "label": "128 Kbps",
+                        "value": 128
+                    },
+                    {
+                        "label": "160 Kbps",
+                        "value": 160
+                    },
+                    {
+                        "label": "192 Kbps",
+                        "value": 192
+                    },
+                    {
+                        "label": "224 Kbps",
+                        "value": 224
+                    },
+                    {
+                        "label": "256 Kbps",
+                        "value": 256
+                    },
+                    {
+                        "label": "288 Kbps",
+                        "value": 288
+                    },
+                    {
+                        "label": "320 Kbps",
+                        "value": 320
+                    }
+                ]
+            }
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000003",
+            "type": "Directory",
+            "required": true,
+            "label": "Destination",
+            "help": "The destination directory where the final file should be saved to",
+            "name": "DestinationPath",
+            "default": "/media"
+        }
+    ]
+}

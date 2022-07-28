@@ -1,0 +1,13 @@
+{
+    "name": "Folder",
+    "revision": 1,
+    "group": "Basic",
+    "order": 2,
+    "description": "A blank folder template with a single \"Input Folder\" input node.",
+    "parts": [
+        {
+            "node": "InputFolder",
+            "uid": "00000000-0000-0000-0000-000000000001"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "name": "Music Library",
+    "revision": 1,
+    "group": "Generic",
+    "description": "Generic music library that searches for common music file extensions",
+    "filter": "\\.(mp3|wav|ogg|aac|wma|flac|alac|m4a|m4p)$",
+    "path": "/media/music",
+    "scanInterval": 60,
+    "fileSizeDetectionInterval": 0
+}

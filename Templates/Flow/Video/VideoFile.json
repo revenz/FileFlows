@@ -1,0 +1,13 @@
+{
+    "name": "Video File",
+    "revision": 1,
+    "group": "Video",
+    "order": 1,
+    "description": "A blank Video template with a single \"Video File\" input node.",
+    "parts": [
+        {
+            "Node": "VideoFile",
+            "Uid": "00000000-0000-0000-0000-000000000001"
+        }
+    ]
+}
