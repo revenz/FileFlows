@@ -89,7 +89,7 @@
       "Revision": 1
     }
   ],
-  "FunctionTemplates": [
+  "FunctionScripts": [
     {
       "Path": "Templates/Function/Video/Video - Bitrate Greater Than.js",
       "Name": "Video - Bitrate Greater Than",
