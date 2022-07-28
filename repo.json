@@ -173,12 +173,6 @@
   ],
   "FlowTemplates": [
     {
-      "Path": "Templates/Flow/Video/ConvertIVideo.json",
-      "Name": "Convert Video",
-      "Description": "A flow that will convert and replace the original file",
-      "Revision": 1
-    },
-    {
       "Path": "Templates/Flow/Video/ConvertVideoAndCopy.json",
       "Name": "Convert Video and Copy",
       "Description": "A flow that will convert and copy a file",
@@ -194,6 +188,12 @@
       "Path": "Templates/Flow/Video/VideoFile.json",
       "Name": "Video File",
       "Description": "A blank Video template with a single \u0022Video File\u0022 input node.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Video/ConvertVideo.json",
+      "Name": "Convert Video",
+      "Description": "A flow that will convert and replace the original file",
       "Revision": 1
     },
     {
