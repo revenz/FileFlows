@@ -91,37 +91,37 @@
   ],
   "FunctionScripts": [
     {
-      "Path": "Templates/Function/Video/Video - Bitrate Greater Than.js",
+      "Path": "Scripts/Function/Video/Video - Bitrate Greater Than.js",
       "Name": "Video - Bitrate Greater Than",
       "Description": "Checks if a video files bitrate is greater than a specific bitrate",
       "Revision": 1
     },
     {
-      "Path": "Templates/Function/Video/Video - Resolution.js",
+      "Path": "Scripts/Function/Video/Video - Resolution.js",
       "Name": "Video - Resolution",
       "Description": "A switch statement for video resolution",
       "Revision": 1
     },
     {
-      "Path": "Templates/Function/Video/Video - Downscale Greater then 1080p.js",
+      "Path": "Scripts/Function/Video/Video - Downscale Greater then 1080p.js",
       "Name": "Video - Downscale Greater then 1080p",
       "Description": "Adds a downscale filter to FFMPEG Builder any file greater than 1080p",
       "Revision": 1
     },
     {
-      "Path": "Templates/Function/Video/Video - Manual HandBrakeCLI.js",
+      "Path": "Scripts/Function/Video/Video - Manual HandBrakeCLI.js",
       "Name": "Video - Manual HandBrakeCLI",
       "Description": "Custom Handbrake CLI command",
       "Revision": 1
     },
     {
-      "Path": "Templates/Function/Video/Video - Manual FFMPEG.js",
+      "Path": "Scripts/Function/Video/Video - Manual FFMPEG.js",
       "Name": "Video - Manual FFMPEG",
       "Description": "Custom FFMPEG command",
       "Revision": 1
     },
     {
-      "Path": "Templates/Function/File/File - Greater Than 1GB.js",
+      "Path": "Scripts/Function/File/File - Greater Than 1GB.js",
       "Name": "File - Greater Than 1GB",
       "Description": "Checks if a file is larger than 1 GB",
       "Revision": 1
