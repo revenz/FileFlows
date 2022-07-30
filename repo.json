@@ -31,6 +31,18 @@
       "Name": "SABnzbd - Pause Downloads",
       "Description": "Pauses SABnzbd if the current file processing queue is greater than 30 files\nIf the processing queue is not greater than 30 files, then it will resume SABnzbd",
       "Revision": 4
+    },
+    {
+      "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processed.js",
+      "Name": "Gotify - Notify File Processed",
+      "Description": "Sends a Gotify notification when a file has been successfully processed",
+      "Revision": 1
+    },
+    {
+      "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processing Failed.js",
+      "Name": "Gotify - Notify File Processing Failed",
+      "Description": "Sends a Gotify notification when a file failed to be processed",
+      "Revision": 1
     }
   ],
   "FlowScripts": [
