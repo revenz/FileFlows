@@ -1,16 +1,16 @@
 /**
  * @name Gotify - Notify File Processing Failed
  * @description Sends a Gotify notification when a file failed to be processed
- * @revision 1
+ * @revision 2
  */
 
- import { Gotify } from '../../../Shared/Gotify.js';
- 
- let gotify = new Gotify();
+import { Gotify } from '../../../Shared/Gotify.js';
 
- var file = Variables.LibraryFile;
- var library = Variables.Library;
- if(!file || !library)
+let gotify = new Gotify();
+
+let file = Variables.LibraryFile;
+let library = Variables.Library;
+if(!file || !library)
 {
     Logger.WLog('This script is expected to run with a file event');
     return;   
