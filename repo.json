@@ -36,12 +36,24 @@
       "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processed.js",
       "Name": "Gotify - Notify File Processed",
       "Description": "Sends a Gotify notification when a file has been successfully processed",
+      "Revision": 2
+    },
+    {
+      "Path": "Scripts/System/Notifications/Gotify/Gotify - FileFlows Server Update Available.js",
+      "Name": "Gotify - FileFlows Server Update Available",
+      "Description": "Sends a Gotify notification when a FileFlows server update is available",
       "Revision": 1
     },
     {
       "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processing Failed.js",
       "Name": "Gotify - Notify File Processing Failed",
       "Description": "Sends a Gotify notification when a file failed to be processed",
+      "Revision": 2
+    },
+    {
+      "Path": "Scripts/System/Notifications/Gotify/Gotify - FileFlows Server Updating.js",
+      "Name": "Gotify - FileFlows Server Updating",
+      "Description": "Sends a Gotify notification the FileFlows Server is being automatically updated",
       "Revision": 1
     }
   ],
