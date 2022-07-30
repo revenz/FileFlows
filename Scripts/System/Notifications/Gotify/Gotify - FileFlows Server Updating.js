@@ -1,7 +1,8 @@
 /**
  * @name Gotify - FileFlows Server Updating
  * @description Sends a Gotify notification the FileFlows Server is being automatically updated
- * @revision 1
+ * @revision 2
+ * @minimumVersion 1.0.0.0
  */
 
 import { Gotify } from '../../../Shared/Gotify.js';

@@ -1,6 +1,7 @@
 {
     "name": "Video File",
     "revision": 1,
+    "minimumVersion": "1.0.0.0",
     "group": "Video",
     "order": 1,
     "description": "A blank Video template with a single \"Video File\" input node.",

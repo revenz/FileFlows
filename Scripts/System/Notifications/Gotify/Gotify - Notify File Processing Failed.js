@@ -1,7 +1,8 @@
 /**
  * @name Gotify - Notify File Processing Failed
  * @description Sends a Gotify notification when a file failed to be processed
- * @revision 2
+ * @revision 3
+ * @minimumVersion 1.0.0.0
  */
 
 import { Gotify } from '../../../Shared/Gotify.js';

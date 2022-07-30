@@ -1,6 +1,7 @@
 {
     "name": "SABnzbd Videos",
     "revision": 1,
+    "minimumVersion": "1.0.0.0",
     "group": "Download Clients",
     "description": "Library to monitor a \"complete\" downloads directory from SABnzbd.\n\nThis library can then use a flow to convert videos into a target format, and place those videos in destination folder e.g. \"converted\".\n\nThe application that instructed SABnzbd to do the download can monitor the \"converted\" folder for completed files.",
     "filter": "\\.(ts|mp4|mkv|avi|mpe|mpg|mov|mpv|flv|wmv|webm|avchd|h(\\.)?26[45])$",

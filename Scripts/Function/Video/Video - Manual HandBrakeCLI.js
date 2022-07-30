@@ -1,7 +1,8 @@
 /**
  * Custom Handbrake CLI command
- * @revision 1
+ * @revision 2
  * @outputs 1
+ * @minimumVersion 1.0.0.0
  */
 
 // You need to configure HandBrakeCLI as a tool under the tools page for this to work

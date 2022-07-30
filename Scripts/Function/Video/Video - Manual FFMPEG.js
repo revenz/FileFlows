@@ -1,7 +1,8 @@
 /**
  * Custom FFMPEG command
- * @revision 1
+ * @revision 2
  * @outputs 1
+ * @minimumVersion 1.0.0.0
  */
 
 let output = Flow.TempPath + '/' + Flow.NewGuid() + '.mkv';

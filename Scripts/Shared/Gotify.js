@@ -1,7 +1,8 @@
 /**
  * Class that interacts with Gotify
  * @name Gotify
- * @revision 1
+ * @revision 2
+ * @minimumVersion 1.0.0.0
  */
 export class Gotify
 {

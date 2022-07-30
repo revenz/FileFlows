@@ -1,6 +1,7 @@
 {
     "name": "Convert Audio and Copy",
     "revision": 1,
+    "minimumVersion": "1.0.0.0",
     "description": "Will convert audio files to the specified format and copies it to a new location.\n\nIf the original file is already in the target format the file will not be re-encoded but it will still be copied.",
     "group": "Audio",
     "save": true,

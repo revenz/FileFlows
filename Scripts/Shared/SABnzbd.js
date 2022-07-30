@@ -1,7 +1,8 @@
 /**
  * Class that interacts with the SABnzbd API 
  * @name SABnzbd
- * @revision 2
+ * @revision 3
+ * @minimumVersion 1.0.0.0
  */
 export class SABnzbd
 {

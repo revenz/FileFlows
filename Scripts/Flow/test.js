@@ -3,7 +3,8 @@ import { Tester } from '../Shared/tester.js';
 /**
 * Checks if a file is older than the specified days 
 * @author John Andrews 
-* @revision 1
+* @revision 2
+* @minimumVersion 1.0.0.0
 * @param {int} a The number of days to check how old the file is 
 * @param {int} b If the last write time should be used, otherwise the creation time will be 
 * @output The file is older than the days specified 

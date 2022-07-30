@@ -1,7 +1,8 @@
 /**
  * Adds a downscale filter to FFMPEG Builder any file greater than 1080p
- * @revision 1
+ * @revision 2
  * @outputs 2
+ * @minimumVersion 1.0.0.0
  */
 
 // this template downscales a video with a width larger than 1920 down to 1920

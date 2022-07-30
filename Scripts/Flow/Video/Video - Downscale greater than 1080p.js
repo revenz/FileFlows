@@ -2,7 +2,8 @@
  * If a video's resolution is greater than 1080p, this script will set the variable {EncodingParameters} to downscale the video to 1080p.
  * Used with the VideoEncode node.
  * @author John Andrews
- * @revision 1
+ * @revision 2
+ * @minimumVersion 1.0.0.0
  * @output Video is greater than 1080p, {EncodingParameters} set to downscale
  * @output Video is not greater than 1080p
  */

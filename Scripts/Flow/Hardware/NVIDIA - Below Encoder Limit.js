@@ -1,7 +1,8 @@
 /**
  * Checks the count of NVIDIA encodes currently processing and see if it is below a limit
  * @author John Andrews
- * @revision 1
+ * @revision 2
+ * @minimumVersion 1.0.0.0
  * @param {int} EncoderLimit The maximum number of encoders available
  * @output Below encoder limit
  * @output Not below encoder limit

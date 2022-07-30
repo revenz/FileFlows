@@ -59,6 +59,8 @@ class RepoGenerator
                     script.Revision = int.Parse(part.Substring("@revision ".Length).Trim());
                 else if(part.StartsWith("@outputs "))
                     outputs = true;
+                else if(part.StartsWith("@minimumVersion "))
+                    script.MinimumVersion = part.Substring("@minimumVersion ".Length).Trim();
             }
             if(string.IsNullOrWhiteSpace(script.Description))
                 throw new Exception("No description found in: " + file.FullName);
@@ -161,5 +163,10 @@ class RepositoryObject
     /// Gets or sets the revision of the script
     /// </summary>
     public int Revision { get; set; }
+
+    /// <summary>
+    /// Gets or sets the minimum version of FileFlows required for this object
+    /// </summary>
+    public string MinimumVersion { get; set; }
 
 }

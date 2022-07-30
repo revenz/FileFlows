@@ -1,7 +1,8 @@
 /**
  * Requires a 7Zip tool to be configured and will zip files
  * @author John Andrews
- * @revision 1
+ * @revision 2
+ * @minimumVersion 1.0.0.0
  * @param {string} ArchiveFile The name of the zip file to create, if empty a random name will be used
  * @param {string} Pattern The filename pattern to use, eg *.txt
  * @param {bool} SetWorkingFileToZip If the working file in the flow should be set to the newly created zip file

@@ -1,7 +1,8 @@
 /**
  * A switch statement for video resolution
- * @revision 1
+ * @revision 2
  * @outputs 4
+ * @minimumVersion 1.0.0.0
  */
 
 // get the first video stream, likely the only one

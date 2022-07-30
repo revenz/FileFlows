@@ -1,7 +1,8 @@
 /**
  * Checks if a video files bitrate is greater than a specific bitrate
- * @revision 1
+ * @revision 2
  * @outputs 2
+ * @minimumVersion 1.0.0.0
  */
 
 // check if the bitrate for a video is over a certain amount

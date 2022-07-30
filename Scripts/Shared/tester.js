@@ -1,7 +1,8 @@
 /**
  * Test class not used
  * @name Tester
- * @revision 1
+ * @revision 2
+ * @minimumVersion 1.0.0.0
  */
 export class Tester {
     print() {

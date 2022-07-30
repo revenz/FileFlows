@@ -1,7 +1,8 @@
 /**
  * Checks if a file is larger than 1 GB
- * @revision 1
+ * @revision 2
  * @outputs 2
+ * @minimumVersion 1.0.0.0
  */
 
 if(Variables.file.Size > 1_000_000_000)

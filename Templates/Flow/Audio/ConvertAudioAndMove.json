@@ -1,6 +1,7 @@
 {
     "name": "Convert Audio and Move",
     "revision": 1,
+    "minimumVersion": "1.0.0.0",
     "description": "Will convert audio to the specified format and move them to a different destination directory.\n\nThis is useful to use as a go between for a download client like SABnzbd and a program such as Lidarr or Headphones.\n\nThe file will not be re-encoded as it's already in the target codec.\n\nThe file will be moved to a different directory, regardless if it needed to be encoded or not.",
     "group": "Audio",
     "save": true,
