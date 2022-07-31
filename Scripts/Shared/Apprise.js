@@ -1,7 +1,7 @@
 /**
  * Class that interacts with Apprise
  * @name Apprise
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  */
 export class Apprise
@@ -31,7 +31,7 @@ export class Apprise
      * Sends a message to the default Apprise endpoint
      * @param {string} type the type of message, info, success, warning, error
      * @param {string} message the message to send
-     * @param {string[]} tags the tags to send the message with, if missing "all" will be used
+     * @param {string[]} tags an array of tags to send the message with, if missing "all" will be used
      * @returns {bool} if the message was sent successfully
      */
     sendMessage(type, message, tags)
