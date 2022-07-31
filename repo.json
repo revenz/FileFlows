@@ -133,8 +133,8 @@
     {
       "Path": "Scripts/Flow/Video/Video - Downscale greater than 1080p.js",
       "Name": "Video - Downscale greater than 1080p",
-      "Description": "If a video\u0027s resolution is greater than 1080p, this script will set the variable {EncodingParameters} to downscale the video to 1080p.\nUsed with the VideoEncode node.",
-      "Revision": 2,
+      "Description": "If a video\u0027s resolution is greater than 1080p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 1080p when the FFMPEG Builder Executor runs.",
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -142,6 +142,13 @@
       "Name": "Video - Bitrate greater than",
       "Description": "Checks if a video\u0027s bitrate is greater than specified.",
       "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - Downscale greater than 720p.js",
+      "Name": "Video - Downscale greater than 720p",
+      "Description": "If a video\u0027s resolution is greater than 720p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 720p when the FFMPEG Builder Executor runs.",
+      "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
