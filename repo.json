@@ -41,63 +41,63 @@
       "Path": "Scripts/System/DownloadClients/PauseSABNZbd.js",
       "Name": "SABnzbd - Pause Downloads",
       "Description": "Pauses SABnzbd if the current file processing queue is greater than 30 files\nIf the processing queue is not greater than 30 files, then it will resume SABnzbd",
-      "Revision": 5,
+      "Revision": 6,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processed.js",
       "Name": "Gotify - Notify File Processed",
       "Description": "Sends a Gotify notification when a file has been successfully processed",
-      "Revision": 3,
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/System/Notifications/Gotify/Gotify - FileFlows Server Update Available.js",
       "Name": "Gotify - FileFlows Server Update Available",
       "Description": "Sends a Gotify notification when a FileFlows server update is available",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processing Failed.js",
       "Name": "Gotify - Notify File Processing Failed",
       "Description": "Sends a Gotify notification when a file failed to be processed",
-      "Revision": 3,
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/System/Notifications/Gotify/Gotify - FileFlows Server Updating.js",
       "Name": "Gotify - FileFlows Server Updating",
       "Description": "Sends a Gotify notification the FileFlows Server is being automatically updated",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processed.js",
       "Name": "Apprise - Notify File Processed",
       "Description": "Sends a Apprise notification when a file has been successfully processed",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processing Failed.js",
       "Name": "Apprise - Notify File Processing Failed",
       "Description": "Sends a Apprise notification when a file failed to be processed",
-      "Revision": 3,
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Updating.js",
       "Name": "Apprise - FileFlows Server Updating",
       "Description": "Sends a Apprise notification the FileFlows Server is being automatically updated",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Update Available.js",
       "Name": "Apprise - FileFlows Server Update Available",
       "Description": "Sends a Apprise notification when a FileFlows server update is available",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     }
   ],
@@ -106,7 +106,7 @@
       "Path": "Scripts/Flow/test.js",
       "Name": "test",
       "Description": "Checks if a file is older than the specified days",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
