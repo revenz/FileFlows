@@ -1,11 +1,11 @@
 /**
  * @name Apprise - Notify File Processing Failed
  * @description Sends a Apprise notification when a file failed to be processed
- * @revision 3
+ * @revision 4
  * @minimumVersion 1.0.0.0
  */
 
-import { Apprise } from '../../../Shared/Apprise.js';
+import { Apprise } from '../../../Shared/Apprise';
 
 let apprise = new Apprise();
 

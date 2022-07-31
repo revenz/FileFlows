@@ -1,11 +1,11 @@
 /**
  * @name Apprise - FileFlows Server Updating
  * @description Sends a Apprise notification the FileFlows Server is being automatically updated
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
  */
 
-import { Apprise } from '../../../Shared/Apprise.js';
+import { Apprise } from '../../../Shared/Apprise';
 
 let apprise = new Apprise();
 

@@ -2,11 +2,11 @@
  * @name SABnzbd - Pause Downloads
  * @description Pauses SABnzbd if the current file processing queue is greater than 30 files
  * If the processing queue is not greater than 30 files, then it will resume SABnzbd
- * @revision 5
+ * @revision 6
  * @minimumVersion 1.0.0.0
  */
 
-import { SABnzbd } from '../../Shared/SABnzbd.js';
+import { SABnzbd } from '../../Shared/SABnzbd';
 import { FileFlowsApi } from '../../Shared/FileFlowsApi';
 
 let ffApi = new FileFlowsApi();

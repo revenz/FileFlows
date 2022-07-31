@@ -1,9 +1,9 @@
-import { Tester } from '../Shared/tester.js';
+import { Tester } from '../Shared/tester';
 
 /**
 * Checks if a file is older than the specified days 
 * @author John Andrews 
-* @revision 2
+* @revision 3
 * @minimumVersion 1.0.0.0
 * @param {int} a The number of days to check how old the file is 
 * @param {int} b If the last write time should be used, otherwise the creation time will be 

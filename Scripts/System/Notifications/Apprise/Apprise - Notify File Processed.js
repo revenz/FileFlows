@@ -1,11 +1,11 @@
 /**
  * @name Apprise - Notify File Processed
  * @description Sends a Apprise notification when a file has been successfully processed
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
  */
 
-import { Apprise } from '../../../Shared/Apprise.js';
+import { Apprise } from '../../../Shared/Apprise';
 
 let apprise = new Apprise();
 

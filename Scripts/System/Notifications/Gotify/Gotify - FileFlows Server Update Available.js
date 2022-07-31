@@ -1,11 +1,11 @@
 /**
  * @name Gotify - FileFlows Server Update Available
  * @description Sends a Gotify notification when a FileFlows server update is available
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  */
 
-import { Gotify } from '../../../Shared/Gotify.js';
+import { Gotify } from '../../../Shared/Gotify';
 
 let gotify = new Gotify();
 

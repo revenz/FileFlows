@@ -1,11 +1,11 @@
 /**
  * @name Gotify - Notify File Processed
  * @description Sends a Gotify notification when a file has been successfully processed
- * @revision 3
+ * @revision 4
  * @minimumVersion 1.0.0.0
  */
 
-import { Gotify } from '../../../Shared/Gotify.js';
+import { Gotify } from '../../../Shared/Gotify';
 
 let gotify = new Gotify();
 
