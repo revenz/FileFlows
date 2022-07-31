@@ -2,7 +2,7 @@
  * If a video's resolution is greater than 1080p, this script will update the FFMPEG Builder video track with a filter 
  * to downscale the video to 1080p when the FFMPEG Builder Executor runs.
  * @author John Andrews
- * @revision 3
+ * @revision 4
  * @minimumVersion 1.0.0.0
  * @output Video is greater than 1080p, FFMPEG Builder Updated
  * @output Video is not greater than 1080p
@@ -30,7 +30,7 @@ function Script()
     return 2;
   }
   
-  Logger.ILog(`Need to downscale from ${video.Width}x${video.Height}`);
+  Logger.ILog(`Need to downscale from ${video.Stream.Width}x${video.Stream.Height}`);
   video.Filter.Add(`scale=1920:-2:flags=lanczos`);
   return 1;
 }
