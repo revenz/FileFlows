@@ -1,0 +1,67 @@
+/**
+ * Class that interacts with Apprise
+ * @name Apprise
+ * @revision 1
+ * @minimumVersion 1.0.0.0
+ */
+export class Apprise
+{
+    URL;
+    DefaultEndpoint;
+
+    constructor(){
+        this.URL = Variables['Apprise.Url'];
+        if(!this.URL)
+            MissingVariable('Apprise.Url');
+        this.DefaultEndpoint = Variables['Apprise.DefaultEndpoint'];
+        if(!this.DefaultEndpoint)
+            MissingVariable('Apprise.DefaultEndpoint');
+    }
+
+    getUrl(endpoint)
+    {
+        let url = '' + this.URL;
+        if(url.endsWith('/') === false)
+            url += '/';
+        return url + endpoint;
+    }
+
+    
+    /**
+     * Sends a message to the default Apprise endpoint
+     * @param {string} type the type of message, info, success, warning, error
+     * @param {string} message the message to send
+     * @param {string[]} tags the tags to send the message with, if missing "all" will be used
+     * @returns {bool} if the message was sent successfully
+     */
+    sendMessage(type, message, tags)
+    {
+        return this.sendMessageToEndpoint(this.DefaultEndpoint, type, message, tags);
+    }
+
+    /**
+     * Sends a message to a specific Apprise endpoint
+     * @param {string} endpoint the endpoint to send the message to
+     * @param {string} type the type of message, info, success, warning, error
+     * @param {string} message the message to send
+     * @param {string[]} tags the tags to send the message with, if missing "all" will be used
+     * @returns {bool} if the message was sent successfully
+     */
+    sendMessageToEndpoint(endpoint, type, message, tags)
+    {
+        let url = this.getUrl(endpoint);
+        
+        let json = JSON.stringify({
+            body: message,
+            type: type,
+            tag: !tags || !tags.length ? 'all' : tags.join(';')
+        });
+        let response = http.PostAsync(url, JsonContent(json)).Result;
+        if (response.IsSuccessStatusCode)
+            return true;
+
+        let error = response.Content.ReadAsStringAsync().Result;
+        Logger?.WLog("Error from Apprise: " + error);
+        return false;
+    }
+}
