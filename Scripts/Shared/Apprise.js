@@ -1,7 +1,7 @@
 /**
  * Class that interacts with Apprise
  * @name Apprise
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
  */
 export class Apprise
@@ -44,17 +44,23 @@ export class Apprise
      * @param {string} endpoint the endpoint to send the message to
      * @param {string} type the type of message, info, success, warning, error
      * @param {string} message the message to send
-     * @param {string[]} tags the tags to send the message with, if missing "all" will be used
+     * @param {string[]} tags an array of tags to send the message with, if missing "all" will be used
      * @returns {bool} if the message was sent successfully
      */
     sendMessageToEndpoint(endpoint, type, message, tags)
     {
         let url = this.getUrl(endpoint);
+
+        let tagArg = 'all';
+        if(tags && typeof(tags) === 'string')
+            tagArg = tags;
+        else if(tags && tags.length)
+            tagArg = tags.join(';');
         
         let json = JSON.stringify({
             body: message,
             type: type,
-            tag: !tags || !tags.length ? 'all' : tags.join(';')
+            tag: tagArg
         });
         let response = http.PostAsync(url, JsonContent(json)).Result;
         if (response.IsSuccessStatusCode)
