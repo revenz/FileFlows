@@ -319,23 +319,9 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Flow/Audio/ConvertAudioAndMove.json",
-      "Name": "Convert Audio and Move",
-      "Description": "Will convert audio to the specified format and move them to a different destination directory.\n\nThis is useful to use as a go between for a download client like SABnzbd and a program such as Lidarr or Headphones.\n\nThe file will not be re-encoded as it\u0027s already in the target codec.\n\nThe file will be moved to a different directory, regardless if it needed to be encoded or not.",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
       "Path": "Templates/Flow/Audio/ConvertAudio.json",
       "Name": "Convert Audio",
       "Description": "Will convert audio files to the specified format and replace the original file.",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Audio/ConvertAudioAndCopy.json",
-      "Name": "Convert Audio and Copy",
-      "Description": "Will convert audio files to the specified format and copies it to a new location.\n\nIf the original file is already in the target format the file will not be re-encoded but it will still be copied.",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
