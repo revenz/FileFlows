@@ -1,6 +1,6 @@
 {
     "name": "Convert Video",
-    "revision": 2,
+    "revision": 4,
     "minimumVersion": "1.0.0.0",
     "group": "Video",
     "description": "A flow that will convert a video file",
@@ -27,7 +27,7 @@
         "Name": "FFMPEG Builder: Start",
         "node": "FfmpegBuilderStart",
         "xPos": 100,
-        "yPos": 230,
+        "yPos": 200,
         "Outputs": 1,
         "connections": [
           {
@@ -40,17 +40,40 @@
       },
       {
         "Uid": "00000000-0000-0000-0000-000000000003",
-        "Name": "FFMPEG Builder: Remux to MKV",
+        "Name": "Downscale If Needed",
+        "node": "FfmpegBuilderScaler",
+        "xPos": 100,
+        "yPos": 310,
+        "Outputs": 2,
+        "connections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "node": "00000000-0000-0000-0000-000000000004"
+          },
+          {
+            "Input": 1,
+            "Output": 2,
+            "node": "00000000-0000-0000-0000-000000000004"
+          }
+        ],
+        "Model": {
+          "OnlyIfLarger": true
+        }
+      },
+      {
+        "Uid": "00000000-0000-0000-0000-000000000004",
+        "Name": "Remux to MKV",
         "node": "FfmpegBuilderRemuxToMkv",
         "xPos": 100,
-        "yPos": 380,
+        "yPos": 420,
         "Outputs": 1,
         "connections": [],
         "Model": {}
       },
       {
-        "Uid": "00000000-0000-0000-0000-000000000004",
-        "Name": "FFMPEG Builder: Crop Black Bars",
+        "Uid": "00000000-0000-0000-0000-000000000005",
+        "Name": "Crop Black Bars",
         "node": "FfmpegBuilderCropBlackBars",
         "xPos": 100,
         "yPos": 500,
@@ -59,12 +82,12 @@
           {
             "Input": 1,
             "Output": 1,
-            "node": "00000000-0000-0000-0000-000000000005"
+            "node": "00000000-0000-0000-0000-000000000006"
           },
           {
             "Input": 1,
             "Output": 2,
-            "node": "00000000-0000-0000-0000-000000000005"
+            "node": "00000000-0000-0000-0000-000000000006"
           }
         ],
         "Model": {
@@ -72,8 +95,8 @@
         }
       },
       {
-        "Uid": "00000000-0000-0000-0000-000000000005",
-        "Name": "FFMPEG Builder: Video Encode",
+        "Uid": "00000000-0000-0000-0000-000000000006",
+        "Name": "Video Encode",
         "node": "FfmpegBuilderVideoEncode",
         "xPos": 100,
         "yPos": 630,
@@ -86,7 +109,7 @@
         }
       },      
       {
-        "Uid": "00000000-0000-0000-0000-000000000006",
+        "Uid": "00000000-0000-0000-0000-000000000007",
         "Name": "Remove All Audio",
         "node": "FfmpegBuilderAudioTrackRemover",
         "xPos": 450,
@@ -96,12 +119,12 @@
           {
             "Input": 1,
             "Output": 1,
-            "node": "00000000-0000-0000-0000-000000000007"
+            "node": "00000000-0000-0000-0000-000000000008"
           },
           {
             "Input": 1,
             "Output": 2,
-            "node": "00000000-0000-0000-0000-000000000007"
+            "node": "00000000-0000-0000-0000-000000000008"
           }
         ],
         "Model": {
@@ -114,7 +137,7 @@
         }
       },
       {
-        "Uid": "00000000-0000-0000-0000-000000000007",
+        "Uid": "00000000-0000-0000-0000-000000000008",
         "Name": "Add Audio",
         "node": "FfmpegBuilderAudioAddTrack",
         "xPos": 450,
@@ -124,7 +147,7 @@
           {
             "Input": 1,
             "Output": 1,
-            "node": "00000000-0000-0000-0000-000000000008"
+            "node": "00000000-0000-0000-0000-000000000009"
           }
         ],
         "Model": {
@@ -135,7 +158,7 @@
         }
       },
       {
-        "Uid": "00000000-0000-0000-0000-000000000008",
+        "Uid": "00000000-0000-0000-0000-000000000009",
         "Name": "FFMPEG Builder: Executor",
         "node": "FfmpegBuilderExecutor",
         "xPos": 450,
@@ -146,7 +169,7 @@
         }
       },
       {
-        "Uid": "00000000-0000-0000-0000-000000000009",
+        "Uid": "00000000-0000-0000-0000-000000000010",
         "Name": "",
         "node": "ReplaceOriginal",
         "xPos": 450,
@@ -160,7 +183,7 @@
         }
       },      
       {
-        "Uid": "00000000-0000-0000-0000-000000000010",
+        "Uid": "00000000-0000-0000-0000-000000000011",
         "Name": "Move File",
         "node": "MoveFile",
         "xPos": 450,
@@ -172,7 +195,7 @@
         }
       },
       {
-        "Uid": "00000000-0000-0000-0000-000000000011",
+        "Uid": "00000000-0000-0000-0000-000000000012",
         "Name": "Delete Source Folder",
         "node": "DeleteSourceDirectory",
         "xPos": 450,
@@ -186,7 +209,7 @@
     ],
     "fields": [
         {
-            "uid": "00000000-0000-0000-0000-000000000005",
+            "uid": "00000000-0000-0000-0000-000000000006",
             "type": "Select",
             "label": "Video Codec",
             "help": "The video codec to use for encoding",
@@ -228,7 +251,7 @@
             }
         },
         {
-            "uid": "00000000-0000-0000-0000-000000000007",
+            "uid": "00000000-0000-0000-0000-000000000008",
             "type": "Select",
             "name": "Codec",
             "label": "Audio Codec",
@@ -237,7 +260,7 @@
                 "options": [
                     {
                         "label": "Keep Original Audio",
-                        "value": "OUTPUT:00000000-0000-0000-0000-000000000005:1:00000000-0000-0000-0000-000000000008"
+                        "value": "OUTPUT:00000000-0000-0000-0000-000000000006:1:00000000-0000-0000-0000-000000000009"
                     },
                     {
                         "label": "AC3",
@@ -255,7 +278,7 @@
             }
         },
         {
-          "uid": "00000000-0000-0000-0000-000000000008",
+          "uid": "00000000-0000-0000-0000-000000000009",
           "type": "Select",
           "name": "Output-1",
           "label": "Output File",
@@ -264,17 +287,17 @@
             "options": [
               {
                 "label": "Replace Original File",
-                "value": "00000000-0000-0000-0000-000000000009"
+                "value": "00000000-0000-0000-0000-000000000010"
               },
               {
                 "label": "Save to Folder",
-                "value": "00000000-0000-0000-0000-000000000010"
+                "value": "00000000-0000-0000-0000-000000000011"
               }
             ]
           }
         },
         {
-          "uid": "00000000-0000-0000-0000-000000000010",
+          "uid": "00000000-0000-0000-0000-000000000011",
           "type": "Directory",
           "required": true,
           "label": "Destination",
@@ -284,12 +307,12 @@
           "conditions": [
             {
               "Property": "Output File",
-              "Value": "00000000-0000-0000-0000-000000000010"
+              "Value": "00000000-0000-0000-0000-000000000011"
             }
           ]
         },
         {
-          "uid": "00000000-0000-0000-0000-000000000010",
+          "uid": "00000000-0000-0000-0000-000000000011",
           "type": "Switch",
           "name": "DeleteOriginal",
           "default": false,
@@ -298,37 +321,65 @@
           "conditions": [
             {
               "Property": "Output File",
-              "Value": "00000000-0000-0000-0000-000000000010"
+              "Value": "00000000-0000-0000-0000-000000000011"
             }
           ]
         },
         {
-            "uid": "00000000-0000-0000-0000-000000000003",
+          "uid": "00000000-0000-0000-0000-000000000003",
+          "type": "Select",
+          "name": "Resolution",
+          "label": "Downscale Video",
+          "default": "OUTPUT:00000000-0000-0000-0000-000000000002:1:00000000-0000-0000-0000-000000000004",
+          "help": "If any files large than this resolution should be down-scaled",
+          "parameters": {
+            "options": [
+              {
+                "label": "No",
+                "value": "OUTPUT:00000000-0000-0000-0000-000000000002:1:00000000-0000-0000-0000-000000000004"
+              },
+              {
+                "label": "480p",
+                "value": "640:-2"
+              },
+              {
+                "label": "720p",
+                "value": "1280:-2"
+              },
+              {
+                "label": "1080p",
+                "value": "1920:-2"
+              }
+            ]
+          }
+        },
+        {
+            "uid": "00000000-0000-0000-0000-000000000004",
             "type": "Switch",
             "name": "Output-1",
             "default": false,
             "label": "Crop Black Bars",
             "help": "Automatically crop black bars if detected",
             "value": {
-                "true": "00000000-0000-0000-0000-000000000004",
-                "false": "00000000-0000-0000-0000-000000000005"
+                "true": "00000000-0000-0000-0000-000000000005",
+                "false": "00000000-0000-0000-0000-000000000006"
             }
         },
         {
-            "uid": "00000000-0000-0000-0000-000000000005",
+            "uid": "00000000-0000-0000-0000-000000000006",
             "type": "Switch",
             "name": "Output-1",
             "default": false,
             "label": "Remove Other Audio",
             "help": "When set all other audio tracks will be removed except the one you added",
             "value": {
-                "true": "00000000-0000-0000-0000-000000000006",
-                "false": "00000000-0000-0000-0000-000000000007"
+                "true": "00000000-0000-0000-0000-000000000007",
+                "false": "00000000-0000-0000-0000-000000000008"
             },
             "conditions": [
               {
                 "Property": "Audio Codec",
-                "Value": "OUTPUT:00000000-0000-0000-0000-000000000005:1:00000000-0000-0000-0000-000000000008",
+                "Value": "OUTPUT:00000000-0000-0000-0000-000000000006:1:00000000-0000-0000-0000-000000000009",
                 "IsNot": true
               }
             ]
