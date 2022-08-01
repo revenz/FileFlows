@@ -32,7 +32,7 @@
       "Path": "Scripts/Shared/Apprise.js",
       "Name": "Apprise",
       "Description": "Class that interacts with Apprise",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     }
   ],
