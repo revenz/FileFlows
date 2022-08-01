@@ -277,6 +277,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Templates/Flow/Video/ConvertVideoToAudio.json",
+      "Name": "Convert Video to Audio",
+      "Description": "A flow that will convert audio from a video file into a audio file",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Templates/Flow/Video/ConvertVideoAndMove.json",
       "Name": "Convert Video and Move",
       "Description": "A flow that will convert and move a file",
@@ -294,6 +301,13 @@
       "Path": "Templates/Flow/Video/ConvertVideo.json",
       "Name": "Convert Video",
       "Description": "A flow that will convert and replace the original file",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Video/ConvertVideo2.json",
+      "Name": "Convert Video 2",
+      "Description": "A flow that will convert a video file",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
