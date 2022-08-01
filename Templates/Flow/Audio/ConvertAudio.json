@@ -25,13 +25,6 @@
             "xPos": 370,
             "yPos": 220,
             "outputs": 2,
-            "connections": [
-                {
-                    "input": 1,
-                    "output": 1,
-                    "node": "00000000-0000-0000-0000-000000000003"
-                }
-            ],
             "model": {
                 "SkipIfCodecMatches": true
             }
@@ -39,8 +32,37 @@
         {
             "node": "ReplaceOriginal",
             "uid": "00000000-0000-0000-0000-000000000003",
-            "xPos": 250,
-            "yPos": 420
+            "xPos": 370,
+            "yPos": 390
+        },
+        {
+            "node": "MoveFile",
+            "uid": "00000000-0000-0000-0000-000000000004",
+            "xPos": 370,
+            "yPos": 390,
+            "model": {
+                "MoveFolder": true,
+                "DeleteOriginal": false,
+                "DestinationPath": "/media"
+            }
+        },
+        {
+            "node": "DeleteSourceDirectory",
+            "Name": "Delete Source Folder If Empty",
+            "uid": "00000000-0000-0000-0000-000000000005",            
+            "xPos": 370,
+            "yPos": 560,
+            "model": {
+                "IfEmpty": true,
+                "IncludePatterns": [
+                    "mp3",
+                    "aac",
+                    "ogg",
+                    "flac",
+                    "wav",
+                    "m4a"
+                ]
+            }
         }
     ],
     "fields": [
@@ -117,6 +139,76 @@
                     }
                 ]
             }
+        },
+        {
+          "uid": "00000000-0000-0000-0000-000000000002",
+          "type": "Select",
+          "name": "Output-1",
+          "label": "Output File",
+          "help": "Where the newly converted file should be saved to",
+          "parameters": {
+            "options": [
+              {
+                "label": "Replace Original File",
+                "value": "00000000-0000-0000-0000-000000000003"
+              },
+              {
+                "label": "Save to Folder",
+                "value": "00000000-0000-0000-0000-000000000004"
+              }
+            ]
+          }
+        },
+        {
+          "uid": "00000000-0000-0000-0000-000000000004",
+          "type": "Directory",
+          "required": true,
+          "label": "Destination",
+          "help": "The destination directory where the file should be save to",
+          "name": "DestinationPath",
+          "default": "/media",
+          "conditions": [
+            {
+              "Property": "Output File",
+              "Value": "00000000-0000-0000-0000-000000000004"
+            }
+          ]
+        },
+        {
+          "uid": "00000000-0000-0000-0000-000000000004",
+          "type": "Switch",
+          "name": "DeleteOriginal",
+          "default": false,
+          "label": "Delete Original File",
+          "help": "If the original file should be deleted after converting",
+          "conditions": [
+            {
+              "Property": "Output File",
+              "Value": "00000000-0000-0000-0000-000000000004"
+            }
+          ]
+        },
+        {
+          "uid": "00000000-0000-0000-0000-000000000004",
+          "type": "Switch",
+          "name": "Output-1",
+          "default": false,
+          "label": "Delete Original Folder If Empty",
+          "help": "If the original folder should be deleted if there are no more audio files found",
+          "value": {
+            "true": "00000000-0000-0000-0000-000000000005",
+            "false": ""
+          },
+          "conditions": [
+            {
+              "Property": "Output File",
+              "Value": "00000000-0000-0000-0000-000000000004"
+            },
+            {
+              "Property": "Delete Original File",
+              "Value": true
+            }
+          ]
         }
     ]
 }

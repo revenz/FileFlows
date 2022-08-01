@@ -168,7 +168,6 @@
         "Outputs": 1,
         "Model": {
             "MoveFolder": true,
-            "DeleteOriginal": true,
             "DestinationPath": "/media"
         }
       },
@@ -292,14 +291,10 @@
         {
           "uid": "00000000-0000-0000-0000-000000000010",
           "type": "Switch",
-          "name": "Output-1",
+          "name": "DeleteOriginal",
           "default": false,
           "label": "Delete Original File",
           "help": "If the original file should be deleted after converting",
-          "value": {
-            "true": "00000000-0000-0000-0000-000000000011",
-            "false": ""
-          },
           "conditions": [
             {
               "Property": "Output File",
