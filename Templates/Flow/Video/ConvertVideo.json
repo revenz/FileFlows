@@ -43,7 +43,7 @@
         "Name": "Downscale If Needed",
         "node": "FfmpegBuilderScaler",
         "xPos": 100,
-        "yPos": 310,
+        "yPos": 290,
         "Outputs": 2,
         "connections": [
           {
