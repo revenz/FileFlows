@@ -270,23 +270,9 @@
   ],
   "FlowTemplates": [
     {
-      "Path": "Templates/Flow/Video/ConvertVideoAndCopy.json",
-      "Name": "Convert Video and Copy",
-      "Description": "A flow that will convert and copy a file",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
       "Path": "Templates/Flow/Video/ConvertVideoToAudio.json",
       "Name": "Convert Video to Audio",
       "Description": "A flow that will convert audio from a video file into a audio file",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Video/ConvertVideoAndMove.json",
-      "Name": "Convert Video and Move",
-      "Description": "A flow that will convert and move a file",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
@@ -300,15 +286,8 @@
     {
       "Path": "Templates/Flow/Video/ConvertVideo.json",
       "Name": "Convert Video",
-      "Description": "A flow that will convert and replace the original file",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Video/ConvertVideo2.json",
-      "Name": "Convert Video 2",
       "Description": "A flow that will convert a video file",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -328,8 +307,8 @@
     {
       "Path": "Templates/Flow/Basic/Folder.json",
       "Name": "Folder",
-      "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.",
-      "Revision": 1,
+      "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.\nFor example you cannot convert a Folder to a MP3 or to a different Video format.  You can however zip a folder.",
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
