@@ -1,13 +1,13 @@
 {
     "name": "File",
-    "revision": 1,
+    "revision": 2,
     "minimumVersion": "1.0.0.0",
     "group": "Basic",
     "order": 1,
     "description": "A blank file template with a single \"Input File\" input node.",
     "parts": [
         {
-            "node": "InputFile",
+            "node": "FileFlows.BasicNodes.InputFile",
             "uid": "00000000-0000-0000-0000-000000000001"
         }
     ]

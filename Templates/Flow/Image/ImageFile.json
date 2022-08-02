@@ -1,13 +1,13 @@
 {
     "name": "Image File",
-    "revision": 1,
+    "revision": 2,
     "minimumVersion": "1.0.0.0",
     "group": "Image",
     "order": 1,
     "description": "A blank Image template with a single \"Image File\" input node.",
     "parts": [
         {
-            "node": "ImageFile",
+            "node": "FileFlows.ImageNodes.ImageFile",
             "uid": "00000000-0000-0000-0000-000000000001"
         }
     ]

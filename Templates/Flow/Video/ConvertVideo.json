@@ -1,6 +1,6 @@
 {
     "name": "Convert Video",
-    "revision": 7,
+    "revision": 8,
     "minimumVersion": "1.0.0.0",
     "group": "Video",
     "description": "A flow that will convert a video file",
@@ -9,7 +9,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000001",
         "Name": "",
-        "node": "VideoFile",
+        "node": "FileFlows.VideoNodes.VideoFile",
         "xPos": 100,
         "yPos": 90,
         "Outputs": 1,
@@ -25,7 +25,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000002",
         "Name": "FFMPEG Builder: Start",
-        "node": "FfmpegBuilderStart",
+        "node": "FileFlows.VideoNodes.FfmpegBuilderStart",
         "xPos": 100,
         "yPos": 190,
         "Outputs": 1,
@@ -41,7 +41,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000003",
         "Name": "Downscale If Needed",
-        "node": "FfmpegBuilderScaler",
+        "node": "FileFlows.VideoNodes.FfmpegBuilderScaler",
         "xPos": 100,
         "yPos": 290,
         "Outputs": 2,
@@ -64,7 +64,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000004",
         "Name": "Remux to MKV",
-        "node": "FfmpegBuilderRemuxToMkv",
+        "node": "FileFlows.VideoNodes.FfmpegBuilderRemuxToMkv",
         "xPos": 100,
         "yPos": 420,
         "Outputs": 1,
@@ -74,7 +74,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000005",
         "Name": "Crop Black Bars",
-        "node": "FfmpegBuilderCropBlackBars",
+        "node": "FileFlows.VideoNodes.FfmpegBuilderCropBlackBars",
         "xPos": 100,
         "yPos": 500,
         "Outputs": 2,
@@ -97,7 +97,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000006",
         "Name": "Video Encode",
-        "node": "FfmpegBuilderVideoEncode",
+        "node": "FileFlows.VideoNodes.FfmpegBuilderVideoEncode",
         "xPos": 100,
         "yPos": 630,
         "Outputs": 1,
@@ -111,7 +111,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000007",
         "Name": "Remove All Audio",
-        "node": "FfmpegBuilderAudioTrackRemover",
+        "node": "FileFlows.VideoNodes.FfmpegBuilderAudioTrackRemover",
         "xPos": 450,
         "yPos": 110,
         "Outputs": 2,
@@ -139,7 +139,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000008",
         "Name": "Add Audio",
-        "node": "FfmpegBuilderAudioAddTrack",
+        "node": "FileFlows.VideoNodes.FfmpegBuilderAudioAddTrack",
         "xPos": 450,
         "yPos": 280,
         "Outputs": 1,
@@ -160,7 +160,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000009",
         "Name": "FFMPEG Builder: Executor",
-        "node": "FfmpegBuilderExecutor",
+        "node": "FileFlows.VideoNodes.FfmpegBuilderExecutor",
         "xPos": 450,
         "yPos": 430,
         "Outputs": 2,
@@ -171,7 +171,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000010",
         "Name": "",
-        "node": "ReplaceOriginal",
+        "node": "FileFlows.BasicNodes.ReplaceOriginal",
         "xPos": 450,
         "yPos": 610,
         "Outputs": 1,
@@ -185,7 +185,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000011",
         "Name": "Move File",
-        "node": "MoveFile",
+        "node": "FileFlows.BasicNodes.MoveFile",
         "xPos": 450,
         "yPos": 610,
         "Outputs": 1,
@@ -197,7 +197,7 @@
       {
         "Uid": "00000000-0000-0000-0000-000000000012",
         "Name": "Delete Source Folder",
-        "node": "DeleteSourceDirectory",
+        "node": "FileFlows.BasicNodes.DeleteSourceDirectory",
         "xPos": 450,
         "yPos": 750,
         "Outputs": 2,

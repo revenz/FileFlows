@@ -1,6 +1,6 @@
 {
     "name": "Flow Failure",
-    "revision": 1,
+    "revision": 2,
     "minimumVersion": "1.0.0.0",
     "group": "Basic",
     "order": 3,
@@ -8,7 +8,7 @@
     "description": "A flow that will be executed when a Flow fails unexpectedly.",
     "parts": [
         {
-            "node": "FlowFailure",
+            "node": "FileFlows.BasicNodes.FlowFailure",
             "uid": "00000000-0000-0000-0000-000000000001"
         }
     ]

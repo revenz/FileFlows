@@ -1,13 +1,13 @@
 {
     "name": "Video File",
-    "revision": 1,
+    "revision": 2,
     "minimumVersion": "1.0.0.0",
     "group": "Video",
     "order": 1,
     "description": "A blank Video template with a single \"Video File\" input node.",
     "parts": [
         {
-            "Node": "VideoFile",
+            "Node": "FileFlows.VideoNodes.VideoFile",
             "Uid": "00000000-0000-0000-0000-000000000001"
         }
     ]

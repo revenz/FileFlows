@@ -1,6 +1,6 @@
 {
     "name": "Convert Audio",
-    "revision": 2,
+    "revision": 3,
     "minimumVersion": "1.0.0.0",
     "description": "Will convert audio files to the specified format and replace the original file.",
     "group": "Audio",
@@ -30,13 +30,13 @@
             }
         },
         {
-            "node": "ReplaceOriginal",
+            "node": "FileFlows.BasicNodes.ReplaceOriginal",
             "uid": "00000000-0000-0000-0000-000000000003",
             "xPos": 370,
             "yPos": 390
         },
         {
-            "node": "MoveFile",
+            "node": "FileFlows.BasicNodes.MoveFile",
             "uid": "00000000-0000-0000-0000-000000000004",
             "xPos": 370,
             "yPos": 390,
@@ -47,7 +47,7 @@
             }
         },
         {
-            "node": "DeleteSourceDirectory",
+            "node": "FileFlows.BasicNodes.DeleteSourceDirectory",
             "Name": "Delete Source Folder If Empty",
             "uid": "00000000-0000-0000-0000-000000000005",            
             "xPos": 370,
