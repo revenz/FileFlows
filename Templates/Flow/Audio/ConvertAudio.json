@@ -1,6 +1,6 @@
 {
     "name": "Convert Audio",
-    "revision": 3,
+    "revision": 4,
     "minimumVersion": "1.0.0.0",
     "description": "Will convert audio files to the specified format and replace the original file.",
     "group": "Audio",
