@@ -273,7 +273,7 @@
       "Path": "Templates/Flow/Video/ConvertVideoToAudio.json",
       "Name": "Convert Video to Audio",
       "Description": "A flow that will convert audio from a video file into a audio file",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
