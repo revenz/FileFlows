@@ -1,6 +1,6 @@
 {
     "name": "Convert Video",
-    "revision": 6,
+    "revision": 7,
     "minimumVersion": "1.0.0.0",
     "group": "Video",
     "description": "A flow that will convert a video file",
@@ -27,7 +27,7 @@
         "Name": "FFMPEG Builder: Start",
         "node": "FfmpegBuilderStart",
         "xPos": 100,
-        "yPos": 200,
+        "yPos": 190,
         "Outputs": 1,
         "connections": [
           {
