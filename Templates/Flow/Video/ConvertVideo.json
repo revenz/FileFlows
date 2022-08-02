@@ -1,6 +1,6 @@
 {
   "name": "Convert Video",
-  "revision": 10,
+  "revision": 11,
   "minimumVersion": "1.0.0.0",
   "group": "Video",
   "description": "A flow that will convert a video file",
@@ -75,7 +75,7 @@
       "Name": "Crop Black Bars",
       "node": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderCropBlackBars",
       "xPos": 100,
-      "yPos": 500,
+      "yPos": 520,
       "Outputs": 2,
       "connections": [
         {
