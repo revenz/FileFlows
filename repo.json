@@ -247,6 +247,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Templates/Library/ComicLibrary.json",
+      "Name": "Comic Library",
+      "Description": "Generic comic library that searches for common comic book file extensions",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Templates/Library/SABnzbdVideos.json",
       "Name": "SABnzbd Videos",
       "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert videos into a target format, and place those videos in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
@@ -295,6 +302,13 @@
       "Name": "Image File",
       "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
       "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Books/ConvertComic.json",
+      "Name": "Convert Comic",
+      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
+      "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
