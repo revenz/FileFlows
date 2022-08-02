@@ -7,7 +7,7 @@
     "description": "A blank Audio template with a single \"Audio File\" input node.",
     "parts": [
         {
-            "node": "MusicFile",
+            "node": "FileFlows.AudioNodes.AudioFile",
             "uid": "00000000-0000-0000-0000-000000000001"
         }
     ]

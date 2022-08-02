@@ -25,7 +25,7 @@
     {
       "Uid": "00000000-0000-0000-0000-000000000002",
       "Name": "",
-      "node": "ConvertToMP3",
+      "node": "FileFlows.AudioNodes.ConvertToMP3",
       "xPos": 370,
       "yPos": 200,
       "Outputs": 1,

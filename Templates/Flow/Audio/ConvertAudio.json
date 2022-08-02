@@ -7,7 +7,7 @@
     "save": true,
     "parts": [
         {
-            "node": "MusicFile",
+            "node": "FileFlows.AudioNodes.AudioFile",
             "uid": "00000000-0000-0000-0000-000000000001",
             "xPos": 370,
             "yPos": 50,
@@ -20,7 +20,7 @@
             ]
         },
         {
-            "node": "ConvertAudio",
+            "node": "FileFlows.AudioNodes.ConvertAudio",
             "uid": "00000000-0000-0000-0000-000000000002",
             "xPos": 370,
             "yPos": 220,
