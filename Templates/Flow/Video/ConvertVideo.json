@@ -1,6 +1,6 @@
 {
     "name": "Convert Video",
-    "revision": 5,
+    "revision": 6,
     "minimumVersion": "1.0.0.0",
     "group": "Video",
     "description": "A flow that will convert a video file",
@@ -371,7 +371,7 @@
             "name": "Output-1",
             "default": false,
             "label": "Remove Other Audio",
-            "help": "When set all other audio tracks will be removed except the one you added",
+            "help": "Remove all other audio tracks except the one specified by Audio Codec",
             "value": {
                 "true": "00000000-0000-0000-0000-000000000007",
                 "false": "00000000-0000-0000-0000-000000000008"
