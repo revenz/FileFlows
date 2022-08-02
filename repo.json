@@ -322,7 +322,7 @@
       "Path": "Templates/Flow/Audio/ConvertAudio.json",
       "Name": "Convert Audio",
       "Description": "Will convert audio files to the specified format and replace the original file.",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
