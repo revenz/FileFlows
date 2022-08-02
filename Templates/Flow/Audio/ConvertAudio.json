@@ -30,13 +30,13 @@
             }
         },
         {
-            "node": "FileFlows.BasicNodes.ReplaceOriginal",
+            "node": "FileFlows.BasicNodes.File.ReplaceOriginal",
             "uid": "00000000-0000-0000-0000-000000000003",
             "xPos": 370,
             "yPos": 390
         },
         {
-            "node": "FileFlows.BasicNodes.MoveFile",
+            "node": "FileFlows.BasicNodes.File.MoveFile",
             "uid": "00000000-0000-0000-0000-000000000004",
             "xPos": 370,
             "yPos": 390,
@@ -47,7 +47,7 @@
             }
         },
         {
-            "node": "FileFlows.BasicNodes.DeleteSourceDirectory",
+            "node": "FileFlows.BasicNodes.File.DeleteSourceDirectory",
             "Name": "Delete Source Folder If Empty",
             "uid": "00000000-0000-0000-0000-000000000005",            
             "xPos": 370,

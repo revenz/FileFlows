@@ -7,7 +7,7 @@
     "description": "A blank file template with a single \"Input File\" input node.",
     "parts": [
         {
-            "node": "FileFlows.BasicNodes.InputFile",
+            "node": "FileFlows.BasicNodes.File.InputFile",
             "uid": "00000000-0000-0000-0000-000000000001"
         }
     ]

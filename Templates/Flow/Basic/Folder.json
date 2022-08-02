@@ -7,7 +7,7 @@
     "description": "A blank folder template with a single \"Input Folder\" input node.\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.\nFor example you cannot convert a Folder to a MP3 or to a different Video format.  You can however zip a folder.",
     "parts": [
         {
-            "node": "FileFlows.BasicNodes.InputFolder",
+            "node": "FileFlows.BasicNodes.File.InputFolder",
             "uid": "00000000-0000-0000-0000-000000000001"
         }
     ]
