@@ -219,71 +219,116 @@
   ],
   "LibraryTemplates": [
     {
-      "Path": "Templates/Library/MusicLibrary.json",
-      "Name": "Music Library",
-      "Description": "Music library that searches for common music files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 1
-    },
-    {
-      "Path": "Templates/Library/PictureLibrary.json",
-      "Name": "Picture Library",
-      "Description": "Picture library that searches for common picture files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 2
-    },
-    {
-      "Path": "Templates/Library/ComicLibrary.json",
-      "Name": "Comic Library",
-      "Description": "Comic library that searches for common comic book files",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 3
-    },
-    {
       "Path": "Templates/Library/SABnzbdMusic.json",
       "Name": "SABnzbd Music",
       "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert music into a target format, and place those music files in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
       "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 4
-    },
-    {
-      "Path": "Templates/Library/SABnzbdVideos.json",
-      "Name": "SABnzbd Videos",
-      "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert videos into a target format, and place those videos in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 5
-    },
-    {
-      "Path": "Templates/Library/Samples-Trailers-Previews.json",
-      "Name": "Samples/Trailers/Previews",
-      "Description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necassary.\nUseful for a matching \u0027SABnzbd Videos\u0027 library so the folder can be cleanly deleted after the main file is processed.",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 6
+      "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Templates/Library/PlexDVR.json",
       "Name": "Plex DVR",
       "Description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
       "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 7
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/Samples-Trailers-Previews.json",
+      "Name": "Samples/Trailers/Previews",
+      "Description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necassary.\nUseful for a matching \u0027SABnzbd Videos\u0027 library so the folder can be cleanly deleted after the main file is processed.",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/PictureLibrary.json",
+      "Name": "Picture Library",
+      "Description": "Picture library that searches for common picture files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/ComicLibrary.json",
+      "Name": "Comic Library",
+      "Description": "Comic library that searches for common comic book files",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/SABnzbdVideos.json",
+      "Name": "SABnzbd Videos",
+      "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert videos into a target format, and place those videos in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Templates/Library/VideoLibrary.json",
       "Name": "Video Library",
       "Description": "Generic video library that searches for common video file extensions",
       "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 8
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/MusicLibrary.json",
+      "Name": "Music Library",
+      "Description": "Music library that searches for common music files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
     }
   ],
   "FlowTemplates": [
+    {
+      "Path": "Templates/Flow/Video/ConvertVideoToAudio.json",
+      "Name": "Convert Video to Audio",
+      "Description": "A flow that will convert audio from a video file into a audio file",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Video/VideoFile.json",
+      "Name": "Video File",
+      "Description": "A blank Video template with a single \u0022Video File\u0022 input node.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0",
+      "Order": 1
+    },
+    {
+      "Path": "Templates/Flow/Video/ConvertVideo.json",
+      "Name": "Convert Video",
+      "Description": "A flow that will convert a video file",
+      "Revision": 11,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Image/ImageFile.json",
+      "Name": "Image File",
+      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0",
+      "Order": 1
+    },
+    {
+      "Path": "Templates/Flow/Books/ConvertComic.json",
+      "Name": "Convert Comic",
+      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Basic/Failure.json",
+      "Name": "Flow Failure",
+      "Description": "A flow that will be executed when a Flow fails unexpectedly.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0",
+      "Order": 3
+    },
+    {
+      "Path": "Templates/Flow/Basic/Folder.json",
+      "Name": "Folder",
+      "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.\nFor example you cannot convert a Folder to a MP3 or to a different Video format.  You can however zip a folder.",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0",
+      "Order": 2
+    },
     {
       "Path": "Templates/Flow/Basic/File.json",
       "Name": "File",
@@ -293,20 +338,11 @@
       "Order": 1
     },
     {
-      "Path": "Templates/Flow/Basic/Failure.json",
-      "Name": "Flow Failure",
-      "Description": "A flow that will be executed when a Flow fails unexpectedly.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 2
-    },
-    {
-      "Path": "Templates/Flow/Basic/Folder.json",
-      "Name": "Folder",
-      "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.\nFor example you cannot convert a Folder to a MP3 or to a different Video format.  You can however zip a folder.",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 3
+      "Path": "Templates/Flow/Audio/ConvertAudio.json",
+      "Name": "Convert Audio",
+      "Description": "Will convert audio files to the specified format and replace the original file.",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Templates/Flow/Audio/AudioFile.json",
@@ -314,55 +350,7 @@
       "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0",
-      "Order": 4
-    },
-    {
-      "Path": "Templates/Flow/Audio/ConvertAudio.json",
-      "Name": "Convert Audio",
-      "Description": "Will convert audio files to the specified format and replace the original file.",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 5
-    },
-    {
-      "Path": "Templates/Flow/Books/ConvertComic.json",
-      "Name": "Convert Comic",
-      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 6
-    },
-    {
-      "Path": "Templates/Flow/Image/ImageFile.json",
-      "Name": "Image File",
-      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 7
-    },
-    {
-      "Path": "Templates/Flow/Video/ConvertVideo.json",
-      "Name": "Convert Video",
-      "Description": "A flow that will convert a video file",
-      "Revision": 11,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 8
-    },
-    {
-      "Path": "Templates/Flow/Video/ConvertVideoToAudio.json",
-      "Name": "Convert Video to Audio",
-      "Description": "A flow that will convert audio from a video file into a audio file",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 9
-    },
-    {
-      "Path": "Templates/Flow/Video/VideoFile.json",
-      "Name": "Video File",
-      "Description": "A blank Video template with a single \u0022Video File\u0022 input node.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 10
+      "Order": 1
     }
   ]
 }
