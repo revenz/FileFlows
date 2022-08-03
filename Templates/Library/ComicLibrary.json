@@ -1,9 +1,9 @@
 {
     "name": "Comic Library",
-    "revision": 1,
+    "revision": 2,
     "minimumVersion": "1.0.0.0",
-    "group": "Generic",
-    "description": "Generic comic library that searches for common comic book file extensions",
+    "group": "Books",
+    "description": "Comic library that searches for common comic book files",
     "filter": "\\.(cbz|cbr|cb7|pdf|bz2|gz)$",
     "path": "/media/comics",
     "scanInterval": 60,
