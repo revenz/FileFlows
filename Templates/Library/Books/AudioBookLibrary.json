@@ -1,0 +1,11 @@
+{
+    "name": "Audio Book Library",
+    "revision": 1,
+    "minimumVersion": "1.0.0.0",
+    "group": "Books",
+    "description": "Audio Book library that searches for common audio book files",
+    "filter": "\\.(m4b|mp3|flac|wma|m4a|aac|wav)$",
+    "path": "/media/audio-books",
+    "scanInterval": 60,
+    "fileSizeDetectionInterval": 5
+}
