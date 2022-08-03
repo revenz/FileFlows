@@ -263,7 +263,7 @@
     {
       "Path": "Templates/Library/VideoLibrary.json",
       "Name": "Video Library",
-      "Description": "Generic video library that searches for common video file extensions",
+      "Description": "Video library that searches for common video files",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
@@ -288,8 +288,7 @@
       "Name": "Video File",
       "Description": "A blank Video template with a single \u0022Video File\u0022 input node.",
       "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 1
+      "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Templates/Flow/Video/ConvertVideo.json",
@@ -303,8 +302,7 @@
       "Name": "Image File",
       "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
       "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 1
+      "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Templates/Flow/Books/ConvertComic.json",
@@ -318,24 +316,21 @@
       "Name": "Flow Failure",
       "Description": "A flow that will be executed when a Flow fails unexpectedly.",
       "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 3
+      "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Templates/Flow/Basic/Folder.json",
       "Name": "Folder",
       "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.\nFor example you cannot convert a Folder to a MP3 or to a different Video format.  You can however zip a folder.",
       "Revision": 3,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 2
+      "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Templates/Flow/Basic/File.json",
       "Name": "File",
       "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
       "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 1
+      "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Templates/Flow/Audio/ConvertAudio.json",
@@ -349,8 +344,7 @@
       "Name": "Audio File",
       "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
       "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
-      "Order": 1
+      "MinimumVersion": "1.0.0.0"
     }
   ]
 }
