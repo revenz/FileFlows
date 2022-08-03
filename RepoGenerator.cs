@@ -96,27 +96,11 @@ class RepoGenerator
 
         foreach(var file in basePath.GetFiles("*.json", SearchOption.AllDirectories))
         {
-            if(file.Name == "groups.json")
-                continue;
             string content = File.ReadAllText(file.FullName);
             var template = JsonSerializer.Deserialize<RepositoryObject>(content, options);
             template.Path = "Templates/" + basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
             templates.Add(template);
         }
-
-        // if(System.IO.File.Exists(System.IO.Path.Combine(path, "groups.json")))
-        // {        
-        //     string json = File.ReadAllText(System.IO.Path.Combine(path, "groups.json"));
-        //     var groups = JsonSerializer.Deserialize<string[]>(json).ToList();
-        //     templates = templates.OrderBy(x => {
-        //         int index = groups.IndexOf(x.Group);
-        //         return index >= 0 ? index : 10000;
-        //     }).ThenBy(x => x.Group).ThenBy(x => x.Name).ToList();
-            
-        //     for(int i = 0; i < templates.Count; i++) {
-        //         templates[i].Order = i + 1;
-        //     }
-        // }
 
         return templates;
     }
@@ -188,16 +172,5 @@ public class RepositoryObject
     /// Gets or sets the minimum version of FileFlows required for this object
     /// </summary>
     public string MinimumVersion { get; set; }
-
-    /// <summary>
-    /// Gets or sets the group this object belongs to
-    /// </summary>
-    public string Group { get; set; }
-
-    
-    /// <summary>
-    /// Gets or sets the order the item appears
-    /// </summary>
-    public int Order { get; set; }
 
 }
