@@ -104,20 +104,19 @@ class RepoGenerator
             templates.Add(template);
         }
 
-        if(System.IO.File.Exists(System.IO.Path.Combine(path, "groups.json")))
-        {        
-            string json = File.ReadAllText(System.IO.Path.Combine(path, "groups.json"));
-            var groups = JsonSerializer.Deserialize<string[]>(json).ToList();
-            templates = templates.OrderBy(x => {
-                int index = groups.IndexOf(x.Group);
-                return index >= 0 ? index : 10000;
-            }).ThenBy(x => x.Group).ThenBy(x => x.Name).ToList();
+        // if(System.IO.File.Exists(System.IO.Path.Combine(path, "groups.json")))
+        // {        
+        //     string json = File.ReadAllText(System.IO.Path.Combine(path, "groups.json"));
+        //     var groups = JsonSerializer.Deserialize<string[]>(json).ToList();
+        //     templates = templates.OrderBy(x => {
+        //         int index = groups.IndexOf(x.Group);
+        //         return index >= 0 ? index : 10000;
+        //     }).ThenBy(x => x.Group).ThenBy(x => x.Name).ToList();
             
-            for(int i = 0; i < templates.Count; i++) {
-                templates[i].Order = i + 1;
-            }
-
-        }
+        //     for(int i = 0; i < templates.Count; i++) {
+        //         templates[i].Order = i + 1;
+        //     }
+        // }
 
         return templates;
     }
