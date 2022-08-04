@@ -1,6 +1,6 @@
 {
     "name": "Audio To Video",
-    "revision": 1,
+    "revision": 2,
     "minimumVersion": "1.0.0.0",
     "description": "Convert an audio file into a video file generated a visualization of the audio.\nSee the [Audio To Video](https://docs.fileflows.com/plugins/video-nodes/audio-to-video) node for more information",
     "group": "Audio",
@@ -139,15 +139,15 @@
             "parameters": {
                 "options": [
                     {
-                        "label": "h264",
+                        "label": "H.264",
                         "value": "h264"
                     },
                     {
-                        "label": "h265",
+                        "label": "H.265",
                         "value": "h265"
                     },
                     {
-                        "label": "h265",
+                        "label": "H.265 (10 Bit)",
                         "value": "h265 10BIT"
                     }
                 ]
