@@ -347,6 +347,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Templates/Flow/Audio/AudioToVideo.json",
+      "Name": "Audio To Video",
+      "Description": "Convert an audio file into a video file generated a visualization of the audio.\nSee the [Audio To Video](https://docs.fileflows.com/plugins/video-nodes/audio-to-video) node for more information",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Templates/Flow/Audio/ConvertAudio.json",
       "Name": "Convert Audio",
       "Description": "Will convert audio files to the specified format and replace the original file.",
