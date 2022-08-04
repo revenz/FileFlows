@@ -219,56 +219,70 @@
   ],
   "LibraryTemplates": [
     {
-      "Path": "Templates/Library/SABnzbdMusic.json",
-      "Name": "SABnzbd Music",
-      "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert music into a target format, and place those music files in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Library/PlexDVR.json",
+      "Path": "Templates/Library/DVR/PlexDVR.json",
       "Name": "Plex DVR",
       "Description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/Samples-Trailers-Previews.json",
-      "Name": "Samples/Trailers/Previews",
-      "Description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necassary.\nUseful for a matching \u0027SABnzbd Videos\u0027 library so the folder can be cleanly deleted after the main file is processed.",
+      "Path": "Templates/Library/Books/AudioBookLibrary.json",
+      "Name": "Audio Book Library",
+      "Description": "Audio Book library that searches for common audio book files",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/PictureLibrary.json",
-      "Name": "Picture Library",
-      "Description": "Picture library that searches for common picture files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Library/ComicLibrary.json",
+      "Path": "Templates/Library/Books/ComicLibrary.json",
       "Name": "Comic Library",
       "Description": "Comic library that searches for common comic book files",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/SABnzbdVideos.json",
+      "Path": "Templates/Library/Books/eBookLibrary.json",
+      "Name": "eBook Library",
+      "Description": "eBook library that searches for common eBook files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/DownloadClients/SABnzbdMusic.json",
+      "Name": "SABnzbd Music",
+      "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert music into a target format, and place those music files in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/DownloadClients/Samples-Trailers-Previews.json",
+      "Name": "Samples/Trailers/Previews",
+      "Description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necassary.\nUseful for a matching \u0027SABnzbd Videos\u0027 library so the folder can be cleanly deleted after the main file is processed.",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/DownloadClients/SABnzbdVideos.json",
       "Name": "SABnzbd Videos",
       "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert videos into a target format, and place those videos in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/VideoLibrary.json",
+      "Path": "Templates/Library/General/PictureLibrary.json",
+      "Name": "Picture Library",
+      "Description": "Picture library that searches for common picture files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/General/VideoLibrary.json",
       "Name": "Video Library",
       "Description": "Video library that searches for common video files",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/MusicLibrary.json",
+      "Path": "Templates/Library/General/MusicLibrary.json",
       "Name": "Music Library",
       "Description": "Music library that searches for common music files",
       "Revision": 1,
