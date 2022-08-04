@@ -1,6 +1,6 @@
 {
     "name": "Audio To Video",
-    "revision": 2,
+    "revision": 3,
     "minimumVersion": "1.0.0.0",
     "description": "Convert an audio file into a video file generated a visualization of the audio.\nSee the [Audio To Video](https://docs.fileflows.com/plugins/video-nodes/audio-to-video) node for more information",
     "group": "Audio",
@@ -65,7 +65,7 @@
             "name": "Visualization",
             "label": "Visualization",            
             "help": "The audio visualization to use in the generated video",
-            "default": "Waves",
+            "default": 1,
             "parameters": {
                 "options": [
                     {
@@ -160,13 +160,7 @@
           "label": "Destination",
           "help": "The destination directory where the file should be save to",
           "name": "DestinationPath",
-          "default": "/media",
-          "conditions": [
-            {
-              "Property": "Output File",
-              "Value": "00000000-0000-0000-0000-000000000004"
-            }
-          ]
+          "default": "/media"
         }
     ]
   }
