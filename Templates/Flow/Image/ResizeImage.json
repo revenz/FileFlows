@@ -1,0 +1,186 @@
+{
+    "name": "Resize Image",
+    "revision": 1,
+    "minimumVersion": "1.0.0.0",
+    "group": "Image",
+    "description": "A flow to resize image files",
+    "save": true,
+    "Parts": [
+      {
+        "Uid": "00000000-0000-0000-0000-000000000001",
+        "Name": "",
+        "node": "FileFlows.ImageNodes.Images.ImageFile",
+        "xPos": 250,
+        "yPos": 60,
+        "Outputs": 1,
+        "connections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "node": "00000000-0000-0000-0000-000000000002"
+          }
+        ],
+        "Model": null
+      },
+      {
+        "Uid": "00000000-0000-0000-0000-000000000002",
+        "Name": "",
+        "node": "FileFlows.ImageNodes.Images.ImageResizer",
+        "xPos": 250,
+        "yPos": 210,
+        "Outputs": 1,
+        "connections": null,
+        "Model": {
+          "Mode": 2,
+          "Width": 0,
+          "Height": 0,
+          "Percent": false,
+          "Format": null
+        }
+      },
+      {
+        "Uid": "00000000-0000-0000-0000-000000000003",
+        "Name": "",
+        "node": "FileFlows.BasicNodes.File.ReplaceOriginal",
+        "xPos": 250,
+        "yPos": 380,
+        "Outputs": 1,
+        "connections": null,
+        "Model": {}
+      },
+      {
+        "Uid": "00000000-0000-0000-0000-000000000004",
+        "Name": "",
+        "node": "FileFlows.BasicNodes.File.MoveFile",
+        "xPos": 250,
+        "yPos": 380,
+        "Outputs": 1,
+        "connections": null,
+        "Model": {
+          "DestinationPath": "dfd",
+          "DestinationFile": null,
+          "MoveFolder": false,
+          "DeleteOriginal": false,
+          "AdditionalFiles": [],
+          "AdditionalFilesFromOriginal": false
+        }
+      }
+    ],
+    "fields":[        
+      {
+        "uid": "00000000-0000-0000-0000-000000000002",
+        "type": "Select",
+        "name": "Format",
+        "label": "Format",
+        "default":"",
+        "parameters": {
+          "options": [
+            {
+              "label": "Same As Original",
+              "value": ""
+            },
+            {
+              "label": "Bitmap",
+              "value": "Bmp"
+            },
+            {
+              "label": "GIF",
+              "value": "Gif"
+            },
+            {
+              "label": "JPEG",
+              "value": "Jpeg"
+            },
+            {
+              "label": "PBM",
+              "value": "Pbm"
+            },
+            {
+              "label": "PNG",
+              "value": "Png"
+            },
+            {
+              "label": "TIFF",
+              "value": "Tiff"
+            },
+            {
+              "label": "TGA",
+              "value": "Tga"
+            },
+            {
+              "label": "WebP",
+              "value": "WebP"
+            }
+          ]
+        }
+      }, 
+      {
+        "uid": "00000000-0000-0000-0000-000000000002",
+        "type": "Int",
+        "name": "Width",
+        "label": "Width",
+        "default": 1920,
+        "parameters": {
+          "minimum": 1
+        }
+      },
+      {
+        "uid": "00000000-0000-0000-0000-000000000002",
+        "type": "Int",
+        "name": "Height",
+        "label": "Height",
+        "default": 1080,
+        "parameters": {
+          "minimum": 1
+        }
+      },
+      {
+        "uid": "00000000-0000-0000-0000-000000000002",
+        "type": "Select",
+        "name": "Output-1",
+        "label": "Output File",
+        "help": "Where the newly created file should be saved to",
+        "parameters": {
+          "options": [
+            {
+              "label": "Replace Original File",
+              "value": "00000000-0000-0000-0000-000000000003"
+            },
+            {
+              "label": "Save to Folder",
+              "value": "00000000-0000-0000-0000-000000000004"
+            }
+          ]
+        }
+      },
+      {
+        "uid": "00000000-0000-0000-0000-000000000004",
+        "type": "Directory",
+        "required": true,
+        "label": "Destination",
+        "help": "The destination directory where the file should be save to",
+        "name": "DestinationPath",
+        "default": "/media",
+        "conditions": [
+          {
+            "Property": "Output File",
+            "Value": "00000000-0000-0000-0000-000000000004"
+          }
+        ]
+      },
+      {
+        "uid": "00000000-0000-0000-0000-000000000004",
+        "type": "Switch",
+        "name": "DeleteOriginal",
+        "default": false,
+        "label": "Delete Original File",
+        "help": "If the original file should be deleted after converting",
+        "conditions": [
+          {
+            "Property": "Output File",
+            "Value": "00000000-0000-0000-0000-000000000004"
+          }
+        ]
+      }
+    ]
+  }
