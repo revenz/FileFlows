@@ -103,13 +103,6 @@
   ],
   "FlowScripts": [
     {
-      "Path": "Scripts/Flow/test.js",
-      "Name": "test",
-      "Description": "Checks if a file is older than the specified days",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
       "Path": "Scripts/Flow/Utilities/7Zip - Compress to Zip.js",
       "Name": "7Zip - Compress to Zip",
       "Description": "Requires a 7Zip tool to be configured and will zip files",
