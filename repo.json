@@ -312,6 +312,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Templates/Flow/Image/ConvertImage.json",
+      "Name": "Convert Image",
+      "Description": "A flow that converts images",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Templates/Flow/Image/ImageFile.json",
       "Name": "Image File",
       "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
@@ -322,7 +329,7 @@
       "Path": "Templates/Flow/Books/ConvertComic.json",
       "Name": "Convert Comic",
       "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
