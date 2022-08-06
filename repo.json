@@ -305,6 +305,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Templates/Flow/Image/ResizeImage.json",
+      "Name": "Resize Image",
+      "Description": "A flow to resize image files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Templates/Flow/Image/ImageFile.json",
       "Name": "Image File",
       "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
