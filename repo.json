@@ -110,6 +110,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Export All Subtitles.js",
+      "Name": "Video - Export All Subtitles",
+      "Description": "Exports all subtitles from a video file",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Has 5.1 Audio.js",
       "Name": "Video - Has 5.1 Audio",
       "Description": "Determines if a video has a 5.1 channel track",
