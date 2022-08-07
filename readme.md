@@ -50,3 +50,15 @@ The should be in the format of [Product].[Name], for example FileFlows.Url
 | :---: | :---: | :---: | :---: |
 | --name | A function variable to pass into a script | function Script(MyVariable) | --MyVariable "A String" |
 | --var:name | A value to set in the Variables | Variables.MyVariable | --var:MyVariable "A String" |
+
+
+### Examples
+How to use .NET List<string>
+```js
+var ListOfString = System.Collections.Generic.List(System.String);
+var list = new ListOfString();
+for(let arg of arguments){
+    list.Add('' + arg);
+}
+Logger.ILog('List count: ' + list.Count);
+```
