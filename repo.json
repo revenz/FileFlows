@@ -329,7 +329,7 @@
       "Path": "Templates/Flow/Books/ConvertComic.json",
       "Name": "Convert Comic",
       "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
-      "Revision": 3,
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
     {
