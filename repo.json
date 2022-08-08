@@ -8,13 +8,6 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Shared/tester.js",
-      "Name": "Tester",
-      "Description": "Test class not used",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
       "Path": "Scripts/Shared/FileFlowsApi.js",
       "Name": "FileFlows API",
       "Description": "Class that interacts with the FileFlows API",
