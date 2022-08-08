@@ -261,9 +261,9 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/General/PictureLibrary.json",
-      "Name": "Picture Library",
-      "Description": "Picture library that searches for common picture files",
+      "Path": "Templates/Library/General/ImageLibrary.json",
+      "Name": "Image Library",
+      "Description": "Image library that searches for common image files",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
