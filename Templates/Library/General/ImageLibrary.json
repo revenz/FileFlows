@@ -1,9 +1,9 @@
 {
-    "name": "Picture Library",
+    "name": "Image Library",
     "revision": 1,
     "minimumVersion": "1.0.0.0",
     "group": "General",
-    "description": "Picture library that searches for common picture files",
+    "description": "Image library that searches for common image files",
     "filter": "\\.(jpe?g|jpe|tiff?|gif|png|webp|tga|pbm|bmp)$",
     "path": "/media/pictures",
     "scanInterval": 60,
