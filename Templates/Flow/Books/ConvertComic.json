@@ -1,6 +1,6 @@
 {
   "name": "Convert Comic",
-  "revision": 3,
+  "revision": 4,
   "minimumVersion": "1.0.0.0",
   "group": "Books",
   "description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
@@ -30,7 +30,7 @@
       "yPos": 260,
       "Outputs": 2,
       "Model": {
-        "Format": "cbz"
+        "Format": "CBZ"
       }
     },
     {
@@ -95,16 +95,16 @@
       "name": "Format",
       "label": "Format",
       "help": "The format of the converted book, if already in this format, this book will be skipped.",
-      "default": "cbz",
+      "default": "CBZ",
       "parameters": {
         "options": [
           {
             "label": "CBZ",
-            "value": "cbz"
+            "value": "CBZ"
           },
           {
             "label": "PDF",
-            "value": "pdf"
+            "value": "PDF"
           }
         ]
       }
