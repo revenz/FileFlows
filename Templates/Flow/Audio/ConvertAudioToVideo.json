@@ -1,6 +1,6 @@
 {
-    "name": "Convert Audio To Video",
-    "revision": 4,
+    "name": "Convert Audio to Video",
+    "revision": 5,
     "minimumVersion": "1.0.0.0",
     "description": "Convert an audio file into a video file generated a visualization of the audio.\nSee the [Audio To Video](https://docs.fileflows.com/plugins/video-nodes/audio-to-video) node for more information",
     "group": "Audio",
