@@ -1,0 +1,27 @@
+/**
+ * Copies a folder from one location to another
+ * @param {string} SourceDirectory The directory to copy
+ * @param {string} DestinationDirectory The directory location to copy to
+ * @minimumVersion 1.0.0.0
+ * @revision 1
+ * @output Directory copied
+ */
+ function Script(SourceDirectory, DestinationDirectory)
+ {
+     let src = Flow.ReplaceVariables(SourceDirectory);
+     let dest = Flow.ReplaceVariables(DestinationDirectory);
+     let allDirectories = System.IO.Directory.GetDirectories(src, "*", System.IO.SearchOption.AllDirectories)
+     for(let dir of allDirectories) 
+     { 
+         let dirToCreate = dir.replace(src, dest); 
+         System.IO.Directory.CreateDirectory(dirToCreate); 
+     }
+  
+     let allFiles = System.IO.Directory.GetFiles(src, "*.*", System.IO.SearchOption.AllDirectories);
+     for (let newPath of allFiles) 
+     {
+         System.IO.File.Copy(newPath, newPath.replace(src, dest), true); 
+     } 
+ 
+     return 1;
+ }

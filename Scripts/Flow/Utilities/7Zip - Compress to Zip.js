@@ -1,7 +1,7 @@
 /**
- * Requires a 7Zip tool to be configured and will zip files
+ * Uses 7Zip to zip files
  * @author John Andrews
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  * @param {string} ArchiveFile The name of the zip file to create, if empty a random name will be used
  * @param {string} Pattern The filename pattern to use, eg *.txt
