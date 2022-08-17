@@ -1,9 +1,10 @@
 /**
  * Copies a folder from one location to another
+ * @author John Andrews 
+ * @revision 1
+ * @minimumVersion 1.0.0.0
  * @param {string} SourceDirectory The directory to copy
  * @param {string} DestinationDirectory The directory location to copy to
- * @minimumVersion 1.0.0.0
- * @revision 1
  * @output Directory copied
  */
  function Script(SourceDirectory, DestinationDirectory)
