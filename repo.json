@@ -1,17 +1,10 @@
 {
   "SharedScripts": [
     {
-      "Path": "Scripts/Shared/SABnzbd.js",
-      "Name": "SABnzbd",
-      "Description": "Class that interacts with the SABnzbd API",
+      "Path": "Scripts/Shared/Apprise.js",
+      "Name": "Apprise",
+      "Description": "Class that interacts with Apprise",
       "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Shared/FileFlowsApi.js",
-      "Name": "FileFlows API",
-      "Description": "Class that interacts with the FileFlows API",
-      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -22,9 +15,16 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Shared/Apprise.js",
-      "Name": "Apprise",
-      "Description": "Class that interacts with Apprise",
+      "Path": "Scripts/Shared/FileFlowsApi.js",
+      "Name": "FileFlows API",
+      "Description": "Class that interacts with the FileFlows API",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Shared/SABnzbd.js",
+      "Name": "SABnzbd",
+      "Description": "Class that interacts with the SABnzbd API",
       "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     }
@@ -35,6 +35,34 @@
       "Name": "SABnzbd - Pause Downloads",
       "Description": "Pauses SABnzbd if the current file processing queue is greater than 30 files\nIf the processing queue is not greater than 30 files, then it will resume SABnzbd",
       "Revision": 6,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processing Failed.js",
+      "Name": "Apprise - Notify File Processing Failed",
+      "Description": "Sends a Apprise notification when a file failed to be processed",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Updating.js",
+      "Name": "Apprise - FileFlows Server Updating",
+      "Description": "Sends a Apprise notification the FileFlows Server is being automatically updated",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Update Available.js",
+      "Name": "Apprise - FileFlows Server Update Available",
+      "Description": "Sends a Apprise notification when a FileFlows server update is available",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processed.js",
+      "Name": "Apprise - Notify File Processed",
+      "Description": "Sends a Apprise notification when a file has been successfully processed",
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -64,42 +92,14 @@
       "Description": "Sends a Gotify notification the FileFlows Server is being automatically updated",
       "Revision": 3,
       "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processed.js",
-      "Name": "Apprise - Notify File Processed",
-      "Description": "Sends a Apprise notification when a file has been successfully processed",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processing Failed.js",
-      "Name": "Apprise - Notify File Processing Failed",
-      "Description": "Sends a Apprise notification when a file failed to be processed",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Updating.js",
-      "Name": "Apprise - FileFlows Server Updating",
-      "Description": "Sends a Apprise notification the FileFlows Server is being automatically updated",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Update Available.js",
-      "Name": "Apprise - FileFlows Server Update Available",
-      "Description": "Sends a Apprise notification when a FileFlows server update is available",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
     }
   ],
   "FlowScripts": [
     {
-      "Path": "Scripts/Flow/Utilities/7Zip - Compress to Zip.js",
-      "Name": "7Zip - Compress to Zip",
-      "Description": "Requires a 7Zip tool to be configured and will zip files",
-      "Revision": 2,
+      "Path": "Scripts/Flow/Folder/Folder - Copy Folder.js",
+      "Name": "Folder - Copy Folder",
+      "Description": "Copies a folder from one location to another",
+      "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -110,16 +110,9 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Video/Video - Has 5.1 Audio.js",
-      "Name": "Video - Has 5.1 Audio",
-      "Description": "Determines if a video has a 5.1 channel track",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Resolution.js",
-      "Name": "Video - Resolution",
-      "Description": "Determines a video\u0027s resolution and outputs accordingly",
+      "Path": "Scripts/Flow/Video/Video - Bitrate greater than.js",
+      "Name": "Video - Bitrate greater than",
+      "Description": "Checks if a video\u0027s bitrate is greater than specified.",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
@@ -131,9 +124,9 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Video/Video - Bitrate greater than.js",
-      "Name": "Video - Bitrate greater than",
-      "Description": "Checks if a video\u0027s bitrate is greater than specified.",
+      "Path": "Scripts/Flow/Video/Video - Has 5.1 Audio.js",
+      "Name": "Video - Has 5.1 Audio",
+      "Description": "Determines if a video has a 5.1 channel track",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
@@ -152,10 +145,17 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Hardware/NVIDIA - Below Encoder Limit.js",
-      "Name": "NVIDIA - Below Encoder Limit",
-      "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
+      "Path": "Scripts/Flow/Video/Video - Resolution.js",
+      "Name": "Video - Resolution",
+      "Description": "Determines a video\u0027s resolution and outputs accordingly",
       "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Utilities/7Zip - Compress to Zip.js",
+      "Name": "7Zip - Compress to Zip",
+      "Description": "Uses 7Zip to zip files",
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -164,27 +164,20 @@
       "Description": "Checks if a file is older than the specified days",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Hardware/NVIDIA - Below Encoder Limit.js",
+      "Name": "NVIDIA - Below Encoder Limit",
+      "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
     }
   ],
   "FunctionScripts": [
     {
-      "Path": "Scripts/Function/Video/Video - Bitrate Greater Than.js",
-      "Name": "Video - Bitrate Greater Than",
-      "Description": "Checks if a video files bitrate is greater than a specific bitrate",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Function/Video/Video - Resolution.js",
-      "Name": "Video - Resolution",
-      "Description": "A switch statement for video resolution",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Function/Video/Video - Downscale Greater then 1080p.js",
-      "Name": "Video - Downscale Greater then 1080p",
-      "Description": "Adds a downscale filter to FFMPEG Builder any file greater than 1080p",
+      "Path": "Scripts/Function/Video/Video - Manual FFMPEG.js",
+      "Name": "Video - Manual FFMPEG",
+      "Description": "Custom FFMPEG command",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
@@ -196,9 +189,23 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Function/Video/Video - Manual FFMPEG.js",
-      "Name": "Video - Manual FFMPEG",
-      "Description": "Custom FFMPEG command",
+      "Path": "Scripts/Function/Video/Video - Bitrate Greater Than.js",
+      "Name": "Video - Bitrate Greater Than",
+      "Description": "Checks if a video files bitrate is greater than a specific bitrate",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Function/Video/Video - Downscale Greater then 1080p.js",
+      "Name": "Video - Downscale Greater then 1080p",
+      "Description": "Adds a downscale filter to FFMPEG Builder any file greater than 1080p",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Function/Video/Video - Resolution.js",
+      "Name": "Video - Resolution",
+      "Description": "A switch statement for video resolution",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
@@ -211,13 +218,6 @@
     }
   ],
   "LibraryTemplates": [
-    {
-      "Path": "Templates/Library/DVR/PlexDVR.json",
-      "Name": "Plex DVR",
-      "Description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
     {
       "Path": "Templates/Library/Books/AudioBookLibrary.json",
       "Name": "Audio Book Library",
@@ -240,16 +240,16 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/DownloadClients/SABnzbdMusic.json",
-      "Name": "SABnzbd Music",
-      "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert music into a target format, and place those music files in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
+      "Path": "Templates/Library/DownloadClients/Samples-Trailers-Previews.json",
+      "Name": "Samples/Trailers/Previews",
+      "Description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necassary.\nUseful for a matching \u0027SABnzbd Videos\u0027 library so the folder can be cleanly deleted after the main file is processed.",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/DownloadClients/Samples-Trailers-Previews.json",
-      "Name": "Samples/Trailers/Previews",
-      "Description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necassary.\nUseful for a matching \u0027SABnzbd Videos\u0027 library so the folder can be cleanly deleted after the main file is processed.",
+      "Path": "Templates/Library/DownloadClients/SABnzbdMusic.json",
+      "Name": "SABnzbd Music",
+      "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert music into a target format, and place those music files in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
@@ -261,16 +261,16 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/General/ImageLibrary.json",
-      "Name": "Image Library",
-      "Description": "Image library that searches for common image files",
+      "Path": "Templates/Library/DVR/PlexDVR.json",
+      "Name": "Plex DVR",
+      "Description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/General/VideoLibrary.json",
-      "Name": "Video Library",
-      "Description": "Video library that searches for common video files",
+      "Path": "Templates/Library/General/ImageLibrary.json",
+      "Name": "Image Library",
+      "Description": "Image library that searches for common image files",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
@@ -280,9 +280,30 @@
       "Description": "Music library that searches for common music files",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/General/VideoLibrary.json",
+      "Name": "Video Library",
+      "Description": "Video library that searches for common video files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
     }
   ],
   "FlowTemplates": [
+    {
+      "Path": "Templates/Flow/Books/ConvertComic.json",
+      "Name": "Convert Comic",
+      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Video/ConvertVideo.json",
+      "Name": "Convert Video",
+      "Description": "A flow that will convert a video file",
+      "Revision": 12,
+      "MinimumVersion": "1.0.0.0"
+    },
     {
       "Path": "Templates/Flow/Video/ConvertVideoToAudio.json",
       "Name": "Convert Video to Audio",
@@ -298,38 +319,24 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Flow/Video/ConvertVideo.json",
-      "Name": "Convert Video",
-      "Description": "A flow that will convert a video file",
-      "Revision": 12,
+      "Path": "Templates/Flow/Audio/ConvertAudio.json",
+      "Name": "Convert Audio",
+      "Description": "Will convert audio files to the specified format and replace the original file.",
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Flow/Image/ResizeImage.json",
-      "Name": "Resize Image",
-      "Description": "A flow to resize image files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Image/ConvertImage.json",
-      "Name": "Convert Image",
-      "Description": "A flow that converts images",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Image/ImageFile.json",
-      "Name": "Image File",
-      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
+      "Path": "Templates/Flow/Audio/AudioFile.json",
+      "Name": "Audio File",
+      "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Flow/Books/ConvertComic.json",
-      "Name": "Convert Comic",
-      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
-      "Revision": 4,
+      "Path": "Templates/Flow/Audio/ConvertAudioToVideo.json",
+      "Name": "Convert Audio to Video",
+      "Description": "Convert an audio file into a video file generated a visualization of the audio.\nSee the [Audio To Video](https://docs.fileflows.com/plugins/video-nodes/audio-to-video) node for more information",
+      "Revision": 5,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -354,23 +361,23 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Flow/Audio/ConvertAudioToVideo.json",
-      "Name": "Convert Audio to Video",
-      "Description": "Convert an audio file into a video file generated a visualization of the audio.\nSee the [Audio To Video](https://docs.fileflows.com/plugins/video-nodes/audio-to-video) node for more information",
-      "Revision": 5,
+      "Path": "Templates/Flow/Image/ResizeImage.json",
+      "Name": "Resize Image",
+      "Description": "A flow to resize image files",
+      "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Flow/Audio/ConvertAudio.json",
-      "Name": "Convert Audio",
-      "Description": "Will convert audio files to the specified format and replace the original file.",
-      "Revision": 4,
+      "Path": "Templates/Flow/Image/ConvertImage.json",
+      "Name": "Convert Image",
+      "Description": "A flow that converts images",
+      "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Flow/Audio/AudioFile.json",
-      "Name": "Audio File",
-      "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
+      "Path": "Templates/Flow/Image/ImageFile.json",
+      "Name": "Image File",
+      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     }
