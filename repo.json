@@ -99,7 +99,7 @@
       "Path": "Scripts/Flow/Folder/Folder - Copy Folder.js",
       "Name": "Folder - Copy Folder",
       "Description": "Copies a folder from one location to another",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
