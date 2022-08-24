@@ -1,7 +1,7 @@
 /**
  * Copies a folder from one location to another
  * @author John Andrews 
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
  * @param {string} SourceDirectory The directory to copy
  * @param {string} DestinationDirectory The directory location to copy to
@@ -12,6 +12,10 @@
      let src = Flow.ReplaceVariables(SourceDirectory);
      let dest = Flow.ReplaceVariables(DestinationDirectory);
      let allDirectories = System.IO.Directory.GetDirectories(src, "*", System.IO.SearchOption.AllDirectories)
+
+     if(System.IO.Directory.Exists(dest) == false)
+        System.IO.Directory.CreateDirectory(dest);
+
      for(let dir of allDirectories) 
      { 
          let dirToCreate = dir.replace(src, dest); 
