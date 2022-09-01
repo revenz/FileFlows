@@ -109,7 +109,7 @@ export class Radarr
     /**
      * Gets the original language of a movie from its full file path
      * @param {string} path the full path of the movie to lookup
-     * @returns the TMDb id if found, otherwise null
+     * @returns the original language of the movie if found, otherwise null
      */
     getOriginalLanguageFromPath(path)
     {
