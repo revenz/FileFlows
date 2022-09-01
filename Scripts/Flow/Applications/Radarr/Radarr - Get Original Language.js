@@ -4,13 +4,14 @@ import { Language } from '../../../Shared/Language';
 /**
 * Lookups a file in Radarr and gets its original language ISO-693-1 code for it
 * @author John Andrews 
-* @revision 2
+* @revision 3
 * @minimumVersion 1.0.0.0
 * @param {string} Path The full file path to lookup in Radarr
+* @param {bool} ISO2 If ISO-639-2 should be returned, otherwise ISO-639-1 will be used
 * @output The language was found and stored in the variable OriginalLanguage
 * @output The language was not found
 */
-function Script(Path)
+function Script(Path, ISO2)
 {
     const radarr = new Radarr();
     try
@@ -20,7 +21,7 @@ function Script(Path)
             return 2;
             
         let helper = new Language();
-        language = helper.getIsoCode(language);
+        language = ISO2 ? helper.getIso2Code(language) : helper.getIso1Code(language);
         Logger.ILog('Got original language: ' + language);
         Variables.OriginalLanguage = language;
         return 1;
