@@ -2,7 +2,7 @@ import { Radarr } from '../../../Shared/Radarr';
 import { Language } from '../../../Shared/Language';
 
 /**
-* Lookups a file in Radarr and gets its original language
+* Lookups a file in Radarr and gets its original language ISO-693-1 code for it
 * @author John Andrews 
 * @revision 2
 * @minimumVersion 1.0.0.0
