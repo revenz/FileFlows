@@ -8,6 +8,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Shared/Sonarr.js",
+      "Name": "Sonarr",
+      "Description": "Class that interacts with Sonarr",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/Shared/Gotify.js",
       "Name": "Gotify",
       "Description": "Class that interacts with Gotify",
@@ -177,6 +184,13 @@
       "Name": "NVIDIA - Below Encoder Limit",
       "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
       "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
+      "Name": "Sonarr - Get Original Language",
+      "Description": "Lookups a file in Sonarr and gets its original language",
+      "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
