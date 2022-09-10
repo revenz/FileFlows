@@ -18,7 +18,7 @@
       "Path": "Scripts/Shared/Language.js",
       "Name": "Language",
       "Description": "Helper class for Languages",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -197,14 +197,14 @@
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
       "Name": "Sonarr - Get Original Language",
       "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Get Original Language.js",
       "Name": "Radarr - Get Original Language",
       "Description": "Lookups a file in Radarr and gets its original language ISO-693-1 code for it",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     }
   ],
