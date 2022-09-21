@@ -152,6 +152,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Upscale Anime [Docker].js",
+      "Name": "Video - Upscale Anime [Docker]",
+      "Description": "Upscales anime using dandere2x inside a docker container\nRequires TempPathHost environment variable to be set if running inside a docker container",
+      "Revision": 1,
+      "MinimumVersion": "1.0.4.0"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Downscale greater than 720p.js",
       "Name": "Video - Downscale greater than 720p",
       "Description": "If a video\u0027s resolution is greater than 720p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 720p when the FFMPEG Builder Executor runs.",
