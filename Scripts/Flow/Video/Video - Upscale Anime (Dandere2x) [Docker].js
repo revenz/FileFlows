@@ -1,5 +1,5 @@
 /**
- * Upscales anime using dandere2x inside a docker container
+ * Upscales anime using Dandere2x inside a docker container
  * Requires TempPathHost environment variable to be set if running inside a docker container
  * @author John Andrews
  * @revision 1
