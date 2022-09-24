@@ -1,6 +1,6 @@
 {
   "name": "Convert Video",
-  "revision": 13,
+  "revision": 14,
   "minimumVersion": "1.0.0.0",
   "group": "Video",
   "description": "A flow that will convert a video file",
@@ -29,7 +29,14 @@
       "xPos": 100,
       "yPos": 190,
       "Outputs": 1,
-      "Model": {}
+      "Model": {},
+      "connections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "node": "00000000-0000-0000-0000-000000000003"
+        }
+      ]
     },
     {
       "Uid": "00000000-0000-0000-0000-000000000003",
