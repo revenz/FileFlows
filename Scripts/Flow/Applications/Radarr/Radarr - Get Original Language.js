@@ -4,7 +4,7 @@ import { Language } from '../../../Shared/Language';
 /**
 * Lookups a file in Radarr and gets its original language ISO-693-1 code for it
 * @author John Andrews 
-* @revision 3
+* @revision 4
 * @minimumVersion 1.0.0.0
 * @param {string} Path The full file path to lookup in Radarr
 * @param {bool} ISO2 If ISO-639-2 should be returned, otherwise ISO-639-1 will be used
@@ -13,10 +13,12 @@ import { Language } from '../../../Shared/Language';
 */
 function Script(Path, ISO2)
 {
+    if(!Path)
+        return 2;
     const radarr = new Radarr();
     try
     {
-        let language = radarr.getOriginalLanguageFromPath(Path);
+        let language = radarr.getOriginalLanguageFromPath(Path.toString());
         if(!language)
             return 2;
             
