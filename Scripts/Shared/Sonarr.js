@@ -1,7 +1,7 @@
 /**
  * Class that interacts with Sonarr
  * @name Sonarr
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
  */
 export class Sonarr
@@ -109,7 +109,7 @@ export class Sonarr
         if (!files?.length)
             return null;
 
-        let cp = path.toLowerCase();
+        let cp = path.toString().toLowerCase();
         let showfile = files.filter(x =>
         {
             let sp = x.path;
@@ -134,7 +134,9 @@ export class Sonarr
      */
     getImdbIdFromPath(path)
     {
-        let showfile = this.getShowFileByPath(path);
+        if(!path)
+            return null;
+        let showfile = this.getShowFileByPath(path.toString());
         if (!showfile)
         {
             Logger.WLog('Unable to get IMDb ID for path: ' + path);
@@ -150,7 +152,9 @@ export class Sonarr
      */
     getTVDbIdFromPath(path)
     {
-        let showfile = this.getShowFileByPath(path);
+        if(!path)
+            return null;
+        let showfile = this.getShowFileByPath(path.toString());
         if (!showfile)
         {
             Logger.WLog('Unable to get TMDb ID for path: ' + path);
@@ -164,9 +168,11 @@ export class Sonarr
      * @param {string} path the full path of the show to lookup
      * @returns the language of the show if found, otherwise null
      */
-     getOriginalLanguageFromPath(path)
+    getOriginalLanguageFromPath(path)
     {
-        let showfile = this.getShowFileByPath(path);
+        if(!path)
+            return null;
+        let showfile = this.getShowFileByPath(path.toString());
         if (!showfile)
         {
             Logger.WLog('Unable to get language for path: ' + path);

@@ -1,7 +1,7 @@
 /**
  * Class that interacts with Radarr
  * @name Radarr
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
  */
 export class Radarr
@@ -81,7 +81,9 @@ export class Radarr
      */
     getImdbIdFromPath(path)
     {
-        let movie = this.getMovieByPath(path);
+        if(!path)
+            return null;
+        let movie = this.getMovieByPath(path.toString());
         if (!movie)
         {
             Logger.WLog('Unable to get IMDb ID for path: ' + path);
@@ -97,7 +99,9 @@ export class Radarr
      */
     getTMDbIdFromPath(path)
     {
-        let movie = this.getMovieByPath(path);
+        if(!path)
+            return null;
+        let movie = this.getMovieByPath(path.toString());
         if (!movie)
         {
             Logger.WLog('Unable to get TMDb ID for path: ' + path);
@@ -113,7 +117,9 @@ export class Radarr
      */
     getOriginalLanguageFromPath(path)
     {
-        let movie = this.getMovieByPath(path);
+        if(!path)
+            return null;
+        let movie = this.getMovieByPath(path.toString());
         if (!movie)
         {
             Logger.WLog('Unable to get original language for path: ' + path);
