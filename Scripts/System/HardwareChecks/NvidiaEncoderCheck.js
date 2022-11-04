@@ -2,7 +2,7 @@
  * @name Nvidia - Encoder Check
  * @description Checks to see if the NVIDIA encoder is available before an encode and if not will 
  * request FileFlows restart
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  */
 
@@ -38,13 +38,5 @@ if(result.ExitCode === 0)
     return true;
 }
 
-Logger.WLog("Could not use NVIDIA hardware encoder");
-
-let processing = ffApi.getProcessingCount();
-if(processing === 0){
-    Logger.WLog("Currently processing, cannot request exit");
-    return false;
-}
-
-Logger.WLog("Nothing processing, requesting exit");
-return 'exit';
+Logger.WLog("Could not use NVIDIA hardware encoder, requesting restart");
+return 'restart';
