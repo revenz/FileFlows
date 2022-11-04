@@ -1,7 +1,7 @@
 /**
  * Class that interacts with the FileFlows API 
  * @name FileFlows API
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  */
 export class FileFlowsApi
