@@ -1,6 +1,34 @@
 {
   "SharedScripts": [
     {
+      "Path": "Scripts/Shared/FileFlowsApi.js",
+      "Name": "FileFlows API",
+      "Description": "Class that interacts with the FileFlows API",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Shared/Apprise.js",
+      "Name": "Apprise",
+      "Description": "Class that interacts with Apprise",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Shared/Language.js",
+      "Name": "Language",
+      "Description": "Helper class for Languages",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Shared/SABnzbd.js",
+      "Name": "SABnzbd",
+      "Description": "Class that interacts with the SABnzbd API",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/Shared/Sonarr.js",
       "Name": "Sonarr",
       "Description": "Class that interacts with Sonarr",
@@ -15,42 +43,21 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Shared/Apprise.js",
-      "Name": "Apprise",
-      "Description": "Class that interacts with Apprise",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Shared/FileFlowsApi.js",
-      "Name": "FileFlows API",
-      "Description": "Class that interacts with the FileFlows API",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Shared/SABnzbd.js",
-      "Name": "SABnzbd",
-      "Description": "Class that interacts with the SABnzbd API",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
       "Path": "Scripts/Shared/Radarr.js",
       "Name": "Radarr",
       "Description": "Class that interacts with Radarr",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Shared/Language.js",
-      "Name": "Language",
-      "Description": "Helper class for Languages",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
     }
   ],
   "SystemScripts": [
+    {
+      "Path": "Scripts/System/HardwareChecks/NvidiaEncoderCheck.js",
+      "Name": "Nvidia - Encoder Check",
+      "Description": "Checks to see if the NVIDIA encoder is available before an encode and if not will\nrequest FileFlows restart",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
     {
       "Path": "Scripts/System/DownloadClients/PauseSABNZbd.js",
       "Name": "SABnzbd - Pause Downloads",
@@ -87,13 +94,6 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Updating.js",
-      "Name": "Apprise - FileFlows Server Updating",
-      "Description": "Sends a Apprise notification the FileFlows Server is being automatically updated",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
       "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processed.js",
       "Name": "Apprise - Notify File Processed",
       "Description": "Sends a Apprise notification when a file has been successfully processed",
@@ -113,6 +113,13 @@
       "Description": "Sends a Apprise notification when a FileFlows server update is available",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Updating.js",
+      "Name": "Apprise - FileFlows Server Updating",
+      "Description": "Sends a Apprise notification the FileFlows Server is being automatically updated",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
     }
   ],
   "FlowScripts": [
@@ -124,37 +131,23 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Folder/Folder - Copy Folder.js",
-      "Name": "Folder - Copy Folder",
-      "Description": "Copies a folder from one location to another",
+      "Path": "Scripts/Flow/Video/Video - Downscale greater than 720p.js",
+      "Name": "Video - Downscale greater than 720p",
+      "Description": "If a video\u0027s resolution is greater than 720p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 720p when the FFMPEG Builder Executor runs.",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/File/File - Older Than.js",
-      "Name": "File - Older Than",
-      "Description": "Checks if a file is older than the specified days",
-      "Revision": 2,
+      "Path": "Scripts/Flow/Video/Video - Downscale greater than 1080p.js",
+      "Name": "Video - Downscale greater than 1080p",
+      "Description": "If a video\u0027s resolution is greater than 1080p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 1080p when the FFMPEG Builder Executor runs.",
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Hardware/NVIDIA - Below Encoder Limit.js",
-      "Name": "NVIDIA - Below Encoder Limit",
-      "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Bitrate greater than.js",
-      "Name": "Video - Bitrate greater than",
-      "Description": "Checks if a video\u0027s bitrate is greater than specified.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Upscale Anime (Video2x) [Docker].js",
-      "Name": "Video - Upscale Anime (Video2x) [Docker]",
-      "Description": "Upscales anime using Video2x inside a docker container\nRequires TempPathHost environment variable to be set if running inside a docker container",
+      "Path": "Scripts/Flow/Video/Video - Upscale Anime (Dandere2x) [Docker].js",
+      "Name": "Video - Upscale Anime (Dandere2x) [Docker]",
+      "Description": "Upscales anime using Dandere2x inside a docker container\nRequires TempPathHost environment variable to be set if running inside a docker container",
       "Revision": 1,
       "MinimumVersion": "1.0.4.0"
     },
@@ -166,31 +159,17 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Video/Video - Resolution.js",
-      "Name": "Video - Resolution",
-      "Description": "Determines a video\u0027s resolution and outputs accordingly",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Path": "Scripts/Flow/Video/Video - Upscale Anime (Video2x) [Docker].js",
+      "Name": "Video - Upscale Anime (Video2x) [Docker]",
+      "Description": "Upscales anime using Video2x inside a docker container\nRequires TempPathHost environment variable to be set if running inside a docker container",
+      "Revision": 1,
+      "MinimumVersion": "1.0.4.0"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Has 5.1 Audio.js",
       "Name": "Video - Has 5.1 Audio",
       "Description": "Determines if a video has a 5.1 channel track",
       "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Upscale Anime (Dandere2x) [Docker].js",
-      "Name": "Video - Upscale Anime (Dandere2x) [Docker]",
-      "Description": "Upscales anime using Dandere2x inside a docker container\nRequires TempPathHost environment variable to be set if running inside a docker container",
-      "Revision": 1,
-      "MinimumVersion": "1.0.4.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Downscale greater than 1080p.js",
-      "Name": "Video - Downscale greater than 1080p",
-      "Description": "If a video\u0027s resolution is greater than 1080p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 1080p when the FFMPEG Builder Executor runs.",
-      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -201,17 +180,38 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Video/Video - Downscale greater than 720p.js",
-      "Name": "Video - Downscale greater than 720p",
-      "Description": "If a video\u0027s resolution is greater than 720p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 720p when the FFMPEG Builder Executor runs.",
+      "Path": "Scripts/Flow/Video/Video - Bitrate greater than.js",
+      "Name": "Video - Bitrate greater than",
+      "Description": "Checks if a video\u0027s bitrate is greater than specified.",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
-      "Name": "Sonarr - Get Original Language",
-      "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it",
-      "Revision": 4,
+      "Path": "Scripts/Flow/Video/Video - Resolution.js",
+      "Name": "Video - Resolution",
+      "Description": "Determines a video\u0027s resolution and outputs accordingly",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/File/File - Older Than.js",
+      "Name": "File - Older Than",
+      "Description": "Checks if a file is older than the specified days",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Folder/Folder - Copy Folder.js",
+      "Name": "Folder - Copy Folder",
+      "Description": "Copies a folder from one location to another",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Hardware/NVIDIA - Below Encoder Limit.js",
+      "Name": "NVIDIA - Below Encoder Limit",
+      "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -220,23 +220,16 @@
       "Description": "Lookups a file in Radarr and gets its original language ISO-693-1 code for it",
       "Revision": 4,
       "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
+      "Name": "Sonarr - Get Original Language",
+      "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
     }
   ],
   "FunctionScripts": [
-    {
-      "Path": "Scripts/Function/File/File - Greater Than 1GB.js",
-      "Name": "File - Greater Than 1GB",
-      "Description": "Checks if a file is larger than 1 GB",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Function/Video/Video - Resolution.js",
-      "Name": "Video - Resolution",
-      "Description": "A switch statement for video resolution",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
     {
       "Path": "Scripts/Function/Video/Video - Bitrate Greater Than.js",
       "Name": "Video - Bitrate Greater Than",
@@ -252,6 +245,20 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Function/Video/Video - Manual HandBrakeCLI.js",
+      "Name": "Video - Manual HandBrakeCLI",
+      "Description": "Custom Handbrake CLI command",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Function/Video/Video - Resolution.js",
+      "Name": "Video - Resolution",
+      "Description": "A switch statement for video resolution",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/Function/Video/Video - Downscale Greater then 1080p.js",
       "Name": "Video - Downscale Greater then 1080p",
       "Description": "Adds a downscale filter to FFMPEG Builder any file greater than 1080p",
@@ -259,14 +266,35 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Function/Video/Video - Manual HandBrakeCLI.js",
-      "Name": "Video - Manual HandBrakeCLI",
-      "Description": "Custom Handbrake CLI command",
+      "Path": "Scripts/Function/File/File - Greater Than 1GB.js",
+      "Name": "File - Greater Than 1GB",
+      "Description": "Checks if a file is larger than 1 GB",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     }
   ],
   "LibraryTemplates": [
+    {
+      "Path": "Templates/Library/General/ImageLibrary.json",
+      "Name": "Image Library",
+      "Description": "Image library that searches for common image files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/General/VideoLibrary.json",
+      "Name": "Video Library",
+      "Description": "Video library that searches for common video files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/General/MusicLibrary.json",
+      "Name": "Music Library",
+      "Description": "Music library that searches for common music files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
     {
       "Path": "Templates/Library/DownloadClients/Samples-Trailers-Previews.json",
       "Name": "Samples/Trailers/Previews",
@@ -289,37 +317,9 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/General/ImageLibrary.json",
-      "Name": "Image Library",
-      "Description": "Image library that searches for common image files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Library/General/MusicLibrary.json",
-      "Name": "Music Library",
-      "Description": "Music library that searches for common music files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Library/General/VideoLibrary.json",
-      "Name": "Video Library",
-      "Description": "Video library that searches for common video files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Library/Books/ComicLibrary.json",
-      "Name": "Comic Library",
-      "Description": "Comic library that searches for common comic book files",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Library/Books/eBookLibrary.json",
-      "Name": "eBook Library",
-      "Description": "eBook library that searches for common eBook files",
+      "Path": "Templates/Library/DVR/PlexDVR.json",
+      "Name": "Plex DVR",
+      "Description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
@@ -331,63 +331,21 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/DVR/PlexDVR.json",
-      "Name": "Plex DVR",
-      "Description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
+      "Path": "Templates/Library/Books/eBookLibrary.json",
+      "Name": "eBook Library",
+      "Description": "eBook library that searches for common eBook files",
       "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/Books/ComicLibrary.json",
+      "Name": "Comic Library",
+      "Description": "Comic library that searches for common comic book files",
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     }
   ],
   "FlowTemplates": [
-    {
-      "Path": "Templates/Flow/Basic/File.json",
-      "Name": "File",
-      "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Basic/Folder.json",
-      "Name": "Folder",
-      "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.\nFor example you cannot convert a Folder to a MP3 or to a different Video format.  You can however zip a folder.",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Basic/Failure.json",
-      "Name": "Flow Failure",
-      "Description": "A flow that will be executed when a Flow fails unexpectedly.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Image/ResizeImage.json",
-      "Name": "Resize Image",
-      "Description": "A flow to resize image files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Image/ConvertImage.json",
-      "Name": "Convert Image",
-      "Description": "A flow that converts images",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Image/ImageFile.json",
-      "Name": "Image File",
-      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Audio/ConvertAudio.json",
-      "Name": "Convert Audio",
-      "Description": "Will convert audio files to the specified format and replace the original file.",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
-    },
     {
       "Path": "Templates/Flow/Audio/AudioFile.json",
       "Name": "Audio File",
@@ -403,10 +361,17 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Flow/Books/ConvertComic.json",
-      "Name": "Convert Comic",
-      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
+      "Path": "Templates/Flow/Audio/ConvertAudio.json",
+      "Name": "Convert Audio",
+      "Description": "Will convert audio files to the specified format and replace the original file.",
       "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Video/ConvertVideo.json",
+      "Name": "Convert Video",
+      "Description": "A flow that will convert a video file",
+      "Revision": 14,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -424,10 +389,52 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Flow/Video/ConvertVideo.json",
-      "Name": "Convert Video",
-      "Description": "A flow that will convert a video file",
-      "Revision": 14,
+      "Path": "Templates/Flow/Image/ImageFile.json",
+      "Name": "Image File",
+      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Image/ConvertImage.json",
+      "Name": "Convert Image",
+      "Description": "A flow that converts images",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Image/ResizeImage.json",
+      "Name": "Resize Image",
+      "Description": "A flow to resize image files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Basic/Folder.json",
+      "Name": "Folder",
+      "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.\nFor example you cannot convert a Folder to a MP3 or to a different Video format.  You can however zip a folder.",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Basic/File.json",
+      "Name": "File",
+      "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Basic/Failure.json",
+      "Name": "Flow Failure",
+      "Description": "A flow that will be executed when a Flow fails unexpectedly.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Books/ConvertComic.json",
+      "Name": "Convert Comic",
+      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     }
   ]
