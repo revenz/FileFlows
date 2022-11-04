@@ -99,4 +99,19 @@ export class FileFlowsApi
     getProcessedCount(){
         return this.getStatus().Processed;
     }
+
+    /**
+     * Gets a variable from FileFlows
+     * @param name the variables name
+     */
+    getVariable(name) {
+
+        let url = this.getUrl('variable/name/' + encodeURIComponent(name));
+        let response = http.GetAsync(url).Result;
+        let responseBody = response.Content.ReadAsStringAsync().Result;
+        if(response.IsSuccessStatusCode === false)
+            throw responseBody;        
+        let data = JSON.parse(responseBody);
+        return data.Value;
+    }
 }
