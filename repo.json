@@ -4,7 +4,7 @@
       "Path": "Scripts/Shared/FileFlowsApi.js",
       "Name": "FileFlows API",
       "Description": "Class that interacts with the FileFlows API",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
