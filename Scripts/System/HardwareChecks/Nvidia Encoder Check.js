@@ -2,7 +2,7 @@
  * @name Nvidia - Encoder Check
  * @description Checks to see if the NVIDIA encoder is available before an encode and if not will 
  * request FileFlows restart
- * @revision 3
+ * @revision 4
  * @minimumVersion 1.0.0.0
  */
 
