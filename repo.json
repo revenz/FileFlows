@@ -52,10 +52,10 @@
   ],
   "SystemScripts": [
     {
-      "Path": "Scripts/System/HardwareChecks/NvidiaEncoderCheck.js",
+      "Path": "Scripts/System/HardwareChecks/Nvidia Encoder Check.js",
       "Name": "Nvidia - Encoder Check",
       "Description": "Checks to see if the NVIDIA encoder is available before an encode and if not will\nrequest FileFlows restart",
-      "Revision": 3,
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
     {
