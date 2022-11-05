@@ -2,7 +2,7 @@
  * @name Nvidia - Encoder Check
  * @description Checks to see if the NVIDIA encoder is available before an encode and if not will 
  * request FileFlows restart
- * @revision 4
+ * @revision 6
  * @minimumVersion 1.0.0.0
  */
 
@@ -27,6 +27,8 @@ let args = [
     "-"
 ];
 
+Logger.ILog("About to test NVIDIA hardware encoder");
+
 let result = Execute({
     Command: ffmpeg,
     ArgumentList: args
@@ -34,7 +36,7 @@ let result = Execute({
 
 if(result.ExitCode === 0) 
 {
-    Logger.ILog("Successfully able to use NVIDA hardware encoder");
+    Logger.ILog("Successfully able to use NVIDIA hardware encoder");
     return true;
 }
 
