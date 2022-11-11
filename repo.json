@@ -208,6 +208,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Image/Image - Convert (ImageMagick).js",
+      "Name": "Image - Convert (ImageMagick)",
+      "Description": "Converts images using ImageMagick",
+      "Revision": 1,
+      "MinimumVersion": "1.0.4.0"
+    },
+    {
       "Path": "Scripts/Flow/Hardware/NVIDIA - Below Encoder Limit.js",
       "Name": "NVIDIA - Below Encoder Limit",
       "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
