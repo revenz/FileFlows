@@ -1,7 +1,7 @@
 /**
  * Converts images using ImageMagick
  * @author John Andrews
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.4.0
  * @param {int} Quality The quality of the image, between 1 and 100
  * @param {string} Extension The extension of the converted image
@@ -12,10 +12,6 @@
     if(!Extension)
         Extension = 'jpg';
     let output = Flow.TempPath + '/' + Flow.NewGuid() + '.' + Extension;
-
-    Logger.ILog('ShortFile: ' + shortFile);
-    Logger.ILog('Output: ' + output);
-    Logger.ILog('TempPath: ' + tempPath);
 
     let process = Flow.Execute({
         command: 'convert',
