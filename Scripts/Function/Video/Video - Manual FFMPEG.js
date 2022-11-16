@@ -1,6 +1,6 @@
 /**
  * Custom FFMPEG command
- * @revision 2
+ * @revision 3
  * @outputs 1
  * @minimumVersion 1.0.0.0
  */
@@ -22,8 +22,8 @@ let process = Flow.Execute({
 
 if(process.standardOutput)
 	Logger.ILog('Standard output: ' + process.standardOutput);
-if(process.starndardError)
-	Logger.ILog('Standard error: ' + process.starndardError);
+if(process.standardError)
+	Logger.ILog('Standard error: ' + process.standardError);
 
 if(process.exitCode !== 0){
 	Logger.ELog('Failed processing ffmpeg: ' + process.exitCode);
