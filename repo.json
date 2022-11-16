@@ -211,7 +211,7 @@
       "Path": "Scripts/Flow/Image/Image - Convert (ImageMagick).js",
       "Name": "Image - Convert (ImageMagick)",
       "Description": "Converts images using ImageMagick",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.4.0"
     },
     {
