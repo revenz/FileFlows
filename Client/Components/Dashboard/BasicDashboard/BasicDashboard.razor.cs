@@ -45,11 +45,16 @@ public partial class BasicDashboard
     protected override async Task OnInitializedAsync()
     {
         Logger.Instance.ILog("basic dashboard!");
+
+        // Setup auto refresh timer
+        // Don't auto reset as that results in multiple requests pending if they are being returned slow
+        // Instead, Start() is called again once the previous refresh finishes
         AutoRefreshTimer = new Timer();
         AutoRefreshTimer.Elapsed += AutoRefreshTimerElapsed;
         AutoRefreshTimer.Interval = 5_000;
-        AutoRefreshTimer.AutoReset = true;
+        AutoRefreshTimer.AutoReset = false;
         AutoRefreshTimer.Start();
+
 #if (DEMO)
         ConfiguredStatus = ConfigurationStatus.Flows | ConfigurationStatus.Libraries;
 #else
@@ -161,6 +166,7 @@ public partial class BasicDashboard
         finally
         {
             Refreshing = false;
+            AutoRefreshTimer.Start();
         }
     }
 
