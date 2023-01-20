@@ -142,11 +142,11 @@ public partial class LibraryFileService : ILibraryFileService
             if (libFile == null)
                 return null;
 
-            // At this point, libFile will contain either the next file to process (if any file has been moved to top),
+            // At this point, libFile will contain either the next file to process if any file has been moved to top,
             // or the latest modified file from the highest priority library.
             // Since this does not take into account individual library ordering, determine the library of the file selected
-            // (should be the highest priority), then run the query again but only for that library and with the ordering
-            // set as per the library settings.
+            // (should be the highest priority). Then, if the library has a processing order set, run the query again but only
+            // for that library and with the ordering set as per the library settings.
             var library = libraries.FirstOrDefault(x => x.Uid == libFile.LibraryUid);
             if (libFile.Order < 1 && library != null && library.ProcessingOrder != ProcessingOrder.AsFound)
             {
