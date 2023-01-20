@@ -10,7 +10,7 @@ namespace FileFlows.Client.Components.Dashboard;
 /// <summary>
 /// Basic/legacy dashboard 
 /// </summary>
-public partial class BasicDashboard
+public partial class BasicDashboard : IDisposable
 {
     private string lblLog, lblCancel, lblCurrentStep, lblNode, lblFile, lblProcessingTime, lblWorkingFile, lblLibrary;
 
@@ -166,7 +166,7 @@ public partial class BasicDashboard
         finally
         {
             Refreshing = false;
-            AutoRefreshTimer.Start();
+            AutoRefreshTimer?.Start();
         }
     }
 
