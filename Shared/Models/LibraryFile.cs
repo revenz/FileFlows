@@ -196,6 +196,9 @@ public class LibraryFile : FileFlowObject
     /// <summary>
     /// Gets or sets the order of the file when the file should be processed
     /// </summary>
+    /// <remarks>
+    /// 0 indicates no order has been set. Values higher than 1 indicate ordering in ascending order (i.e. 1 will be processed first).
+    /// </remarks>
     [Column("ProcessingOrder")]
     public int Order { get; set; }
 
