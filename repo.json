@@ -201,6 +201,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Has 2.0 Audio copy.js",
+      "Name": "Video - Has 2.0 Audio copy",
+      "Description": "Determines if a video has a 2.0 (stereo) channel track",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Resolution.js",
       "Name": "Video - Resolution",
       "Description": "Determines a video\u0027s resolution and outputs accordingly",
