@@ -248,7 +248,7 @@
       "Path": "Scripts/Function/Video/Video - Manual FFMPEG.js",
       "Name": "Video - Manual FFMPEG",
       "Description": "Custom FFMPEG command",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
