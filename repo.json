@@ -204,7 +204,7 @@
       "Path": "Scripts/Flow/Video/Video - Has 2.0 Audio.js",
       "Name": "Video - Has 2.0 Audio",
       "Description": "Determines if a video has a 2.0 (stereo) channel track",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
