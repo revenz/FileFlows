@@ -169,7 +169,7 @@
       "Path": "Scripts/Flow/Video/Video - Has 5.1 Audio.js",
       "Name": "Video - Has 5.1 Audio",
       "Description": "Determines if a video has a 5.1 channel track",
-      "Revision": 3,
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -204,7 +204,7 @@
       "Path": "Scripts/Flow/Video/Video - Has 2.0 Audio.js",
       "Name": "Video - Has 2.0 Audio",
       "Description": "Determines if a video has a 2.0 (stereo) channel track",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
