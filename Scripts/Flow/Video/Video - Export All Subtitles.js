@@ -1,14 +1,23 @@
 /**
  * Exports all subtitles from a video file
  * @author John Andrews
- * @revision 1
- * @minimumVersion 1.0.0.0
+ * @revision 2
+ * @minimumVersion 1.0.9.0
+ * @param {string} FileName Optional full filename of the video to extract subtitles from, if not passed in the current working file will be used
  * @output Subtitles were exported
  * @output No subtitles found to export
  */
- function Script()
+ function Script(FileName)
  {
-    let vi = Variables.vi?.VideoInfo;
+    let vi = null;
+    if(FileName)
+        vi = PluginMethod("VideoNodes", "GetVideoInfo", [FileName]);
+    else
+    {
+        FileName = Variables.file.FullName;   
+        vi = Variables.vi?.VideoInfo;
+    }
+
     if(!vi || !vi.SubtitleStreams?.length)
       return 2; // no video information found
 
@@ -19,7 +28,11 @@
         return -1;
     }
 
-    let prefix = Variables.file.FullName.substring(0, Variables.file.FullName.lastIndexOf('.') + 1);
+    // this sets the extract location to the the working directory
+    var path = new System.IO.FileInfo(Variables.file.FullName).Directory.FullName;
+    var fileName = new System.IO.FileInfo(FileName).Name;
+    let prefix = fileName.substring(0, fileName.lastIndexOf('.') + 1);
+    prefix = System.IO.Path.Combine(path, prefix);
 
     let extracted = 0;
 
@@ -32,7 +45,7 @@
 
         let subfile = prefix + (!!sub.Language ? sub.Language + '.' : '') + (i == 0 ? '' : i + '.') + (isImage ? 'sup' : 'srt');
 
-        let argsList = ['-hide_banner', '-i', Variables.file.FullName];
+        let argsList = ['-hide_banner', '-i', FileName];
         argsList.push('-map');
         argsList.push('0:s:' + i);
         if(isImage){
