@@ -1,7 +1,7 @@
 /**
  * Class that interacts with the FileFlows API 
  * @name FileFlows API
- * @revision 4
+ * @revision 5
  * @minimumVersion 1.0.0.0
  */
 export class FileFlowsApi
@@ -121,5 +121,20 @@ export class FileFlowsApi
             throw responseBody;        
         let data = JSON.parse(responseBody);
         return data.Value;
+    }
+
+    /**
+     * Processes in FileFlows, if the File has already been processed, this will make it reprocess
+     * If the file has not been found, this will attempt to add it to the library for processing
+     * @param {string} fileName 
+     */
+    processFile(fileName) {
+
+        let url = this.getUrl('library-file/process-file?filename=' + encodeURIComponent(fileName));
+        let response = http.PostAsync(url).Result;
+        let responseBody = response.Content.ReadAsStringAsync().Result;
+        if(response.IsSuccessStatusCode === false)
+            throw responseBody;        
+        return true;
     }
 }
