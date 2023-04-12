@@ -1,7 +1,7 @@
 /**
  * Class that interacts with the FileFlows API 
  * @name FileFlows API
- * @revision 3
+ * @revision 4
  * @minimumVersion 1.0.0.0
  */
 export class FileFlowsApi
@@ -98,6 +98,14 @@ export class FileFlowsApi
      */
     getProcessedCount(){
         return this.getStatus().Processed;
+    }
+
+    /**
+     * Gets the number of failed files
+     * @returns the number of failed files
+     */
+    getFailedCount(){
+        return this.getStatus().Failed;
     }
 
     /**
