@@ -1,0 +1,34 @@
+/**
+ * @name Radarr - Process
+ * @description When a new file is added, call this webhook to process the file
+ * @revision 1
+ * @minimumVersion 1.1.1.0
+ */
+
+import { FileFlowsApi } from './FileFlowsApi';
+
+var json = Variables.Body;
+let payload = JSON.parse(json);
+
+let path = payload?.movie?.folderPath;
+if(!path)
+{
+    Logger.WLog('Folder Path not passed in or not found in request');
+    return false;
+}
+
+Logger.ILog('Path found: ' + path);
+
+let ffApi = new FileFlowsApi();
+
+let result = ffApi.processFile(path);
+    
+if(result === true)
+{
+    Logger.ILog('File added: ' + path);
+    return true;
+}
+
+Logger.WLog(result || 'Unkown error');
+
+return false;

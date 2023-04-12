@@ -14,6 +14,7 @@ class RepoGenerator
         repo.SharedScripts = GetScripts("Scripts/Shared", ScriptType.Shared);
         repo.SystemScripts = GetScripts("Scripts/System", ScriptType.System);
         repo.FlowScripts = GetScripts("Scripts/Flow", ScriptType.Flow);
+        repo.WebhookScripts = GetScripts("Scripts/Webhook", ScriptType.Webhook);
         repo.FunctionScripts = GetScripts("Scripts/Function", ScriptType.Template);
         repo.FlowTemplates = GetTemplates("Templates/Flow");
         repo.LibraryTemplates = GetTemplates("Templates/Library");
@@ -22,6 +23,7 @@ class RepoGenerator
             Converters = { new DataConverter() }            
         });   
         File.WriteAllText("repo.json", json);
+        Console.WriteLine("Done");
     }
 
     private static List<RepositoryObject> GetScripts(string path, ScriptType type)
@@ -111,7 +113,8 @@ enum ScriptType
     Flow = 0,
     System = 1,
     Shared = 2,
-    Template = 3
+    Template = 3,
+    Webhook = 4
 
 }
 
@@ -134,6 +137,11 @@ class Repository
     /// Gets or sets a list of function scripts 
     /// </summary>
     public List<RepositoryObject> FunctionScripts { get; set; } = new List<RepositoryObject>();
+
+    /// <summary>
+    /// Gets or sets a list of webhook script
+    /// </summary>
+    public List<RepositoryObject> WebhookScripts { get; set; } = new List<RepositoryObject>();
 
     /// <summary>
     /// Gets or sets a list of library templates 
