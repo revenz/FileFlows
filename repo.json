@@ -294,6 +294,15 @@
       "MinimumVersion": "1.0.0.0"
     }
   ],
+  "WebhookScripts": [
+    {
+      "Path": "Scripts/Webhook/Radarr-Process.js",
+      "Name": "Radarr - Process",
+      "Description": "When a new file is added, call this webhook to process the file",
+      "Revision": 1,
+      "MinimumVersion": "1.1.1.0"
+    }
+  ],
   "LibraryTemplates": [
     {
       "Path": "Templates/Library/Books/AudioBookLibrary.json",
