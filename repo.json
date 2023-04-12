@@ -1,20 +1,6 @@
 {
   "SharedScripts": [
     {
-      "Path": "Scripts/Shared/Apprise.js",
-      "Name": "Apprise",
-      "Description": "Class that interacts with Apprise",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Shared/Gotify.js",
-      "Name": "Gotify",
-      "Description": "Class that interacts with Gotify",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
       "Path": "Scripts/Shared/Sonarr.js",
       "Name": "Sonarr",
       "Description": "Class that interacts with Sonarr",
@@ -22,16 +8,9 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Shared/Radarr.js",
-      "Name": "Radarr",
-      "Description": "Class that interacts with Radarr",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Shared/FileFlowsApi.js",
-      "Name": "FileFlows API",
-      "Description": "Class that interacts with the FileFlows API",
+      "Path": "Scripts/Shared/SABnzbd.js",
+      "Name": "SABnzbd",
+      "Description": "Class that interacts with the SABnzbd API",
       "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
@@ -43,21 +22,35 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Shared/SABnzbd.js",
-      "Name": "SABnzbd",
-      "Description": "Class that interacts with the SABnzbd API",
+      "Path": "Scripts/Shared/Apprise.js",
+      "Name": "Apprise",
+      "Description": "Class that interacts with Apprise",
       "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Shared/FileFlowsApi.js",
+      "Name": "FileFlows API",
+      "Description": "Class that interacts with the FileFlows API",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Shared/Gotify.js",
+      "Name": "Gotify",
+      "Description": "Class that interacts with Gotify",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Shared/Radarr.js",
+      "Name": "Radarr",
+      "Description": "Class that interacts with Radarr",
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     }
   ],
   "SystemScripts": [
-    {
-      "Path": "Scripts/System/HardwareChecks/Nvidia Encoder Check.js",
-      "Name": "Nvidia - Encoder Check",
-      "Description": "Checks to see if the NVIDIA encoder is available before an encode and if not will\nrequest FileFlows restart",
-      "Revision": 6,
-      "MinimumVersion": "1.0.0.0"
-    },
     {
       "Path": "Scripts/System/DownloadClients/PauseSABNZbd.js",
       "Name": "SABnzbd - Pause Downloads",
@@ -66,16 +59,37 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processed.js",
-      "Name": "Apprise - Notify File Processed",
-      "Description": "Sends a Apprise notification when a file has been successfully processed",
-      "Revision": 2,
+      "Path": "Scripts/System/HardwareChecks/Nvidia Encoder Check.js",
+      "Name": "Nvidia - Encoder Check",
+      "Description": "Checks to see if the NVIDIA encoder is available before an encode and if not will\nrequest FileFlows restart",
+      "Revision": 6,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processing Failed.js",
-      "Name": "Apprise - Notify File Processing Failed",
-      "Description": "Sends a Apprise notification when a file failed to be processed",
+      "Path": "Scripts/System/Notifications/Gotify/Gotify - FileFlows Server Updating.js",
+      "Name": "Gotify - FileFlows Server Updating",
+      "Description": "Sends a Gotify notification the FileFlows Server is being automatically updated",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/System/Notifications/Gotify/Gotify - FileFlows Server Update Available.js",
+      "Name": "Gotify - FileFlows Server Update Available",
+      "Description": "Sends a Gotify notification when a FileFlows server update is available",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processing Failed.js",
+      "Name": "Gotify - Notify File Processing Failed",
+      "Description": "Sends a Gotify notification when a file failed to be processed",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processed.js",
+      "Name": "Gotify - Notify File Processed",
+      "Description": "Sends a Gotify notification when a file has been successfully processed",
       "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
@@ -87,48 +101,34 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processing Failed.js",
+      "Name": "Apprise - Notify File Processing Failed",
+      "Description": "Sends a Apprise notification when a file failed to be processed",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processed.js",
+      "Name": "Apprise - Notify File Processed",
+      "Description": "Sends a Apprise notification when a file has been successfully processed",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Updating.js",
       "Name": "Apprise - FileFlows Server Updating",
       "Description": "Sends a Apprise notification the FileFlows Server is being automatically updated",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processing Failed.js",
-      "Name": "Gotify - Notify File Processing Failed",
-      "Description": "Sends a Gotify notification when a file failed to be processed",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/System/Notifications/Gotify/Gotify - FileFlows Server Updating.js",
-      "Name": "Gotify - FileFlows Server Updating",
-      "Description": "Sends a Gotify notification the FileFlows Server is being automatically updated",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processed.js",
-      "Name": "Gotify - Notify File Processed",
-      "Description": "Sends a Gotify notification when a file has been successfully processed",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/System/Notifications/Gotify/Gotify - FileFlows Server Update Available.js",
-      "Name": "Gotify - FileFlows Server Update Available",
-      "Description": "Sends a Gotify notification when a FileFlows server update is available",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
     }
   ],
   "FlowScripts": [
     {
-      "Path": "Scripts/Flow/Image/Image - Convert (ImageMagick).js",
-      "Name": "Image - Convert (ImageMagick)",
-      "Description": "Converts images using ImageMagick",
+      "Path": "Scripts/Flow/Folder/Folder - Copy Folder.js",
+      "Name": "Folder - Copy Folder",
+      "Description": "Copies a folder from one location to another",
       "Revision": 2,
-      "MinimumVersion": "1.0.4.0"
+      "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/Flow/Utilities/7Zip - Compress to Zip.js",
@@ -138,65 +138,23 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Hardware/NVIDIA - Below Encoder Limit.js",
-      "Name": "NVIDIA - Below Encoder Limit",
-      "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
+      "Path": "Scripts/Flow/File/File - Older Than.js",
+      "Name": "File - Older Than",
+      "Description": "Checks if a file is older than the specified days",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Folder/Folder - Copy Folder.js",
-      "Name": "Folder - Copy Folder",
-      "Description": "Copies a folder from one location to another",
+      "Path": "Scripts/Flow/Image/Image - Convert (ImageMagick).js",
+      "Name": "Image - Convert (ImageMagick)",
+      "Description": "Converts images using ImageMagick",
       "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Bitrate greater than.js",
-      "Name": "Video - Bitrate greater than",
-      "Description": "Checks if a video\u0027s bitrate is greater than specified.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Downscale greater than 1080p.js",
-      "Name": "Video - Downscale greater than 1080p",
-      "Description": "If a video\u0027s resolution is greater than 1080p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 1080p when the FFMPEG Builder Executor runs.",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Has 5.1 Audio.js",
-      "Name": "Video - Has 5.1 Audio",
-      "Description": "Determines if a video has a 5.1 channel track",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Upscale Anime (Video2x) [Docker].js",
-      "Name": "Video - Upscale Anime (Video2x) [Docker]",
-      "Description": "Upscales anime using Video2x inside a docker container\nRequires TempPathHost environment variable to be set if running inside a docker container",
-      "Revision": 1,
       "MinimumVersion": "1.0.4.0"
     },
     {
-      "Path": "Scripts/Flow/Video/Video - Has Audio.js",
-      "Name": "Video - Has Audio",
-      "Description": "Checks if there is an audio track on a video file",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Export All Subtitles.js",
-      "Name": "Video - Export All Subtitles",
-      "Description": "Exports all subtitles from a video file",
-      "Revision": 2,
-      "MinimumVersion": "1.0.9.0"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Downscale greater than 720p.js",
-      "Name": "Video - Downscale greater than 720p",
-      "Description": "If a video\u0027s resolution is greater than 720p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 720p when the FFMPEG Builder Executor runs.",
+      "Path": "Scripts/Flow/Hardware/NVIDIA - Below Encoder Limit.js",
+      "Name": "NVIDIA - Below Encoder Limit",
+      "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
@@ -208,9 +166,44 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Video/Video - Resolution.js",
-      "Name": "Video - Resolution",
-      "Description": "Determines a video\u0027s resolution and outputs accordingly",
+      "Path": "Scripts/Flow/Video/Video - Delete Non-Original Language Audio.js",
+      "Name": "Video - Delete Non-Original Language Audio",
+      "Description": "Checks the \u0022Movie Lookup\u0022 information for original language, and will delete any audio tracks\nwith languages set that do not match the original language.\nRequires the \u0022Movie Lookup\u0022 node to be executed first to work",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - Bitrate greater than.js",
+      "Name": "Video - Bitrate greater than",
+      "Description": "Checks if a video\u0027s bitrate is greater than specified.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - Has 5.1 Audio.js",
+      "Name": "Video - Has 5.1 Audio",
+      "Description": "Determines if a video has a 5.1 channel track",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - Has Audio.js",
+      "Name": "Video - Has Audio",
+      "Description": "Checks if there is an audio track on a video file",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - Upscale Anime (Video2x) [Docker].js",
+      "Name": "Video - Upscale Anime (Video2x) [Docker]",
+      "Description": "Upscales anime using Video2x inside a docker container\nRequires TempPathHost environment variable to be set if running inside a docker container",
+      "Revision": 1,
+      "MinimumVersion": "1.0.4.0"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - Downscale greater than 720p.js",
+      "Name": "Video - Downscale greater than 720p",
+      "Description": "If a video\u0027s resolution is greater than 720p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 720p when the FFMPEG Builder Executor runs.",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
@@ -222,16 +215,23 @@
       "MinimumVersion": "1.0.4.0"
     },
     {
-      "Path": "Scripts/Flow/File/File - Older Than.js",
-      "Name": "File - Older Than",
-      "Description": "Checks if a file is older than the specified days",
+      "Path": "Scripts/Flow/Video/Video - Export All Subtitles.js",
+      "Name": "Video - Export All Subtitles",
+      "Description": "Exports all subtitles from a video file",
+      "Revision": 2,
+      "MinimumVersion": "1.0.9.0"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - Resolution.js",
+      "Name": "Video - Resolution",
+      "Description": "Determines a video\u0027s resolution and outputs accordingly",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Flow/Applications/Radarr/Radarr - Get Original Language.js",
-      "Name": "Radarr - Get Original Language",
-      "Description": "Lookups a file in Radarr and gets its original language ISO-693-1 code for it",
+      "Path": "Scripts/Flow/Video/Video - Downscale greater than 1080p.js",
+      "Name": "Video - Downscale greater than 1080p",
+      "Description": "If a video\u0027s resolution is greater than 1080p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 1080p when the FFMPEG Builder Executor runs.",
       "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
@@ -241,9 +241,30 @@
       "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it",
       "Revision": 4,
       "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Applications/Radarr/Radarr - Get Original Language.js",
+      "Name": "Radarr - Get Original Language",
+      "Description": "Lookups a file in Radarr and gets its original language ISO-693-1 code for it",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
     }
   ],
   "FunctionScripts": [
+    {
+      "Path": "Scripts/Function/File/File - Greater Than 1GB.js",
+      "Name": "File - Greater Than 1GB",
+      "Description": "Checks if a file is larger than 1 GB",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Function/Video/Video - Bitrate Greater Than.js",
+      "Name": "Video - Bitrate Greater Than",
+      "Description": "Checks if a video files bitrate is greater than a specific bitrate",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
     {
       "Path": "Scripts/Function/Video/Video - Manual HandBrakeCLI.js",
       "Name": "Video - Manual HandBrakeCLI",
@@ -259,9 +280,9 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Scripts/Function/Video/Video - Bitrate Greater Than.js",
-      "Name": "Video - Bitrate Greater Than",
-      "Description": "Checks if a video files bitrate is greater than a specific bitrate",
+      "Path": "Scripts/Function/Video/Video - Resolution.js",
+      "Name": "Video - Resolution",
+      "Description": "A switch statement for video resolution",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
@@ -271,27 +292,13 @@
       "Description": "Adds a downscale filter to FFMPEG Builder any file greater than 1080p",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Function/Video/Video - Resolution.js",
-      "Name": "Video - Resolution",
-      "Description": "A switch statement for video resolution",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Scripts/Function/File/File - Greater Than 1GB.js",
-      "Name": "File - Greater Than 1GB",
-      "Description": "Checks if a file is larger than 1 GB",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
     }
   ],
   "LibraryTemplates": [
     {
-      "Path": "Templates/Library/DVR/PlexDVR.json",
-      "Name": "Plex DVR",
-      "Description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
+      "Path": "Templates/Library/General/MusicLibrary.json",
+      "Name": "Music Library",
+      "Description": "Music library that searches for common music files",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
@@ -310,16 +317,9 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/General/MusicLibrary.json",
-      "Name": "Music Library",
-      "Description": "Music library that searches for common music files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Library/Books/AudioBookLibrary.json",
-      "Name": "Audio Book Library",
-      "Description": "Audio Book library that searches for common audio book files",
+      "Path": "Templates/Library/DVR/PlexDVR.json",
+      "Name": "Plex DVR",
+      "Description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
@@ -327,6 +327,13 @@
       "Path": "Templates/Library/Books/eBookLibrary.json",
       "Name": "eBook Library",
       "Description": "eBook library that searches for common eBook files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Library/Books/AudioBookLibrary.json",
+      "Name": "Audio Book Library",
+      "Description": "Audio Book library that searches for common audio book files",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
@@ -345,47 +352,26 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/DownloadClients/SABnzbdVideos.json",
-      "Name": "SABnzbd Videos",
-      "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert videos into a target format, and place those videos in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
+      "Path": "Templates/Library/DownloadClients/Samples-Trailers-Previews.json",
+      "Name": "Samples/Trailers/Previews",
+      "Description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necassary.\nUseful for a matching \u0027SABnzbd Videos\u0027 library so the folder can be cleanly deleted after the main file is processed.",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Library/DownloadClients/Samples-Trailers-Previews.json",
-      "Name": "Samples/Trailers/Previews",
-      "Description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necassary.\nUseful for a matching \u0027SABnzbd Videos\u0027 library so the folder can be cleanly deleted after the main file is processed.",
+      "Path": "Templates/Library/DownloadClients/SABnzbdVideos.json",
+      "Name": "SABnzbd Videos",
+      "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert videos into a target format, and place those videos in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
       "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     }
   ],
   "FlowTemplates": [
     {
-      "Path": "Templates/Flow/Audio/AudioFile.json",
-      "Name": "Audio File",
-      "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Audio/ConvertAudioToVideo.json",
-      "Name": "Convert Audio to Video",
-      "Description": "Convert an audio file into a video file generated a visualization of the audio.\nSee the [Audio To Video](https://docs.fileflows.com/plugins/video-nodes/audio-to-video) node for more information",
-      "Revision": 5,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Audio/ConvertAudio.json",
-      "Name": "Convert Audio",
-      "Description": "Will convert audio files to the specified format and replace the original file.",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Image/ImageFile.json",
-      "Name": "Image File",
-      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
-      "Revision": 2,
+      "Path": "Templates/Flow/Image/ResizeImage.json",
+      "Name": "Resize Image",
+      "Description": "A flow to resize image files",
+      "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -396,24 +382,10 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
-      "Path": "Templates/Flow/Image/ResizeImage.json",
-      "Name": "Resize Image",
-      "Description": "A flow to resize image files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Books/ConvertComic.json",
-      "Name": "Convert Comic",
-      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
-    },
-    {
-      "Path": "Templates/Flow/Video/ConvertVideoToAudio.json",
-      "Name": "Convert Video to Audio",
-      "Description": "A flow that will convert audio from a video file into a audio file",
-      "Revision": 3,
+      "Path": "Templates/Flow/Image/ImageFile.json",
+      "Name": "Image File",
+      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -421,6 +393,13 @@
       "Name": "Video File",
       "Description": "A blank Video template with a single \u0022Video File\u0022 input node.",
       "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Video/ConvertVideoToAudio.json",
+      "Name": "Convert Video to Audio",
+      "Description": "A flow that will convert audio from a video file into a audio file",
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -449,6 +428,34 @@
       "Name": "Folder",
       "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.\nFor example you cannot convert a Folder to a MP3 or to a different Video format.  You can however zip a folder.",
       "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Audio/AudioFile.json",
+      "Name": "Audio File",
+      "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Audio/ConvertAudio.json",
+      "Name": "Convert Audio",
+      "Description": "Will convert audio files to the specified format and replace the original file.",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Audio/ConvertAudioToVideo.json",
+      "Name": "Convert Audio to Video",
+      "Description": "Convert an audio file into a video file generated a visualization of the audio.\nSee the [Audio To Video](https://docs.fileflows.com/plugins/video-nodes/audio-to-video) node for more information",
+      "Revision": 5,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Books/ConvertComic.json",
+      "Name": "Convert Comic",
+      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     }
   ]
