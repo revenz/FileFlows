@@ -1,8 +1,10 @@
 /**
  * @name Radarr - Process
  * @description When a new file is added, call this webhook to process the file
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.1.1.0
+ * @route radarr
+ * @method POST
  */
 
 import { FileFlowsApi } from './FileFlowsApi';
