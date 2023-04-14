@@ -1,7 +1,7 @@
 /**
  * Helper class for Languages
  * @name Language
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  */
  export class Language
@@ -14,7 +14,13 @@
 
         let ll = language.toLocaleLowerCase();
 
-        let lang = this.Languages.filter(x => x.iso1 === ll || x.iso2 === ll || x.english?.toLocaleLowerCase() === ll || x.french?.toLocaleLowerCase() === ll || x.german?.toLocaleLowerCase() === ll);
+        let lang = this.Languages.filter(x => x.iso1 === ll 
+            || x.iso2 === ll 
+            || x.english?.toLocaleLowerCase() === ll 
+            || x.french?.toLocaleLowerCase() === ll 
+            || x.german?.toLocaleLowerCase() === ll
+            || (x.aliases && x.aliases.test(ll))
+        );
         if(!lang.length){
             Logger.WLog('Failed to locate language: ' + language);
             return null;
@@ -217,7 +223,7 @@
             {english:"Gbaya",french:"gbaya",german:"Gbaya-Sprache",iso2:"gba"},
             {english:"Germanic languages",french:"germaniques, langues",german:"Germanische Sprachen (Andere)",iso2:"gem"},
             {english:"Georgian",french:"g\u00E9orgien",german:"Georgisch",iso2:"kat",iso1:"ka"},
-            {english:"German",french:"allemand",german:"Deutsch",iso2:"deu",iso1:"de"},
+            {english:"German",french:"allemand",german:"Deutsch",iso2:"deu",iso1:"de", aliases: /^ger$/i},
             {english:"Geez",french:"gu\u00E8ze",german:"Alt\u00E4thiopisch",iso2:"gez"},
             {english:"Gilbertese",french:"kiribati",german:"Gilbertesisch",iso2:"gil"},
             {english:"Gaelic",french:"ga\u00E9lique",german:"G\u00E4lisch-Schottisch",iso2:"gla",iso1:"gd"},

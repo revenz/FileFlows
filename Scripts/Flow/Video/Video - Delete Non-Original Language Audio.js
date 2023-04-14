@@ -5,13 +5,15 @@ import { Language } from '../../../Shared/Language';
  * with languages set that do not match the original language.
  * Requires the "Movie Lookup" node to be executed first to work
  * @author John Andrews
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
+ * @param {bool} TreatUnknownAsBad Treat a track with no language set as a bad language and do not include it, otherwise it will be treated as a good track
+ * @param {bool} KeepFirstAudio If no matching langauges are found, keep the first audio track, otherwise all audio could be removed
  * @output Audio tracks were deleted
  * @output Audio tracks were not deleted
  * @output No original language was found
  */
-function Script()
+function Script(TreatUnknownAsBad, KeepFirstAudio)
 {
   let lang = Variables.VideoMetadata?.OriginalLanguage;
   if(!lang)
@@ -39,6 +41,9 @@ function Script()
   }
 
 
+  // ensure these variables are actually true or false
+  TreatUnknownAsBad = !!TreatUnknownAsBad;
+  KeepFirstAudio = !!KeepFirstAudio;
 
   let deleted = 0;
   let hasAudio = false;
@@ -53,7 +58,13 @@ function Script()
 
     if(!audio.Language)
     {
-        hasAudio |= !audio.Deleted;
+        if(TreatUnknownAsBad){
+          Logger.ILog("Audio language not set treating as bad, deleting track number " + (i + 1));
+          audio.Deleted = true;
+          ++deleted;
+        }
+        else
+          hasAudio |= !audio.Deleted;
         continue;
     }
     let aLangIso = helper.getIso2Code(audio.Language);
@@ -70,12 +81,13 @@ function Script()
   }
 
   // make sure one audio track is still included
-  if(hasAudio === false && firstAudio)
+  if(hasAudio === false && firstAudio && KeepFirstAudio)
   {
     Logger.ILog('No audio remaining, so marking first audio track to not deleted');
     firstAudio.Deleted = false;
     --deleted;
   }
 
-  return deleted > 0 ? 1 : 2;
+  return hasAudio === false ? 3 : 
+         deleted > 0 ? 1 : 2;
 }
