@@ -32,7 +32,7 @@
       "Path": "Scripts/Shared/Language.js",
       "Name": "Language",
       "Description": "Helper class for Languages",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -190,7 +190,7 @@
       "Path": "Scripts/Flow/Video/Video - Delete Non-Original Language Audio.js",
       "Name": "Video - Delete Non-Original Language Audio",
       "Description": "Checks the \u0022Movie Lookup\u0022 information for original language, and will delete any audio tracks\nwith languages set that do not match the original language.\nRequires the \u0022Movie Lookup\u0022 node to be executed first to work",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
