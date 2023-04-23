@@ -32,7 +32,7 @@
       "Path": "Scripts/Shared/Language.js",
       "Name": "Language",
       "Description": "Helper class for Languages",
-      "Revision": 4,
+      "Revision": 5,
       "MinimumVersion": "1.0.0.0"
     },
     {
