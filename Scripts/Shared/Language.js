@@ -1,7 +1,7 @@
 /**
  * Helper class for Languages
  * @name Language
- * @revision 4
+ * @revision 5
  * @minimumVersion 1.0.0.0
  */
  export class Language
@@ -146,7 +146,7 @@
             {english:"Chibcha",french:"chibcha",german:"Chibcha-Sprachen",iso2:"chb"},
             {english:"Chechen",french:"tch\u00E9tch\u00E8ne",german:"Tschetschenisch",iso2:"che",iso1:"ce"},
             {english:"Chagatai",french:"djaghata\u00EF",german:"Tschagataisch",iso2:"chg"},
-            {english:"Chinese",french:"chinois",german:"Chinesisch",iso2:"zho",iso1:"zh", aliases: /^chi$/i},
+            {english:"Chinese",french:"chinois",german:"Chinesisch",iso2:"zho",iso1:"zh", aliases: /^(chi|cn)$/i},
             {english:"Chuukese",french:"chuuk",german:"Trukesisch",iso2:"chk"},
             {english:"Mari",french:"mari",german:"Tscheremissisch",iso2:"chm"},
             {english:"Chinook jargon",french:"chinook, jargon",german:"Chinook-Jargon",iso2:"chn"},
