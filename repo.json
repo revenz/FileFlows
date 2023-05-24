@@ -183,7 +183,7 @@
       "Path": "Scripts/Flow/Video/Video - Export All Subtitles.js",
       "Name": "Video - Export All Subtitles",
       "Description": "Exports all subtitles from a video file",
-      "Revision": 7,
+      "Revision": 8,
       "MinimumVersion": "1.0.9.0"
     },
     {
