@@ -1,7 +1,7 @@
 /**
  * Exports all subtitles from a video file
  * @author John Andrews
- * @revision 3
+ * @revision 4
  * @minimumVersion 1.0.9.0
  * @param {string} FileName Optional full filename of the video to extract subtitles from, if not passed in the current working file will be used
  * @output Subtitles were exported
@@ -10,8 +10,11 @@
  function Script(FileName)
  {
     let vi = null;
-    if(FileName)
+    if(('' + FileName))
+    {
+        Logger.ILog(`Exeucting PluginMethod: VideoNodes.GetVideoInfo('${FileName}')`);
         vi = PluginMethod("VideoNodes", "GetVideoInfo", [FileName]);
+    }
     else
     {
         FileName = Variables.file.FullName;   
@@ -33,7 +36,7 @@
     let ffmpeg = Flow.GetToolPath('ffmpeg');
     if(!ffmpeg)
     {
-        Logger.ILog('FFMPEG not found');
+        Logger.ILog('FFmpeg not found');
         return -1;
     }
 
