@@ -1,7 +1,7 @@
 /**
  * Exports all subtitles from a video file
  * @author John Andrews
- * @revision 4
+ * @revision 5
  * @minimumVersion 1.0.9.0
  * @param {string} FileName Optional full filename of the video to extract subtitles from, if not passed in the current working file will be used
  * @output Subtitles were exported
@@ -56,6 +56,11 @@
         let isImage = imageSubtitles.test(sub.Codec);
 
         let subfile = prefix + (!!sub.Language ? sub.Language + '.' : '') + (i == 0 ? '' : i + '.') + (isImage ? 'sup' : 'srt');
+
+        if(System.IO.File.Exists(subfile)){
+            Logger.ILog('Subtitle file already exists skipping: ' + subfile);
+            continue;
+        }
 
         let argsList = ['-hide_banner', '-i', FileName];
         argsList.push('-map');
