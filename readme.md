@@ -8,7 +8,7 @@ You can make create a new script and submit a pull request to get it included in
 ## Types of Scipts
 1. Flow Scripts
 These are scripts that are executed during a flow and need to adhere to a strict format.
-See the official [documentation](https://docs.fileflows.com/scripts) for more information.
+See the official [documentation](https://fileflows.com/docs/scripting/flow-scripts) for more information.
 
 2. System Scripts
 These scripts are scirpts that are run by the system as either scheduled tasks or a pre-execute task on a processing node.
@@ -19,7 +19,7 @@ These are scripts that can be imported by other scripts and will not directly be
 
 ## Types of Templates
 1. Function
-These are templates that are shown to the user when they edit a [Function](https://docs.fileflows.com/plugins/basic-nodes/function) node.
+These are templates that are shown to the user when they edit a [Function](https://fileflows.com/docs/plugins/basic-nodes/function) node.
 
 ## Creating a Script
 Each script should be in the appropriate folder and be correctly named.
