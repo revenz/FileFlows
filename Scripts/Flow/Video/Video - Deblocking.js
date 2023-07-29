@@ -3,11 +3,10 @@
  * @author Alexander von Schmidsfeld
  * @revision 1
  * @minimumVersion 1.0.0.0
- * @param {string} filter Set filter type, can be weak or strong. Default is strong.
- * @param {int} block Set size of block, allowed range is from 4 to 512. Default is 8.
+ * @param {string} Filter Set filter type, can be weak or strong. Default is strong.
+ * @param {int} Block Set size of block, allowed range is from 4 to 512. Default is 8.
  * @output Deblocked Video 
  */
-
 function Script(filter,block)
 {
   let ffmpeg = Variables.FfmpegBuilderModel;
