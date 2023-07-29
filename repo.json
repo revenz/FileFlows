@@ -138,6 +138,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Deblocking.js",
+      "Name": "Video - Deblocking",
+      "Description": "Remove blocking artifacts from input video.",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Resolution.js",
       "Name": "Video - Resolution",
       "Description": "Determines a video\u0027s resolution and outputs accordingly",
