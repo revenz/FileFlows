@@ -145,6 +145,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Denoise Non-Linear Means.js",
+      "Name": "Video - Denoise Non-Linear Means",
+      "Description": "Denoise frames using Non-Local Means algorithm.",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Export All Subtitles.js",
       "Name": "Video - Export All Subtitles",
       "Description": "Exports all subtitles from a video file",
