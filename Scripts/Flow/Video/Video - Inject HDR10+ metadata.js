@@ -1,7 +1,8 @@
 /**
  * Injects The Hdr10+ Metadata from the original file into the current working file
  * @author https://github.com/GrimJu
- * @version 1.0.0
+ * @revision 1
+ * @minimumVersion 1.0.0.0
  * @output Success, metadata was injected and new working file was created 
  * @output Fail
  */
