@@ -173,6 +173,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Inject HDR10\u002B metadata.js",
+      "Name": "Video - Inject HDR10\u002B metadata",
+      "Description": "Injects The Hdr10\u002B Metadata from the original file into the current working file",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - FPS greater than.js",
       "Name": "Video - FPS greater than",
       "Description": "Checks if a video\u0027s fps is greater than specified.",
