@@ -2,12 +2,12 @@
  * Injects The Hdr10+ Metadata from the original file into the current working file
  * @author https://github.com/GrimJu
  * @version 1.0.0
- * @param {string} hdr10plus_tool_path Mapped path to the hdr10plus_tool executable (https://github.com/quietvoid/hdr10plus_tool)
  * @output Success, metadata was injected and new working file was created 
  * @output Fail
  */
-function Script(hdr10plus_tool_path)
+function Script()
 {
+    let hdr10plus_tool_path = Flow.GetToolPath('hdr10plus_tool');
     if( !hdr10plus_tool_path){
         Logger.ELog("No hdr10plus_tool found");
         return 2;
