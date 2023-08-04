@@ -105,7 +105,7 @@ class RepoGenerator
 
         foreach(var file in basePath.GetFiles("*.json", SearchOption.AllDirectories))
         {
-            var isCommunity = file.FullName.IndexOf("Community");
+            var isCommunity = file.FullName.IndexOf("Community") > 0;
             if(isCommunity && community == false)
                 continue;;
             if(isCommunity == false && community == true)
