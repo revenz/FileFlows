@@ -16,7 +16,8 @@ class RepoGenerator
         repo.FlowScripts = GetScripts("Scripts/Flow", ScriptType.Flow);
         repo.WebhookScripts = GetScripts("Scripts/Webhook", ScriptType.Webhook);
         repo.FunctionScripts = GetScripts("Scripts/Function", ScriptType.Template);
-        repo.FlowTemplates = GetTemplates("Templates/Flow");
+        repo.FlowTemplates = GetTemplates("Templates/Flow", community: true);
+        repo.CommunityFlowTemplates = GetTemplates("Templates/Flow", community: true);
         repo.LibraryTemplates = GetTemplates("Templates/Library");
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true,
@@ -86,7 +87,13 @@ class RepoGenerator
 
     
 
-    private static List<RepositoryObject> GetTemplates(string path)
+    /// <summary>
+    /// Gets the templates from a given folder
+    /// </summary>
+    /// <param name="path">the folder path</param>
+    /// <param name="community">if community flows should be included</param>
+    /// <returns>a list of flows</returns>
+    private static List<RepositoryObject> GetTemplates(string path, bool community = false)
     {        
         List<RepositoryObject> templates = new List<RepositoryObject>();
         var rgxComments = new Regex(@"\/\*(\*)?(.*?)\*\/", RegexOptions.Singleline);
@@ -98,6 +105,12 @@ class RepoGenerator
 
         foreach(var file in basePath.GetFiles("*.json", SearchOption.AllDirectories))
         {
+            var isCommunity = file.FullName.IndexOf("Community");
+            if(isCommunity && community == false)
+                continue;;
+            if(isCommunity == false && community == true)
+                continue;
+            
             string content = File.ReadAllText(file.FullName);
             var template = JsonSerializer.Deserialize<RepositoryObject>(content, options);
             template.Path = "Templates/" + basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
@@ -152,6 +165,11 @@ class Repository
     /// Gets or sets a list of flow templates 
     /// </summary>
     public List<RepositoryObject> FlowTemplates { get; set; } = new List<RepositoryObject>();
+
+    /// <summary>
+    /// Gets or sets a list of community flow templates 
+    /// </summary>
+    public List<RepositoryObject> CommunityFlowTemplates { get; set; } = new List<RepositoryObject>();
 }
 
 public class RepositoryObject 
