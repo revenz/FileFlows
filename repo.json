@@ -138,10 +138,24 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Deblocking.js",
+      "Name": "Video - Deblocking",
+      "Description": "Remove blocking artifacts from input video.",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Resolution.js",
       "Name": "Video - Resolution",
       "Description": "Determines a video\u0027s resolution and outputs accordingly",
       "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - Denoise Non-Linear Means.js",
+      "Name": "Video - Denoise Non-Linear Means",
+      "Description": "Denoise frames using Non-Local Means algorithm.",
+      "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -156,6 +170,20 @@
       "Name": "Video - Bitrate greater than",
       "Description": "Checks if a video\u0027s bitrate is greater than specified.",
       "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - Inject HDR10\u002B metadata.js",
+      "Name": "Video - Inject HDR10\u002B metadata",
+      "Description": "Injects The Hdr10\u002B Metadata from the original file into the current working file",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - FPS greater than.js",
+      "Name": "Video - FPS greater than",
+      "Description": "Checks if a video\u0027s fps is greater than specified.",
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
