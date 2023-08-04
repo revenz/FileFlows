@@ -16,7 +16,7 @@ class RepoGenerator
         repo.FlowScripts = GetScripts("Scripts/Flow", ScriptType.Flow);
         repo.WebhookScripts = GetScripts("Scripts/Webhook", ScriptType.Webhook);
         repo.FunctionScripts = GetScripts("Scripts/Function", ScriptType.Template);
-        repo.FlowTemplates = GetTemplates("Templates/Flow", community: true);
+        repo.FlowTemplates = GetTemplates("Templates/Flow", community: false);
         repo.CommunityFlowTemplates = GetTemplates("Templates/Flow", community: true);
         repo.LibraryTemplates = GetTemplates("Templates/Library");
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
