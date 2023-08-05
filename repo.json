@@ -405,10 +405,95 @@
   ],
   "FlowTemplates": [
     {
-      "Path": "Templates/Flow/Community/Convert_Movies_and_Move.json",
-      "Name": "Convert Movies and Move",
-      "Description": "A video conversion flow that will convert videos to HEVC with AC3 audio.  It will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
-      "Revision": 1
+      "Path": "Templates/Flow/Basic/Failure.json",
+      "Name": "Flow Failure",
+      "Description": "A flow that will be executed when a Flow fails unexpectedly.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Basic/File.json",
+      "Name": "File",
+      "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Basic/Folder.json",
+      "Name": "Folder",
+      "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.\nFor example you cannot convert a Folder to a MP3 or to a different Video format.  You can however zip a folder.",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Audio/AudioFile.json",
+      "Name": "Audio File",
+      "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Audio/ConvertAudio.json",
+      "Name": "Convert Audio",
+      "Description": "Will convert audio files to the specified format and replace the original file.",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Audio/ConvertAudioToVideo.json",
+      "Name": "Convert Audio to Video",
+      "Description": "Convert an audio file into a video file generated a visualization of the audio.\nSee the [Audio To Video](https://docs.fileflows.com/plugins/video-nodes/audio-to-video) node for more information",
+      "Revision": 5,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Video/VideoFile.json",
+      "Name": "Video File",
+      "Description": "A blank Video template with a single \u0022Video File\u0022 input node.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Video/ConvertVideo.json",
+      "Name": "Convert Video",
+      "Description": "A flow that will convert a video file",
+      "Revision": 14,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Video/ConvertVideoToAudio.json",
+      "Name": "Convert Video to Audio",
+      "Description": "A flow that will convert audio from a video file into a audio file",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Books/ConvertComic.json",
+      "Name": "Convert Comic",
+      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Image/ResizeImage.json",
+      "Name": "Resize Image",
+      "Description": "A flow to resize image files",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Image/ConvertImage.json",
+      "Name": "Convert Image",
+      "Description": "A flow that converts images",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Templates/Flow/Image/ImageFile.json",
+      "Name": "Image File",
+      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0"
     }
   ],
   "CommunityFlowTemplates": [
