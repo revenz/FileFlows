@@ -498,7 +498,7 @@
   ],
   "CommunityFlowTemplates": [
     {
-      "Path": "Templates/Flow/Community/Convert Movies_TV_to_AV1_webm.json",
+      "Path": "Templates/Flow/Community/Convert_Movies_TV_to_AV1_webm.json",
       "Name": "Convert Movies/TV to AV1/webm",
       "Description": "Converts movies and TV Shows for AV1/webm and moves the file.   Will crop black bars, and remove unwanted audio and subtitles.",
       "Revision": 1
@@ -507,6 +507,12 @@
       "Path": "Templates/Flow/Community/Convert_Movies_and_Move.json",
       "Name": "Convert Movies and Move",
       "Description": "A video conversion flow that will convert videos to HEVC with AC3 audio.  It will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
+      "Revision": 1
+    },
+    {
+      "Path": "Templates/Flow/Community/Convert_TV_Shows_and_Move.json",
+      "Name": "Convert TV Shows and Move",
+      "Description": "A TV  conversion flow that will convert videos to HEVC with AC3 audio.  It will then move these to the Output folder and deletes the source folder, if there are no more video files found in it\n\nAimed at TV shows and uses a lower quality the similar Convert Movies and Move flow.\n\nThis will always move the input file to the output file, even if no processing is required.",
       "Revision": 1
     }
   ]
