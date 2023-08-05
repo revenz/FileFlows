@@ -533,7 +533,7 @@
           "Type": 3,
           "Description": "The destination where to move the file to.  The file will be moved here regardless if it needed to be converted or not.",
           "Required": true,
-          "DefaultValue": "/media/movies/converted",
+          "DefaultValue": "",
           "IfName": "",
           "IfValue": "",
           "IfNot": false
