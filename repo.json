@@ -225,7 +225,7 @@
       "Path": "Scripts/Flow/Video/Video - Export All Subtitles.js",
       "Name": "Video - Export All Subtitles",
       "Description": "Exports all subtitles from a video file",
-      "Revision": 8,
+      "Revision": 9,
       "MinimumVersion": "1.0.9.0"
     },
     {
@@ -497,6 +497,12 @@
     }
   ],
   "CommunityFlowTemplates": [
+    {
+      "Path": "Templates/Flow/Community/Convert Movies_TV_to_AV1_webm.json",
+      "Name": "Convert Movies/TV to AV1/webm",
+      "Description": "Converts movies and TV Shows for AV1/webm and moves the file.   Will crop black bars, and remove unwanted audio and subtitles.",
+      "Revision": 1
+    },
     {
       "Path": "Templates/Flow/Community/Convert_Movies_and_Move.json",
       "Name": "Convert Movies and Move",
