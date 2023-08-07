@@ -504,6 +504,12 @@
       "Revision": 1
     },
     {
+      "Path": "Templates/Flow/Community/Convert_Video_to_VP9_WebM_Opus_1080p.json",
+      "Name": "Convert Video to VP9/WebM/Opus/1080P",
+      "Description": "Convert video to VP9/WebM/Opus/1080P and move to destination",
+      "Revision": 1
+    },
+    {
       "Path": "Templates/Flow/Community/Convert_Movies_and_Move.json",
       "Name": "Convert Movies and Move",
       "Description": "A video conversion flow that will convert videos to HEVC with AC3 audio.  It will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
