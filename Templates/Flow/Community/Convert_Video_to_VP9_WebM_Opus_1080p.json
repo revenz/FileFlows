@@ -255,7 +255,7 @@
     }
   ],
   "Properties": {
-    "Tags": [ "Video", "WebM", "VP9", "Opus" ],
+    "Tags": [ "Video", "Video:WebM", "Video:VP9", "Video:Opus" ],
     "Fields": [
       {
         "Name": "Destination_Field",

@@ -515,7 +515,7 @@
     }
   ],
   "Properties": {
-    "Tags": [ "Video", "WebM", "AV1", "Opus" ],
+    "Tags": [ "Video", "Video:WebM", "Video:AV1", "Video:Opus" ],
     "Fields": [
       {
         "Name": "Output_Path",
