@@ -230,9 +230,9 @@
     "Author": "Grimo",
     "Tags": [
       "Video",
-      "WebM",
-      "AV1",
-      "Opus"
+      "Video:WebM",
+      "Video:AV1",
+      "Video:Opus"
     ],
     "Plugins": [
       "Video Nodes",
@@ -250,9 +250,9 @@
     "Author": "reven",
     "Tags": [
       "Video",
-      "WebM",
-      "VP9",
-      "Opus"
+      "Video:WebM",
+      "Video:VP9",
+      "Video:Opus"
     ],
     "Plugins": [
       "Video Nodes",
@@ -268,8 +268,8 @@
     "Author": "reven",
     "Tags": [
       "Video",
-      "HEVC",
-      "AC3"
+      "Video:HEVC",
+      "Video:AC3"
     ],
     "Plugins": [
       "Video Nodes",
@@ -285,8 +285,8 @@
     "Author": "reven",
     "Tags": [
       "Video",
-      "HEVC",
-      "AC3"
+      "Video:HEVC",
+      "Video:AC3"
     ],
     "Plugins": [
       "Video Nodes",
