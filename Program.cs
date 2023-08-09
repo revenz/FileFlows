@@ -1,4 +1,6 @@
-﻿args = new[] { "--repo" };
+﻿using FileFlowsScriptRepo.Generators;
+
+args = new[] { "--repo" };
 
 if(args[0] == "--repo" || args[0] == "--generate")
 {

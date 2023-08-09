@@ -1,34 +1,32 @@
 using System.Text.Json;
 
+namespace FileFlowsScriptRepo.Generators;
+
 /// <summary>
 /// Repository Generator
 /// </summary>
-class RepoGenerator 
+class RepoGenerator : Generator
 {
     /// <summary>
     /// Generates the repository json file
     /// </summary>
     public static void Run()
     {
-        string prefix = "";
-        
-#if(DEBUG)
-        prefix = "../../../";
-#endif
+        string projDir = GetProjectRootDirectory();
         var repo = new Repository();
-        repo.SharedScripts = GetScripts(prefix + "Scripts/Shared", ScriptType.Shared);
-        repo.SystemScripts = GetScripts(prefix + "Scripts/System", ScriptType.System);
-        repo.FlowScripts = GetScripts(prefix + "Scripts/Flow", ScriptType.Flow);
-        repo.WebhookScripts = GetScripts(prefix + "Scripts/Webhook", ScriptType.Webhook);
-        repo.FunctionScripts = GetScripts(prefix + "Scripts/Function", ScriptType.Template);
-        repo.FlowTemplates = GetTemplates(prefix + "Templates/Flow", community: false);
-        repo.CommunityFlowTemplates = GetTemplates(prefix + "Templates/Flow", community: true);
-        repo.LibraryTemplates = GetTemplates(prefix + "Templates/Library");
+        repo.SharedScripts = GetScripts(Path.Combine(projDir, "Scripts/Shared"), ScriptType.Shared);
+        repo.SystemScripts = GetScripts(Path.Combine(projDir, "Scripts/System"), ScriptType.System);
+        repo.FlowScripts = GetScripts(Path.Combine(projDir, "Scripts/Flow"), ScriptType.Flow);
+        repo.WebhookScripts = GetScripts(Path.Combine(projDir, "Scripts/Webhook"), ScriptType.Webhook);
+        repo.FunctionScripts = GetScripts(Path.Combine(projDir, "Scripts/Function"), ScriptType.Template);
+        repo.FlowTemplates = GetTemplates(Path.Combine(projDir, "Templates/Flow"), community: false);
+        repo.CommunityFlowTemplates = GetTemplates(Path.Combine(projDir, "Templates/Flow"), community: true);
+        repo.LibraryTemplates = GetTemplates(Path.Combine(projDir, "Templates/Library"));
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true,
             Converters = { new DataConverter() }            
         });   
-        File.WriteAllText(prefix + "repo.json", json);
+        File.WriteAllText(Path.Combine(projDir, "repo.json"), json);
         Console.WriteLine("Done");
     }
 

@@ -1,10 +1,12 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+namespace FileFlowsScriptRepo.Generators;
+
 /// <summary>
 /// Repository Generator
 /// </summary>
-class FlowTemplateGenerator 
+class FlowTemplateGenerator : Generator
 {
     /// <summary>
     /// Generates the repository json file
@@ -13,16 +15,13 @@ class FlowTemplateGenerator
     {
         string prefix = "";
         
-#if(DEBUG)
-        prefix = "../../../";
-#endif
-        var flows = GetFlowTemplates(prefix + "Templates/Flow");
+        var flows = GetFlowTemplates(Path.Combine(GetProjectRootDirectory(), "Templates", "Flow"));
         string flowsJson = JsonSerializer.Serialize(flows, new JsonSerializerOptions() {
             WriteIndented = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             Converters = { new DataConverter() }            
         });   
-        File.WriteAllText(prefix + "flows.json", flowsJson);
+        File.WriteAllText(Path.Combine(GetProjectRootDirectory(), "flows.json"), flowsJson);
         Console.WriteLine("Done");
     }
 
