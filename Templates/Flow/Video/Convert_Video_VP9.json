@@ -1,8 +1,8 @@
 {
-  "Name": "Convert Video to VP9/WebM/Opus/1080P",
-  "Description": "Convert video to VP9/WebM/Opus/1080P and move to destination",
+  "Name": "Convert Video: VP9",
+  "Description": "Convert to VP9/webm/1080p with options to normalize the audio",
   "Type": 0,
-  "Revision": 1,
+  "Revision": 10,
   "Author": "reven",
   "Parts": [
     {
@@ -49,7 +49,7 @@
       "Name": "FFMPEG Builder: Executor",
       "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderExecutor",
       "xPos": 590,
-      "yPos": 240,
+      "yPos": 430,
       "Icon": "far fa-file-video",
       "Label": "",
       "Inputs": 1,
@@ -58,7 +58,7 @@
         {
           "Input": 1,
           "Output": 1,
-          "InputNode": "0da99049-72f1-4bd7-b1ce-d21f3378609f"
+          "InputNode": "80423734-4410-4d63-9cf1-c778fe012123"
         }
       ],
       "Type": 5,
@@ -133,12 +133,12 @@
         {
           "Input": 1,
           "Output": 1,
-          "InputNode": "44882235-587f-401c-8aee-9e0a0a775c1b"
+          "InputNode": "e85774f5-84ff-42f2-831c-5625f4936646"
         },
         {
           "Input": 1,
           "Output": 2,
-          "InputNode": "44882235-587f-401c-8aee-9e0a0a775c1b"
+          "InputNode": "e85774f5-84ff-42f2-831c-5625f4936646"
         }
       ],
       "Type": 6,
@@ -194,7 +194,7 @@
         {
           "Input": 1,
           "Output": 1,
-          "InputNode": "76c8f081-db45-495e-8376-7a555e534648"
+          "InputNode": "94a60e67-e251-4a98-b699-3f228e79228d"
         }
       ],
       "Type": 6,
@@ -208,8 +208,8 @@
       "Uid": "0da99049-72f1-4bd7-b1ce-d21f3378609f",
       "Name": "",
       "FlowElementUid": "FileFlows.BasicNodes.File.MoveFile",
-      "xPos": 600,
-      "yPos": 440,
+      "xPos": 740,
+      "yPos": 660,
       "Icon": "fas fa-file-export",
       "Label": "",
       "Inputs": 1,
@@ -226,13 +226,13 @@
       }
     },
     {
-      "Uid": "44882235-587f-401c-8aee-9e0a0a775c1b",
-      "Name": "Scale 1080p?",
-      "FlowElementUid": "FileFlows.BasicNodes.Functions.Function",
-      "xPos": 220,
-      "yPos": 690,
-      "Icon": "fas fa-code",
-      "Label": "Function",
+      "Uid": "e85774f5-84ff-42f2-831c-5625f4936646",
+      "Name": "Scale_1080p",
+      "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+      "xPos": 200,
+      "yPos": 700,
+      "Icon": "fas fa-question",
+      "Label": "",
       "Inputs": 1,
       "Outputs": 2,
       "OutputConnections": [
@@ -249,23 +249,120 @@
       ],
       "Type": 3,
       "Model": {
-        "Outputs": 2,
-        "Code": "return Variables.Scale_1080p ? 1 : 2;"
+        "Variable": "Scale_1080p"
+      }
+    },
+    {
+      "Uid": "80423734-4410-4d63-9cf1-c778fe012123",
+      "Name": "Replace Original",
+      "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+      "xPos": 560,
+      "yPos": 570,
+      "Icon": "fas fa-question",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "0da99049-72f1-4bd7-b1ce-d21f3378609f"
+        },
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "e1aed628-614c-48fc-b8bc-13b69f1d58c1"
+        }
+      ],
+      "Type": 3,
+      "Model": {
+        "Variable": "Replace_Original"
+      }
+    },
+    {
+      "Uid": "e1aed628-614c-48fc-b8bc-13b69f1d58c1",
+      "Name": "",
+      "FlowElementUid": "FileFlows.BasicNodes.File.ReplaceOriginal",
+      "xPos": 560,
+      "yPos": 750,
+      "Icon": "fas fa-file",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 1,
+      "Type": 2,
+      "Model": {
+        "PreserverOriginalDates": false
+      }
+    },
+    {
+      "Uid": "f4ab9b48-eabf-437c-827f-d145948f4bb9",
+      "Name": "",
+      "FlowElementUid": "FileFlows.AudioNodes.AudioFileNormalization",
+      "xPos": 590,
+      "yPos": 260,
+      "Icon": "fas fa-volume-up",
+      "Label": "Audio File Normalization",
+      "Inputs": 1,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "76c8f081-db45-495e-8376-7a555e534648"
+        }
+      ],
+      "Type": 2,
+      "Model": {}
+    },
+    {
+      "Uid": "94a60e67-e251-4a98-b699-3f228e79228d",
+      "Name": "Normalize Audio",
+      "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+      "xPos": 590,
+      "yPos": 170,
+      "Icon": "fas fa-question",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "f4ab9b48-eabf-437c-827f-d145948f4bb9"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "76c8f081-db45-495e-8376-7a555e534648"
+        }
+      ],
+      "Type": 3,
+      "Model": {
+        "Variable": "Normalize_Audio"
       }
     }
   ],
   "Properties": {
-    "Tags": [ "Video", "WebM", "VP9", "Opus" ],
     "Fields": [
+      {
+        "Name": "Replace_Original",
+        "Type": 2,
+        "Description": "If this should replace the original file or not",
+        "Required": false,
+        "DefaultValue": false,
+        "IfName": "",
+        "IfValue": "",
+        "IfNot": false
+      },
       {
         "Name": "Destination_Field",
         "Type": 3,
         "Description": "Where the output file will be saved",
         "FlowElementField": "0da99049-72f1-4bd7-b1ce-d21f3378609f.DestinationPath",
         "Required": true,
-        "IfName": "",
-        "IfValue": "",
-        "IfNot": false
+        "IfName": "Replace_Original",
+        "IfValue": "true",
+        "IfNot": true
       },
       {
         "Name": "Delete_Original",
@@ -273,17 +370,16 @@
         "Description": "Delete original file after processing",
         "FlowElementField": "0da99049-72f1-4bd7-b1ce-d21f3378609f.DeleteOriginal",
         "Required": false,
-        "IfName": "",
-        "IfValue": "",
-        "IfNot": false
+        "DefaultValue": false,
+        "IfName": "Replace_Original",
+        "IfValue": "true",
+        "IfNot": true
       },
       {
-        "Name": "Only_If_Larger",
+        "Name": "Normalize_Audio",
         "Type": 2,
-        "Description": "The video will only be scaled to this resolution if the video is currently larger than this resolution",
-        "FlowElementField": "1b188d2a-350a-4bbc-b37b-eb3e736b44d1.OnlyIfLarger",
+        "Description": "If audio should be normalized or not",
         "Required": false,
-        "DefaultValue": true,
         "IfName": "",
         "IfValue": "",
         "IfNot": false
@@ -296,6 +392,17 @@
         "DefaultValue": true,
         "IfName": "",
         "IfValue": "",
+        "IfNot": false
+      },
+      {
+        "Name": "Only_If_Larger",
+        "Type": 2,
+        "Description": "The video will only be scaled to this resolution if the video is currently larger than this resolution",
+        "FlowElementField": "1b188d2a-350a-4bbc-b37b-eb3e736b44d1.OnlyIfLarger",
+        "Required": false,
+        "DefaultValue": true,
+        "IfName": "Scale_1080p",
+        "IfValue": "true",
         "IfNot": false
       }
     ],

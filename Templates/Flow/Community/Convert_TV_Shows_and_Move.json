@@ -371,6 +371,7 @@
     }
   ],
   "Properties": {
+    "Tags": [ "Video", "HEVC", "AC3" ],
     "Fields": [
       {
         "Name": "Output_Path",

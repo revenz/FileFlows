@@ -10,20 +10,25 @@ class RepoGenerator
     /// </summary>
     public static void Run()
     {
+        string prefix = "";
+        
+#if(DEBUG)
+        prefix = "../../../";
+#endif
         var repo = new Repository();
-        repo.SharedScripts = GetScripts("Scripts/Shared", ScriptType.Shared);
-        repo.SystemScripts = GetScripts("Scripts/System", ScriptType.System);
-        repo.FlowScripts = GetScripts("Scripts/Flow", ScriptType.Flow);
-        repo.WebhookScripts = GetScripts("Scripts/Webhook", ScriptType.Webhook);
-        repo.FunctionScripts = GetScripts("Scripts/Function", ScriptType.Template);
-        repo.FlowTemplates = GetTemplates("Templates/Flow", community: false);
-        repo.CommunityFlowTemplates = GetTemplates("Templates/Flow", community: true);
-        repo.LibraryTemplates = GetTemplates("Templates/Library");
+        repo.SharedScripts = GetScripts(prefix + "Scripts/Shared", ScriptType.Shared);
+        repo.SystemScripts = GetScripts(prefix + "Scripts/System", ScriptType.System);
+        repo.FlowScripts = GetScripts(prefix + "Scripts/Flow", ScriptType.Flow);
+        repo.WebhookScripts = GetScripts(prefix + "Scripts/Webhook", ScriptType.Webhook);
+        repo.FunctionScripts = GetScripts(prefix + "Scripts/Function", ScriptType.Template);
+        repo.FlowTemplates = GetTemplates(prefix + "Templates/Flow", community: false);
+        repo.CommunityFlowTemplates = GetTemplates(prefix + "Templates/Flow", community: true);
+        repo.LibraryTemplates = GetTemplates(prefix + "Templates/Library");
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true,
             Converters = { new DataConverter() }            
         });   
-        File.WriteAllText("repo.json", json);
+        File.WriteAllText(prefix + "repo.json", json);
         Console.WriteLine("Done");
     }
 

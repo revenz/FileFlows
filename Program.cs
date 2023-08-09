@@ -1,6 +1,9 @@
-﻿if(args[0] == "--repo" || args[0] == "--generate")
+﻿args = new[] { "--repo" };
+
+if(args[0] == "--repo" || args[0] == "--generate")
 {
     RepoGenerator.Run();
+    FlowTemplateGenerator.Run();
     return;
 }
 
