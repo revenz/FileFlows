@@ -394,7 +394,7 @@
       {
         "Uid": "dca9d7fe-fbbe-4dc6-9f83-47e70ecb3a35",
         "Name": "Output File",
-        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfString",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
         "xPos": 1040,
         "yPos": 430,
         "Icon": "fas fa-question",
@@ -441,7 +441,7 @@
       {
         "Uid": "56ea8be1-cb79-47f5-9897-c8dc4c8d7113",
         "Name": "Output File",
-        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfString",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
         "xPos": 1260,
         "yPos": 300,
         "Icon": "fas fa-question",
@@ -468,7 +468,7 @@
       {
         "Uid": "d2ffe3ee-bccf-4668-b2f3-82ff05ac658a",
         "Name": "Always Move?",
-        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfBoolean",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
         "xPos": 1230,
         "yPos": 430,
         "Icon": "fas fa-question",

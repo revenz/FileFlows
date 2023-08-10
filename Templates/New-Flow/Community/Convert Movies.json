@@ -593,7 +593,7 @@
       {
         "Uid": "8d6334ef-ec91-4231-8987-0a1f2d7ac2f7",
         "Name": "Replace Original?",
-        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfBoolean",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
         "xPos": 1440,
         "yPos": 100,
         "Icon": "fas fa-question",
@@ -620,7 +620,7 @@
       {
         "Uid": "5d0cb937-d67d-47f7-80fa-37562df7b754",
         "Name": "Replace Original?",
-        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfBoolean",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
         "xPos": 1220,
         "yPos": 790,
         "Icon": "fas fa-question",
@@ -657,7 +657,7 @@
       {
         "Uid": "da57c252-8191-4968-832f-df903a868d4f",
         "Name": "Delete Folder?",
-        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfBoolean",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
         "xPos": 1530,
         "yPos": 380,
         "Icon": "fas fa-question",

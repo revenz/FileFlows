@@ -170,7 +170,7 @@
       {
         "Uid": "53eb9a8a-5101-46fb-8fd0-2d1c9e01f22c",
         "Name": "Output_File",
-        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfString",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
         "xPos": 190,
         "yPos": 340,
         "Icon": "fas fa-question",
@@ -217,7 +217,7 @@
       {
         "Uid": "00e14acb-e0e2-4fc2-9167-724648c48352",
         "Name": "Delete Directory If Empty",
-        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfBoolean",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
         "xPos": 180,
         "yPos": 570,
         "Icon": "fas fa-question",
