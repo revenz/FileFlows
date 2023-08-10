@@ -1,240 +1,102 @@
 {
-    "Name": "Convert Image",
-    "Type": 0,
-    "Revision": 4,
-    "Properties": {
-      "Description": "A flow that converts images",
-      "Tags": [
-        "Image"
-      ],
-      "Author": "FileFlows",
-      "Fields": [
-        {
-          "Name": "Format",
-          "Type": 4,
-          "Description": "The image format to convert to",
-          "FlowElementField": "78b7c564-c4ce-43c9-b76e-1665199202da.Format",
-          "Options": [
-            "Bitmap|Bmp",
-            "GIF|Gif",
-            "JPEG|Jpeg",
-            "PNG|Png",
-            "WebP|WebP"
-          ],
-          "Required": false,
-          "DefaultValue": "Jpeg",
-          "IfName": "",
-          "IfValue": "",
-          "IfNot": false
-        },
-        {
-          "Name": "Output_File",
-          "Type": 4,
-          "Description": "Where the newly converted file should be saved to",
-          "Options": [
-            "Replace Original",
-            "Save to Folder"
-          ],
-          "Required": false,
-          "IfName": "",
-          "IfValue": "",
-          "IfNot": false
-        },
-        {
-          "Name": "Destination_Folder",
-          "Type": 3,
-          "Description": "The folder where the converted file will be saved to",
-          "FlowElementField": "bc419bf3-a2e6-4a3b-927f-a577f0eda010.DestinationPath",
-          "Required": false,
-          "IfName": "Output_File",
-          "IfValue": "Save to Folder",
-          "IfNot": false
-        },
-        {
-          "Name": "Delete_Original",
-          "Type": 2,
-          "Description": "If the original file should be deleted or not",
-          "FlowElementField": "bc419bf3-a2e6-4a3b-927f-a577f0eda010.DeleteOriginal",
-          "Required": false,
-          "IfName": "Output_File",
-          "IfValue": "Save to Folder",
-          "IfNot": false
-        },
-        {
-          "Name": "Delete_Directory_If_Empty",
-          "Type": 2,
-          "Description": "If the source directory should be deleted if it is now empty",
-          "Required": false,
-          "IfName": "Delete_Original",
-          "IfValue": "true",
-          "IfNot": false
-        }
-      ],
-      "Variables": {}
-    },
-    "Parts": [
+  "Name": "Convert Image",
+  "Type": 0,
+  "Revision": 5,
+  "Properties": {
+    "Description": "A flow that converts images",
+    "Tags": [
+      "Image"
+    ],
+    "Author": "FileFlows",
+    "Fields": [
       {
-        "Uid": "e1198ba5-daa6-4128-aaf0-102333443a14",
-        "Name": "",
-        "FlowElementUid": "FileFlows.ImageNodes.Images.ImageFile",
-        "xPos": 220,
-        "yPos": 60,
-        "Icon": "fas fa-file-image",
-        "Label": "",
-        "Inputs": 0,
-        "Outputs": 1,
-        "OutputConnections": [
-          {
-            "Input": 1,
-            "Output": 1,
-            "InputNode": "78b7c564-c4ce-43c9-b76e-1665199202da"
-          }
+        "Name": "Format",
+        "Type": 4,
+        "Description": "The image format to convert to",
+        "FlowElementField": "78b7c564-c4ce-43c9-b76e-1665199202da.Format",
+        "Options": [
+          "Bitmap|Bmp",
+          "GIF|Gif",
+          "JPEG|Jpeg",
+          "PNG|Png",
+          "WebP|WebP"
         ],
-        "Type": 0
+        "Required": false,
+        "DefaultValue": "Jpeg",
+        "IfName": "",
+        "IfValue": "",
+        "IfNot": false
       },
       {
-        "Uid": "78b7c564-c4ce-43c9-b76e-1665199202da",
-        "Name": "",
-        "FlowElementUid": "FileFlows.ImageNodes.Images.ImageFormat",
-        "xPos": 220,
-        "yPos": 220,
-        "Icon": "fas fa-file-image",
-        "Label": "",
-        "Inputs": 1,
-        "Outputs": 2,
-        "OutputConnections": [
-          {
-            "Input": 1,
-            "Output": 1,
-            "InputNode": "53eb9a8a-5101-46fb-8fd0-2d1c9e01f22c"
-          }
+        "Name": "Output_Path",
+        "Type": 5,
+        "Options": [
+          "image"
         ],
-        "Type": 2,
-        "Model": {
-          "Format": "Jpeg",
-          "Output-1": "1a5595c6-c06d-400d-8175-7ee9f1f32411",
-          "Output-2": "1a5595c6-c06d-400d-8175-7ee9f1f32411"
-        }
-      },
-      {
-        "Uid": "a67d7cb9-108f-433e-99f5-55377d99cfd8",
-        "Name": "Delete Source Folder If Empty",
-        "FlowElementUid": "FileFlows.BasicNodes.File.DeleteSourceDirectory",
-        "xPos": 180,
-        "yPos": 690,
-        "Icon": "far fa-trash-alt",
-        "Label": "",
-        "Inputs": 1,
-        "Outputs": 2,
-        "Type": 2,
-        "Model": {
-          "IfEmpty": true,
-          "IncludePatterns": [
-            "mp3",
-            "aac",
-            "ogg",
-            "flac",
-            "wav",
-            "m4a"
-          ]
-        }
-      },
-      {
-        "Uid": "bc419bf3-a2e6-4a3b-927f-a577f0eda010",
-        "Name": "",
-        "FlowElementUid": "FileFlows.BasicNodes.File.MoveFile",
-        "xPos": 330,
-        "yPos": 480,
-        "Icon": "fas fa-file-export",
-        "Label": "",
-        "Inputs": 1,
-        "Outputs": 2,
-        "OutputConnections": [
-          {
-            "Input": 1,
-            "Output": 1,
-            "InputNode": "00e14acb-e0e2-4fc2-9167-724648c48352"
-          }
-        ],
-        "Type": 2,
-        "Model": {
-          "DestinationPath": "/media",
-          "DestinationFile": null,
-          "MoveFolder": false,
-          "DeleteOriginal": false,
-          "AdditionalFiles": [],
-          "AdditionalFilesFromOriginal": false,
-          "PreserverOriginalDates": false
-        }
-      },
-      {
-        "Uid": "53eb9a8a-5101-46fb-8fd0-2d1c9e01f22c",
-        "Name": "Output_File",
-        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
-        "xPos": 190,
-        "yPos": 340,
-        "Icon": "fas fa-question",
-        "Label": "",
-        "Inputs": 1,
-        "Outputs": 2,
-        "OutputConnections": [
-          {
-            "Input": 1,
-            "Output": 1,
-            "InputNode": "98e82bb5-b852-46c5-bd89-5c700b387b8f"
-          },
-          {
-            "Input": 1,
-            "Output": 2,
-            "InputNode": "bc419bf3-a2e6-4a3b-927f-a577f0eda010"
-          }
-        ],
-        "Type": 3,
-        "Model": {
-          "Outputs": 2,
-          "Options": [
-            "Replace Original",
-            "Save to Folder"
-          ],
-          "Variable": "Output_File"
-        }
-      },
-      {
-        "Uid": "98e82bb5-b852-46c5-bd89-5c700b387b8f",
-        "Name": "",
-        "FlowElementUid": "FileFlows.BasicNodes.File.ReplaceOriginal",
-        "xPos": 90,
-        "yPos": 480,
-        "Icon": "fas fa-file",
-        "Label": "",
-        "Inputs": 1,
-        "Outputs": 1,
-        "Type": 2,
-        "Model": {
-          "PreserverOriginalDates": false
-        }
-      },
-      {
-        "Uid": "00e14acb-e0e2-4fc2-9167-724648c48352",
-        "Name": "Delete Directory If Empty",
-        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
-        "xPos": 180,
-        "yPos": 570,
-        "Icon": "fas fa-question",
-        "Label": "",
-        "Inputs": 1,
-        "Outputs": 2,
-        "OutputConnections": [
-          {
-            "Input": 1,
-            "Output": 1,
-            "InputNode": "a67d7cb9-108f-433e-99f5-55377d99cfd8"
-          }
-        ],
-        "Type": 3,
-        "Model": {
-          "Variable": "Delete_Directory_If_Empty"
-        }
+        "Required": false,
+        "IfName": "",
+        "IfValue": "",
+        "IfNot": false
       }
-    ]
-  }
+    ],
+    "Variables": {}
+  },
+  "Parts": [
+    {
+      "Uid": "e1198ba5-daa6-4128-aaf0-102333443a14",
+      "Name": "",
+      "FlowElementUid": "FileFlows.ImageNodes.Images.ImageFile",
+      "xPos": 220,
+      "yPos": 60,
+      "Icon": "fas fa-file-image",
+      "Label": "",
+      "Inputs": 0,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "78b7c564-c4ce-43c9-b76e-1665199202da"
+        }
+      ],
+      "Type": 0
+    },
+    {
+      "Uid": "78b7c564-c4ce-43c9-b76e-1665199202da",
+      "Name": "",
+      "FlowElementUid": "FileFlows.ImageNodes.Images.ImageFormat",
+      "xPos": 220,
+      "yPos": 220,
+      "Icon": "fas fa-file-image",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "472f8a93-b638-4964-ac44-2490c2fa325d"
+        }
+      ],
+      "Type": 2,
+      "Model": {
+        "Format": "Jpeg",
+        "Output-1": "1a5595c6-c06d-400d-8175-7ee9f1f32411",
+        "Output-2": "1a5595c6-c06d-400d-8175-7ee9f1f32411"
+      }
+    },
+    {
+      "Uid": "472f8a93-b638-4964-ac44-2490c2fa325d",
+      "Name": "",
+      "FlowElementUid": "FileFlows.BasicNodes.Templating.OutputPath",
+      "xPos": 190,
+      "yPos": 380,
+      "Icon": "fas fa-folder",
+      "Label": "Output Path",
+      "Inputs": 1,
+      "Outputs": 0,
+      "Type": 3,
+      "Model": {}
+    }
+  ]
+}

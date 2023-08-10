@@ -1,7 +1,7 @@
 {
   "Name": "Convert Video",
   "Type": 0,
-  "Revision": 19,
+  "Revision": 20,
   "Properties": {
     "Description": "A flow that will convert a video file to another format",
     "Tags": [
@@ -60,38 +60,14 @@
         "IfNot": false
       },
       {
-        "Name": "Output_File",
-        "Type": 4,
-        "Description": "Where the newly converted file should be saved to",
-        "FlowElementField": "",
+        "Name": "Output_Path",
+        "Type": 5,
         "Options": [
-          "Replace Original",
-          "Save to Folder"
+          "video"
         ],
         "Required": false,
-        "DefaultValue": "",
         "IfName": "",
         "IfValue": "",
-        "IfNot": false
-      },
-      {
-        "Name": "Destination_File",
-        "Type": 3,
-        "Description": "The folder where the converted file will be saved to",
-        "FlowElementField": "7efe15a6-2716-4ee8-8d1a-077acd930c2d.DestinationPath",
-        "Required": true,
-        "IfName": "Output_File",
-        "IfValue": "Save to Folder",
-        "IfNot": false
-      },
-      {
-        "Name": "Delete_Original",
-        "Type": 2,
-        "Description": "If the original file should be deleted or not",
-        "FlowElementField": "7efe15a6-2716-4ee8-8d1a-077acd930c2d.DeleteOriginal",
-        "Required": false,
-        "IfName": "Output_File",
-        "IfValue": "Save to Folder",
         "IfNot": false
       },
       {
@@ -306,30 +282,12 @@
         {
           "Input": 1,
           "Output": 1,
-          "InputNode": "c94fdbf0-de41-40d4-89c2-0204925d93de"
+          "InputNode": "358e08bf-5479-476c-a1b2-8f5964c43edd"
         }
       ],
       "Type": 5,
       "Model": {
         "HardwareDecoding": true
-      }
-    },
-    {
-      "Uid": "7efe15a6-2716-4ee8-8d1a-077acd930c2d",
-      "Name": "",
-      "FlowElementUid": "FileFlows.BasicNodes.File.MoveFile",
-      "xPos": 1190,
-      "yPos": 440,
-      "Icon": "fas fa-file-export",
-      "Label": "",
-      "Inputs": 1,
-      "Outputs": 1,
-      "OutputConnections": [],
-      "Type": 2,
-      "Model": {
-        "MoveFolder": true,
-        "DestinationPath": "/media",
-        "DeleteOriginal": false
       }
     },
     {
@@ -703,51 +661,17 @@
       }
     },
     {
-      "Uid": "c94fdbf0-de41-40d4-89c2-0204925d93de",
-      "Name": "Output File",
-      "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
-      "xPos": 1060,
-      "yPos": 290,
-      "Icon": "fas fa-question",
-      "Label": "",
-      "Inputs": 1,
-      "Outputs": 2,
-      "OutputConnections": [
-        {
-          "Input": 1,
-          "Output": 2,
-          "InputNode": "7efe15a6-2716-4ee8-8d1a-077acd930c2d"
-        },
-        {
-          "Input": 1,
-          "Output": 1,
-          "InputNode": "3a91d448-cb61-425b-a79e-a88bcedb61ab"
-        }
-      ],
-      "Type": 3,
-      "Model": {
-        "Options": [
-          "Replace Original",
-          "Save to Folder"
-        ],
-        "Variable": "Output_File",
-        "Outputs": 2
-      }
-    },
-    {
-      "Uid": "3a91d448-cb61-425b-a79e-a88bcedb61ab",
+      "Uid": "358e08bf-5479-476c-a1b2-8f5964c43edd",
       "Name": "",
-      "FlowElementUid": "FileFlows.BasicNodes.File.ReplaceOriginal",
-      "xPos": 960,
-      "yPos": 440,
-      "Icon": "fas fa-file",
-      "Label": "",
+      "FlowElementUid": "FileFlows.BasicNodes.Templating.OutputPath",
+      "xPos": 1050,
+      "yPos": 330,
+      "Icon": "fas fa-folder",
+      "Label": "Output Path",
       "Inputs": 1,
-      "Outputs": 1,
-      "Type": 2,
-      "Model": {
-        "PreserverOriginalDates": false
-      }
+      "Outputs": 0,
+      "Type": 3,
+      "Model": {}
     }
   ]
 }
