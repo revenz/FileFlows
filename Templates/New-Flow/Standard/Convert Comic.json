@@ -129,7 +129,7 @@
       {
         "Uid": "e7cad3d1-a444-4041-8c31-f38430038c29",
         "Name": "Output_File",
-        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
+        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfString",
         "xPos": 190,
         "yPos": 390,
         "Icon": "fas fa-question",

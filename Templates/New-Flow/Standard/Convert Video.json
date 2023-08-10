@@ -335,7 +335,7 @@
     {
       "Uid": "d6d27ce0-8ef1-462c-ad2c-4cb443df5801",
       "Name": "Container?",
-      "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
+      "FlowElementUid": "FileFlows.BasicNodes.Templating.IfString",
       "xPos": 100,
       "yPos": 290,
       "Icon": "fas fa-question",
@@ -387,7 +387,7 @@
     {
       "Uid": "55bd37ad-bae2-40b4-9d8c-011adb82fc26",
       "Name": "Crop Black Bars?",
-      "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+      "FlowElementUid": "FileFlows.BasicNodes.Templating.IfBoolean",
       "xPos": 100,
       "yPos": 470,
       "Icon": "fas fa-question",
@@ -414,7 +414,7 @@
     {
       "Uid": "e5c8123d-941a-4ec8-8ba4-a85241284893",
       "Name": "Audio Codec",
-      "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
+      "FlowElementUid": "FileFlows.BasicNodes.Templating.IfString",
       "xPos": 590,
       "yPos": 120,
       "Icon": "fas fa-question",
@@ -574,7 +574,7 @@
     {
       "Uid": "b75fd47d-567b-46b8-a78d-e712dcb7b87c",
       "Name": "Down Scale",
-      "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
+      "FlowElementUid": "FileFlows.BasicNodes.Templating.IfString",
       "xPos": 590,
       "yPos": 620,
       "Icon": "fas fa-question",
@@ -705,7 +705,7 @@
     {
       "Uid": "c94fdbf0-de41-40d4-89c2-0204925d93de",
       "Name": "Output File",
-      "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
+      "FlowElementUid": "FileFlows.BasicNodes.Templating.IfString",
       "xPos": 1060,
       "yPos": 290,
       "Icon": "fas fa-question",

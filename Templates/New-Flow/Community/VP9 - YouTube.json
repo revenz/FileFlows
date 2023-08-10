@@ -300,7 +300,7 @@
       {
         "Uid": "e85774f5-84ff-42f2-831c-5625f4936646",
         "Name": "Scale_1080p",
-        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfBoolean",
         "xPos": 200,
         "yPos": 700,
         "Icon": "fas fa-question",
@@ -327,7 +327,7 @@
       {
         "Uid": "80423734-4410-4d63-9cf1-c778fe012123",
         "Name": "Replace Original",
-        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfBoolean",
         "xPos": 560,
         "yPos": 570,
         "Icon": "fas fa-question",
@@ -389,7 +389,7 @@
       {
         "Uid": "94a60e67-e251-4a98-b699-3f228e79228d",
         "Name": "Normalize Audio",
-        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+        "FlowElementUid": "FileFlows.BasicNodes.Templating.IfBoolean",
         "xPos": 590,
         "yPos": 170,
         "Icon": "fas fa-question",
