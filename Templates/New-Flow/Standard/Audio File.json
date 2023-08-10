@@ -1,0 +1,30 @@
+{
+    "Name": "Audio File",
+    "Type": 0,
+    "Revision": 2,
+    "Properties": {
+      "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
+      "Tags": [
+        "Audio",
+        "Basic"
+      ],
+      "Author": "FileFlows",
+      "Fields": [],
+      "Variables": {}
+    },
+    "Parts": [
+      {
+        "Uid": "ca3bbf6f-1320-41ea-a668-8d83e4adab3c",
+        "Name": "",
+        "FlowElementUid": "FileFlows.AudioNodes.AudioFile",
+        "xPos": 450,
+        "yPos": 50,
+        "Icon": "fas fa-music",
+        "Label": "",
+        "Inputs": 0,
+        "Outputs": 1,
+        "OutputConnections": [],
+        "Type": 0
+      }
+    ]
+  }

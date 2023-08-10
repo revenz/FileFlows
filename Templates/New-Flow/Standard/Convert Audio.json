@@ -1,0 +1,271 @@
+{
+    "Name": "Convert Audio",
+    "Type": 0,
+    "Revision": 3,
+    "Properties": {
+      "Description": "Will convert audio files to the specified format and replace the original file.",
+      "Tags": [
+        "Audio"
+      ],
+      "Author": "FileFlows",
+      "Fields": [
+        {
+          "Name": "Audio_Codec",
+          "Type": 4,
+          "Description": "The audio codec to use for encoding",
+          "FlowElementField": "6c974252-3532-40e0-b948-10412b98d500.Codec",
+          "Options": [
+            "AAC|aac",
+            "MP3",
+            "OGG|ogg",
+            "WAV|wav"
+          ],
+          "Required": false,
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Bitrate",
+          "Type": 4,
+          "Description": "The bitrate for the new file, the higher the bitrate the better the quality but larger the file.",
+          "FlowElementField": "6c974252-3532-40e0-b948-10412b98d500.Bitrate",
+          "Options": [
+            "64 Kbps|64",
+            "96 Kbps|96",
+            "128 Kbps|128",
+            "160 Kbps|160",
+            "192 Kbps|192",
+            "224 Kbps|224",
+            "256 Kbps|256",
+            "288 Kbps|288",
+            "320 Kbps|320"
+          ],
+          "Required": false,
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Normalize",
+          "Type": 2,
+          "Description": "If the audio should be normalized with two pass audio normalization",
+          "FlowElementField": "6c974252-3532-40e0-b948-10412b98d500.Normalize",
+          "Required": false,
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Output_File",
+          "Type": 4,
+          "Description": "Where the newly converted file should be saved to",
+          "Options": [
+            "Replace Original",
+            "Save to Folder"
+          ],
+          "Required": false,
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Destination_Folder",
+          "Type": 3,
+          "Description": "The folder where the converted file will be saved to",
+          "FlowElementField": "eb83f009-fdf7-4be5-9b37-8f37c084f1d5.DestinationPath",
+          "Required": false,
+          "IfName": "Output_File",
+          "IfValue": "Save to Folder",
+          "IfNot": false
+        },
+        {
+          "Name": "Delete_Original",
+          "Type": 2,
+          "Description": "If the original file should be deleted or not",
+          "FlowElementField": "eb83f009-fdf7-4be5-9b37-8f37c084f1d5.DeleteOriginal",
+          "Required": false,
+          "IfName": "Output_File",
+          "IfValue": "Save to Folder",
+          "IfNot": false
+        },
+        {
+          "Name": "Delete_Directory_If_Empty",
+          "Type": 2,
+          "Description": "If the source directory should be deleted if it is now empty",
+          "Required": false,
+          "IfName": "Delete_Original",
+          "IfValue": "true",
+          "IfNot": false
+        }
+      ],
+      "Variables": {}
+    },
+    "Parts": [
+      {
+        "Uid": "e2d057e5-c7a2-4ef5-8bf0-efe34ee56506",
+        "Name": "",
+        "FlowElementUid": "FileFlows.AudioNodes.AudioFile",
+        "xPos": 370,
+        "yPos": 50,
+        "Icon": "fas fa-music",
+        "Label": "",
+        "Inputs": 0,
+        "Outputs": 1,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "6c974252-3532-40e0-b948-10412b98d500"
+          }
+        ],
+        "Type": 0
+      },
+      {
+        "Uid": "6c974252-3532-40e0-b948-10412b98d500",
+        "Name": "",
+        "FlowElementUid": "FileFlows.AudioNodes.ConvertAudio",
+        "xPos": 370,
+        "yPos": 220,
+        "Icon": "fas fa-music",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "9870f027-62f7-4396-8b13-3d70588cf922"
+          }
+        ],
+        "Type": 2,
+        "Model": {
+          "SkipIfCodecMatches": true,
+          "Codec": "ogg",
+          "Bitrate": 256,
+          "Normalize": true
+        }
+      },
+      {
+        "Uid": "7e222080-f6fe-4d76-a585-6bf573c2ceba",
+        "Name": "Delete Source Folder If Empty",
+        "FlowElementUid": "FileFlows.BasicNodes.File.DeleteSourceDirectory",
+        "xPos": 330,
+        "yPos": 710,
+        "Icon": "far fa-trash-alt",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [],
+        "Type": 2,
+        "Model": {
+          "IfEmpty": true,
+          "IncludePatterns": [
+            "mp3",
+            "aac",
+            "ogg",
+            "flac",
+            "wav",
+            "m4a"
+          ]
+        }
+      },
+      {
+        "Uid": "eb83f009-fdf7-4be5-9b37-8f37c084f1d5",
+        "Name": "",
+        "FlowElementUid": "FileFlows.BasicNodes.File.MoveFile",
+        "xPos": 480,
+        "yPos": 500,
+        "Icon": "fas fa-file-export",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "d27faece-f61d-4d98-bbdc-dddfa37fb65c"
+          }
+        ],
+        "Type": 2,
+        "Model": {
+          "DestinationPath": "/media",
+          "DestinationFile": null,
+          "MoveFolder": false,
+          "DeleteOriginal": false,
+          "AdditionalFiles": [],
+          "AdditionalFilesFromOriginal": false,
+          "PreserverOriginalDates": false
+        }
+      },
+      {
+        "Uid": "9870f027-62f7-4396-8b13-3d70588cf922",
+        "Name": "Output_File",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
+        "xPos": 340,
+        "yPos": 360,
+        "Icon": "fas fa-question",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "6d6bbb29-c1b8-4582-b16a-1cac5a431e47"
+          },
+          {
+            "Input": 1,
+            "Output": 2,
+            "InputNode": "eb83f009-fdf7-4be5-9b37-8f37c084f1d5"
+          }
+        ],
+        "Type": 3,
+        "Model": {
+          "Outputs": 2,
+          "Options": [
+            "Replace Original",
+            "Save to Folder"
+          ],
+          "Variable": "Output_File"
+        }
+      },
+      {
+        "Uid": "6d6bbb29-c1b8-4582-b16a-1cac5a431e47",
+        "Name": "",
+        "FlowElementUid": "FileFlows.BasicNodes.File.ReplaceOriginal",
+        "xPos": 240,
+        "yPos": 500,
+        "Icon": "fas fa-file",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 1,
+        "Type": 2,
+        "Model": {
+          "PreserverOriginalDates": false
+        }
+      },
+      {
+        "Uid": "d27faece-f61d-4d98-bbdc-dddfa37fb65c",
+        "Name": "Delete Directory If Empty",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+        "xPos": 330,
+        "yPos": 590,
+        "Icon": "fas fa-question",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "7e222080-f6fe-4d76-a585-6bf573c2ceba"
+          }
+        ],
+        "Type": 3,
+        "Model": {
+          "Variable": "Delete_Directory_If_Empty"
+        }
+      }
+    ]
+  }

@@ -15,7 +15,7 @@ class FlowTemplateGenerator : Generator
     {
         string prefix = "";
         
-        var flows = GetFlowTemplates(Path.Combine(GetProjectRootDirectory(), "Templates", "Flow"));
+        var flows = GetFlowTemplates(Path.Combine(GetProjectRootDirectory(), "Templates", "New-Flow"));
         string flowsJson = JsonSerializer.Serialize(flows, new JsonSerializerOptions() {
             WriteIndented = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -47,26 +47,6 @@ class FlowTemplateGenerator : Generator
             string content = File.ReadAllText(file.FullName);
             var template = JsonSerializer.Deserialize<FlowTemplate>(content, options);
             template.Path = "Templates/" + basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
-            if (path.Contains("Community") == false)
-                template.Author = string.IsNullOrWhiteSpace(template.Author) ? "FileFlows" : template.Author;
-
-            template.Tags = template.Properties?.Tags ?? new();
-            if (template.Tags.Any() == false)
-            {
-                foreach (var str in new[] { "video", "audio", "comic", "image" })
-                {
-                    if (file.FullName.ToLowerInvariant().Contains(str) || file.Name.ToLowerInvariant().Contains(str))
-                        template.Tags.Add(str[0..1].ToUpper() + str[1..]);
-                }
-                if(Regex.IsMatch(template.Name, "[\\w]+ File"))
-                    template.Tags.Add("Basic");
-                else if(template.Fields?.Any() != true && template.Properties?.Fields?.Any() != true)
-                    template.Tags.Add("Basic");
-                
-                if(path.Contains("Community"))
-                    template.Tags.Add("Community");
-            }
-
             if (template.Parts?.Any() == true)
             {
                 template.Plugins = template.Parts.Where(x => x.FlowElementUid.StartsWith("Script") == false)
@@ -83,8 +63,10 @@ class FlowTemplateGenerator : Generator
                 Console.WriteLine("No pats: " + template.Name);
             }
 
-            if (template.Tags.Any() == false)
-                template.Tags = null; // so its not written to the json
+            template.Author = template.Properties.Author;
+            template.Description = template.Properties.Description;
+            template.Tags = template.Properties.Tags;
+            template.MinimumVersion = template.Properties.MinimumVersion;
             
             template.Properties = null;
             template.Fields = null;
@@ -108,11 +90,20 @@ public class FlowTemplate
     /// Gets or sets the name
     /// </summary>
     public string Name { get; set; } = string.Empty;
-
+    
     /// <summary>
     /// Gets or sets the description
     /// </summary>
     public string Description { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the author of this object
+    /// </summary>
+    public string Author { get; set; }
+    /// <summary>
+    /// Gets or sets tags for this flow
+    /// </summary>
+    public List<string> Tags { get; set; }
 
     /// <summary>
     /// Gets or sets the revision of the script
@@ -120,19 +111,9 @@ public class FlowTemplate
     public int Revision { get; set; }
 
     /// <summary>
-    /// Gets or sets the author of this object
-    /// </summary>
-    public string Author { get; set; }
-
-    /// <summary>
     /// Gets or sets the minimum version of FileFlows required for this object
     /// </summary>
     public string MinimumVersion { get; set; }
-
-    /// <summary>
-    /// Gets or sets tags for this object
-    /// </summary>
-    public List<string>? Tags { get; set; }
 
     /// <summary>
     /// Gets or sets plugins used by this object
@@ -197,10 +178,25 @@ public class FlowField
 /// </summary>
 public class FlowProperties
 {
+
+    /// <summary>
+    /// Gets or sets the description
+    /// </summary>
+    public string Description { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the author of this object
+    /// </summary>
+    public string Author { get; set; }
     /// <summary>
     /// Gets or sets tags for this flow
     /// </summary>
     public List<string> Tags { get; set; }
+
+    /// <summary>
+    /// Gets or sets the minimum version of FileFlows required for this object
+    /// </summary>
+    public string MinimumVersion { get; set; }
 
     /// <summary>
     /// Gets or sets the fields

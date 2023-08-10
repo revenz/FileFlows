@@ -1,0 +1,29 @@
+{
+    "Name": "File",
+    "Type": 0,
+    "Revision": 1,
+    "Properties": {
+      "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
+      "Tags": [
+        "Basic"
+      ],
+      "Author": "FileFlows",
+      "Fields": [],
+      "Variables": {}
+    },
+    "Parts": [
+      {
+        "Uid": "c0807c25-7d23-44d0-8a40-2485a265c75b",
+        "Name": "",
+        "FlowElementUid": "FileFlows.BasicNodes.File.InputFile",
+        "xPos": 450,
+        "yPos": 50,
+        "Icon": "far fa-file",
+        "Label": "",
+        "Inputs": 0,
+        "Outputs": 1,
+        "OutputConnections": [],
+        "Type": 0
+      }
+    ]
+  }

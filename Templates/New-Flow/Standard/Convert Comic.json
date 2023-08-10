@@ -1,0 +1,177 @@
+{
+    "Name": "Convert Comic",
+    "Type": 0,
+    "Revision": 4,
+    "Properties": {
+      "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
+      "Tags": [
+        "Comic"
+      ],
+      "Author": "FileFlows",
+      "Fields": [
+        {
+          "Name": "Format",
+          "Type": 4,
+          "Description": "The format to convert the comic to",
+          "FlowElementField": "0b01ebba-0dd2-4ba5-a43a-663f118e53dc.Format",
+          "Options": [
+            "CBZ",
+            "PDF"
+          ],
+          "Required": false,
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Output_File",
+          "Type": 4,
+          "Description": "Where the newly converted file should be saved to",
+          "Options": [
+            "Replace Original",
+            "Save to Folder"
+          ],
+          "Required": false,
+          "DefaultValue": "",
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Destination_Folder",
+          "Type": 3,
+          "Description": "The folder where the converted file will be saved to",
+          "FlowElementField": "733e06e0-5bea-4665-9a7b-f1bb9f283e48.DestinationPath",
+          "Required": true,
+          "IfName": "Output_File",
+          "IfValue": "Save to Folder",
+          "IfNot": false
+        },
+        {
+          "Name": "Delete_Original",
+          "Type": 2,
+          "Description": "If the original file should be deleted or not",
+          "FlowElementField": "733e06e0-5bea-4665-9a7b-f1bb9f283e48.DeleteOriginal",
+          "Required": false,
+          "IfName": "Output_File",
+          "IfValue": "Save to Folder",
+          "IfNot": false
+        }
+      ],
+      "Variables": {}
+    },
+    "Parts": [
+      {
+        "Uid": "16fb4e1e-d897-435c-a259-4a18c7ac3864",
+        "Name": "",
+        "FlowElementUid": "FileFlows.BasicNodes.File.InputFile",
+        "xPos": 220,
+        "yPos": 80,
+        "Icon": "far fa-file",
+        "Label": "",
+        "Inputs": 0,
+        "Outputs": 1,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "0b01ebba-0dd2-4ba5-a43a-663f118e53dc"
+          }
+        ],
+        "Type": 0
+      },
+      {
+        "Uid": "0b01ebba-0dd2-4ba5-a43a-663f118e53dc",
+        "Name": "",
+        "FlowElementUid": "FileFlows.ComicNodes.Comics.ComicConverter",
+        "xPos": 220,
+        "yPos": 250,
+        "Icon": "fas fa-book",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "e7cad3d1-a444-4041-8c31-f38430038c29"
+          }
+        ],
+        "Type": 2,
+        "Model": {
+          "Format": "PDF",
+          "Output-2": {
+            "true": "e432d37c-2bd9-4c6d-8c12-0cfa671b2d43"
+          }
+        }
+      },
+      {
+        "Uid": "733e06e0-5bea-4665-9a7b-f1bb9f283e48",
+        "Name": "",
+        "FlowElementUid": "FileFlows.BasicNodes.File.MoveFile",
+        "xPos": 290,
+        "yPos": 550,
+        "Icon": "fas fa-file-export",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "Type": 2,
+        "Model": {
+          "DestinationPath": "/media",
+          "DestinationFile": null,
+          "MoveFolder": false,
+          "DeleteOriginal": false,
+          "AdditionalFiles": [],
+          "AdditionalFilesFromOriginal": false,
+          "PreserverOriginalDates": false
+        }
+      },
+      {
+        "Uid": "e7cad3d1-a444-4041-8c31-f38430038c29",
+        "Name": "Output_File",
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
+        "xPos": 190,
+        "yPos": 390,
+        "Icon": "fas fa-question",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 2,
+            "InputNode": "733e06e0-5bea-4665-9a7b-f1bb9f283e48"
+          },
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "af8869e8-3d6c-4a56-8e98-88e49497de42"
+          }
+        ],
+        "Type": 3,
+        "Model": {
+          "Outputs": 2,
+          "Options": [
+            "Replace Original",
+            "Save to Folder"
+          ],
+          "Variable": "Output_File"
+        }
+      },
+      {
+        "Uid": "af8869e8-3d6c-4a56-8e98-88e49497de42",
+        "Name": "",
+        "FlowElementUid": "FileFlows.BasicNodes.File.ReplaceOriginal",
+        "xPos": 110,
+        "yPos": 550,
+        "Icon": "fas fa-file",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 1,
+        "Type": 2,
+        "Model": {
+          "PreserverOriginalDates": false
+        }
+      }
+    ]
+  }

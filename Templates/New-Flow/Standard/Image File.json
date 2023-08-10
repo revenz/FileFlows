@@ -1,0 +1,29 @@
+{
+    "Name": "Image File",
+    "Type": 0,
+    "Revision": 1,
+    "Properties": {
+      "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
+      "Tags": [
+        "Image",
+        "Basic"
+      ],
+      "Author": "FileFlows",
+      "Fields": [],
+      "Variables": {}
+    },
+    "Parts": [
+      {
+        "Uid": "87bef081-80a7-466d-85dc-e811705121b4",
+        "Name": "",
+        "FlowElementUid": "FileFlows.ImageNodes.Images.ImageFile",
+        "xPos": 450,
+        "yPos": 50,
+        "Icon": "fas fa-file-image",
+        "Inputs": 0,
+        "Outputs": 1,
+        "OutputConnections": [],
+        "Type": 0
+      }
+    ]
+  }

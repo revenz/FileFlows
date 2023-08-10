@@ -1,0 +1,152 @@
+{
+    "Name": "Convert Audio to Video",
+    "Type": 0,
+    "Revision": 2,
+    "Properties": {
+      "Description": "Convert an audio file into a video file generated a visualization of the audio.",
+      "Tags": [
+        "Audio",
+        "Video"
+      ],
+      "Author": "FileFlows",
+      "Fields": [
+        {
+          "Name": "Visualisation",
+          "Type": 4,
+          "Description": "The visualation to use in the generated video.  See Help for examples",
+          "FlowElementField": "9a50bbc3-8f72-4a15-b5a5-7ab4fcf29385.Visualization",
+          "Options": [
+            "Waves|1",
+            "Audio Vector Scope|2",
+            "Spectrum|3"
+          ],
+          "Required": false,
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Container",
+          "Type": 4,
+          "FlowElementField": "9a50bbc3-8f72-4a15-b5a5-7ab4fcf29385.Container",
+          "Options": [
+            "MKV|mkv",
+            "MP4|mp4"
+          ],
+          "Required": false,
+          "DefaultValue": "",
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Resolution",
+          "Type": 4,
+          "FlowElementField": "9a50bbc3-8f72-4a15-b5a5-7ab4fcf29385.Resolution",
+          "Options": [
+            "480p|640x480",
+            "720p|1280x720",
+            "1080p|1920x1080",
+            "4k|3840x2160"
+          ],
+          "Required": false,
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Video_Codec",
+          "Type": 4,
+          "Description": "The video codec to use for encoding",
+          "Options": [
+            "H.264|h264",
+            "HEVC|h265",
+            "HEVC (10-Bit)|h265 10BIT"
+          ],
+          "Required": false,
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Output_Directory",
+          "Type": 3,
+          "Description": "The destination directory where the file should be save to",
+          "FlowElementField": "e7e82252-c308-4ea0-b4cd-cb84394657b2.DestinationPath",
+          "Required": true,
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        }
+      ],
+      "Variables": {}
+    },
+    "Parts": [
+      {
+        "Uid": "d952a4c0-4322-4c68-aa5b-0e9ca88831f9",
+        "Name": "",
+        "FlowElementUid": "FileFlows.BasicNodes.File.InputFile",
+        "xPos": 360,
+        "yPos": 50,
+        "Icon": "far fa-file",
+        "Label": "",
+        "Inputs": 0,
+        "Outputs": 1,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "9a50bbc3-8f72-4a15-b5a5-7ab4fcf29385"
+          }
+        ],
+        "Type": 0
+      },
+      {
+        "Uid": "9a50bbc3-8f72-4a15-b5a5-7ab4fcf29385",
+        "Name": "",
+        "FlowElementUid": "FileFlows.VideoNodes.VideoNodes.AudioToVideo",
+        "xPos": 360,
+        "yPos": 220,
+        "Icon": "fas fa-headphones",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 1,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "e7e82252-c308-4ea0-b4cd-cb84394657b2"
+          }
+        ],
+        "Type": 2,
+        "Model": {
+          "HardwareEncoding": true,
+          "Visualization": 1,
+          "Container": "mkv",
+          "Resolution": "1280x720",
+          "Codec": "h265 10BIT"
+        }
+      },
+      {
+        "Uid": "e7e82252-c308-4ea0-b4cd-cb84394657b2",
+        "Name": "",
+        "FlowElementUid": "FileFlows.BasicNodes.File.MoveFile",
+        "xPos": 360,
+        "yPos": 380,
+        "Icon": "fas fa-file-export",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 1,
+        "OutputConnections": [],
+        "Type": 2,
+        "Model": {
+          "DestinationPath": "/media",
+          "DestinationFile": null,
+          "MoveFolder": false,
+          "DeleteOriginal": false,
+          "AdditionalFiles": [],
+          "AdditionalFilesFromOriginal": false
+        }
+      }
+    ]
+  }
