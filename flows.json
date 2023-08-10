@@ -95,9 +95,10 @@
     "Description": "A blank video file template with a single \u0022Video File\u0022 input node.",
     "Author": "FileFlows",
     "Tags": [
-      "Video"
+      "Video",
+      "Basic"
     ],
-    "Revision": 1,
+    "Revision": 2,
     "Plugins": [
       "Video Nodes"
     ],
