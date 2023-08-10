@@ -5,7 +5,8 @@
     "Properties": {
       "Description": "A blank video file template with a single \u0022Video File\u0022 input node.",
       "Tags": [
-        "Video"
+        "Video",
+        "Basic"
       ],
       "Author": "FileFlows",
       "Fields": [],
