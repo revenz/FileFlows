@@ -173,7 +173,7 @@
       "Video:HEVC",
       "VIdeo:AC3"
     ],
-    "Revision": 24,
+    "Revision": 25,
     "Plugins": [
       "Video Nodes",
       "Basic Nodes"
