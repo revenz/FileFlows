@@ -4,7 +4,7 @@
       "Path": "Scripts/Shared/Language.js",
       "Name": "Language",
       "Description": "Helper class for Languages",
-      "Revision": 5,
+      "Revision": 6,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -39,7 +39,7 @@
       "Path": "Scripts/Shared/FileFlowsApi.js",
       "Name": "FileFlows API",
       "Description": "Class that interacts with the FileFlows API",
-      "Revision": 5,
+      "Revision": 6,
       "MinimumVersion": "1.0.0.0"
     },
     {
