@@ -1,7 +1,7 @@
 /**
  * Class that interacts with the FileFlows API 
  * @name FileFlows API
- * @revision 5
+ * @revision 6
  * @minimumVersion 1.0.0.0
  */
 export class FileFlowsApi
@@ -130,7 +130,26 @@ export class FileFlowsApi
      */
     processFile(fileName) {
         let url = this.getUrl('library-file/process-file?filename=' + encodeURIComponent(fileName));
-        let response = http.PostAsync(url).Result;
+        let response = http.PostAsync(url, null).Result;
+        let responseBody = response.Content.ReadAsStringAsync().Result;
+        if(response.IsSuccessStatusCode === false)
+            throw responseBody;        
+        return true;
+    }
+
+    /**
+     * Clears statistics for a specific statistic or all statistics
+     * @param {string} name the name of the statistic to clear, optional 
+     * @param {Date} before an optional date to clear statistics before
+     */
+    clearStatistic(name, before) {
+        let url = this.getUrl('statistics/clear');
+        if(name)
+            url += '?name=' + encodeURI(name);
+        if(before)
+            url += (name ? '&' : '?') + 'before=' + encodeURI(before.toISOString());
+        
+        let response = http.PostAsync(url, null).Result;
         let responseBody = response.Content.ReadAsStringAsync().Result;
         if(response.IsSuccessStatusCode === false)
             throw responseBody;        
