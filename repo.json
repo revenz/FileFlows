@@ -208,6 +208,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Set Original Language from MovieDB.js",
+      "Name": "Video - Set Original Language from MovieDB",
+      "Description": "Gets either TV Show Information or Movie Information from a meta flow element and updates any audio tracks with missing language codes\nwith the original language of the show/movie\nRequires the \u0022Movie Lookup\u0022 or \u0022TV Show Lookup\u0022 to be executed first to work",
+      "Revision": 1,
+      "MinimumVersion": "23.08.3.0"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Deblocking.js",
       "Name": "Video - Deblocking",
       "Description": "Remove blocking artifacts from input video.",
