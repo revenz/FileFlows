@@ -219,7 +219,6 @@
             { "english":"Western Frisian", "french":"frison occidental", "german":"Friesisch", "iso2":"fry", "iso1":"fy", "iso2b":"fry", "iso3":"fry" },
             { "english":"Fulah", "french":"peul", "german":"Ful", "iso2":"ful", "iso1":"ff", "iso2b":"ful", "iso3":"ful" },
             { "english":"Friulian", "french":"frioulan", "german":"Friulisch", "iso2":"fur" },
-            { "english":"Ga", "french":"ga", "german":"Ga-Sprache", "iso2":"gaa" },
             { "english":"Gayo", "french":"gayo", "german":"Gayo-Sprache", "iso2":"gay" },
             { "english":"Gbaya", "french":"gbaya", "german":"Gbaya-Sprache", "iso2":"gba" },
             { "english":"Germanic languages", "french":"germaniques, langues", "german":"Germanische Sprachen (Andere)", "iso2":"gem" },
