@@ -1,7 +1,7 @@
 /**
  * Helper class for Languages
  * @name Language
- * @revision 6
+ * @revision 7
  * @minimumVersion 1.0.0.0
  */
  export class Language
