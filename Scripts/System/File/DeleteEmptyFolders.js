@@ -1,7 +1,7 @@
 /**
- * @name DeleteEmptyFolders - Delete Empty Folders
+ * @name Delete Empty Folders
  * @description Reads a variable 'DeleteEmptyFolders' and iterates all folders defined there and will delete any empty folder found within, leaving the root folder
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
  */
 
