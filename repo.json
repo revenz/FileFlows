@@ -53,9 +53,9 @@
   "SystemScripts": [
     {
       "Path": "Scripts/System/File/DeleteEmptyFolders.js",
-      "Name": "DeleteEmptyFolders - Delete Empty Folders",
+      "Name": "Delete Empty Folders",
       "Description": "Reads a variable \u0027DeleteEmptyFolders\u0027 and iterates all folders defined there and will delete any empty folder found within, leaving the root folder",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
