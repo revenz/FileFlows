@@ -1,179 +1,15 @@
 [
   {
-    "Path": "Templates/New-Flow/Standard/Convert Audio.json",
-    "Name": "Convert Audio",
-    "Description": "Will convert audio files to the specified format and replace the original file.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Audio"
-    ],
-    "Revision": 4,
-    "Plugins": [
-      "Audio Nodes",
-      "Basic Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Standard/Audio File.json",
-    "Name": "Audio File",
-    "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Audio",
-      "Basic"
-    ],
-    "Revision": 2,
-    "Plugins": [
-      "Audio Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Standard/Convert Video.json",
-    "Name": "Convert Video",
-    "Description": "A flow that will convert a video file to another format",
-    "Author": "FileFlows",
-    "Tags": [
-      "Video"
-    ],
-    "Revision": 20,
-    "Plugins": [
-      "Video Nodes",
-      "Basic Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Standard/File.json",
-    "Name": "File",
-    "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Basic"
-    ],
-    "Revision": 1,
-    "Plugins": [
-      "Basic Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Standard/Image Resize.json",
-    "Name": "Image Resize",
-    "Description": "A flow that resizes images",
-    "Author": "FileFlows",
-    "Tags": [
-      "Image"
-    ],
-    "Revision": 6,
-    "Plugins": [
-      "Image Nodes",
-      "Basic Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Standard/Convert Audio to Video.json",
-    "Name": "Convert Audio to Video",
-    "Description": "Convert an audio file into a video file generated a visualization of the audio.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Audio",
-      "Video"
-    ],
-    "Revision": 2,
-    "Plugins": [
-      "Basic Nodes",
-      "Video Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Standard/Video File.json",
-    "Name": "Video File",
-    "Description": "A blank video file template with a single \u0022Video File\u0022 input node.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Video",
-      "Basic"
-    ],
-    "Revision": 2,
-    "Plugins": [
-      "Video Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Standard/Convert Image.json",
-    "Name": "Convert Image",
-    "Description": "A flow that converts images",
-    "Author": "FileFlows",
-    "Tags": [
-      "Image"
-    ],
-    "Revision": 5,
-    "Plugins": [
-      "Image Nodes",
-      "Basic Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Standard/Image File.json",
-    "Name": "Image File",
-    "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Image",
-      "Basic"
-    ],
-    "Revision": 1,
-    "Plugins": [
-      "Image Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Standard/Convert Comic.json",
-    "Name": "Convert Comic",
-    "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
-    "Author": "FileFlows",
-    "Tags": [
-      "Comic"
-    ],
-    "Revision": 5,
-    "Plugins": [
-      "Basic Nodes",
-      "Comic Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Standard/Folder.json",
-    "Name": "Folder",
-    "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\n\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Basic"
-    ],
-    "Revision": 1,
-    "Plugins": [
-      "Basic Nodes"
-    ],
-    "Scripts": []
-  },
-  {
-    "Path": "Templates/New-Flow/Community/Convert Movies.json",
-    "Name": "Convert Movies",
-    "Description": "A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
+    "Path": "Templates/New-Flow/Community/Convert TV Shows.json",
+    "Name": "Convert TV Shows",
+    "Description": "A video conversion flow that will convert videos to HEVC with normalized AC3 audio., optimized for TV.",
     "Author": "reven",
     "Tags": [
       "Video",
       "Video:HEVC",
-      "VIdeo:AC3"
+      "Video:AC3"
     ],
-    "Revision": 25,
+    "Revision": 4,
     "Plugins": [
       "Video Nodes",
       "Basic Nodes"
@@ -200,18 +36,182 @@
     "Scripts": []
   },
   {
-    "Path": "Templates/New-Flow/Community/Convert TV Shows.json",
-    "Name": "Convert TV Shows",
-    "Description": "A video conversion flow that will convert videos to HEVC with normalized AC3 audio., optimized for TV.",
+    "Path": "Templates/New-Flow/Community/Convert Movies.json",
+    "Name": "Convert Movies",
+    "Description": "A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
     "Author": "reven",
     "Tags": [
       "Video",
       "Video:HEVC",
-      "Video:AC3"
+      "VIdeo:AC3"
+    ],
+    "Revision": 25,
+    "Plugins": [
+      "Video Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Audio File.json",
+    "Name": "Audio File",
+    "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Audio",
+      "Basic"
+    ],
+    "Revision": 2,
+    "Plugins": [
+      "Audio Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Image File.json",
+    "Name": "Image File",
+    "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Image",
+      "Basic"
+    ],
+    "Revision": 1,
+    "Plugins": [
+      "Image Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Video File.json",
+    "Name": "Video File",
+    "Description": "A blank video file template with a single \u0022Video File\u0022 input node.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Video",
+      "Basic"
+    ],
+    "Revision": 2,
+    "Plugins": [
+      "Video Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Folder.json",
+    "Name": "Folder",
+    "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\n\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Basic"
+    ],
+    "Revision": 1,
+    "Plugins": [
+      "Basic Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Convert Audio.json",
+    "Name": "Convert Audio",
+    "Description": "Will convert audio files to the specified format and replace the original file.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Audio"
     ],
     "Revision": 4,
     "Plugins": [
+      "Audio Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Convert Video.json",
+    "Name": "Convert Video",
+    "Description": "A flow that will convert a video file to another format",
+    "Author": "FileFlows",
+    "Tags": [
+      "Video"
+    ],
+    "Revision": 20,
+    "Plugins": [
       "Video Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Image Resize.json",
+    "Name": "Image Resize",
+    "Description": "A flow that resizes images",
+    "Author": "FileFlows",
+    "Tags": [
+      "Image"
+    ],
+    "Revision": 6,
+    "Plugins": [
+      "Image Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/File.json",
+    "Name": "File",
+    "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Basic"
+    ],
+    "Revision": 1,
+    "Plugins": [
+      "Basic Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Convert Audio to Video.json",
+    "Name": "Convert Audio to Video",
+    "Description": "Convert an audio file into a video file generated a visualization of the audio.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Audio",
+      "Video"
+    ],
+    "Revision": 2,
+    "Plugins": [
+      "Basic Nodes",
+      "Video Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Convert Comic.json",
+    "Name": "Convert Comic",
+    "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
+    "Author": "FileFlows",
+    "Tags": [
+      "Comic"
+    ],
+    "Revision": 5,
+    "Plugins": [
+      "Basic Nodes",
+      "Comic Nodes"
+    ],
+    "Scripts": []
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Convert Image.json",
+    "Name": "Convert Image",
+    "Description": "A flow that converts images",
+    "Author": "FileFlows",
+    "Tags": [
+      "Image"
+    ],
+    "Revision": 5,
+    "Plugins": [
+      "Image Nodes",
       "Basic Nodes"
     ],
     "Scripts": []
