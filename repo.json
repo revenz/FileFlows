@@ -211,7 +211,7 @@
       "Path": "Scripts/Flow/Video/Video - Denoise Non-Linear Means.js",
       "Name": "Video - Denoise Non-Linear Means",
       "Description": "Denoise frames using Non-Local Means algorithm.",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
