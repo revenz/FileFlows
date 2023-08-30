@@ -132,9 +132,10 @@
     "Description": "A flow that will convert a video file to another format",
     "Author": "FileFlows",
     "Tags": [
+      "Basic",
       "Video"
     ],
-    "Revision": 21,
+    "Revision": 22,
     "Plugins": [
       "Video Nodes",
       "Basic Nodes"
