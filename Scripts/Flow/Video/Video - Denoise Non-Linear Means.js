@@ -1,7 +1,7 @@
 /**
  * Denoise frames using Non-Local Means algorithm.
  * @author Alexander von Schmidsfeld
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
  * @param {string} Strength Set denoising strength. Default is 1.0. Must be in range [1.0, 30.0].
  * @param {int} Patch Set patch size. Default is 5. Must be odd number in range [0, 99].
@@ -9,7 +9,7 @@
  * @output Deblocked Video 
  */
 
-function Script(strenght,patch,research)
+function Script(strength,patch,research)
 {
   let ffmpeg = Variables.FfmpegBuilderModel;
   if(!ffmpeg)
