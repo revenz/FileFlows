@@ -1,10 +1,11 @@
 {
   "Name": "Convert Video",
   "Type": 0,
-  "Revision": 21,
+  "Revision": 22,
   "Properties": {
     "Description": "A flow that will convert a video file to another format",
     "Tags": [
+      "Basic",
       "Video"
     ],
     "Author": "FileFlows",
