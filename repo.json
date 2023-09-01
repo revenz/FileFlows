@@ -59,10 +59,24 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/System/File/AddMKVExtension.js",
+      "Name": "Add MKV extension to files without an extension",
+      "Description": "Monitors the directories listed in the variable AddExtensionDirectoryList and any file thats found without an extenion, MKV will be added to it",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/System/DownloadClients/PauseSABNZbd.js",
       "Name": "SABnzbd - Pause Downloads",
       "Description": "Pauses SABnzbd if the current file processing queue is greater than 30 files\nIf the processing queue is not greater than 30 files, then it will resume SABnzbd",
       "Revision": 6,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/System/DownloadClients/DeleteRogueUNPACKDirectories.js",
+      "Name": "Delete Rogue _UNPACK_ Directories",
+      "Description": "Will check any _UNPACK_ directories, and if they haven\u0027t be modified in 24 hours will delete that directory",
+      "Revision": 1,
       "MinimumVersion": "1.0.0.0"
     },
     {
