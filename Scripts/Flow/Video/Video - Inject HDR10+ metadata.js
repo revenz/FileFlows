@@ -1,15 +1,16 @@
 /**
  * Injects The Hdr10+ Metadata from the original file into the current working file
  * @author https://github.com/GrimJu
- * @revision 1
- * @minimumVersion 1.0.0.0
+ * @revision 2
+ * @version 1.0.1
+ * @param {bool} FailFlowOnNoInject If set to true the flow will fail when the script fails to inject any metadata
  * @output Success, metadata was injected and new working file was created 
  * @output Fail
  */
-function Script()
-{
+function Script(FailFlowOnNoInject) {
     let hdr10plus_tool_path = Flow.GetToolPath('hdr10plus_tool');
-    if( !hdr10plus_tool_path){
+    let processOutcome;
+    if (!hdr10plus_tool_path) {
         Logger.ELog("No hdr10plus_tool found");
         return 2;
     }
@@ -30,16 +31,24 @@ function Script()
         ]
     });
 
-    processLogs(process);
+    processOutcome = processLogs(process, FailFlowOnNoInject);
+    if(processOutcome !== 0){
+        return processOutcome;
+    }
+    
 
 
     process = Flow.Execute({
         command: hdr10plus_tool_path,
-        argumentList:[
-            "extract", "-i","originalHEVCStream.hevc","-o","metadata.json"
+        argumentList: [
+            "extract", "-i", "originalHEVCStream.hevc", "-o", "metadata.json"
         ]
     })
-    processLogs(process);
+
+    processOutcome = processLogs(process, FailFlowOnNoInject);
+    if(processOutcome !== 0){
+        return processOutcome;
+    }
 
     process = Flow.Execute({
         command: ffmpeg,
@@ -55,15 +64,23 @@ function Script()
             "newHEVCStream.hevc"
         ]
     });
-    processLogs(process);
+    
+    processOutcome = processLogs(process, FailFlowOnNoInject);
+    if(processOutcome !== 0){
+        return processOutcome;
+    }
 
     process = Flow.Execute({
         command: hdr10plus_tool_path,
-        argumentList:[
-            "inject","-j","metadata.json", "-i","newHEVCStream.hevc","-o","outputHEVCStream.hevc"
+        argumentList: [
+            "inject", "-j", "metadata.json", "-i", "newHEVCStream.hevc", "-o", "outputHEVCStream.hevc"
         ]
     })
-    processLogs(process);
+    
+    processOutcome = processLogs(process, FailFlowOnNoInject);
+    if(processOutcome !== 0){
+        return processOutcome;
+    }
 
     process = Flow.Execute({
         command: ffmpeg,
@@ -76,7 +93,7 @@ function Script()
             '0:v:0',
             "-map",
             "1",
-            "-map", 
+            "-map",
             "-1:v:0",
             '-c',
             'copy',
@@ -85,20 +102,45 @@ function Script()
             `output.${Variables.file.Extension}`
         ]
     });
-    processLogs(process);
+    
+    processOutcome = processLogs(process, FailFlowOnNoInject);
+    if(processOutcome !== 0){
+        return processOutcome;
+    }
 
     Flow.SetWorkingFile(`output.${Variables.file.Extension}`)
     return 1;
-} 
+}
 
-function processLogs(process){
-    if(process.standardOutput)
-        Logger.ILog('Standard output: ' + process.standardOutput);
-    if(process.standardError)
-        Logger.ILog('Standard error: ' + process.standardError);
+function processLogs(process, FailFlowOnNoInject) {
+    if (process.standardOutput) {
+        //catch errors in stdout
+        if (`${process.standardOutput}`.toLowerCase().includes("error") && FailFlowOnNoInject && process.exitCode === 0) {
+            return -1;
+        }
+        else{
+            return 0;
+        }
+    }
+    if (process.standardError) {
+        Logger.ELog('Standard error: ' + process.standardError);
+        if (FailFlowOnNoInject) {
+            return -1;
+        }
+        else {
+            return 2;
+        }
+    }
 
-    if(process.exitCode !== 0){
-        Logger.ELog('Failed processing: ' + process.exitCode);
-        return 2;
+    if (process.exitCode !== 0) {
+        Logger.ELog('Failed with errorcode: ' + process.exitCode);
+        if (FailFlowOnNoInject) {
+            Logger.ILog("Failing flow")
+            return -1;
+        }
+        else {
+            Logger.ILog("Continuing flow execution")
+            return 2;
+        }
     }
 }
