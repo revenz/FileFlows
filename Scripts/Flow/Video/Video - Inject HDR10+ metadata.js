@@ -113,25 +113,7 @@ function Script(FailFlowOnNoInject) {
 }
 
 function processLogs(process, FailFlowOnNoInject) {
-    if (process.standardOutput) {
-        //catch errors in stdout
-        if (`${process.standardOutput}`.toLowerCase().includes("error") && FailFlowOnNoInject && process.exitCode === 0) {
-            return -1;
-        }
-        else{
-            return 0;
-        }
-    }
-    if (process.standardError) {
-        Logger.ELog('Standard error: ' + process.standardError);
-        if (FailFlowOnNoInject) {
-            return -1;
-        }
-        else {
-            return 2;
-        }
-    }
-
+    //Logger.ILog("Exit code: " + process.exitCode)
     if (process.exitCode !== 0) {
         Logger.ELog('Failed with errorcode: ' + process.exitCode);
         if (FailFlowOnNoInject) {
@@ -142,5 +124,29 @@ function processLogs(process, FailFlowOnNoInject) {
             Logger.ILog("Continuing flow execution")
             return 2;
         }
+    }   
+    
+    if (process.standardError) {
+        Logger.ELog('Standard error: ' + process.standardError);
+        if (FailFlowOnNoInject) {
+            return -1;
+        }
+        else {
+            return 2;
+        }
     }
+    
+    if (process.standardOutput) {
+        //catch errors in stdout
+        if (`${process.standardOutput}`.toLowerCase().includes("error") && FailFlowOnNoInject && process.exitCode === 0) {
+            return -1;
+        }
+        else if(/error/i.test(process.standardOutput) === true && process.exitCode === 0){
+            return 2;
+        }
+        else{
+            return 0;
+        }
+    }
+
 }
