@@ -1,0 +1,29 @@
+{
+    "Name": "Failure Flow",
+    "Type": 1,
+    "Revision": 1,
+    "Properties": {
+      "Description": "Basic failure flow that will be executed when a flow failures for any reason.",
+      "Tags": [
+        "Basic"
+      ],
+      "Author": "FileFlows",
+      "Fields": [],
+      "Variables": {}
+    },
+    "Parts": [
+      {
+        "Uid": "7218c5bb-6053-4556-899a-6d9e3dbdac1c",
+        "Name": "",
+        "FlowElementUid": "FileFlows.BasicNodes.FlowFailure",
+        "xPos": 450,
+        "yPos": 50,
+        "Icon": "fas fa-exclamation-triangle",
+        "Label": "",
+        "Inputs": 0,
+        "Outputs": 1,
+        "OutputConnections": [],
+        "Type": 0
+      }
+    ]
+  }
