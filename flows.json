@@ -14,7 +14,8 @@
       "Video Nodes",
       "Basic Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Community/VP9 - YouTube.json",
@@ -33,7 +34,8 @@
       "Basic Nodes",
       "Audio Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Community/Convert Movies.json",
@@ -50,7 +52,8 @@
       "Video Nodes",
       "Basic Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/Convert Video.json",
@@ -66,7 +69,8 @@
       "Video Nodes",
       "Basic Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/Convert Comic.json",
@@ -81,7 +85,8 @@
       "Basic Nodes",
       "Comic Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/Video File.json",
@@ -96,7 +101,8 @@
     "Plugins": [
       "Video Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/Image Resize.json",
@@ -111,7 +117,8 @@
       "Image Nodes",
       "Basic Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/Convert Audio to Video.json",
@@ -127,7 +134,8 @@
       "Basic Nodes",
       "Video Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/Convert Audio.json",
@@ -142,7 +150,8 @@
       "Audio Nodes",
       "Basic Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/File.json",
@@ -156,7 +165,8 @@
     "Plugins": [
       "Basic Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/Folder.json",
@@ -170,7 +180,8 @@
     "Plugins": [
       "Basic Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/FailureFlow.json",
@@ -184,7 +195,8 @@
     "Plugins": [
       "Basic Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 1
   },
   {
     "Path": "Templates/New-Flow/Standard/Image File.json",
@@ -199,7 +211,8 @@
     "Plugins": [
       "Image Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/Audio File.json",
@@ -214,7 +227,8 @@
     "Plugins": [
       "Audio Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   },
   {
     "Path": "Templates/New-Flow/Standard/Convert Image.json",
@@ -229,6 +243,7 @@
       "Image Nodes",
       "Basic Nodes"
     ],
-    "Scripts": []
+    "Scripts": [],
+    "Type": 0
   }
 ]
