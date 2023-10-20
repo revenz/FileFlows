@@ -56,6 +56,22 @@
     "Type": 0
   },
   {
+    "Path": "Templates/New-Flow/Standard/Apprise Notification.json",
+    "Name": "Apprise Notification",
+    "Description": "A failure flow that will send a warning message to Apprise with the failed filename.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Notification"
+    ],
+    "Revision": 0,
+    "Plugins": [
+      "Basic Nodes",
+      "Apprise"
+    ],
+    "Scripts": [],
+    "Type": 1
+  },
+  {
     "Path": "Templates/New-Flow/Standard/Convert Video.json",
     "Name": "Convert Video",
     "Description": "A flow that will convert a video file to another format",
@@ -154,6 +170,22 @@
     "Type": 0
   },
   {
+    "Path": "Templates/New-Flow/Standard/Discord Notification.json",
+    "Name": "Discord Notification",
+    "Description": "A failure flow that will send a warning message to Discord with the failed filename.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Notification"
+    ],
+    "Revision": 1,
+    "Plugins": [
+      "Basic Nodes",
+      "Discord Nodes"
+    ],
+    "Scripts": [],
+    "Type": 1
+  },
+  {
     "Path": "Templates/New-Flow/Standard/File.json",
     "Name": "File",
     "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
@@ -182,6 +214,22 @@
     ],
     "Scripts": [],
     "Type": 0
+  },
+  {
+    "Path": "Templates/New-Flow/Standard/Gotify Notification.json",
+    "Name": "Gotify Notification",
+    "Description": "A failure flow that will send a warning message to Gotify with the failed filename.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Notification"
+    ],
+    "Revision": 1,
+    "Plugins": [
+      "Basic Nodes",
+      "Gotify"
+    ],
+    "Scripts": [],
+    "Type": 1
   },
   {
     "Path": "Templates/New-Flow/Standard/FailureFlow.json",
