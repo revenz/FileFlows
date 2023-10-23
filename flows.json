@@ -89,6 +89,22 @@
     "Type": 0
   },
   {
+    "Path": "Templates/New-Flow/Standard/Telegram Notification.json",
+    "Name": "Telegram Notification",
+    "Description": "A failure flow that will send a warning message to Telegram with the failed filename.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Notification"
+    ],
+    "Revision": 0,
+    "Plugins": [
+      "Basic Nodes",
+      "Telegram"
+    ],
+    "Scripts": [],
+    "Type": 1
+  },
+  {
     "Path": "Templates/New-Flow/Standard/Convert Comic.json",
     "Name": "Convert Comic",
     "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
