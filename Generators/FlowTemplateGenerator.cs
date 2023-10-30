@@ -124,6 +124,11 @@ public class FlowTemplate
     /// Gets or sets scripts used by this object
     /// </summary>
     public List<string>? Scripts { get; set; }
+
+    /// <summary>
+    /// Gets or sets the type of flow
+    /// </summary>
+    public FlowType Type { get; set; }
     
     /// <summary>
     /// Gets or sets the parts of this flow
@@ -202,4 +207,19 @@ public class FlowProperties
     /// Gets or sets the fields
     /// </summary>
     public List<FlowField> Fields { get; set; }
+}
+
+/// <summary>
+/// A type of Flow
+/// </summary>
+public enum FlowType
+{
+    /// <summary>
+    /// A standard flow
+    /// </summary>
+    Standard = 0,
+    /// <summary>
+    /// A special flow that is executed when a flow fails during execution
+    /// </summary>
+    Failure = 1
 }
