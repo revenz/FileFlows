@@ -2,10 +2,10 @@
  * Sets the bitrate for audio streams based off the number of channels - in place of "Quality" options found on some audio codecs
  * @author CanOfSocks
  * @revision 1
- * @param {int} Bitrate Desired bitrate per channel (default: 64000)
- * @param {string} Codec Desired bitrate per channel (default: ac3)
- * @param {int} Buffer Buffer above desired bitrate to not transcode (default: 0)
- * @param {string} Channels Default mix/number of audio channels if not found (default: 2)
+ * @param {int} Bitrate Desired - bitrate per channel (default: 64000)
+ * @param {string} Codec - Desired codec for each channel (default: ac3)
+ * @param {int} Buffer - Buffer above desired bitrate to not transcode (default: 0)
+ * @param {string} Channels - Default mix/number of audio channels if not found (default: 2)
  * @output Changes made to audio
  * @output No changes made to audio
  */
@@ -26,25 +26,11 @@ function Script(Bitrate, Codec, Buffer, Channels){
     }
     if(Channels && !isNaN(Channels)){   //Checks if channel is number mixdown e.g. 2, 5.1, 7.1 etc, sanatises if it is
         Channels = Number(Channels);
-    } else if(Channels && /mono/i.test(`${Channels}`) === true){    //mono is only option that is not a default for a word input, refer to commented out section below for "stereo" implementation
+    } else if(Channels && /mono/i.test(`${Channels}`) === true){    //mono is only option that is not a default for a word input as stereo matches default of 2
         Channels = 1;
     } else {
         Channels = 2;
     }
-    
-    /*  //Old implementation including stereo
-    }else if(Channels){     //in case input is "Stereo" or "Mono" - to match "Audio Converter" node inputs
-        if(/stereo/i.test(`${Channels}`) === true){
-            Channels = 2;
-        }else if(/mono/i.test(`${Channels}`) === true){
-            Channels = 1;
-        }else{  //fallback if neither
-            Channels = 2;
-        }
-    }else{      //if input isn't chosen or not valid, set to 2
-        Channels = 2;
-    }
-    */
 
     let change = false; //assume no changes needed
 
@@ -78,8 +64,6 @@ function Script(Bitrate, Codec, Buffer, Channels){
             fullChannels = 2;
         } else if(channels >= 1){
             fullChannels = 1;
-        } else {
-            fullChannels = 2;   //fall back to stereo in case no catch (somehow)
         }
         
 
@@ -94,7 +78,7 @@ function Script(Bitrate, Codec, Buffer, Channels){
             
             Logger.ILog(`New total bitrate: ${newBitrate}`);
             let params = [
-                /*"-c:a:{index}",*/ codec, //"-c:a:{index}" added automatically by builder
+                /*"-c:a:{index}",*/ codec, 
                 "-b:a:{index}", newBitrate,
                 "-ac:a:{index}", fullChannels
             ];            
