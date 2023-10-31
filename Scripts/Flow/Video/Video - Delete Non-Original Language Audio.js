@@ -5,7 +5,7 @@ import { Language } from '../../../Shared/Language';
  * with languages set that do not match the original language.
  * Requires the "Movie Lookup" node to be executed first to work
  * @author John Andrews
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  * @param {bool} TreatUnknownAsBad Treat a track with no language set as a bad language and do not include it, otherwise it will be treated as a good track
  * @param {bool} KeepFirstAudio If no matching langauges are found, keep the first audio track, otherwise all audio could be removed
@@ -40,6 +40,12 @@ function Script(TreatUnknownAsBad, KeepFirstAudio)
     return -1; // no video information found
   }
 
+
+  for(let i=0;i<ffModel.AudioStreams.length;i++)
+  {
+    let audio = ffModel.AudioStreams[i];
+    Logger.ILog(`Original Track Status[${i}] [Lang: ${audio.Language}] [Deleted: ${audio.Deleted}]`);
+  }
 
   // ensure these variables are actually true or false
   TreatUnknownAsBad = !!TreatUnknownAsBad;
@@ -86,6 +92,13 @@ function Script(TreatUnknownAsBad, KeepFirstAudio)
     Logger.ILog('No audio remaining, so marking first audio track to not deleted');
     firstAudio.Deleted = false;
     --deleted;
+  }
+
+
+  for(let i=0;i<ffModel.AudioStreams.length;i++)
+  {
+    let audio = ffModel.AudioStreams[i];
+    Logger.ILog(`Final Track Status[${i}] [Lang: ${audio.Language}] [Deleted: ${audio.Deleted}]`);
   }
 
   return hasAudio === false ? 3 : 
