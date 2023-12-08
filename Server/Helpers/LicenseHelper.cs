@@ -68,7 +68,7 @@ class LicenseHelper
     /// Gets the license
     /// </summary>
     /// <returns>the license</returns>
-    internal static License GetLicense() => LastLicense;
+    internal static License GetLicense() => LastLicense ?? FromCode(AppSettings.Instance.LicenseCode);
     
     internal static License? FromCode(string code)
     {
