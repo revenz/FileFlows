@@ -12,6 +12,10 @@ class LicenseHelper
     const string LicenseResponse_DecryptionKey = "MIIEowIBAAKCAQEAqdurpq85Xtg0haj0LHl//hKBlAFyX4Vsuo2xhIScoYqHUEGoljEZUZdiOe764kiNKOQEqpzbXijoyxGLy4mDtDkEa90L21gbn31mekiIuODdEW9IKmPftrB182hTWYUUg1VlTunkVLVln/ywdf1BfcAHeQn9EcmxwDbqovmMTspKqxrVYgbtEpZZybqbwnyo9m+AKeU+xag3zoAnw2q4OejMLm00BF/uhYDK6uSMQC1Qy15j06KIjY65YT5meDqfkfWsxOEpZ2uCiollFOYsvZPyrNGd6fvKGDD2fKAlvAwSn0PAsMAOUEm+QlZtne4pIADiVnMM9RX7f4OtvVtaXQIDAQABAoIBAAguqc0kwbm85oLNyb1euPivQYi0rSLG1Z8C9lsw3C638p6+GvXpNZQFm9i4l2NRJWOj4EmrtrGJfPVTSg2q+So0WO8tPcX6L5J2Qvp/Bf8J7fxKBQrttrghNf1cuC8mxv8wnOm5QKOH/XZAgOueIIqDNpjxDzzNH3/n5VOme8jLx8PGMCwJWMFK0XdNObD8Dvzv3J9y3X1EVrB/Jm9pcc/2OMieL1kKrJmX3YvA5aXHB6cjbFDL5xwRb9wEOJlx/KlRQQVg7dLVhyMNRXc+gxLPvOR3cbeZ3nb8nGTJeJDSxq1p8+z61wQF5L5Kxche/hZdu1D2rGFOQHUjbrHEJE0CgYEAyFcoChhv9q9RgVwbk26ErIOejcVILIFlMcxbpRoJ/PD4ltXoz7u3UhBT+zsSPRxvT5gPZ6qqEIG5uWlnd1YOdS0KrtSM7K/nBI9IQoN65gTBTMzXSDkuZuZGvs726b4rhvuhDJa6uRyDkKpcsNQkCQ+KUIfnWWYkKq5oJba7S/cCgYEA2QyDI1UkuVtGkWJLL7h1g95abfLOIreV0czMc9uVBCbL+2EyQC44vIwqsRDZkx5/XlvY4bT+o6zAKmwdmCa/QOmWY1SkGBVkDwD6i4mOHnmrV+5icF2OiaSmjtFFOOLteq0SauIWhjEGQgNgoldj6kXVtqVvIUY8rj2yDBrUb0sCgYEAiCYDBelZnbHDmD/6VZVUANFp3TrnM6e0F8Wjum4Zv5YbupYgo5wUl2aVTDT2ziUW2GakgXUQIiunBgRF1mnbZXJ4whucsfVQ8F5XYyxrRwqQOxsyatjBWhjAl0ebsXoVpqQ27JE60DY6iwPb/igNXUL8YoIZjT3G8mKYUJkAbD0CgYBlE+aeNbB8gX1DhzrsZkKTvqDuQvysPkKPCYjNC51B6a9kycbVDLFvXPckrmwkjzdRggRmWBudrX1wRBkkGidG24ElkO06KfwG4LXM9aoxlwesU1+UZH1UrFDEgcBy1Xsyfhbtn4xNwdbgNyJxd7EYEJ2OCUzPeh4YJrMb4AK+MQKBgBXolFhtJWGrKHSfAgXdLMltDErrAO0t0vvQzdZEQExXRhnx3KPfpHMwg5x13bN95aCvodR+136csEOk6UqSuH5xAtZWWkZQE5umBNm1DJs68cERIC6XDishlXkXgAL9qkurmSJ7RK5dcCfZI/uM6BBjs43IqfVUUKmt8Gqbedry";
     const string LicenseRequest_EncryptionKey = "MIIBCgKCAQEAtMPKGqGr2pYyaMvoxE8d6rlL//Rl7be9AqA4inKvAc0MWmGy6MaiWvX2YHJfaddNSo3CXIgt48KQAUte/+ZM5Nja/cYECPDIS51ragsTfSK/jW5WVsOw8GzZlCV0rcQHQJ+MtNb6lBZD89ffOkQZHAQuC8lh4ptHmnQ3nupnUhlQGOAfnHQSqiDV/BUKcJINQAYMmrVHQJwAm1iXz6xq+dOhzaf+aJ28oRLanEsPcfwZpfkhlxCavMIkQNfIiVJBX89aw4U9yAgMbNhwFr9Zy6lOLyjjHNitOGrgEl1CEgsE04DUQWx2OHmN44rrxv1CQn/vam0G8PHzognbqtw0EwIDAQAB";
 
+    private static DateTime LastUpdate = DateTime.MinValue;
+    private static string LastLicenseEmail, LastLicenseKey;
+    private static License LastLicense;
+
     /// <summary>
     /// Checks if the user is licensed for a feature
     /// </summary>
@@ -64,7 +68,7 @@ class LicenseHelper
     /// Gets the license
     /// </summary>
     /// <returns>the license</returns>
-    internal static License GetLicense() => FromCode(AppSettings.Instance.LicenseCode);
+    internal static License GetLicense() => LastLicense;
     
     internal static License? FromCode(string code)
     {
@@ -81,10 +85,6 @@ class LicenseHelper
         }
     }
 
-    private static DateTime LastUpdate = DateTime.MinValue;
-    private static string LastLicenseEmail, LastLicenseKey;
-    
-    
     /// <summary>
     /// Update the license code 
     /// </summary>
@@ -122,6 +122,7 @@ class LicenseHelper
                 return;
             
             // could reach the server, license request was good, record it.
+            LastLicense = license;
             LastLicenseEmail = email;
             LastLicenseKey = key;
             LastUpdate = DateTime.Now;
