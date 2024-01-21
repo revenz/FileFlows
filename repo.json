@@ -242,6 +242,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Set Stream Titles.js",
+      "Name": "Video - Set Stream Titles",
+      "Description": "Updates audio and or subtitle titles to format \u0060Language / Codec / Bitrate / SampleRate\u0060 or \u0060Language / Forced / Codec\u0060",
+      "Revision": 1,
+      "MinimumVersion": "24.01.3.0"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Upscale Anime (Video2x) [Docker].js",
       "Name": "Video - Upscale Anime (Video2x) [Docker]",
       "Description": "Upscales anime using Video2x inside a docker container\nRequires TempPathHost environment variable to be set if running inside a docker container",
