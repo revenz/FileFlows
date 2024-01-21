@@ -3,14 +3,15 @@ import { Language } from 'Shared/Language';
 /**
  * Updates audio and or subtitle titles to format `Language / Codec / Bitrate / SampleRate` or `Language / Forced / Codec`
  * @author John Andrews
- * @revision 1
+ * @revision 2
  * @minimumVersion 24.01.3.0
  * @param {bool} Audio If audio stream titles should be updated
  * @param {bool} Subtitle If subtitle stream titles should be updated
+ * @param {bool} LeaveCommentaryAlone If commentary streams should be left alone and not renamed
  * @output Titles were changed
  * @output No changes were made
  */
-function Script(Audio, Subtitles)
+function Script(Audio, Subtitles, LeaveCommentaryAlone)
 {
     let langHelper = new Language();
 
@@ -26,7 +27,10 @@ function Script(Audio, Subtitles)
         {
             let as = Variables.FfmpegBuilderModel.AudioStreams[i];
             if(!as)
-                continue; // no title already
+                continue; // error handling
+
+            if(LeaveCommentaryAlone && as.Title && /commentary/i.test(as.Title))
+                continue;
 
             let params = [];
             if(as.Language)
