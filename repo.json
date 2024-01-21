@@ -245,7 +245,7 @@
       "Path": "Scripts/Flow/Video/Video - Set Stream Titles.js",
       "Name": "Video - Set Stream Titles",
       "Description": "Updates audio and or subtitle titles to format \u0060Language / Codec / Bitrate / SampleRate\u0060 or \u0060Language / Forced / Codec\u0060",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "24.01.3.0"
     },
     {
