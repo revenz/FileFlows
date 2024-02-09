@@ -1,7 +1,7 @@
 /**
  * Helper class for Languages
  * @name Language
- * @revision 7
+ * @revision 8
  * @minimumVersion 1.0.0.0
  */
  export class Language
@@ -64,6 +64,47 @@
         if(lang?.iso2?.length) return lang.iso2;     
         return language;
     }
+
+
+    /**
+     * Tests if two languages match
+     * @param {string} langOne the first language 
+     * @param {string} langTwo the second language
+     * @returns true if matches, otherwise false
+     */
+    areSame(langOne, langTwo)
+    {
+        if (!langTwo || !langOne)
+            return false;
+        try
+        {
+            if (this.getIso2Code(langOne) === this.getIso2Code(langTwo))
+                return true;
+        }
+        catch (err)
+        {
+        }
+
+        try
+        {
+            if (this.getIso1Code(langOne) === this.getIso1Code(langTwo))
+                return true;
+        }
+        catch (err)
+        {
+        }
+
+        try
+        {
+            let rgx = new RegExp(langTwo, 'i');
+            return rgx.test(langOne);        
+        }
+        catch (err)
+        {
+            return false;
+        }
+    }
+    
 
     constructor()
     {
