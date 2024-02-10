@@ -1,9 +1,9 @@
 {
     "Name": "Folder",
     "Type": 0,
-    "Revision": 1,
+    "Revision": 2,
     "Properties": {
-      "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\n\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.",
+      "Description": "A blank folder template with a single \u0022Input Folder\u0022 input flow element.\n\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.",
       "Tags": [
         "Basic"
       ],

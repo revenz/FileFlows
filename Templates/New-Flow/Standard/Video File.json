@@ -1,9 +1,9 @@
 {
     "Name": "Video File",
     "Type": 0,
-    "Revision": 2,
+    "Revision": 3,
     "Properties": {
-      "Description": "A blank video file template with a single \u0022Video File\u0022 input node.",
+      "Description": "A blank video file template with a single \u0022Video File\u0022 input flow element.",
       "Tags": [
         "Video",
         "Basic"

@@ -1,9 +1,9 @@
 {
     "Name": "File",
     "Type": 0,
-    "Revision": 1,
+    "Revision": 2,
     "Properties": {
-      "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
+      "Description": "A blank file template with a single \u0022Input File\u0022 input flow element.",
       "Tags": [
         "Basic"
       ],

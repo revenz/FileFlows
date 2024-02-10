@@ -1,9 +1,9 @@
 {
     "Name": "Audio File",
     "Type": 0,
-    "Revision": 2,
+    "Revision": 3,
     "Properties": {
-      "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
+      "Description": "A blank Audio template with a single \u0022Audio File\u0022 input flow element.",
       "Tags": [
         "Audio",
         "Basic"
