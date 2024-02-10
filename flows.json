@@ -58,13 +58,13 @@
   {
     "Path": "Templates/New-Flow/Standard/Audio File.json",
     "Name": "Audio File",
-    "Description": "A blank Audio template with a single \u0022Audio File\u0022 input node.",
+    "Description": "A blank Audio template with a single \u0022Audio File\u0022 input flow element.",
     "Author": "FileFlows",
     "Tags": [
       "Audio",
       "Basic"
     ],
-    "Revision": 2,
+    "Revision": 3,
     "Plugins": [
       "Audio Nodes"
     ],
@@ -186,12 +186,12 @@
   {
     "Path": "Templates/New-Flow/Standard/File.json",
     "Name": "File",
-    "Description": "A blank file template with a single \u0022Input File\u0022 input node.",
+    "Description": "A blank file template with a single \u0022Input File\u0022 input flow element.",
     "Author": "FileFlows",
     "Tags": [
       "Basic"
     ],
-    "Revision": 1,
+    "Revision": 2,
     "Plugins": [
       "Basic Nodes"
     ],
@@ -201,13 +201,13 @@
   {
     "Path": "Templates/New-Flow/Standard/Video File.json",
     "Name": "Video File",
-    "Description": "A blank video file template with a single \u0022Video File\u0022 input node.",
+    "Description": "A blank video file template with a single \u0022Video File\u0022 input flow element.",
     "Author": "FileFlows",
     "Tags": [
       "Video",
       "Basic"
     ],
-    "Revision": 2,
+    "Revision": 3,
     "Plugins": [
       "Video Nodes"
     ],
@@ -233,13 +233,13 @@
   {
     "Path": "Templates/New-Flow/Standard/Image File.json",
     "Name": "Image File",
-    "Description": "A blank Image template with a single \u0022Image File\u0022 input node.",
+    "Description": "A blank Image template with a single \u0022Image File\u0022 input flow element.",
     "Author": "FileFlows",
     "Tags": [
       "Image",
       "Basic"
     ],
-    "Revision": 1,
+    "Revision": 2,
     "Plugins": [
       "Image Nodes"
     ],
@@ -265,12 +265,12 @@
   {
     "Path": "Templates/New-Flow/Standard/Folder.json",
     "Name": "Folder",
-    "Description": "A blank folder template with a single \u0022Input Folder\u0022 input node.\n\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.",
+    "Description": "A blank folder template with a single \u0022Input Folder\u0022 input flow element.\n\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.",
     "Author": "FileFlows",
     "Tags": [
       "Basic"
     ],
-    "Revision": 1,
+    "Revision": 2,
     "Plugins": [
       "Basic Nodes"
     ],
