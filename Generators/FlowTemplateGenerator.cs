@@ -15,7 +15,7 @@ class FlowTemplateGenerator : Generator
     {
         string prefix = "";
         
-        var flows = GetFlowTemplates(Path.Combine(GetProjectRootDirectory(), "Templates", "New-Flow"));
+        var flows = GetFlowTemplates(Path.Combine(GetProjectRootDirectory(), "Templates", "Flow"));
         string flowsJson = JsonSerializer.Serialize(flows, new JsonSerializerOptions() {
             WriteIndented = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -46,7 +46,10 @@ class FlowTemplateGenerator : Generator
             
             string content = File.ReadAllText(file.FullName);
             var template = JsonSerializer.Deserialize<FlowTemplate>(content, options);
-            template.Path = "Templates/" + basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
+            if (template == null)
+                continue;
+            
+            template.Path = "Templates/" + basePath.Name + "/" + file.FullName[(basePath.FullName.Length + 1)..].Replace("\\", "/");
             if (template.Parts?.Any() == true)
             {
                 template.Plugins = template.Parts.Where(x => x.FlowElementUid.StartsWith("Script") == false)

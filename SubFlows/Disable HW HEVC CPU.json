@@ -1,0 +1,165 @@
+{
+  "Name": "Disable HW HEVC CPU",
+  "Uid": "1f5feb7d-fb88-499d-93c1-619f4e6f6b4d",
+  "Type": 2,
+  "Revision": 18,
+  "Properties": {
+    "Description": "Converts a video to HEVC\nOutput 1: Converted\nOutput 2: Did not need converting",
+    "Author": "reven",
+    "Fields": [
+      {
+        "Name": "Quality",
+        "Type": 6,
+        "Description": "The Quality to use for the CRF encoding.  Ideal range between 28 and 18.  Lower the number the greater the quality.",
+        "FlowElementField": "fc5f3424-2e9e-4f40-ba25-ac7d2d81da9e.Quality",
+        "Required": false,
+        "DefaultValue": 24,
+        "IntMinimum": 1,
+        "IntMaximum": 30,
+        "Inverse": true,
+        "IfName": "",
+        "IfValue": "",
+        "IfNot": false
+      }
+    ],
+    "Variables": {},
+    "Outputs": [
+      {
+        "Key": 1,
+        "Value": "Created new temporary file"
+      },
+      {
+        "Key": 2,
+        "Value": "No changes detected, file not created"
+      }
+    ]
+  },
+  "Parts": [
+    {
+      "Uid": "ca3536cc-2bab-4225-9a08-ed0a9f551e8a",
+      "Name": "Disable Hardware Encoders",
+      "FlowElementUid": "FileFlows.BasicNodes.Functions.Function",
+      "xPos": 50,
+      "yPos": 170,
+      "Icon": "fas fa-code",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "fc5f3424-2e9e-4f40-ba25-ac7d2d81da9e"
+        }
+      ],
+      "Type": 3,
+      "Model": {
+        "Outputs": 1,
+        "Code": "if(Variables.NoQSV)\n{\n\tLogger.ELog(\u0022NoQSV already set, failed twice\u0022)\n\treturn -1;\n}\n\nLogger.ILog(\u0022Disabling QSV and trying again\u0022);\nVariables.NoQSV = true;\nVariables.NoNvidia = true;\nVariables.NoAMD = true;\nVariables.NoAMF = true;\nVariables.HW_OFF = true;\nreturn 1;"
+      }
+    },
+    {
+      "Uid": "fc5f3424-2e9e-4f40-ba25-ac7d2d81da9e",
+      "Name": "HEVC CPU",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncode",
+      "xPos": 50,
+      "yPos": 320,
+      "Icon": "far fa-file-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "1ae8ae12-13b4-40ff-a797-b42b516b78c8"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "Codec": "h265",
+        "Encoder": "CPU",
+        "Quality": 24,
+        "Speed": "medium"
+      }
+    },
+    {
+      "Uid": "1ae8ae12-13b4-40ff-a797-b42b516b78c8",
+      "Name": "FFMPEG Builder: Executor",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderExecutor",
+      "xPos": 360,
+      "yPos": 310,
+      "Icon": "far fa-file-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "19e0e84b-9a48-42ad-9e78-80045d13af62"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "0d3c8561-2696-4b13-b8ad-195f09076b5e"
+        }
+      ],
+      "Type": 5,
+      "Model": {
+        "HardwareDecoding": true,
+        "Strictness": "experimental"
+      }
+    },
+    {
+      "Uid": "4afb9220-bf81-4338-8973-31958d44e2f1",
+      "Name": "Sub Flow Input",
+      "FlowElementUid": "SubFlowInput",
+      "xPos": 50,
+      "yPos": 50,
+      "Icon": "fas fa-long-arrow-alt-down",
+      "Label": "",
+      "Inputs": 0,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "ca3536cc-2bab-4225-9a08-ed0a9f551e8a"
+        }
+      ],
+      "Type": 0,
+      "Model": {}
+    },
+    {
+      "Uid": "19e0e84b-9a48-42ad-9e78-80045d13af62",
+      "Name": "Output 1",
+      "FlowElementUid": "SubFlowOutput",
+      "xPos": 230,
+      "yPos": 460,
+      "Icon": "fas fa-sign-out-alt",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 0,
+      "Type": 1,
+      "Model": {
+        "Output": 1
+      }
+    },
+    {
+      "Uid": "0d3c8561-2696-4b13-b8ad-195f09076b5e",
+      "Name": "Output 2",
+      "FlowElementUid": "SubFlowOutput",
+      "xPos": 500,
+      "yPos": 460,
+      "Icon": "fas fa-sign-out-alt",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 0,
+      "Type": 1,
+      "Model": {
+        "Output": 2
+      }
+    }
+  ]
+}

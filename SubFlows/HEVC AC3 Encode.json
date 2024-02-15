@@ -1,0 +1,845 @@
+{
+  "Name": "HEVC AC3 Encode",
+  "Uid": "5ef0e9fb-b64e-4bb1-bae8-4cadce539dea",
+  "Type": 2,
+  "Revision": 25,
+  "Properties": {
+    "Description": "Converts a video to HEVC\nOutput 1: Converted\nOutput 2: Did not need converting",
+    "Author": "reven",
+    "Fields": [
+      {
+        "Name": "Quality",
+        "Type": 6,
+        "Description": "The Quality to use for the CRF encoding.  Ideal range between 28 and 18.  Lower the number the greater the quality.",
+        "Required": false,
+        "DefaultValue": 24,
+        "IntMinimum": 1,
+        "IntMaximum": 30,
+        "Inverse": true,
+        "IfName": "",
+        "IfValue": "",
+        "IfNot": false
+      },
+      {
+        "Name": "Normalize_Audio",
+        "Type": 2,
+        "Description": "If audio should be normalized or not",
+        "FlowElementField": "41d25e49-5696-46a3-8597-de798602baca.Variable",
+        "Required": false,
+        "IntMinimum": 0,
+        "IntMaximum": 0,
+        "Inverse": false,
+        "IfName": "",
+        "IfValue": "",
+        "IfNot": false
+      }
+    ],
+    "Variables": {},
+    "Outputs": [
+      {
+        "Key": 1,
+        "Value": "Video converted and saved to temporary directory"
+      },
+      {
+        "Key": 2,
+        "Value": "Did not need converting"
+      }
+    ]
+  },
+  "SubFlows": [
+    "1f5feb7d-fb88-499d-93c1-619f4e6f6b4d"
+  ],
+  "Parts": [
+    {
+      "Uid": "710b6b6b-dff0-44fb-b329-f7ffd4a5cab0",
+      "Name": "FFMPEG Builder: Start",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderStart",
+      "xPos": 80,
+      "yPos": 250,
+      "Icon": "far fa-file-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "9e02d186-398e-414d-9b40-74d4216e3823"
+        }
+      ],
+      "Type": 4,
+      "Model": {}
+    },
+    {
+      "Uid": "3e94a036-9aea-45f8-b570-ce260a6b750b",
+      "Name": "Crop Black Bars",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderCropBlackBars",
+      "xPos": 420,
+      "yPos": 400,
+      "Icon": "far fa-file-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "5b3ff017-699f-464d-b344-aadf9e5a7a0a"
+        },
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "62f2a768-1df4-4c09-a05a-240476093178"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "CroppingThreshold": 18
+      }
+    },
+    {
+      "Uid": "45b1b8fe-0edb-4d6c-b712-dbb9bdeaaa43",
+      "Name": "Remove All But First Audio",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderAudioTrackRemover",
+      "xPos": 80,
+      "yPos": 460,
+      "Icon": "fas fa-eraser",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "41d25e49-5696-46a3-8597-de798602baca"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "41d25e49-5696-46a3-8597-de798602baca"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "RemoveAll": true,
+        "Pattern": null,
+        "NotMatching": false,
+        "UseLanguageCode": false,
+        "RemoveIndex": 1,
+        "StreamType": "Audio"
+      }
+    },
+    {
+      "Uid": "1d98a67d-39ad-481f-a698-ed7a21e59b17",
+      "Name": "FFMPEG Builder: Remux to MKV",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderRemuxToMkv",
+      "xPos": 590,
+      "yPos": 810,
+      "Icon": "far fa-file-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "1dff88a8-80c1-4ce4-a0fc-79bc13cd220c"
+        }
+      ],
+      "Type": 6,
+      "Model": {}
+    },
+    {
+      "Uid": "5db74106-fe52-444e-986f-0d708ea4fb19",
+      "Name": "FFMPEG Builder: Executor",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderExecutor",
+      "xPos": 870,
+      "yPos": 180,
+      "Icon": "far fa-file-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "9a4eb5e1-b7f5-4ca4-8605-7ae98789135f"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "bf70ee73-0fd5-4f60-b9d9-f9d15c14f480"
+        }
+      ],
+      "ErrorConnection": {
+        "Input": 1,
+        "Output": -1,
+        "InputNode": "d5a42787-bbba-484a-a07f-c53c467afea4"
+      },
+      "Type": 5,
+      "Model": {
+        "HardwareDecoding": true,
+        "Strictness": "experimental"
+      }
+    },
+    {
+      "Uid": "5b3ff017-699f-464d-b344-aadf9e5a7a0a",
+      "Name": "Less Than 20 GB",
+      "FlowElementUid": "FileFlows.BasicNodes.File.FileSize",
+      "xPos": 490,
+      "yPos": 500,
+      "Icon": "fas fa-balance-scale-right",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "580d7c5a-6684-43f5-a6f9-be46b885ef3e"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "62f2a768-1df4-4c09-a05a-240476093178"
+        }
+      ],
+      "Type": 3,
+      "Model": {
+        "Lower": 0,
+        "Upper": 20000
+      }
+    },
+    {
+      "Uid": "80ce54b3-01b8-450e-932a-c5a4d8ef84c8",
+      "Name": "FFMPEG Builder: Audio Set Language",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderAudioSetLanguage",
+      "xPos": 160,
+      "yPos": 790,
+      "Icon": "fas fa-comment-dots",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "58a76ed5-fcb4-4be7-bf41-5dc0750df22d"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "58a76ed5-fcb4-4be7-bf41-5dc0750df22d"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "Language": "eng"
+      }
+    },
+    {
+      "Uid": "1dff88a8-80c1-4ce4-a0fc-79bc13cd220c",
+      "Name": "remove non-english subtitles",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderAudioTrackRemover",
+      "xPos": 870,
+      "yPos": 60,
+      "Icon": "fas fa-eraser",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "5db74106-fe52-444e-986f-0d708ea4fb19"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "5db74106-fe52-444e-986f-0d708ea4fb19"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "StreamType": "Subtitle",
+        "RemoveAll": false,
+        "RemoveIndex": 0,
+        "Pattern": "en",
+        "NotMatching": true,
+        "UseLanguageCode": true,
+        "MatchType": 2
+      }
+    },
+    {
+      "Uid": "580d7c5a-6684-43f5-a6f9-be46b885ef3e",
+      "Name": "Is HEVC?",
+      "FlowElementUid": "FileFlows.VideoNodes.VideoHasStream",
+      "xPos": 630,
+      "yPos": 620,
+      "Icon": "fas fa-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "62f2a768-1df4-4c09-a05a-240476093178"
+        },
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "1d98a67d-39ad-481f-a698-ed7a21e59b17"
+        }
+      ],
+      "Type": 3,
+      "Model": {
+        "Stream": "Video",
+        "Title": null,
+        "Codec": "h265",
+        "Language": null,
+        "Channels": 0
+      }
+    },
+    {
+      "Uid": "9a4eb5e1-b7f5-4ca4-8605-7ae98789135f",
+      "Name": "",
+      "FlowElementUid": "FileFlows.BasicNodes.File.FileSizeCompare",
+      "xPos": 1150,
+      "yPos": 320,
+      "Icon": "fas fa-sitemap",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 3,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "be52e59f-eec9-4369-bc1a-550836fb04ea"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "be52e59f-eec9-4369-bc1a-550836fb04ea"
+        },
+        {
+          "Input": 1,
+          "Output": 3,
+          "InputNode": "52495e66-d436-4984-a6c9-8341cf963faf"
+        }
+      ],
+      "Type": 3,
+      "Model": {}
+    },
+    {
+      "Uid": "52495e66-d436-4984-a6c9-8341cf963faf",
+      "Name": "",
+      "FlowElementUid": "FileFlows.BasicNodes.File.FileSize",
+      "xPos": 910,
+      "yPos": 420,
+      "Icon": "fas fa-balance-scale-right",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "be52e59f-eec9-4369-bc1a-550836fb04ea"
+        },
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "061f1b68-c400-4688-9790-874b36182fa5"
+        }
+      ],
+      "Type": 3,
+      "Model": {
+        "Lower": 16000,
+        "Upper": 0
+      }
+    },
+    {
+      "Uid": "41daff11-d179-4838-bac4-24ad028f7772",
+      "Name": "FFMPEG Builder: Executor",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderExecutor",
+      "xPos": 870,
+      "yPos": 630,
+      "Icon": "far fa-file-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "3410d546-9fff-446d-99a0-b36ae28ae254"
+        },
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "6740ea41-f6a3-4149-8dcd-eb9c13b9143f"
+        }
+      ],
+      "ErrorConnection": {
+        "Input": 1,
+        "Output": -1,
+        "InputNode": "e461f336-5d47-471c-a065-e60d9a23524b"
+      },
+      "Type": 5,
+      "Model": {
+        "HardwareDecoding": true,
+        "Strictness": "experimental"
+      }
+    },
+    {
+      "Uid": "3410d546-9fff-446d-99a0-b36ae28ae254",
+      "Name": "",
+      "FlowElementUid": "FileFlows.BasicNodes.Functions.FailFlow",
+      "xPos": 1040,
+      "yPos": 760,
+      "Icon": "fas fa-exclamation-triangle",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 0,
+      "Type": 3,
+      "Model": {
+        "Reason": "Re-encode failed"
+      }
+    },
+    {
+      "Uid": "061f1b68-c400-4688-9790-874b36182fa5",
+      "Name": "HEVC",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncode",
+      "xPos": 870,
+      "yPos": 530,
+      "Icon": "far fa-file-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "41daff11-d179-4838-bac4-24ad028f7772"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "Codec": "h265",
+        "HardwareEncoding": true,
+        "Quality": 25,
+        "Speed": "slow"
+      }
+    },
+    {
+      "Uid": "9e02d186-398e-414d-9b40-74d4216e3823",
+      "Name": "sort audio",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderTrackSorter",
+      "xPos": 80,
+      "yPos": 350,
+      "Icon": "fas fa-sort-alpha-down",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "45b1b8fe-0edb-4d6c-b712-dbb9bdeaaa43"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "45b1b8fe-0edb-4d6c-b712-dbb9bdeaaa43"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "StreamType": "Audio",
+        "Sorters": [
+          {
+            "key": "TitleDesc",
+            "value": "comment"
+          },
+          {
+            "key": "Language",
+            "value": "eng"
+          },
+          {
+            "key": "ChannelsDesc",
+            "value": ""
+          },
+          {
+            "key": "Codec",
+            "value": "ac3"
+          }
+        ]
+      }
+    },
+    {
+      "Uid": "b4c133be-575a-433b-b9ea-e91d11eaa540",
+      "Name": "convert to ac3",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderAudioConverter",
+      "xPos": 520,
+      "yPos": 150,
+      "Icon": "fas fa-comments",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "8c6c54ca-fcc8-4557-bf88-85ad468cfb41"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "8c6c54ca-fcc8-4557-bf88-85ad468cfb41"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "Codec": "ac3",
+        "Channels": 0,
+        "Bitrate": 320,
+        "Pattern": null,
+        "NotMatching": false,
+        "UseLanguageCode": false
+      }
+    },
+    {
+      "Uid": "58a76ed5-fcb4-4be7-bf41-5dc0750df22d",
+      "Name": "has ac3?",
+      "FlowElementUid": "FileFlows.VideoNodes.VideoHasStream",
+      "xPos": 410,
+      "yPos": 50,
+      "Icon": "fas fa-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "b4c133be-575a-433b-b9ea-e91d11eaa540"
+        },
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "8c6c54ca-fcc8-4557-bf88-85ad468cfb41"
+        }
+      ],
+      "Type": 3,
+      "Model": {
+        "Stream": "Audio",
+        "Title": null,
+        "Codec": "ac3",
+        "Language": null,
+        "Channels": 0
+      }
+    },
+    {
+      "Uid": "8c6c54ca-fcc8-4557-bf88-85ad468cfb41",
+      "Name": "Set Audio Titles to Language",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderSetTrackTitles",
+      "xPos": 420,
+      "yPos": 290,
+      "Icon": "fas fa-heading",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "3e94a036-9aea-45f8-b570-ce260a6b750b"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "3e94a036-9aea-45f8-b570-ce260a6b750b"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "StreamType": "Audio",
+        "Format": "lang",
+        "Separator": " / ",
+        "CommentaryFormat": "Commentary"
+      }
+    },
+    {
+      "Uid": "62f2a768-1df4-4c09-a05a-240476093178",
+      "Name": "h265",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncode",
+      "xPos": 420,
+      "yPos": 720,
+      "Icon": "far fa-file-video",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "1d98a67d-39ad-481f-a698-ed7a21e59b17"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "Codec": "h265",
+        "HardwareEncoding": true,
+        "Quality": 22,
+        "Speed": "slow"
+      }
+    },
+    {
+      "Uid": "ce469256-ae1f-4c5f-980f-a91b263f798c",
+      "Name": "",
+      "FlowElementUid": "FileFlows.BasicNodes.Functions.FailFlow",
+      "xPos": 1280,
+      "yPos": 230,
+      "Icon": "fas fa-exclamation-triangle",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 0,
+      "Type": 3,
+      "Model": {
+        "Reason": "CPU Encoding Failed"
+      }
+    },
+    {
+      "Uid": "acfc78ab-48a3-45b9-b213-284ad3ea5af8",
+      "Name": "",
+      "FlowElementUid": "FileFlows.BasicNodes.Functions.FailFlow",
+      "xPos": 1480,
+      "yPos": 770,
+      "Icon": "fas fa-exclamation-triangle",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 0,
+      "Type": 3,
+      "Model": {
+        "Reason": "CPU lower quality re-encode failed"
+      }
+    },
+    {
+      "Uid": "be52e59f-eec9-4369-bc1a-550836fb04ea",
+      "Name": "Output 1",
+      "FlowElementUid": "SubFlowOutput",
+      "xPos": 1130,
+      "yPos": 540,
+      "Icon": "fas fa-sign-out-alt",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 0,
+      "Type": 1,
+      "Model": {
+        "Output": 1
+      }
+    },
+    {
+      "Uid": "bf70ee73-0fd5-4f60-b9d9-f9d15c14f480",
+      "Name": "Output 2",
+      "FlowElementUid": "SubFlowOutput",
+      "xPos": 910,
+      "yPos": 320,
+      "Icon": "fas fa-sign-out-alt",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 0,
+      "Type": 1,
+      "Model": {
+        "Output": 2
+      }
+    },
+    {
+      "Uid": "0bb05383-7ea0-4197-b7c2-2a653f956ef2",
+      "Name": "Output 1",
+      "FlowElementUid": "SubFlowOutput",
+      "xPos": 1230,
+      "yPos": 770,
+      "Icon": "fas fa-sign-out-alt",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 0,
+      "Type": 1,
+      "Model": {
+        "Output": 1
+      }
+    },
+    {
+      "Uid": "6740ea41-f6a3-4149-8dcd-eb9c13b9143f",
+      "Name": "Output 1",
+      "FlowElementUid": "SubFlowOutput",
+      "xPos": 830,
+      "yPos": 770,
+      "Icon": "fas fa-sign-out-alt",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 0,
+      "Type": 1,
+      "Model": {
+        "Output": 1
+      }
+    },
+    {
+      "Uid": "0a1fa135-7132-423c-a438-3564fb593674",
+      "Name": "Check Quality",
+      "FlowElementUid": "FileFlows.BasicNodes.Functions.Function",
+      "xPos": 80,
+      "yPos": 160,
+      "Icon": "fas fa-code",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "710b6b6b-dff0-44fb-b329-f7ffd4a5cab0"
+        }
+      ],
+      "Type": 3,
+      "Model": {
+        "Outputs": 1,
+        "Code": "let quality = Variables.Quality;\nif(isNaN(quality))\n{\n\tLogger.ELog(\u0027Quality not set\u0027);\n\treturn -1;\n}\n\nif(quality \u003C 1 || quality \u003E 30)\n{\n\tLogger.ELog(\u0027Quality is invalid, must be between 1 and 30\u0027);\n\treturn -1;\n}\n\n// calculate re-encode quality\nlet smallerQuality = Math.min(quality \u002B 3, 30);\n\nLogger.ILog(\u0027Quality to use: \u0027 \u002B quality);\nLogger.ILog(\u0027Lower Quality to use if file size is greater: \u0027 \u002B smallerQuality);\n\nVariables[\u002762f2a768-1df4-4c09-a05a-240476093178.Quality\u0027] = quality;\nVariables[\u0027061f1b68-c400-4688-9790-874b36182fa5.Quality\u0027] = smallerQuality;\n\n// cpu retry variable\nVariables[\u0027d5a42787-bbba-484a-a07f-c53c467afea4.Quality\u0027] = quality;\nVariables[\u0027e461f336-5d47-471c-a065-e60d9a23524b.Quality\u0027] = smallerQuality;\n\nreturn 1;"
+      }
+    },
+    {
+      "Uid": "61de8665-c297-427f-a7fe-e54b0336eb77",
+      "Name": "Sub Flow Input",
+      "FlowElementUid": "SubFlowInput",
+      "xPos": 80,
+      "yPos": 60,
+      "Icon": "fas fa-long-arrow-alt-down",
+      "Label": "",
+      "Inputs": 0,
+      "Outputs": 1,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "0a1fa135-7132-423c-a438-3564fb593674"
+        }
+      ],
+      "Type": 0,
+      "Model": {}
+    },
+    {
+      "Uid": "d5a42787-bbba-484a-a07f-c53c467afea4",
+      "Name": "Disable HW HEVC CPU",
+      "FlowElementUid": "SubFlow:1f5feb7d-fb88-499d-93c1-619f4e6f6b4d",
+      "xPos": 1240,
+      "yPos": 50,
+      "Icon": "fas fa-subway",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "ce469256-ae1f-4c5f-980f-a91b263f798c"
+        },
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "9a4eb5e1-b7f5-4ca4-8605-7ae98789135f"
+        }
+      ],
+      "Type": 10,
+      "Model": {
+        "Output": 1,
+        "Quality": 25
+      }
+    },
+    {
+      "Uid": "e461f336-5d47-471c-a065-e60d9a23524b",
+      "Name": "Disable HW HEVC CPU",
+      "FlowElementUid": "SubFlow:1f5feb7d-fb88-499d-93c1-619f4e6f6b4d",
+      "xPos": 1360,
+      "yPos": 640,
+      "Icon": "fas fa-subway",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "0bb05383-7ea0-4197-b7c2-2a653f956ef2"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "acfc78ab-48a3-45b9-b213-284ad3ea5af8"
+        }
+      ],
+      "Type": 10,
+      "Model": {
+        "Output": 1,
+        "Quality": 24
+      }
+    },
+    {
+      "Uid": "41d25e49-5696-46a3-8597-de798602baca",
+      "Name": "Normalize Audio?",
+      "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+      "xPos": 70,
+      "yPos": 560,
+      "Icon": "fas fa-question",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "d218168a-0e85-4242-a033-6b98cc0a0e9b"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "80ce54b3-01b8-450e-932a-c5a4d8ef84c8"
+        }
+      ],
+      "Type": 3,
+      "Model": {
+        "Variable": "Normalize_Audio"
+      }
+    },
+    {
+      "Uid": "d218168a-0e85-4242-a033-6b98cc0a0e9b",
+      "Name": "FFmpeg Builder: Audio Normalization",
+      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderAudioNormalization",
+      "xPos": 0,
+      "yPos": 670,
+      "Icon": "fas fa-volume-up",
+      "Label": "",
+      "Inputs": 1,
+      "Outputs": 2,
+      "OutputConnections": [
+        {
+          "Input": 1,
+          "Output": 1,
+          "InputNode": "80ce54b3-01b8-450e-932a-c5a4d8ef84c8"
+        },
+        {
+          "Input": 1,
+          "Output": 2,
+          "InputNode": "80ce54b3-01b8-450e-932a-c5a4d8ef84c8"
+        }
+      ],
+      "Type": 6,
+      "Model": {
+        "AllAudio": false,
+        "TwoPass": true,
+        "Pattern": null,
+        "NotMatching": false
+      }
+    }
+  ]
+}

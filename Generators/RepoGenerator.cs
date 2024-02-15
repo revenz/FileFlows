@@ -22,6 +22,7 @@ class RepoGenerator : Generator
         repo.FlowTemplates = GetTemplates(Path.Combine(projDir, "Templates/Flow"), community: false);
         repo.CommunityFlowTemplates = GetTemplates(Path.Combine(projDir, "Templates/Flow"), community: true);
         repo.LibraryTemplates = GetTemplates(Path.Combine(projDir, "Templates/Library"));
+        repo.SubFlows = GetTemplates(Path.Combine(projDir, "SubFlows"));
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true,
             Converters = { new DataConverter() }            
@@ -105,7 +106,6 @@ class RepoGenerator : Generator
             PropertyNameCaseInsensitive = true
         };
 
-
         foreach(var file in basePath.GetFiles("*.json", SearchOption.AllDirectories))
         {
             var isCommunity = file.FullName.IndexOf("Community") > 0;
@@ -114,10 +114,28 @@ class RepoGenerator : Generator
             if(isCommunity == false && community == true)
                 continue;
             
+            var isSubFlow = path.Contains("SubFlow") && path.Contains("Templates") == false;
+            
             string content = File.ReadAllText(file.FullName);
-            var template = JsonSerializer.Deserialize<RepositoryObject>(content, options);
-            template.Path = "Templates/" + basePath.Name + "/" + file.FullName.Substring(basePath.FullName.Length + 1).Replace("\\", "/");
-            templates.Add(template);
+            var template = JsonSerializer.Deserialize<RepositoryObjectWithProperties>(content, options);
+            if (template == null)
+                continue;
+
+            var actual = new RepositoryObject()
+            {
+                Name = template.Name,
+                Description = template.Description?.EmptyAsNull() ?? template.Properties?.Description ?? string.Empty,
+                Revision = template.Revision,
+                Uid = template.Uid,
+                MinimumVersion = template.MinimumVersion,
+                Author = template.Author?.EmptyAsNull() ?? template?.Properties?.Author ?? string.Empty
+            };
+            
+            if(isSubFlow)
+                actual.Path = "SubFlows/" + file.FullName[(basePath.FullName.Length + 1)..].Replace("\\", "/");
+            else
+                actual.Path = "Templates/" + basePath.Name + "/" + file.FullName[(basePath.FullName.Length + 1)..].Replace("\\", "/");
+            templates.Add(actual);
         }
 
         return templates;
@@ -168,6 +186,10 @@ class Repository
     /// Gets or sets a list of flow templates 
     /// </summary>
     public List<RepositoryObject> FlowTemplates { get; set; } = new List<RepositoryObject>();
+    /// <summary>
+    /// Gets or sets a list of sub flows 
+    /// </summary>
+    public List<RepositoryObject> SubFlows { get; set; } = new List<RepositoryObject>();
 
     /// <summary>
     /// Gets or sets a list of community flow templates 
@@ -201,5 +223,26 @@ public class RepositoryObject
     /// Gets or sets the minimum version of FileFlows required for this object
     /// </summary>
     public string MinimumVersion { get; set; }
+    
+    /// <summary>
+    /// Gets or sets an optional UID for the repository item
+    /// </summary>
+    public Guid? Uid { get; set; }
 
+    /// <summary>
+    /// Gets or sets the author
+    /// </summary>
+    public string Author { get; set; }
+}
+
+
+public class RepositoryObjectWithProperties : RepositoryObject
+{
+    public RepositoryObjectProperties Properties { get; set; }
+}
+
+public class RepositoryObjectProperties
+{
+    public string Description { get; set; }
+    public string Author { get; set; }
 }
