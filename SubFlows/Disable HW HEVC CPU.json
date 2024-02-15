@@ -4,7 +4,7 @@
   "Type": 2,
   "Revision": 18,
   "Properties": {
-    "Description": "Converts a video to HEVC\nOutput 1: Converted\nOutput 2: Did not need converting",
+    "Description": "Disabled all hardware devices and will encode videos using HEVC CPU.\nWill execute the FFmpeg Builder Executor but does not initiate the FFmpeg Builder Start,",
     "Author": "reven",
     "Fields": [
       {
