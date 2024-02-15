@@ -590,7 +590,7 @@
     {
       "Path": "SubFlows/HEVC AC3 Encode.json",
       "Name": "HEVC AC3 Encode",
-      "Description": "Converts a video to HEVC\nOutput 1: Converted\nOutput 2: Did not need converting",
+      "Description": "Converts a video to HEVC with AC3 audio.\nWill automatically crop black bars if detected.\nWill re-encode a file at a lower quality if file size increases.\nUses \u0060Disable HW HEVC CPU\u0060 to reattempt encoding if hardware encoding fails.",
       "Revision": 25,
       "Uid": "5ef0e9fb-b64e-4bb1-bae8-4cadce539dea",
       "Author": "reven"
@@ -598,7 +598,7 @@
     {
       "Path": "SubFlows/Disable HW HEVC CPU.json",
       "Name": "Disable HW HEVC CPU",
-      "Description": "Converts a video to HEVC\nOutput 1: Converted\nOutput 2: Did not need converting",
+      "Description": "Disabled all hardware devices and will encode videos using HEVC CPU.\nWill execute the FFmpeg Builder Executor but does not initiate the FFmpeg Builder Start,",
       "Revision": 18,
       "Uid": "1f5feb7d-fb88-499d-93c1-619f4e6f6b4d",
       "Author": "reven"
