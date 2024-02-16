@@ -117,7 +117,7 @@ class RepoGenerator : Generator
             var isSubFlow = path.Contains("SubFlow") && path.Contains("Templates") == false;
             
             string content = File.ReadAllText(file.FullName);
-            var template = JsonSerializer.Deserialize<RepositoryObjectWithProperties>(content, options);
+            var template = JsonSerializer.Deserialize<SubFlowRepositoryObject>(content, options);
             if (template == null)
                 continue;
 
@@ -128,7 +128,8 @@ class RepoGenerator : Generator
                 Revision = template.Revision,
                 Uid = template.Uid,
                 MinimumVersion = template.MinimumVersion,
-                Author = template.Author?.EmptyAsNull() ?? template?.Properties?.Author ?? string.Empty
+                Author = template.Author?.EmptyAsNull() ?? template?.Properties?.Author ?? string.Empty,
+                SubFlows = template.SubFlows?.Any() != true ? null : template.SubFlows
             };
             
             if(isSubFlow)
@@ -233,16 +234,36 @@ public class RepositoryObject
     /// Gets or sets the author
     /// </summary>
     public string Author { get; set; }
+    
+    /// <summary>
+    /// Gets or sets a list of sub flows this object depends on
+    /// </summary>
+    public List<Guid> SubFlows { get; set; }
 }
 
 
-public class RepositoryObjectWithProperties : RepositoryObject
+/// <summary>
+/// Sub Flow repository object
+/// </summary>
+public class SubFlowRepositoryObject : RepositoryObject
 {
+    /// <summary>
+    /// Gets or sets the properties for this sub flow
+    /// </summary>
     public RepositoryObjectProperties Properties { get; set; }
 }
 
+/// <summary>
+/// Properties of a repository object
+/// </summary>
 public class RepositoryObjectProperties
 {
+    /// <summary>
+    /// Gets or sets the description of this object
+    /// </summary>
     public string Description { get; set; }
+    /// <summary>
+    /// Gets or sets the author of this object
+    /// </summary>
     public string Author { get; set; }
 }
