@@ -593,7 +593,10 @@
       "Description": "Converts a video to HEVC with AC3 audio.\nWill automatically crop black bars if detected.\nWill re-encode a file at a lower quality if file size increases.\nUses \u0060Disable HW HEVC CPU\u0060 to reattempt encoding if hardware encoding fails.",
       "Revision": 25,
       "Uid": "5ef0e9fb-b64e-4bb1-bae8-4cadce539dea",
-      "Author": "reven"
+      "Author": "reven",
+      "SubFlows": [
+        "1f5feb7d-fb88-499d-93c1-619f4e6f6b4d"
+      ]
     },
     {
       "Path": "SubFlows/Disable HW HEVC CPU.json",
