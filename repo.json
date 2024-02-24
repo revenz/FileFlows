@@ -397,24 +397,24 @@
       "Path": "Templates/Library/General/MusicLibrary.json",
       "Name": "Music Library",
       "Description": "Music library that searches for common music files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
+      "Revision": 2,
+      "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
     {
       "Path": "Templates/Library/General/VideoLibrary.json",
       "Name": "Video Library",
       "Description": "Video library that searches for common video files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
+      "Revision": 2,
+      "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
     {
       "Path": "Templates/Library/General/ImageLibrary.json",
       "Name": "Image Library",
       "Description": "Image library that searches for common image files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
+      "Revision": 2,
+      "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
     {
@@ -429,24 +429,24 @@
       "Path": "Templates/Library/DownloadClients/SABnzbdMusic.json",
       "Name": "SABnzbd Music",
       "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert music into a target format, and place those music files in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
+      "Revision": 2,
+      "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
     {
       "Path": "Templates/Library/DownloadClients/SABnzbdVideos.json",
       "Name": "SABnzbd Videos",
       "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert videos into a target format, and place those videos in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
+      "Revision": 2,
+      "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
     {
       "Path": "Templates/Library/Books/AudioBookLibrary.json",
       "Name": "Audio Book Library",
       "Description": "Audio Book library that searches for common audio book files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
+      "Revision": 2,
+      "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
     {
@@ -454,23 +454,23 @@
       "Name": "Comic Library",
       "Description": "Comic library that searches for common comic book files",
       "Revision": 2,
-      "MinimumVersion": "1.0.0.0",
+      "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
     {
       "Path": "Templates/Library/Books/eBookLibrary.json",
       "Name": "eBook Library",
       "Description": "eBook library that searches for common eBook files",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
+      "Revision": 2,
+      "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
     {
       "Path": "Templates/Library/DVR/PlexDVR.json",
       "Name": "Plex DVR",
       "Description": "Library to monitor Plex DVR recordings so you can automatically convert these after they have completed.",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0",
+      "Revision": 2,
+      "MinimumVersion": "24.02.6.2743",
       "Author": ""
     }
   ],
