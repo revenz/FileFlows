@@ -2,7 +2,7 @@
   "Name": "HEVC AC3 Encode",
   "Uid": "5ef0e9fb-b64e-4bb1-bae8-4cadce539dea",
   "Type": 2,
-  "Revision": 25,
+  "Revision": 26,
   "Properties": {
     "Description": "Converts a video to HEVC with AC3 audio.\nWill automatically crop black bars if detected.\nWill re-encode a file at a lower quality if file size increases.\nUses `Disable HW HEVC CPU` to reattempt encoding if hardware encoding fails.",
     "Author": "reven",
@@ -24,7 +24,7 @@
         "Name": "Normalize_Audio",
         "Type": 2,
         "Description": "If audio should be normalized or not",
-        "FlowElementField": "41d25e49-5696-46a3-8597-de798602baca.Variable",
+        "FlowElementField": "",
         "Required": false,
         "IntMinimum": 0,
         "IntMaximum": 0,
