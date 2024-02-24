@@ -1,12 +1,14 @@
 {
     "name": "SABnzbd Music",
-    "revision": 1,
-    "minimumVersion": "1.0.0.0",
+    "revision": 2,
+    "minimumVersion": "24.02.6.2743",
     "group": "Download Clients",
     "description": "Library to monitor a \"complete\" downloads directory from SABnzbd.\n\nThis library can then use a flow to convert music into a target format, and place those music files in destination folder e.g. \"converted\".\n\nThe application that instructed SABnzbd to do the download can monitor the \"converted\" folder for completed files.",
-    "filter": "^((?!(_UNPACK|_FAILED)|sample).)*\\.(aac|ogg|flac|mp3|wav)$",
-    "path": "/media/downloads/complete",
-    "reprocessRecreatedFiles": true,
+    "extensions":["mp3", "wav", "ogg", "aac", "wma", "flac", "alac", "m4a", "m4p"],
+    "filter": "",
+    "exclusionFilter":"(_UNPACK|_FAILED)",
+    "path": "/media/music",
     "scanInterval": 60,
-    "fileSizeDetectionInterval": 5
+    "fileSizeDetectionInterval": 0,
+    "useFingerprint": false
 }

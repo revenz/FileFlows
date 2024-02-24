@@ -1,11 +1,13 @@
 {
     "name": "eBook Library",
-    "revision": 1,
-    "minimumVersion": "1.0.0.0",
+    "revision": 2,
+    "minimumVersion": "24.02.6.2743",
     "group": "Books",
     "description": "eBook library that searches for common eBook files",
-    "filter": "\\.(epub|mobi|pdf|azw)$",
+    "extensions":["epub", "mobi", "pdf", "azw"],
+    "filter": "",
     "path": "/media/ebooks",
     "scanInterval": 60,
-    "fileSizeDetectionInterval": 5
+    "fileSizeDetectionInterval": 5,
+    "useFingerprint": false
 }

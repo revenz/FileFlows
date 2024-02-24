@@ -1,11 +1,13 @@
 {
     "name": "Comic Library",
     "revision": 2,
-    "minimumVersion": "1.0.0.0",
+    "minimumVersion": "24.02.6.2743",
     "group": "Books",
     "description": "Comic library that searches for common comic book files",
-    "filter": "\\.(cbz|cbr|cb7|pdf|bz2|gz)$",
+    "extensions":["cbz", "cbr", "cb7", "pdf", "bz2", "gz"],
+    "filter": "",
     "path": "/media/comics",
     "scanInterval": 60,
-    "fileSizeDetectionInterval": 5
+    "fileSizeDetectionInterval": 5,
+    "useFingerprint": false
 }

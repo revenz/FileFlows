@@ -1,11 +1,13 @@
 {
     "name": "Music Library",
-    "revision": 1,
-    "minimumVersion": "1.0.0.0",
+    "revision": 2,
+    "minimumVersion": "24.02.6.2743",
     "group": "General",
     "description": "Music library that searches for common music files",
-    "filter": "\\.(mp3|wav|ogg|aac|wma|flac|alac|m4a|m4p)$",
+    "extensions":["mp3", "wav", "ogg", "aac", "wma", "flac", "alac", "m4a", "m4p"],
+    "filter": "",
     "path": "/media/music",
     "scanInterval": 60,
-    "fileSizeDetectionInterval": 0
+    "fileSizeDetectionInterval": 0,
+    "useFingerprint": false
 }

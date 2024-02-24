@@ -1,11 +1,13 @@
 {
     "name": "Audio Book Library",
-    "revision": 1,
-    "minimumVersion": "1.0.0.0",
+    "revision": 2,
+    "minimumVersion": "24.02.6.2743",
     "group": "Books",
     "description": "Audio Book library that searches for common audio book files",
-    "filter": "\\.(m4b|mp3|flac|wma|m4a|aac|wav)$",
+    "extensions":["m4b", "mp3", "flac", "wma", "m4a", "aac", "wav"],
+    "filter": "",
     "path": "/media/audio-books",
     "scanInterval": 60,
-    "fileSizeDetectionInterval": 5
+    "fileSizeDetectionInterval": 5,
+    "useFingerprint": false
 }
