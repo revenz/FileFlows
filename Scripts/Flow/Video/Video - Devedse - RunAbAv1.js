@@ -81,7 +81,7 @@ function Script(Preset,SvtArguments,Encoder,PixFormat,MinVmaf,MaxEncodedPercent,
 
     if(executeAbAv1.exitCode !== 0){
         Logger.ELog('Failed to execute ab-av1: ' + executeAbAv1.exitCode);
-        return 1;
+        return -1;
     }
 
     Logger.ILog('ab-av1 executed successfully.');
