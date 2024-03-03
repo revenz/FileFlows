@@ -5,17 +5,22 @@
  *  Video - Devedse - InstallAbAv1.js
  * Executes the ab-av1 command.
  * @author Devedse
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
- * @param {int} Preset The preset to use
- * @param {string} SvtArguments The --svt arguments to pass to AbAv1
+ * @param {string} Preset The preset to use
+ * @param {string} SvtArguments The --svt arguments to pass to AbAv1. Only use if using SVT-AV1 encoder
+ * @param {string} Encoder The target encoder
  * @param {string} PixFormat The --pix-format argument to pass to AbAv1
  * @param {string} MinVmaf The VMAF value to go for (e.g. 95.0)
+ * @param {int} MaxEncodedPercent Maximum percentage of predicted size
+ * @param {string} MinCRF The minimum CRF
+ * @param {string} MaxCRF The maximum CRF
+ * @param {int} MinSamples Minimum number of samples per video
  * @param {bool} Thorough Keep searching until a crf is found no more than min_vmaf+0.05 or all possibilities have been attempted.
  * @output The command succeeded
  * @output Variables.AbAv1CRFValue: The detected CRF value
  */
-function Script(Preset,SvtArguments,PixFormat,MinVmaf,Thorough)
+function Script(Preset,SvtArguments,Encoder,PixFormat,MinVmaf,MaxEncodedPercent,MinCRF,MaxCRF,MinSamples,Thorough)
 {
 
     let targetDirectory = '/app/Data/tools/ab-av1/';
@@ -41,8 +46,27 @@ function Script(Preset,SvtArguments,PixFormat,MinVmaf,Thorough)
         return -1;
     }
 
-    let abav1Command = `${abAv1Path} crf-search --svt ${SvtArguments} --pix-format ${PixFormat} -i '${fi.FullName}' --min-vmaf ${MinVmaf} --preset ${Preset}`
-    if (Thorough == true) {
+    let abav1Command = `${abAv1Path} crf-search --pix-format ${PixFormat} -i "${fi.FullName}" --min-vmaf ${MinVmaf} --preset ${Preset}`
+    if(MaxEncodedPercent){
+        abav1Command += ` --max-encoded-percent ${MaxEncodedPercent}`
+    }
+    if(MinSamples){
+        abav1Command += ` --min-samples ${MinSamples}`
+    }
+    if(String(Encoder).trim().length > 0){
+        abav1Command += ` --encoder ${Encoder}`
+    }
+    if(String(MinCRF).trim().length > 0){
+        abav1Command += ` --min-crf ${MinCRF}`
+    }
+    if(String(MaxCRF).trim().length > 0){
+        abav1Command += ` --max-crf ${MaxCRF}`
+    }
+
+    if(String(SvtArguments).trim().length > 0){
+        abav1Command += ` --svt ${SvtArguments}`
+    }
+    if (String(Thorough) == true) {
         abav1Command += ' --thorough'
     }
 
@@ -65,7 +89,8 @@ function Script(Preset,SvtArguments,PixFormat,MinVmaf,Thorough)
 
     // Parse the output to find the CRF value
     let output = executeAbAv1.output;
-    let crfValueMatch = output.match(/crf (\d+) VMAF.*predicted video stream size/);
+    let crfValueMatch = output.match(/crf (\d+\.?\d*) VMAF.*predicted video stream size/);
+    Logger.ILog('crf: ' + crfValueMatch);
     if (crfValueMatch && crfValueMatch.length > 1) {
         let crfValue = crfValueMatch[1];
         Logger.ILog('Detected CRF value vased on VMAF: ' + crfValue);
@@ -73,10 +98,10 @@ function Script(Preset,SvtArguments,PixFormat,MinVmaf,Thorough)
         Logger.ILog('Set Variables.AbAv1CRFValue to ' + crfValue);
         // Set the CRF value for use in another node
         Variables.AbAv1CRFValue = crfValue;
-        return 1;
+        return 2;
     } else {
         Logger.ELog('CRF value not found in output');
-        return 0;
+        return 1;
     }
 
     return 1;
