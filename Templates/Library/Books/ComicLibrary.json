@@ -1,6 +1,6 @@
 {
     "name": "Comic Library",
-    "revision": 2,
+    "revision": 3,
     "minimumVersion": "24.02.6.2743",
     "group": "Books",
     "description": "Comic library that searches for common comic book files",
