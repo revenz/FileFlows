@@ -13,6 +13,7 @@ public class TempFileCleaner:Worker
     /// <summary>
     /// Constructs a temp file cleaner
     /// <param name="nodeAddress">The name of the node</param>
+    /// <param name="workerThatUsesTempDirectories">The worker that uses temp directories, this is used to verify that a temp directory should not be removed while still in use</param>"
     /// </summary>
     public TempFileCleaner(string nodeAddress, IWorkerThatUsesTempDirectories workerThatUsesTempDirectories) : base(ScheduleType.Daily, 5)
     {
