@@ -1,6 +1,6 @@
 ﻿namespace FileFlows.ServerShared
 {
-    public interface ITempDirectoryInUseService
+    public interface IWorkerThatUsesTempDirectories
     {
         public bool IsTempDirectoryInUse(string directory);
     }

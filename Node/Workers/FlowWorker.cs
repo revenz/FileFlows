@@ -16,7 +16,7 @@ namespace FileFlows.Node.Workers;
 /// <summary>
 /// A flow worker executes a flow and start a flow runner
 /// </summary>
-public class FlowWorker : Worker, ITempDirectoryInUseService
+public class FlowWorker : Worker, IWorkerThatUsesTempDirectories
 {
     /// <summary>
     /// A unique identifier to identify the flow worker
