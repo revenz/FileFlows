@@ -8,6 +8,7 @@ using FileFlows.ServerShared.Services;
 using FileFlows.ServerShared.Workers;
 using FileFlows.Shared.Models;
 using Jint.Native.Json;
+using System.Collections.Concurrent;
 
 namespace FileFlows.Node.Workers;
 
@@ -15,7 +16,7 @@ namespace FileFlows.Node.Workers;
 /// <summary>
 /// A flow worker executes a flow and start a flow runner
 /// </summary>
-public class FlowWorker : Worker
+public class FlowWorker : Worker, ITempDirectoryInUseService
 {
     /// <summary>
     /// A unique identifier to identify the flow worker
@@ -25,7 +26,13 @@ public class FlowWorker : Worker
     public readonly Guid Uid = Guid.NewGuid();
 
     private readonly string _configKeyDefault = Guid.NewGuid().ToString();
-    
+
+    public bool IsTempDirectoryInUse(string directory)
+    {
+        var tempDirectoryInUse = ExecutingRunners.Keys.Any(t => directory.EndsWith(t.ToString(), StringComparison.OrdinalIgnoreCase));
+        return tempDirectoryInUse;
+    }
+
     /// <summary>
     /// Gets if the config encryption key 
     /// </summary>
@@ -78,7 +85,10 @@ public class FlowWorker : Worker
     private static FlowWorker? Instance;
 
     private readonly Mutex mutex = new Mutex();
-    private readonly List<Guid> ExecutingRunners = new ();
+    /// <summary>
+    /// Concurrent because we have the TempFileCleaner running in parallel
+    /// </summary>
+    private readonly ConcurrentDictionary<Guid, object?> ExecutingRunners = new ();
 
     private const int DEFAULT_INTERVAL = 10;
     
@@ -506,7 +516,7 @@ public class FlowWorker : Worker
         mutex.WaitOne();
         try
         {
-            ExecutingRunners.Add(uid);
+            ExecutingRunners.TryAdd(uid, null);
         }
         finally
         {
@@ -525,8 +535,10 @@ public class FlowWorker : Worker
         mutex.WaitOne();
         try
         {
-            if (ExecutingRunners.Contains(uid))
-                ExecutingRunners.Remove(uid);
+            if (ExecutingRunners.TryRemove(uid, out var _))
+            {
+
+            }
             else
             {
                 Logger.Instance?.ILog("Executing runner not in list: " + uid +" => " + string.Join(",", ExecutingRunners.Select(x => x.ToString())));
@@ -742,5 +754,4 @@ public class FlowWorker : Worker
         return true;
 
     }
-
 }

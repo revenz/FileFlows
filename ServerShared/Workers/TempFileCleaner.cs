@@ -8,14 +8,16 @@ namespace FileFlows.ServerShared.Workers;
 public class TempFileCleaner:Worker
 {
     private string nodeAddress;
-    
+    private readonly ITempDirectoryInUseService tempDirectoryInUseService;
+
     /// <summary>
     /// Constructs a temp file cleaner
     /// <param name="nodeAddress">The name of the node</param>
     /// </summary>
-    public TempFileCleaner(string nodeAddress) : base(ScheduleType.Daily, 5)
+    public TempFileCleaner(string nodeAddress, ITempDirectoryInUseService tempDirectoryInUseService) : base(ScheduleType.Daily, 5)
     {
         this.nodeAddress = nodeAddress;
+        this.tempDirectoryInUseService = tempDirectoryInUseService;
         Trigger();
     }
 
@@ -37,6 +39,9 @@ public class TempFileCleaner:Worker
         Logger.Instance?.ILog("About to clean temporary directory: " + tempDir.FullName);
         foreach (var dir in tempDir.GetDirectories())
         {
+            if (tempDirectoryInUseService.IsTempDirectoryInUse(dir.Name))
+                continue;
+
             if (dir.CreationTimeUtc < DateTime.UtcNow.AddDays(-1))
             {
                 try
