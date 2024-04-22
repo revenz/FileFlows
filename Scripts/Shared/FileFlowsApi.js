@@ -1,8 +1,8 @@
 /**
  * Class that interacts with the FileFlows API 
  * @name FileFlows API
- * @revision 6
- * @minimumVersion 1.0.0.0
+ * @revision 7
+ * @minimumVersion 24.4.1.3000
  */
 export class FileFlowsApi
 {
@@ -10,6 +10,7 @@ export class FileFlowsApi
 
     constructor(){
         this.URL = Variables['FileFlows.Url'];
+        this.AccessToken = Variables['FileFlows.AccessToken'];
         if(!this.URL)
             MissingVariable('FileFlows.Url');
     }
@@ -19,7 +20,44 @@ export class FileFlowsApi
         let url = '' + this.URL;
         if(url.endsWith('/') === false)
             url += '/';
+        if(endpoint.startsWith('remote/'))
+            return url + endpoint;
         return url + 'api/' + endpoint;
+    }
+
+    fetchRemote(endpoint)
+    {
+        let url = this.getUrl('remote/' + endpoint);
+        Logger.ILog('Fetching remote: ' + url);
+        
+        if(this.AccessToken)
+        {
+            Logger.ILog('Access Token: ' + this.AccessToken);
+            http.DefaultRequestHeaders.Add("x-token", this.AccessToken);
+        }
+        else
+        {
+            Logger.ILog('No Access Token');
+        }
+
+        try
+        {
+            let response = http.GetAsync(url).Result;
+            let responseBody = response.Content.ReadAsStringAsync().Result;
+            Logger.ILog('Status Code: ' + response.StatusCode);
+            Logger.ILog('Response: ' + responseBody);
+            if(response.IsSuccessStatusCode === false)
+                throw responseBody;   
+            return responseBody;
+        }
+        finally
+        {
+            if(this.AccessToken)
+            {
+                Logger.ILog('Removing Access Token');
+                http.DefaultRequestHeaders.Remove("x-token");
+            }
+        }
     }
 
     /**
@@ -28,11 +66,7 @@ export class FileFlowsApi
      */
     getStatus()
     {
-        let url = this.getUrl('library-file/status');
-        let response = http.GetAsync(url).Result;
-        let responseBody = response.Content.ReadAsStringAsync().Result;
-        if(response.IsSuccessStatusCode === false)
-            throw responseBody;        
+        let responseBody = this.fetchRemote('info/library-status');
         let data = JSON.parse(responseBody);
         let status = { 
             Unprocessed: 0, // 0
