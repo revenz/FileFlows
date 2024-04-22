@@ -1,7 +1,7 @@
 /**
  * Class that interacts with the FileFlows API 
  * @name FileFlows API
- * @revision 7
+ * @revision 8
  * @minimumVersion 24.4.1.3000
  */
 export class FileFlowsApi
@@ -28,11 +28,11 @@ export class FileFlowsApi
     fetchRemote(endpoint)
     {
         let url = this.getUrl('remote/' + endpoint);
-        Logger.ILog('Fetching remote: ' + url);
+        Logger.ILog('Fetching Remote: ' + url);
         
         if(this.AccessToken)
         {
-            Logger.ILog('Access Token: ' + this.AccessToken);
+            Logger.ILog('Using Access Token');
             http.DefaultRequestHeaders.Add("x-token", this.AccessToken);
         }
         else
@@ -44,8 +44,6 @@ export class FileFlowsApi
         {
             let response = http.GetAsync(url).Result;
             let responseBody = response.Content.ReadAsStringAsync().Result;
-            Logger.ILog('Status Code: ' + response.StatusCode);
-            Logger.ILog('Response: ' + responseBody);
             if(response.IsSuccessStatusCode === false)
                 throw responseBody;   
             return responseBody;
