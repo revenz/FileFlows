@@ -297,6 +297,13 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - VMAF.js",
+      "Name": "Video - VMAF",
+      "Description": "Calculate vmaf score of working file compared to original file",
+      "Revision": 1,
+      "MinimumVersion": "1.0.0.0"
+    },
+    {
       "Path": "Scripts/Flow/File/File - Older Than.js",
       "Name": "File - Older Than",
       "Description": "Checks if a file is older than the specified days",
