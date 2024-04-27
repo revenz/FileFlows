@@ -300,7 +300,7 @@
       "Path": "Scripts/Flow/Video/Video - VMAF.js",
       "Name": "Video - VMAF",
       "Description": "Calculate vmaf score of working file compared to original file",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
