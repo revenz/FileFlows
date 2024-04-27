@@ -1,7 +1,7 @@
 /**
  * Calculate vmaf score of working file compared to original file
  * @author Luigi311
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
  * @param {int} n_threads Amount of threads to use for calculation, 0 for auto (non windows only)
  * @param {string} json_file Json file containing vmaf information, empty for ${Flow.TempPath}/${file.NameNoExtension}.json
@@ -34,10 +34,9 @@ function Script(n_threads, json_file)
         Logger.ILog(`Setting n_threads to ${n_threads}`);
     }
 
-    if(!json_file || String(json_file).trim().length === 0) {
-        Logger.ILog(`Setting json_file to ${Flow.TempPath}/${Variables.file.NameNoExtension}.json`)
-        json_file = `${Flow.TempPath}/${Variables.file.NameNoExtension}.json`;
-    }
+    // Set the default json file to a random guid to avoid issues with file names 
+    // and move it to the correct name at the end
+    let temp_json_file = `${Flow.TempPath}/${Flow.NewGuid()}.json`;
 
     let ffmpeg = Flow.GetToolPath('ffmpeg');
     let vmaf_process = Flow.Execute({
@@ -56,7 +55,7 @@ function Script(n_threads, json_file)
             '-i',
             Variables.file.Orig.FullName,
             '-lavfi',
-            `libvmaf=n_threads=${n_threads}:log_fmt=json:log_path='${json_file}'`,
+            `libvmaf=n_threads=${n_threads}:log_fmt=json:log_path='${temp_json_file}'`,
             '-f',
             'null',
             '-'
@@ -89,6 +88,13 @@ function Script(n_threads, json_file)
 
     Logger.ILog("VMAF Score: " + vmaf);
     Variables.VMAF = parseFloat(vmaf);
+
+    if(!json_file || String(json_file).trim().length === 0) {
+        Logger.ILog(`Setting json_file to ${Flow.TempPath}/${Variables.file.NameNoExtension}.json`)
+        json_file = `${Flow.TempPath}/${Variables.file.NameNoExtension}.json`;
+    }
+
+    System.IO.File.Move(temp_json_file, json_file);
 
     return 1;
 }
