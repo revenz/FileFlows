@@ -2,7 +2,7 @@
   "Name": "Disable HW HEVC CPU",
   "Uid": "1f5feb7d-fb88-499d-93c1-619f4e6f6b4d",
   "Type": 2,
-  "Revision": 18,
+  "Revision": 19,
   "Properties": {
     "Description": "Disabled all hardware devices and will encode videos using HEVC CPU.\nWill execute the FFmpeg Builder Executor but does not initiate the FFmpeg Builder Start,",
     "Author": "reven",
@@ -107,7 +107,8 @@
       ],
       "Type": 5,
       "Model": {
-        "HardwareDecoding": true,
+        "HardwareDecoding": "auto",
+        "ProbeSize": 5000000,
         "Strictness": "experimental"
       }
     },

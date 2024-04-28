@@ -2,7 +2,7 @@
   "Name": "HEVC AC3 Encode",
   "Uid": "5ef0e9fb-b64e-4bb1-bae8-4cadce539dea",
   "Type": 2,
-  "Revision": 26,
+  "Revision": 27,
   "Properties": {
     "Description": "Converts a video to HEVC with AC3 audio.\nWill automatically crop black bars if detected.\nWill re-encode a file at a lower quality if file size increases.\nUses `Disable HW HEVC CPU` to reattempt encoding if hardware encoding fails.",
     "Author": "reven",
@@ -178,7 +178,8 @@
       },
       "Type": 5,
       "Model": {
-        "HardwareDecoding": true,
+        "HardwareDecoding": "auto",
+        "ProbeSize": 5000000,
         "Strictness": "experimental"
       }
     },
@@ -388,7 +389,8 @@
       },
       "Type": 5,
       "Model": {
-        "HardwareDecoding": true,
+        "HardwareDecoding": "auto",
+        "ProbeSize": 5000000,
         "Strictness": "experimental"
       }
     },

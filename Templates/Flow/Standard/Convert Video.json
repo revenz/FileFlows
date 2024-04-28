@@ -1,7 +1,7 @@
 {
   "Name": "Convert Video",
   "Type": 0,
-  "Revision": 23,
+  "Revision": 24,
   "Properties": {
     "Description": "A flow that will convert a video file to another format",
     "Tags": [
@@ -311,7 +311,9 @@
       ],
       "Type": 5,
       "Model": {
-        "HardwareDecoding": true
+        "HardwareDecoding": "auto",
+        "ProbeSize": 5000000,
+        "Strictness": "experimental"
       }
     },
     {

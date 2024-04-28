@@ -1,7 +1,7 @@
 {
     "Name": "Convert TV Shows",
     "Type": 0,
-    "Revision": 4,
+    "Revision": 5,
     "Properties": {
       "Description": "A video conversion flow that will convert videos to HEVC with normalized AC3 audio., optimized for TV.",
       "Tags": [
@@ -283,7 +283,9 @@
         ],
         "Type": 5,
         "Model": {
-          "HardwareDecoding": false
+          "HardwareDecoding": "auto",
+          "ProbeSize": 5000000,
+          "Strictness": "experimental"
         }
       },
       {

@@ -1,7 +1,7 @@
 {
   "Name": "VP9 - YouTube",
   "Type": 0,
-  "Revision": 13,
+  "Revision": 14,
   "Properties": {
     "Description": "Convert video to VP9/WebM/Opus/1080P and move to destination",
     "Tags": [
@@ -115,7 +115,8 @@
       ],
       "Type": 5,
       "Model": {
-        "HardwareDecoding": true,
+        "HardwareDecoding": "auto",
+        "ProbeSize": 5000000,
         "Strictness": "experimental"
       }
     },

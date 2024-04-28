@@ -1,7 +1,7 @@
 {
   "Name": "Convert Movies",
   "Type": 0,
-  "Revision": 25,
+  "Revision": 26,
   "Properties": {
     "Description": "A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
     "Tags": [
@@ -269,7 +269,9 @@
       ],
       "Type": 5,
       "Model": {
-        "HardwareDecoding": true
+        "HardwareDecoding": "auto",
+        "ProbeSize": 5000000,
+        "Strictness": "experimental"
       }
     },
     {
@@ -518,7 +520,9 @@
       ],
       "Type": 5,
       "Model": {
-        "HardwareDecoding": true
+        "HardwareDecoding": "auto",
+        "ProbeSize": 5000000,
+        "Strictness": "experimental"
       }
     },
     {
