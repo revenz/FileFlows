@@ -1,9 +1,1 @@
-[
-  {
-    "Name": "Python3",
-    "Description": "Installs Python3 into the Docker container\nthis is the description\ncontinuing on multiple lines",
-    "Author": "Enter Your Name",
-    "Revision": 33,
-    "Icon": "fab fa-python:#F1F000"
-  }
-]
+[]
