@@ -1,5 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace FileFlowsScriptRepo.Generators;
 
@@ -13,17 +15,16 @@ public class DockerModGenerator: Generator
     /// </summary>
     public static void Run()
     {
-        string prefix = "";
-        
-        var modFiles = Directory.GetFiles(Path.Combine(GetProjectRootDirectory(), "DockerMods"), "*.sh", SearchOption.AllDirectories);
+        var modFiles = Directory.GetFiles(Path.Combine(GetProjectRootDirectory(), "DockerMods"), "*.sh", 
+            SearchOption.AllDirectories);
 
         List<DockerMod> mods = new();
         foreach (var file in modFiles)
         {
             try
             {
-                var mod = parseDockerMod(file);
-                mod.Code = null; // we dont want the code here
+                var mod = ParseDockerMod(file);
+                mod.Code = null; // we don't want the code here
                 mods.Add(mod);
             }
             catch (Exception)
@@ -46,80 +47,22 @@ public class DockerModGenerator: Generator
     /// </summary>
     /// <param name="filePath">The path to the file containing DocerkMod.</param>
     /// <returns>The parsed DocerkMod.</returns>
-    static DockerMod parseDockerMod(string filePath)
+    static DockerMod ParseDockerMod(string filePath)
     {
-        var mod = new DockerMod();
-
-        using (StreamReader sr = new StreamReader(filePath))
-        {
-            string? line = sr.ReadLine(); // reads the first # ----- line
-            bool inDescription = false;
-            var descNewLine = "#" + new string(' ', " Description: ".Length);
-            bool finishedCommentBlock = false;
-            while ((line = sr.ReadLine()) != null)
-            {
-                if (finishedCommentBlock)
-                {
-                    mod.Code += line + "\n";
-                }
-                else if (finishedCommentBlock == false && line.StartsWith("#"))
-                {
-                    if (line.StartsWith("# -----------"))
-                    {
-                        finishedCommentBlock = true;
-                    }
-                    else if (ParseComment(line, mod))
-                    {
-                        inDescription = line.StartsWith("# Description:");
-                    }
-                    else if (inDescription && line.StartsWith(descNewLine))
-                    {
-                        mod.Description += "\n" + line[descNewLine.Length..].Trim();
-                    }
-                }
-            }
-        }
-
-        return mod;
-    }
-
-    /// <summary>
-    /// Parses a comment line and updates the mod data accordingly.
-    /// </summary>
-    /// <param name="comment">The comment line to parse.</param>
-    /// <param name="dockerMod">The mod data object to update.</param>
-    /// <returns>true if it is consumed</returns>
-    static bool ParseComment(string? comment, DockerMod dockerMod)
-    {
-        if (string.IsNullOrWhiteSpace(comment))
-            return false;
+        string content = File.ReadAllText(filePath);
+        int index = content.IndexOf("# -----------------------------", 104, StringComparison.Ordinal);
+        string yaml = string.Join("\n", content[..index].Split('\n').Skip(1).Select(x => x[2..]));
+        index = content.IndexOf("#!/", StringComparison.Ordinal);
+        string code = content[index..];
         
-        if (comment.StartsWith("# Name:"))
-        {
-            dockerMod.Name = comment["# Name:".Length..].Trim();
-            return true;
-        }
-        if (comment.StartsWith("# Description:"))
-        {
-            dockerMod.Description += comment["# Description:".Length..].Trim();
-            return true;
-        }
-        if (comment.StartsWith("# Author:"))
-        {
-            dockerMod.Author = comment["# Author:".Length..].Trim();
-            return true;
-        }
-        if (comment.StartsWith("# Revision:"))
-        {
-            dockerMod.Revision = int.Parse(comment["# Revision:".Length..].Trim());
-            return true;
-        }
-        if (comment.StartsWith("# Icon:"))
-        {
-            dockerMod.Icon = comment["# Icon:".Length..].Trim();
-            return true;
-        }
-        return false;
+        // Deserialize YAML to DockerMod object
+        var deserializer = new DeserializerBuilder()
+            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .Build();
+
+        var mod = deserializer.Deserialize<DockerMod>(yaml);
+        mod.Code = code;
+        return mod;
     }
 }
 

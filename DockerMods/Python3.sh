@@ -1,12 +1,10 @@
-# --------------------------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
 # Name: Python3
-# Description: Installs Python3 into the Docker container
-#              this is the description 
-#              continuing on multiple lines
-# Author: Enter Your Name
-# Revision: 33
+# Description: Installs Python3 into the Docker container if not already installed
+# Author: John Andrews
+# Revision: 1
 # Icon: fab fa-python:#F1F000
-# --------------------------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
 
 #!/bin/bash
 

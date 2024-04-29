@@ -14,4 +14,8 @@
 
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="15.1.2" />
+  </ItemGroup>
+
 </Project>
