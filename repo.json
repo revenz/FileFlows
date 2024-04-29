@@ -548,7 +548,7 @@
       "Path": "Templates/Flow/Standard/Convert Video.json",
       "Name": "Convert Video",
       "Description": "A flow that will convert a video file to another format",
-      "Revision": 23,
+      "Revision": 24,
       "Author": "FileFlows"
     },
     {
@@ -598,7 +598,7 @@
       "Path": "SubFlows/HEVC AC3 Encode.json",
       "Name": "HEVC AC3 Encode",
       "Description": "Converts a video to HEVC with AC3 audio.\nWill automatically crop black bars if detected.\nWill re-encode a file at a lower quality if file size increases.\nUses \u0060Disable HW HEVC CPU\u0060 to reattempt encoding if hardware encoding fails.",
-      "Revision": 26,
+      "Revision": 27,
       "Uid": "5ef0e9fb-b64e-4bb1-bae8-4cadce539dea",
       "Author": "reven",
       "SubFlows": [
@@ -609,7 +609,7 @@
       "Path": "SubFlows/Disable HW HEVC CPU.json",
       "Name": "Disable HW HEVC CPU",
       "Description": "Disabled all hardware devices and will encode videos using HEVC CPU.\nWill execute the FFmpeg Builder Executor but does not initiate the FFmpeg Builder Start,",
-      "Revision": 18,
+      "Revision": 19,
       "Uid": "1f5feb7d-fb88-499d-93c1-619f4e6f6b4d",
       "Author": "reven"
     }
@@ -619,21 +619,21 @@
       "Path": "Templates/Flow/Community/VP9 - YouTube.json",
       "Name": "VP9 - YouTube",
       "Description": "Convert video to VP9/WebM/Opus/1080P and move to destination",
-      "Revision": 13,
+      "Revision": 14,
       "Author": "reven"
     },
     {
       "Path": "Templates/Flow/Community/Convert TV Shows.json",
       "Name": "Convert TV Shows",
       "Description": "A video conversion flow that will convert videos to HEVC with normalized AC3 audio., optimized for TV.",
-      "Revision": 4,
+      "Revision": 5,
       "Author": "reven"
     },
     {
       "Path": "Templates/Flow/Community/Convert Movies.json",
       "Name": "Convert Movies",
       "Description": "A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
-      "Revision": 25,
+      "Revision": 26,
       "Author": "reven"
     }
   ]
