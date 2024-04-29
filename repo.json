@@ -636,5 +636,15 @@
       "Revision": 26,
       "Author": "reven"
     }
+  ],
+  "DockerMods": [
+    {
+      "Path": "DockerMods/Python3.sh",
+      "Name": "Python3",
+      "Description": "Installs Python3 into the Docker container if not already installed",
+      "Revision": 1,
+      "Author": "John Andrews",
+      "Icon": "fab fa-python:#F1F000"
+    }
   ]
 }
