@@ -24,10 +24,12 @@ public class DockerModGenerator: Generator
             try
             {
                 var mod = ParseDockerMod(file);
+                if (mod == null)
+                    continue;
                 mod.Code = null; // we don't want the code here
                 mods.Add(mod);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
@@ -47,17 +49,23 @@ public class DockerModGenerator: Generator
     /// </summary>
     /// <param name="filePath">The path to the file containing DocerkMod.</param>
     /// <returns>The parsed DocerkMod.</returns>
-    static DockerMod ParseDockerMod(string filePath)
+    static DockerMod? ParseDockerMod(string filePath)
     {
         string content = File.ReadAllText(filePath);
-        int index = content.IndexOf("# -----------------------------", 104, StringComparison.Ordinal);
-        string yaml = string.Join("\n", content[..index].Split('\n').Skip(1).Select(x => x[2..]));
-        index = content.IndexOf("#!/", StringComparison.Ordinal);
-        string code = content[index..];
+        var match = Regex.Match(content, "(?s)# [-]{60,}(.*?)# [-]{60,}");
+        if (match?.Success != true)
+            return null;
+
+        var head = match.Value;
+        content = content.Replace(head, string.Empty).Trim();
+        
+        string yaml = string.Join("\n", head.Split('\n').Where(x => x.StartsWith("# -----") == false)
+            .Select(x => x[2..]));
+        string code = content;
         
         // Deserialize YAML to DockerMod object
         var deserializer = new DeserializerBuilder()
-            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .WithNamingConvention(PascalCaseNamingConvention.Instance)
             .Build();
 
         var mod = deserializer.Deserialize<DockerMod>(yaml);
