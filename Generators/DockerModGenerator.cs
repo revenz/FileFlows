@@ -10,10 +10,28 @@ namespace FileFlowsScriptRepo.Generators;
 /// </summary>
 public class DockerModGenerator: Generator
 {
+
     /// <summary>
     /// Generates the repository json file
     /// </summary>
     public static void Run()
+    {
+        var mods = GetMods();
+        
+        string json = JsonSerializer.Serialize(mods, new JsonSerializerOptions() {
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Converters = { new DataConverter() }            
+        });   
+        File.WriteAllText(Path.Combine(GetProjectRootDirectory(), "docker-mods.json"), json);
+        Console.WriteLine("Done");
+    }
+
+    /// <summary>
+    /// Gets all the DockerMods
+    /// </summary>
+    /// <returns>a list of DockerMods</returns>
+    internal static List<DockerMod> GetMods()
     {
         var modFiles = Directory.GetFiles(Path.Combine(GetProjectRootDirectory(), "DockerMods"), "*.sh", 
             SearchOption.AllDirectories);
@@ -33,14 +51,8 @@ public class DockerModGenerator: Generator
             {
             }
         }
-        
-        string json = JsonSerializer.Serialize(mods, new JsonSerializerOptions() {
-            WriteIndented = true,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            Converters = { new DataConverter() }            
-        });   
-        File.WriteAllText(Path.Combine(GetProjectRootDirectory(), "docker-mods.json"), json);
-        Console.WriteLine("Done");
+
+        return mods;
     }
     
 

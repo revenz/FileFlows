@@ -23,6 +23,14 @@ class RepoGenerator : Generator
         repo.CommunityFlowTemplates = GetTemplates(Path.Combine(projDir, "Templates/Flow"), community: true);
         repo.LibraryTemplates = GetTemplates(Path.Combine(projDir, "Templates/Library"));
         repo.SubFlows = GetTemplates(Path.Combine(projDir, "SubFlows"));
+        repo.DockerMods = DockerModGenerator.GetMods().Select(x => new RepositoryObject()
+        {
+            Name = x.Name,
+            Description = x.Description,
+            Author = x.Author,
+            Revision = x.Revision,
+            Icon = x.Icon
+        }).ToList();
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true,
             Converters = { new DataConverter() }            
@@ -129,7 +137,7 @@ class RepoGenerator : Generator
                 Uid = template.Uid,
                 MinimumVersion = template.MinimumVersion,
                 Author = template.Author?.EmptyAsNull() ?? template?.Properties?.Author ?? string.Empty,
-                SubFlows = template.SubFlows?.Any() != true ? null : template.SubFlows
+                SubFlows = template.SubFlows?.Any() != true ? null : template.SubFlows,
             };
             
             if(isSubFlow)
@@ -196,6 +204,11 @@ class Repository
     /// Gets or sets a list of community flow templates 
     /// </summary>
     public List<RepositoryObject> CommunityFlowTemplates { get; set; } = new List<RepositoryObject>();
+
+    /// <summary>
+    /// Gets or sets a list of DockerMods 
+    /// </summary>
+    public List<RepositoryObject> DockerMods { get; set; } = new List<RepositoryObject>();
 }
 
 public class RepositoryObject 
@@ -238,7 +251,12 @@ public class RepositoryObject
     /// <summary>
     /// Gets or sets a list of sub flows this object depends on
     /// </summary>
-    public List<Guid> SubFlows { get; set; }
+    public List<Guid>? SubFlows { get; set; }
+    
+    /// <summary>
+    /// Gets or sets an optional Icon
+    /// </summary>
+    public string? Icon { get; set; }
 }
 
 
