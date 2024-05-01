@@ -14,9 +14,8 @@ if ! command -v node &>/dev/null; then
     # Update package lists
     apt update
 
-    # Install Node.js v22 (example command, adjust as needed)
-    # This assumes Node.js v22 is available in your package repositories
-    apt install -y nodejs=
+    # Install Nodejs
+    apt install -y nodejs
 
     echo "Installation complete."
 else

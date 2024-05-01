@@ -9,11 +9,15 @@
 #!/bin/bash
 
 # Check if Python 3 is installed
-if command -v python3 &>/dev/null; then
-    echo "Python 3 is already installed."
-else
+if ! command -v python3 &>/dev/null; then
     echo "Python 3 is not installed. Installing..."
-    sudo apt update
-    sudo apt install -y python3
-    echo "Python 3 has been installed."
+    # Update package lists
+    apt update
+
+    # Install Python3
+    apt install -y python3
+    
+    echo "Installation complete."
+else
+    echo "Python 3 is already installed."
 fi
