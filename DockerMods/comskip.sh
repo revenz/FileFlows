@@ -1,9 +1,9 @@
 # ----------------------------------------------------------------------------------------------------
-# Name: Git
-# Description: Git simplifies the process of downloading and managing various resources, like software packages or configurations, from remote repositories, making it an essential tool for users seeking efficient access to files and projects.
+# Name: comskip
+# Description: Comskip is a console application used for commercial detection in video files. It analyzes MPEG or H.264 files based on configurable parameters and generates output files containing the location of commercials. It supports various formats for video editing, cutting, and playback, but cannot read copy-protected recordings.
 # Author: John Andrews
 # Revision: 1
-# Icon: fab fa-git-alt:#FF4500
+# Icon: fas fa-tv:#DA70D6
 # ----------------------------------------------------------------------------------------------------
 
 #!/bin/bash
