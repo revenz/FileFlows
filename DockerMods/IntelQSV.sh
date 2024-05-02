@@ -7,6 +7,12 @@
 
 #!/bin/bash
 
+# Define versions for additional packages
+NEO_VERSION="23.26.26690.22"
+GMMLIB_VERSION="22.3.0"
+IGC_VERSION="1.0.14508.16"
+LEVEL_ZERO_VERSION="1.3.26690.22"
+
 # List of Intel packages to check
 packages=("libmfx-dev" "libmfx-gen1.2" "intel-media-va-driver-non-free" "i965-va-driver-shaders" "libigdgmm12=22.3.0" "intel-opencl-icd")
 
@@ -28,6 +34,18 @@ else
 
     # Install missing packages
     apt install -y "${missing_packages[@]}"
+
+    # Install additional stuff
+    apt policy intel-opencl-icd
+    apt install -y ocl-icd-libopencl1
+    mkdir intel-compute-runtime && cd intel-compute-runtime
+    wget "https://github.com/intel/compute-runtime/releases/download/${NEO_VERSION}/libigdgmm12_${GMMLIB_VERSION}_amd64.deb"
+    wget "https://github.com/intel/intel-graphics-compiler/releases/download/igc-${IGC_VERSION}/intel-igc-core_${IGC_VERSION}_amd64.deb"
+    wget "https://github.com/intel/intel-graphics-compiler/releases/download/igc-${IGC_VERSION}/intel-igc-opencl_${IGC_VERSION}_amd64.deb"
+    wget "https://github.com/intel/compute-runtime/releases/download/${NEO_VERSION}/intel-opencl-icd_${NEO_VERSION}_amd64.deb"
+    wget "https://github.com/intel/compute-runtime/releases/download/${NEO_VERSION}/intel-level-zero-gpu_${LEVEL_ZERO_VERSION}_amd64.deb"
+    dpkg -i *.deb
+    cd ..
     
     echo "Installation complete."
 fi
