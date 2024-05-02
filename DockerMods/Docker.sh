@@ -1,6 +1,7 @@
 # ----------------------------------------------------------------------------------------------------
 # Name: Docker
 # Description: Installs Docker inside Docker.  This allows you to launch sibling Docker containers.
+# Author: John Andrews
 # Revision: 1
 # Icon: fab fa-docker:#0076BF
 # ----------------------------------------------------------------------------------------------------
