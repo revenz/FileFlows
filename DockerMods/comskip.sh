@@ -8,16 +8,16 @@
 
 #!/bin/bash
 
-# Check if Git is installed
-if ! command -v git &>/dev/null; then
-    echo "Git is not installed. Installing..."
+# Check if comskip is installed
+if ! command -v comskip &>/dev/null; then
+    echo "comskip is not installed. Installing..."
     # Update package lists
     apt update
 
-    # Install Git
-    apt install -y git
+    # Install comskip
+    apt install -y comskip
     
     echo "Installation complete."
 else
-    echo "Git is already installed."
+    echo "comskip is already installed."
 fi
