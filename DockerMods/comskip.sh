@@ -3,6 +3,7 @@
 # Description: Comskip is a console application used for commercial detection in video files. It analyzes MPEG or H.264 files based on configurable parameters and generates output files containing the location of commercials. It supports various formats for video editing, cutting, and playback, but cannot read copy-protected recordings.
 # Author: John Andrews
 # Revision: 1
+# Default: true
 # Icon: fas fa-tv:#DA70D6
 # ----------------------------------------------------------------------------------------------------
 

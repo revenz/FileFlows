@@ -30,6 +30,7 @@ class RepoGenerator : Generator
             Author = x.Author,
             Revision = x.Revision,
             Icon = x.Icon,
+            Default = x.Default,
             Path = $"DockerMods/{x.FileName}"
         }).ToList();
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
@@ -258,6 +259,11 @@ public class RepositoryObject
     /// Gets or sets an optional Icon
     /// </summary>
     public string? Icon { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this is a default repository item and should be pre-selected 
+    /// </summary>
+    public bool? Default { get; set; }
 }
 
 

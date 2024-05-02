@@ -47,8 +47,9 @@ public class DockerModGenerator: Generator
                 mod.Code = null; // we don't want the code here
                 mods.Add(mod);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                // Ignored
             }
         }
 
@@ -87,22 +88,25 @@ public class DockerModGenerator: Generator
     }
 }
 
+/// <summary>
+/// DockerMod
+/// </summary>
 class DockerMod
 {
     /// <summary>
     /// Name of the mod.
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
     
     /// <summary>
     /// Description of the mod.
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
     
     /// <summary>
     /// Author of the mod.
     /// </summary>
-    public string Author { get; set; }
+    public string? Author { get; set; }
     
     /// <summary>
     /// Revision number of the mod.
@@ -112,7 +116,7 @@ class DockerMod
     /// <summary>
     /// Icon associated with the mod.
     /// </summary>
-    public string Icon { get; set; }
+    public string? Icon { get; set; }
     
     /// <summary>
     /// Code of the mod.
@@ -122,5 +126,10 @@ class DockerMod
     /// <summary>
     /// Gets or sets the file name
     /// </summary>
-    public string FileName { get; set; }
+    public string? FileName { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this is a default script and will be pre-selected during initial configuration
+    /// </summary>
+    public bool Default { get; set; }
 }
