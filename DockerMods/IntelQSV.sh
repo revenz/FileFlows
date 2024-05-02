@@ -16,10 +16,14 @@ if [ ! -d "/dev/dri" ] 2>/dev/null; then
 fi
 
 # Define versions for additional packages
-NEO_VERSION="23.26.26690.22"
-GMMLIB_VERSION="22.3.0"
-IGC_VERSION="1.0.14508.16"
-LEVEL_ZERO_VERSION="1.3.26690.22"
+# NEO_VERSION="23.26.26690.22"
+# GMMLIB_VERSION="22.3.0"
+# IGC_VERSION="1.0.14508.16"
+# LEVEL_ZERO_VERSION="1.3.26690.22"
+NEO_VERSION="24.13.29138.7"
+GMMLIB_VERSION="22.3.18"
+IGC_VERSION="1.0.16510.2"
+LEVEL_ZERO_VERSION="1.3.29138.7"
 
 # List of Intel packages to check
 packages=("libmfx-dev" "libmfx-gen1.2" "intel-media-va-driver-non-free" "i965-va-driver-shaders" " libigdgmm12=22.3.0" "intel-opencl-icd")
