@@ -30,7 +30,7 @@ class RepoGenerator : Generator
             Author = x.Author,
             Revision = x.Revision,
             Icon = x.Icon,
-            Path = $"DockerMods/{x.Name}.sh"
+            Path = $"DockerMods/{x.FileName}"
         }).ToList();
         string json = JsonSerializer.Serialize(repo, new JsonSerializerOptions() {
             WriteIndented = true,

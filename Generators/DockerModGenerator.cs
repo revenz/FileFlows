@@ -82,6 +82,7 @@ public class DockerModGenerator: Generator
 
         var mod = deserializer.Deserialize<DockerMod>(yaml);
         mod.Code = code;
+        mod.FileName = new FileInfo(filePath).Name;
         return mod;
     }
 }
@@ -117,4 +118,9 @@ class DockerMod
     /// Code of the mod.
     /// </summary>
     public string? Code { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the file name
+    /// </summary>
+    public string FileName { get; set; }
 }
