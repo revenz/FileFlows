@@ -25,7 +25,6 @@ if [ "$architecture" == "x86_64" ]; then
   wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | apt-key add -
   echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | tee /etc/apt/sources.list.d/jellyfin.list
   apt-get update
-  apt --fix-borken install
   apt-get install --no-install-recommends --no-install-suggests -y jellyfin-ffmpeg6 
   ln -s /usr/lib/jellyfin-ffmpeg/ffmpeg /usr/local/bin/ffmpeg
   ln -s /usr/lib/jellyfin-ffmpeg/ffprobe /usr/local/bin/ffprobe
@@ -38,7 +37,6 @@ elif [ "$architecture" == "armv7l" ] || [ "$architecture" == "aarch64" ] || [[ "
   wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | apt-key add -
   echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | tee /etc/apt/sources.list.d/jellyfin.list
   apt-get update
-  apt --fix-borken install
   apt-get install --no-install-recommends --no-install-suggests -y jellyfin-ffmpeg6
   ln -s /usr/lib/jellyfin-ffmpeg/ffmpeg /usr/local/bin/ffmpeg
   ln -s /usr/lib/jellyfin-ffmpeg/ffprobe /usr/local/bin/ffprobe

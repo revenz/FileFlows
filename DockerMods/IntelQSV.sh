@@ -50,5 +50,7 @@ else
     cd ..
     rm -rf intel-compute-runtime
     
+    apt --fix-broken install
+
     echo "Installation complete."
 fi
