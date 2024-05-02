@@ -8,6 +8,12 @@
 
 #!/bin/bash
 
+# Check if /dev/dri directory exists
+if [ ! -d "/dev/dri" ]; then
+    echo "/dev/dri does not exist, skipping."
+    exit
+fi
+
 # Define versions for additional packages
 NEO_VERSION="23.26.26690.22"
 GMMLIB_VERSION="22.3.0"
@@ -15,7 +21,7 @@ IGC_VERSION="1.0.14508.16"
 LEVEL_ZERO_VERSION="1.3.26690.22"
 
 # List of Intel packages to check
-packages=("libmfx-dev" "libmfx-gen1.2" "intel-media-va-driver-non-free" "i965-va-driver-shaders" "libigdgmm12" "intel-opencl-icd")
+packages=("libmfx-dev" "libmfx-gen1.2" "intel-media-va-driver-non-free" "i965-va-driver-shaders" " libigdgmm12=22.3.0" "intel-opencl-icd")
 
 # Check if each package is installed
 missing_packages=()
