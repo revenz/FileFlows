@@ -9,7 +9,7 @@
 #!/bin/bash
 
 # Check if /dev/dri directory exists
-if [ ! -d "/dev/dri" ]; then
+if [ ! -d "/dev/dri" ] 2>/dev/null; then
     echo "/dev/dri does not exist, skipping."
     exit
 fi
