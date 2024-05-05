@@ -76,7 +76,12 @@
       ],
       "Type": 2,
       "Model": {
-        "Format": "PDF",
+        "Format": "CBZ",
+        "Codec": "",
+        "EnsureTopDirectory": false,
+        "Quality": 75,
+        "MaxWidth": 0,
+        "MaxHeight": 0,
         "Output-2": {
           "true": "e432d37c-2bd9-4c6d-8c12-0cfa671b2d43"
         }
