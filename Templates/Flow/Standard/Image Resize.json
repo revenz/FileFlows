@@ -1,7 +1,7 @@
 {
   "Name": "Image Resize",
   "Type": 0,
-  "Revision": 6,
+  "Revision": 7,
   "Properties": {
     "Description": "A flow that resizes images",
     "Tags": [
@@ -30,20 +30,22 @@
       },
       {
         "Name": "Width",
-        "Type": 1,
+        "Type": 31,
         "FlowElementField": "79a4289f-51dc-4221-90f5-44ea9cc6bf21.Width",
         "Required": false,
-        "DefaultValue": 1920,
+        "DefaultValue": { "Value": 1920, "Percent": false },
+        "Suffix":"Pixels",
         "IfName": "",
         "IfValue": "",
         "IfNot": false
       },
       {
         "Name": "Height",
-        "Type": 1,
+        "Type": 31,
         "FlowElementField": "79a4289f-51dc-4221-90f5-44ea9cc6bf21.Height",
         "Required": false,
-        "DefaultValue": 1080,
+        "DefaultValue": { "Value": 1080, "Percent": false },
+        "Suffix":"Pixels",
         "IfName": "",
         "IfValue": "",
         "IfNot": false
@@ -105,7 +107,8 @@
         "Width": 100,
         "Height": 100,
         "Percent": false,
-        "Format": null
+        "Format": null,
+        "Quality":100
       }
     },
     {

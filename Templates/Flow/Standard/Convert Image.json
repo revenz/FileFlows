@@ -1,7 +1,7 @@
 {
   "Name": "Convert Image",
   "Type": 0,
-  "Revision": 5,
+  "Revision": 6,
   "Properties": {
     "Description": "A flow that converts images",
     "Tags": [
@@ -64,7 +64,7 @@
     {
       "Uid": "78b7c564-c4ce-43c9-b76e-1665199202da",
       "Name": "",
-      "FlowElementUid": "FileFlows.ImageNodes.Images.ImageFormat",
+      "FlowElementUid": "FileFlows.ImageNodes.Images.ImageConvert",
       "xPos": 220,
       "yPos": 220,
       "Icon": "fas fa-file-image",
@@ -81,6 +81,7 @@
       "Type": 2,
       "Model": {
         "Format": "Jpeg",
+        "Quality": 100,
         "Output-1": "1a5595c6-c06d-400d-8175-7ee9f1f32411",
         "Output-2": "1a5595c6-c06d-400d-8175-7ee9f1f32411"
       }
