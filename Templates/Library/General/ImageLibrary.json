@@ -1,10 +1,10 @@
 {
     "name": "Image Library",
-    "revision": 2,
+    "revision": 3,
     "minimumVersion": "24.02.6.2743",
     "group": "General",
     "description": "Image library that searches for common image files",
-    "extensions":["jpeg", "jpe", "tiff", "gif", "png", "webp", "tga", "pbm", "bmp"],
+    "extensions":["jpg", "jpeg", "jpe", "tiff", "gif", "png", "webp", "tga", "pbm", "bmp"],
     "filter": "",
     "path": "/media/pictures",
     "scanInterval": 60,
