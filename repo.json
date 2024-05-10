@@ -528,7 +528,7 @@
       "Path": "Templates/Flow/Standard/Convert Image.json",
       "Name": "Convert Image",
       "Description": "A flow that converts images",
-      "Revision": 5,
+      "Revision": 6,
       "Author": "FileFlows"
     },
     {
@@ -589,7 +589,7 @@
       "Path": "Templates/Flow/Standard/Image Resize.json",
       "Name": "Image Resize",
       "Description": "A flow that resizes images",
-      "Revision": 6,
+      "Revision": 7,
       "Author": "FileFlows"
     }
   ],

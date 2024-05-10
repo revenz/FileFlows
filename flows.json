@@ -156,7 +156,7 @@
     "Tags": [
       "Image"
     ],
-    "Revision": 5,
+    "Revision": 6,
     "Plugins": [
       "Image Nodes",
       "Basic Nodes"
@@ -301,7 +301,7 @@
     "Tags": [
       "Image"
     ],
-    "Revision": 6,
+    "Revision": 7,
     "Plugins": [
       "Image Nodes",
       "Basic Nodes"
