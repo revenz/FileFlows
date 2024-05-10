@@ -444,7 +444,7 @@
       "Path": "Templates/Library/General/ImageLibrary.json",
       "Name": "Image Library",
       "Description": "Image library that searches for common image files",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
