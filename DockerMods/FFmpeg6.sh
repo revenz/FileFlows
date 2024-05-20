@@ -2,7 +2,7 @@
 # Name: FFmpeg6
 # Description: FFmpeg is a free and open-source software project consisting of a suite of libraries and programs for handling video, audio, and other multimedia files and streams. At its core is the command-line ffmpeg tool itself, designed for processing of video and audio files.
 # Author: John Andrews
-# Revision: 2
+# Revision: 3
 # Default: true
 # Icon: data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNi4wLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyMDAwIDIwMDAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIwMDAgMjAwMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6bm9uZTtzdHJva2U6IzM3OEU0MztzdHJva2Utd2lkdGg6MzAwO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDo4O30NCjwvc3R5bGU+DQo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1LDUpIj4NCgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTY2LjcsMTY2LjdoNTUyLjJMMTY2LjcsNzE4Ljl2NTUyLjJMMTI3MS4xLDE2Ni43aDU1Mi4yTDE2Ni43LDE4MjMuM2g1NTIuMkwxODIzLjMsNzE4Ljl2NTUyLjJsLTU1Mi4yLDU1Mi4yDQoJCWg1NTIuMiIvPg0KPC9nPg0KPC9zdmc+DQo=
 # ----------------------------------------------------------------------------------------------------
@@ -14,6 +14,35 @@ function handle_error {
     echo "An error occurred. Exiting..."
     exit 1
 }
+
+# Check if the --uninstall option is provided
+if [ "$1" == "--uninstall" ]; then
+    echo "Uninstalling FFmpeg and removing Jellyfin repository..."
+    # Remove symbolic links
+    rm -f /usr/local/bin/ffmpeg
+    rm -f /usr/local/bin/ffprobe
+    
+    # Uninstall Jellyfin FFmpeg
+    if apt-get remove --purge -y jellyfin-ffmpeg6; then
+        echo "Jellyfin FFmpeg successfully uninstalled."
+    else
+        handle_error
+    fi
+    
+    # Remove Jellyfin repository
+    rm -f /etc/apt/sources.list.d/jellyfin.list
+    
+    # Remove Jellyfin GPG key
+    apt-key del "$(apt-key list | grep -B 1 'Jellyfin Team' | head -n 1 | awk '{print $2}')"
+    
+    # Update package lists
+    if ! apt-get update; then
+        handle_error
+    fi
+    
+    echo "Uninstallation complete."
+    exit 0
+fi
 
 # Check if FFmpeg is installed
 if command -v ffmpeg &>/dev/null; then

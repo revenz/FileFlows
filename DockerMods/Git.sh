@@ -2,7 +2,7 @@
 # Name: Git
 # Description: Git simplifies the process of downloading and managing various resources, like software packages or configurations, from remote repositories, making it an essential tool for users seeking efficient access to files and projects.
 # Author: John Andrews
-# Revision: 2
+# Revision: 3
 # Icon: fab fa-git-alt:#FF4500
 # ----------------------------------------------------------------------------------------------------
 
@@ -13,6 +13,17 @@ function handle_error {
     echo "An error occurred. Exiting..."
     exit 1
 }
+
+# Check if the --uninstall option is provided
+if [ "$1" == "--uninstall" ]; then
+    echo "Uninstalling git..."
+    if apt-get remove -y git; then
+        echo "git successfully uninstalled."
+        exit 0
+    else
+        handle_error
+    fi
+fi
 
 # Check if Git is installed
 if command -v git &>/dev/null; then
