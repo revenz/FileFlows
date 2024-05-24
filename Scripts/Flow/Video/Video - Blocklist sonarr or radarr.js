@@ -3,6 +3,8 @@
  * For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
  * I hate javascript
  * @author Lawrence Curtis
+ * @version 1.0.0
+ * @revision 1
  * @param {string} URI Radarr/Sonarr root URI and port (e.g. http://radarr:1234)
  * @param {string} ApiKey API Key
  * @output Item blocklisted
