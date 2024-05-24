@@ -235,6 +235,12 @@
       "MinimumVersion": "1.0.0.0"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Blocklist sonarr or radarr.js",
+      "Name": "Video - Blocklist sonarr or radarr",
+      "Description": "This script will search the active queue and blocklist and research\nFor use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr",
+      "Revision": 1
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Bitrate greater than.js",
       "Name": "Video - Bitrate greater than",
       "Description": "Checks if a video\u0027s bitrate is greater than specified.",
