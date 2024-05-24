@@ -11,14 +11,14 @@
  * @output Item not found
  */
 function Script(URI, ApiKey) {
-    const blocklist = new Blocklist(URI, ApiKey)
-    return blocklist.check(Variables.folder.Name)
+    const blocklist = new Blocklist(URI, ApiKey);
+    return blocklist.check(Variables.folder.Name);
 }
 
 class Blocklist {
     constructor(uri, apikey) {
         if (!URI || !ApiKey) {
-            Logger.ELog('No credentials specified');
+            Logger.ELog("No credentials specified");
             return -1;
         }
 
@@ -27,13 +27,12 @@ class Blocklist {
     }
 
     getUrl(endpoint) {
-        let url = '' + this.uri;
-        if (url.endsWith('/') === false)
-            url += '/';
-        if (!endpoint.includes('?')) {
-            endpoint = `${endpoint}?`
+        let url = "" + this.uri;
+        if (url.endsWith("/") === false) url += "/";
+        if (!endpoint.includes("?")) {
+            endpoint = `${endpoint}?`;
         } else {
-            endpoint = `${endpoint}&`
+            endpoint = `${endpoint}&`;
         }
         return `${url}api/v3/${endpoint}apikey=${this.apikey}`;
     }
@@ -44,7 +43,7 @@ class Blocklist {
 
         let body = response.Content.ReadAsStringAsync().Result;
         if (!response.IsSuccessStatusCode) {
-            Logger.WLog('Unable to fetch: ' + endpoint + '\n' + body);
+            Logger.WLog("Unable to fetch: " + endpoint + "\n" + body);
             return null;
         }
         return JSON.parse(body);
@@ -56,17 +55,17 @@ class Blocklist {
     }
 
     check(path) {
-        let queue = this.getJson('queue?pageSize=9999');
+        let queue = this.getJson("queue?pageSize=9999");
         let found = false;
 
         queue.records.forEach((item) => {
             if (path.includes(item.title)) {
-                Logger.ILog(`Removing item ${item.title} from ${item.downloadClient}`)
+                Logger.ILog(`Removing item ${item.title} from ${item.downloadClient}`);
                 found = true;
                 let endpoint = `queue/${item.id}?blocklist=true`;
                 this.deleteJson(endpoint);
             }
-        })
+        });
 
         if (found) {
             return 1;
