@@ -1,7 +1,6 @@
 /**
  * This script will search the active queue and blocklist and research
  * For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
- * I hate javascript
  * @author Lawrence Curtis
  * @version 1.0.0
  * @revision 1
@@ -56,6 +55,9 @@ class Blocklist {
 
     check(path) {
         let queue = this.getJson("queue?pageSize=9999");
+        if(!queue)
+            return 2; 
+        
         let found = false;
 
         queue.records.forEach((item) => {
