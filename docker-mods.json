@@ -99,6 +99,14 @@
     "Default": false
   },
   {
+    "Name": "dovi_tool",
+    "Description": "dovi_tool is a CLI tool combining multiple utilities for working with Dolby Vision.",
+    "Revision": 3,
+    "Icon": "fas fa-file-video",
+    "FileName": "dovi_tool 2.1.1.sh",
+    "Default": false
+  },
+  {
     "Name": "Docker",
     "Description": "Installs Docker inside Docker.  This allows you to launch sibling Docker containers.",
     "Author": "John Andrews",
