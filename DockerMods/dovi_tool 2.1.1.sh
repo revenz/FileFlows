@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------------------------------
-# Name: dovi_tool 2.1.1
+# Name: dovi_tool
 # Description: dovi_tool is a CLI tool combining multiple utilities for working with Dolby Vision.
 # Revision: 3
 # Icon: fas fa-file-video
@@ -23,8 +23,7 @@ fi
 wget -O /tmp/dovi_tool.tar.gz https://github.com/quietvoid/dovi_tool/releases/download/2.1.1/dovi_tool-2.1.1-x86_64-unknown-linux-musl.tar.gz
 tar xvf /tmp/dovi_tool.tar.gz
 mv dovi_tool /bin
-
-echo "Installation complete."
+rm /tmp/dovi_tool.tar.gz
 
 # Verify installation
 if command -v dovi_tool &>/dev/null; then
