@@ -9,12 +9,12 @@ export class Radarr
     URL;
     ApiKey;
 
-    constructor()
+    constructor(URL, ApiKey)
     {
-        this.URL = Variables['Radarr.Url'];
+        this.URL = ((URL) ? URL : Variables['Radarr.Url']);
         if (!this.URL)
             MissingVariable('Radarr.Url');
-        this.ApiKey = Variables['Radarr.ApiKey'];
+        this.ApiKey = ((ApiKey) ? ApiKey : Variables['Radarr.ApiKey']);
         if (!this.ApiKey)
             MissingVariable('Radarr.ApiKey');
     }
