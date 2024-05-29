@@ -115,7 +115,7 @@ export class Sonarr
             let sp = x.path;
             if (!sp)
                 return false;
-            return cp == sp.toLowerCase();
+            return cp.includes(x.title.toLowerCase());
         });
         if (showfile?.length)
         {
