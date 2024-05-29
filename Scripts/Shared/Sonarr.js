@@ -9,12 +9,12 @@ export class Sonarr
     URL;
     ApiKey;
 
-    constructor()
+    constructor(URL, ApiKey)
     {
-        this.URL = Variables['Sonarr.Url'];
+        this.URL = ((URL) ? URL : Variables['Sonarr.Url']);
         if (!this.URL)
             MissingVariable('Sonarr.Url');
-        this.ApiKey = Variables['Sonarr.ApiKey'];
+        this.ApiKey = ((ApiKey) ? ApiKey : Variables['Sonarr.ApiKey']);
         if (!this.ApiKey)
             MissingVariable('Sonarr.ApiKey');
     }
