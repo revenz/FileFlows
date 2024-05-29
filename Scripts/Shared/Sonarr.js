@@ -9,7 +9,7 @@ export class Sonarr
     URL;
     ApiKey;
 
-    constructor()
+    constructor(URL, ApiKey)
     {
         this.URL = ((URL) ? URL : Variables['Sonarr.Url']);
         if (!this.URL)
