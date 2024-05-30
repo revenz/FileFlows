@@ -1,7 +1,9 @@
+// path: Scripts/Shared/Sonarr.js
+
 /**
  * Class that interacts with Sonarr
  * @name Sonarr
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  */
 export class Sonarr
@@ -83,10 +85,10 @@ export class Sonarr
         let cp = path.toString().toLowerCase();
         let show = shows.filter(x =>
         {
-            let sp = x.path;
+            let sp = x.path.toLowerCase();
             if (!sp)
                 return false;
-            return cp.includes(x.title.toLowerCase());
+            return sp.includes(path);
         });
         if (show?.length)
         {
@@ -146,10 +148,10 @@ export class Sonarr
         let cp = path.toString().toLowerCase();
         let showfile = files.filter(x =>
         {
-            let sp = x.path;
+            let sp = x.path.toLowerCase();
             if (!sp)
                 return false;
-            return cp.includes(x.title.toLowerCase());
+            return sp.includes(path);
         });
         if (showfile?.length)
         {

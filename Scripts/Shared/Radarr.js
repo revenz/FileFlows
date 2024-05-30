@@ -1,7 +1,9 @@
+// path: Scripts/Shared/Radarr.js
+
 /**
  * Class that interacts with Radarr
  * @name Radarr
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  */
 export class Radarr
@@ -59,10 +61,11 @@ export class Radarr
         let cp = path.toLowerCase();
         let movie = movies.filter(x =>
         {
-            let mp = x.movieFile?.path;
+            let mp = x.movieFile?.relativePath.split('.')[0].toLowerCase();
             if (!mp)
                 return false;
-            return cp.includes(x.title.toLowerCase());
+            Logger.ILog('Checking path: ' + mp);
+            return mp.includes(cp.split('.')[0]);
         });
         if (movie?.length)
         {

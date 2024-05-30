@@ -1,10 +1,9 @@
 import { Sonarr } from 'Shared/Sonarr';
 /**
- * This script will search the active queue and blocklist and research
- * For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
+ * This script will send a rename command to Sonarr
  * @author Shaun Agius
  * @version 1.0.0
- * @revision 1
+ * @revision 2
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:1234)
  * @param {string} ApiKey API Key
  * @output Item renamed
@@ -12,7 +11,9 @@ import { Sonarr } from 'Shared/Sonarr';
  */
 function Script(URI, ApiKey) {
     let sonarr = new Sonarr(URI, ApiKey);
-    let series = sonarr.getShowByPath(Variables.folder.FullName);
+    let rx = /([A-Za-z\(\) [0-9]*\[tvdbid\-[0-9]*\])/g
+    let folder = rx.exec(Variables.folder.FullName)
+    let series = sonarr.getShowByPath(folder[1]);
     if (!series)
         return 2;
     Logger.ILog(`Renaming ${series.title}`);
