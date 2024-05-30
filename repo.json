@@ -344,11 +344,23 @@
       "MinimumVersion": "1.0.4.0"
     },
     {
+      "Path": "Scripts/Flow/Applications/Radarr/Radarr - Rename.js",
+      "Name": "Radarr - Rename",
+      "Description": "This script will search the active queue and blocklist and research\nFor use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr",
+      "Revision": 1
+    },
+    {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Get Original Language.js",
       "Name": "Radarr - Get Original Language",
       "Description": "Lookups a file in Radarr and gets its original language ISO-693-1 code for it",
       "Revision": 4,
       "MinimumVersion": "1.0.0.0"
+    },
+    {
+      "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Rename.js",
+      "Name": "Sonarr - Rename",
+      "Description": "This script will search the active queue and blocklist and research\nFor use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr",
+      "Revision": 1
     },
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
