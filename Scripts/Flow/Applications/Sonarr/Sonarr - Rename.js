@@ -4,7 +4,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
  * @author Shaun Agius
  * @version 1.0.0
- * @revision 1
+ * @revision 2
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:1234)
  * @param {string} ApiKey API Key
  * @output Item renamed
