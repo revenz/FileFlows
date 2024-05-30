@@ -86,7 +86,7 @@ export class Sonarr
             let sp = x.path;
             if (!sp)
                 return false;
-            return cp.includes(x.title.toLowerCase());
+            return mp.includes(cp);
         });
         if (show?.length)
         {
@@ -149,7 +149,7 @@ export class Sonarr
             let sp = x.path;
             if (!sp)
                 return false;
-            return cp.includes(x.title.toLowerCase());
+            return sp.includes(cp);
         });
         if (showfile?.length)
         {

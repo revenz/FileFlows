@@ -62,7 +62,7 @@ export class Radarr
             let mp = x.movieFile?.path;
             if (!mp)
                 return false;
-            return cp.includes(x.title.toLowerCase());
+            return mp.includes(cp);
         });
         if (movie?.length)
         {
