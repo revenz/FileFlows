@@ -86,7 +86,7 @@ export class Sonarr
             let sp = x.path;
             if (!sp)
                 return false;
-            return mp.includes(cp);
+            return sp.includes(cp);
         });
         if (show?.length)
         {
