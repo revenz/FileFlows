@@ -1,7 +1,6 @@
 import { Sonarr } from 'Shared/Sonarr';
 /**
- * This script will search the active queue and blocklist and research
- * For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
+ * This script will send a rename command to Sonarr
  * @author Shaun Agius
  * @version 1.0.0
  * @revision 2
