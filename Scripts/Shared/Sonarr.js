@@ -64,6 +64,40 @@ export class Sonarr
         return shows;
     }
 
+    /**
+     * Gets a show from Sonarr by its full path
+     * @param {string} path the full path of the movie to lookup
+     * @returns {object} a show object if found, otherwise null
+     */
+    getShowByPath(path)
+    {
+        if (!path)
+        {
+            Logger.WLog('No path passed in to find show');
+            return null;
+        }
+        let shows = this.getAllShows();
+        if (!shows?.length)
+            return null;
+
+        let cp = path.toString().toLowerCase();
+        let show = shows.filter(x =>
+        {
+            let sp = x.path;
+            if (!sp)
+                return false;
+            return cp.includes(x.title.toLowerCase());
+        });
+        if (show?.length)
+        {
+            show = show[0];
+            Logger.ILog('Found show: ' + show.id);
+            return show;
+        }
+        Logger.WLog('Unable to find show file at path: ' + path);
+        return null;
+    }
+
     getFilesInShow(show){
         let files = this.fetchJson('episodefile', 'seriesId=' + show.id);
         if(!files.length){
