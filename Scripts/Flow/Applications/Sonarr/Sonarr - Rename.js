@@ -12,7 +12,9 @@ import { Sonarr } from 'Shared/Sonarr';
  */
 function Script(URI, ApiKey) {
     let sonarr = new Sonarr(URI, ApiKey);
-    let series = sonarr.getShowByPath(Variables.folder.FullName);
+    let rx = /([A-Za-z\(\) [0-9]*\[tvdbid\-[0-9]*\])/g
+    let folder = rx.exec(Variables.folder.FullName)
+    let series = sonarr.getShowByPath(folder[1]);
     if (!series)
         return 2;
     Logger.ILog(`Renaming ${series.title}`);

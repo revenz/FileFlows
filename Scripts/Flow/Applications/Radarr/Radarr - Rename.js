@@ -12,7 +12,7 @@ import { Radarr } from 'Shared/Radarr';
  */
 function Script(URI, ApiKey) {
     let radarr = new Radarr(URI, ApiKey);
-    let movie = radarr.getMovieByPath(Variables.folder.Name);
+    let movie = radarr.getMovieByPath(Variables.file.Name);
     if (!movie)
         return 2;
     Logger.ILog(`Renaming ${movie.title}`);
