@@ -18,7 +18,7 @@
       "Path": "Scripts/Shared/Sonarr.js",
       "Name": "Sonarr",
       "Description": "Class that interacts with Sonarr",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
@@ -46,7 +46,7 @@
       "Path": "Scripts/Shared/Radarr.js",
       "Name": "Radarr",
       "Description": "Class that interacts with Radarr",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     }
   ],
@@ -346,8 +346,8 @@
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Rename.js",
       "Name": "Radarr - Rename",
-      "Description": "This script will search the active queue and blocklist and research\nFor use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr",
-      "Revision": 1
+      "Description": "This script will send a rename command to Radarr",
+      "Revision": 2
     },
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Get Original Language.js",
@@ -359,8 +359,8 @@
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Rename.js",
       "Name": "Sonarr - Rename",
-      "Description": "This script will search the active queue and blocklist and research\nFor use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr",
-      "Revision": 1
+      "Description": "This script will send a rename command to Sonarr",
+      "Revision": 2
     },
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
