@@ -46,7 +46,7 @@
       "Path": "Scripts/Shared/Radarr.js",
       "Name": "Radarr",
       "Description": "Class that interacts with Radarr",
-      "Revision": 3,
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     }
   ],
@@ -347,7 +347,7 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Rename.js",
       "Name": "Radarr - Rename",
       "Description": "This script will send a rename command to Radarr",
-      "Revision": 2
+      "Revision": 3
     },
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Get Original Language.js",
