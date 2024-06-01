@@ -3,7 +3,7 @@
 /**
  * Class that interacts with Sonarr
  * @name Sonarr
- * @revision 3
+ * @revision 4
  * @minimumVersion 1.0.0.0
  */
 export class Sonarr
