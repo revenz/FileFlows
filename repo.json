@@ -18,7 +18,7 @@
       "Path": "Scripts/Shared/Sonarr.js",
       "Name": "Sonarr",
       "Description": "Class that interacts with Sonarr",
-      "Revision": 3,
+      "Revision": 4,
       "MinimumVersion": "1.0.0.0"
     },
     {
