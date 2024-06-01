@@ -3,7 +3,7 @@
 /**
  * Class that interacts with Radarr
  * @name Radarr
- * @revision 3
+ * @revision 4
  * @minimumVersion 1.0.0.0
  */
 export class Radarr
@@ -43,8 +43,42 @@ export class Radarr
     }
 
     /**
-     * Gets a movie from Radarr by its full path
-     * @param {string} path the full path of the movie to lookup
+     * Gets a movie from Radarr by its file name
+     * @param {string} file the file name of the movie to lookup
+     * @returns {object} a movie object if found, otherwise null
+     */
+    getMovieByFile(file)
+    {
+        if (!file)
+        {
+            Logger.WLog('No file name passed in to find movie');
+            return null;
+        }
+        let movies = this.fetchJson('movie');
+        if (!movies?.length)
+            return null;
+
+        let cp = file.toLowerCase();
+        let movie = movies.filter(x =>
+        {
+            let mp = x.movieFile?.relativePath;
+            if (!mp)
+                return false;
+            return mp.split('.')[0].toLowerCase().includes(cp.split('.')[0]);
+        });
+        if (movie?.length)
+        {
+            movie = movie[0];
+            Logger.ILog('Found movie: ' + movie.title);
+            return movie;
+        }
+        Logger.WLog('Unable to find movie file name: ' + file);
+        return null;
+    }
+
+    /**
+     * Gets a movie from Radarr by its path
+     * @param {string} path the path of the movie to lookup
      * @returns {object} a movie object if found, otherwise null
      */
     getMovieByPath(path)
@@ -61,11 +95,10 @@ export class Radarr
         let cp = path.toLowerCase();
         let movie = movies.filter(x =>
         {
-            let mp = x.movieFile?.relativePath.split('.')[0].toLowerCase();
+            let mp = x.movieFile?.path;
             if (!mp)
                 return false;
-            Logger.ILog('Checking path: ' + mp);
-            return mp.includes(cp.split('.')[0]);
+            return mp.toLowerCase().includes(cp);
         });
         if (movie?.length)
         {
