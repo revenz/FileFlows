@@ -3,7 +3,7 @@
 /**
  * Class that interacts with Sonarr
  * @name Sonarr
- * @revision 3
+ * @revision 4
  * @minimumVersion 1.0.0.0
  */
 export class Sonarr
@@ -88,7 +88,7 @@ export class Sonarr
             let sp = x.path.toLowerCase();
             if (!sp)
                 return false;
-            return sp.includes(path);
+            return sp.includes(cp);
         });
         if (show?.length)
         {
