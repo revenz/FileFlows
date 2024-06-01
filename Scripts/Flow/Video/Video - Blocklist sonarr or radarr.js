@@ -2,8 +2,8 @@
  * This script will search the active queue and blocklist and research
  * For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
  * @author Lawrence Curtis
- * @version 1.0.0
- * @revision 1
+ * @version 1.0.1
+ * @revision 2
  * @param {string} URI Radarr/Sonarr root URI and port (e.g. http://radarr:1234)
  * @param {string} ApiKey API Key
  * @output Item blocklisted
@@ -11,7 +11,7 @@
  */
 function Script(URI, ApiKey) {
     const blocklist = new Blocklist(URI, ApiKey);
-    return blocklist.check(Variables.folder.Name);
+    return blocklist.check(Variables.folder.Orig.Name);
 }
 
 class Blocklist {
