@@ -360,7 +360,7 @@
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Rename.js",
       "Name": "Sonarr - Rename",
       "Description": "This script will send a rename command to Sonarr",
-      "Revision": 2
+      "Revision": 3
     },
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
