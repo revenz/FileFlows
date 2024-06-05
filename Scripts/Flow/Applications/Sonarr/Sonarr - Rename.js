@@ -3,7 +3,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * This script will send a rename command to Sonarr
  * @author Shaun Agius
  * @version 1.0.0
- * @revision 2
+ * @revision 3
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:1234)
  * @param {string} ApiKey API Key
  * @output Item renamed
@@ -11,9 +11,25 @@ import { Sonarr } from 'Shared/Sonarr';
  */
 function Script(URI, ApiKey) {
     let sonarr = new Sonarr(URI, ApiKey);
-    let rx = /([A-Za-z\(\) [0-9]*\[tvdbid\-[0-9]*\])/g
-    let folder = rx.exec(Variables.folder.FullName)
-    let series = sonarr.getShowByPath(folder[1]);
+    let folder = Variables.folder.FullName
+    var season
+    if (folder.includes("Season"))
+        season = folder.indexOf('Season')-1
+    else
+    {
+        if (folder.includes("/"))
+            season = folder.lastIndexOf("/")
+        else if (folder.includes("\\"))
+            season = folder.lastIndexOf("\\")
+    }
+    let folder2 = folder.substring(0, season)
+    var slash
+    if (folder2.includes("/"))
+        slash = folder2.lastIndexOf("/") +1
+    else if (folder2.includes("\\"))
+        slash = folder2.lastIndexOf("\\") +1
+    let final = folder2.substring(slash)
+    let series = sonarr.getShowByPath(final);
     if (!series)
         return 2;
     Logger.ILog(`Renaming ${series.title}`);
