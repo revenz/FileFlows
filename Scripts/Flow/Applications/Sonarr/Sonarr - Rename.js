@@ -1,7 +1,7 @@
 import { Sonarr } from 'Shared/Sonarr';
 /**
  * This script will send a rename command to Sonarr
- * @autor Anthony Clerici
+ * @author Anthony Clerici
  * @version 1.0.0
  * @revision 1
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:1234)
