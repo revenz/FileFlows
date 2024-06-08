@@ -3,7 +3,7 @@
 /**
  * Class that interacts with Radarr
  * @name Radarr
- * @revision 5
+ * @revision 6
  * @minimumVersion 1.0.0.0
  */
 export class Radarr
@@ -165,5 +165,85 @@ export class Radarr
             return null;
         }
         return movie.originalLanguage?.name;
+    }
+
+    /**
+     * Returns movie files info for an already identified movie
+     * @param {int} movieId ID of previously identified movie
+     * @returns list of radarr movieFile objects
+     */
+    findMovieFiles(movieId) {
+        let endpoint = 'moviefile';
+        let queryParams = `movieId=${movieId}`;
+        let response = this.fetchJson(endpoint, queryParams);
+    
+        Logger.ILog(`Movie found: ${movieId}`);
+        return response;
+    }
+
+    /**
+     * Returns files under a movie that need to be renamed
+     * @param {int} movieId Previously determined ID of the movie
+     * @returns list of radarr rename movie objects
+     */
+    fetchRenamedMovies(movieId) 
+    {
+        let endpoint = 'rename';
+        let queryParams = `movieId=${movieId}`;
+        let response = this.fetchJson(endpoint, queryParams);
+        return response;
+    }
+
+    /**
+     * Specifies a command for Sonarr to run. see sonarr rename script for usage
+     * @param {string} commandName the name of the command to be run
+     * @param {object} commandBody the body of the command to be sent
+     * @returns {object} JSON of the response or null if unsuccessful
+     */
+    sendCommand(commandName, commandBody) {
+        let endpoint = `${this.URL}/api/v3/command`;
+        commandBody['name'] = commandName;
+    
+        let jsonData = JSON.stringify(commandBody);
+        http.DefaultRequestHeaders.Add("X-API-Key", this.ApiKey);
+        let response = http.PostAsync(endpoint, JsonContent(jsonData)).Result;
+    
+        http.DefaultRequestHeaders.Remove("X-API-Key");
+    
+        if (response.IsSuccessStatusCode) {
+            let responseData = JSON.parse(response.Content.ReadAsStringAsync().Result);
+            return responseData;
+        } else {
+            let error = response.Content.ReadAsStringAsync().Result;
+            Logger.WLog("API error: " + error);
+            return null;
+        }
+    }
+
+    /**
+     * Sleeps, waiting for a command to complete
+     * @param {int} commandId ID of command being run
+     * @returns bool whether the coommand ran successfully
+     */
+    waitForCompletion(commandId) 
+    {
+        const startTime = new Date().getTime();
+        const timeout = 30000; // 30 seconds in milliseconds
+        const endpoint = `command/${commandId}`;
+    
+        while (new Date().getTime() - startTime <= timeout) {
+            let response = this.fetchJson(endpoint, '');
+            if (response.status === 'completed') {
+                Logger.ILog('Scan completed!');
+                return true;
+            } else if (response.status === 'failed') {
+                Logger.WLog(`Command ${commandId} failed`)
+                return false;
+            }
+            Logger.ILog(`Checking status: ${response.status}`);
+            Sleep(100); // Delay before next check
+        }
+        Logger.WLog('Timeout: Scan did not complete within 30 seconds.');
+        return false;
     }
 }
