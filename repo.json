@@ -11,8 +11,7 @@
       "Path": "Scripts/Shared/Gotify.js",
       "Name": "Gotify",
       "Description": "Class that interacts with Gotify\n/",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0",
+      "Revision": 5,
       "Uid": "ef1e6fad-2313-4851-a11e-4156c489b04d"
     },
     {
