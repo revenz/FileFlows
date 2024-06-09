@@ -16,8 +16,9 @@ function Script(URI, ApiKey) {
     if (!movie)
         return 2;
     Logger.ILog(`Renaming ${movie.title}`);
-    let endpoint = `rename?movieId=${movie.id}`;
-    let response = radarr.fetchJson(endpoint);
+    let endpoint = `rename`;
+    let queryParmeters = `movieId=${movie.id}`
+    let response = radarr.fetchJson(endpoint, queryParmeters);
     Logger.ILog(`Response ${response}`);
     return 1;
 }

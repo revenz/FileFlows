@@ -1,10 +1,8 @@
-// path: Scripts/Shared/Sonarr.js
-
 /**
  * Class that interacts with Sonarr
  * @name Sonarr
  * @uid 0f5836c0-d20b-4740-9824-f81b5200ec3d
- * @revision 4
+ * @revision 5
  * @minimumVersion 1.0.0.0
  */
 export class Sonarr
@@ -89,7 +87,7 @@ export class Sonarr
             let sp = x.path.toLowerCase();
             if (!sp)
                 return false;
-            return sp.includes(path);
+            return sp.includes(cp);
         });
         if (show?.length)
         {

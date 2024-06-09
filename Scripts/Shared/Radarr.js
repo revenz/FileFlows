@@ -1,10 +1,8 @@
-// path: Scripts/Shared/Radarr.js
-
 /**
  * Class that interacts with Radarr
  * @name Radarr
  * @uid 88e66e7d-f835-4620-9616-9beaa4ee42dc
- * @revision 5
+ * @revision 6
  * @minimumVersion 1.0.0.0
  */
 export class Radarr
@@ -22,22 +20,25 @@ export class Radarr
             MissingVariable('Radarr.ApiKey');
     }
 
-    getUrl(endpoint)
+    getUrl(endpoint, queryParmeters)
     {
         let url = '' + this.URL;
         if (url.endsWith('/') === false)
             url += '/';
-        return `${url}api/v3/${endpoint}?apikey=${this.ApiKey}`;
+        url = `${url}api/v3/${endpoint}?apikey=${this.ApiKey}`;
+        if(queryParmeters)
+            url += '&' + queryParmeters;
+        return url;
     }
 
-    fetchJson(endpoint)
+    fetchJson(endpoint, queryParmeters)
     {
-        let url = this.getUrl(endpoint);
+        let url = this.getUrl(endpoint, queryParmeters);
         let response = http.GetAsync(url).Result;
         let body = response.Content.ReadAsStringAsync().Result;
         if (!response.IsSuccessStatusCode)
         {
-            Logger.WLog('Unable to fetch: ' + endpoint + '\n' + body);
+            Logger.WLog('Unable to fetch: ' + url + '\n' + body);
             return null;
         }
         return JSON.parse(body);

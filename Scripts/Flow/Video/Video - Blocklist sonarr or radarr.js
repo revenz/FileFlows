@@ -12,7 +12,7 @@
  */
 function Script(URI, ApiKey) {
     const blocklist = new Blocklist(URI, ApiKey);
-    return blocklist.check(Variables.folder.Name);
+    return blocklist.check(Variables.folder.Orig.Name);
 }
 
 class Blocklist {
