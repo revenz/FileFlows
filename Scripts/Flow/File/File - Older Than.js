@@ -1,7 +1,8 @@
 /**
 * Checks if a file is older than the specified days 
 * @author John Andrews 
-* @revision 2
+* @uid fbdd7b81-5112-43eb-a371-6aaf9b42977d
+* @revision 3
 * @minimumVersion 1.0.0.0
 * @param {int} Days The number of days to check how old the file is 
 * @param {bool} UseLastWriteTime If the last write time should be used, otherwise the creation time will be 

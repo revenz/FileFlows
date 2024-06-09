@@ -5,7 +5,8 @@ import { Language } from '../../../Shared/Language';
  * with the original language of the show/movie
  * Requires the "Movie Lookup" or "TV Show Lookup" to be executed first to work
  * @author John Andrews
- * @revision 1
+ * @uid 3a3909c7-aded-45d7-8340-b27e76589b02
+ * @revision 3
  * @minimumVersion 23.08.3.0
  * @output Tracks updated
  * @output No tracks updated

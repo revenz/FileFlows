@@ -1,7 +1,8 @@
 /**
  * Determines a video's resolution and outputs accordingly
  * @author John Andrews
- * @revision 2
+ * @uid d5962d9f-6200-4441-a0af-1c47f5ac8101
+ * @revision 3
  * @minimumVersion 1.0.0.0
  * @output Video Is 4k
  * @output Video is 1080p

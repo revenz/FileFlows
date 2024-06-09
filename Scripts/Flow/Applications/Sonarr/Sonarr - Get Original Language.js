@@ -5,7 +5,8 @@ import { Language } from '../../../Shared/Language';
 /**
 * Lookups a file in Sonarr and gets its original language ISO-693-1 code for it
 * @author John Andrews 
-* @revision 4
+* @uid 51cf3c4f-f4a3-45e2-a083-6629397aab90
+* @revision 5
 * @minimumVersion 1.0.0.0
 * @param {string} Path The full file path to lookup in Sonarr
 * @param {bool} ISO2 If ISO-639-2 should be returned, otherwise ISO-639-1 will be used

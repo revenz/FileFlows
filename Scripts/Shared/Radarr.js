@@ -3,7 +3,8 @@
 /**
  * Class that interacts with Radarr
  * @name Radarr
- * @revision 4
+ * @uid 88e66e7d-f835-4620-9616-9beaa4ee42dc
+ * @revision 5
  * @minimumVersion 1.0.0.0
  */
 export class Radarr

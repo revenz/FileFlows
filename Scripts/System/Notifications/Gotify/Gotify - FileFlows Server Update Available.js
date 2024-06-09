@@ -1,7 +1,8 @@
 /**
  * @name Gotify - FileFlows Server Update Available
+ * @uid dcc90331-a51d-4399-9cdf-eb0e74f48158
  * @description Sends a Gotify notification when a FileFlows server update is available
- * @revision 3
+ * @revision 4
  * @minimumVersion 1.0.0.0
  */
 

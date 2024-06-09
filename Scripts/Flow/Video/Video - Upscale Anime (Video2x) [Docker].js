@@ -2,7 +2,8 @@
  * Upscales anime using Video2x inside a docker container
  * Requires TempPathHost environment variable to be set if running inside a docker container
  * @author John Andrews
- * @revision 1
+ * @uid ebbea155-596c-4be9-93bf-24858f6b0765
+ * @revision 2
  * @minimumVersion 1.0.4.0
  * @param {int} Height The height of the video, e.g 720, 1080
  * @param {int} Processes The number of processes to use, if in doubt, set this to 1

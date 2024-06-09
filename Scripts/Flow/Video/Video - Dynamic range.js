@@ -1,8 +1,9 @@
 /**
  * Detects the dynamic range of a video e.g. SDR/HDR/HDR+DoVi/Dovi
  * @author Lawrence Curtis
+ * @uid d6d1bde2-0a1c-46d1-a9b2-a46d12eeffb7
  * @version 1.0.0
- * @revision 1
+ * @revision 2
  * @output SDR
  * @output HDR
  * @output HDR + Dolby Vision

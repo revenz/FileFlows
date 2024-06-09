@@ -2,7 +2,8 @@
  * If a video's resolution is greater than 1080p, this script will update the FFMPEG Builder video track with a filter 
  * to downscale the video to 1080p when the FFMPEG Builder Executor runs.
  * @author John Andrews
- * @revision 4
+ * @uid 62b01a65-b602-49cb-ac81-8583ead54ca7
+ * @revision 5
  * @minimumVersion 1.0.0.0
  * @output Video is greater than 1080p, FFMPEG Builder Updated
  * @output Video is not greater than 1080p

@@ -1,7 +1,8 @@
 /**
  * Class that interacts with Apprise
  * @name Apprise
- * @revision 3
+ * @uid 3aef04da-13b1-494e-8ea4-075432d86bd7
+ * @revision 4
  * @minimumVersion 1.0.0.0
  */
 export class Apprise

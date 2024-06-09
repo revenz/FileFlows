@@ -1,7 +1,8 @@
 /**
  * @name Add MKV extension to files without an extension
+ * @uid bf5d95be-8fb7-4dc2-91da-9efcdcd086db
  * @description Monitors the directories listed in the variable AddExtensionDirectoryList and any file thats found without an extenion, MKV will be added to it
- * @revision 1
+ * @revision 2
  * @minimumVersion 1.0.0.0
  */
 

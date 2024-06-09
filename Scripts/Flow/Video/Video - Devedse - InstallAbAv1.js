@@ -3,7 +3,8 @@
  * Checks for the latest release of ab-av1, compares with the stored version,
  * and updates if the latest version is newer.
  * @author Devedse
- * @revision 4
+ * @uid e9d2cce8-938c-4849-b9c1-22157d95211f
+ * @revision 5
  * @minimumVersion 1.0.0.0
  * @output The command succeeded
  */
@@ -94,7 +95,7 @@ function Script()
 
 
     // URL of the release and target directory
-    let targetDirectory = '/app/Data/tools/ab-av1/';
+    targetDirectory = '/app/Data/tools/ab-av1/';
     let archivePath = targetDirectory + 'ab-av1.tar.zst';
 
     // Ensure target directory exists

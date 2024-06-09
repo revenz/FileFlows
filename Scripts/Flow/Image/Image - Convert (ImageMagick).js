@@ -1,7 +1,8 @@
 /**
  * Converts images using ImageMagick
  * @author John Andrews
- * @revision 2
+ * @uid 61aa25f3-74ed-44f6-a097-89149aea62c3
+ * @revision 3
  * @minimumVersion 1.0.4.0
  * @param {int} Quality The quality of the image, between 1 and 100
  * @param {string} Extension The extension of the converted image

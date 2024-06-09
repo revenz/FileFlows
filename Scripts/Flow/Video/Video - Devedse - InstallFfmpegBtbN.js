@@ -3,7 +3,8 @@
  * Checks for the latest release of FFmpeg, compares with the stored version,
  * and updates if the latest version is newer.
  * @author Devedse
- * @revision 4
+ * @uid 8c0bbcf8-90c0-44a3-8195-5a6814864063
+ * @revision 5
  * @minimumVersion 1.0.0.0
  * @output The command succeeded
  */

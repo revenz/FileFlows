@@ -1,7 +1,8 @@
 /**
  * Class that interacts with the FileFlows API 
  * @name FileFlows API
- * @revision 8
+ * @uid 92aeca79-6dce-410f-bf26-87b56871be0e
+ * @revision 9
  * @minimumVersion 24.4.1.3000
  */
 export class FileFlowsApi

@@ -1,7 +1,8 @@
 /**
  * Calculate vmaf score of working file compared to original file
  * @author Luigi311
- * @revision 2
+ * @uid deabeae0-5233-4a8a-8663-893386695abc
+ * @revision 3
  * @minimumVersion 1.0.0.0
  * @param {int} n_threads Amount of threads to use for calculation, 0 for auto (non windows only)
  * @param {string} json_file Json file containing vmaf information, empty for ${Flow.TempPath}/${file.NameNoExtension}.json
