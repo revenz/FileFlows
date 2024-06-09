@@ -1,10 +1,10 @@
 import { Sonarr } from 'Shared/Sonarr';
 /**
- * This script will send a rename command to Sonarr
  * @author Anthony Clerici
  * @author Shaun Agius
- * @version 1.0.0
- * @revision 5
+ * @uid 5ac44abd-cfe9-4a84-904b-9424908509de
+ * @description This script will send a rename command to Sonarr
+ * @revision 6
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:1234)
  * @param {string} ApiKey API Key
  * @output Item renamed
