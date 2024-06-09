@@ -1,7 +1,8 @@
 /**
  * @name Apprise - Notify File Processed
+ * @uid 16ab40ef-acab-48f1-ba82-281daba3d035
  * @description Sends a Apprise notification when a file has been successfully processed
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  */
 

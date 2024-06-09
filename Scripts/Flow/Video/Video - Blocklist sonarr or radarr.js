@@ -1,9 +1,8 @@
 /**
- * This script will search the active queue and blocklist and research
- * For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
  * @author Lawrence Curtis
- * @version 1.0.1
- * @revision 2
+ * @uid 8eb58ddf-f355-4442-8101-d6fd81a1b927
+ * @description This script will search the active queue and blocklist and research.  For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
+ * @revision 3
  * @param {string} URI Radarr/Sonarr root URI and port (e.g. http://radarr:1234)
  * @param {string} ApiKey API Key
  * @output Item blocklisted

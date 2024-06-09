@@ -1,8 +1,8 @@
 /**
- * Checks if a video's fps is greater than specified.
  * @author Alexander von Schmidsfeld
- * @revision 3
- * @minimumVersion 1.0.0.0
+ * @uid d4a4b12e-b9d5-47d1-b9d6-06f359cb0b2d
+ * @description Checks if a video's fps is greater than specified.
+ * @revision 5
  * @param {int} MaxFps The maximum to check in fps
  * @output Video's fps is greater than specified
  * @output Video's fps is not greater than specified

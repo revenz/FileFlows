@@ -1,9 +1,8 @@
 /**
  * @name Nvidia - Encoder Check
- * @description Checks to see if the NVIDIA encoder is available before an encode and if not will 
- * request FileFlows restart
- * @revision 6
- * @minimumVersion 1.0.0.0
+ * @uid 55de29ea-749d-4c64-88ca-497fdcd9a1be
+ * @description Checks to see if the NVIDIA encoder is available before an encode and if not will request FileFlows restart
+ * @revision 8
  */
 
 import { FileFlowsApi } from '../../Shared/FileFlowsApi';

@@ -1,9 +1,8 @@
 /**
- * Upscales anime using Dandere2x inside a docker container
- * Requires TempPathHost environment variable to be set if running inside a docker container
  * @author John Andrews
- * @revision 1
- * @minimumVersion 1.0.4.0
+ * @uid a688f844-988f-4541-90a6-0fc189fea1c4
+ * @description Upscales anime using Dandere2x inside a docker container. Requires TempPathHost environment variable to be set if running inside a docker container
+ * @revision 4
  * @output file was upscaled
  */
  function Script()

@@ -1,8 +1,8 @@
 /**
- * Exports all subtitles from a video file
  * @author John Andrews
- * @revision 9
- * @minimumVersion 1.0.9.0
+ * @uid fc30c661-4901-4474-8487-619a6257494b
+ * @revision 10
+ * @description Exports all subtitles from a video file
  * @param {string} FileName Optional full filename of the video to extract subtitles from, if not passed in the current working file will be used
  * @output Subtitles were exported
  * @output No subtitles found to export

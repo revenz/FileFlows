@@ -1,8 +1,8 @@
 /**
- * Checks if a video's bitrate is greater than specified.
  * @author John Andrews
- * @revision 2
- * @minimumVersion 1.0.0.0
+ * @uid c6c1a4b6-5f50-4b7d-81bd-e8d38af2b698
+ * @description Checks if a video's bitrate is greater than specified.
+ * @revision 4
  * @param {int} MaxBitrateKbps The maximum to check in KBps
  * @output Video's bitrate is greater than specified
  * @output Video's bitrate is not greater than specified

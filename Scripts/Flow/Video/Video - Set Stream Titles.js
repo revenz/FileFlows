@@ -1,10 +1,10 @@
 import { Language } from 'Shared/Language';
 
 /**
- * Updates audio and or subtitle titles to format `Language / Codec / Bitrate / SampleRate` or `Language / Forced / Codec`
  * @author John Andrews
- * @revision 2
- * @minimumVersion 24.01.3.0
+ * @uid 2b38c39e-8536-4df8-9878-684e3f02fed8
+ * @description Updates audio and or subtitle titles to format `Language / Codec / Bitrate / SampleRate` or `Language / Forced / Codec`
+ * @revision 5
  * @param {bool} Audio If audio stream titles should be updated
  * @param {bool} Subtitle If subtitle stream titles should be updated
  * @param {bool} LeaveCommentaryAlone If commentary streams should be left alone and not renamed
