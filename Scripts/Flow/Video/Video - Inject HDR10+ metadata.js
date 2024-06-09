@@ -1,7 +1,7 @@
 /**
- * @author https://github.com/GrimJu
+ * @author GrimJu
  * @uid 594f7f1e-2a8e-4858-b83b-38d971bf48d1
- * @revision 4
+ * @revision 5
  * @description Injects The Hdr10+ Metadata from the original file into the current working file
  * @param {bool} FailFlowOnNoInject If set to true the flow will fail when the script fails to inject any metadata
  * @output Success, metadata was injected and new working file was created 
