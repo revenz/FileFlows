@@ -231,60 +231,59 @@ export class Sonarr
         }
         return language[1];
     }
-}
 
-/**
-     * Specifies a command for Sonarr to run. see sonarr rename script for usage
-     * @param {string} commandName the name of the command to be run
-     * @param {object} commandBody the body of the command to be sent
-     * @returns {object} JSON of the response or null if unsuccessful
-     */
-sendCommand(commandName, commandBody) 
-{
-    let endpoint = `${this.URL}/api/v3/command`;
-    commandBody['name'] = commandName;
+    /**
+         * Specifies a command for Sonarr to run. see sonarr rename script for usage
+         * @param {string} commandName the name of the command to be run
+         * @param {object} commandBody the body of the command to be sent
+         * @returns {object} JSON of the response or null if unsuccessful
+         */
+    sendCommand(commandName, commandBody) 
+    {
+        let endpoint = `${this.URL}/api/v3/command`;
+        commandBody['name'] = commandName;
 
-    let jsonData = JSON.stringify(commandBody);
-    http.DefaultRequestHeaders.Add("X-API-Key", this.ApiKey);
-    let response = http.PostAsync(endpoint, JsonContent(jsonData)).Result;
+        let jsonData = JSON.stringify(commandBody);
+        http.DefaultRequestHeaders.Add("X-API-Key", this.ApiKey);
+        let response = http.PostAsync(endpoint, JsonContent(jsonData)).Result;
 
-    http.DefaultRequestHeaders.Remove("X-API-Key");
+        http.DefaultRequestHeaders.Remove("X-API-Key");
 
-    if (response.IsSuccessStatusCode) {
-        let responseData = JSON.parse(response.Content.ReadAsStringAsync().Result);
-        Logger.ILog(`${commandName} command sent successfully`);
-        return responseData;
-    } else {
-        let error = response.Content.ReadAsStringAsync().Result;
-        Logger.WLog("API error: " + error);
-        return null;
-    }
-}
-
-/**
- * Sleeps, waiting for a command to complete
- * @param {int} commandId ID of command being run
- * @returns bool whether the coommand ran successfully
- */
-waitForCompletion(commandId) 
-{
-    const startTime = new Date().getTime();
-    const timeout = 30000;
-    const endpoint = `command/${commandId}`;
-
-    while (new Date().getTime() - startTime <= timeout) {
-        let response = this.fetchJson(endpoint, '');
-        if (response.status === 'completed') {
-            Logger.ILog('Scan completed!');
-            return true;
-        } else if (response.status === 'failed') {
-            Logger.WLog(`Command ${commandId} failed`)
-            return false;
+        if (response.IsSuccessStatusCode) {
+            let responseData = JSON.parse(response.Content.ReadAsStringAsync().Result);
+            Logger.ILog(`${commandName} command sent successfully`);
+            return responseData;
+        } else {
+            let error = response.Content.ReadAsStringAsync().Result;
+            Logger.WLog("API error: " + error);
+            return null;
         }
-        Logger.ILog(`Checking status: ${response.status}`);
-        Sleep(100);
     }
-    Logger.WLog('Timeout: Scan did not complete within 30 seconds.');
-    return false;
-}
+
+    /**
+     * Sleeps, waiting for a command to complete
+     * @param {int} commandId ID of command being run
+     * @returns bool whether the coommand ran successfully
+     */
+    waitForCompletion(commandId) 
+    {
+        const startTime = new Date().getTime();
+        const timeout = 30000;
+        const endpoint = `command/${commandId}`;
+
+        while (new Date().getTime() - startTime <= timeout) {
+            let response = this.fetchJson(endpoint, '');
+            if (response.status === 'completed') {
+                Logger.ILog('Scan completed!');
+                return true;
+            } else if (response.status === 'failed') {
+                Logger.WLog(`Command ${commandId} failed`)
+                return false;
+            }
+            Logger.ILog(`Checking status: ${response.status}`);
+            Sleep(100);
+        }
+        Logger.WLog('Timeout: Scan did not complete within 30 seconds.');
+        return false;
+    }
 }
