@@ -1,9 +1,10 @@
 /**
- * Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.
+ * @description Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.
  * Checks for the latest release of FFmpeg, compares with the stored version,
  * and updates if the latest version is newer.
  * @author Devedse
- * @revision 4
+ * @uid 8c0bbcf8-90c0-44a3-8195-5a6814864063
+ * @revision 6
  * @minimumVersion 1.0.0.0
  * @output The command succeeded
  */

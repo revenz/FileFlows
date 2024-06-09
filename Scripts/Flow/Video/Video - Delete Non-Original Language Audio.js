@@ -1,12 +1,10 @@
 import { Language } from '../../../Shared/Language';
 
 /**
- * Checks the "Movie Lookup" information for original language, and will delete any audio tracks 
- * with languages set that do not match the original language.
- * Requires the "Movie Lookup" node to be executed first to work
  * @author John Andrews
- * @revision 3
- * @minimumVersion 1.0.0.0
+ * @uid d3d80753-4c85-4202-af33-ba73e585c771
+ * @revision 5
+ * @description Checks the "Movie Lookup" information for original language, and will delete any audio tracks with languages set that do not match the original language.  Requires the "Movie Lookup" node to be executed first to work
  * @param {bool} TreatUnknownAsBad Treat a track with no language set as a bad language and do not include it, otherwise it will be treated as a good track
  * @param {bool} KeepFirstAudio If no matching langauges are found, keep the first audio track, otherwise all audio could be removed
  * @output Audio tracks were deleted

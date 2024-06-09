@@ -1,5 +1,6 @@
 /**
  * @name Radarr - Process
+ * @uid 5cc2bf61-6379-4048-a472-aaf1be0e5f79
  * @description When a new file is added, call this webhook to process the file
  * @revision 2
  * @minimumVersion 1.1.1.0

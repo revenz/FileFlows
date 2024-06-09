@@ -53,42 +53,44 @@ class RepoGenerator : Generator
 
             // if this throws an exception, the script is invalid, we're not trying to make this generator bullet proof, we want exceptions if the script is bad
             string comments = rgxComments.Match(content).Value;
-            comments = string.Join("\n", comments.Split(new string[] { "\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries).Select(x => {
-                x = x.Trim();
-                if(x.StartsWith("/*"))
-                    return string.Empty;
-                if(x.StartsWith("*/"))
-                    return string.Empty;
-                if(x.StartsWith("*"))
-                    x = x[1..].Trim();
-                return x;
-            })).Trim();
-            if(comments.StartsWith("@") == false)
-                comments = "@description " + comments;
+            
+            // remove the start * 
+            comments = string.Join("\n", comments.Replace("\r\n", "\n").Split('\n')
+                .Select(x => Regex.Replace(x, @"^[\s]*[\*]+[\s]*", ""))).Trim();
+            
             bool outputs = false;
-            foreach(Match match in Regex.Matches(comments, "@[^@]+")) 
+            foreach (var line in comments.Split('\n'))
             {
-                string part = match.Value;
-                if(part.StartsWith("@description "))
-                    script.Description = part.Substring("@description ".Length).Trim();
-                else if(part.StartsWith("@name "))
-                    script.Name = part.Substring("@name ".Length).Trim();
-                else if(part.StartsWith("@revision "))
-                    script.Revision = int.Parse(part.Substring("@revision ".Length).Trim());
-                else if(part.StartsWith("@outputs "))
+                if (line.StartsWith('@') == false)
+                {
+                    if (string.IsNullOrWhiteSpace(script.Description))
+                        script.Description = line;
+                    else
+                        script.Description += "\n" + line;
+                }
+                if(line.StartsWith("@description "))
+                    script.Description = line.Substring("@description ".Length).Trim();
+                else if (line.StartsWith("@uid ") && Guid.TryParse(line[5..].Trim(), out var uid))
+                    script.Uid = uid;
+                else if(line.StartsWith("@name "))
+                    script.Name = line.Substring("@name ".Length).Trim();
+                else if(line.StartsWith("@revision "))
+                    script.Revision = int.Parse(line.Substring("@revision ".Length).Trim());
+                else if(line.StartsWith("@outputs "))
                     outputs = true;
-                else if(part.StartsWith("@minimumVersion "))
-                    script.MinimumVersion = part.Substring("@minimumVersion ".Length).Trim();
+                else if(line.StartsWith("@minimumVersion "))
+                    script.MinimumVersion = line.Substring("@minimumVersion ".Length).Trim();
             }
             if(string.IsNullOrWhiteSpace(script.Description))
                 throw new Exception("No description found in: " + file.FullName);
             if(script.Revision < 1)
                 throw new Exception("No revision found in: " + file.FullName);
+            if(script.Uid == null && type != ScriptType.Template)
+                throw new Exception("No UID found in: " + file.FullName);
 
                 
             if(type == ScriptType.Template && outputs == false)
                 throw new Exception($"Template '{file}' must define outputs!");
-            
 
             if(string.IsNullOrWhiteSpace(script.Name))
                 script.Name = file.Name[..^(file.Extension.Length)];

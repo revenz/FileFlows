@@ -1,7 +1,8 @@
 /**
  * @name Apprise - FileFlows Server Update Available
+ * @uid 964cd7c4-a763-4be8-b5f4-f81568d67950
  * @description Sends a Apprise notification when a FileFlows server update is available
- * @revision 2
+ * @revision 3
  * @minimumVersion 1.0.0.0
  */
 

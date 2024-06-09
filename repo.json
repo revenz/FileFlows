@@ -3,413 +3,438 @@
     {
       "Path": "Scripts/Shared/Apprise.js",
       "Name": "Apprise",
-      "Description": "Class that interacts with Apprise",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Class that interacts with Apprise\n/",
+      "Revision": 5,
+      "Uid": "3aef04da-13b1-494e-8ea4-075432d86bd7"
     },
     {
       "Path": "Scripts/Shared/Gotify.js",
       "Name": "Gotify",
-      "Description": "Class that interacts with Gotify",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Class that interacts with Gotify\n/",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "ef1e6fad-2313-4851-a11e-4156c489b04d"
     },
     {
       "Path": "Scripts/Shared/Sonarr.js",
       "Name": "Sonarr",
-      "Description": "Class that interacts with Sonarr",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Class that interacts with Sonarr\n/",
+      "Revision": 6,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "0f5836c0-d20b-4740-9824-f81b5200ec3d"
     },
     {
       "Path": "Scripts/Shared/Language.js",
       "Name": "Language",
-      "Description": "Helper class for Languages",
-      "Revision": 8,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Helper class for Languages\n/",
+      "Revision": 10,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "d5b3078e-9999-4fef-b2eb-26385a2183ff"
     },
     {
       "Path": "Scripts/Shared/SABnzbd.js",
       "Name": "SABnzbd",
-      "Description": "Class that interacts with the SABnzbd API",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Class that interacts with the SABnzbd API\n/",
+      "Revision": 5,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "fa7c89e1-cd9e-48d7-9354-79ee7147ccb3"
     },
     {
       "Path": "Scripts/Shared/FileFlowsApi.js",
       "Name": "FileFlows API",
-      "Description": "Class that interacts with the FileFlows API",
-      "Revision": 8,
-      "MinimumVersion": "24.4.1.3000"
+      "Description": "/**\n/",
+      "Revision": 10,
+      "MinimumVersion": "24.4.1.3000",
+      "Uid": "92aeca79-6dce-410f-bf26-87b56871be0e"
     },
     {
       "Path": "Scripts/Shared/Radarr.js",
       "Name": "Radarr",
-      "Description": "Class that interacts with Radarr",
-      "Revision": 5,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Class that interacts with Radarr\n/",
+      "Revision": 7,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "88e66e7d-f835-4620-9616-9beaa4ee42dc"
     }
   ],
   "SystemScripts": [
     {
       "Path": "Scripts/System/File/AddMKVExtension.js",
       "Name": "Add MKV extension to files without an extension",
-      "Description": "Monitors the directories listed in the variable AddExtensionDirectoryList and any file thats found without an extenion, MKV will be added to it",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Monitors the directories listed in the variable AddExtensionDirectoryList and any file thats found without an extenion, MKV will be added to it\n/",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "bf5d95be-8fb7-4dc2-91da-9efcdcd086db"
     },
     {
       "Path": "Scripts/System/File/DeleteEmptyFolders.js",
       "Name": "Delete Empty Folders",
-      "Description": "Reads a variable \u0027DeleteEmptyFolders\u0027 and iterates all folders defined there and will delete any empty folder found within, leaving the root folder",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Reads a variable \u0027DeleteEmptyFolders\u0027 and iterates all folders defined there and will delete any empty folder found within, leaving the root folder\n/",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "5dfc086e-a1e8-4c55-b3a7-d81c1ef41c90"
     },
     {
       "Path": "Scripts/System/DownloadClients/PauseSABNZbd.js",
       "Name": "SABnzbd - Pause Downloads",
-      "Description": "Pauses SABnzbd if the current file processing queue is greater than 30 files\nIf the processing queue is not greater than 30 files, then it will resume SABnzbd",
-      "Revision": 6,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Pauses SABnzbd if the current file processing queue is greater than 30 files.  If the processing queue is not greater than 30 files, then it will resume SABnzbd\n/",
+      "Revision": 8,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "086f8a37-5e0c-4ee9-a033-44153198e9bf"
     },
     {
       "Path": "Scripts/System/DownloadClients/DeleteRogueUNPACKDirectories.js",
       "Name": "Delete Rogue _UNPACK_ Directories",
-      "Description": "Will check any _UNPACK_ directories, and if they haven\u0027t be modified in 24 hours will delete that directory",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Will check any _UNPACK_ directories, and if they haven\u0027t be modified in 24 hours will delete that directory\n/",
+      "Revision": 2,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "fadc8bec-cb54-4207-8606-ffa1c35f08e2"
     },
     {
       "Path": "Scripts/System/HardwareChecks/Nvidia Encoder Check.js",
       "Name": "Nvidia - Encoder Check",
-      "Description": "Checks to see if the NVIDIA encoder is available before an encode and if not will\nrequest FileFlows restart",
-      "Revision": 6,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Checks to see if the NVIDIA encoder is available before an encode and if not will request FileFlows restart\n/",
+      "Revision": 8,
+      "Uid": "55de29ea-749d-4c64-88ca-497fdcd9a1be"
     },
     {
       "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processed.js",
       "Name": "Gotify - Notify File Processed",
-      "Description": "Sends a Gotify notification when a file has been successfully processed",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Sends a Gotify notification when a file has been successfully processed\n/",
+      "Revision": 5,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "91d6f012-d885-43b4-abc9-121a62f1da1d"
     },
     {
       "Path": "Scripts/System/Notifications/Gotify/Gotify - FileFlows Server Update Available.js",
       "Name": "Gotify - FileFlows Server Update Available",
-      "Description": "Sends a Gotify notification when a FileFlows server update is available",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Sends a Gotify notification when a FileFlows server update is available\n/",
+      "Revision": 4,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "dcc90331-a51d-4399-9cdf-eb0e74f48158"
     },
     {
       "Path": "Scripts/System/Notifications/Gotify/Gotify - FileFlows Server Updating.js",
       "Name": "Gotify - FileFlows Server Updating",
-      "Description": "Sends a Gotify notification the FileFlows Server is being automatically updated",
+      "Description": "Sends a Gotify notification the FileFlows Server is being automatically updated\n/",
       "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "81b67ae5-fc97-44e9-a36d-619bd965af89"
     },
     {
       "Path": "Scripts/System/Notifications/Gotify/Gotify - Notify File Processing Failed.js",
       "Name": "Gotify - Notify File Processing Failed",
-      "Description": "Sends a Gotify notification when a file failed to be processed",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Sends a Gotify notification when a file failed to be processed\n/",
+      "Revision": 5,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "4cbf36fe-cb45-4325-8d58-d369ebe774bb"
     },
     {
       "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processing Failed.js",
       "Name": "Apprise - Notify File Processing Failed",
-      "Description": "Sends a Apprise notification when a file failed to be processed",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Sends a Apprise notification when a file failed to be processed\n/",
+      "Revision": 5,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "4d0d9e73-ba63-401b-8ce8-c35249fa53b5"
     },
     {
       "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Update Available.js",
       "Name": "Apprise - FileFlows Server Update Available",
-      "Description": "Sends a Apprise notification when a FileFlows server update is available",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Sends a Apprise notification when a FileFlows server update is available\n/",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "964cd7c4-a763-4be8-b5f4-f81568d67950"
     },
     {
       "Path": "Scripts/System/Notifications/Apprise/Apprise - FileFlows Server Updating.js",
       "Name": "Apprise - FileFlows Server Updating",
-      "Description": "Sends a Apprise notification the FileFlows Server is being automatically updated",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Sends a Apprise notification the FileFlows Server is being automatically updated\n/",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "9b3451e1-a40c-4dcb-8640-e477f477686f"
     },
     {
       "Path": "Scripts/System/Notifications/Apprise/Apprise - Notify File Processed.js",
       "Name": "Apprise - Notify File Processed",
-      "Description": "Sends a Apprise notification when a file has been successfully processed",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Sends a Apprise notification when a file has been successfully processed\n/",
+      "Revision": 3,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "16ab40ef-acab-48f1-ba82-281daba3d035"
     }
   ],
   "FlowScripts": [
     {
       "Path": "Scripts/Flow/Folder/Folder - Copy Folder.js",
       "Name": "Folder - Copy Folder",
-      "Description": "Copies a folder from one location to another",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Copies a folder from one location to another\n/",
+      "Revision": 4,
+      "Uid": "8efa6316-8108-4c1a-8aeb-49bb1c9f8323"
     },
     {
       "Path": "Scripts/Flow/File/File - Older Than.js",
       "Name": "File - Older Than",
-      "Description": "Checks if a file is older than the specified days",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Checks if a file is older than the specified days\n/",
+      "Revision": 4,
+      "Uid": "fbdd7b81-5112-43eb-a371-6aaf9b42977d"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Denoise Non-Linear Means.js",
       "Name": "Video - Denoise Non-Linear Means",
-      "Description": "Denoise frames using Non-Local Means algorithm.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Denoise frames using Non-Local Means algorithm.\n/",
+      "Revision": 4,
+      "Uid": "b4ed740e-b851-4336-b412-a63ddc64ca0b"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Has 5.1 Audio.js",
       "Name": "Video - Has 5.1 Audio",
-      "Description": "Determines if a video has a 5.1 channel track",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Determines if a video has a 5.1 channel track\n/",
+      "Revision": 6,
+      "Uid": "c87f9e27-6587-490b-a51e-f65e7542b891"
     },
     {
       "Path": "Scripts/Flow/Video/Video - VMAF.js",
       "Name": "Video - VMAF",
-      "Description": "Calculate vmaf score of working file compared to original file",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Calculate vmaf score of working file compared to original file\n/",
+      "Revision": 4,
+      "Uid": "deabeae0-5233-4a8a-8663-893386695abc"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Upscale Anime (Video2x) [Docker].js",
       "Name": "Video - Upscale Anime (Video2x) [Docker]",
-      "Description": "Upscales anime using Video2x inside a docker container\nRequires TempPathHost environment variable to be set if running inside a docker container",
-      "Revision": 1,
-      "MinimumVersion": "1.0.4.0"
+      "Description": "Upscales anime using Video2x inside a docker container. Requires TempPathHost environment variable to be set if running inside a docker container\n/",
+      "Revision": 4,
+      "Uid": "ebbea155-596c-4be9-93bf-24858f6b0765"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Inject HDR10\u002B metadata.js",
       "Name": "Video - Inject HDR10\u002B metadata",
-      "Description": "Injects The Hdr10\u002B Metadata from the original file into the current working file",
-      "Revision": 2
+      "Description": "Injects The Hdr10\u002B Metadata from the original file into the current working file\n/",
+      "Revision": 4,
+      "Uid": "594f7f1e-2a8e-4858-b83b-38d971bf48d1"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Set Stream Titles.js",
       "Name": "Video - Set Stream Titles",
-      "Description": "Updates audio and or subtitle titles to format \u0060Language / Codec / Bitrate / SampleRate\u0060 or \u0060Language / Forced / Codec\u0060",
-      "Revision": 2,
-      "MinimumVersion": "24.01.3.0"
+      "Description": "Updates audio and or subtitle titles to format \u0060Language / Codec / Bitrate / SampleRate\u0060 or \u0060Language / Forced / Codec\u0060\n/",
+      "Revision": 5,
+      "Uid": "2b38c39e-8536-4df8-9878-684e3f02fed8"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Export All Subtitles.js",
       "Name": "Video - Export All Subtitles",
-      "Description": "Exports all subtitles from a video file",
-      "Revision": 9,
-      "MinimumVersion": "1.0.9.0"
+      "Description": "Exports all subtitles from a video file\n/",
+      "Revision": 10,
+      "Uid": "fc30c661-4901-4474-8487-619a6257494b"
     },
     {
       "Path": "Scripts/Flow/Video/Video - FPS greater than.js",
       "Name": "Video - FPS greater than",
-      "Description": "Checks if a video\u0027s fps is greater than specified.",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Checks if a video\u0027s fps is greater than specified.\n/",
+      "Revision": 5,
+      "Uid": "d4a4b12e-b9d5-47d1-b9d6-06f359cb0b2d"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Upscale Anime (Dandere2x) [Docker].js",
       "Name": "Video - Upscale Anime (Dandere2x) [Docker]",
-      "Description": "Upscales anime using Dandere2x inside a docker container\nRequires TempPathHost environment variable to be set if running inside a docker container",
-      "Revision": 1,
-      "MinimumVersion": "1.0.4.0"
+      "Description": "Upscales anime using Dandere2x inside a docker container. Requires TempPathHost environment variable to be set if running inside a docker container\n/",
+      "Revision": 4,
+      "Uid": "a688f844-988f-4541-90a6-0fc189fea1c4"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Has 2.0 Audio.js",
       "Name": "Video - Has 2.0 Audio",
-      "Description": "Determines if a video has a 2.0 (stereo) channel track",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Determines if a video has a 2.0 (stereo) channel track\n/",
+      "Revision": 5,
+      "Uid": "f9928be4-23e3-43d8-aa5f-6e0d5a8fc736"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Downscale greater than 1080p.js",
       "Name": "Video - Downscale greater than 1080p",
-      "Description": "If a video\u0027s resolution is greater than 1080p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 1080p when the FFMPEG Builder Executor runs.",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "If a video\u0027s resolution is greater than 1080p, this script will update the FFMPEG Builder video track with a filter to downscale the video to 1080p when the FFMPEG Builder Executor runs.\n/",
+      "Revision": 6,
+      "Uid": "62b01a65-b602-49cb-ac81-8583ead54ca7"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Blocklist sonarr or radarr.js",
       "Name": "Video - Blocklist sonarr or radarr",
-      "Description": "This script will search the active queue and blocklist and research\nFor use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr",
-      "Revision": 2
+      "Description": "This script will search the active queue and blocklist and research.  For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr\n/",
+      "Revision": 3,
+      "Uid": "8eb58ddf-f355-4442-8101-d6fd81a1b927"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Bitrate greater than.js",
       "Name": "Video - Bitrate greater than",
-      "Description": "Checks if a video\u0027s bitrate is greater than specified.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Checks if a video\u0027s bitrate is greater than specified.\n/",
+      "Revision": 4,
+      "Uid": "c6c1a4b6-5f50-4b7d-81bd-e8d38af2b698"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Devedse - InstallFfmpegBtbN.js",
       "Name": "Video - Devedse - InstallFfmpegBtbN",
-      "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nChecks for the latest release of FFmpeg, compares with the stored version,\nand updates if the latest version is newer.",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nChecks for the latest release of FFmpeg, compares with the stored version,\nand updates if the latest version is newer.\n/",
+      "Revision": 6,
+      "MinimumVersion": "1.0.0.0",
+      "Uid": "8c0bbcf8-90c0-44a3-8195-5a6814864063"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Resolution.js",
       "Name": "Video - Resolution",
-      "Description": "Determines a video\u0027s resolution and outputs accordingly",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Determines a video\u0027s resolution and outputs accordingly\n/",
+      "Revision": 4,
+      "Uid": "d5962d9f-6200-4441-a0af-1c47f5ac8101"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Deblocking.js",
       "Name": "Video - Deblocking",
-      "Description": "Remove blocking artifacts from input video.",
-      "Revision": 1,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Remove blocking artifacts from input video.\n/",
+      "Revision": 3,
+      "Uid": "bd6992b2-b123-4acd-a054-f6029121a415"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Devedse - InstallAbAv1.js",
       "Name": "Video - Devedse - InstallAbAv1",
-      "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nChecks for the latest release of ab-av1, compares with the stored version,\nand updates if the latest version is newer.",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nChecks for the latest release of ab-av1, compares with the stored version,\nand updates if the latest version is newer.\n/",
+      "Revision": 7,
+      "Uid": "e9d2cce8-938c-4849-b9c1-22157d95211f"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Has Audio.js",
       "Name": "Video - Has Audio",
-      "Description": "Checks if there is an audio track on a video file",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Checks if there is an audio track on a video file\n/",
+      "Revision": 4,
+      "Uid": "c57f5849-0df1-4882-b668-62145bda1304"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Dynamic range.js",
       "Name": "Video - Dynamic range",
-      "Description": "Detects the dynamic range of a video e.g. SDR/HDR/HDR\u002BDoVi/Dovi",
-      "Revision": 1
+      "Description": "Detects the dynamic range of a video e.g. SDR/HDR/HDR\u002BDoVi/Dovi\n/",
+      "Revision": 3,
+      "Uid": "d6d1bde2-0a1c-46d1-a9b2-a46d12eeffb7"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Devedse - RunAbAv1.js",
       "Name": "Video - Devedse - RunAbAv1",
-      "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nPrerequisites:\nVideo - Devedse - InstallFfmpegBtbN.js\nVideo - Devedse - InstallAbAv1.js\nExecutes the ab-av1 command.",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nPrerequisites:\nVideo - Devedse - InstallFfmpegBtbN.js\nVideo - Devedse - InstallAbAv1.js\nExecutes the ab-av1 command.\n/",
+      "Revision": 6,
+      "Uid": "4b2d95ff-0b20-4be2-b945-e6efd8099feb"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Set Original Language from MovieDB.js",
       "Name": "Video - Set Original Language from MovieDB",
-      "Description": "Gets either TV Show Information or Movie Information from a meta flow element and updates any audio tracks with missing language codes\nwith the original language of the show/movie\nRequires the \u0022Movie Lookup\u0022 or \u0022TV Show Lookup\u0022 to be executed first to work",
-      "Revision": 1,
-      "MinimumVersion": "23.08.3.0"
+      "Description": "Gets either TV Show Information or Movie Information from a meta flow element and updates any audio tracks with missing language codes\nwith the original language of the show/movie\nRequires the \u0022Movie Lookup\u0022 or \u0022TV Show Lookup\u0022 to be executed first to work\n/",
+      "Revision": 4,
+      "Uid": "3a3909c7-aded-45d7-8340-b27e76589b02"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Delete Non-Original Language Audio.js",
       "Name": "Video - Delete Non-Original Language Audio",
-      "Description": "Checks the \u0022Movie Lookup\u0022 information for original language, and will delete any audio tracks\nwith languages set that do not match the original language.\nRequires the \u0022Movie Lookup\u0022 node to be executed first to work",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Checks the \u0022Movie Lookup\u0022 information for original language, and will delete any audio tracks with languages set that do not match the original language.  Requires the \u0022Movie Lookup\u0022 node to be executed first to work\n/",
+      "Revision": 5,
+      "Uid": "d3d80753-4c85-4202-af33-ba73e585c771"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Audio bitrate per channel.js",
       "Name": "Video - Audio bitrate per channel",
-      "Description": "Sets the bitrate for audio streams based off the number of channels - in place of \u0022Quality\u0022 options found on some audio codecs",
-      "Revision": 1
+      "Description": "Sets the bitrate for audio streams based off the number of channels - in place of \u0022Quality\u0022 options found on some audio codecs\n/",
+      "Revision": 3,
+      "Uid": "f25d9fc6-adfa-4c53-bf03-cc8fd6a98e9c"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Downscale greater than 720p.js",
       "Name": "Video - Downscale greater than 720p",
-      "Description": "If a video\u0027s resolution is greater than 720p, this script will update the FFMPEG Builder video track with a filter\nto downscale the video to 720p when the FFMPEG Builder Executor runs.",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "If a video\u0027s resolution is greater than 720p, this script will update the FFMPEG Builder video track with a filter to downscale the video to 720p when the FFMPEG Builder Executor runs.\n/",
+      "Revision": 4,
+      "Uid": "9191f554-ecd5-4ef4-b83b-054f2878b09f"
     },
     {
       "Path": "Scripts/Flow/Utilities/7Zip - Compress to Zip.js",
       "Name": "7Zip - Compress to Zip",
-      "Description": "Uses 7Zip to zip files",
-      "Revision": 3,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Uses 7Zip to zip files\n/",
+      "Revision": 5,
+      "Uid": "e45d1199-8528-4031-ad52-66c4f0fb5f8e"
     },
     {
       "Path": "Scripts/Flow/Hardware/NVIDIA - Below Encoder Limit.js",
       "Name": "NVIDIA - Below Encoder Limit",
-      "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit",
-      "Revision": 2,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Checks the count of NVIDIA encodes currently processing and see if it is below a limit\n/",
+      "Revision": 4,
+      "Uid": "071ef14f-46db-4e21-b438-30ac56b37cc4"
     },
     {
       "Path": "Scripts/Flow/Image/Image - Convert (ImageMagick).js",
       "Name": "Image - Convert (ImageMagick)",
-      "Description": "Converts images using ImageMagick",
-      "Revision": 2,
-      "MinimumVersion": "1.0.4.0"
+      "Description": "Converts images using ImageMagick\n/",
+      "Revision": 4,
+      "Uid": "61aa25f3-74ed-44f6-a097-89149aea62c3"
     },
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Rename.js",
       "Name": "Radarr - Rename",
-      "Description": "This script will send a rename command to Radarr",
-      "Revision": 4
+      "Description": "/**\n/",
+      "Revision": 5,
+      "Uid": "bd6f02c8-e650-4916-bcae-46f382d20388"
     },
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Get Original Language.js",
       "Name": "Radarr - Get Original Language",
-      "Description": "Lookups a file in Radarr and gets its original language ISO-693-1 code for it",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Lookups a file in Radarr and gets its original language ISO-693-1 code for it\n/",
+      "Revision": 5,
+      "Uid": "3915f110-4b07-4e11-b7b9-50de3f5a1255"
     },
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Rename.js",
       "Name": "Sonarr - Rename",
-      "Description": "This script will send a rename command to Sonarr",
-      "Revision": 4
+      "Description": "/**\nThis script will send a rename command to Sonarr\n/",
+      "Revision": 5,
+      "Uid": "5ac44abd-cfe9-4a84-904b-9424908509de"
     },
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
       "Name": "Sonarr - Get Original Language",
-      "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it",
-      "Revision": 4,
-      "MinimumVersion": "1.0.0.0"
+      "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it\n/",
+      "Revision": 6,
+      "Uid": "51cf3c4f-f4a3-45e2-a083-6629397aab90"
     }
   ],
   "FunctionScripts": [
     {
       "Path": "Scripts/Function/File/File - Greater Than 1GB.js",
       "Name": "File - Greater Than 1GB",
-      "Description": "Checks if a file is larger than 1 GB",
+      "Description": "/**\nChecks if a file is larger than 1 GB\n/",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/Function/Video/Video - Manual HandBrakeCLI.js",
       "Name": "Video - Manual HandBrakeCLI",
-      "Description": "Custom Handbrake CLI command",
+      "Description": "/**\nCustom Handbrake CLI command\n/",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/Function/Video/Video - Resolution.js",
       "Name": "Video - Resolution",
-      "Description": "A switch statement for video resolution",
+      "Description": "/**\nA switch statement for video resolution\n/",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/Function/Video/Video - Manual FFMPEG.js",
       "Name": "Video - Manual FFMPEG",
-      "Description": "Custom FFMPEG command",
+      "Description": "/**\nCustom FFMPEG command\n/",
       "Revision": 3,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/Function/Video/Video - Bitrate Greater Than.js",
       "Name": "Video - Bitrate Greater Than",
-      "Description": "Checks if a video files bitrate is greater than a specific bitrate",
+      "Description": "/**\nChecks if a video files bitrate is greater than a specific bitrate\n/",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     },
     {
       "Path": "Scripts/Function/Video/Video - Downscale Greater then 1080p.js",
       "Name": "Video - Downscale Greater then 1080p",
-      "Description": "Adds a downscale filter to FFMPEG Builder any file greater than 1080p",
+      "Description": "/**\nAdds a downscale filter to FFMPEG Builder any file greater than 1080p\n/",
       "Revision": 2,
       "MinimumVersion": "1.0.0.0"
     }
@@ -418,9 +443,10 @@
     {
       "Path": "Scripts/Webhook/Radarr-Process.js",
       "Name": "Radarr - Process",
-      "Description": "When a new file is added, call this webhook to process the file",
+      "Description": "When a new file is added, call this webhook to process the file\n/",
       "Revision": 2,
-      "MinimumVersion": "1.1.1.0"
+      "MinimumVersion": "1.1.1.0",
+      "Uid": "5cc2bf61-6379-4048-a472-aaf1be0e5f79"
     }
   ],
   "LibraryTemplates": [
