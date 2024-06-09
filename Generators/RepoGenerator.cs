@@ -85,7 +85,7 @@ class RepoGenerator : Generator
                 throw new Exception("No description found in: " + file.FullName);
             if(script.Revision < 1)
                 throw new Exception("No revision found in: " + file.FullName);
-            if(script.Uid == null)
+            if(script.Uid == null && type != ScriptType.Template)
                 throw new Exception("No UID found in: " + file.FullName);
 
                 
