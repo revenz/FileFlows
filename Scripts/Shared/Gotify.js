@@ -1,9 +1,9 @@
 /**
  * @name Gotify
  * @uid ef1e6fad-2313-4851-a11e-4156c489b04d
- * @revision 4
+ * @author John Andrews
+ * @revision 5
  * @description Class that interacts with Gotify
- * @minimumVersion 1.0.0.0
  */
 export class Gotify
 {
@@ -40,12 +40,12 @@ export class Gotify
         let url = this.getUrl();
         
         http.DefaultRequestHeaders.Add("X-Gotify-Key", this.AccessToken);
-        let json = JSON.stringify({
+        let data = {
             title: title,
             message: message,
             priority: !priority ? 2 : priority
-        });
-        let response = http.PostAsync(url, JsonContent(json)).Result;
+        };
+        let response = http.PostAsync(url, JsonContent(data)).Result;
         http.DefaultRequestHeaders.Remove("X-Gotify-Key");
         if (response.IsSuccessStatusCode)
             return true;
