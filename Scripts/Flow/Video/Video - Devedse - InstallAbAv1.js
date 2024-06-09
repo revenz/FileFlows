@@ -1,11 +1,10 @@
 /**
- * Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.
+ * @description Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.
  * Checks for the latest release of ab-av1, compares with the stored version,
  * and updates if the latest version is newer.
  * @author Devedse
  * @uid e9d2cce8-938c-4849-b9c1-22157d95211f
- * @revision 5
- * @minimumVersion 1.0.0.0
+ * @revision 7
  * @output The command succeeded
  */
 function Script()

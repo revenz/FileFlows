@@ -1,9 +1,8 @@
 /**
- * Remove blocking artifacts from input video. 
  * @author Alexander von Schmidsfeld
  * @uid bd6992b2-b123-4acd-a054-f6029121a415
- * @revision 2
- * @minimumVersion 1.0.0.0
+ * @description Remove blocking artifacts from input video. 
+ * @revision 3
  * @param {string} Filter Set filter type, can be weak or strong. Default is strong.
  * @param {int} Block Set size of block, allowed range is from 4 to 512. Default is 8.
  * @output Deblocked Video 

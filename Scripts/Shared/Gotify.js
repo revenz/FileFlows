@@ -1,8 +1,8 @@
 /**
- * Class that interacts with Gotify
  * @name Gotify
  * @uid ef1e6fad-2313-4851-a11e-4156c489b04d
- * @revision 3
+ * @revision 4
+ * @description Class that interacts with Gotify
  * @minimumVersion 1.0.0.0
  */
 export class Gotify

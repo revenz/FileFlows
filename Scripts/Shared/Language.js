@@ -1,8 +1,8 @@
 /**
- * Helper class for Languages
  * @name Language
  * @uid d5b3078e-9999-4fef-b2eb-26385a2183ff
- * @revision 9
+ * @revision 10
+ * @description Helper class for Languages
  * @minimumVersion 1.0.0.0
  */
  export class Language

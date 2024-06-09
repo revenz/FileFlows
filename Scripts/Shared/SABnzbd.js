@@ -1,8 +1,8 @@
 /**
- * Class that interacts with the SABnzbd API 
  * @name SABnzbd
  * @uid fa7c89e1-cd9e-48d7-9354-79ee7147ccb3
- * @revision 4
+ * @description Class that interacts with the SABnzbd API 
+ * @revision 5
  * @minimumVersion 1.0.0.0
  */
 export class SABnzbd

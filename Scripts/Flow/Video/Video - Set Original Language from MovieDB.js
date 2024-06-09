@@ -1,13 +1,12 @@
 import { Language } from '../../../Shared/Language';
 
 /**
- * Gets either TV Show Information or Movie Information from a meta flow element and updates any audio tracks with missing language codes 
- * with the original language of the show/movie
- * Requires the "Movie Lookup" or "TV Show Lookup" to be executed first to work
  * @author John Andrews
  * @uid 3a3909c7-aded-45d7-8340-b27e76589b02
- * @revision 3
- * @minimumVersion 23.08.3.0
+ * @revision 4
+ * @description Gets either TV Show Information or Movie Information from a meta flow element and updates any audio tracks with missing language codes 
+ * with the original language of the show/movie
+ * Requires the "Movie Lookup" or "TV Show Lookup" to be executed first to work
  * @output Tracks updated
  * @output No tracks updated
  */

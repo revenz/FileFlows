@@ -1,9 +1,8 @@
 /**
- * Determines if a video has a 2.0 (stereo) channel track
  * @author John Andrews
  * @uid f9928be4-23e3-43d8-aa5f-6e0d5a8fc736
- * @revision 4
- * @minimumVersion 1.0.0.0
+ * @description Determines if a video has a 2.0 (stereo) channel track
+ * @revision 5
  * @output Does have 2.0
  * @output Does not have 2.0
  */

@@ -1,9 +1,8 @@
 /**
  * @name SABnzbd - Pause Downloads
  * @uid 086f8a37-5e0c-4ee9-a033-44153198e9bf
- * @description Pauses SABnzbd if the current file processing queue is greater than 30 files
- * If the processing queue is not greater than 30 files, then it will resume SABnzbd
- * @revision 7
+ * @description Pauses SABnzbd if the current file processing queue is greater than 30 files.  If the processing queue is not greater than 30 files, then it will resume SABnzbd
+ * @revision 8
  * @minimumVersion 1.0.0.0
  */
 

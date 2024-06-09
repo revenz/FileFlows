@@ -1,9 +1,8 @@
 /**
- * Checks the count of NVIDIA encodes currently processing and see if it is below a limit
  * @author John Andrews
  * @uid 071ef14f-46db-4e21-b438-30ac56b37cc4
- * @revision 3
- * @minimumVersion 1.0.0.0
+ * @description Checks the count of NVIDIA encodes currently processing and see if it is below a limit
+ * @revision 4
  * @param {int} EncoderLimit The maximum number of encoders available
  * @output Below encoder limit
  * @output Not below encoder limit

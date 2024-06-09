@@ -1,9 +1,8 @@
 /**
- * Determines if a video has a 5.1 channel track
  * @author John Andrews
  * @uid c87f9e27-6587-490b-a51e-f65e7542b891
- * @revision 5
- * @minimumVersion 1.0.0.0
+ * @description Determines if a video has a 5.1 channel track
+ * @revision 6
  * @output Does have 5.1
  * @output Does not have 5.1
  */

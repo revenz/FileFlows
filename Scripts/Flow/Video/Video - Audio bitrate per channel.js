@@ -1,8 +1,8 @@
 /**
- * Sets the bitrate for audio streams based off the number of channels - in place of "Quality" options found on some audio codecs
  * @author CanOfSocks
  * @uid f25d9fc6-adfa-4c53-bf03-cc8fd6a98e9c
- * @revision 2
+ * @description Sets the bitrate for audio streams based off the number of channels - in place of "Quality" options found on some audio codecs
+ * @revision 3
  * @param {int} Bitrate Desired bitrate per channel (default: 64000)
  * @param {string} Codec Desired codec for each channel (default: ac3)
  * @param {int} Buffer Buffer above desired bitrate to not transcode (default: 0)

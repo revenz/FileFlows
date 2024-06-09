@@ -1,8 +1,8 @@
 /**
- * Class that interacts with Sonarr
  * @name Sonarr
  * @uid 0f5836c0-d20b-4740-9824-f81b5200ec3d
- * @revision 5
+ * @description Class that interacts with Sonarr
+ * @revision 6
  * @minimumVersion 1.0.0.0
  */
 export class Sonarr
