@@ -207,7 +207,7 @@
       "Path": "Scripts/Flow/Video/Video - Inject HDR10\u002B metadata.js",
       "Name": "Video - Inject HDR10\u002B metadata",
       "Description": "Injects The Hdr10\u002B Metadata from the original file into the current working file\n/",
-      "Revision": 4,
+      "Revision": 5,
       "Uid": "594f7f1e-2a8e-4858-b83b-38d971bf48d1"
     },
     {
