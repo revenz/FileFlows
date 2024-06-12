@@ -4,11 +4,12 @@ import { Sonarr } from 'Shared/Sonarr';
  * @author Shaun Agius
  * @uid 5ac44abd-cfe9-4a84-904b-9424908509de
  * @description This script will send a rename command to Sonarr
- * @revision 6
+ * @revision 7
  * @version 1.0.0
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:1234)
  * @param {string} ApiKey API Key
  * @output Item renamed
+ * @output Item not renamed
  * @output Item not found
  */
 
@@ -24,7 +25,7 @@ function Script(URI, ApiKey) {
 
     if (!series) {
         Logger.WLog('Series not found for path: ' + folderPath);
-        return 2;
+        return 3;
     }
 
     try {
@@ -60,7 +61,7 @@ function Script(URI, ApiKey) {
         });
 
         if (newFileName === null) {
-            Logger.WLog('No matching episode found to rename.');
+            Logger.WLog("Episode doesn't need renaming");
             return 2;
         }
 
