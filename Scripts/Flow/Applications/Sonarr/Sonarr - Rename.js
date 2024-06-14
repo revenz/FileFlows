@@ -1,14 +1,14 @@
 import { Sonarr } from 'Shared/Sonarr';
 
 /**
- * @description This script will send a rename command to Sonarr
+ * @description Automates sonarr's rename process for the given file
  * @author Shaun Agius
  * @revision 8
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:1234)
  * @param {string} ApiKey API Key
- * @output Item renamed
- * @output Item not renamed
- * @output Item not found
+ * @output File renamed
+ * @output Rename not required
+ * @output File not found
  */
 function Script(URI, ApiKey) {
     let sonarr = new Sonarr(URI, ApiKey);
