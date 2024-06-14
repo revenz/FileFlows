@@ -2,7 +2,7 @@
  * @name Sonarr
  * @uid 0f5836c0-d20b-4740-9824-f81b5200ec3d
  * @description Class that interacts with Sonarr
- * @revision 7
+ * @revision 8
  * @minimumVersion 1.0.0.0
  */
 export class Sonarr
@@ -287,6 +287,11 @@ export class Sonarr
         return false;
     }
 
+    /**
+     * Fetches files Sonarr marks as able to rename
+     * @param {int} seriesId ID series to fetch files for
+     * @returns List of Sonarr rename objects for each file
+     */
     fetchRenamedFiles(seriesId) {
         let endpoint = 'rename';
         let queryParams = `seriesId=${seriesId}`;
@@ -294,6 +299,11 @@ export class Sonarr
         return response;
     }
 
+    /**
+     * Toggles 'monitored' for episodes
+     * @param {list} episodeIds IDs of episodes to toggle
+     * @returns Response if ran successfully otherwise null
+     */
     toggleMonitored(episodeIds, monitored=true) {
         let endpoint = `${this.URI}/api/v3/episode/monitor`;
         let jsonData = JSON.stringify(
@@ -319,6 +329,11 @@ export class Sonarr
         }
     }
 
+    /**
+     * Rescans all files for a series
+     * @param {int} seriesId ID series to rescan
+     * @returns Response of the rescan or null if unsuccessful
+     */
     rescanSeries(seriesId) {
         let refreshBody = {
                 seriesId: seriesId
@@ -326,6 +341,11 @@ export class Sonarr
         return this.sendCommand('RescanSeries', refreshBody)
     }
 
+    /**
+     * Fetches an episode object from its file ID
+     * @param {int} fileId ID of file
+     * @returns Sonarr episode object
+     */
     fetchEpisodeFromFileId(episodeFileId) {
         let endpoint = 'episode';
         let queryParams = `episodeFileId=${episodeFileId}`;

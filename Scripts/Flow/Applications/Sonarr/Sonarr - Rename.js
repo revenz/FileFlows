@@ -33,7 +33,7 @@ function Script(URI, ApiKey) {
     }
 
     let episodeFileId = episodeFile.id;
-    let episode = sonarr.fetchEpisode(episodeFileId);
+    let episode = sonarr.fetchEpisodeFromFileId(episodeFileId);
 
     try {
         // Ensure series is refreshed before renaming
@@ -72,7 +72,7 @@ function Script(URI, ApiKey) {
             episodeFile = fetchEpisodeFile(currentFileName, series, sonarr)
 
             episodeFileId = episodeFile.id;
-            episode = sonarr.fetchEpisode(episodeFileId);
+            episode = sonarr.fetchEpisodeFromFileId(episodeFileId);
 
             // Sonarr likely unmonitored episode in this scenario, set to monitored
             sonarr.toggleMonitored([episode.id], URI, ApiKey);
