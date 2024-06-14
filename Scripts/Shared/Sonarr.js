@@ -305,7 +305,7 @@ export class Sonarr
      * @returns Response if ran successfully otherwise null
      */
     toggleMonitored(episodeIds, monitored=true) {
-        let endpoint = `${this.URI}/api/v3/episode/monitor`;
+        let endpoint = `${this.URL}/api/v3/episode/monitor`;
         let jsonData = JSON.stringify(
             {
                 episodeIds: episodeIds,
