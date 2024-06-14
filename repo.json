@@ -369,7 +369,7 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Rename.js",
       "Name": "Radarr - Rename",
       "Description": "This script will send a rename command to Radarr\n/",
-      "Revision": 6,
+      "Revision": 7,
       "Uid": "bd6f02c8-e650-4916-bcae-46f382d20388"
     },
     {
@@ -383,7 +383,7 @@
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Rename.js",
       "Name": "Sonarr - Rename",
       "Description": "This script will send a rename command to Sonarr\n/",
-      "Revision": 6,
+      "Revision": 7,
       "Uid": "5ac44abd-cfe9-4a84-904b-9424908509de"
     },
     {
