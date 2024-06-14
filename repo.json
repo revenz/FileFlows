@@ -18,7 +18,7 @@
       "Path": "Scripts/Shared/Sonarr.js",
       "Name": "Sonarr",
       "Description": "Class that interacts with Sonarr\n/",
-      "Revision": 7,
+      "Revision": 8,
       "MinimumVersion": "1.0.0.0",
       "Uid": "0f5836c0-d20b-4740-9824-f81b5200ec3d"
     },
@@ -382,8 +382,8 @@
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Rename.js",
       "Name": "Sonarr - Rename",
-      "Description": "This script will send a rename command to Sonarr\n/",
-      "Revision": 7,
+      "Description": "Automates sonarr\u0027s rename process for the given file\n/",
+      "Revision": 8,
       "Uid": "5ac44abd-cfe9-4a84-904b-9424908509de"
     },
     {
