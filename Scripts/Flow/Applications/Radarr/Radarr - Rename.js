@@ -4,10 +4,12 @@ import { Radarr } from 'Shared/Radarr';
  * @author Shaun Agius
  * @uid bd6f02c8-e650-4916-bcae-46f382d20388
  * @description This script will send a rename command to Radarr
- * @revision 6
+ * @revision 7
+ * @version 1.0.0
  * @param {string} URI Radarr root URI and port (e.g. http://radarr:1234)
  * @param {string} ApiKey API Key
  * @output Item renamed
+ * @output Item not renamed
  * @output Item not found
  */
 function Script(URI, ApiKey) {
@@ -22,8 +24,8 @@ function Script(URI, ApiKey) {
 
     if (!movie) {
         Logger.WLog('Movie not found for path: ' + folderPath);
-        Logger.ILog('Returning 2');
-        return 2;
+        Logger.ILog('Returning 3');
+        return 3;
     }
 
     // Get Movie File info
@@ -72,7 +74,7 @@ function Script(URI, ApiKey) {
 
         // Ensure movie is found
         if (!renamedMovie) {
-            Logger.ILog(`Current file not found in list to be renamed for movie ${movie.id}`)
+            Logger.ILog(`Current file does not need renaming ${movie.id}`)
             Logger.ILog('Returning 2');
             return 2;
         }
@@ -82,8 +84,8 @@ function Script(URI, ApiKey) {
 
         if (newFileName === null) {
             Logger.WLog('No matching movie found to rename.');
-            Logger.ILog('Returning 2');
-            return 2;
+            Logger.ILog('Returning 3');
+            return 3;
         }
 
         // Now rename the file to what Radarr specifies

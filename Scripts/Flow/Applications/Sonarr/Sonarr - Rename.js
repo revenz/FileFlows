@@ -9,6 +9,8 @@ import { Sonarr } from 'Shared/Sonarr';
  * @output File renamed
  * @output Rename not required
  * @output File not found
+ * @uid 5ac44abd-cfe9-4a84-904b-9424908509de
+ * @version 1.0.0
  */
 function Script(URI, ApiKey) {
     let sonarr = new Sonarr(URI, ApiKey);
