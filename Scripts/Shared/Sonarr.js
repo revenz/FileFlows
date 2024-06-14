@@ -89,7 +89,7 @@ export class Sonarr
                 return false;
             return sp.includes(cp);
         });
-        if (show?.length)
+        if (show?.length === 1)
         {
             show = show[0];
             Logger.ILog('Found show: ' + show.id);
@@ -274,7 +274,7 @@ export class Sonarr
         while (new Date().getTime() - startTime <= timeout) {
             let response = this.fetchJson(endpoint, '');
             if (response.status === 'completed') {
-                Logger.ILog('Scan completed!');
+                Logger.ILog('Command completed!');
                 return true;
             } else if (response.status === 'failed') {
                 Logger.WLog(`Command ${commandId} failed`)
@@ -283,7 +283,55 @@ export class Sonarr
             Logger.ILog(`Checking status: ${response.status}`);
             Sleep(100);
         }
-        Logger.WLog('Timeout: Scan did not complete within 30 seconds.');
+        Logger.WLog(`Timeout: Command ${commandId} did not complete within 30 seconds.`);
         return false;
     }
+
+    fetchRenamedFiles(seriesId) {
+        let endpoint = 'rename';
+        let queryParams = `seriesId=${seriesId}`;
+        let response = this.fetchJson(endpoint, queryParams);
+        return response;
+    }
+
+    toggleMonitored(episodeIds, monitored=true) {
+        let endpoint = `${this.URI}/api/v3/episode/monitor`;
+        let jsonData = JSON.stringify(
+            {
+                episodeIds: episodeIds,
+                monitored: monitored
+            }
+        );
+    
+        http.DefaultRequestHeaders.Add("X-API-Key", this.ApiKey);
+        let response = http.PutAsync(endpoint, JsonContent(jsonData)).Result;
+    
+        http.DefaultRequestHeaders.Remove("X-API-Key");
+    
+        if (response.IsSuccessStatusCode) {
+            let responseData = JSON.parse(response.Content.ReadAsStringAsync().Result);
+            Logger.ILog(`Monitored toggled for ${episodeIds}`);
+            return responseData;
+        } else {
+            let error = response.Content.ReadAsStringAsync().Result;
+            Logger.WLog("API error: " + error);
+            return null;
+        }
+    }
+
+    rescanSeries(seriesId) {
+        let refreshBody = {
+                seriesId: seriesId
+            }
+        return this.sendCommand('RescanSeries', refreshBody)
+    }
+
+    fetchEpisodeFromFileId(episodeFileId) {
+        let endpoint = 'episode';
+        let queryParams = `episodeFileId=${episodeFileId}`;
+        let response = this.fetchJson(endpoint, queryParams);
+    
+        return response[0];
+    }
 }
+
