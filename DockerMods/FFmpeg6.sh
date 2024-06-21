@@ -33,7 +33,10 @@ if [ "$1" == "--uninstall" ]; then
     rm -f /etc/apt/sources.list.d/jellyfin.list
     
     # Remove Jellyfin GPG key
-    apt-key del "$(apt-key list | grep -B 1 'Jellyfin Team' | head -n 1 | awk '{print $2}')"
+    gpg --keyring /etc/apt/trusted.gpg.d/debian-jellyfin.gpg --batch --yes --delete-key "$(gpg --list-keys --keyring /etc/apt/trusted.gpg.d/debian-jellyfin.gpg  | grep -B 1 'Jellyfin Team' | head -n 1 | awk '{print $1}')"
+    rm -f "/etc/apt/trusted.gpg.d/debian-jellyfin.gpg"
+    rm -f "/etc/apt/trusted.gpg.d/debian-jellyfin.gpg~"
+    
     
     # Update package lists
     if ! apt-get update; then
@@ -61,7 +64,7 @@ fi
 echo "The architecture is recognized."
 
 # Add Jellyfin GPG key with a timeout of 15 seconds
-if ! wget -q --timeout=15 -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | apt-key add -; then
+if ! curl -m 15 -fsSL https://repo.jellyfin.org/debian/jellyfin_team.gpg.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/debian-jellyfin.gpg; then
     handle_error
 fi
 
