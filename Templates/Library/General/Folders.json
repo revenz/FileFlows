@@ -1,0 +1,15 @@
+{
+    "name": "Folders",
+    "revision": 1,
+    "minimumVersion": "24.06.4.3259",
+    "group": "General",
+    "description": "Library that monitors folders.  This will not process individual files, instead pass a folder through the flow.  This should be used with a flow using Input Folder.",
+    "extensions":[],
+    "filter": "",
+    "path": "/media/folders",
+    "folders": true,
+    "dontUpdateMovedFiles": true,
+    "scanInterval": 60,
+    "fileSizeDetectionInterval": 0,
+    "useFingerprint": false
+}
