@@ -506,6 +506,14 @@
       "Author": ""
     },
     {
+      "Path": "Templates/Library/General/Folders.json",
+      "Name": "Folders",
+      "Description": "Library that monitors folders.  This will not process individual files, instead pass a folder through the flow.  This should be used with a flow using Input Folder.",
+      "Revision": 1,
+      "MinimumVersion": "24.06.4.3259",
+      "Author": ""
+    },
+    {
       "Path": "Templates/Library/General/VideoLibrary.json",
       "Name": "Video Library",
       "Description": "Video library that searches for common video files",
