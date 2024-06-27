@@ -3,7 +3,8 @@ import { Radarr } from 'Shared/Radarr';
 /**
  * @description This script will send a rename command to Radarr
  * @author Shaun Agius, Anthony Clerici
- * @revision 8
+ * @revision 9
+ * @uid efaf3887-4fcb-42ce-97b2-cc07f1b619d2
  * @param {string} URI Radarr root URI and port (e.g. http://radarr:1234)
  * @param {string} ApiKey API Key
  * @output Item renamed
