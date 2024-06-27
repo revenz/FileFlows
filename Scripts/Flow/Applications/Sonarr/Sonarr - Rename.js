@@ -1,16 +1,14 @@
 import { Sonarr } from 'Shared/Sonarr';
 
 /**
- * @description Automates sonarr's rename process for the given file
- * @author Shaun Agius
- * @revision 8
+ * @description This script will send a rename command to Sonarr
+ * @author Shaun Agius, Anthony Clerici
+ * @revision 9
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:1234)
  * @param {string} ApiKey API Key
- * @output File renamed
- * @output Rename not required
- * @output File not found
- * @uid 5ac44abd-cfe9-4a84-904b-9424908509de
- * @version 1.0.0
+ * @output Item renamed
+ * @output Item not renamed
+ * @output Item not found
  */
 function Script(URI, ApiKey) {
     let sonarr = new Sonarr(URI, ApiKey);
@@ -35,11 +33,11 @@ function Script(URI, ApiKey) {
     }
 
     let episodeFileId = episodeFile.id;
-    let episode = sonarr.fetchEpisodeFromFileId(episodeFileId);
+    let episode = fetchEpisode(episodeFileId, sonarr);
 
     try {
         // Ensure series is refreshed before renaming
-        let rescanData = sonarr.rescanSeries(series.id);
+        let rescanData = rescanSeries(series.id, sonarr);
 
         // Wait for the completion of the scan
         let rescanCompleted = sonarr.waitForCompletion(rescanData.id, sonarr);
@@ -62,7 +60,7 @@ function Script(URI, ApiKey) {
             }
 
             // Refresh for newly imported episode
-            rescanData = sonarr.rescanSeries(series.id);
+            rescanData = rescanSeries(series.id, sonarr);
             // Wait for the completion of the scan
             rescanCompleted = sonarr.waitForCompletion(rescanData.id, sonarr);
             if (!rescanCompleted) {
@@ -74,13 +72,13 @@ function Script(URI, ApiKey) {
             episodeFile = fetchEpisodeFile(currentFileName, series, sonarr)
 
             episodeFileId = episodeFile.id;
-            episode = sonarr.fetchEpisodeFromFileId(episodeFileId);
+            episode = fetchEpisode(episodeFileId, sonarr);
 
             // Sonarr likely unmonitored episode in this scenario, set to monitored
-            sonarr.toggleMonitored([episode.id], URI, ApiKey);
+            toggleMonitored([episode.id], URI, ApiKey);
         }
 
-        let renamedEpisodes = sonarr.fetchRenamedFiles(series.id);
+        let renamedEpisodes = fetchRenamedFiles(series.id, sonarr);
         if (!renamedEpisodes) {
             Logger.ILog('No episodes need to be renamed');
             return 2;
@@ -130,20 +128,41 @@ function findSeries(filePath, sonarr) {
     let currentPath = filePath;
     let show = null;
 
+    let allSeries = sonarr.getAllShows();
+    let seriesFolders = {};
+
+    // Map each folder back to its series
+    for (let series of allSeries) {
+        let folderName = System.IO.Path.GetFileName(series.path);
+        seriesFolders[folderName] = series;
+    }
+
     while (currentPath) {
-        show = sonarr.getShowByPath(currentPath);
-        if (show) {
+        // Get childmost piece of path to work with different remote paths
+        let currentFolder = System.IO.Path.GetFileName(currentPath);
+
+        if (seriesFolders[currentFolder]) {
+            show = seriesFolders[currentFolder];
             Logger.ILog('Show found: ' + show.id);
             return show;
         }
 
         // If no show is found, go up 1 dir
+        Logger.ILog(`Show not found at ${currentPath}. Trying ${System.IO.Path.GetDirectoryName(currentPath)}`)
         currentPath = System.IO.Path.GetDirectoryName(currentPath);
-        if (currentPath === null || currentPath === "") {
+        if (!currentPath) {
             Logger.WLog('Unable to find show file at path ' + filePath);
             return null;
         }
     }
+    return null;
+}
+
+function fetchRenamedFiles(seriesId, sonarr) {
+    let endpoint = 'rename';
+    let queryParams = `seriesId=${seriesId}`;
+    let response = sonarr.fetchJson(endpoint, queryParams);
+    return response;
 }
 
 function fetchEpisodeFile(path, series, sonarr) {
@@ -155,6 +174,14 @@ function fetchEpisodeFile(path, series, sonarr) {
         }
     }
     return null
+}
+
+function fetchEpisode(episodeFileId, sonarr) {
+    let endpoint = 'episode';
+    let queryParams = `episodeFileId=${episodeFileId}`;
+    let response = sonarr.fetchJson(endpoint, queryParams);
+
+    return response[0];
 }
 
 function fetchManualImportFile(currentFileName, seriesId, sonarr) {
@@ -190,4 +217,36 @@ function manuallyImportFile(fileToImport, episodeId, sonarr) {
     }
 
     return sonarr.sendCommand('manualImport', body)
+}
+
+function rescanSeries(seriesId, sonarr) {
+    let refreshBody = {
+            seriesId: seriesId
+        }
+    return sonarr.sendCommand('RescanSeries', refreshBody)
+}
+
+function toggleMonitored(episodeIds, URI, ApiKey, monitored=true) {
+    let endpoint = `${URI}/api/v3/episode/monitor`;
+    let jsonData = JSON.stringify(
+        {
+            episodeIds: episodeIds,
+            monitored: monitored
+        }
+    );
+
+    http.DefaultRequestHeaders.Add("X-API-Key", ApiKey);
+    let response = http.PutAsync(endpoint, JsonContent(jsonData)).Result;
+
+    http.DefaultRequestHeaders.Remove("X-API-Key");
+
+    if (response.IsSuccessStatusCode) {
+        let responseData = JSON.parse(response.Content.ReadAsStringAsync().Result);
+        Logger.ILog(`Monitored toggled for ${episodeIds}`);
+        return responseData;
+    } else {
+        let error = response.Content.ReadAsStringAsync().Result;
+        Logger.WLog("API error: " + error);
+        return null;
+    }
 }
