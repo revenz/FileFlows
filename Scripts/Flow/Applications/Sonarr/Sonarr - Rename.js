@@ -1,4 +1,4 @@
-import { Sonarr } from 'Shared/SonarrTest';
+import { Sonarr } from 'Shared/Sonarr';
 
 /**
  * @description This script will send a rename command to Sonarr
