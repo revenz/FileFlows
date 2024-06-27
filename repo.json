@@ -368,9 +368,9 @@
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Rename.js",
       "Name": "Sonarr - Rename",
-      "Description": "Automates sonarr\u0027s rename process for the given file\n/",
-      "Revision": 8,
-      "Uid": "5ac44abd-cfe9-4a84-904b-9424908509de"
+      "Description": "This script will send a rename command to Sonarr\n/",
+      "Revision": 10,
+      "Uid": "944d4427-6143-4402-b84c-e36ff6c24e52"
     },
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
@@ -383,8 +383,8 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Rename.js",
       "Name": "Radarr - Rename",
       "Description": "This script will send a rename command to Radarr\n/",
-      "Revision": 7,
-      "Uid": "bd6f02c8-e650-4916-bcae-46f382d20388"
+      "Revision": 9,
+      "Uid": "efaf3887-4fcb-42ce-97b2-cc07f1b619d2"
     },
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Get Original Language.js",
