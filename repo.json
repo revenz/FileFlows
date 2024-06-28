@@ -17,14 +17,6 @@
       "Uid": "88e66e7d-f835-4620-9616-9beaa4ee42dc"
     },
     {
-      "Path": "Scripts/Shared/Language.js",
-      "Name": "Language",
-      "Description": "Helper class for Languages\n/",
-      "Revision": 10,
-      "MinimumVersion": "1.0.0.0",
-      "Uid": "d5b3078e-9999-4fef-b2eb-26385a2183ff"
-    },
-    {
       "Path": "Scripts/Shared/Gotify.js",
       "Name": "Gotify",
       "Description": "Class that interacts with Gotify\n/",
@@ -235,7 +227,7 @@
       "Path": "Scripts/Flow/Video/Video - Delete Non-Original Language Audio.js",
       "Name": "Video - Delete Non-Original Language Audio",
       "Description": "Checks the \u0022Movie Lookup\u0022 information for original language, and will delete any audio tracks with languages set that do not match the original language.  Requires the \u0022Movie Lookup\u0022 node to be executed first to work\n/",
-      "Revision": 5,
+      "Revision": 6,
       "Uid": "d3d80753-4c85-4202-af33-ba73e585c771"
     },
     {
@@ -284,7 +276,7 @@
       "Path": "Scripts/Flow/Video/Video - Set Stream Titles.js",
       "Name": "Video - Set Stream Titles",
       "Description": "Updates audio and or subtitle titles to format \u0060Language / Codec / Bitrate / SampleRate\u0060 or \u0060Language / Forced / Codec\u0060\n/",
-      "Revision": 5,
+      "Revision": 6,
       "Uid": "2b38c39e-8536-4df8-9878-684e3f02fed8"
     },
     {
@@ -320,7 +312,7 @@
       "Path": "Scripts/Flow/Video/Video - Set Original Language from MovieDB.js",
       "Name": "Video - Set Original Language from MovieDB",
       "Description": "Gets either TV Show Information or Movie Information from a meta flow element and updates any audio tracks with missing language codes\nwith the original language of the show/movie\nRequires the \u0022Movie Lookup\u0022 or \u0022TV Show Lookup\u0022 to be executed first to work\n/",
-      "Revision": 4,
+      "Revision": 5,
       "Uid": "3a3909c7-aded-45d7-8340-b27e76589b02"
     },
     {
@@ -376,7 +368,7 @@
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
       "Name": "Sonarr - Get Original Language",
       "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it\n/",
-      "Revision": 6,
+      "Revision": 8,
       "Uid": "51cf3c4f-f4a3-45e2-a083-6629397aab90"
     },
     {
@@ -390,7 +382,7 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Get Original Language.js",
       "Name": "Radarr - Get Original Language",
       "Description": "Lookups a file in Radarr and gets its original language ISO-693-1 code for it\n/",
-      "Revision": 5,
+      "Revision": 6,
       "Uid": "3915f110-4b07-4e11-b7b9-50de3f5a1255"
     }
   ],
