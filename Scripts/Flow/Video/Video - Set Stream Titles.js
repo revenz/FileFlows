@@ -1,10 +1,8 @@
-import { Language } from 'Shared/Language';
-
 /**
  * @author John Andrews
  * @uid 2b38c39e-8536-4df8-9878-684e3f02fed8
  * @description Updates audio and or subtitle titles to format `Language / Codec / Bitrate / SampleRate` or `Language / Forced / Codec`
- * @revision 5
+ * @revision 6
  * @param {bool} Audio If audio stream titles should be updated
  * @param {bool} Subtitle If subtitle stream titles should be updated
  * @param {bool} LeaveCommentaryAlone If commentary streams should be left alone and not renamed
@@ -13,8 +11,6 @@ import { Language } from 'Shared/Language';
  */
 function Script(Audio, Subtitles, LeaveCommentaryAlone)
 {
-    let langHelper = new Language();
-
     let forceChange = false;
 
     let audioLength = Variables?.FfmpegBuilderModel?.AudioStreams?.length;
@@ -35,7 +31,7 @@ function Script(Audio, Subtitles, LeaveCommentaryAlone)
             let params = [];
             if(as.Language)
             {
-                let lang = langHelper.getEnglishFor(as.Language) || as.Language;
+                let lang = LanguageHelper.GetEnglishFor(as.Language) || as.Language;
                 params.push(lang);
             }
 
@@ -85,7 +81,7 @@ function Script(Audio, Subtitles, LeaveCommentaryAlone)
             let params = [];
             if(sub.Language)
             {
-                let lang = langHelper.getEnglishFor(sub.Language) || sub.Language;
+                let lang = LanguageHelper.GetEnglishFor(sub.Language) || sub.Language;
                 params.push(lang);
             }
 

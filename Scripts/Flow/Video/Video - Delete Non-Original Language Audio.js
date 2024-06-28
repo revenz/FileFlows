@@ -1,9 +1,7 @@
-import { Language } from '../../../Shared/Language';
-
 /**
  * @author John Andrews
  * @uid d3d80753-4c85-4202-af33-ba73e585c771
- * @revision 5
+ * @revision 6
  * @description Checks the "Movie Lookup" information for original language, and will delete any audio tracks with languages set that do not match the original language.  Requires the "Movie Lookup" node to be executed first to work
  * @param {bool} TreatUnknownAsBad Treat a track with no language set as a bad language and do not include it, otherwise it will be treated as a good track
  * @param {bool} KeepFirstAudio If no matching langauges are found, keep the first audio track, otherwise all audio could be removed
@@ -21,8 +19,7 @@ function Script(TreatUnknownAsBad, KeepFirstAudio)
   }
 
   Logger.ILog('Original Audio Language: ' + lang);
-  let helper = new Language();
-  let langIso = helper.getIso2Code(lang);
+  let langIso = LanguageHelper.GetIso2Code(lang);
   Logger.ILog('Original Audio Language (ISO-2): ' + langIso);
 
   let ffModel = Variables.FfmpegBuilderModel;
@@ -71,7 +68,7 @@ function Script(TreatUnknownAsBad, KeepFirstAudio)
           hasAudio |= !audio.Deleted;
         continue;
     }
-    let aLangIso = helper.getIso2Code(audio.Language);
+    let aLangIso = LanguageHelper.GetIso2Code(audio.Language);
     if(aLangIso == langIso || audio.Language == lang)
     {
         hasAudio |= !audio.Deleted;
