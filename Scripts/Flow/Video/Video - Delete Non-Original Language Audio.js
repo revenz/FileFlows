@@ -1,15 +1,17 @@
 /**
  * @author John Andrews
+ * @author Shaun Agius
  * @uid d3d80753-4c85-4202-af33-ba73e585c771
- * @revision 6
- * @description Checks the "Movie Lookup" information for original language, and will delete any audio tracks with languages set that do not match the original language.  Requires the "Movie Lookup" node to be executed first to work
+ * @revision 7
+ * @description Checks the "Movie Lookup"/"TV Show Lookup" information for original language, and will delete any audio tracks with languages set that do not match the original language.  Requires the "Movie Lookup"/"TV Show Lookup" node to be executed first to work
  * @param {bool} TreatUnknownAsBad Treat a track with no language set as a bad language and do not include it, otherwise it will be treated as a good track
  * @param {bool} KeepFirstAudio If no matching langauges are found, keep the first audio track, otherwise all audio could be removed
+ * @param {string} OtherLanguages The ISO 639-2 language code to use
  * @output Audio tracks were deleted
  * @output Audio tracks were not deleted
- * @output No original language was found
+ * @output No audio tracks found
  */
-function Script(TreatUnknownAsBad, KeepFirstAudio)
+function Script(TreatUnknownAsBad, KeepFirstAudio, OtherLanguages)
 {
   let lang = Variables.VideoMetadata?.OriginalLanguage;
   if(!lang)
@@ -21,6 +23,21 @@ function Script(TreatUnknownAsBad, KeepFirstAudio)
   Logger.ILog('Original Audio Language: ' + lang);
   let langIso = LanguageHelper.GetIso2Code(lang);
   Logger.ILog('Original Audio Language (ISO-2): ' + langIso);
+
+  let oLangIsos = (OtherLanguages === undefined) ? "x" : String(OtherLanguages).split(",");
+  let oLangs = [];
+  for(let i=0;i<oLangIsos.length;i++)
+  {
+    if(oLangIsos[i].length > 2 && oLangIsos[i] != langIso)
+    {
+      let oLang = helper.findLanguage(oLangIsos[i]);
+      oLangs.push(oLang);
+      Logger.ILog(`Other Audio Language:${oLang} (ISO-2):${oLangIsos[i]}`);
+    }
+  }
+  
+  oLangIsos.push(langIso);
+  oLangs.push(lang);
 
   let ffModel = Variables.FfmpegBuilderModel;
   if(!ffModel)
@@ -71,9 +88,9 @@ function Script(TreatUnknownAsBad, KeepFirstAudio)
     let aLangIso = LanguageHelper.GetIso2Code(audio.Language);
     if(aLangIso == langIso || audio.Language == lang)
     {
-        hasAudio |= !audio.Deleted;
-        Logger.ILog("Matching language found, keeping: " + audio.Language);
-        continue;
+      hasAudio |= !audio.Deleted;
+      Logger.ILog("Matching language found, keeping: " + audio.Language);
+      continue;
     }
 
     Logger.ILog("Audio language not original, deleting: " + audio.Language);
