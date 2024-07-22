@@ -30,7 +30,7 @@ function Script(TreatUnknownAsBad, KeepFirstAudio, OtherLanguages)
   {
     if(oLangIsos[i].length > 2 && oLangIsos[i] != langIso)
     {
-      let oLang = helper.findLanguage(oLangIsos[i]);
+      let oLang = LanguageHelper.findLanguage(oLangIsos[i]);
       oLangs.push(oLang);
       Logger.ILog(`Other Audio Language:${oLang} (ISO-2):${oLangIsos[i]}`);
     }
