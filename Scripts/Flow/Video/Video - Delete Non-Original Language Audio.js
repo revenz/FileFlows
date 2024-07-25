@@ -86,7 +86,7 @@ function Script(TreatUnknownAsBad, KeepFirstAudio, OtherLanguages)
         continue;
     }
     let aLangIso = LanguageHelper.GetIso2Code(audio.Language);
-    if(aLangIso == langIso || audio.Language == lang || oLangIsos.includes(aLangIso))
+    if(aLangIso == langIso || audio.Language == lang || oLangIsos.includes(aLangIso) || oLangs.includes(audio.Language))
     {
       hasAudio |= !audio.Deleted;
       Logger.ILog("Matching language found, keeping: " + audio.Language);
