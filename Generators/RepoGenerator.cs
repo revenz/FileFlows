@@ -18,7 +18,7 @@ class RepoGenerator : Generator
         repo.SystemScripts = GetScripts(Path.Combine(projDir, "Scripts/System"), ScriptType.System);
         repo.FlowScripts = GetScripts(Path.Combine(projDir, "Scripts/Flow"), ScriptType.Flow);
         repo.WebhookScripts = GetScripts(Path.Combine(projDir, "Scripts/Webhook"), ScriptType.Webhook);
-        repo.FunctionScripts = GetScripts(Path.Combine(projDir, "Scripts/Function"), ScriptType.Template);
+        repo.FunctionScripts = GetScripts(Path.Combine(projDir, "Scripts/Function"), ScriptType.Template, new [] { ".js", ".cs", ".bat", ".ps1", "sh"});
         repo.FlowTemplates = GetTemplates(Path.Combine(projDir, "Templates/Flow"), community: false);
         repo.CommunityFlowTemplates = GetTemplates(Path.Combine(projDir, "Templates/Flow"), community: true);
         repo.LibraryTemplates = GetTemplates(Path.Combine(projDir, "Templates/Library"));
@@ -41,13 +41,17 @@ class RepoGenerator : Generator
         Console.WriteLine("Done");
     }
 
-    private static List<RepositoryObject> GetScripts(string path, ScriptType type)
+    private static List<RepositoryObject> GetScripts(string path, ScriptType type, string[] extensions = null)
     {        
+        extensions ??=  new string[] { ".js" };
         List<RepositoryObject> scripts = new List<RepositoryObject>();
         var rgxComments = new Regex(@"\/\*(\*)?(.*?)\*\/", RegexOptions.Singleline);
         var basePath = new DirectoryInfo(path);
-        foreach(var file in basePath.GetFiles("*.js", SearchOption.AllDirectories))
+        foreach(var file in basePath.GetFiles("*.*", SearchOption.AllDirectories))
         {
+            if (extensions.Contains(file.Extension.ToLowerInvariant()) == false)
+                continue;
+            
             string content = File.ReadAllText(file.FullName);
             var script = new RepositoryObject();
 
