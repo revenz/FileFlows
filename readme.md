@@ -2,7 +2,7 @@
 
 This is the official repository for FileFlows.
 
-You can make create a new script and submit a pull request to get it included in the official repository
+You can create a new script and submit a pull request to get it included in the official repository
 
 
 ## Types of Scipts
