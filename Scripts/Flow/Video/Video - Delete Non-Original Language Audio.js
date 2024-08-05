@@ -2,7 +2,7 @@
  * @author John Andrews
  * @author Shaun Agius
  * @uid d3d80753-4c85-4202-af33-ba73e585c771
- * @revision 7
+ * @revision 8
  * @description Checks the "Movie Lookup"/"TV Show Lookup" information for original language, and will delete any audio tracks with languages set that do not match the original language.  Requires the "Movie Lookup"/"TV Show Lookup" node to be executed first to work
  * @param {bool} TreatUnknownAsBad Treat a track with no language set as a bad language and do not include it, otherwise it will be treated as a good track
  * @param {bool} KeepFirstAudio If no matching langauges are found, keep the first audio track, otherwise all audio could be removed
@@ -30,7 +30,7 @@ function Script(TreatUnknownAsBad, KeepFirstAudio, OtherLanguages)
   {
     if(oLangIsos[i].length > 2 && oLangIsos[i] != langIso)
     {
-      let oLang = helper.findLanguage(oLangIsos[i]);
+      let oLang = LanguageHelper.GetIso2Code(oLangIsos[i]);
       oLangs.push(oLang);
       Logger.ILog(`Other Audio Language:${oLang} (ISO-2):${oLangIsos[i]}`);
     }
@@ -86,7 +86,7 @@ function Script(TreatUnknownAsBad, KeepFirstAudio, OtherLanguages)
         continue;
     }
     let aLangIso = LanguageHelper.GetIso2Code(audio.Language);
-    if(aLangIso == langIso || audio.Language == lang)
+    if(oLangIsos.includes(aLangIso) || oLangs.includes(audio.Language))
     {
       hasAudio |= !audio.Deleted;
       Logger.ILog("Matching language found, keeping: " + audio.Language);
