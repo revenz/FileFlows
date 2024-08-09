@@ -150,7 +150,7 @@ export class Sonarr
             let sp = x.path.toLowerCase();
             if (!sp)
                 return false;
-            return sp.includes(path);
+            return sp.includes(cp);
         });
         if (showfile?.length)
         {
