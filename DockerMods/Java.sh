@@ -17,7 +17,7 @@ function handle_error {
 # Check if the --uninstall option is provided
 if [ "$1" == "--uninstall" ]; then
     echo "Uninstalling Java..."
-    if apt-get remove -y openjdk-22-jdk; then
+    if apt-get remove -y openjdk-21-jdk; then
         echo "Java successfully uninstalled."
         exit 0
     else
@@ -25,26 +25,26 @@ if [ "$1" == "--uninstall" ]; then
     fi
 fi
 
-# Check if Java 22 is installed
-if command -v java &>/dev/null && java -version 2>&1 | grep -q "22."; then
-    echo "Java 22 is already installed."
+# Check if Java 21 is installed
+if command -v java &>/dev/null && java -version 2>&1 | grep -q "21."; then
+    echo "Java 21 is already installed."
     exit 0
 fi
 
-echo "Java 22 is not installed. Installing..."
+echo "Java 21 is not installed. Installing..."
 
-# Update package lists and install OpenJDK 22
-if ! apt update || ! apt install -y openjdk-22-jdk; then
+# Update package lists and install OpenJDK 21
+if ! apt update || ! apt install -y openjdk-21-jdk; then
     handle_error
 fi
 
 echo "Installation complete."
 
 # Verify installation
-if command -v java &>/dev/null && java -version 2>&1 | grep -q "22."; then
-    echo "Java 22 successfully installed."
+if command -v java &>/dev/null && java -version 2>&1 | grep -q "21."; then
+    echo "Java 21 successfully installed."
     exit 0
 fi
 
-echo "Failed to install Java 22."
+echo "Failed to install Java 21."
 exit 1
