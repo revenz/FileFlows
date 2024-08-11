@@ -1,7 +1,7 @@
 {
     "Name": "Video File",
     "Type": 0,
-    "Revision": 3,
+    "Revision": 4,
     "Properties": {
       "Description": "A blank video file template with a single \u0022Video File\u0022 input flow element.",
       "Tags": [
@@ -17,7 +17,7 @@
         "Uid": "8476a054-b364-4be9-add4-1ad3c602bf84",
         "Name": "",
         "FlowElementUid": "FileFlows.VideoNodes.VideoFile",
-        "xPos": 450,
+        "xPos": 250,
         "yPos": 50,
         "Icon": "fas fa-video",
         "Label": "Video File",
