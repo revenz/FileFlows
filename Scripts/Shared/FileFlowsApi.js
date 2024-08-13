@@ -2,7 +2,7 @@
  * @name FileFlowsApi
  * @uid 92aeca79-6dce-410f-bf26-87b56871be0e
  * @descriptionClass that interacts with the FileFlows API 
- * @revision 11
+ * @revision 12
  * @minimumVersion 24.4.1.3000
  */
 export class FileFlowsApi
@@ -173,14 +173,11 @@ export class FileFlowsApi
     /**
      * Clears statistics for a specific statistic or all statistics
      * @param {string} name the name of the statistic to clear, optional 
-     * @param {Date} before an optional date to clear statistics before
      */
-    clearStatistic(name, before) {
+    clearStatistic(name) {
         let url = this.getUrl('statistics/clear');
         if(name)
             url += '?name=' + encodeURI(name);
-        if(before)
-            url += (name ? '&' : '?') + 'before=' + encodeURI(before.toISOString());
         
         let response = http.PostAsync(url, null).Result;
         let responseBody = response.Content.ReadAsStringAsync().Result;
