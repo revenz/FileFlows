@@ -1,5 +1,5 @@
 /**
- * @name Radarr manually trigger import
+ * @name Radarr - Manually trigger import
  * @description Manually tells Radarr to rescan, run after move
  * @author Lawrence / DoughDoze
  * @revision 1

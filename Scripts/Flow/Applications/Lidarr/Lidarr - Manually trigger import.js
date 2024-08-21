@@ -1,5 +1,5 @@
 /**
- * @name Audio - Lidarr manually trigger import
+ * @name Lidarr - Manually trigger import
  * @description Manually tells Lidarr to rescan, run after move
  * @author Lawrence / DoughDoze
  * @revision 3

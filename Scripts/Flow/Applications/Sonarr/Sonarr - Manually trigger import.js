@@ -1,5 +1,5 @@
 /**
- * @name Sonarr manually trigger import
+ * @name Sonarr - Manually trigger import
  * @description Manually tells Sonarr to rescan, run after move
  * @author Lawrence / DoughDoze
  * @revision 1
