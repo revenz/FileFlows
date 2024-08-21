@@ -1,20 +1,20 @@
 /**
- * @name Audio - Lidarr trigger album scan
- * @description Manually tells Lidarr to rescan, run after move
+ * @name Sonarr manually trigger import
+ * @description Manually tells Sonarr to rescan, run after move
  * @author Lawrence / DoughDoze
- * @revision 3
- * @param {string} URI Lidarr root URI and port (e.g. http://lidarr:8686)
+ * @revision 1
+ * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:8989)
  * @param {string} ApiKey API Key
  * @output Output 0
  */
 function Script(URI, ApiKey) {
-  const lidarr = new Lidarr(URI, ApiKey);
-  if (lidarr.downloadedAlbumsScan(Variables.folder.FullName)) return 1;
+  const sonarr = new Sonarr(URI, ApiKey);
+  if (sonarr.downloadedEpisodesScan(Variables.folder.FullName)) return 1;
 
   return -1;
 }
 
-class Lidarr {
+class Sonarr {
   constructor(URI, ApiKey) {
     if (!URI || !ApiKey) {
       Logger.ELog("No credentials specified");
@@ -25,11 +25,11 @@ class Lidarr {
     this.ApiKey = ApiKey;
   }
 
-  downloadedAlbumsScan(path) {
-    let endpoint = `${this.URI}/api/v1/command`;
+  downloadedEpisodesScan(path) {
+    let endpoint = `${this.URI}/api/v3/command`;
     let commandBody = {
       path: path,
-      name: "DownloadedAlbumsScan",
+      name: "downloadedEpisodesScan",
     };
 
     let jsonData = JSON.stringify(commandBody);
