@@ -1,13 +1,16 @@
 /**
  * @name Radarr - Manually trigger import
- * @description Manually tells Radarr to rescan, run after move
+ * @description Manually tells Radarr to rescan, run after last file in folder moved
  * @author Lawrence / DoughDoze
  * @revision 1
  * @param {string} URI Radarr root URI and port (e.g. http://radarr:7878)
  * @param {string} ApiKey API Key
- * @output Output 0
+ * @output Command sent
  */
 function Script(URI, ApiKey) {
+  URI = URI || Variables["Radarr.URI"];
+  ApiKey = ApiKey || Variables["Radarr.ApiKey"];
+
   const radarr = new Radarr(URI, ApiKey);
   if (radarr.downloadedMoviesScan(Variables.folder.FullName)) return 1;
 
@@ -41,6 +44,7 @@ class Radarr {
       let responseData = JSON.parse(
         response.Content.ReadAsStringAsync().Result
       );
+      Logger.ILog(responseData);
       return responseData;
     } else {
       let error = response.Content.ReadAsStringAsync().Result;

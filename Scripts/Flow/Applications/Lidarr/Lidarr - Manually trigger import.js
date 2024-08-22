@@ -1,13 +1,16 @@
 /**
  * @name Lidarr - Manually trigger import
- * @description Manually tells Lidarr to rescan, run after move
+ * @description Manually tells Lidarr to rescan, run after last file in folder moved
  * @author Lawrence / DoughDoze
  * @revision 3
  * @param {string} URI Lidarr root URI and port (e.g. http://lidarr:8686)
  * @param {string} ApiKey API Key
- * @output Output 0
+ * @output Command sent
  */
 function Script(URI, ApiKey) {
+  URI = URI || Variables['Lidarr.URI']
+  ApiKey = ApiKey || Variables['Lidarr.ApiKey']
+
   const lidarr = new Lidarr(URI, ApiKey);
   if (lidarr.downloadedAlbumsScan(Variables.folder.FullName)) return 1;
 
@@ -41,6 +44,7 @@ class Lidarr {
       let responseData = JSON.parse(
         response.Content.ReadAsStringAsync().Result
       );
+      Logger.ILog(responseData);
       return responseData;
     } else {
       let error = response.Content.ReadAsStringAsync().Result;

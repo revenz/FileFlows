@@ -1,13 +1,16 @@
 /**
  * @name Sonarr - Manually trigger import
- * @description Manually tells Sonarr to rescan, run after move
+ * @description Manually tells Sonarr to rescan, run after last file in folder moved
  * @author Lawrence / DoughDoze
  * @revision 1
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:8989)
  * @param {string} ApiKey API Key
- * @output Output 0
+ * @output Command sent
  */
 function Script(URI, ApiKey) {
+  URI = URI || Variables['Sonarr.URI']
+  ApiKey = ApiKey || Variables['Sonarr.ApiKey']
+
   const sonarr = new Sonarr(URI, ApiKey);
   if (sonarr.downloadedEpisodesScan(Variables.folder.FullName)) return 1;
 
@@ -41,6 +44,7 @@ class Sonarr {
       let responseData = JSON.parse(
         response.Content.ReadAsStringAsync().Result
       );
+      Logger.ILog(responseData);
       return responseData;
     } else {
       let error = response.Content.ReadAsStringAsync().Result;
