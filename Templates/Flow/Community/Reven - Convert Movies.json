@@ -1,11 +1,11 @@
 {
   "Name": "Reven - Convert Movies",
   "Type": 0,
-  "Revision": 27,
+  "Revision": 28,
   "Properties": {
     "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
     "Tags": [
-      "Video:Community"
+      "Community"
     ],
     "Author": "reven",
     "Fields": [

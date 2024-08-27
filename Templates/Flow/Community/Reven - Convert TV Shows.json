@@ -1,11 +1,11 @@
 {
     "Name": "Reven - Convert TV Shows",
     "Type": 0,
-    "Revision": 6,
+    "Revision": 7,
     "Properties": {
       "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with normalized AC3 audio., optimized for TV.",
       "Tags": [
-        "Video:Community"
+        "Community"
       ],
       "Author": "reven",
       "Fields": [
