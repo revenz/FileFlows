@@ -269,16 +269,14 @@
     "Type": 0
   },
   {
-    "Path": "Templates/Flow/Community/Convert Movies.json",
-    "Name": "Convert Movies",
-    "Description": "A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
+    "Path": "Templates/Flow/Community/Reven - Convert TV Shows.json",
+    "Name": "Reven - Convert TV Shows",
+    "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with normalized AC3 audio., optimized for TV.",
     "Author": "reven",
     "Tags": [
-      "Video",
-      "Video:HEVC",
-      "VIdeo:AC3"
+      "Video:Community"
     ],
-    "Revision": 26,
+    "Revision": 6,
     "Plugins": [
       "Video Nodes",
       "Basic Nodes"
@@ -287,16 +285,14 @@
     "Type": 0
   },
   {
-    "Path": "Templates/Flow/Community/Convert TV Shows.json",
-    "Name": "Convert TV Shows",
-    "Description": "A video conversion flow that will convert videos to HEVC with normalized AC3 audio., optimized for TV.",
+    "Path": "Templates/Flow/Community/Reven - Convert Movies.json",
+    "Name": "Reven - Convert Movies",
+    "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
     "Author": "reven",
     "Tags": [
-      "Video",
-      "Video:HEVC",
-      "Video:AC3"
+      "Video:Community"
     ],
-    "Revision": 5,
+    "Revision": 27,
     "Plugins": [
       "Video Nodes",
       "Basic Nodes"
@@ -305,17 +301,14 @@
     "Type": 0
   },
   {
-    "Path": "Templates/Flow/Community/VP9 - YouTube.json",
-    "Name": "VP9 - YouTube",
-    "Description": "Convert video to VP9/WebM/Opus/1080P and move to destination",
+    "Path": "Templates/Flow/Community/Reven - VP9 - YouTube.json",
+    "Name": "Reven - VP9 - YouTube",
+    "Description": "A user submitted template.  Convert video to VP9/WebM/Opus/1080P and move to destination",
     "Author": "reven",
     "Tags": [
-      "Video",
-      "Video:VP9",
-      "Video:WebM",
-      "Video:Opus"
+      "Video:Community"
     ],
-    "Revision": 14,
+    "Revision": 15,
     "Plugins": [
       "Video Nodes",
       "Basic Nodes",
