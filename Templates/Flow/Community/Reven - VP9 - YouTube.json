@@ -1,14 +1,11 @@
 {
-  "Name": "VP9 - YouTube",
+  "Name": "Reven - VP9 - YouTube",
   "Type": 0,
-  "Revision": 14,
+  "Revision": 15,
   "Properties": {
-    "Description": "Convert video to VP9/WebM/Opus/1080P and move to destination",
+    "Description": "A user submitted template.  Convert video to VP9/WebM/Opus/1080P and move to destination",
     "Tags": [
-      "Video",
-      "Video:VP9",
-      "Video:WebM",
-      "Video:Opus"
+      "Video:Community"
     ],
     "Author": "reven",
     "Fields": [
