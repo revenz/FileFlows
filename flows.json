@@ -274,9 +274,9 @@
     "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with normalized AC3 audio., optimized for TV.",
     "Author": "reven",
     "Tags": [
-      "Video:Community"
+      "Community"
     ],
-    "Revision": 6,
+    "Revision": 7,
     "Plugins": [
       "Video Nodes",
       "Basic Nodes"
@@ -290,9 +290,9 @@
     "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
     "Author": "reven",
     "Tags": [
-      "Video:Community"
+      "Community"
     ],
-    "Revision": 27,
+    "Revision": 28,
     "Plugins": [
       "Video Nodes",
       "Basic Nodes"
@@ -306,9 +306,9 @@
     "Description": "A user submitted template.  Convert video to VP9/WebM/Opus/1080P and move to destination",
     "Author": "reven",
     "Tags": [
-      "Video:Community"
+      "Community"
     ],
-    "Revision": 15,
+    "Revision": 16,
     "Plugins": [
       "Video Nodes",
       "Basic Nodes",
