@@ -1,5 +1,6 @@
 /**
  * @name Radarr - Manually trigger import
+ * @uid cd8926f3-a9ab-4fa7-a36e-cceb8ad58987
  * @description Manually tells Radarr to rescan, run after last file in folder moved
  * @author Lawrence / DoughDoze
  * @revision 1

@@ -1,5 +1,6 @@
 /**
  * @name Sonarr - Manually trigger import
+ * @uid 544e1d8f-c3b5-4d1a-8f2c-5fdf24126100
  * @description Manually tells Sonarr to rescan, run after last file in folder moved
  * @author Lawrence / DoughDoze
  * @revision 1
