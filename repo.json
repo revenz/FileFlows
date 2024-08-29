@@ -161,18 +161,18 @@
       "Uid": "fbdd7b81-5112-43eb-a371-6aaf9b42977d"
     },
     {
+      "Path": "Scripts/Flow/File/File - Blocklist sonarr or radarr.js",
+      "Name": "File - Blocklist sonarr or radarr",
+      "Description": "This script will search the active queue and blocklist and research.  For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr\n/",
+      "Revision": 3,
+      "Uid": "8eb58ddf-f355-4442-8101-d6fd81a1b927"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Devedse - RunAbAv1.js",
       "Name": "Video - Devedse - RunAbAv1",
       "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nPrerequisites:\nVideo - Devedse - InstallFfmpegBtbN.js\nVideo - Devedse - InstallAbAv1.js\nExecutes the ab-av1 command.\n/",
       "Revision": 6,
       "Uid": "4b2d95ff-0b20-4be2-b945-e6efd8099feb"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Blocklist sonarr or radarr.js",
-      "Name": "Video - Blocklist sonarr or radarr",
-      "Description": "This script will search the active queue and blocklist and research.  For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr\n/",
-      "Revision": 3,
-      "Uid": "8eb58ddf-f355-4442-8101-d6fd81a1b927"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Delete Non-Original Language Audio.js",
@@ -363,6 +363,27 @@
       "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it\n/",
       "Revision": 8,
       "Uid": "51cf3c4f-f4a3-45e2-a083-6629397aab90"
+    },
+    {
+      "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Manually trigger import.js",
+      "Name": "Sonarr - Manually trigger import",
+      "Description": "Manually tells Sonarr to rescan, run after last file in folder moved\n/",
+      "Revision": 1,
+      "Uid": "544e1d8f-c3b5-4d1a-8f2c-5fdf24126100"
+    },
+    {
+      "Path": "Scripts/Flow/Applications/Lidarr/Lidarr - Manually trigger import.js",
+      "Name": "Lidarr - Manually trigger import",
+      "Description": "Manually tells Lidarr to rescan, run after last file in folder moved\n/",
+      "Revision": 3,
+      "Uid": "8963756e-7bf1-4170-8446-29278db542d6"
+    },
+    {
+      "Path": "Scripts/Flow/Applications/Radarr/Radarr - Manually trigger import.js",
+      "Name": "Radarr - Manually trigger import",
+      "Description": "Manually tells Radarr to rescan, run after last file in folder moved\n/",
+      "Revision": 1,
+      "Uid": "cd8926f3-a9ab-4fa7-a36e-cceb8ad58987"
     },
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Rename.js",
