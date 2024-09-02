@@ -1,7 +1,7 @@
 /**
  * @author John Andrews
  * @uid 3a3909c7-aded-45d7-8340-b27e76589b02
- * @revision 5
+ * @revision 6
  * @description Gets either TV Show Information or Movie Information from a meta flow element and updates any audio tracks with missing language codes 
  * with the original language of the show/movie
  * Requires the "Movie Lookup" or "TV Show Lookup" to be executed first to work
@@ -38,6 +38,7 @@ function Script()
         Logger.ILog('Setting language on track to ' + lang);
         audio.Language = lang;
         changed = true;
+        ffModel.ForceEncode = true;
     }
 
     return changed ? 1 : 2;
