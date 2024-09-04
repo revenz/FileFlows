@@ -1,269 +1,17 @@
 [
   {
-    "Path": "Templates/Flow/Standard/Image Resize.json",
-    "Name": "Image Resize",
-    "Description": "A flow that resizes images",
-    "Author": "FileFlows",
+    "Path": "Templates/Flow/Community/Reven - VP9 - YouTube.json",
+    "Name": "Reven - VP9 - YouTube",
+    "Description": "A user submitted template.  Convert video to VP9/WebM/Opus/1080P and move to destination",
+    "Author": "reven",
     "Tags": [
-      "Image"
+      "Community"
     ],
-    "Revision": 7,
-    "Plugins": [
-      "Image Nodes",
-      "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/FailureFlow.json",
-    "Name": "Failure Flow",
-    "Description": "Basic failure flow that will be executed when a flow failures for any reason.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Basic"
-    ],
-    "Revision": 1,
-    "Plugins": [
-      "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 1
-  },
-  {
-    "Path": "Templates/Flow/Standard/Convert Audio to Video.json",
-    "Name": "Convert Audio to Video",
-    "Description": "Convert an audio file into a video file generated a visualization of the audio.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Audio",
-      "Video"
-    ],
-    "Revision": 2,
-    "Plugins": [
-      "Basic Nodes",
-      "Video Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/File.json",
-    "Name": "File",
-    "Description": "A blank file template with a single \u0022Input File\u0022 input flow element.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Basic"
-    ],
-    "Revision": 3,
-    "Plugins": [
-      "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Audio File.json",
-    "Name": "Audio File",
-    "Description": "A blank Audio template with a single \u0022Audio File\u0022 input flow element.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Audio",
-      "Basic"
-    ],
-    "Revision": 4,
-    "Plugins": [
-      "Audio Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Convert Video.json",
-    "Name": "Convert Video",
-    "Description": "A flow that will convert a video file to another format",
-    "Author": "FileFlows",
-    "Tags": [
-      "Video"
-    ],
-    "Revision": 24,
+    "Revision": 16,
     "Plugins": [
       "Video Nodes",
-      "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Convert Image.json",
-    "Name": "Convert Image",
-    "Description": "A flow that converts images",
-    "Author": "FileFlows",
-    "Tags": [
-      "Image"
-    ],
-    "Revision": 6,
-    "Plugins": [
-      "Image Nodes",
-      "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Video File.json",
-    "Name": "Video File",
-    "Description": "A blank video file template with a single \u0022Video File\u0022 input flow element.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Video",
-      "Basic"
-    ],
-    "Revision": 4,
-    "Plugins": [
-      "Video Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Folder.json",
-    "Name": "Folder",
-    "Description": "A blank folder template with a single \u0022Input Folder\u0022 input flow element.\n\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Basic"
-    ],
-    "Revision": 3,
-    "Plugins": [
-      "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/URL.json",
-    "Name": "URL",
-    "Description": "A blank URL template with a single \u0022Input URL\u0022 input flow element.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Basic"
-    ],
-    "Revision": 1,
-    "Plugins": [
-      "Web"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Convert Audio.json",
-    "Name": "Convert Audio",
-    "Description": "Will convert audio files to the specified format and replace the original file.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Audio"
-    ],
-    "Revision": 4,
-    "Plugins": [
-      "Audio Nodes",
-      "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Telegram Notification.json",
-    "Name": "Telegram Notification",
-    "Description": "A failure flow that will send a warning message to Telegram with the failed filename.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Notification"
-    ],
-    "Revision": 0,
-    "Plugins": [
       "Basic Nodes",
-      "Telegram"
-    ],
-    "Scripts": [],
-    "Type": 1
-  },
-  {
-    "Path": "Templates/Flow/Standard/Discord Notification.json",
-    "Name": "Discord Notification",
-    "Description": "A failure flow that will send a warning message to Discord with the failed filename.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Notification"
-    ],
-    "Revision": 1,
-    "Plugins": [
-      "Basic Nodes",
-      "Discord Nodes"
-    ],
-    "Scripts": [],
-    "Type": 1
-  },
-  {
-    "Path": "Templates/Flow/Standard/Gotify Notification.json",
-    "Name": "Gotify Notification",
-    "Description": "A failure flow that will send a warning message to Gotify with the failed filename.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Notification"
-    ],
-    "Revision": 1,
-    "Plugins": [
-      "Basic Nodes",
-      "Gotify"
-    ],
-    "Scripts": [],
-    "Type": 1
-  },
-  {
-    "Path": "Templates/Flow/Standard/Convert Comic.json",
-    "Name": "Convert Comic",
-    "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
-    "Author": "FileFlows",
-    "Tags": [
-      "Comic"
-    ],
-    "Revision": 5,
-    "Plugins": [
-      "Basic Nodes",
-      "Comic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Apprise Notification.json",
-    "Name": "Apprise Notification",
-    "Description": "A failure flow that will send a warning message to Apprise with the failed filename.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Notification"
-    ],
-    "Revision": 0,
-    "Plugins": [
-      "Basic Nodes",
-      "Apprise"
-    ],
-    "Scripts": [],
-    "Type": 1
-  },
-  {
-    "Path": "Templates/Flow/Standard/Image File.json",
-    "Name": "Image File",
-    "Description": "A blank Image template with a single \u0022Image File\u0022 input flow element.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Image",
-      "Basic"
-    ],
-    "Revision": 3,
-    "Plugins": [
-      "Image Nodes"
+      "Audio Nodes"
     ],
     "Scripts": [],
     "Type": 0
@@ -301,18 +49,270 @@
     "Type": 0
   },
   {
-    "Path": "Templates/Flow/Community/Reven - VP9 - YouTube.json",
-    "Name": "Reven - VP9 - YouTube",
-    "Description": "A user submitted template.  Convert video to VP9/WebM/Opus/1080P and move to destination",
-    "Author": "reven",
+    "Path": "Templates/Flow/Standard/Discord Notification.json",
+    "Name": "Discord Notification",
+    "Description": "A failure flow that will send a warning message to Discord with the failed filename.",
+    "Author": "FileFlows",
     "Tags": [
-      "Community"
+      "Notification"
     ],
-    "Revision": 16,
+    "Revision": 1,
+    "Plugins": [
+      "Basic Nodes",
+      "Discord Nodes"
+    ],
+    "Scripts": [],
+    "Type": 1
+  },
+  {
+    "Path": "Templates/Flow/Standard/Audio File.json",
+    "Name": "Audio File",
+    "Description": "A blank Audio template with a single \u0022Audio File\u0022 input flow element.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Audio",
+      "Basic"
+    ],
+    "Revision": 4,
+    "Plugins": [
+      "Audio Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Apprise Notification.json",
+    "Name": "Apprise Notification",
+    "Description": "A failure flow that will send a warning message to Apprise with the failed filename.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Notification"
+    ],
+    "Revision": 0,
+    "Plugins": [
+      "Basic Nodes",
+      "Apprise"
+    ],
+    "Scripts": [],
+    "Type": 1
+  },
+  {
+    "Path": "Templates/Flow/Standard/FailureFlow.json",
+    "Name": "Failure Flow",
+    "Description": "Basic failure flow that will be executed when a flow failures for any reason.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Basic"
+    ],
+    "Revision": 1,
+    "Plugins": [
+      "Basic Nodes"
+    ],
+    "Scripts": [],
+    "Type": 1
+  },
+  {
+    "Path": "Templates/Flow/Standard/Convert Comic.json",
+    "Name": "Convert Comic",
+    "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
+    "Author": "FileFlows",
+    "Tags": [
+      "Comic"
+    ],
+    "Revision": 5,
+    "Plugins": [
+      "Basic Nodes",
+      "Comic Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Image Resize.json",
+    "Name": "Image Resize",
+    "Description": "A flow that resizes images",
+    "Author": "FileFlows",
+    "Tags": [
+      "Image"
+    ],
+    "Revision": 7,
+    "Plugins": [
+      "Image Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/URL.json",
+    "Name": "URL",
+    "Description": "A blank URL template with a single \u0022Input URL\u0022 input flow element.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Basic"
+    ],
+    "Revision": 1,
+    "Plugins": [
+      "Web"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Telegram Notification.json",
+    "Name": "Telegram Notification",
+    "Description": "A failure flow that will send a warning message to Telegram with the failed filename.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Notification"
+    ],
+    "Revision": 0,
+    "Plugins": [
+      "Basic Nodes",
+      "Telegram"
+    ],
+    "Scripts": [],
+    "Type": 1
+  },
+  {
+    "Path": "Templates/Flow/Standard/Convert Image.json",
+    "Name": "Convert Image",
+    "Description": "A flow that converts images",
+    "Author": "FileFlows",
+    "Tags": [
+      "Image"
+    ],
+    "Revision": 6,
+    "Plugins": [
+      "Image Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Video File.json",
+    "Name": "Video File",
+    "Description": "A blank video file template with a single \u0022Video File\u0022 input flow element.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Video",
+      "Basic"
+    ],
+    "Revision": 4,
+    "Plugins": [
+      "Video Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Convert Audio to Video.json",
+    "Name": "Convert Audio to Video",
+    "Description": "Convert an audio file into a video file generated a visualization of the audio.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Audio",
+      "Video"
+    ],
+    "Revision": 2,
+    "Plugins": [
+      "Basic Nodes",
+      "Video Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Convert Video.json",
+    "Name": "Convert Video",
+    "Description": "A flow that will convert a video file to another format",
+    "Author": "FileFlows",
+    "Tags": [
+      "Video"
+    ],
+    "Revision": 24,
     "Plugins": [
       "Video Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Image File.json",
+    "Name": "Image File",
+    "Description": "A blank Image template with a single \u0022Image File\u0022 input flow element.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Image",
+      "Basic"
+    ],
+    "Revision": 3,
+    "Plugins": [
+      "Image Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/File.json",
+    "Name": "File",
+    "Description": "A blank file template with a single \u0022Input File\u0022 input flow element.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Basic"
+    ],
+    "Revision": 3,
+    "Plugins": [
+      "Basic Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Gotify Notification.json",
+    "Name": "Gotify Notification",
+    "Description": "A failure flow that will send a warning message to Gotify with the failed filename.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Notification"
+    ],
+    "Revision": 1,
+    "Plugins": [
       "Basic Nodes",
-      "Audio Nodes"
+      "Gotify"
+    ],
+    "Scripts": [],
+    "Type": 1
+  },
+  {
+    "Path": "Templates/Flow/Standard/Convert Audio.json",
+    "Name": "Convert Audio",
+    "Description": "Will convert audio files to the specified format and replace the original file.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Audio"
+    ],
+    "Revision": 4,
+    "Plugins": [
+      "Audio Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Folder.json",
+    "Name": "Folder",
+    "Description": "A blank folder template with a single \u0022Input Folder\u0022 input flow element.\n\nNOTE: This template should only be used to process a Folder instead of Files.  Processing a Folder has processing limitations as the Folder is being processed and not files contained in that folder.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Basic"
+    ],
+    "Revision": 3,
+    "Plugins": [
+      "Basic Nodes"
     ],
     "Scripts": [],
     "Type": 0
