@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------------------------------
-# Name: Intel VPL Driver
+# Name: Intel-VPL-Driver
 # Description: This is only required if you have the onevpl Intel driver installed, most systems do not.
 # Author: John Andrews / Lawrence
 # Revision: 3
