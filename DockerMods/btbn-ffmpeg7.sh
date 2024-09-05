@@ -5,7 +5,7 @@
 #              It does not remove or modify any existing FFmpeg installation. Users should manually
 #              update their environment variables to use the new installation by adding 
 #              /opt/ffmpeg-static/bin/ffmpeg and /opt/ffmpeg-static/bin/ffprobe to their PATH.
-# Revision: 5
+# Revision: 6
 # Icon: fas fa-file-video
 # ----------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ TEMP_DIR="/tmp/ffmpeg-static"
 if [ "$1" == "--uninstall" ]; then
     echo "Uninstalling ffmpeg and ffprobe from $FFMPEG_DIR..."
     if [ -d "$FFMPEG_DIR" ]; then
-        sudo rm -rf "$FFMPEG_DIR"
+        rm -rf "$FFMPEG_DIR"
         echo "$FFMPEG_DIR removed."
     else
         echo "FFmpeg is not installed in $FFMPEG_DIR."
@@ -37,7 +37,7 @@ fi
 
 # Step 2: Create the directory for ffmpeg installation in /opt if it doesn't exist
 echo "Creating $FFMPEG_DIR for installation..."
-sudo mkdir -p "$FFMPEG_DIR"
+mkdir -p "$FFMPEG_DIR"
 
 # Step 3: Create a temporary directory for downloading the static build
 echo "Creating temporary directory for download..."
@@ -49,7 +49,7 @@ wget -O "$TEMP_DIR/ffmpeg-static.tar.xz" "$FFMPEG_URL"
 
 # Step 5: Extract the downloaded archive into /opt/ffmpeg-static
 echo "Extracting ffmpeg static build to $FFMPEG_DIR..."
-sudo tar -xf "$TEMP_DIR/ffmpeg-static.tar.xz" -C "$FFMPEG_DIR" --strip-components=1
+tar -xf "$TEMP_DIR/ffmpeg-static.tar.xz" -C "$FFMPEG_DIR" --strip-components=1
 
 # Step 6: Cleanup temporary files
 echo "Cleaning up temporary files..."
