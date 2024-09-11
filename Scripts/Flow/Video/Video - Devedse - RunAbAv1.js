@@ -93,7 +93,7 @@ function Script(Preset,SvtArguments,Encoder,PixFormat,MinVmaf,MaxEncodedPercent,
 
     // Parse the output to find the CRF value
     let output = executeAbAv1.output;
-    let crfValueMatch = output.match(/crf (\d+\.?\d*) VMAF.*predicted video stream size/);
+    let crfValueMatch = output.match(/ab_av1::command::crf_search\] crf (\d+\d) successful/);
     Logger.ILog('crf: ' + crfValueMatch);
     if (crfValueMatch && crfValueMatch.length > 1) {
         let crfValue = crfValueMatch[1];
