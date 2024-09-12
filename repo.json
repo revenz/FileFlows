@@ -213,7 +213,7 @@
       "Path": "Scripts/Flow/Video/Video - Devedse - RunAbAv1.js",
       "Name": "Video - Devedse - RunAbAv1",
       "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nPrerequisites:\nVideo - Devedse - InstallFfmpegBtbN.js\nVideo - Devedse - InstallAbAv1.js\nExecutes the ab-av1 command.\n/",
-      "Revision": 6,
+      "Revision": 7,
       "Uid": "4b2d95ff-0b20-4be2-b945-e6efd8099feb"
     },
     {
