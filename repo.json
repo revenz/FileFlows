@@ -496,7 +496,7 @@
       "Path": "Templates/Library/General/VideoLibrary.json",
       "Name": "Video Library",
       "Description": "Video library that searches for common video files",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
@@ -512,7 +512,7 @@
       "Path": "Templates/Library/DownloadClients/SABnzbdVideos.json",
       "Name": "SABnzbd Videos",
       "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert videos into a target format, and place those videos in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
@@ -520,7 +520,7 @@
       "Path": "Templates/Library/DownloadClients/SABnzbdMusic.json",
       "Name": "SABnzbd Music",
       "Description": "Library to monitor a \u0022complete\u0022 downloads directory from SABnzbd.\n\nThis library can then use a flow to convert music into a target format, and place those music files in destination folder e.g. \u0022converted\u0022.\n\nThe application that instructed SABnzbd to do the download can monitor the \u0022converted\u0022 folder for completed files.",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "24.02.6.2743",
       "Author": ""
     },
@@ -528,7 +528,7 @@
       "Path": "Templates/Library/DownloadClients/Samples-Trailers-Previews.json",
       "Name": "Samples/Trailers/Previews",
       "Description": "Finds any sample, trailers, or preview video files in a directory so you can delete them if necessary.\nUseful for a matching \u0027SABnzbd Videos\u0027 library so the folder can be cleanly deleted after the main file is processed.",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "1.0.0.0",
       "Author": ""
     },
