@@ -154,6 +154,14 @@
   ],
   "FlowScripts": [
     {
+      "Path": "Scripts/Flow/Video/Video - Dolby Vision - Fix crop and compatibility.js",
+      "Name": "Video - Dolby Vision - Fix crop and compatibility",
+      "Description": "Converts to the most compatibile profile 8.1 and removing bad crop data.\nRun between encode and move/replace.\nOutput is always an MKV.\ndovi_tool only supports HEVC when AV1 support is added I will updated this script.\n/",
+      "Revision": 1,
+      "MinimumVersion": "24.09.2.3553",
+      "Uid": "f5eebc75-e22d-4181-af02-5e7263e68acd"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Upscale Anime (Video2x) [Docker].js",
       "Name": "Video - Upscale Anime (Video2x) [Docker]",
       "Description": "Upscales anime using Video2x inside a docker container. Requires TempPathHost environment variable to be set if running inside a docker container\n/",
@@ -730,13 +738,6 @@
   ],
   "DockerMods": [
     {
-      "Path": "DockerMods/dovi_tool 2.1.1.sh",
-      "Name": "dovi_tool",
-      "Description": "dovi_tool is a CLI tool combining multiple utilities for working with Dolby Vision.",
-      "Revision": 4,
-      "Icon": "fas fa-file-video"
-    },
-    {
       "Path": "DockerMods/Vim.sh",
       "Name": "Vim",
       "Description": "Vim is a free and open-source, screen-based text editor program. It is an improved clone of vi.",
@@ -802,6 +803,13 @@
       "Icon": "data:image/svg\u002Bxml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjMyIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSIjOGNjODRiIj48cGF0aCBkPSJtMTcuMTcyNSAyLjI5ODcyYy0uNzA5OC0uMzk5MTktMS42MzUyLS4zOTc0LTIuMzQ1NiAwLTMuNTU4IDEuOTYzNTUtNy4xMTYwOCAzLjkyNzY5LTEwLjY3NDc0IDUuODkwMzQtLjY5MjQ3LjM2NDI5LTEuMTU5NTIgMS4xMDc5Mi0xLjE1MjA3IDEuODc5NzR2MTEuODY0Yy0uMDA1Ljc4NjkuNDg2MTMgMS41Mzc3IDEuMTk2NDYgMS44OTcgMS4wMjIxNi41NDM4IDIuMDE1MjUgMS4xNDI4IDMuMDU1ODkgMS42NTA0IDEuMjAyMDcuNTkwNyAyLjcwNTk5LjcyMTMgMy45MjI3Ni4xMDUzLjk4NzctLjUxMDUgMS40MjY0LTEuNjQ2IDEuNDI1MS0yLjY4OTUuMDA4LTMuOTE1NC4wMDEzLTcuODMwOS4wMDMxLTExLjc0NjQuMDIzNS0uMTc0LS4xMDcyLS4zNi0uMjk3LS4zNTU4LS40NTQ3LS4wMDcyLS45MS0uMDA0Mi0xLjM2NDctLjAwMTItLjE3MTgtLjAxNjItLjMzOTUuMTI2NS0uMzI2NS4yOTkyLS4wMDYxIDMuODkwMi4wMDEyIDcuNzgxNi0uMDAzNyAxMS42NzI0LjAwOTkuNTM4Mi0uMzUzNyAxLjA1NTQtLjg3MjM3IDEuMjM3Mi0xLjE5NzkzLjQxOTktNC42MTcxNS0xLjgwMDItNC42MTcxNS0xLjgwMDItLjEyNTQ4LS4wNTgxLS4yMDUxNi0uMTk0Mi0uMTkyODYtLjMyOTQgMC0zLjkxNDIuMDAwNjEtNy44Mjg1IDAtMTEuNzQyMS0uMDE3MjUtLjE1Nzc5LjA4LS4yOTk5LjIyNDktLjM2NDMyIDMuNTQ2MzEtMS45NTE5OCA3LjA5MDc4LTMuOTA4ODQgMTAuNjM3MDgtNS44NjIwMi4xMjMyLS4wODIyMS4yOTQ5LS4wODE5Ni40MTc4LjAwMDYgMy41NDYzIDEuOTUyNTggNy4wOTE0IDMuOTA3NjUgMTAuNjM4MyA1Ljg1OTcyLjE0NTQuMDY0MzIuMjM4NS4yMDg4Mi4yMjM3LjM2NjAyLS4wMDA2IDMuOTEzNi4wMDEyIDcuODI3OS0uMDAxMiAxMS43NDE2LjAxMDUuMTM4NS0uMDYxMS4yNzI3LS4xOTA0LjMzMzUtMy41MTMyIDEuOTQxNC03LjA2NjQgMy44MjAyLTEwLjU0NzggNS44MTgtLjE1MTkuMDg3MS0uMzI0LjE4NTgtLjQ5NDIuMDg5OC0uOTE1NS0uNTA2NC0xLjgxOTktMS4wMzI1LTIuNzMyNC0xLjU0MzgtLjA5OTItLjA2MTktLjIyNTUtLjA4ODUtLjMyOS0uMDE5Mi0uNDA5MS4yMTU2LS43OTM5LjM5MDItMS4yNjM3LjU3NjItLjY1OTguMjYxMi0uNTU0NC4zNjguMDQwNy43MTQ3IDEuMDY3MS42MDM5IDIuMTM2IDEuMjA1NCAzLjIwMzEgMS44MDk5LjcwMjUuNDM4NCAxLjY0NjQuNDY5NiAyLjM3MTUuMDY0NSAzLjU1ODYtMS45NjExIDcuMTE2MS0zLjkyNDUgMTAuNjc1NC01Ljg4NTYuNzA4NC0uMzYxMyAxLjIwMi0xLjEwOTEgMS4xOTctMS44OTY2di0xMS44NjM5Yy4wMDY5LS43NTYxNi0uNDQyMy0xLjQ4NjUzLTEuMTEzOS0xLjg1NjIxLTMuNTcwNC0xLjk3MzEyLTcuMTQyNS0zLjk0MTk1LTEwLjcxMzUtNS45MTM4N3oiLz48cGF0aCBkPSJtMjIuNTQxOSAxMS4yMDYyYy0xLjM5NjctLjc0NzItMy4wNTgzLS43ODctNC42MTA0LS42ODkzLTEuMTIxMy4xMTA4LTIuMzAwNi40MjAyLTMuMTE3NSAxLjIyNC0uODM3OS44MDgtMS4wMjAzIDIuMTEyOC0uNjIyMyAzLjE2NzYuMjg1Mi43NDU0IDEuMDAzMSAxLjIzMDEgMS43NDU1IDEuNDg2NS45NTYzLjMzNzYgMS45NjA3LjQ0MiAyLjk2NTQuNTQ2NC45MTY0LjA5NTIgMS44MzMxLjE5MDUgMi43MTM5LjQ2MjguMzU5OC4xMTkyLjc3ODguMzAxNi44ODkuNjkzMS4xMDE4LjQ2MzYtLjAwOTggMS4wMDI1LS4zODYyIDEuMzI0Ni0xLjE5NTYuOTQ2My00LjUyMTQuODAxMy01LjcwMjcuMDU2NS0uNDc3Ni0uMzE3My0uNjgzNC0uODc5LS43NjcxLTEuNDE0My0uMDA5My0uMTY2OC0uMTQzNi0uMzE5OC0uMzI0Ny0uMzA3MS0uNDUzNS0uMDA1NC0uOTA3LS4wMDQyLTEuMzYwNS0uMDAwNi0uMTU4Mi0uMDEzMy0uMzIyNy4wOTkzLS4zMzE0LjI2MDgtLjA5MzIgMi40NTE3IDIuMTU4NSAzLjUyMDUgNC4yNzEgMy43NTU4IDEuMjA2OS4xMTUgMi40NDAzLjEwODQgMy42Mjg4LS4xNTA2Ljg5MzQtLjIwMzQgMS43ODkyLS41NzggMi40MDQyLTEuMjY2MS43NTg0LS44MzYzLjkwNzUtMi4wODE0LjU2NzQtMy4xMjMxLS4yNi0uNzc3My0xLjAwMzEtMS4yNzU5LTEuNzYyNy0xLjUzMjQtMS4wMzMtLjM1NDItMi4yNTcyLS41NDQ2LTMuMTkyOC0uNjMzNy0xLjM1OTktLjEyOTUtMi45NzU5LS4wNzY2LTMuMzYwOC0uOTcwMi0uMTUzNS0uNDY3OS0uMDIyOS0xLjA0ODkuNDA3MS0xLjMzNjcgMS4xMzc3LS43NzE3IDMuNDUzMi0uNjY5MiA0LjYzMTQtLjA5MjcuNTQxLjI3MDkuODU0NS44MjczLjk4MzkgMS4zODkuMDI0LjE2NS4xMzUuMzM3Mi4zMjYuMzMuNDUwNC4wMDkuOTAwOC4wMDI0IDEuMzUxMS4wMDMuMTU0Ny4wMTA4LjMyNDEtLjA3NjUuMzU0My0uMjM0OS0uMDE5MS0xLjE3NC0uNjE4Ni0yLjM3NTgtMS42OTk5LTIuOTQ4NHoiLz48L2c\u002BPC9zdmc\u002B"
     },
     {
+      "Path": "DockerMods/dovi_tool.sh",
+      "Name": "dovi_tool",
+      "Description": "dovi_tool is a CLI tool combining multiple utilities for working with Dolby Vision.",
+      "Revision": 5,
+      "Icon": "data:image/svg\u002Bxml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KDTwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIFRyYW5zZm9ybWVkIGJ5OiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4KPHN2ZyBmaWxsPSIjZmZmZmZmIiB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0cm9rZT0iI2ZmZmZmZiI\u002BCg08ZyBpZD0iU1ZHUmVwb19iZ0NhcnJpZXIiIHN0cm9rZS13aWR0aD0iMCIvPgoNPGcgaWQ9IlNWR1JlcG9fdHJhY2VyQ2FycmllciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8\u002BCg08ZyBpZD0iU1ZHUmVwb19pY29uQ2FycmllciI\u002BCg08cGF0aCBkPSJNMjQgMjAuMzUyVjMuNjQ4SDB2MTYuNzA0aDI0ek0xOC40MzMgNS44MDZoMi43MzZ2MTIuMzg3aC0yLjczNmMtMi44MzkgMC01LjIxNC0yLjc2Ny01LjIxNC02LjE5NHMyLjM3NS02LjE5MyA1LjIxNC02LjE5M3ptLTE1LjYwMiAwaDIuNzM2YzIuODM5IDAgNS4yMTQgMi43NjcgNS4yMTQgNi4xOTRzLTIuMzc0IDYuMTk0LTUuMjE0IDYuMTk0SDIuODMxVjUuODA2eiIvPgoNPC9nPgoNPC9zdmc\u002B"
+    },
+    {
       "Path": "DockerMods/rar.sh",
       "Name": "rar",
       "Description": "RAR is an archive file format used for data compression, while UNRAR is a utility to extract content from RAR archives.",
@@ -833,6 +841,13 @@
       "Revision": 3,
       "Author": "John Andrews",
       "Icon": "fab fa-git-alt:#FF4500"
+    },
+    {
+      "Path": "DockerMods/FFmpeg 7 (BtbN).sh",
+      "Name": "FFmpeg 7 (BtbN)",
+      "Description": "This script installs the BtbN Linux GPL static build of FFmpeg 7.x into /opt/ffmpeg-static. It does not remove or modify any existing FFmpeg installation. Users should manually update their environment variables to use the new installation by adding /opt/ffmpeg-static/bin/ffmpeg and /opt/ffmpeg-static/bin/ffprobe to their PATH.",
+      "Revision": 7,
+      "Icon": "data:image/svg\u002Bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNi4wLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyMDAwIDIwMDAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIwMDAgMjAwMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6bm9uZTtzdHJva2U6IzM3OEU0MztzdHJva2Utd2lkdGg6MzAwO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDo4O30NCjwvc3R5bGU\u002BDQo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1LDUpIj4NCgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTY2LjcsMTY2LjdoNTUyLjJMMTY2LjcsNzE4Ljl2NTUyLjJMMTI3MS4xLDE2Ni43aDU1Mi4yTDE2Ni43LDE4MjMuM2g1NTIuMkwxODIzLjMsNzE4Ljl2NTUyLjJsLTU1Mi4yLDU1Mi4yDQoJCWg1NTIuMiIvPg0KPC9nPg0KPC9zdmc\u002BDQo="
     },
     {
       "Path": "DockerMods/oneVPL.sh",

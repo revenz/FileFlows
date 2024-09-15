@@ -1,13 +1,5 @@
 [
   {
-    "Name": "dovi_tool",
-    "Description": "dovi_tool is a CLI tool combining multiple utilities for working with Dolby Vision.",
-    "Revision": 4,
-    "Icon": "fas fa-file-video",
-    "FileName": "dovi_tool 2.1.1.sh",
-    "Default": false
-  },
-  {
     "Name": "Vim",
     "Description": "Vim is a free and open-source, screen-based text editor program. It is an improved clone of vi.",
     "Author": "John Andrews",
@@ -80,6 +72,14 @@
     "Default": false
   },
   {
+    "Name": "dovi_tool",
+    "Description": "dovi_tool is a CLI tool combining multiple utilities for working with Dolby Vision.",
+    "Revision": 5,
+    "Icon": "data:image/svg\u002Bxml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KDTwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIFRyYW5zZm9ybWVkIGJ5OiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4KPHN2ZyBmaWxsPSIjZmZmZmZmIiB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0cm9rZT0iI2ZmZmZmZiI\u002BCg08ZyBpZD0iU1ZHUmVwb19iZ0NhcnJpZXIiIHN0cm9rZS13aWR0aD0iMCIvPgoNPGcgaWQ9IlNWR1JlcG9fdHJhY2VyQ2FycmllciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8\u002BCg08ZyBpZD0iU1ZHUmVwb19pY29uQ2FycmllciI\u002BCg08cGF0aCBkPSJNMjQgMjAuMzUyVjMuNjQ4SDB2MTYuNzA0aDI0ek0xOC40MzMgNS44MDZoMi43MzZ2MTIuMzg3aC0yLjczNmMtMi44MzkgMC01LjIxNC0yLjc2Ny01LjIxNC02LjE5NHMyLjM3NS02LjE5MyA1LjIxNC02LjE5M3ptLTE1LjYwMiAwaDIuNzM2YzIuODM5IDAgNS4yMTQgMi43NjcgNS4yMTQgNi4xOTRzLTIuMzc0IDYuMTk0LTUuMjE0IDYuMTk0SDIuODMxVjUuODA2eiIvPgoNPC9nPgoNPC9zdmc\u002B",
+    "FileName": "dovi_tool.sh",
+    "Default": false
+  },
+  {
     "Name": "rar",
     "Description": "RAR is an archive file format used for data compression, while UNRAR is a utility to extract content from RAR archives.",
     "Author": "John Andrews",
@@ -113,6 +113,14 @@
     "Revision": 3,
     "Icon": "fab fa-git-alt:#FF4500",
     "FileName": "Git.sh",
+    "Default": false
+  },
+  {
+    "Name": "FFmpeg 7 (BtbN)",
+    "Description": "This script installs the BtbN Linux GPL static build of FFmpeg 7.x into /opt/ffmpeg-static. It does not remove or modify any existing FFmpeg installation. Users should manually update their environment variables to use the new installation by adding /opt/ffmpeg-static/bin/ffmpeg and /opt/ffmpeg-static/bin/ffprobe to their PATH.",
+    "Revision": 7,
+    "Icon": "data:image/svg\u002Bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNi4wLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyMDAwIDIwMDAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIwMDAgMjAwMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6bm9uZTtzdHJva2U6IzM3OEU0MztzdHJva2Utd2lkdGg6MzAwO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDo4O30NCjwvc3R5bGU\u002BDQo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1LDUpIj4NCgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTY2LjcsMTY2LjdoNTUyLjJMMTY2LjcsNzE4Ljl2NTUyLjJMMTI3MS4xLDE2Ni43aDU1Mi4yTDE2Ni43LDE4MjMuM2g1NTIuMkwxODIzLjMsNzE4Ljl2NTUyLjJsLTU1Mi4yLDU1Mi4yDQoJCWg1NTIuMiIvPg0KPC9nPg0KPC9zdmc\u002BDQo=",
+    "FileName": "FFmpeg 7 (BtbN).sh",
     "Default": false
   },
   {
