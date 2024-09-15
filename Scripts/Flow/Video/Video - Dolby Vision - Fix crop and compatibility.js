@@ -6,6 +6,7 @@ Output is always an MKV.
 dovi_tool only supports HEVC when AV1 support is added I will updated this script.
  * @author Lawrence Curtis
  * @revision 1
+ * @uid f5eebc75-e22d-4181-af02-5e7263e68acd
  * @param {bool} RemoveHDRTenPlus Remove HDR10+, this fixes the black screen issues on FireStick
  * @output Fixed
  * @output No fix required
