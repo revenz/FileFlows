@@ -16,16 +16,9 @@ function Script(RemoveHDRTenPlus) {
   const duration = Variables.vi.Duration;
   const videoStreams = Variables.vi.VideoInfo.VideoStreams;
 
-  if (!(videoStreams?.length > 0 && videoStreams[0].DolbyVision)) {
-    Logger.ELog("No Dolby Vision detected");
-    return 2;
-  }
-
-  if (!(videoStreams[0].Codec == "hevc")) {
-    Logger.ELog(
-      "Video format MUST be HEVC, AV1 is not currently supported by dovi_tool"
-    );
-    return 2;
+  if (!videoStreams?.length) {
+    Logger.ELog("No Video detected");
+    return -1;
   }
 
   Flow.AdditionalInfoRecorder("DoVi", "Initializing", 1);
@@ -44,6 +37,23 @@ function Script(RemoveHDRTenPlus) {
 
   let working = Flow.WorkingFile;
   let original = Variables.file.Orig.FullName;
+
+  let process = Flow.Execute({
+    command: ffmpeg,
+    argumentList: ["-i", original],
+  });
+
+  let regexp = /DOVI configuration/i;
+  let matches = process.standardOutput.match(regexp);
+
+  if (!matches) return 2;
+
+  if (!(videoStreams[0].Codec == "hevc")) {
+    Logger.ELog(
+      "Video format MUST be HEVC, AV1 is not currently supported by dovi_tool"
+    );
+    return -1;
+  }
 
   Flow.AdditionalInfoRecorder("DoVi", "Extracting HEVC bitstream", 1);
 
@@ -69,7 +79,7 @@ function Script(RemoveHDRTenPlus) {
     }
   });
 
-  let process = Flow.Execute(executeArgs);
+  process = Flow.Execute(executeArgs);
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to extract HEVC: " + process.output);
@@ -208,8 +218,8 @@ function Script(RemoveHDRTenPlus) {
     argumentList: [working],
   });
 
-  const regexp = /([\.0-9]+) frames\/fields/i;
-  const matches = process.standardOutput.match(regexp);
+  regexp = /([\.0-9]+) frames\/fields/i;
+  matches = process.standardOutput.match(regexp);
   var executeArgs = new ExecuteArgs();
 
   executeArgs.command = mkvmerge;
