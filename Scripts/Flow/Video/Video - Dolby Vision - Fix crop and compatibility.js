@@ -61,6 +61,9 @@ function Script(RemoveHDRTenPlus) {
 
   executeArgs.command = ffmpeg;
   executeArgs.argumentList = [
+    "-v",
+    "quiet",
+    "-stats",
     "-i",
     original,
     "-c:v",
@@ -140,10 +143,17 @@ function Script(RemoveHDRTenPlus) {
 
   executeArgs.command = ffmpeg;
   executeArgs.argumentList = [
+    "-v",
+    "quiet",
+    "-stats",
     "-i",
     working,
     "-c:v",
     "copy",
+    "-bsf:v",
+    "hevc_mp4toannexb",
+    "-f",
+    "hevc",
     Flow.TempPath + "/converted_video.hevc",
   ];
 
