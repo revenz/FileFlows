@@ -1,7 +1,7 @@
 {
     "Name": "Create Audio Book",
     "Type": 0,
-    "Revision": 1,
+    "Revision": 2,
     "Properties": {
       "Description": "Allows a user to create audio books from folders containing the chapters of audio books and merges them into a single audio book m4b file.",
       "Tags": [
@@ -97,12 +97,18 @@
         "ReadOnly": false,
         "FlowElementUid": "FileFlows.AudioNodes.CreateAudioBook",
         "xPos": 150,
-        "yPos": 390,
+        "yPos": 260,
         "Icon": "fas fa-book",
         "Label": "",
         "Inputs": 1,
         "Outputs": 2,
-        "OutputConnections": [],
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "c270acc5-035b-457d-80a6-67db841c3d74"
+          }
+        ],
         "Type": 2,
         "Model": {
           "DestinationPath": "{folder.Orig.FullName}.m4b",
@@ -117,7 +123,7 @@
         "ReadOnly": false,
         "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
         "xPos": 250,
-        "yPos": 200,
+        "yPos": 150,
         "Icon": "fas fa-question",
         "Label": "",
         "Inputs": 1,
@@ -151,16 +157,90 @@
         "ReadOnly": false,
         "FlowElementUid": "FileFlows.AudioNodes.CreateAudioBook",
         "xPos": 340,
-        "yPos": 390,
+        "yPos": 260,
         "Icon": "fas fa-book",
         "Label": "",
         "Inputs": 1,
         "Outputs": 2,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "ef9a7ece-2b50-41c9-b293-444a32e15cab"
+          }
+        ],
         "Type": 2,
         "Model": {
           "DestinationPath": "{Destination_Path}/{folder.Name}.m4b",
           "DeleteSourceFiles": false,
           "UpdateWorkingFile": false
+        }
+      },
+      {
+        "Uid": "25a160da-f9e2-44d8-8316-81e22953540c",
+        "Name": "",
+        "Color": "",
+        "ReadOnly": false,
+        "FlowElementUid": "FileFlows.BasicNodes.File.DeleteSourceDirectory",
+        "xPos": 250,
+        "yPos": 470,
+        "Icon": "far fa-trash-alt",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "Type": 2,
+        "Model": {
+          "IfEmpty": true,
+          "IncludePatterns": null,
+          "TopMostOnly": false
+        }
+      },
+      {
+        "Uid": "ef9a7ece-2b50-41c9-b293-444a32e15cab",
+        "Name": "",
+        "Color": "",
+        "ReadOnly": false,
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+        "xPos": 340,
+        "yPos": 350,
+        "Icon": "fas fa-question",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "25a160da-f9e2-44d8-8316-81e22953540c"
+          }
+        ],
+        "Type": 3,
+        "Model": {
+          "Variable": "{Delete_Source_Files__2}"
+        }
+      },
+      {
+        "Uid": "c270acc5-035b-457d-80a6-67db841c3d74",
+        "Name": "",
+        "Color": "",
+        "ReadOnly": false,
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfBoolean",
+        "xPos": 150,
+        "yPos": 350,
+        "Icon": "fas fa-question",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "25a160da-f9e2-44d8-8316-81e22953540c"
+          }
+        ],
+        "Type": 3,
+        "Model": {
+          "Variable": "{Delete_Source_Files__1}"
         }
       }
     ]
