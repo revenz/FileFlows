@@ -24,7 +24,7 @@
       "Book",
       "Audio"
     ],
-    "Revision": 3,
+    "Revision": 4,
     "MinimumVersion": "24.09.3.3624",
     "Plugins": [
       "Basic Nodes",
