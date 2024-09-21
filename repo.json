@@ -599,7 +599,7 @@
       "Path": "Templates/Flow/Standard/Create Audio Book.json",
       "Name": "Create Audio Book",
       "Description": "Allows a user to create audio books from folders containing the chapters of audio books and merges them into a single audio book m4b file.",
-      "Revision": 1,
+      "Revision": 2,
       "Author": "FileFlows"
     },
     {
