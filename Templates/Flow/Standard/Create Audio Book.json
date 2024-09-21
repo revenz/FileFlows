@@ -1,0 +1,167 @@
+{
+    "Name": "Create Audio Book",
+    "Type": 0,
+    "Revision": 1,
+    "Properties": {
+      "Description": "Allows a user to create audio books from folders containing the chapters of audio books and merges them into a single audio book m4b file.",
+      "Tags": [
+        "Book",
+        "Audio"
+      ],
+      "Author": "FileFlows",
+      "MinimumVersion": "24.09.3.3624",
+      "Fields": [
+        {
+          "Name": "Output_Path",
+          "Type": 4,
+          "Description": "Where to save the newly created audio book.",
+          "Options": [
+            "Replace Original|replace",
+            "Save To Folder|folder"
+          ],
+          "Required": false,
+          "IntMinimum": 0,
+          "IntMaximum": 0,
+          "Inverse": false,
+          "IfName": "",
+          "IfValue": "",
+          "IfNot": false
+        },
+        {
+          "Name": "Destination_Path",
+          "Type": 3,
+          "Description": "The folder to save the newly create audio books into.",
+          "FlowElementField": "",
+          "Required": true,
+          "IntMinimum": 0,
+          "IntMaximum": 0,
+          "Inverse": false,
+          "IfName": "Output_Path",
+          "IfValue": "folder",
+          "IfNot": false
+        },
+        {
+          "Name": "Delete_Source_Files__1",
+          "Type": 2,
+          "Description": "If the source files should be deleted after creating the audio book.",
+          "FlowElementField": "86852957-8dee-441e-b8a3-6de135beb99f.DeleteSourceFiles",
+          "Required": false,
+          "IntMinimum": 0,
+          "IntMaximum": 0,
+          "Inverse": false,
+          "IfName": "Output_Path",
+          "IfValue": "replace",
+          "IfNot": false
+        },
+        {
+          "Name": "Delete_Source_Files__2",
+          "Type": 2,
+          "Description": "If the source files should be deleted after creating the audio book.",
+          "FlowElementField": "beea11c6-3686-4a7c-b84c-3f131bb57718.DeleteSourceFiles",
+          "Required": false,
+          "IntMinimum": 0,
+          "IntMaximum": 0,
+          "Inverse": false,
+          "IfName": "Output_Path",
+          "IfValue": "folder",
+          "IfNot": false
+        }
+      ],
+      "Variables": {}
+    },
+    "Parts": [
+      {
+        "Uid": "5f88b799-a270-496a-a5c5-6bf327c00980",
+        "Name": "",
+        "ReadOnly": false,
+        "FlowElementUid": "FileFlows.BasicNodes.File.InputFolder",
+        "xPos": 250,
+        "yPos": 50,
+        "Icon": "far fa-folder",
+        "Label": "",
+        "Inputs": 0,
+        "Outputs": 1,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "9eece264-cd5e-4544-ab9c-90e240db3e5a"
+          }
+        ],
+        "Type": 0
+      },
+      {
+        "Uid": "86852957-8dee-441e-b8a3-6de135beb99f",
+        "Name": "",
+        "Color": "",
+        "ReadOnly": false,
+        "FlowElementUid": "FileFlows.AudioNodes.CreateAudioBook",
+        "xPos": 150,
+        "yPos": 390,
+        "Icon": "fas fa-book",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [],
+        "Type": 2,
+        "Model": {
+          "DestinationPath": "{folder.Orig.FullName}.m4b",
+          "DeleteSourceFiles": false,
+          "UpdateWorkingFile": false
+        }
+      },
+      {
+        "Uid": "9eece264-cd5e-4544-ab9c-90e240db3e5a",
+        "Name": "",
+        "Color": "",
+        "ReadOnly": false,
+        "FlowElementUid": "FileFlows.BasicNodes.Conditions.IfString",
+        "xPos": 250,
+        "yPos": 200,
+        "Icon": "fas fa-question",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "OutputConnections": [
+          {
+            "Input": 1,
+            "Output": 1,
+            "InputNode": "86852957-8dee-441e-b8a3-6de135beb99f"
+          },
+          {
+            "Input": 1,
+            "Output": 2,
+            "InputNode": "beea11c6-3686-4a7c-b84c-3f131bb57718"
+          }
+        ],
+        "Type": 3,
+        "Model": {
+          "Outputs": 2,
+          "Options": [
+            "replace",
+            "folder"
+          ],
+          "Variable": "Output_Path"
+        }
+      },
+      {
+        "Uid": "beea11c6-3686-4a7c-b84c-3f131bb57718",
+        "Name": "",
+        "Color": "",
+        "ReadOnly": false,
+        "FlowElementUid": "FileFlows.AudioNodes.CreateAudioBook",
+        "xPos": 340,
+        "yPos": 390,
+        "Icon": "fas fa-book",
+        "Label": "",
+        "Inputs": 1,
+        "Outputs": 2,
+        "Type": 2,
+        "Model": {
+          "DestinationPath": "{Destination_Path}/{folder.Name}.m4b",
+          "DeleteSourceFiles": false,
+          "UpdateWorkingFile": false
+        }
+      }
+    ]
+  }

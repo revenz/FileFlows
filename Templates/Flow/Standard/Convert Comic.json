@@ -1,11 +1,11 @@
 {
   "Name": "Convert Comic",
   "Type": 0,
-  "Revision": 5,
+  "Revision": 6,
   "Properties": {
     "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
     "Tags": [
-      "Comic"
+      "Book"
     ],
     "Author": "FileFlows",
     "Fields": [
