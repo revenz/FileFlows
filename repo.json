@@ -596,6 +596,13 @@
       "Author": "FileFlows"
     },
     {
+      "Path": "Templates/Flow/Standard/Create Audio Book.json",
+      "Name": "Create Audio Book",
+      "Description": "Allows a user to create audio books from folders containing the chapters of audio books and merges them into a single audio book m4b file.",
+      "Revision": 1,
+      "Author": "FileFlows"
+    },
+    {
       "Path": "Templates/Flow/Standard/Apprise Notification.json",
       "Name": "Apprise Notification",
       "Description": "A failure flow that will send a warning message to Apprise with the failed filename.",
@@ -688,7 +695,7 @@
       "Path": "Templates/Flow/Standard/Convert Comic.json",
       "Name": "Convert Comic",
       "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
-      "Revision": 5,
+      "Revision": 6,
       "Author": "FileFlows"
     },
     {
