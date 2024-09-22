@@ -5,7 +5,7 @@ Run between encode and move/replace.
 Output is always an MKV.
 dovi_tool only supports HEVC when AV1 support is added I will updated this script.
  * @author Lawrence Curtis
- * @revision 2
+ * @revision 3
  * @uid f5eebc75-e22d-4181-af02-5e7263e68acd
  * @param {bool} RemoveHDRTenPlus Remove HDR10+, this fixes the black screen issues on FireStick
  * @output Fixed
@@ -72,7 +72,7 @@ function Script(RemoveHDRTenPlus) {
     "hevc_mp4toannexb",
     "-f",
     "hevc",
-    Flow.TempPath + "/original.hevc",
+    System.IO.Path.Combine(Flow.TempPath, "original.hevc")
   ];
 
   executeArgs.add_Error((line) => {
@@ -101,8 +101,8 @@ function Script(RemoveHDRTenPlus) {
     "2",
     "extract-rpu",
     "-o",
-    `${Flow.TempPath}/original.rpu`,
-    `${Flow.TempPath}/original.hevc`,
+    System.IO.Path.Combine(Flow.TempPath, "original.rpu"),
+    System.IO.Path.Combine(Flow.TempPath, "original.hevc")
   ];
 
   if (RemoveHDRTenPlus) {
@@ -134,7 +134,7 @@ function Script(RemoveHDRTenPlus) {
   }
 
   // Remove temp files
-  System.IO.File.Delete(Flow.TempPath + "/original.hevc");
+  System.IO.File.Delete(System.IO.Path.Combine(Flow.TempPath, "original.hevc"));
 
   Flow.PartPercentageUpdate(0);
   Flow.AdditionalInfoRecorder("DoVi", "Extracting converted video", 1);
@@ -154,7 +154,8 @@ function Script(RemoveHDRTenPlus) {
     "hevc_mp4toannexb",
     "-f",
     "hevc",
-    Flow.TempPath + "/converted_video.hevc",
+    System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc")
+    
   ];
 
   executeArgs.add_Error((line) => {
@@ -183,11 +184,11 @@ function Script(RemoveHDRTenPlus) {
     "2",
     "inject-rpu",
     "--rpu-in",
-    Flow.TempPath + "/original.rpu",
+    System.IO.Path.Combine(Flow.TempPath, "original.rpu"),
     "--input",
-    Flow.TempPath + "/converted_video.hevc",
+    System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc"),
     "--output",
-    Flow.TempPath + "/fixed.hevc",
+    System.IO.Path.Combine(Flow.TempPath, "fixed.hevc")
   ];
 
   if (RemoveHDRTenPlus) {
@@ -219,8 +220,8 @@ function Script(RemoveHDRTenPlus) {
     return -1;
   }
 
-  System.IO.File.Delete(Flow.TempPath + "/converted_video.hevc");
-  System.IO.File.Delete(Flow.TempPath + "/original.rpu");
+  System.IO.File.Delete(System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc"));
+  System.IO.File.Delete(System.IO.Path.Combine(Flow.TempPath, "original.rpu"));
 
   // Check framerate of video
   process = Flow.Execute({
@@ -235,8 +236,8 @@ function Script(RemoveHDRTenPlus) {
   executeArgs.command = mkvmerge;
   executeArgs.argumentList = [
     "-o",
-    Flow.TempPath + "/converted.mkv",
-    Flow.TempPath + "/fixed.hevc",
+    System.IO.Path.Combine(Flow.TempPath, "converted.mkv"),
+    System.IO.Path.Combine(Flow.TempPath, "fixed.hevc"),
     "-D",
     working,
     "--track-order",
@@ -268,8 +269,9 @@ function Script(RemoveHDRTenPlus) {
     return -1;
   }
 
-  System.IO.File.Delete(Flow.TempPath + "/fixed.hevc");
-  Flow.SetWorkingFile(Flow.TempPath + "/converted.mkv");
+  System.IO.File.Delete(System.IO.Path.Combine(Flow.TempPath, "fixed.hevc"));
+  Flow.SetWorkingFile(System.IO.Path.Combine(Flow.TempPath,"converted.mkv"));
+
 
   return 1;
 }
