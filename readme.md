@@ -8,7 +8,7 @@ You can create a new script and submit a pull request to get it included in the 
 ## Types of Scipts
 1. Flow Scripts
 These are scripts that are executed during a flow and need to adhere to a strict format.
-See the official [documentation](https://fileflows.com/docs/scripting/flow-scripts) for more information.
+See the official [documentation](https://fileflows.com/docs/scripting/javascript/flow-scripts/) for more information.
 
 2. System Scripts
 These scripts are scirpts that are run by the system as either scheduled tasks or a pre-execute task on a processing node.
