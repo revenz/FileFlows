@@ -68,10 +68,6 @@ function Script(RemoveHDRTenPlus) {
     original,
     "-c:v",
     "copy",
-    "-bsf:v",
-    "hevc_mp4toannexb",
-    "-f",
-    "hevc",
     System.IO.Path.Combine(Flow.TempPath, "original.hevc")
   ];
 
@@ -150,10 +146,6 @@ function Script(RemoveHDRTenPlus) {
     working,
     "-c:v",
     "copy",
-    "-bsf:v",
-    "hevc_mp4toannexb",
-    "-f",
-    "hevc",
     System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc")
     
   ];
