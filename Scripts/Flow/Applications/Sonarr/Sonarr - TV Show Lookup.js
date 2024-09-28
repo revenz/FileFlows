@@ -5,7 +5,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * @description This script looks up a TV Show from Sonarr and retrieves its metadata
  * @author Idan Bush
  * @uid 9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8
- * @revision 1
+ * @revision 2
  * @param {string} URL Sonarr root URL and port (e.g., http://sonarr:1234)
  * @param {string} ApiKey API Key for Sonarr
  * @param {bool} UseFolderName Whether to use the folder name instead of the file name for the search pattern.<br>If the folder starts with "Season", "Staffel", "Saison", or "Specials", the parent folder will be used.
@@ -13,8 +13,8 @@ import { Sonarr } from 'Shared/Sonarr';
  * @output TV Show NOT found
  */
 function Script(URL, ApiKey) {
-    let URL = ((URL) ? URL : Variables['Sonarr.Url']);
-    let ApiKey = ((ApiKey) ? ApiKey : Variables['Sonarr.ApiKey']);
+    URL = URL || Variables['Sonarr.Url'];
+    ApiKey = ApiKey || Variables['Sonarr.ApiKey'];
     const sonarr = new Sonarr(URL, ApiKey);
     const folderPath = Variables.folder.Orig.FullName;
     const filePath = Variables.file.Orig.FullName;
