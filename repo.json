@@ -291,7 +291,7 @@
       "Path": "Scripts/Flow/Video/Video - Dolby Vision - Fix crop and compatibility.js",
       "Name": "Video - Dolby Vision - Fix crop and compatibility",
       "Description": "Converts to the most compatibile profile 8.1 and removing bad crop data.\nRun between encode and move/replace.\nOutput is always an MKV.\ndovi_tool only supports HEVC when AV1 support is added I will updated this script.\n/",
-      "Revision": 2,
+      "Revision": 3,
       "MinimumVersion": "24.09.2.3553",
       "Uid": "f5eebc75-e22d-4181-af02-5e7263e68acd"
     },
@@ -376,7 +376,7 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Movie Lookup.js",
       "Name": "Radarr - Movie Lookup",
       "Description": "This script looks up a Movie from Radarr and retrieves its metadata\n/",
-      "Revision": 1,
+      "Revision": 2,
       "Uid": "1153e3fb-e7bb-4162-87ad-5c15cd9c081f"
     },
     {
@@ -397,7 +397,7 @@
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - TV Show Lookup.js",
       "Name": "Sonarr - TV Show Lookup",
       "Description": "This script looks up a TV Show from Sonarr and retrieves its metadata\n/",
-      "Revision": 1,
+      "Revision": 2,
       "Uid": "9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8"
     },
     {
