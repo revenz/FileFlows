@@ -5,7 +5,7 @@
  *  Video - Devedse - InstallAbAv1.js
  * Executes the ab-av1 command.
  * @author Devedse
- * @revision 7
+ * @revision 8
  * @uid 4b2d95ff-0b20-4be2-b945-e6efd8099feb
  * @param {string} Preset The preset to use
  * @param {string} SvtArguments The --svt arguments to pass to AbAv1. Only use if using SVT-AV1 encoder
@@ -93,7 +93,7 @@ function Script(Preset,SvtArguments,Encoder,PixFormat,MinVmaf,MaxEncodedPercent,
 
     // Parse the output to find the CRF value
     let output = executeAbAv1.output;
-    let crfValueMatch = output.match(/ab_av1::command::crf_search\] crf (\d+\d) successful/);
+    let crfValueMatch = output.match(/crf ([0-9]+) VMAF ([0-9.]+) predicted.*\(([0-9.]+%)/i);
     Logger.ILog('crf: ' + crfValueMatch);
     if (crfValueMatch && crfValueMatch.length > 1) {
         let crfValue = crfValueMatch[1];
