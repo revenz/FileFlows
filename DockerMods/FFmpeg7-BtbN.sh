@@ -45,7 +45,7 @@ mkdir -p "$TEMP_DIR"
 
 # Step 4: Download the static build of ffmpeg from BtbN GPL builds
 echo "Downloading ffmpeg $FFMPEG_VERSION GPL static build..."
-wget -O "$TEMP_DIR/ffmpeg-static.tar.xz" "$FFMPEG_URL"
+wget --progress=bar:force:noscroll -O "$TEMP_DIR/ffmpeg-static.tar.xz" "$FFMPEG_URL"
 
 # Step 5: Extract the downloaded archive into /opt/ffmpeg-static
 echo "Extracting ffmpeg static build to $FFMPEG_DIR..."
