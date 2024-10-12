@@ -58,6 +58,6 @@ rm -rf "$TEMP_DIR"
 # Step 7: Provide instructions to the user
 echo "FFmpeg $FFMPEG_VERSION successfully installed in $FFMPEG_DIR."
 echo "Please update your environment variables or PATH to use the new binaries:"
-echo "  /opt/ffmpeg-static/bin/ffmpeg"
-echo "  /opt/ffmpeg-static/bin/ffprobe"
+echo "  $FFMPEG_DIR/bin/ffmpeg"
+echo "  $FFMPEG_DIR/bin/ffprobe"
 exit 0
