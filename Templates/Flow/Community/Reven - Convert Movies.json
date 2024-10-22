@@ -1,7 +1,7 @@
 {
   "Name": "Reven - Convert Movies",
   "Type": 0,
-  "Revision": 28,
+  "Revision": 29,
   "Properties": {
     "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
     "Tags": [
@@ -342,7 +342,7 @@
         {
           "Input": 1,
           "Output": 1,
-          "InputNode": "d7155c48-43bf-42fb-89e2-4495f12934fc"
+          "InputNode": "dc886463-26e7-4c4c-9b85-c3f31675a73f"
         }
       ],
       "Type": 6,
@@ -559,26 +559,6 @@
         "HardwareEncoding": true,
         "Quality": 25
       }
-    },
-    {
-      "Uid": "d7155c48-43bf-42fb-89e2-4495f12934fc",
-      "Name": "Video 10 Bit",
-      "FlowElementUid": "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideo10Bit",
-      "xPos": 120,
-      "yPos": 630,
-      "Icon": "far fa-file-video",
-      "Label": "",
-      "Inputs": 1,
-      "Outputs": 1,
-      "OutputConnections": [
-        {
-          "Input": 1,
-          "Output": 1,
-          "InputNode": "dc886463-26e7-4c4c-9b85-c3f31675a73f"
-        }
-      ],
-      "Type": 6,
-      "Model": {}
     },
     {
       "Uid": "8d6334ef-ec91-4231-8987-0a1f2d7ac2f7",
