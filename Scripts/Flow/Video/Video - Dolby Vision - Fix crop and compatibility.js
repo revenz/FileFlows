@@ -36,14 +36,8 @@ function Script(RemoveHDRTenPlus) {
   if (!ffmpeg) return -1;
 
   let working = Flow.WorkingFile;
-  let original = Variables.file.Orig.FullName;
-
-  if (Flow.IsRemote) {
-    Flow.AdditionalInfoRecorder("DoVi", "Downloading original video...", 1);
-    let output = Flow.TempPath + '/' + Flow.NewGuid() + Variables.file.Extension;
-    Flow.CopyFile(original, output);
-    original = output
-  }
+  var result = Flow.FileService.GetLocalPath(Variables.file.Orig.FullName);
+  let original = result.Value;
 
   let process = Flow.Execute({
     command: ffmpeg,
@@ -90,10 +84,6 @@ function Script(RemoveHDRTenPlus) {
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to extract HEVC: " + process.output);
     return -1;
-  }
-
-  if (Flow.IsRemote) {
-    System.IO.File.Delete(original);
   }
 
   Flow.PartPercentageUpdate(0);
