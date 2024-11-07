@@ -5,7 +5,7 @@ Run between encode and move/replace.
 Output is always an MKV.
 dovi_tool only supports HEVC when AV1 support is added I will updated this script.
  * @author Lawrence Curtis
- * @revision 3
+ * @revision 4
  * @uid f5eebc75-e22d-4181-af02-5e7263e68acd
  * @param {bool} RemoveHDRTenPlus Remove HDR10+, this fixes the black screen issues on FireStick
  * @output Fixed
@@ -37,6 +37,13 @@ function Script(RemoveHDRTenPlus) {
 
   let working = Flow.WorkingFile;
   let original = Variables.file.Orig.FullName;
+
+  if (Flow.IsRemote) {
+    Flow.AdditionalInfoRecorder("DoVi", "Downloading original video...", 1);
+    let output = Flow.TempPath + '/' + Flow.NewGuid() + Variables.file.Extension;
+    Flow.CopyFile(original, output);
+    original = output
+  }
 
   let process = Flow.Execute({
     command: ffmpeg,
@@ -85,6 +92,10 @@ function Script(RemoveHDRTenPlus) {
     return -1;
   }
 
+  if (Flow.IsRemote) {
+    System.IO.File.Delete(original);
+  }
+
   Flow.PartPercentageUpdate(0);
   Flow.AdditionalInfoRecorder("DoVi", "Extracting RPU", 1);
 
@@ -107,7 +118,7 @@ function Script(RemoveHDRTenPlus) {
     );
   }
 
-  if (!Flow.IsWindows) {
+  if (Flow.IsLinux) {
     let args = executeArgs.argumentList.join(" ");
     executeArgs.argumentList = ["-qefc", dovi_tool + " " + args, "/dev/null"];
     executeArgs.command = "script";
@@ -189,7 +200,7 @@ function Script(RemoveHDRTenPlus) {
     );
   }
 
-  if (!Flow.IsWindows) {
+  if (Flow.IsLinux) {
     let args = executeArgs.argumentList.join(" ");
     executeArgs.argumentList = ["-qefc", dovi_tool + " " + args, "/dev/null"];
     executeArgs.command = "script";
