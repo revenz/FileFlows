@@ -3,7 +3,7 @@
  * @description Spins up a Docker container from the 'roop' image to perform a face swap on the current working file.
  * @author Reven
  * @uid ce02fa25-1b2e-4d43-bfb2-0d1b80b2d19b
- * @revision 1
+ * @revision 2
  * @param {string} Face The path to the face image to be swapped onto the input.
  * @param {bool} ManyFaces If all faces should be swapped
  * @output File successfully swapped and updated working file with new file.
@@ -66,14 +66,10 @@ function Script(Face, ManyFaces)
         ]
     });
 
-    // Log output and handle errors
-    if (process.standardOutput)
-        Logger.ILog('Standard output: ' + process.standardOutput);
-    if (process.standardError)
-        Logger.ILog('Standard error: ' + process.standardError);
-
-    if (process.exitCode !== 0) {
-        if(process.standardOutput.contains('IndexError: list index out of range'))
+    if (process.exitCode !== 0) 
+    {
+        if(process.standardOutput.indexOf('list index out of range') > 0 || 
+           process.standardError.indexOf('list index out of range') > 0)
         {
             Logger.ILog('No face found in source image');
             return 2;
