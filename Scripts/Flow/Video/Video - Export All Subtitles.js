@@ -1,5 +1,5 @@
 /**
- * @author John Andrews
+ * @author reven
  * @uid fc30c661-4901-4474-8487-619a6257494b
  * @revision 10
  * @description Exports all subtitles from a video file

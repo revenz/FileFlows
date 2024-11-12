@@ -1,5 +1,5 @@
 /**
- * @author John Andrews 
+ * @author reven 
  * @uid fbdd7b81-5112-43eb-a371-6aaf9b42977d
  * @description Checks if a file is older than the specified days 
  * @revision 4

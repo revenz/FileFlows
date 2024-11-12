@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------------------------------------
 # Name: Git
 # Description: Git simplifies the process of downloading and managing various resources, like software packages or configurations, from remote repositories, making it an essential tool for users seeking efficient access to files and projects.
-# Author: John Andrews
+# Author: reven
 # Revision: 3
 # Icon: fab fa-git-alt:#FF4500
 # ----------------------------------------------------------------------------------------------------

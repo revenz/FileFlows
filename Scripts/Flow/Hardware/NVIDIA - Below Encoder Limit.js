@@ -1,5 +1,5 @@
 /**
- * @author John Andrews
+ * @author reven
  * @uid 071ef14f-46db-4e21-b438-30ac56b37cc4
  * @description Checks the count of NVIDIA encodes currently processing and see if it is below a limit
  * @revision 4

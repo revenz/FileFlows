@@ -1,5 +1,5 @@
 /**
- * @author John Andrews
+ * @author reven
  * @uid ebbea155-596c-4be9-93bf-24858f6b0765
  * @revision 4
  * @description Upscales anime using Video2x inside a docker container. Requires TempPathHost environment variable to be set if running inside a docker container

@@ -1,7 +1,7 @@
 /**
  * @name Gotify
  * @uid ef1e6fad-2313-4851-a11e-4156c489b04d
- * @author John Andrews
+ * @author reven
  * @revision 5
  * @description Class that interacts with Gotify
  */

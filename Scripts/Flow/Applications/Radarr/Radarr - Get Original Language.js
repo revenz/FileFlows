@@ -1,7 +1,7 @@
 import { Radarr } from '../../../Shared/Radarr';
 
 /**
- * @author John Andrews 
+ * @author reven 
  * @uid 3915f110-4b07-4e11-b7b9-50de3f5a1255
  * @description Lookups a file in Radarr and gets its original language ISO-693-1 code for it
  * @revision 6

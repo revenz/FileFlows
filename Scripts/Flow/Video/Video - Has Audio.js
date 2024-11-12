@@ -1,5 +1,5 @@
 /**
- * @author John Andrews
+ * @author reven
  * @uid c57f5849-0df1-4882-b668-62145bda1304
  * @description Checks if there is an audio track on a video file
  * @revision 4

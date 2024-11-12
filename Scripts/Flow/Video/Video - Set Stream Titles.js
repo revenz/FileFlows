@@ -1,5 +1,5 @@
 /**
- * @author John Andrews
+ * @author reven
  * @uid 2b38c39e-8536-4df8-9878-684e3f02fed8
  * @description Updates audio and or subtitle titles to format `Language / Codec / Bitrate / SampleRate` or `Language / Forced / Codec`
  * @revision 6

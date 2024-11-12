@@ -1,5 +1,5 @@
 /**
- * @author John Andrews
+ * @author reven
  * @uid e45d1199-8528-4031-ad52-66c4f0fb5f8e
  * @description Uses 7Zip to zip files
  * @revision 5

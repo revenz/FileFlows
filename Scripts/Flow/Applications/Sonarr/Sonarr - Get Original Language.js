@@ -2,7 +2,7 @@ import { Sonarr } from '../../../Shared/Sonarr';
 
 
 /**
- * @author John Andrews 
+ * @author reven 
  * @uid 51cf3c4f-f4a3-45e2-a083-6629397aab90
  * @revision 8
  * @description Lookups a file in Sonarr and gets its original language ISO-693-1 code for it

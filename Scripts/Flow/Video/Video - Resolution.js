@@ -1,5 +1,5 @@
 /**
- * @author John Andrews
+ * @author reven
  * @uid d5962d9f-6200-4441-a0af-1c47f5ac8101
  * @revision 4
  * @description Determines a video's resolution and outputs accordingly

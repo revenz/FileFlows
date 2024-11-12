@@ -1,5 +1,5 @@
 /**
- * @author John Andrews
+ * @author reven
  * @uid c6c1a4b6-5f50-4b7d-81bd-e8d38af2b698
  * @description Checks if a video's bitrate is greater than specified.
  * @revision 4

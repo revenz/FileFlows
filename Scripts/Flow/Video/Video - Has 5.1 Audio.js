@@ -1,5 +1,5 @@
 /**
- * @author John Andrews
+ * @author reven
  * @uid c87f9e27-6587-490b-a51e-f65e7542b891
  * @description Determines if a video has a 5.1 channel track
  * @revision 6
