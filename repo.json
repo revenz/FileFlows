@@ -362,7 +362,7 @@
       "Path": "Scripts/Flow/Docker/Roop Docker Face Swap.js",
       "Name": "Roop Docker Face Swap",
       "Description": "Spins up a Docker container from the \u0027roop\u0027 image to perform a face swap on the current working file.\n/",
-      "Revision": 1,
+      "Revision": 2,
       "MinimumVersion": "24.11.1.4000",
       "Uid": "ce02fa25-1b2e-4d43-bfb2-0d1b80b2d19b"
     },
