@@ -359,6 +359,14 @@
       "Uid": "e45d1199-8528-4031-ad52-66c4f0fb5f8e"
     },
     {
+      "Path": "Scripts/Flow/Docker/Roop Docker Face Swap.js",
+      "Name": "Roop Docker Face Swap",
+      "Description": "Spins up a Docker container from the \u0027roop\u0027 image to perform a face swap on the current working file.\n/",
+      "Revision": 1,
+      "MinimumVersion": "24.11.1.4000",
+      "Uid": "ce02fa25-1b2e-4d43-bfb2-0d1b80b2d19b"
+    },
+    {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Get Original Language.js",
       "Name": "Sonarr - Get Original Language",
       "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it\n/",
@@ -868,6 +876,14 @@
       "Description": "dovi_tool is a CLI tool combining multiple utilities for working with Dolby Vision.",
       "Revision": 5,
       "Icon": "data:image/svg\u002Bxml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KDTwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIFRyYW5zZm9ybWVkIGJ5OiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4KPHN2ZyBmaWxsPSIjZmZmZmZmIiB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0cm9rZT0iI2ZmZmZmZiI\u002BCg08ZyBpZD0iU1ZHUmVwb19iZ0NhcnJpZXIiIHN0cm9rZS13aWR0aD0iMCIvPgoNPGcgaWQ9IlNWR1JlcG9fdHJhY2VyQ2FycmllciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8\u002BCg08ZyBpZD0iU1ZHUmVwb19pY29uQ2FycmllciI\u002BCg08cGF0aCBkPSJNMjQgMjAuMzUyVjMuNjQ4SDB2MTYuNzA0aDI0ek0xOC40MzMgNS44MDZoMi43MzZ2MTIuMzg3aC0yLjczNmMtMi44MzkgMC01LjIxNC0yLjc2Ny01LjIxNC02LjE5NHMyLjM3NS02LjE5MyA1LjIxNC02LjE5M3ptLTE1LjYwMiAwaDIuNzM2YzIuODM5IDAgNS4yMTQgMi43NjcgNS4yMTQgNi4xOTRzLTIuMzc0IDYuMTk0LTUuMjE0IDYuMTk0SDIuODMxVjUuODA2eiIvPgoNPC9nPgoNPC9zdmc\u002B"
+    },
+    {
+      "Path": "DockerMods/roop-docker-image.sh",
+      "Name": "roop-docker-image",
+      "Description": "Creates a Docker image \u0060roop\u0060 that can be deployed in a flow to swap faces in images or videos.",
+      "Revision": 1,
+      "Author": "reven",
+      "Icon": "fas fa-smile:#1178A0"
     },
     {
       "Path": "DockerMods/comskip.sh",
