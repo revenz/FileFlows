@@ -2,7 +2,7 @@
  * @author Lawrence Curtis
  * @uid 8eb58ddf-f355-4442-8101-d6fd81a1b927
  * @description This script will search the active queue and blocklist and research.  For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
- * @revision 3
+ * @revision 4
  * @param {string} URI Radarr/Sonarr root URI and port (e.g. http://radarr:1234)
  * @param {string} ApiKey API Key
  * @output Item blocklisted
@@ -54,13 +54,14 @@ class Blocklist {
 
     check(path) {
         let queue = this.getJson("queue?pageSize=9999");
+        path = path.replace(/\W/gi, '')
         if(!queue)
             return 2; 
         
         let found = false;
 
         queue.records.forEach((item) => {
-            if (path.includes(item.title)) {
+            if (path.includes(item.title.replace(/\W/gi, ''))) {
                 Logger.ILog(`Removing item ${item.title} from ${item.downloadClient}`);
                 found = true;
                 let endpoint = `queue/${item.id}?blocklist=true`;
