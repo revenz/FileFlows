@@ -35,7 +35,7 @@ function Script(RemoveHDRTenPlus) {
   let ffmpeg = ToolPath("ffmpeg");
   if (!ffmpeg) return -1;
 
-  let working = Flow.WorkingFile;
+  let working = Flow.MapPath(Flow.WorkingFile);
   var result = Flow.FileService.GetLocalPath(Variables.file.Orig.FullName);
   let original = result.Value;
 
