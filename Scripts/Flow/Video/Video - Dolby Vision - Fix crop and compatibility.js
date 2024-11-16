@@ -5,7 +5,7 @@ Run between encode and move/replace.
 Output is always an MKV.
 dovi_tool only supports HEVC when AV1 support is added I will updated this script.
  * @author Lawrence Curtis
- * @revision 4
+ * @revision 5
  * @uid f5eebc75-e22d-4181-af02-5e7263e68acd
  * @param {bool} RemoveHDRTenPlus Remove HDR10+, this fixes the black screen issues on FireStick
  * @output Fixed
@@ -35,7 +35,7 @@ function Script(RemoveHDRTenPlus) {
   let ffmpeg = ToolPath("ffmpeg");
   if (!ffmpeg) return -1;
 
-  let working = Flow.MapPath(Flow.WorkingFile);
+  let working = Flow.FileService.GetLocalPath(Flow.WorkingFile);
   var result = Flow.FileService.GetLocalPath(Variables.file.Orig.FullName);
   let original = result.Value;
 
