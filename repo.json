@@ -157,7 +157,7 @@
       "Path": "Scripts/Flow/File/File - Blocklist sonarr or radarr.js",
       "Name": "File - Blocklist sonarr or radarr",
       "Description": "This script will search the active queue and blocklist and research.  For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr\n/",
-      "Revision": 3,
+      "Revision": 4,
       "Uid": "8eb58ddf-f355-4442-8101-d6fd81a1b927"
     },
     {
