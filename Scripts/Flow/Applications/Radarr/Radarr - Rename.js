@@ -3,12 +3,11 @@ import { Radarr } from 'Shared/Radarr';
 /**
  * @description This script will send a rename command to Radarr
  * @author Shaun Agius, Anthony Clerici
- * @revision 9
- * @uid efaf3887-4fcb-42ce-97b2-cc07f1b619d2
- * @param {string} URI Radarr root URI and port (e.g. http://radarr:1234)
+ * @revision 10
+ * @param {string} URI Radarr root URI and port (e.g. http://radarr:7878)
  * @param {string} ApiKey API Key
- * @output Item renamed
- * @output Item not renamed
+ * @output Item renamed successfully
+ * @output Rename not required for item
  * @output Item not found
  */
 function Script(URI, ApiKey) {
@@ -38,17 +37,18 @@ function Script(URI, ApiKey) {
     });
 
     try {
-        // Ensure movie is rescanned before renaming
+        // Ensure movie is refreshed before renaming
         let refreshBody = {
-            movieId: movie.id
+            movieIds: [movie.id],
+            isNewMovie: false
         }
-        let refreshData = radarr.sendCommand('RescanMovie', refreshBody)
-        Logger.ILog('Movie rescanned');
+        let refreshData = radarr.sendCommand('RefreshMovie', refreshBody)
+        Logger.ILog('Movie refreshed');
 
-        // Wait for the completion of the refresh scan
+        // Wait for the completion of the refresh
         let refreshCompleted = radarr.waitForCompletion(refreshData.id);
         if (!refreshCompleted) {
-            Logger.ILog('rescan not completed');
+            Logger.ILog('refresh not completed');
             return -1;
         }
 
@@ -74,7 +74,7 @@ function Script(URI, ApiKey) {
             return 2;
         }
         
-        newFileName = System.IO.Path.GetFileName(renamedMovie.newPath);
+        newFileName = renamedMovie.newPath;
         Logger.ILog(`Found it, renaming file to ${newFileName}`);
 
         if (newFileName === null) {
