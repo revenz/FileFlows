@@ -13,7 +13,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * @param {bool} MoveMode Import mode 'copy' or 'move' (default copy)
  * @output Command sent
  */
-function Script(URI, ApiKey) {
+function Script(URL, ApiKey) {
   URL = URL || Variables['Sonarr.Url'] || Variables['Sonarr.URI'];
   ApiKey = ApiKey || Variables['Sonarr.ApiKey'];
   ImportPath = ImportPath || Variables.file.FullName;
