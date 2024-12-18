@@ -3,9 +3,9 @@ import { Radarr } from 'Shared/Radarr';
 /**
  * @name Radarr - Movie Lookup
  * @description This script looks up a Movie from Radarr and retrieves its metadata
- * @author Idan Bush
+ * @author iBuSH
  * @uid 1153e3fb-e7bb-4162-87ad-5c15cd9c081f
- * @revision 2
+ * @revision 3
  * @param {string} URL Radarr root URL and port (e.g., http://radarr:1234)
  * @param {string} ApiKey API Key for Radarr
  * @param {bool} UseFolderName Whether to use the folder name instead of the file name for search
@@ -13,7 +13,7 @@ import { Radarr } from 'Shared/Radarr';
  * @output Movie not found
  */
 function Script(URL, ApiKey) {
-    URL = URL || Variables['Radarr.Url'];
+    URL = URL || Variables['Radarr.Url'] || Variables["Radarr.URI"];
     ApiKey = ApiKey || Variables['Radarr.ApiKey'];
     const radarr = new Radarr(URL, ApiKey);
     const folderPath = Variables.folder.Orig.FullName;
