@@ -13,7 +13,7 @@ import { Radarr } from 'Shared/Radarr';
  * @param {bool} MoveMode Import mode 'copy' or 'move' (default copy)
  * @output Command sent
  */
-function Script(URL, ApiKey) {
+function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode) {
   URL = URL || Variables['Radarr.Url'] || Variables["Radarr.URI"];
   ApiKey = ApiKey || Variables["Radarr.ApiKey"];
   ImportPath = ImportPath || Variables.file.FullName;

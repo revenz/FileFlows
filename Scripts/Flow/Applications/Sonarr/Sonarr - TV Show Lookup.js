@@ -12,7 +12,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * @output TV Show found
  * @output TV Show NOT found
  */
-function Script(URL, ApiKey) {
+function Script(URL, ApiKey, UseFolderName) {
     URL = URL || Variables['Sonarr.Url'] || Variables['Sonarr.URI'];
     ApiKey = ApiKey || Variables['Sonarr.ApiKey'];
     const sonarr = new Sonarr(URL, ApiKey);

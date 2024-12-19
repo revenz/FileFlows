@@ -12,7 +12,7 @@ import { Radarr } from 'Shared/Radarr';
  * @output Movie found
  * @output Movie not found
  */
-function Script(URL, ApiKey) {
+function Script(URL, ApiKey, UseFolderName) {
     URL = URL || Variables['Radarr.Url'] || Variables["Radarr.URI"];
     ApiKey = ApiKey || Variables['Radarr.ApiKey'];
     const radarr = new Radarr(URL, ApiKey);
