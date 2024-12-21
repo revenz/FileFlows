@@ -4,8 +4,8 @@
 Run between encode and move/replace.
 Output is always an MKV.
 dovi_tool only supports HEVC when AV1 support is added I will updated this script.
- * @author Lawrence Curtis
- * @revision 5
+ * @author Lawrence Curtis / iBuSH
+ * @revision 6
  * @uid f5eebc75-e22d-4181-af02-5e7263e68acd
  * @param {bool} RemoveHDRTenPlus Remove HDR10+, this fixes the black screen issues on FireStick
  * @output Fixed
@@ -29,6 +29,9 @@ function Script(RemoveHDRTenPlus) {
   let mkvmerge = ToolPath("mkvmerge");
   if (!mkvmerge) return -1;
 
+  let mkvextract = ToolPath("mkvextract");
+  if (!mkvextract) return -1;
+
   let mkvinfo = ToolPath("mkvinfo");
   if (!mkvinfo) return -1;
 
@@ -39,12 +42,21 @@ function Script(RemoveHDRTenPlus) {
   var result = Flow.FileService.GetLocalPath(Variables.file.Orig.FullName);
   let original = result.Value;
 
-  let process = Flow.Execute({
-    command: ffmpeg,
-    argumentList: ["-i", original],
-  });
+  let process;
 
-  let regexp = /DOVI configuration/i;
+  if (Variables.file.Orig.Extension == '.mkv') {
+    process = Flow.Execute({
+      command: mkvinfo,
+      argumentList: [original],
+    });
+  } else {
+    process = Flow.Execute({
+      command: ffmpeg,
+      argumentList: ["-i", original],
+    });
+  }
+
+  let regexp = /(Dolby Vision|DOVI) configuration/i;
   let matches = process.standardOutput.match(regexp);
 
   if (!matches) return 2;
@@ -60,17 +72,38 @@ function Script(RemoveHDRTenPlus) {
 
   var executeArgs = new ExecuteArgs();
 
-  executeArgs.command = ffmpeg;
-  executeArgs.argumentList = [
-    "-v",
-    "quiet",
-    "-stats",
-    "-i",
-    original,
-    "-c:v",
-    "copy",
-    System.IO.Path.Combine(Flow.TempPath, "original.hevc")
-  ];
+  if (Variables.file.Orig.Extension == '.mkv') {
+    executeArgs.command = mkvextract;
+    executeArgs.argumentList = [
+      "tracks",
+      original,
+      '0:' + System.IO.Path.Combine(Flow.TempPath, "original.hevc")
+    ];
+    executeArgs.add_Output((line) => {
+        let matches = line.match(/ ([0-9]+)%/i);
+        if (matches) {
+          Flow.PartPercentageUpdate(matches[1]);
+        }
+      });
+  } else {
+    executeArgs.command = ffmpeg;
+    executeArgs.argumentList = [
+      "-v",
+      "quiet",
+      "-stats",
+      "-i",
+      original,
+      "-c:v",
+      "copy",
+      System.IO.Path.Combine(Flow.TempPath, "original.hevc")
+    ];
+    executeArgs.add_Error((line) => {
+        let matches = line.match(/time=([\.:0-9]+)/i);
+        if (matches) {
+            ffPercent(duration, matches[1]);
+        }
+    });
+  }
 
   executeArgs.add_Error((line) => {
     let matches = line.match(/time=([\.:0-9]+)/i);
@@ -138,25 +171,40 @@ function Script(RemoveHDRTenPlus) {
 
   var executeArgs = new ExecuteArgs();
 
-  executeArgs.command = ffmpeg;
-  executeArgs.argumentList = [
-    "-v",
-    "quiet",
-    "-stats",
-    "-i",
-    working,
-    "-c:v",
-    "copy",
-    System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc")
-    
-  ];
+  if (Variables.file.Extension == '.mkv') {
+    executeArgs.command = mkvextract;
+    executeArgs.argumentList = [
+      "tracks",
+      working,
+      '0:' + System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc")
+    ];
 
-  executeArgs.add_Error((line) => {
-    let matches = line.match(/time=([\.:0-9]+)/i);
-    if (matches) {
-      ffPercent(duration, matches[1]);
-    }
-  });
+    executeArgs.add_Output((line) => {
+        let matches = line.match(/ ([0-9]+)%/i);
+        if (matches) {
+          Flow.PartPercentageUpdate(matches[1]);
+        }
+      });
+  } else {
+    executeArgs.command = ffmpeg;
+    executeArgs.argumentList = [
+      "-v",
+      "quiet",
+      "-stats",
+      "-i",
+      working,
+      "-c:v",
+      "copy",
+      System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc")
+      
+    ];
+    executeArgs.add_Error((line) => {
+        let matches = line.match(/time=([\.:0-9]+)/i);
+        if (matches) {
+            ffPercent(duration, matches[1]);
+        }
+    });
+  }
 
   Flow.Execute(executeArgs);
 
@@ -259,12 +307,12 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to mux: " + process.exitCode);
+
     return -1;
   }
 
   System.IO.File.Delete(System.IO.Path.Combine(Flow.TempPath, "fixed.hevc"));
   Flow.SetWorkingFile(System.IO.Path.Combine(Flow.TempPath,"converted.mkv"));
-
 
   return 1;
 }
@@ -279,6 +327,7 @@ function ToolPath(tool) {
     if (process.exitCode == 0) return process.output.replace(/\n/, "");
 
     Logger.ELog(`Please install both the MKVToolNix and dovi_tool DockerMods`);
+    
     return null;
   }
 
