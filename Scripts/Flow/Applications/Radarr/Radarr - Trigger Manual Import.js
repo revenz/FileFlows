@@ -5,7 +5,7 @@ import { Radarr } from 'Shared/Radarr';
  * @uid cd8926f3-a9ab-4fa7-a36e-cceb8ad58987
  * @description Trigger Radarr to manually import the media, run after last file in folder moved.
  * @author iBuSH
- * @revision 1
+ * @revision 2
  * @param {string} URL Radarr root URL and port (e.g. http://radarr:7878)
  * @param {string} ApiKey Radarr API Key
  * @param {string} ImportPath The output path for import triggering (default Working File)
@@ -14,10 +14,11 @@ import { Radarr } from 'Shared/Radarr';
  * @output Command sent
  */
 function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode) {
-  URL = URL || Variables['Radarr.Url'] || Variables["Radarr.URI"];
-  ApiKey = ApiKey || Variables["Radarr.ApiKey"];
+  URL = URL || Variables['Radarr.Url'] || Variables['Radarr.URI'];
+  URL = URL.replace(/\/+$/g, "");
+  ApiKey = ApiKey || Variables['Radarr.ApiKey'];
   ImportPath = ImportPath || Variables.file.FullName;
-  const ImportMode = MoveMode ? "move" : "copy";
+  const ImportMode = MoveMode ? 'move' : 'copy';
   const radarr = new Radarr(URL, ApiKey);
 
   if (UseUnmappedPath) ImportPath = Flow.UnMapPath(ImportPath);
@@ -30,8 +31,19 @@ function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode) {
       path: ImportPath,
       importMode: ImportMode
     };
-  
-  if (radarr.sendCommand('downloadedMoviesScan', commandBody)) return 1;
 
-  return -1;
+  let response = radarr.sendCommand('downloadedMoviesScan', commandBody)
+
+  // Wait for the completion of the scan
+  let commandId = response['id']
+  let importCompleted = radarr.waitForCompletion(commandId);
+  if (!importCompleted) {
+      Logger.WLog('Import failed');
+      return -1;
+  }
+
+  Logger.DLog(`Command ID: ${commandId}`);
+  Logger.ILog('Import completed successfully');
+  return 1;
+
 }

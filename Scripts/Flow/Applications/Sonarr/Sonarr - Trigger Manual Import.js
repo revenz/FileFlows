@@ -15,9 +15,10 @@ import { Sonarr } from 'Shared/Sonarr';
  */
 function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode) {
   URL = URL || Variables['Sonarr.Url'] || Variables['Sonarr.URI'];
+  URL = URL.replace(/\/+$/g, "");
   ApiKey = ApiKey || Variables['Sonarr.ApiKey'];
   ImportPath = ImportPath || Variables.file.FullName;
-  const ImportMode = MoveMode ? "move" : "copy";
+  const ImportMode = MoveMode ? 'move' : 'copy';
   const sonarr = new Sonarr(URL, ApiKey);
 
   if (UseUnmappedPath) ImportPath = Flow.UnMapPath(ImportPath);
@@ -32,7 +33,18 @@ function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode) {
       importMode: ImportMode
     };
 
-  if (sonarr.sendCommand('downloadedEpisodesScan', commandBody)) return 1;
+  let response = sonarr.sendCommand('downloadedEpisodesScan', commandBody)
 
-  return -1;
+  // Wait for the completion of the scan
+  let commandId = response['id']
+  let importCompleted = sonarr.waitForCompletion(commandId);
+  if (!importCompleted) {
+      Logger.WLog('Import failed');
+      return -1;
+  }
+
+  Logger.DLog(`Command ID: ${commandId}`);
+  Logger.ILog('Import completed successfully');
+  return 1;
+
 }
