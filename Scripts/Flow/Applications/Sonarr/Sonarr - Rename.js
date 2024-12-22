@@ -4,7 +4,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * @description This script will rename the file through Sonarr
  * @author Shaun Agius, Anthony Clerici
  * @revision 12
- * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:1234)
+ * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:8989)
  * @param {string} ApiKey API Key
  * @output Item renamed successfully
  * @output Rename not required for item
@@ -21,9 +21,6 @@ function Script(URI, ApiKey) {
 
     // Find series name from sonarr
     let [series, basePath] = findSeries(folderPath, sonarr);
-    Logger.ILog(`Series: ${JSON.stringify(series)}`)
-    Logger.ILog(`basePath: ${basePath}`)
-    // Set basepath to parent of sonarr
 
     if (series?.id === undefined) {
         Logger.WLog('Series not found for path: ' + folderPath);
