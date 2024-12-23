@@ -3,7 +3,7 @@ import { Sonarr } from 'Shared/Sonarr';
 /**
  * @description This script will rename the file through Sonarr
  * @author Shaun Agius, Anthony Clerici
- * @revision 11
+ * @revision 12
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:8989)
  * @param {string} ApiKey API Key
  * @output Item renamed successfully
@@ -11,16 +11,18 @@ import { Sonarr } from 'Shared/Sonarr';
  * @output Item not found
  */
 function Script(URI, ApiKey) {
+    // Remove trailing / from URI
+    URI = URI.replace(/\/$/, '');
     let sonarr = new Sonarr(URI, ApiKey);
     const folderPath = Variables.folder.Orig.FullName;
     const ogFileName = Variables.file.Orig.FileName;
     let currentFileName = Variables.file.FullName;
-    let newFileName = null;
+    let newFilePath = null;
 
     // Find series name from sonarr
-    let series = findSeries(folderPath, sonarr);
+    let [series, basePath] = findSeries(folderPath, sonarr);
 
-    if (!series) {
+    if (series?.id === undefined) {
         Logger.WLog('Series not found for path: ' + folderPath);
         return 3;
     } else {
@@ -30,11 +32,11 @@ function Script(URI, ApiKey) {
     // Find episode
     let [ogEpisodeFile, episode] = fetchEpisode(currentFileName, series, sonarr);
 
-    if (episode) {
+    if (episode?.id !== undefined) {
         Logger.ILog(`Original episode found: Season ${episode.seasonNumber} Episode: ${episode.episodeNumber}`)
     } else {
         Logger.WLog(`Episode could not be extracted from series`);
-        return -1;
+        return 3;
     }
 
     // Ensure series is refreshed before renaming
@@ -98,15 +100,19 @@ function Script(URI, ApiKey) {
     Logger.ILog(`Searching for episode file with id ${newEpisodeFileId}`);
     renamedEpisodes.every((renamedFile) => {
         if (renamedFile.episodeFileId === newEpisodeFileId) {
+            let newFileName = renamedFile.newPath;
             // Get differences in the path
-            newFileName = renamedFile.newPath;
-            Logger.ILog(`Found it, renaming file ${newEpisodeFileId} to ${newFileName}`);
+            Logger.ILog(`Base path: ${basePath}`);
+            // Construct new filepath
+            Logger.ILog(`New path: ${newFileName}`);
+            newFilePath = System.IO.Path.Combine(basePath, newFileName);
+            Logger.ILog(`Found it, renaming file ${newEpisodeFileId} to ${newFilePath}`);
             return false;
         }
         return true;
     });
 
-    if (newFileName === null) {
+    if (newFilePath === null) {
         Logger.WLog("Episode doesn't need renaming");
         return 2;
     }
@@ -125,7 +131,6 @@ function Script(URI, ApiKey) {
     Logger.ILog(`Episode file ${newEpisodeFileId} successfully renamed. Setting as working file.`)
 
     // Sonarr has successfully renamed the file, set new filename as working directory
-    let newFilePath = System.IO.Path.Combine(Variables.folder.FullName, newFileName);
     Flow.SetWorkingFile(newFilePath);
     return 1;
 
@@ -152,7 +157,7 @@ function findSeries(filePath, sonarr) {
         if (seriesFolders[currentFolder]) {
             show = seriesFolders[currentFolder];
             Logger.ILog('Show found: ' + show.id);
-            return show;
+            return [show, currentPath];
         }
 
         // If no show is found, go up 1 dir
@@ -160,10 +165,10 @@ function findSeries(filePath, sonarr) {
         currentPath = System.IO.Path.GetDirectoryName(currentPath);
         if (!currentPath) {
             Logger.WLog('Unable to find show file at path ' + filePath);
-            return null;
+            return [null, null];
         }
     }
-    return null;
+    return [null, null];
 }
 
 function fetchRenamedFiles(seriesId, sonarr) {
