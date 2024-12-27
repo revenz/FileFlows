@@ -48,6 +48,9 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
 
     private FileFlows.Shared.Models.FileStatus SelectedStatus;
 
+    /// <summary>
+    /// The current page
+    /// </summary>
     private int PageIndex;
 
     private Guid? SelectedNode, SelectedLibrary, SelectedFlow, SelectedTag;
@@ -68,6 +71,9 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
 
     private string Title;
     private string lblLibraryFiles, lblFileFlowsServer;
+    /// <summary>
+    /// The total number of items across all pages
+    /// </summary>
     private int TotalItems;
     private List<FlowExecutorInfo> WorkerStatus = new ();
     private Timer AutoRefreshTimer;
@@ -87,6 +93,7 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
         this.StateHasChanged();
     }
 
+    /// <inheritdoc />
     public override string FetchUrl => $"{ApiUrl}/list-all?status={(int)SelectedStatus}&page={PageIndex}&pageSize={App.PageSize}" +
                                        $"&filter={Uri.EscapeDataString(filterStatus == SelectedStatus ? filter ?? string.Empty : string.Empty)}" +
                                        (SelectedNode == null ? "" : $"&node={SelectedNode}") + 
@@ -400,6 +407,7 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
             await Refresh();
     }
 
+    /// <inheritdoc />
     protected override async Task<RequestResult<List<LibaryFileListModel>>> FetchData()
     {
         var request = await HttpHelper.Get<LibraryFileDatalistModel>(FetchUrl);
@@ -438,12 +446,20 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
         return result;
     }
 
+    /// <summary>
+    /// Changes to a specific page
+    /// </summary>
+    /// <param name="index">the page to change to</param>
     private async Task PageChange(int index)
     {
         PageIndex = index;
         await this.Refresh();
     }
 
+    /// <summary>
+    /// Updates the number of items shown on a page
+    /// </summary>
+    /// <param name="size">the number of items</param>
     private async Task PageSizeChange(int size)
     {
         this.PageIndex = 0;

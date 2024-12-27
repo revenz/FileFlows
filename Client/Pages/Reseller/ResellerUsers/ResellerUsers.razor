@@ -1,0 +1,83 @@
+@namespace FileFlows.Client.Pages.Reseller
+@inherits ListPage<Guid, ResellerUser>
+
+@page "/reseller/users"
+
+
+<PageView Flex="@true">
+    <Body>
+
+    <FlowTable @ref="Table" Data="@Data" TItem="ResellerUser" Selection="SelectionMode.Multiple"
+               DoubleClick="@OnDoubleClick"
+               ShowPager=@true TotalItems=@TotalItems OnPageChange=@PageChange OnPageSizeChange=@PageSizeChange 
+    >
+        <ToolBar>
+            <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
+            <FlowTableButtonSeparator />
+            <FlowTableHelpButton HelpUrl="reseller/users"/>
+        </ToolBar>
+
+        <Columns>
+            <FlowTableColumn TItem="ResellerUser" NoHeight="true">
+                <Header>
+                    <div class="header">
+                        <span class="column-header"></span>
+                    </div>
+                </Header>
+                <Cell Context="item">
+                    <div class="table-item">
+                            <span class="icon">
+                                <TableItemIcon Icon="@item.Picture" />
+                            </span>
+                        <div class="center">
+                                <span class="name">
+                                    <span class="name">@item.Name</span>
+                                </span>
+                                <div class="info">
+                                    @if ("google".Equals(item.Provider, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        <IconValue Icon="fab fa-google" Color="IconValueColor.Orange" Value="Google"/>
+                                    }
+                                    else if ("microsoft".Equals(item.Provider, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        <IconValue Icon="fab fa-microsoft" Color="IconValueColor.Orange" Value="Microsoft"/>
+                                    }
+                                    else if ("facebook".Equals(item.Provider, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        <IconValue Icon="fab fa-facebook" Color="IconValueColor.Orange" Value="Facebook"/>
+                                    }
+                                    else if ("reddit".Equals(item.Provider, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        <IconValue Icon="fab fa-reddit" Color="IconValueColor.Orange" Value="Reddit" />
+                                    }
+                                    else if ("github".Equals(item.Provider, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        <IconValue Icon="fab fa-github" Color="IconValueColor.Orange" Value="Github" />
+                                    }
+                                    else if ("apple".Equals(item.Provider, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        <IconValue Icon="fab fa-apple" Color="IconValueColor.Orange" Value="Apple" />
+                                    }
+                                    else 
+                                    {
+                                        <IconValue Icon="fas fa-shield-alt" Color="IconValueColor.Orange" Value="@item.Provider" />
+                                    }
+                                    
+                                    <IconValue Icon="fas fa-at" Color="IconValueColor.Green" Value="@item.Email" />
+                                </div>
+                        </div>
+
+                        <div class="right">
+                            <span class="top-right">
+                                    <i class="fas fa-coins"></i>
+                                @item.Tokens
+                            </span>
+                        </div>
+                    </div>
+                </Cell>
+            </FlowTableColumn>
+        </Columns>
+    </FlowTable>
+    </Body>
+
+</PageView>

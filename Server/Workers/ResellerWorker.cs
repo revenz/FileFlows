@@ -42,7 +42,7 @@ public class ResellerWorker : Worker
             
             // give the user the tokens back
             var userService = ServiceLoader.Load<ResellerUserService>();
-            await userService.GiveTokens(file.Additional.ResellerUserUid, resellerFlow.Tokens);
+            await userService.GiveTokens(file.Additional.ResellerUserUid.Value, resellerFlow.Tokens);
         });
     }
 

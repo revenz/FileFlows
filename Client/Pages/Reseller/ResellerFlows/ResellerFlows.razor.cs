@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Components;
-
 namespace FileFlows.Client.Pages.Reseller;
 
 /// <summary>
@@ -8,7 +6,7 @@ namespace FileFlows.Client.Pages.Reseller;
 public partial class ResellerFlows : ListPage<Guid, ResellerFlow>
 {
     /// <inheritdoc />
-    public override string ApiUrl => "/api/reseller/flows";
+    public override string ApiUrl => "/api/reseller/flow";
 
     /// <summary>
     /// Translation strings

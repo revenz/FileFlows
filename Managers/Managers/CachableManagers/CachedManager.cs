@@ -86,7 +86,7 @@ public abstract class CachedManager<T> where T : FileFlowObject, new()
             return null;
         }
     }
-
+    
     /// <summary>
     /// Gets a item by it's name
     /// This is virtual so plugins can override it and use the package name
