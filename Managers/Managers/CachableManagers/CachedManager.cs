@@ -19,7 +19,7 @@ public abstract class CachedManager<T> where T : FileFlowObject, new()
     /// <summary>
     /// Gets if the cache should be used
     /// </summary>
-    protected bool UseCache => SettingsManager.UseCache;
+    protected virtual bool UseCache => SettingsManager.UseCache;
 
     /// <summary>
     /// Gets if the revisions should be saved
@@ -76,7 +76,7 @@ public abstract class CachedManager<T> where T : FileFlowObject, new()
     {
         try
         {
-            if (SettingsManager.UseCache)
+            if (UseCache)
                 return (await GetData()).FirstOrDefault(x => x.Uid == uid);
             return await DatabaseAccessManager.Instance.FileFlowsObjectManager.Single<T>(uid);
         }

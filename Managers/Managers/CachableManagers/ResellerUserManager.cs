@@ -15,6 +15,10 @@ public class ResellerUserManager : CachedManager<ResellerUser>
         new ResellerUserManager().Refresh().Wait();
     }
 
+    /// <summary>
+    /// Force using cache
+    /// </summary>
+    protected override bool UseCache => true;
 
     /// <summary>
     /// Maps an external user to a local user in your system, creating the user if necessary.
