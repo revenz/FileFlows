@@ -8,14 +8,6 @@ namespace FileFlows.Managers;
 public class ResellerUserManager : CachedManager<ResellerUser>
 {
     /// <summary>
-    /// Static constructor
-    /// </summary>
-    static ResellerUserManager()
-    {
-        new ResellerUserManager().Refresh().Wait();
-    }
-
-    /// <summary>
     /// Force using cache
     /// </summary>
     protected override bool UseCache => true;
