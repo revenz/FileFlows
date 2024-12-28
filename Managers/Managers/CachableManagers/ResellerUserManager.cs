@@ -83,13 +83,34 @@ public class ResellerUserManager : CachedManager<ResellerUser>
     /// <param name="resellerUserUid">The UID of the reseller user</param>
     /// <param name="tokens">the number of tokens to give</param>
     /// <param name="auditDetails">Optional audit details</param>
-    public async Task GiveTokens(Guid resellerUserUid, int tokens, AuditDetails? auditDetails = null)
+    /// <returns>the number of tokens the user now has</returns>
+    public async Task<int> GiveTokens(Guid resellerUserUid, int tokens, AuditDetails? auditDetails = null)
     {
         var user = await GetByUid(resellerUserUid);
         if (user == null)
-            return;
+            return 0;
         user.Tokens += tokens;
         await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(user, auditDetails);
+        return user.Tokens;
+    }
+    
+    /// <summary>
+    /// Takes the specified number of tokens to the user
+    /// </summary>
+    /// <param name="resellerUserUid">The UID of the reseller user</param>
+    /// <param name="tokens">the number of tokens to tale</param>
+    /// <param name="auditDetails">Optional audit details</param>
+    /// <returns>the number of tokens the user now has</returns>
+    public async Task<Result<int>> TakeTokens(Guid resellerUserUid, int tokens, AuditDetails? auditDetails = null)
+    {
+        var user = await GetByUid(resellerUserUid);
+        if (user == null)
+            return Result<int>.Fail("User not found.");
+        if(user.Tokens < tokens)
+            return Result<int>.Fail("User does not have enough tokens.");
+        user.Tokens -= tokens;
+        await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(user, auditDetails);
+        return user.Tokens;
     }
     
     /// <summary>
