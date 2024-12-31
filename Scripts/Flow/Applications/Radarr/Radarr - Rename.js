@@ -16,7 +16,7 @@ function Script(URI, ApiKey) {
     let radarr = new Radarr(URI, ApiKey);
     let folderPath = Variables.folder.FullName;
     let currentFileName = Variables.file.Name;
-    let newFileName = null;
+    let newFilePath = null;
 
     // Find movie name from radarr
     let [movie, basePath] = findMovie(folderPath, radarr);
@@ -76,7 +76,7 @@ function Script(URI, ApiKey) {
             return 2;
         }
         
-        newFileName = renamedMovie.newPath;
+        let newFileName = renamedMovie.newPath;
         // Get differences in the path
         Logger.ILog(`Base path: ${basePath}`);
         // Construct new filepath
