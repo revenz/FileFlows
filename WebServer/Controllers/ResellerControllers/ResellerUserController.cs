@@ -23,6 +23,24 @@ public class ResellerFlowController : BaseController
         var list = await service.GetAll() ?? [];
         return Ok(list.OrderBy(x => x.Name.ToLowerInvariant()));
     }
+
+    /// <summary>
+    /// Saves a Reseller User
+    /// </summary>
+    /// <param name="user">The Reseller User to save</param>
+    /// <returns>the saved Reseller User instance</returns>
+    [HttpPost]
+    public async Task<IActionResult> Save([FromBody] ResellerUser user)
+    {
+        var service = ServiceLoader.Load<ResellerUserService>();
+
+        await service.SetTokens(user.Uid, user.Tokens);
+        
+        var existing = await service.GetByUid(user.Uid);
+        if (existing == null)
+            return NotFound();
+        return Ok(existing);
+    }
     
     /// <summary>
     /// Delete reseller flows from the system

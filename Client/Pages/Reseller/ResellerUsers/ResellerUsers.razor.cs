@@ -29,12 +29,6 @@ public partial class ResellerUsers : ListPage<Guid, ResellerUser>
     }
 
     /// <inheritdoc />
-    public override Task<bool> Edit(ResellerUser item)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
     public override string FetchUrl => $"{ApiUrl}?page={PageIndex}&pageSize={App.PageSize}";
     
     /// <inheritdoc />

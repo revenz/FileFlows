@@ -2,19 +2,16 @@ using FileFlows.Client.Components;
 using FileFlows.Client.Components.Inputs;
 using FileFlows.Plugin;
 
-namespace FileFlows.Client.Pages;
+namespace FileFlows.Client.Pages.Reseller;
 
 /// <summary>
-/// Editor for the DockerMod
+/// Reseller Users editor
 /// </summary>
-public partial class DockerMods
+public partial class ResellerUsers
 {
-    /// <summary>
-    /// Opens the editor
-    /// </summary>
-    /// <param name="item">the item being edited</param>
-    /// <returns>true if successful, otherwise false</returns>
-    private async Task<bool> OpenEditor(DockerMod item)
+
+    /// <inheritdoc />
+    public override async Task<bool> Edit(ResellerUser item)
     {
         var fields = new List<IFlowField>();
         fields.Add(new ElementField()
@@ -23,26 +20,25 @@ public partial class DockerMods
             InputType = FormInputType.Text,
             Parameters = new ()
             {
-                { nameof(InputCode.ReadOnly), item.Repository}
+                { nameof(InputCode.ReadOnly), true}
             }
         });
         fields.Add(new ElementField()
         {
-            Name = nameof(item.Description),
-            InputType = FormInputType.TextArea,
+            Name = nameof(item.Provider),
+            InputType = FormInputType.Text,
             Parameters = new ()
             {
-                { nameof(InputTextArea.Rows), 3},
-                { nameof(InputCode.ReadOnly), item.Repository}
+                { nameof(InputCode.ReadOnly), true}
             }
         });
         fields.Add(new ElementField()
         {
-            Name = nameof(item.Icon),
-            InputType = FormInputType.IconPicker,
+            Name = nameof(item.Email),
+            InputType = FormInputType.Text,
             Parameters = new ()
             {
-                { nameof(InputCode.ReadOnly), item.Repository}
+                { nameof(InputCode.ReadOnly), true}
             }
         });
         fields.Add(new ElementField()
@@ -51,20 +47,15 @@ public partial class DockerMods
         });
         fields.Add(new ElementField()
         {
-            Name = nameof(item.Code),
-            InputType = FormInputType.Code,
-            Parameters = new ()
-            {
-                { nameof(InputCode.Language), "shell" },
-                { nameof(InputCode.ReadOnly), item.Repository}
-            }
+            Name = nameof(item.Tokens),
+            InputType = FormInputType.Int
         });
         
         await Editor.Open(new()
         {
-            TypeName = "Pages.DockerMod", Title = "Pages.DockerMod.Title", Model = item,
-            SaveCallback = Save, ReadOnly = item.Repository, Fields = fields,
-            HelpUrl = "https://fileflows.com/docs/webconsole/extensions/dockermods"
+            TypeName = "Pages.Reseller.User", Title = "Pages.Reseller.User.Title", Model = item,
+            SaveCallback = Save, Fields = fields,
+            HelpUrl = "https://fileflows.com/docs/webconsole/reseller/users"
         });
         return true;
     }
@@ -81,7 +72,7 @@ public partial class DockerMods
 
         try
         {
-            var saveResult = await HttpHelper.Post<DockerMod>($"{ApiUrl}", model);
+            var saveResult = await HttpHelper.Post<ResellerUser>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
                 Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
