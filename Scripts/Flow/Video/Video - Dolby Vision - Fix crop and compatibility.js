@@ -56,7 +56,7 @@ function Script(RemoveHDRTenPlus) {
     });
   }
 
-  let regexp = /(Dolby Vision|DOVI) configuration/i;
+  let regexp = /((Dolby Vision|DOVI) configuration|dv(c|v)C)/i;
   let matches = process.standardOutput.match(regexp);
 
   if (!matches) return 2;
