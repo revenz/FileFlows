@@ -1,5 +1,6 @@
 /**
  * @name Folder - Copy or Move Contents
+ * @uid E35D65B5-1486-42B9-8A0C-651804ADEA88
  * @description Copies or Movies a subset of files from a folder based on supplied filename
  * @author apwelsh
  * @revision 1.0
