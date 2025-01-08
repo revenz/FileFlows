@@ -6,16 +6,21 @@ import { Sonarr } from '../../../Shared/Sonarr';
  * @uid 51cf3c4f-f4a3-45e2-a083-6629397aab90
  * @revision 8
  * @description Lookups a file in Sonarr and gets its original language ISO-693-1 code for it
+ * @param {string} URL Sonarr root URL and port (e.g., http://sonarr:1234)
+ * @param {string} ApiKey API Key for Sonarr
  * @param {string} Path The full file path to lookup in Sonarr
  * @param {bool} ISO2 If ISO-639-2 should be returned, otherwise ISO-639-1 will be used
  * @output The language was found and stored in the variable OriginalLanguage
  * @output The language was not found
  */
-function Script(Path, ISO2)
+function Script(URI, ApiKey, Path, ISO2)
 {
+    URI = URI || Variables["Sonarr.URI"];
+    ApiKey = ApiKey || Variables["Sonarr.ApiKey"];
+    
     if(!Path)
         return 2;
-    const sonarr = new Sonarr();
+    const sonarr = new Sonarr(URI, ApiKey);
     try
     {
         let language = sonarr.getOriginalLanguageFromPath(Path.toString());
