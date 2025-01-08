@@ -14,7 +14,7 @@ import { Radarr } from '../../../Shared/Radarr';
  */
 function Script(URI, ApiKey, Path, ISO2)
 {
-    URI = URI || Variables["Radarr.URI"];
+    URI = URI || Variables["Radarr.Url"] || Variables["Radarr.URI"];
     ApiKey = ApiKey || Variables["Radarr.ApiKey"];
     
     if(!Path)
