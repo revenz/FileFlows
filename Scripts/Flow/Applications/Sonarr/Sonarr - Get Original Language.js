@@ -15,7 +15,7 @@ import { Sonarr } from '../../../Shared/Sonarr';
  */
 function Script(URI, ApiKey, Path, ISO2)
 {
-    URI = URI || Variables["Sonarr.URI"];
+    URI = URI || Variables["Sonarr.Url"] || Variables["Sonarr.URI"];
     ApiKey = ApiKey || Variables["Sonarr.ApiKey"];
     
     if(!Path)
