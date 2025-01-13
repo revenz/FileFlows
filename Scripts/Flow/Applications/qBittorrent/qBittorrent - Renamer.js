@@ -10,9 +10,11 @@
  * @output Item not found or not renamed
  */
 function Script(URI) {
+  URI = URI || Variables["QBittorrent.URI"];
+
   const qbittorrent = new QBittorrent(URI);
   return qbittorrent.check(
-    Variables.folder.Orig.Name,
+    Flow.UnMapPath(Variables.folder.Orig.Name),
     Variables.file.Orig.Name,
     Variables.file.Name
   );
