@@ -1,25 +1,25 @@
-import { Sonarr } from 'Shared/Sonarr';
+import { Radarr } from 'Shared/Radarr';
 
 /**
- * @name Sonarr - Trigger Manual Import 2.0
- * @uid 544e1d8f-c3b5-4d1a-8f2c-5fdf24126100
- * @description Trigger Sonarr to manually import the media, run after last file in folder moved.
+ * @name Radarr - Trigger Manual Import 2.0
+ * @uid 0e522a46-ed76-4b40-bd1f-b3baac64264c
+ * @description Trigger Radarr to manually import the media, run after last file in folder moved.
  * @author iBuSH
  * @revision 2
- * @param {string} URL Sonarr root URL and port (e.g. http://sonarr:8989)
- * @param {string} ApiKey Sonarr API Key
+ * @param {string} URL Radarr root URL and port (e.g. http://radarr:7878)
+ * @param {string} ApiKey Radarr API Key
  * @param {string} ImportPath The output path for import triggering (default Working File)
  * @param {bool} UseUnmappedPath Whether to Unmap the path to the original FileFlows Server path when using nodes in different platforms (e.g. Docker and Windows)
  * @param {bool} MoveMode Import mode 'copy' or 'move' (default copy)
  * @output Command sent
  */
 function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode) {
-  URL = URL || Variables['Sonarr.Url'] || Variables['Sonarr.URI'];
+  URL = URL || Variables['Radarr.Url'] || Variables['Radarr.URI'];
   URL = URL.replace(/\/+$/g, "");
-  ApiKey = ApiKey || Variables['Sonarr.ApiKey'];
+  ApiKey = ApiKey || Variables['Radarr.ApiKey'];
   ImportPath = ImportPath || Variables.file.FullName;
   const ImportMode = MoveMode ? 'move' : 'copy';
-  const sonarr = new Sonarr(URL, ApiKey);
+  const radarr = new Radarr(URL, ApiKey);
 
   if (UseUnmappedPath) ImportPath = Flow.UnMapPath(ImportPath);
 
@@ -27,17 +27,16 @@ function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode) {
   Logger.ILog(`Triggering Path: ${ImportPath}`);
   Logger.ILog(`Import Mode: ${ImportMode}`);
 
-
   let commandBody = {
       path: ImportPath,
       importMode: ImportMode
     };
 
-  let response = sonarr.sendCommand('downloadedEpisodesScan', commandBody)
+  let response = radarr.sendCommand('downloadedMoviesScan', commandBody)
 
   // Wait for the completion of the scan
   let commandId = response['id']
-  let importCompleted = sonarr.waitForCompletion(commandId);
+  let importCompleted = radarr.waitForCompletion(commandId);
   if (!importCompleted) {
       Logger.WLog('Import failed');
       return -1;
