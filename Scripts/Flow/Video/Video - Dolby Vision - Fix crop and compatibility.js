@@ -5,7 +5,7 @@ Run between encode and move/replace.
 Output is always an MKV.
 dovi_tool only supports HEVC when AV1 support is added I will updated this script.
  * @author Lawrence Curtis / iBuSH
- * @revision 6
+ * @revision 7
  * @uid f5eebc75-e22d-4181-af02-5e7263e68acd
  * @param {bool} RemoveHDRTenPlus Remove HDR10+, this fixes the black screen issues on FireStick
  * @output Fixed
@@ -18,25 +18,20 @@ function Script(RemoveHDRTenPlus) {
 
   if (!videoStreams?.length) {
     Logger.ELog("No Video detected");
-    return -1;
+    Flow.Fail("No Video detected");
   }
 
   Flow.AdditionalInfoRecorder("DoVi", "Initializing", 1);
 
   let dovi_tool = ToolPath("dovi_tool");
-  if (!dovi_tool) return -1;
 
   let mkvmerge = ToolPath("mkvmerge");
-  if (!mkvmerge) return -1;
 
   let mkvextract = ToolPath("mkvextract");
-  if (!mkvextract) return -1;
 
   let mkvinfo = ToolPath("mkvinfo");
-  if (!mkvinfo) return -1;
 
   let ffmpeg = ToolPath("ffmpeg");
-  if (!ffmpeg) return -1;
 
   let working = Flow.FileService.GetLocalPath(Flow.WorkingFile);
   var result = Flow.FileService.GetLocalPath(Variables.file.Orig.FullName);
@@ -65,7 +60,7 @@ function Script(RemoveHDRTenPlus) {
     Logger.ELog(
       "Video format MUST be HEVC, AV1 is not currently supported by dovi_tool"
     );
-    return -1;
+    Flow.Fail("Failed to extract HEVC from original video");
   }
 
   Flow.AdditionalInfoRecorder("DoVi", "Extracting HEVC bitstream", 1);
@@ -116,7 +111,7 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to extract HEVC: " + process.output);
-    return -1;
+    Flow.Fail("Failed to extract HEVC");
   }
 
   Flow.PartPercentageUpdate(0);
@@ -160,7 +155,7 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to dovi_tool extract: " + process.output);
-    return -1;
+    Flow.Fail("dovi_tool failed to process original video")
   }
 
   // Remove temp files
@@ -210,7 +205,7 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to extract working video: " + process.exitCode);
-    return -1;
+    Flow.Fail("dovi_tool failed to working video")
   }
 
   Flow.PartPercentageUpdate(0);
@@ -258,7 +253,7 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to dovi_tool: " + process.exitCode);
-    return -1;
+    Flow.Fail("dovi_tool failed to fix converted video")
   }
 
   System.IO.File.Delete(System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc"));
@@ -307,8 +302,7 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to mux: " + process.exitCode);
-
-    return -1;
+    Flow.Fail("Failed to create complete video");
   }
 
   System.IO.File.Delete(System.IO.Path.Combine(Flow.TempPath, "fixed.hevc"));
@@ -338,6 +332,7 @@ function ToolPath(tool) {
   Logger.ELog(
     `${tool} cannot be found! Please create a Variable called "${tool}" that points too the correct location, please see ffmpeg as an example`
   );
+  Flow.Fail(`${tool} cannot be found!`)
 }
 
 function humanTimeToSeconds(text) {

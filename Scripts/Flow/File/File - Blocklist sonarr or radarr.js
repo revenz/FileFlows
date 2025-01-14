@@ -2,13 +2,16 @@
  * @author Lawrence Curtis
  * @uid 8eb58ddf-f355-4442-8101-d6fd81a1b927
  * @description This script will search the active queue and blocklist and research.  For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
- * @revision 4
+ * @revision 5
  * @param {string} URI Radarr/Sonarr root URI and port (e.g. http://radarr:1234)
  * @param {string} ApiKey API Key
  * @output Item blocklisted
  * @output Item not found
  */
 function Script(URI, ApiKey) {
+    URI = URI || Variables["Blocklist.URI"];
+    ApiKey = ApiKey || Variables["Blocklist.ApiKey"];
+
     const blocklist = new Blocklist(URI, ApiKey);
     return blocklist.check(Variables.folder.Orig.Name);
 }
@@ -17,7 +20,7 @@ class Blocklist {
     constructor(uri, apikey) {
         if (!URI || !ApiKey) {
             Logger.ELog("No credentials specified");
-            return -1;
+            Flow.Fail("No credentials supplied");
         }
 
         this.uri = uri;
