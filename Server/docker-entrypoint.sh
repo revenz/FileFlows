@@ -176,8 +176,9 @@ else
             if [[ "$group" =~ ^[0-9]+$ ]]; then
                 group_name=$(getent group "$group" | cut -d: -f1)
                 if [[ -z "$group_name" ]]; then
-                    printf "Group with GID $group does not exist\n"
-                    continue
+                    printf "Group with GID $group does not exist, creating\n"
+                    group_name=fileflows$group
+                    groupadd -g $group $group_name
                 fi
             else
                 group_name="$group"
