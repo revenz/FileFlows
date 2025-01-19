@@ -478,6 +478,11 @@ public class NodeParameters
     public IImageHelper ImageHelper { get; set; }
     
     /// <summary>
+    /// Gets the PDF helper
+    /// </summary>
+    public IPdfHelper PdfHelper { get; set; }
+    
+    /// <summary>
     /// Gets the archive  helper
     /// </summary>
     public IArchiveHelper ArchiveHelper { get; set; }
