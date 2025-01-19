@@ -11,10 +11,17 @@ public partial class InputArray : Input<string[]>
     public bool AllowDuplicates { get; set; }
     [Parameter]
     public bool EnterOnSpace { get; set; }
+    /// <summary>
+    /// The bound text in the text box
+    /// </summary>
     private string InputText = "";
+    /// <summary>
+    /// The text that was previously entered
+    /// </summary>
     private string PreviousInputText = "";
     public override bool Focus() => FocusUid();
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -22,6 +29,10 @@ public partial class InputArray : Input<string[]>
             Value = new string[] { };
     }
 
+    /// <summary>
+    /// Called when a key is pressed
+    /// </summary>
+    /// <param name="e">the event</param>
     private void OnKeyDown(KeyboardEventArgs e)
     {
         if (e.ShiftKey == false && e.AltKey == false && e.CtrlKey == false)
@@ -30,10 +41,6 @@ public partial class InputArray : Input<string[]>
             {
                 _ = this.OnSubmit.InvokeAsync();
             }
-            // else if (e.Code == "Escape")
-            // {
-            //     _ = OnClose.InvokeAsync();
-            // }
             else if (e.Code == "Enter" || (EnterOnSpace && e.Code == "Space"))
             {
                 if (Add(InputText))
@@ -50,11 +57,20 @@ public partial class InputArray : Input<string[]>
         PreviousInputText = InputText;
     }
 
+    /// <summary>
+    /// Removes an item from the list
+    /// </summary>
+    /// <param name="str">the string to remove</param>
     void Remove(string str)
     {
         this.Value = this.Value.Except(new[] { str }).ToArray();
     }
 
+    /// <summary>
+    /// Adds an item to the list
+    /// </summary>
+    /// <param name="str">the item to add</param>
+    /// <returns>true if successful, otherwise false</returns>
     bool Add(string str)
     {
         if (string.IsNullOrWhiteSpace(str))
@@ -69,6 +85,9 @@ public partial class InputArray : Input<string[]>
         return true;
     }
 
+    /// <summary>
+    /// Called when the text input loses focus
+    /// </summary>
     void OnBlur()
     {
         if (string.IsNullOrEmpty(InputText) == false)

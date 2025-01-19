@@ -385,6 +385,13 @@
                            OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
         }
             break;
+        case FormInputType.CustomFields:
+        {
+            var oValue = GetValue<List<CustomField>>(field.Name);
+            var log = GetParameter<string>(field, nameof(InputExecutedNodes.Log));
+            <InputCustomFields Field=@field Label="@label" Value="@oValue" HideLabel=@hideLabel />
+        }
+        break;
         case FormInputType.ExecutedNodes:
             {
                 var oValue = GetValue<List<ExecutedNode>>(field.Name);

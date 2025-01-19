@@ -107,6 +107,15 @@ public partial class ResellerFlows : ListPage<Guid, ResellerFlow>
                 new Required()
             }
         });
+        fields.Add(new ElementField()
+        {
+            InputType = FormInputType.HorizontalRule
+        });
+        fields.Add(new ElementField()
+        {
+            InputType = FormInputType.CustomFields,
+            Name = nameof(item.Fields)
+        });
 
         
         await Editor.Open(new()

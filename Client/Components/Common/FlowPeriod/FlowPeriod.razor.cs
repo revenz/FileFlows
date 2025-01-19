@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Common;
 
+/// <summary>
+/// Flow period
+/// </summary>
 public partial class FlowPeriod : ComponentBase
 {
     /// <summary>

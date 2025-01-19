@@ -1,7 +1,4 @@
-﻿using FileFlows.Helpers;
-using FileFlows.Server.Helpers;
-using FileFlows.Services;
-using FileFlows.Shared.Models;
+﻿using FileFlows.LibraryUtils;
 using Microsoft.AspNetCore.SignalR;
 
 namespace FileFlows.WebServer.Hubs;
@@ -46,6 +43,7 @@ public class FlowHub : Hub
         }
         catch (Exception)
         {
+            // Ignored
         }
     }
 
@@ -68,6 +66,24 @@ public class FlowHub : Hub
         {
             Logger.Instance.ELog("Error in hello: " + ex.Message + Environment.NewLine + ex.StackTrace);
             return false;
+        }
+    }
+
+    /// <summary>
+    /// Tells the server to ignore the specified path when scanning
+    /// </summary>
+    /// <param name="path">the Path to ignore</param>
+    public void LibraryIgnorePath(string path)
+    {
+        try
+        {
+            Logger.Instance.ILog("Ignoring Path from library scanning: " + path);
+            WatchedLibraryNew.IgnorePath(path);
+        }
+        catch(Exception ex)
+        {
+            Logger.Instance.ELog("Failed to ignore path from library scanning: " + path + " => " + ex.Message);
+            // Ignored
         }
     }
 }

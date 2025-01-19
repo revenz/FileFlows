@@ -166,6 +166,11 @@ public class NodeParameters
     public Func<string[], bool, int> SetTagsByNameFunction { get; set; }
     
     /// <summary>
+    /// Gets or sets the function responsible for telling the library to ignore a specific path
+    /// </summary>
+    public Action<string>? LibraryIgnorePath { get; set; }
+    
+    /// <summary>
     /// Gets or sets the function responsible for mapping a path
     /// </summary>
     public Func<string, string>? PathMapper { get; set; }
@@ -773,6 +778,9 @@ public class NodeParameters
         Logger?.ILog("MoveFile: " + WorkingFile);
         Logger?.ILog("Destination: " + destination);
 
+        // Ignore it before the move
+        LibraryIgnorePath(MapPath(destination));
+
         var result = FileService.FileMove(WorkingFile, destination, true);
         if (result.Failed(out var error))
             return Result<bool>.Fail(error);
@@ -807,6 +815,9 @@ public class NodeParameters
         if (string.IsNullOrWhiteSpace(destination))
             return Result<bool>.Fail("CopyFile.Destination was not supplied");
 
+        // Ignore it before the copy
+        LibraryIgnorePath(MapPath(destination));
+        
         var result = FileService.FileCopy(source, destination, true);
         if (result.Failed(out var error))
             return Result<bool>.Fail(error);

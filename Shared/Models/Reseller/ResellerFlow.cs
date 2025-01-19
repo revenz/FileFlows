@@ -46,6 +46,11 @@ public class ResellerFlow : FileFlowObject
     /// Preview mode 
     /// </summary>
     public ResellerPreviewMode PreviewMode { get; set; }
+    
+    /// <summary>
+    /// Gets or sets fields to show for this flow
+    /// </summary>
+    public List<CustomField> Fields { get; set; }
 }
 
 /// <summary>

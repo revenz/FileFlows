@@ -19,8 +19,16 @@ public partial class InputKeyValueInt : Input<List<KeyValuePair<int, string>>>
     /// </summary>
     [Parameter] public bool HideKeyValueLabels { get; set; }
     
+    /// <summary>
+    /// The new key
+    /// </summary>
     private int NewKey;
+    
+    /// <summary>
+    /// The new value
+    /// </summary>
     private string NewValue = string.Empty;
+    
     /// <summary>
     /// Focuses the input
     /// </summary>
@@ -32,8 +40,14 @@ public partial class InputKeyValueInt : Input<List<KeyValuePair<int, string>>>
     /// </summary>
     private List<KeyValue> Data = new List<KeyValue>();
 
+    /// <summary>
+    /// Index of a duplicate key
+    /// </summary>
     private int? DuplicateKey = null; // one time we do want null....
 
+    /// <summary>
+    /// Translation strings
+    /// </summary>
     private string lblKey, lblValue;
 
     /// <summary>
@@ -59,6 +73,11 @@ public partial class InputKeyValueInt : Input<List<KeyValuePair<int, string>>>
             this.Field.ValueChanged += FieldOnValueChanged2;
     }
 
+    /// <summary>
+    /// THe field value has changed
+    /// </summary>
+    /// <param name="sender">the sender</param>
+    /// <param name="value">the new value</param>
     private void FieldOnValueChanged2(object sender, object value)
     {
         if (value == null)
@@ -136,6 +155,10 @@ public partial class InputKeyValueInt : Input<List<KeyValuePair<int, string>>>
         UpdateBindValue();
     }
 
+    /// <summary>
+    /// Update the bind value
+    /// </summary>
+    /// <returns>true if updated</returns>
     bool UpdateBindValue()
     {
         this.Data ??= new();
@@ -185,6 +208,10 @@ public partial class InputKeyValueInt : Input<List<KeyValuePair<int, string>>>
         return true;
     }
     
+    /// <summary>
+    /// When a key is pressed
+    /// </summary>
+    /// <param name="e">the event</param>
     private void OnKeyDown(KeyboardEventArgs e)
     {
         if (e.Code == "Enter" || e.Code == "Tab")
@@ -193,6 +220,7 @@ public partial class InputKeyValueInt : Input<List<KeyValuePair<int, string>>>
             FocusUid();
         }
     }
+    
     /// <summary>
     /// A key value
     /// </summary>

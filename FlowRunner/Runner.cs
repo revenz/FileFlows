@@ -161,7 +161,7 @@ public class Runner
                 });
                 try
                 {
-                    RunActual(logger);
+                    RunActual(logger, communicator);
                 }
                 catch (Exception ex)
                 {
@@ -451,7 +451,8 @@ public class Runner
     /// Starts processing a file
     /// </summary>
     /// <param name="logger">the logger used to log messages</param>
-    private void RunActual(FlowLogger logger)
+    /// <param name="communicator">The flow runner communicator</param>
+    private void RunActual(FlowLogger logger, FlowRunnerCommunicator communicator)
     {
         VariablesHelper.StartedAt = DateTime.Now;
         nodeParameters = new NodeParameters(Info.LibraryFile.Name, logger,
@@ -563,6 +564,10 @@ public class Runner
         nodeParameters.IsArm = Globals.IsArm;
         nodeParameters.PathMapper = (path) => Node.Map(path);
         nodeParameters.PathUnMapper = (path) => Node.UnMap(path);
+        nodeParameters.LibraryIgnorePath = (path) =>
+        {
+            communicator.LibraryIgnorePath(path).Wait();
+        };
         nodeParameters.MimeTypeUpdater = (mimeType) =>
         {
             Info.LibraryFile.Additional ??= new();
