@@ -3,7 +3,8 @@ import { Sonarr } from 'Shared/Sonarr';
 /**
  * @description This script will rename the file through Sonarr
  * @author Shaun Agius, Anthony Clerici
- * @revision 12
+ * @revision 13
+ * @uid 3464db0c-7262-4dce-9088-d1ad628da60e
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:8989)
  * @param {string} ApiKey API Key
  * @output Item renamed successfully
