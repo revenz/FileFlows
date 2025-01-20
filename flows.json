@@ -1,145 +1,15 @@
 [
   {
-    "Path": "Templates/Flow/Community/Reven - VP9 - YouTube.json",
-    "Name": "Reven - VP9 - YouTube",
-    "Description": "A user submitted template.  Convert video to VP9/WebM/Opus/1080P and move to destination",
-    "Author": "reven",
-    "Tags": [
-      "Community"
-    ],
-    "Revision": 16,
-    "Plugins": [
-      "Video Nodes",
-      "Basic Nodes",
-      "Audio Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Community/Reven - Convert TV Shows.json",
-    "Name": "Reven - Convert TV Shows",
-    "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with normalized AC3 audio., optimized for TV.",
-    "Author": "reven",
-    "Tags": [
-      "Community"
-    ],
-    "Revision": 7,
-    "Plugins": [
-      "Video Nodes",
-      "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Community/Reven - Convert Movies.json",
-    "Name": "Reven - Convert Movies",
-    "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
-    "Author": "reven",
-    "Tags": [
-      "Community"
-    ],
-    "Revision": 29,
-    "Plugins": [
-      "Video Nodes",
-      "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Discord Notification.json",
-    "Name": "Discord Notification",
-    "Description": "A failure flow that will send a warning message to Discord with the failed filename.",
+    "Path": "Templates/Flow/Standard/File.json",
+    "Name": "File",
+    "Description": "A blank file template with a single \u0022Input File\u0022 input flow element.",
     "Author": "FileFlows",
     "Tags": [
-      "Notification"
-    ],
-    "Revision": 1,
-    "Plugins": [
-      "Basic Nodes",
-      "Discord Nodes"
-    ],
-    "Scripts": [],
-    "Type": 1
-  },
-  {
-    "Path": "Templates/Flow/Standard/Apprise Notification.json",
-    "Name": "Apprise Notification",
-    "Description": "A failure flow that will send a warning message to Apprise with the failed filename.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Notification"
-    ],
-    "Revision": 0,
-    "Plugins": [
-      "Basic Nodes",
-      "Apprise"
-    ],
-    "Scripts": [],
-    "Type": 1
-  },
-  {
-    "Path": "Templates/Flow/Standard/Audio File.json",
-    "Name": "Audio File",
-    "Description": "A blank Audio template with a single \u0022Audio File\u0022 input flow element.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Audio",
       "Basic"
     ],
-    "Revision": 4,
+    "Revision": 3,
     "Plugins": [
-      "Audio Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Convert Video.json",
-    "Name": "Convert Video",
-    "Description": "A flow that will convert a video file to another format",
-    "Author": "FileFlows",
-    "Tags": [
-      "Video"
-    ],
-    "Revision": 24,
-    "Plugins": [
-      "Video Nodes",
       "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Video File.json",
-    "Name": "Video File",
-    "Description": "A blank video file template with a single \u0022Video File\u0022 input flow element.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Video",
-      "Basic"
-    ],
-    "Revision": 4,
-    "Plugins": [
-      "Video Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
-    "Path": "Templates/Flow/Standard/Convert Comic.json",
-    "Name": "Convert Comic",
-    "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
-    "Author": "FileFlows",
-    "Tags": [
-      "Book"
-    ],
-    "Revision": 6,
-    "Plugins": [
-      "Basic Nodes",
-      "Comic Nodes"
     ],
     "Scripts": [],
     "Type": 0
@@ -162,6 +32,53 @@
     "Type": 0
   },
   {
+    "Path": "Templates/Flow/Standard/URL.json",
+    "Name": "URL",
+    "Description": "A blank URL template with a single \u0022Input URL\u0022 input flow element.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Basic"
+    ],
+    "Revision": 1,
+    "Plugins": [
+      "Web"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Video File.json",
+    "Name": "Video File",
+    "Description": "A blank video file template with a single \u0022Video File\u0022 input flow element.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Video",
+      "Basic"
+    ],
+    "Revision": 4,
+    "Plugins": [
+      "Video Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Convert Audio.json",
+    "Name": "Convert Audio",
+    "Description": "Will convert audio files to the specified format and replace the original file.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Audio"
+    ],
+    "Revision": 4,
+    "Plugins": [
+      "Audio Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
     "Path": "Templates/Flow/Standard/Convert Image.json",
     "Name": "Convert Image",
     "Description": "A flow that converts images",
@@ -178,20 +95,54 @@
     "Type": 0
   },
   {
-    "Path": "Templates/Flow/Standard/Image Resize.json",
-    "Name": "Image Resize",
-    "Description": "A flow that resizes images",
+    "Path": "Templates/Flow/Standard/Convert Comic.json",
+    "Name": "Convert Comic",
+    "Description": "A flow that will convert a comic books from CBR, CBZ, CB7, PDF, GZ, BZ2 to either CBZ or PDF",
     "Author": "FileFlows",
     "Tags": [
-      "Image"
+      "Book"
     ],
-    "Revision": 7,
+    "Revision": 6,
     "Plugins": [
-      "Image Nodes",
-      "Basic Nodes"
+      "Basic Nodes",
+      "Comic Nodes"
     ],
     "Scripts": [],
     "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Create Audio Book.json",
+    "Name": "Create Audio Book",
+    "Description": "Allows a user to create audio books from folders containing the chapters of audio books and merges them into a single audio book m4b file.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Book",
+      "Audio"
+    ],
+    "Revision": 4,
+    "MinimumVersion": "24.09.3.3624",
+    "Plugins": [
+      "Basic Nodes",
+      "Audio Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Apprise Notification.json",
+    "Name": "Apprise Notification",
+    "Description": "A failure flow that will send a warning message to Apprise with the failed filename.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Notification"
+    ],
+    "Revision": 0,
+    "Plugins": [
+      "Basic Nodes",
+      "Apprise"
+    ],
+    "Scripts": [],
+    "Type": 1
   },
   {
     "Path": "Templates/Flow/Standard/Gotify Notification.json",
@@ -226,22 +177,36 @@
     "Type": 0
   },
   {
-    "Path": "Templates/Flow/Standard/Create Audio Book.json",
-    "Name": "Create Audio Book",
-    "Description": "Allows a user to create audio books from folders containing the chapters of audio books and merges them into a single audio book m4b file.",
+    "Path": "Templates/Flow/Standard/Convert Video.json",
+    "Name": "Convert Video",
+    "Description": "A flow that will convert a video file to another format",
     "Author": "FileFlows",
     "Tags": [
-      "Book",
-      "Audio"
+      "Video"
     ],
-    "Revision": 4,
-    "MinimumVersion": "24.09.3.3624",
+    "Revision": 24,
     "Plugins": [
-      "Basic Nodes",
-      "Audio Nodes"
+      "Video Nodes",
+      "Basic Nodes"
     ],
     "Scripts": [],
     "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Standard/Discord Notification.json",
+    "Name": "Discord Notification",
+    "Description": "A failure flow that will send a warning message to Discord with the failed filename.",
+    "Author": "FileFlows",
+    "Tags": [
+      "Notification"
+    ],
+    "Revision": 1,
+    "Plugins": [
+      "Basic Nodes",
+      "Discord Nodes"
+    ],
+    "Scripts": [],
+    "Type": 1
   },
   {
     "Path": "Templates/Flow/Standard/Folder.json",
@@ -259,16 +224,17 @@
     "Type": 0
   },
   {
-    "Path": "Templates/Flow/Standard/URL.json",
-    "Name": "URL",
-    "Description": "A blank URL template with a single \u0022Input URL\u0022 input flow element.",
+    "Path": "Templates/Flow/Standard/Audio File.json",
+    "Name": "Audio File",
+    "Description": "A blank Audio template with a single \u0022Audio File\u0022 input flow element.",
     "Author": "FileFlows",
     "Tags": [
+      "Audio",
       "Basic"
     ],
-    "Revision": 1,
+    "Revision": 4,
     "Plugins": [
-      "Web"
+      "Audio Nodes"
     ],
     "Scripts": [],
     "Type": 0
@@ -290,21 +256,6 @@
     "Type": 1
   },
   {
-    "Path": "Templates/Flow/Standard/File.json",
-    "Name": "File",
-    "Description": "A blank file template with a single \u0022Input File\u0022 input flow element.",
-    "Author": "FileFlows",
-    "Tags": [
-      "Basic"
-    ],
-    "Revision": 3,
-    "Plugins": [
-      "Basic Nodes"
-    ],
-    "Scripts": [],
-    "Type": 0
-  },
-  {
     "Path": "Templates/Flow/Standard/FailureFlow.json",
     "Name": "Failure Flow",
     "Description": "Basic failure flow that will be executed when a flow failures for any reason.",
@@ -320,16 +271,65 @@
     "Type": 1
   },
   {
-    "Path": "Templates/Flow/Standard/Convert Audio.json",
-    "Name": "Convert Audio",
-    "Description": "Will convert audio files to the specified format and replace the original file.",
+    "Path": "Templates/Flow/Standard/Image Resize.json",
+    "Name": "Image Resize",
+    "Description": "A flow that resizes images",
     "Author": "FileFlows",
     "Tags": [
-      "Audio"
+      "Image"
     ],
-    "Revision": 4,
+    "Revision": 7,
     "Plugins": [
-      "Audio Nodes",
+      "Image Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Community/Reven - Convert Movies.json",
+    "Name": "Reven - Convert Movies",
+    "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with AC3 audio.  \n\nIt will then move these to the Output folder and deletes the source folder, if there are no more video files found in it.\n\nThis will always move the input file to the output file, even if no processing is required.",
+    "Author": "reven",
+    "Tags": [
+      "Community"
+    ],
+    "Revision": 29,
+    "Plugins": [
+      "Video Nodes",
+      "Basic Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Community/Reven - VP9 - YouTube.json",
+    "Name": "Reven - VP9 - YouTube",
+    "Description": "A user submitted template.  Convert video to VP9/WebM/Opus/1080P and move to destination",
+    "Author": "reven",
+    "Tags": [
+      "Community"
+    ],
+    "Revision": 16,
+    "Plugins": [
+      "Video Nodes",
+      "Basic Nodes",
+      "Audio Nodes"
+    ],
+    "Scripts": [],
+    "Type": 0
+  },
+  {
+    "Path": "Templates/Flow/Community/Reven - Convert TV Shows.json",
+    "Name": "Reven - Convert TV Shows",
+    "Description": "A user submitted template.  A video conversion flow that will convert videos to HEVC with normalized AC3 audio., optimized for TV.",
+    "Author": "reven",
+    "Tags": [
+      "Community"
+    ],
+    "Revision": 7,
+    "Plugins": [
+      "Video Nodes",
       "Basic Nodes"
     ],
     "Scripts": [],
