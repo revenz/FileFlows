@@ -25,4 +25,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\TestFiles\Pdfs\" />
+  </ItemGroup>
 </Project>

@@ -640,7 +640,7 @@ public class Runner
         // must be done after GetToolPathActual so we can get the tools
         nodeParameters.ArchiveHelper = new ArchiveHelper(nodeParameters);
         nodeParameters.ImageHelper = new ImageHelper(logger, nodeParameters);
-        nodeParameters.PdfHelper = new PdfHelper(logger, nodeParameters);
+        nodeParameters.PdfHelper = new PdfHelper(nodeParameters.StringHelper);
         nodeParameters.SetTagsFunction = (tagUids, replace) =>
         {
             var allowed = tagUids.Where(runInstance.Config.Tags.ContainsKey).ToList();

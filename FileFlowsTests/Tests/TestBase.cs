@@ -61,7 +61,7 @@ public class TestBase
     /// <summary>
     /// The resources test file directory
     /// </summary>
-    protected readonly string ResourcesTestFilesDir = "Resources/TestFiles";
+    protected static readonly string ResourcesTestFilesDir = "Resources/TestFiles";
 
     /// <summary>
     /// A path in the temp directory created for the test

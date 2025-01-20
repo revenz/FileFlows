@@ -1,35 +1,14 @@
 using System.Text;
-using FileFlows.Plugin;
 using FileFlows.Plugin.Helpers;
 using UglyToad.PdfPig;
-using UglyToad.PdfPig.Content;
 
 namespace FileFlows.FlowRunner.Helpers;
 
 /// <summary>
 /// PDF Helper
 /// </summary>
-public class PdfHelper : IPdfHelper
+public class PdfHelper(StringHelper stringHelper) : IPdfHelper
 {
-    /// <summary>
-    /// The logger to use
-    /// </summary>
-    private readonly ILogger Logger;
-    /// <summary>
-    /// The node parameters
-    /// </summary>
-    private readonly NodeParameters NodeParameters;
-    
-    /// <summary>
-    /// Initialises a new instance of the image helper
-    /// </summary>
-    /// <param name="logger">the logger</param>
-    /// <param name="args">the node parameters</param>
-    public PdfHelper(ILogger logger, NodeParameters args)
-    {
-        Logger = logger;
-        NodeParameters = args;
-    }
     
     /// <inheritdoc />
     public Result<bool> ContainsText(string pdfPath, string text)
@@ -59,7 +38,7 @@ public class PdfHelper : IPdfHelper
                 return Result<bool>.Fail(error);
 
             var pdfText = result.Value;
-            return NodeParameters.StringHelper.Matches(text, pdfText);
+            return stringHelper.Matches(text, pdfText);
         }
         catch (Exception ex)
         {
@@ -74,7 +53,7 @@ public class PdfHelper : IPdfHelper
         {
             using var document = PdfDocument.Open(pdfPath);
             StringBuilder completeText = new();
-            foreach (Page page in document.GetPages())
+            foreach (var page in document.GetPages())
             {
                 var pageText = page.Text;
                 if (string.IsNullOrWhiteSpace(pageText) == false)
