@@ -3,7 +3,7 @@
  * @uid e35d65b5-1486-42b9-8a0c-651804adea88
  * @description Copies or Movies a subset of files from a folder based on supplied filename
  * @author apwelsh
- * @revision 1.0
+ * @revision 1
  * @param {string} SourceDirectory The directory to copy (typically the folder being processed ex: {folder.FullName})
  * @param {string} DestinationDirectory The directory location to copy to (typically the location your servarr app is looking to for completed downloads)
  * @param {string} MediaFileName The file basename to copy all matching files of. The paths, and extension coponents will be ignored.  (typically {file.Name})
