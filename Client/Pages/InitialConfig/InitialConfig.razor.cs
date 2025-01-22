@@ -197,7 +197,7 @@ public partial class InitialConfig : ComponentBase
     }
 
     /// <summary>
-    /// Savss the initial configuration
+    /// Saves the initial configuration
     /// </summary>
     private async Task Save()
     {

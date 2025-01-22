@@ -253,6 +253,66 @@
         "NoMoreImports": "There are no additional imports available to this script"
       }
     },
+    "NewLibraryWizard": {
+      "Title": "New Library",
+      "Messages": {
+        "NameRequired": "The library name is required.",
+        "PathRequired": "The library path is required.",
+        "FlowRequired": "The flow is required."
+      },
+      "Labels": {
+        "General": "General",
+        "GeneralDescription": "Enter the general information about this library",
+        "LibraryType": "Type",
+        "LibraryTypeDescription": "Choose the type of library to create",
+        "FileTypes": "File Types",
+        "FileTypesDescription": "Specify what types of files should be detected and processed in this library.",
+        "FileExtensions": "Extensions",
+        "FileExtensionsDescription": "Specify the extensions to process in this library.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "Processes files found in a designated downloads folder. Files are processed each time they are found in the folder. To avoid reprocessing the same file repeatedly, move or delete files from this folder after they have been processed. If a file reappears, it is treated as new and processed again.",
+            "Title": "Downloads"
+          },
+          "Files": {
+            "Description": "Processes individual files located in the specified folder. This is typically the preferred option when you want to handle files one by one.",
+            "Title": "Files"
+          },
+          "Folders": {
+            "Description": "Processes entire subfolders of the specified folder. The folder itself is processed, not the individual files inside it. Choose this option if your flow is designed to work with folders as a whole.",
+            "Title": "Folders"
+          }
+        }
+      },
+      "FileTypes": {
+        "Video": "Video",
+        "VideoDescription": "Process video files including but not limited to mkv, mp4, wmv, ts, mpeg, etc.",
+        "Image": "Image",
+        "ImageDescription": "Process image files including but not limited to jpg, png, gif, bmp, and tiff.",
+        "Audio": "Audio",
+        "AudioDescription": "Process audio files including but not limited to mp3, flac, wav, aac, etc.",
+        "Comic": "Comic Book",
+        "ComicDescription": "Process comic book files including but not limited to cbz, cbr, cb7, and pdf.",
+        "eBook": "eBook",
+        "eBookDescription": "Process eBook files including but not limited to epub, mobi, azw3, and pdf.",
+        "Audiobook": "Audiobook",
+        "AudiobookDescription": "Process audiobook files including but not limited to mp3, m4b, and aax.",
+        "Custom": "Custom",
+        "CustomDescription": "Manually specify the file extensions to process."
+      },
+      "Fields": {
+        "Name": "Name",
+        "Name-Help": "The name of the newly created library, this must be unique.",
+        "Path": "Path",
+        "Path-Help": "The physical path to the the directory for the library.",
+        "Flow": "Flow",
+        "Flow-Help": "The flow that items in this library will be processed through.",
+        "PathWindows": "Path",
+        "PathWindows-Help": "The physical path to the the directory for the library.\nThis can be a network path for example \\\\my-nas\\media\\movies",
+        "FileExtensions": "Extensions",
+        "FileExtensions-Help": "Leave blank to process every file, otherwise list each file extension you want processed in this library."
+      }
+    },
     "PauseDialog": {
       "Message": "Select the amount of time to pause processing for.\nNote: The current flows will continue to execute, but no other flows will be executed until his time is up.",
       "Title": "Pause Processing"

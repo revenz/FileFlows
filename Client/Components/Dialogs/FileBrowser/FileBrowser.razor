@@ -1,42 +1,41 @@
 @namespace FileFlows.Client.Components.Dialogs
-@inherits VisibleEscapableComponent
 
-<Modal Title="@Title" Visible="Visible">
+<Modal Title="@Title" Visible="true">
 
     <Body>
-        <ul class="file-list">
-            @foreach (var item in Items)
+    <ul class="file-list">
+        @foreach (var item in Items)
+        {
+            if (IsWindows == false && item.Name.StartsWith(".") && ShowHidden == false)
             {
-                if (IsWindows == false && item.Name.StartsWith(".") && ShowHidden == false)
-                {
-                    continue;
-                }
-
-                <li @onclick="() => SetSelected(item)" @ondblclick="() => DblClick(item)"
-                class="@(item == Selected ? "selected" : "")">
-                    @if (item.IsDrive)
-                    {
-                        <span class="far fa-hdd" @onclick="() => DblClick(item)"></span>
-                        <span class="name">@item.Name</span>
-                    }
-                    else if (item.IsParent)
-                    {
-                        <span class="far fa-folder-open" @onclick="() => DblClick(item)"></span>
-                        <span class="name">..</span>
-                    }
-                    else if (item.IsPath)
-                    {
-                        <span class="far fa-folder" @onclick="() => DblClick(item)"></span>
-                        <span class="name">@item.Name</span>
-                    }
-                    else
-                    {
-                        <span class="far fa-file"></span>
-                        <span class="name">@item.Name</span>
-                    }
-                </li>
+                continue;
             }
-        </ul>
+
+            <li @onclick="() => SetSelected(item)" @ondblclick="() => DblClick(item)"
+                class="@(item == Selected ? "selected" : "")">
+                @if (item.IsDrive)
+                {
+                    <span class="far fa-hdd" @onclick="() => DblClick(item)"></span>
+                    <span class="name">@item.Name</span>
+                }
+                else if (item.IsParent)
+                {
+                    <span class="far fa-folder-open" @onclick="() => DblClick(item)"></span>
+                    <span class="name">..</span>
+                }
+                else if (item.IsPath)
+                {
+                    <span class="far fa-folder" @onclick="() => DblClick(item)"></span>
+                    <span class="name">@item.Name</span>
+                }
+                else
+                {
+                    <span class="far fa-file"></span>
+                    <span class="name">@item.Name</span>
+                }
+            </li>
+        }
+    </ul>
     </Body>
     <Footer>
         @if (IsWindows == false)

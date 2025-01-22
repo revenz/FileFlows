@@ -1,17 +1,12 @@
 using Microsoft.AspNetCore.Components;
 
-namespace FileFlows.Client.Components.Dialogs;
+namespace FileFlows.Client.Components.Dialogs.Wizards;
 
 /// <summary>
-/// A modal dialog
+/// A wizard popup
 /// </summary>
-public partial class Modal : ComponentBase
+public partial class Wizard : ComponentBase
 {
-    /// <summary>
-    /// Gets or sets the footer content
-    /// </summary>
-    [Parameter] public RenderFragment Footer { get; set; }
-    
     /// <summary>
     /// Gets or sets the body content
     /// </summary>

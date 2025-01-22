@@ -58,6 +58,9 @@ public partial class Settings : InputRegister
     // indicates if the page has rendered or not
     private DateTime firstRenderedAt = DateTime.MaxValue;
 
+    /// <summary>
+    /// Required validator
+    /// </summary>
     private readonly List<Validator> RequiredValidator = new()
     {
         new Required()

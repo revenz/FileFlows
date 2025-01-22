@@ -13,6 +13,21 @@
   box-shadow: 0 0 3rem #2d2d2d;
 }
 
+.modal-wizard {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(70rem, 90vw);
+  min-width: min(70rem, 90vw);
+  height: min(45rem, 90vh);
+  min-height: min(45rem, 90vh);
+  box-shadow: none;
+  .flow-wizard-buttons {
+    background-image:none;
+  }
+}
+
 .flow-wizard-buttons {
   display: flex;
   position:relative;
@@ -104,4 +119,9 @@
       opacity: 0.7;
     }
   }
+}
+
+.cancel {
+  position: absolute;
+  left: 16rem;
 }

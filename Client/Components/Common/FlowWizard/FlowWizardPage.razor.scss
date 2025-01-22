@@ -2,5 +2,15 @@
   display:none;
   &.active {
     display:block;
+    height: 100%;
+    overflow: auto;
+    padding: 0 0.5rem 0.5rem 0;
+  }
+  ::deep .row {
+    margin-left: 1rem;
+    width: calc(98% - 1rem);
+    + .row {
+      margin-top: 1rem;
+    }
   }
 }

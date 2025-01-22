@@ -1,37 +1,54 @@
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
-using FileFlows.Shared;
-using FileFlows.Shared.Helpers;
-using System.Linq;
-using FileFlows.Plugin;
-using FileFlows.Shared.Models;
 
 namespace FileFlows.Client.Components.Dialogs;
 
 /// <summary>
 /// A file browser that lets a user picks a file or folder
 /// </summary>
-public partial class FileBrowser : VisibleEscapableComponent
+public partial class FileBrowser : IModal
 {
+    /// <summary>
+    /// Gets or sets the profile service
+    /// </summary>
+    [Inject] private ProfileService ProfileService { get; set; }
+    
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
+
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+    
+    /// <summary>
+    /// Closes the dialog
+    /// </summary>
+    public void Close()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
+    }
+
+    /// <summary>
+    /// Cancels the dialog
+    /// </summary>
+    public void Cancel()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
+    }
+    
     private string lblSelect, lblCancel;
     private string Title;
 
     private bool DirectoryMode = false;
     private string[] Extensions = new string[] { };
-    TaskCompletionSource<string> ShowTask;
     private bool ShowHidden = false;
-
-    private static FileBrowser Instance { get; set; }
-
     private FileBrowserItem Selected;
     List<FileBrowserItem> Items = new List<FileBrowserItem>();
 
-    /// <summary>
-    /// Gets or sets the profile service
-    /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
+    // /// <summary>
+    // /// Gets or sets the profile service
+    // /// </summary>
+    // [Inject] private ProfileService ProfileService { get; set; }
     
     /// <summary>
     /// The API url to call
@@ -44,63 +61,36 @@ public partial class FileBrowser : VisibleEscapableComponent
     /// <summary>
     /// If the server is windows or not
     /// </summary>
-    private bool IsWindows;
+    private bool IsWindows = false;
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        IsWindows = (await ProfileService.Get()).ServerOS == OperatingSystemType.Windows;
+        if (Options is FileBrowserOptions fileBrowserOptions == false)
+        {
+            Cancel();
+            return;
+        }
+        this.Title = Translater.TranslateIfNeeded("Dialogs.FileBrowser.FileTitle");
+        
+         _ = LoadPath(fileBrowserOptions.Start ?? string.Empty);
+
+        Extensions = fileBrowserOptions.Extensions;
+        DirectoryMode = fileBrowserOptions.Directory;
+        
+        //IsWindows = (await ProfileService.Get()).ServerOS == OperatingSystemType.Windows;
         this.lblSelect = Translater.Instant("Labels.Select");
         this.lblCancel = Translater.Instant("Labels.Cancel");
         lblShowHidden = Translater.Instant("Labels.ShowHidden");
-        Instance = this;
-    }
-
-    /// <summary>
-    /// Shows the file browser
-    /// </summary>
-    /// <param name="start">the start location</param>
-    /// <param name="directory">if only allowing directories</param>
-    /// <param name="extensions">the allowed extensions</param>
-    /// <returns>the result of the show</returns>
-    public static Task<string> Show(string start, bool directory = false, string[] extensions = null)
-    {
-        if (Instance == null)
-            return Task.FromResult<string>("");
-
-        return Instance.ShowInstance(start, directory, extensions);
-    }
-
-    private Task<string> ShowInstance(string start, bool directory = false, string[] extensions = null)
-    {
-        this.Extensions = extensions ?? new string[] { };
-        this.DirectoryMode = directory;
-
-        this.Title = Translater.TranslateIfNeeded("Dialogs.FileBrowser.FileTitle");
-        _ = this.LoadPath(start);
-        this.Visible = true;
-        this.StateHasChanged();
-
-        Instance.ShowTask = new TaskCompletionSource<string>();
-        return Instance.ShowTask.Task;
-    }
-
-    private async void Select()
-    {
-        if (Selected == null)
-            return;
-        this.Visible = false;
-        Instance.ShowTask.TrySetResult(Selected.IsParent ? Selected.Name : Selected.FullName);
         await Task.CompletedTask;
     }
 
-    /// <summary>
-    /// Cancels the dialog
-    /// </summary>
-    public override void Cancel()
+
+    private void Select()
     {
-        this.Visible = false;
-        Instance.ShowTask.TrySetResult("");
+        if (Selected == null)
+            return;
+        TaskCompletionSource.TrySetResult(Selected.IsParent ? Selected.Name : Selected.FullName);
     }
 
     private async Task SetSelected(FileBrowserItem item)
@@ -146,4 +136,25 @@ public partial class FileBrowser : VisibleEscapableComponent
         $"&start={Uri.EscapeDataString(path)}" +
         string.Join("", Extensions?.Select(x => "&extensions=" + Uri.EscapeDataString(x))?.ToArray() ?? new string[] { }));
     }
+}
+
+/// <summary>
+/// The options for the file browser
+/// </summary>
+public class FileBrowserOptions : IModalOptions
+{
+    /// <summary>
+    /// Gets or sets an optional starting path
+    /// </summary>
+    public string Start { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if asking for a folder
+    /// </summary>
+    public bool Directory { get; set; }
+
+    /// <summary>
+    /// Gets or sets the allowed extensions
+    /// </summary>
+    public string[] Extensions { get; set; } = [];
 }

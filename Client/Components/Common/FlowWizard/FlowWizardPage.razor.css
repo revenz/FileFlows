@@ -1,8 +1,14 @@
 .flow-page {
-  display: none;
-}
-.flow-page.active {
-  display: block;
-  flex-grow:1;
-  overflow: auto;
-}
+  display: none; }
+  .flow-page.active {
+    display: block;
+    height: 100%;
+    overflow: auto;
+    padding: 0 0.5rem 0.5rem 0; }
+  .flow-page ::deep .row {
+    margin-left: 1rem;
+    width: calc(98% - 1rem); }
+    .flow-page ::deep .row + .row {
+      margin-top: 1rem; }
+
+/*# sourceMappingURL=FlowWizardPage.razor.css.map */

@@ -1,7 +1,7 @@
 @using Humanizer
 @namespace FileFlows.Client.Components.Common
 
-<div class="flow-wizard @(DisableChanging ? "disabled" :"")">
+<div class="flow-wizard @(DisableChanging ? "disabled" :"") @(Modal ? "modal-wizard" : "")">
 
     <div class="flow-wizard-buttons">
         @foreach(var wp in Pages)
@@ -41,6 +41,10 @@
         </CascadingValue>
 
         <div class="flow-wizard-navigation-buttons">
+            @if (Cancelable)
+            {
+                <span class="cancel" @onclick="Cancel">@Translater.Instant("Labels.Cancel")</span>
+            }
             @if (ActivePage != Pages.FirstOrDefault(x => x.Visible))
             {
                 <span class="previous" @onclick="Previous">@Translater.Instant("Labels.Previous")</span>
@@ -56,4 +60,5 @@
         </div>
     </div>
 
+    <Blocker @ref=Blocker />
 </div>
