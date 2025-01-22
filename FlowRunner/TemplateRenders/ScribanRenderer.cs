@@ -48,8 +48,14 @@ public class ScribanRenderer: ITemplateRenderer
             //     string replacement = "Variables[\"" + k + "\"]";
             //     tcode = Regex.Replace(tcode, keyRegex, replacement);
             // }
-
             
+            if(string.IsNullOrWhiteSpace(args.FailureReason))
+            {
+                tcode = tcode.Replace("FailureReason", "Variables.FailureReason");
+                dict["FailureReason"] = args.FailureReason;
+            }
+
+
             var scriptObject1 = new ScriptObject();
             scriptObject1.Import(typeof(FileFlowFunctions));
             scriptObject1.Add("Variables", dict);
