@@ -61,7 +61,8 @@ public partial class NewVideoFlowWizard : IModal
     /// </summary>
     private string lblTitle, lblUseOriginal, lblPageType, lblPageTypeDescription, 
         lblPageVideo, lblPageVideoDescription, lblGeneral, lblGeneralDescription,
-        lblPageAudio, lblPageAudioDescription, lblPageAudio1, lblPageAudio1Description, lblPageSubtitle, lblPageSubtitleDescription,
+        lblPageAudio, lblPageAudioDescription, lblPageAudio1, lblPageAudio1Description, lblPageAudio2, lblPageAudio2Description, 
+        lblPageSubtitle, lblPageSubtitleDescription,
         lblQuality, lblQualityDescription, lblBitrate, lblBitrateDescription, 
         lblTypeFilm, lblTypeFilmDescription, lblTypeTV, lblTypeTVDescription, lblTypeVideo, lblTypeVideoDescription,
         lblDontConvertAudio, lblDontConvertAudioDescription, lblConvertAudio, lblConvertAudioDescription;
@@ -72,7 +73,7 @@ public partial class NewVideoFlowWizard : IModal
     private int SelectedVideoEncodingType = 0;
     private int Quality = 22, Bitrate = 5000;
     private bool CropBlackBars;
-    private List<string> AudioLanguages = [];
+    private List<string> Audio1Languages = [], Audio2Languages = [];
     
     /// <summary>
     /// The new libraries name
@@ -86,9 +87,9 @@ public partial class NewVideoFlowWizard : IModal
     /// <summary>
     /// Flow properties
     /// </summary>
-    private string VideoCodec = "h265", VideoContainer = "MKV", AudioCodec = "aac", DefaultLanguage = "eng";
+    private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng";
     private int VideoEncoderType, SelectedType;
-    private bool ConvertAudio = false;
+    private bool ConvertAudio = false, TwoAudioVersions = false;
     /// <summary>
     /// The new libraries extensions
     /// </summary>
@@ -148,15 +149,27 @@ public partial class NewVideoFlowWizard : IModal
     }
     
     /// <summary>
-    /// Gets or sets bound audio codec
+    /// Gets or sets bound audio 1 codec
     /// </summary>
-    private object BoundAudioCodec
+    private object BoundAudio1Codec
     {
-        get => AudioCodec;
+        get => Audio1Codec;
         set
         {
             if (value is string codec)
-                AudioCodec = codec;
+                Audio1Codec = codec;
+        }
+    }
+    /// <summary>
+    /// Gets or sets bound audio 2 codec
+    /// </summary>
+    private object BoundAudio2Codec
+    {
+        get => Audio2Codec;
+        set
+        {
+            if (value is string codec)
+                Audio2Codec = codec;
         }
     }
     
@@ -192,6 +205,8 @@ public partial class NewVideoFlowWizard : IModal
         lblPageAudioDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.AudioDescription");
         lblPageAudio1 = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio1");
         lblPageAudio1Description = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio1Description");
+        lblPageAudio2 = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio2");
+        lblPageAudio2Description = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio2Description");
         lblPageSubtitle = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Subtitle");
         lblPageSubtitleDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.SubtitleDescription");
         
@@ -297,6 +312,46 @@ public partial class NewVideoFlowWizard : IModal
     {
         new Required()
     };
+    
+    
+    /// <summary>
+    /// Validates the general page
+    /// </summary>
+    /// <returns>true if successful, otherwise false</returns>
+    private async Task<bool> OnGeneralPageAdvanced()
+    {
+        bool valid = string.IsNullOrWhiteSpace(VideoFlowName) == false;
+        if(valid)
+            return true;
+        await Editor.Validate();
+        return false;
+    }
+    
+    /// <summary>
+    /// Validates the audio 1 page
+    /// </summary>
+    /// <returns>true if successful, otherwise false</returns>
+    private async Task<bool> OnAudio1PageAdvanced()
+    {
+        bool valid = Audio1Languages.Count > 0;
+        if(valid)
+            return true;
+        await Editor.Validate();
+        return false;
+    }
+    
+    /// <summary>
+    /// Validates the audio 2 page
+    /// </summary>
+    /// <returns>true if successful, otherwise false</returns>
+    private async Task<bool> OnAudio2PageAdvanced()
+    {
+        bool valid = Audio2Languages.Count > 0;
+        if(valid)
+            return true;
+        await Editor.Validate();
+        return false;
+    }
 }
 
 /// <summary>

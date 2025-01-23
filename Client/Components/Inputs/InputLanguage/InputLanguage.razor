@@ -1,8 +1,11 @@
 @namespace FileFlows.Client.Components.Inputs
 @inherits Input<List<string>>
 
+@{
+    bool invalid = string.IsNullOrEmpty(ErrorMessage) == false;
+}
 <InputWrapper Input="@this">
     <div class="input-language-wrapper">
-        <FlowMultiselect @bind-Value="MutliselectValue" Options="LanguageOptions"></FlowMultiselect>
+        <FlowMultiselect @bind-Value="MutliselectValue" Options="LanguageOptions" Invalid="@invalid" />
     </div>
 </InputWrapper>

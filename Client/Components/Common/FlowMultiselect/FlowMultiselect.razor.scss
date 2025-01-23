@@ -2,8 +2,7 @@
   position: relative;
   display: inline-block;
   width: 100%;
-  max-width: 40rem;
-  font-family: Arial, sans-serif;
+  max-width: 40rem;  
 
   .multiselect__control {
     display: flex;
@@ -24,6 +23,7 @@
     display: flex;
     flex-wrap: wrap;
     gap:  0.25rem;
+    border:solid 1px transparent;
     
     .multiselect__tags {
       display: flex;

@@ -2,8 +2,7 @@
   position: relative;
   display: inline-block;
   width: 100%;
-  max-width: 40rem;
-  font-family: Arial, sans-serif; }
+  max-width: 40rem; }
   .flow-multiselect .multiselect__control {
     display: flex;
     justify-content: space-between;
@@ -18,7 +17,8 @@
   .flow-multiselect .multiselect__input_wrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.25rem; }
+    gap: 0.25rem;
+    border: solid 1px transparent; }
     .flow-multiselect .multiselect__input_wrapper .multiselect__tags {
       display: flex;
       flex-wrap: wrap; }

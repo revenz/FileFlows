@@ -36,11 +36,10 @@
                 </ul>
             </FlowWizardPage>
             
-            <FlowWizardPage Title="@lblGeneral" Description="@lblGeneralDescription">
+            <FlowWizardPage Title="@lblGeneral" Description="@lblGeneralDescription" OnPageAdvanced="OnGeneralPageAdvanced">
                 <InputText @bind-Value="@VideoFlowName" Label="Dialogs.NewVideoFlowWizard.Fields.Name" Validators=@RequiredValidator />
 
                 <InputSelect @bind-Value="@BoundVideoContainer" AllowClear="false" Options=@VideoContainers Label="Dialogs.NewVideoFlowWizard.Fields.VideoContainer" />
-                <InputSelect @bind-Value="@BoundDefaultLanguage" AllowClear="false" Options=@LanguageOptions Label="Dialogs.NewVideoFlowWizard.Fields.DefaultLanguage" />
                 <InputSelect @bind-Value="@BoundVideoCodec" AllowClear="false" Options=@VideoCodecs Label="Dialogs.NewVideoFlowWizard.Fields.VideoCodec" />
                 
                 <InputSwitch @bind-Value="@CropBlackBars" Label="Dialogs.NewVideoFlowWizard.Fields.CropBlackBars" />
@@ -76,29 +75,35 @@
 
                 <ul class="ul-radio-list">
                     <li @onclick="() => ConvertAudio = false" class="clickable-radio @(ConvertAudio == false ? "active" : "")">
-                        <img src="icons/crf.svg" alt=""/>
+                        <i class="fas fa-copy"></i>
                         <div class="info">
                             <span>@lblDontConvertAudio</span>
                             <p>@lblDontConvertAudioDescription</p>
                         </div>
                     </li>
                     <li @onclick="() => ConvertAudio = true" class="clickable-radio @(ConvertAudio ? "active" : "")">
-                        <img src="icons/bitrate.svg" alt=""/>
+                        <i class="fas fa-volume-up"></i>
                         <div class="info">
                             <span>@lblConvertAudio</span>
                             <p>@lblConvertAudioDescription</p>
+                        </div>
+                        <div class="options">
+                            <InputSelect @bind-Value="@BoundDefaultLanguage" AllowClear="false" Options=@LanguageOptions Label="Dialogs.NewVideoFlowWizard.Fields.DefaultLanguage" />
+                            <InputSwitch @bind-Value="TwoAudioVersions" Label="Dialogs.NewVideoFlowWizard.Fields.TwoAudioVersions" />
                         </div>
                     </li>
                 </ul>
             </FlowWizardPage>
             
-            <FlowWizardPage Title="@lblPageAudio1" Description="@lblPageAudio1Description" Indented="true" Visible="@ConvertAudio">
-                <InputSelect></InputSelect>
-                <InputLanguage @bind-Value="@AudioLanguages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages"/>
+            <FlowWizardPage Title="@lblPageAudio1" Description="@lblPageAudio1Description" Indented="true" Visible="@ConvertAudio"  OnPageAdvanced="OnAudio1PageAdvanced" >
+                <InputLanguage @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
 
-                <InputSelect @bind-Value="@BoundAudioCodec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
+                <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
 
-
+            </FlowWizardPage>
+            <FlowWizardPage Title="@lblPageAudio2" Description="@lblPageAudio2Description" Indented="true" Visible="@(ConvertAudio && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
+                <InputLanguage @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
+                <InputSelect @bind-Value="@BoundAudio2Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
             </FlowWizardPage>
             <FlowWizardPage Title="@lblPageSubtitle" Description="@lblPageSubtitleDescription">
             </FlowWizardPage>

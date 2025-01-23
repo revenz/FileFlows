@@ -20,6 +20,11 @@ public partial class FlowMultiselect : ComponentBase
     [Parameter] public List<ListOption> Options { get; set; } 
     
     /// <summary>
+    /// Gets or sets if this input is currently invalid
+    /// </summary>
+    [Parameter] public bool Invalid { get; set; }
+    
+    /// <summary>
     /// Gets or sets the value
     /// </summary>
     [Parameter]
