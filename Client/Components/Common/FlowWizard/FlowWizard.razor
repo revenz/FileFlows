@@ -12,6 +12,7 @@
             }
 
             var className = $"wizard-button wb-{wp.Title.Dehumanize()} {(ActivePage == wp ? "active" : "")} " +
+                            $"{(wp.Indented ? "indented " : "")}" +
                             $"{(wp.Disabled ? "disabled" : "")} {(wp.Invalid ? "invalid": "")}";
             
             <span class="@className" @onclick="() => SelectPage(wp)" disabled="@(DisableChanging && ActivePage != wp)">

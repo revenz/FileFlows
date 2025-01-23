@@ -7,7 +7,7 @@ namespace FileFlows.Plugin;
 /// </summary>
 public class LanguageHelper
 {
-    private static readonly LanguageDefintion[] Languages;
+    public static readonly LanguageDefintion[] Languages;
  
     static LanguageHelper()
     {
@@ -30,7 +30,6 @@ public class LanguageHelper
             new () {English = "Algonquian languages",French = "algonquines, langues",German = "Algonkin-Sprachen (Andere)",Iso2 = "alg"},
             new () {English = "Southern Altai",French = "altai du Sud",German = "Altaisch",Iso2 = "alt"},
             new () {English = "Amharic",French = "amharique",German = "Amharisch",Iso2 = "amh",Iso1 = "am"},
-            new () {English = "English, Old (ca.450-1100)",French = "anglo-saxon (ca.450-1100)",German = "Altenglisch",Iso2 = "ang"},
             new () {English = "Angika",French = "angika",German = "Anga-Sprache",Iso2 = "anp"},
             new () {English = "Apache languages",French = "apaches, langues",German = "Apachen-Sprachen",Iso2 = "apa"},
             new () {English = "Arabic",French = "arabe",German = "Arabisch",Iso2 = "ara",Iso1 = "ar"},
@@ -108,9 +107,6 @@ public class LanguageHelper
             new () {English = "Coptic",French = "copte",German = "Koptisch",Iso2 = "cop"},
             new () {English = "Cornish",French = "cornique",German = "Kornisch",Iso2 = "cor",Iso1 = "kw"},
             new () {English = "Corsican",French = "corse",German = "Korsisch",Iso2 = "cos",Iso1 = "co"},
-            new () {English = "Creoles and pidgins, English based",French = "cr\u00E9oles et pidgins bas\u00E9s sur l\u0027anglais",German = "Kreolisch-Englisch (Andere)",Iso2 = "cpe"},
-            new () {English = "Creoles and pidgins, French-based",French = "cr\u00E9oles et pidgins bas\u00E9s sur le fran\u00E7ais",German = "Kreolisch-Franz\u00F6sisch (Andere)",Iso2 = "cpf"},
-            new () {English = "Creoles and pidgins, Portuguese-based",French = "cr\u00E9oles et pidgins bas\u00E9s sur le portugais",German = "Kreolisch-Portugiesisch (Andere)",Iso2 = "cpp"},
             new () {English = "Cree",French = "cree",German = "Cree-Sprache",Iso2 = "cre",Iso1 = "cr"},
             new () {English = "Crimean Tatar",French = "tatar de Crim\u00E9",German = "Krimtatarisch",Iso2 = "crh"},
             new () {English = "Creoles and pidgins",French = "cr\u00E9oles et pidgins",German = "Kreolische Sprachen",Iso2 = "crp"},
@@ -132,7 +128,6 @@ public class LanguageHelper
             new () {English = "Dravidian languages",French = "dravidiennes,  langues",German = "Drawidische Sprachen (Andere)",Iso2 = "dra"},
             new () {English = "Lower Sorbian",French = "bas-sorabe",German = "Niedersorbisch",Iso2 = "dsb"},
             new () {English = "Duala",French = "douala",German = "Duala-Sprachen",Iso2 = "dua"},
-            new () {English = "Dutch, Middle (ca.1050-1350)",French = "n\u00E9erlandais moyen (ca. 1050-1350)",German = "Mittelniederl\u00E4ndisch",Iso2 = "dum"},
             new () {English = "Dutch",French = "n\u00E9erlandais",German = "Niederl\u00E4ndisch",Iso2 = "nld",Iso1 = "nl", Aliases = ["dut"],NativeName = "Nederlands"},
             new () {English = "Dyula",French = "dioula",German = "Dyula-Sprache",Iso2 = "dyu"},
             new () {English = "Dzongkha",French = "dzongkha",German = "Dzongkha",Iso2 = "dzo",Iso1 = "dz"},
@@ -142,7 +137,6 @@ public class LanguageHelper
             new () {English = "Greek, Modern (1453-)",French = "grec moderne (apr\u00E8s 1453)",German = "Neugriechisch",Iso2 = "ell",Iso1 = "el"},
             new () {English = "Elamite",French = "\u00E9lamite",German = "Elamisch",Iso2 = "elx"},
             new () {English = "English",French = "anglais",German = "Englisch",Iso2 = "eng",Iso1 = "en" , NativeName = "English"},
-            new () {English = "English, Middle (1100-1500)",French = "anglais moyen (1100-1500)",German = "Mittelenglisch",Iso2 = "enm"},
             new () {English = "Esperanto",French = "esp\u00E9ranto",German = "Esperanto",Iso2 = "epo",Iso1 = "eo"},
             new () {English = "Estonian",French = "estonien",German = "Estnisch",Iso2 = "est",Iso1 = "et"},
             new () {English = "Basque",French = "basque",German = "Baskisch",Iso2 = "eus",Iso1 = "eu"},
@@ -158,8 +152,6 @@ public class LanguageHelper
             new () {English = "Finno-Ugrian languages",French = "finno-ougriennes,  langues",German = "Finnougrische Sprachen (Andere)",Iso2 = "fiu"},
             new () {English = "Fon",French = "fon",German = "Fon-Sprache",Iso2 = "fon"},
             new () {English = "French",French = "fran\u00E7ais",German = "Franz\u00F6sisch",Iso2 = "fre",Iso1 = "fr", Aliases = ["fra"], NativeName = "Français"},
-            new () {English = "French, Middle (ca.1400-1600)",French = "fran\u00E7ais moyen (1400-1600)",German = "Mittelfranz\u00F6sisch",Iso2 = "frm"},
-            new () {English = "French, Old (842-ca.1400)",French = "fran\u00E7ais ancien (842-ca.1400)",German = "Altfranz\u00F6sisch",Iso2 = "fro"},
             new () {English = "French (Canada)", French = "Français (Canada)", German = "Französisch (Kanada)", Iso2 = "fra-CA", Iso1 = "fr-CA"},
             new () {English = "Northern Frisian",French = "frison septentrional",German = "Nordfriesisch",Iso2 = "frr"},
             new () {English = "Eastern Frisian",French = "frison oriental",German = "Ostfriesisch",Iso2 = "frs"},
@@ -169,7 +161,6 @@ public class LanguageHelper
             new () {English = "Ga",French = "ga",German = "Ga-Sprache",Iso2 = "gaa"},
             new () {English = "Gayo",French = "gayo",German = "Gayo-Sprache",Iso2 = "gay"},
             new () {English = "Gbaya",French = "gbaya",German = "Gbaya-Sprache",Iso2 = "gba"},
-            new () {English = "Germanic languages",French = "Germaniques, langues",German = "Germanische Sprachen (Andere)",Iso2 = "gem"},
             new () {English = "Georgian",French = "g\u00E9orgien",German = "Georgisch",Iso2 = "kat",Iso1 = "ka"},
             new () {English = "Geez",French = "gu\u00E8ze",German = "Alt\u00E4thiopisch",Iso2 = "gez"},
             new () {English = "Gilbertese",French = "kiribati",German = "Gilbertesisch",Iso2 = "gil"},
@@ -177,8 +168,6 @@ public class LanguageHelper
             new () {English = "Irish",French = "irlandais",German = "Irisch",Iso2 = "gle",Iso1 = "ga"},
             new () {English = "Galician",French = "galicien",German = "Galicisch",Iso2 = "glg",Iso1 = "gl"},
             new () {English = "Manx",French = "manx",German = "Manx",Iso2 = "glv",Iso1 = "gv"},
-            new () {English = "German, Middle High (ca.1050-1500)",French = "allemand, moyen haut (ca. 1050-1500)",German = "Mittelhochdeutsch",Iso2 = "gmh"},
-            new () {English = "German, Old High (ca.750-1050)",French = "allemand, vieux haut (ca. 750-1050)",German = "Althochdeutsch",Iso2 = "goh"},
             new () {English = "Gondi",French = "gond",German = "Gondi-Sprache",Iso2 = "gon"},
             new () {English = "Gorontalo",French = "gorontalo",German = "Gorontalesisch",Iso2 = "gor"},
             new () {English = "Gothic",French = "gothique",German = "Gotisch",Iso2 = "got"},
@@ -301,7 +290,6 @@ public class LanguageHelper
             new () {English = "Moksha",French = "moksa",German = "Mokscha-Sprache",Iso2 = "mdf"},
             new () {English = "Mandar",French = "mandar",German = "Mandaresisch",Iso2 = "mdr"},
             new () {English = "Mende",French = "mend\u00E9",German = "Mende-Sprache",Iso2 = "men"},
-            new () {English = "Irish, Middle (900-1200)",French = "irlandais moyen (900-1200)",German = "Mittelirisch",Iso2 = "mga"},
             new () {English = "Mi\u0027kmaq",French = "mi\u0027kmaq",German = "Micmac-Sprache",Iso2 = "mic"},
             new () {English = "Minangkabau",French = "minangkabau",German = "Minangkabau-Sprache",Iso2 = "min"},
             new () {English = "Uncoded languages",French = "langues non cod\u00E9es",German = "Einzelne andere Sprachen",Iso2 = "mis"},
@@ -333,7 +321,6 @@ public class LanguageHelper
             new () {English = "Ndebele, South",French = "nd\u00E9b\u00E9l\u00E9 du Sud",German = "Ndebele-Sprache (Transvaal)",Iso2 = "nbl",Iso1 = "nr"},
             new () {English = "Ndebele, North",French = "nd\u00E9b\u00E9l\u00E9 du Nord",German = "Ndebele-Sprache (Simbabwe)",Iso2 = "nde",Iso1 = "nd"},
             new () {English = "Ndonga",French = "ndonga",German = "Ndonga",Iso2 = "ndo",Iso1 = "ng"},
-            new () {English = "Low German",French = "bas allemand",German = "Niederdeutsch",Iso2 = "nds"},
             new () {English = "Nepali",French = "n\u00E9palais",German = "Nepali",Iso2 = "nep",Iso1 = "ne"},
             new () {English = "Nepal Bhasa",French = "nepal bhasa",German = "Newari",Iso2 = "new"},
             new () {English = "Nias",French = "nias",German = "Nias-Sprache",Iso2 = "nia"},
@@ -343,7 +330,6 @@ public class LanguageHelper
             new () {English = "Norwegian Nynorsk",French = "norv\u00E9gien nynorsk",German = "Nynorsk",Iso2 = "nno",Iso1 = "nn"},
             new () {English = "Bokm\u00E5l, Norwegian",French = "norv\u00E9gien bokm\u00E5l",German = "Bokm\u00E5l",Iso2 = "nob",Iso1 = "nb"},
             new () {English = "Nogai",French = "noga\u00EF",German = "Nogaisch",Iso2 = "nog"},
-            new () {English = "Norse, Old",French = "norrois, vieux",German = "Altnorwegisch",Iso2 = "non"},
             new () {English = "Norwegian",French = "norv\u00E9gien",German = "Norwegisch",Iso2 = "nor",Iso1 = "no"},
             new () {English = "N\u0027Ko",French = "n\u0027ko",German = "N\u0027Ko",Iso2 = "nqo"},
             new () {English = "Pedi",French = "pedi",German = "Pedi-Sprache",Iso2 = "nso"},
@@ -369,7 +355,6 @@ public class LanguageHelper
             new () {English = "Panjabi",French = "pendjabi",German = "Pandschabi-Sprache",Iso2 = "pan",Iso1 = "pa"},
             new () {English = "Papiamento",French = "papiamento",German = "Papiamento",Iso2 = "pap"},
             new () {English = "Palauan",French = "palau",German = "Palau-Sprache",Iso2 = "pau"},
-            new () {English = "Persian, Old (ca.600-400 B.C.)",French = "perse, vieux (ca. 600-400 av. J.-C.)",German = "Altpersisch",Iso2 = "peo"},
             new () {English = "Persian",French = "persan",German = "Persisch",Iso2 = "fas",Iso1 = "fa"},
             new () {English = "Philippine languages",French = "philippines, langues",German = "Philippinisch-Austronesisch (Andere)",Iso2 = "phi"},
             new () {English = "Phoenician",French = "ph\u00E9nicien",German = "Ph\u00F6nikisch",Iso2 = "phn"},
@@ -379,7 +364,6 @@ public class LanguageHelper
             new () {English = "Portuguese",French = "portugais",German = "Portugiesisch",Iso2 = "por",Iso1 = "pt", NativeName = "Português"},
             new () {English = "Portuguese (Brazil)", French = "Portugais (Brésil)", German = "Portugiesisch (Brasilien)", Iso2 = "por-BR", Iso1 = "pt-BR"},
             new () {English = "Prakrit languages",French = "pr\u00E2krit, langues",German = "Prakrit",Iso2 = "pra"},
-            new () {English = "Proven\u00E7al, Old (to 1500)",French = "proven\u00E7al ancien (jusqu\u0027\u00E0 1500)",German = "Altokzitanisch",Iso2 = "pro"},
             new () {English = "Pushto",French = "pachto",German = "Paschtu",Iso2 = "pus",Iso1 = "ps"},
             new () {English = "Quechua",French = "quechua",German = "Quechua-Sprache",Iso2 = "que",Iso1 = "qu"},
             new () {English = "Rajasthani",French = "rajasthani",German = "Rajasthani",Iso2 = "raj"},
@@ -406,7 +390,6 @@ public class LanguageHelper
             new () {English = "Scots",French = "\u00E9cossais",German = "Schottisch",Iso2 = "sco"},
             new () {English = "Selkup",French = "selkoupe",German = "Selkupisch",Iso2 = "sel"},
             new () {English = "Semitic languages",French = "s\u00E9mitiques, langues",German = "Semitische Sprachen (Andere)",Iso2 = "sem"},
-            new () {English = "Irish, Old (to 900)",French = "irlandais ancien (jusqu\u0027\u00E0 900)",German = "Altirisch",Iso2 = "sga"},
             new () {English = "Sign Languages",French = "langues des signes",German = "Zeichensprachen",Iso2 = "sgn"},
             new () {English = "Shan",French = "chan",German = "Schan-Sprache",Iso2 = "shn"},
             new () {English = "Sidamo",French = "sidamo",German = "Sidamo-Sprache",Iso2 = "sid"},
@@ -729,7 +712,7 @@ public class LanguageHelper
     /// Represents a language definition with various properties such as English, French, German names, 
     /// ISO-639-1 and ISO-639-2 codes, native name, and aliases.
     /// </summary>
-    class LanguageDefintion
+    public class LanguageDefintion
     {
         /// <summary>
         /// Gets or sets the English name of the language.

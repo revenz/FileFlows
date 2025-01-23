@@ -1,0 +1,67 @@
+.flow-multiselect {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 40rem;
+  font-family: Arial, sans-serif; }
+  .flow-multiselect .multiselect__control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0.25rem;
+    padding: 0;
+    cursor: pointer;
+    background: var(--input-background);
+    border: solid 1px transparent; }
+    .flow-multiselect .multiselect__control:focus-within {
+      border: solid 1px var(--accent); }
+  .flow-multiselect .multiselect__input_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem; }
+    .flow-multiselect .multiselect__input_wrapper .multiselect__tags {
+      display: flex;
+      flex-wrap: wrap; }
+    .flow-multiselect .multiselect__input_wrapper ::deep .multiselect__tag {
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      margin: 0.25rem;
+      border: solid 1px var(--accent);
+      background: transparent; }
+      .flow-multiselect .multiselect__input_wrapper ::deep .multiselect__tag .multiselect__remove {
+        margin-left: 0.25rem;
+        cursor: pointer;
+        font-weight: bold; }
+  .flow-multiselect .multiselect__input {
+    border: none !important;
+    outline: none;
+    flex: 1;
+    padding: 0.25rem; }
+  .flow-multiselect .multiselect__arrow {
+    margin-left: 0.5rem; }
+  .flow-multiselect .multiselect__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: var(--input-background);
+    margin-top: 0.25rem;
+    max-height: 20rem;
+    overflow-y: auto;
+    display: none; }
+    .flow-multiselect .multiselect__dropdown.open {
+      display: block; }
+    .flow-multiselect .multiselect__dropdown .multiselect__options {
+      list-style: none;
+      margin: 0;
+      padding: 0; }
+      .flow-multiselect .multiselect__dropdown .multiselect__options ::deep .multiselect__option {
+        padding: 0.5rem;
+        cursor: pointer; }
+        .flow-multiselect .multiselect__dropdown .multiselect__options ::deep .multiselect__option:hover {
+          background-color: var(--accent); }
+
+/*# sourceMappingURL=FlowMultiselect.razor.css.map */

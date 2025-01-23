@@ -101,6 +101,16 @@ public class Profile
     /// Gets or sets if there are any Docker instances in this setup
     /// </summary>
     public bool HasDockerInstances { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if the French language should be used
+    /// </summary>
+    public bool UseFrench => string.IsNullOrWhiteSpace(Language) && string.Equals(Language, "fr", StringComparison.InvariantCultureIgnoreCase);
+    /// <summary>
+    /// Gets or sets if the German language should be used
+    /// </summary>
+    public bool UseGerman => string.IsNullOrWhiteSpace(Language) && string.Equals(Language, "de", StringComparison.InvariantCultureIgnoreCase);
+
 }
 /// <summary>
 /// Represents the unread notifications containing critical, error, and warning counts.

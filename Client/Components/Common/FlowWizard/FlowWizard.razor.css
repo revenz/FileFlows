@@ -45,6 +45,8 @@
   border-left: solid 2px transparent; }
   .wizard-button i {
     margin: 0 0.5rem; }
+  .wizard-button.indented {
+    padding-left: 3rem; }
   .wizard-button.active {
     font-weight: var(--bold, 600);
     opacity: 1;

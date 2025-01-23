@@ -17,6 +17,11 @@ public partial class FlowWizardPage : ComponentBase
     /// Gets or sets the icon associated with the page.
     /// </summary>
     [Parameter] public string Icon { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this is indented/a child page
+    /// </summary>
+    [Parameter] public bool Indented { get; set; }
 
     /// <summary>
     /// Gets or sets the content of the page.

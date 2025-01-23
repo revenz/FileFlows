@@ -53,6 +53,10 @@
   i {
     margin: 0 0.5rem;
   }
+  
+  &.indented {
+    padding-left:3rem;
+  }
 
   &.active {
     font-weight:var(--bold, 600);

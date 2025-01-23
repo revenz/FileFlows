@@ -1,0 +1,8 @@
+@namespace FileFlows.Client.Components.Inputs
+@inherits Input<List<string>>
+
+<InputWrapper Input="@this">
+    <div class="input-language-wrapper">
+        <FlowMultiselect @bind-Value="MutliselectValue" Options="LanguageOptions"></FlowMultiselect>
+    </div>
+</InputWrapper>
