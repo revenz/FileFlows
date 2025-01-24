@@ -10,7 +10,8 @@ public class FlowBuilder
     private const int ROW_OFFSET = -60;
     private const int COL_OFFSET = -20;
     private const int COL_WIDTH = 100;
-    private const int ROW_HEIGHT = 120;
+    private const int ROW_HEIGHT = 140;
+    private const int MAX_ROWS = 7;
     private int CurrentColumn = 1, CurrentRow = 1;
 
     /// <summary>
@@ -66,7 +67,7 @@ public class FlowBuilder
         if (Flow.Parts.Any())
             flowPart.Inputs = 1; // not the first, must have an input
         Flow.Parts.Add(flowPart);
-        if (++CurrentRow > 10)
+        if (++CurrentRow > MAX_ROWS)
         {
             CurrentRow = 1;
             CurrentColumn += 3;
