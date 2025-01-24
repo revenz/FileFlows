@@ -210,3 +210,15 @@ jpg
 AniList
 JSON
 fftemp
+subfolders
+my-nasmediamovies
+Audiobook
+audiobook
+aax
+epub
+mobi
+gif
+bmp
+wmv
+mpeg
+subfolders
