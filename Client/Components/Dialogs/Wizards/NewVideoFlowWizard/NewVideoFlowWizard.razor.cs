@@ -62,10 +62,12 @@ public partial class NewVideoFlowWizard : IModal
     private string lblTitle, lblUseOriginal, lblPageType, lblPageTypeDescription, 
         lblPageVideo, lblPageVideoDescription, lblGeneral, lblGeneralDescription,
         lblPageAudio, lblPageAudioDescription, lblPageAudio1, lblPageAudio1Description, lblPageAudio2, lblPageAudio2Description, 
-        lblPageSubtitle, lblPageSubtitleDescription,
+        lblPageSubtitle, lblPageSubtitleDescription, lblPageOutput, lblPageOutputDescription,
         lblQuality, lblQualityDescription, lblBitrate, lblBitrateDescription, 
         lblTypeFilm, lblTypeFilmDescription, lblTypeTV, lblTypeTVDescription, lblTypeVideo, lblTypeVideoDescription,
-        lblDontConvertAudio, lblDontConvertAudioDescription, lblConvertAudio, lblConvertAudioDescription;
+        lblDontConvertAudio, lblDontConvertAudioDescription, lblConvertAudio, lblConvertAudioDescription,
+        lblKeepAllSubtitles, lblKeepAllSubtitlesDescription, lblKeepOnlySpecifiedSubtitles, lblKeepOnlySpecifiedSubtitlesDescription,
+        lblReplaceOriginal, lblReplaceOriginalDescription, lblSaveToFolder, lblSaveToFolderDescription;
 
     /// <summary>
     /// Gets the selected encoding type
@@ -73,7 +75,7 @@ public partial class NewVideoFlowWizard : IModal
     private int SelectedVideoEncodingType = 0;
     private int Quality = 22, Bitrate = 5000;
     private bool CropBlackBars;
-    private List<string> Audio1Languages = [], Audio2Languages = [];
+    private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguges = [];
     
     /// <summary>
     /// The new libraries name
@@ -87,9 +89,10 @@ public partial class NewVideoFlowWizard : IModal
     /// <summary>
     /// Flow properties
     /// </summary>
-    private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng";
+    private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng", 
+        OutputPath;
     private int VideoEncoderType, SelectedType;
-    private bool ConvertAudio = false, TwoAudioVersions = false;
+    private bool ConvertAudio = false, TwoAudioVersions = false, ReplaceOriginal = true, DeleteOld = false, SubtitleKeepOnly = false;
     /// <summary>
     /// The new libraries extensions
     /// </summary>
@@ -209,6 +212,8 @@ public partial class NewVideoFlowWizard : IModal
         lblPageAudio2Description = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio2Description");
         lblPageSubtitle = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Subtitle");
         lblPageSubtitleDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.SubtitleDescription");
+        lblPageOutput = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Output");
+        lblPageOutputDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.OutputDescription");
         
         lblTypeFilm = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Types.Film");
         lblTypeFilmDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Types.FilmDescription");
@@ -222,10 +227,20 @@ public partial class NewVideoFlowWizard : IModal
         lblBitrate = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Bitrate");
         lblBitrateDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.BitrateDescription");
         
-        lblDontConvertAudio= Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.DontConvertAudio");
+        lblDontConvertAudio = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.DontConvertAudio");
         lblDontConvertAudioDescription=Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.DontConvertAudioDescription");
         lblConvertAudio= Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.ConvertAudio");
         lblConvertAudioDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.ConvertAudioDescription");
+       
+        lblKeepAllSubtitles = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.KeepAllSubtitles");
+        lblKeepAllSubtitlesDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.KeepAllSubtitles-Help");
+        lblKeepOnlySpecifiedSubtitles = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.KeepOnlySpecifiedSubtitles");
+        lblKeepOnlySpecifiedSubtitlesDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.KeepOnlySpecifiedSubtitles-Help");
+            
+        lblReplaceOriginal = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.ReplaceOriginal");
+        lblReplaceOriginalDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.ReplaceOriginal-Help");
+        lblSaveToFolder = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.SaveToFolder");
+        lblSaveToFolderDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.SaveToFolder-Help");
         
         LanguageOptions = LanguageHelper.Languages.DistinctBy(x => x.Iso2).Select(x =>
         {
@@ -272,17 +287,42 @@ public partial class NewVideoFlowWizard : IModal
     /// </summary>
     private async Task Save()
     {
+        await Editor.Validate();
         if (string.IsNullOrWhiteSpace(VideoFlowName))
         {
             Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
             return;
         }
-        if (string.IsNullOrWhiteSpace(VideoFlowPath))
+
+        if (ReplaceOriginal == false && string.IsNullOrWhiteSpace(OutputPath))
         {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.PathRequired");
+            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.OutputPathRequired");
             return;
         }
-        
+
+        if (ConvertAudio)
+        {
+            if (Audio1Languages.Count == 0)
+            {
+                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio1LanguageRequired");
+                return;
+            }
+            if (TwoAudioVersions && Audio2Languages.Count == 0)
+            {
+                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2LanguageRequired");
+                return;
+            }
+        }
+
+        if (SubtitleKeepOnly)
+        {
+            if (SubtitleLanguges.Count == 0)
+            {
+                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.SubtitleLanguageRequired");
+                return;
+            }
+        }
+
         Wizard.ShowBlocker("Labels.Saving");
 
         try
@@ -304,6 +344,22 @@ public partial class NewVideoFlowWizard : IModal
             Wizard.HideBlocker();
         }
     }
+
+    /// <summary>
+    /// Gets the bitrate per channel for a specified codec
+    /// </summary>
+    /// <param name="codec">the codec</param>
+    /// <returns>the bitrate to use per channel</returns>
+    private int GetBitratePerChannel(string codec)
+        => codec switch
+        {
+            "aac" => 64,
+            "ac3" => 96,
+            "dts" => 192,
+            "flac" => 448,
+            "opus" => 64,
+            _ => 192
+        };
     
     /// <summary>
     /// Required validator

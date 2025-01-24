@@ -207,7 +207,15 @@ public enum FormInputType
     /// <summary>
     /// Custom fields
     /// </summary>
-    CustomFields = 47
+    CustomFields = 47,
+    /// <summary>
+    /// Language selector
+    /// </summary>
+    LanguageSelector = 48,
+    /// <summary>
+    /// Languages selector
+    /// </summary>
+    LanguagesSelector = 49
 }
 
 

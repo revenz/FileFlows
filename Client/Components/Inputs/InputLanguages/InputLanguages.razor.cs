@@ -4,16 +4,31 @@ using Microsoft.AspNetCore.Components;
 namespace FileFlows.Client.Components.Inputs;
 
 /// <summary>
-/// Input Language 
+/// Input Languages 
 /// </summary>
-public partial class InputLanguage : Input<string>
+public partial class InputLanguages : Input<List<string>>
 {
     /// <summary>
     /// Gets or sets if the original language option should be included
     /// </summary>
     [Parameter] public bool OriginalLanguage { get; set; }
     
-    private List<KeyValuePair<string, string>> LanguageOptions = [];
+    private object[] _MutliselectValue;
+    
+    /// <summary>
+    /// Gets or stes the value bound to the MultiSelect
+    /// </summary>
+    private object[] MutliselectValue
+    {
+        get => _MutliselectValue;
+        set
+        {
+            _MutliselectValue = value;
+            Value = value.Where(x => x != null).Select(x => x.ToString()).Where(x => x != null).ToList()!;
+        }
+    }
+
+    private List<ListOption> LanguageOptions = [];
     
 
     /// <summary>
@@ -32,13 +47,17 @@ public partial class InputLanguage : Input<string>
                 profile.UseGerman ? x.German :
                 x.English;
             name = name?.EmptyAsNull() ?? x.English;
-            return new KeyValuePair<string, string>(name, x.Iso2);
-        }).OrderBy(x => x.Key.ToLowerInvariant()).ToList();
-
-        if (OriginalLanguage)
-            LanguageOptions.Insert(0, new(
-                Translater.Instant("Labels.OriginalLanguage"),
+            return new ListOption()
+            {
+                Label = name, Value = x.Iso2
+            };
+        }).OrderBy(x => x.Label.ToLowerInvariant()).ToList();
+        
+        if(OriginalLanguage)
+            LanguageOptions.Insert(0, new ()
+            {
+                Label = Translater.Instant("Labels.OriginalLanguage"),
                 Value = "orig"
-            ));
+            });
     }
 }

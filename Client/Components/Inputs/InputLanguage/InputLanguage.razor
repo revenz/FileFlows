@@ -1,11 +1,14 @@
 @namespace FileFlows.Client.Components.Inputs
-@inherits Input<List<string>>
+@inherits Input<string>
 
-@{
-    bool invalid = string.IsNullOrEmpty(ErrorMessage) == false;
-}
+
 <InputWrapper Input="@this">
-    <div class="input-language-wrapper">
-        <FlowMultiselect @bind-Value="MutliselectValue" Options="LanguageOptions" Invalid="@invalid" />
+    <div>
+        <select id=@Uid disabled="@Disabled">
+            @foreach (var option in LanguageOptions)
+            {
+                <option selected="@(option.Value as string == Value)" value="@option.Value">@option.Key</option>
+            }
+        </select>
     </div>
 </InputWrapper>

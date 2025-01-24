@@ -9,7 +9,6 @@ ul.ul-radio-list {
     margin-bottom: 1rem;
     cursor: pointer;
     border-radius: var(--border-radius);
-    overflow: hidden;
     padding: 0.5rem 0.5rem 0.5rem 0;
     border: solid 1px transparent;
     border-left-width: var(--border-radius); }

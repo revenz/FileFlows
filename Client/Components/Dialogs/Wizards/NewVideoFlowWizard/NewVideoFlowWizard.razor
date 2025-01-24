@@ -8,6 +8,18 @@
 {
     <CascadingValue IsFixed="true" Value="Editor">
         <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
+            
+            <FlowWizardPage Title="@lblGeneral" Description="@lblGeneralDescription" OnPageAdvanced="OnGeneralPageAdvanced">
+                <InputText @bind-Value="@VideoFlowName" Label="Dialogs.NewVideoFlowWizard.Fields.Name" Validators=@RequiredValidator />
+
+                <InputSelect @bind-Value="@BoundVideoContainer" AllowClear="false" Options=@VideoContainers Label="Dialogs.NewVideoFlowWizard.Fields.VideoContainer" />
+                <InputSelect @bind-Value="@BoundVideoCodec" AllowClear="false" Options=@VideoCodecs Label="Dialogs.NewVideoFlowWizard.Fields.VideoCodec" />
+                
+                @if (string.IsNullOrWhiteSpace(VideoCodec) == false)
+                {
+                    <InputSwitch @bind-Value="@CropBlackBars" Label="Dialogs.NewVideoFlowWizard.Fields.CropBlackBars"/>
+                }
+            </FlowWizardPage>
 
             <FlowWizardPage Title="@lblPageType" Description="@lblPageTypeDescription">
 
@@ -36,15 +48,6 @@
                 </ul>
             </FlowWizardPage>
             
-            <FlowWizardPage Title="@lblGeneral" Description="@lblGeneralDescription" OnPageAdvanced="OnGeneralPageAdvanced">
-                <InputText @bind-Value="@VideoFlowName" Label="Dialogs.NewVideoFlowWizard.Fields.Name" Validators=@RequiredValidator />
-
-                <InputSelect @bind-Value="@BoundVideoContainer" AllowClear="false" Options=@VideoContainers Label="Dialogs.NewVideoFlowWizard.Fields.VideoContainer" />
-                <InputSelect @bind-Value="@BoundVideoCodec" AllowClear="false" Options=@VideoCodecs Label="Dialogs.NewVideoFlowWizard.Fields.VideoCodec" />
-                
-                <InputSwitch @bind-Value="@CropBlackBars" Label="Dialogs.NewVideoFlowWizard.Fields.CropBlackBars" />
-            </FlowWizardPage>
-
             <FlowWizardPage Title="@lblPageVideo" Description="@lblPageVideoDescription" Visible="@(VideoCodec != string.Empty)">
 
                 <ul class="ul-radio-list">
@@ -96,16 +99,65 @@
             </FlowWizardPage>
             
             <FlowWizardPage Title="@lblPageAudio1" Description="@lblPageAudio1Description" Indented="true" Visible="@ConvertAudio"  OnPageAdvanced="OnAudio1PageAdvanced" >
-                <InputLanguage @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
+                <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
 
                 <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
 
             </FlowWizardPage>
             <FlowWizardPage Title="@lblPageAudio2" Description="@lblPageAudio2Description" Indented="true" Visible="@(ConvertAudio && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
-                <InputLanguage @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
+                <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
                 <InputSelect @bind-Value="@BoundAudio2Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
             </FlowWizardPage>
             <FlowWizardPage Title="@lblPageSubtitle" Description="@lblPageSubtitleDescription">
+
+                <ul class="ul-radio-list">
+                    <li @onclick="() => SubtitleKeepOnly = false" class="clickable-radio @(SubtitleKeepOnly == false ? "active" : "")">
+                        <i class="fas fa-copy"></i>
+                        <div class="info">
+                            <span>@lblKeepAllSubtitles</span>
+                            <p>@lblKeepAllSubtitlesDescription</p>
+                        </div>
+                    </li>
+                    <li @onclick="() => SubtitleKeepOnly = true" class="clickable-radio @(SubtitleKeepOnly ? "active" : "")">
+                        <i class="fas fa-comment-dots"></i>
+                        <div class="info">
+                            <span>@lblKeepOnlySpecifiedSubtitles</span>
+                            <p>@lblKeepOnlySpecifiedSubtitlesDescription</p>
+                        </div>
+                        <div class="options">
+                            <InputLanguages @bind-Value="@SubtitleLanguges" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator" />
+                        </div>
+                    </li>
+                </ul>
+            </FlowWizardPage>
+            <FlowWizardPage Title="@lblPageOutput" Description="@lblPageOutputDescription">
+                <ul class="ul-radio-list">
+                    <li @onclick="() => ReplaceOriginal = true" class="clickable-radio @(ReplaceOriginal ? "active" : "")">
+                        <i class="fas fa-file-import"></i>
+                        <div class="info">
+                            <span>@lblReplaceOriginal</span>
+                            <p>@lblReplaceOriginalDescription</p>
+                        </div>
+                    </li>
+                    <li @onclick="() => ReplaceOriginal = false" class="clickable-radio @(ReplaceOriginal == false ? "active" : "")">
+                        <i class="fas fa-file-export"></i>
+                        <div class="info">
+                            <span>@lblSaveToFolder</span>
+                            <p>@lblSaveToFolderDescription</p>
+                        </div>
+                        <div class="options">
+                            @if (IsWindows)
+                            {
+                                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewVideoFlowWizard.Fields.OutputPathWindows" Validators=@RequiredValidator Directory=@true/>
+                            }
+                            else
+                            {
+                                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewVideoFlowWizard.Fields.OutputPath" Validators=@RequiredValidator Directory=@true/>
+                            }
+                            <InputSwitch @bind-Value="DeleteOld" Label="Dialogs.NewVideoFlowWizard.Fields.DeleteOld" />
+                        </div>
+                    </li>
+                </ul>
             </FlowWizardPage>
         </FlowWizard>
     </CascadingValue>
