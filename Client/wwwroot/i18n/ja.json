@@ -381,6 +381,24 @@
         "Audio2LanguageRequired": "少なくとも1つの追加のオーディオ言語を指定する必要があります。",
         "NameRequired": "名前は必須です。",
         "OutputPathRequired": "出力パスは必須です。"
+      },
+      "Pages": {
+        "Audio": "オーディオ",
+        "Audio1": "変換",
+        "Audio1Description": "保持するオーディオ言語とそのエンコーディング設定を指定します。",
+        "Audio2": "追加オーディオ",
+        "Audio2Description": "セカンダリオーディオトラックのエンコーディング設定を定義します。",
+        "AudioDescription": "オーディオトラックに適用するアクションを指定します。",
+        "General": "一般",
+        "GeneralDescription": "このフローに関する一般情報を入力してください。",
+        "Output": "出力",
+        "OutputDescription": "最終ファイルを保存する場所を指定します。",
+        "Subtitle": "字幕",
+        "SubtitleDescription": "出力に含める字幕を選択します。",
+        "Type": "種類",
+        "TypeDescription": "処理する動画の種類を選択します。",
+        "Video": "ビデオ",
+        "VideoDescription": "ビデオストリームのエンコード方法を選択します。"
       }
     },
     "PauseDialog": {

@@ -381,6 +381,24 @@
         "Audio2LanguageRequired": "您必須指定至少第二種音訊語言。",
         "NameRequired": "名稱是必需的。",
         "OutputPathRequired": "輸出路徑是必需的。"
+      },
+      "Pages": {
+        "Audio": "音頻",
+        "Audio1": "轉換",
+        "Audio1Description": "指定要保留的音頻語言及其編碼設定。",
+        "Audio2": "附加音頻",
+        "Audio2Description": "定義次要音頻軌道的編碼設定。",
+        "AudioDescription": "指定音頻軌道的處理方式。",
+        "General": "通用",
+        "GeneralDescription": "輸入關於此流程的一般信息。",
+        "Output": "輸出",
+        "OutputDescription": "指定保存最終文件的位置。",
+        "Subtitle": "字幕",
+        "SubtitleDescription": "選擇要包含的字幕。",
+        "Type": "類型",
+        "TypeDescription": "選擇將要處理的視頻類型。",
+        "Video": "視頻",
+        "VideoDescription": "選擇用於視頻流的編碼方法。"
       }
     },
     "PauseDialog": {

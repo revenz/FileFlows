@@ -381,6 +381,24 @@
         "Audio2LanguageRequired": "Debes especificar al menos un idioma adicional de audio.",
         "NameRequired": "El nombre es obligatorio.",
         "OutputPathRequired": "La ruta de salida es obligatoria."
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "Audio1": "Conversión",
+        "Audio1Description": "Especifique los idiomas de audio que desea conservar y su configuración de codificación.",
+        "Audio2": "Audio Adicional",
+        "Audio2Description": "Defina la configuración de codificación para las pistas de audio secundarias.",
+        "AudioDescription": "Especifique las acciones que se aplicarán a las pistas de audio.",
+        "General": "General",
+        "GeneralDescription": "Proporcione información general sobre este flujo.",
+        "Output": "Salida",
+        "OutputDescription": "Especifique la ubicación donde se debe guardar el archivo final.",
+        "Subtitle": "Subtítulo",
+        "SubtitleDescription": "Seleccione los subtítulos que se incluirán en la salida.",
+        "Type": "Tipo",
+        "TypeDescription": "Seleccione el tipo de videos a procesar.",
+        "Video": "Video",
+        "VideoDescription": "Elija el método de codificación para la secuencia de video."
       }
     },
     "PauseDialog": {

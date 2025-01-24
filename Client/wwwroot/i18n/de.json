@@ -381,6 +381,24 @@
         "Audio2LanguageRequired": "Sie müssen mindestens eine zusätzliche Audiosprache angeben.",
         "NameRequired": "Der Name ist erforderlich.",
         "OutputPathRequired": "Der Ausgabepfad ist erforderlich."
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "Audio1": "Konvertierung",
+        "Audio1Description": "Geben Sie die zu behaltenden Audiosprachen und deren Kodierungseinstellungen an.",
+        "Audio2": "Zusätzliches Audio",
+        "Audio2Description": "Legen Sie die Kodierungseinstellungen für die sekundären Audiospuren fest.",
+        "AudioDescription": "Spezifizieren Sie die Aktionen, die auf die Audiospuren angewendet werden sollen.",
+        "General": "Allgemein",
+        "GeneralDescription": "Geben Sie allgemeine Informationen zu diesem Flow an.",
+        "Output": "Ausgabe",
+        "OutputDescription": "Geben Sie den Speicherort für die endgültige Datei an.",
+        "Subtitle": "Untertitel",
+        "SubtitleDescription": "Wählen Sie die Untertitel aus, die in die Ausgabe aufgenommen werden sollen.",
+        "Type": "Typ",
+        "TypeDescription": "Wählen Sie die Art der zu verarbeitenden Videos.",
+        "Video": "Video",
+        "VideoDescription": "Wählen Sie die Kodiermethode für den Videostream."
       }
     },
     "PauseDialog": {

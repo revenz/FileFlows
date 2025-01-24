@@ -381,6 +381,24 @@
         "Audio2LanguageRequired": "Vous devez spécifier au moins une langue audio supplémentaire.",
         "NameRequired": "Le nom est obligatoire.",
         "OutputPathRequired": "Le chemin de sortie est obligatoire."
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "Audio1": "Conversion",
+        "Audio1Description": "Spécifiez les langues audio à conserver et leurs paramètres d'encodage.",
+        "Audio2": "Audio Supplémentaire",
+        "Audio2Description": "Définissez les paramètres d'encodage pour les pistes audio secondaires.",
+        "AudioDescription": "Spécifiez les actions à appliquer aux pistes audio.",
+        "General": "Général",
+        "GeneralDescription": "Fournissez des informations générales sur ce flux.",
+        "Output": "Sortie",
+        "OutputDescription": "Spécifiez l'emplacement où le fichier final doit être enregistré.",
+        "Subtitle": "Sous-titre",
+        "SubtitleDescription": "Choisissez les sous-titres à inclure dans le fichier de sortie.",
+        "Type": "Type",
+        "TypeDescription": "Sélectionnez le type de vidéos à traiter.",
+        "Video": "Vidéo",
+        "VideoDescription": "Choisissez la méthode d'encodage pour le flux vidéo."
       }
     },
     "PauseDialog": {

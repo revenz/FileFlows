@@ -381,6 +381,24 @@
         "Audio2LanguageRequired": "Je moet minstens één extra audiotaal opgeven.",
         "NameRequired": "De naam is vereist.",
         "OutputPathRequired": "Het uitvoerpad is vereist."
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "Audio1": "Conversie",
+        "Audio1Description": "Specificeer de audiotalen die behouden moeten blijven en hun coderingsinstellingen.",
+        "Audio2": "Extra Audio",
+        "Audio2Description": "Definieer de coderingsinstellingen voor de secundaire audiotracks.",
+        "AudioDescription": "Specificeer wat er met de audiotracks moet gebeuren.",
+        "General": "Algemeen",
+        "GeneralDescription": "Voer algemene informatie over deze flow in.",
+        "Output": "Uitvoer",
+        "OutputDescription": "Specificeer waar het eindbestand moet worden opgeslagen.",
+        "Subtitle": "Ondertiteling",
+        "SubtitleDescription": "Selecteer de ondertitels die in de uitvoer moeten worden opgenomen.",
+        "Type": "Type",
+        "TypeDescription": "Selecteer het type video's dat u wilt verwerken.",
+        "Video": "Video",
+        "VideoDescription": "Kies de coderingsmethode voor de videostream."
       }
     },
     "PauseDialog": {

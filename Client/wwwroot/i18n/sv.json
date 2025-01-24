@@ -381,6 +381,24 @@
         "Audio2LanguageRequired": "Du måste specificera minst ett ytterligare ljudspråk.",
         "NameRequired": "Namn är obligatoriskt.",
         "OutputPathRequired": "Utmatningsväg är obligatorisk."
+      },
+      "Pages": {
+        "Audio": "Ljud",
+        "Audio1": "Konvertering",
+        "Audio1Description": "Ange vilka ljudspråk som ska behållas och deras kodningsinställningar.",
+        "Audio2": "Ytterligare Ljud",
+        "Audio2Description": "Definiera kodningsinställningarna för de sekundära ljudspåren.",
+        "AudioDescription": "Specificera vad som ska göras med ljudspåren.",
+        "General": "Allmänt",
+        "GeneralDescription": "Ange allmän information om detta flöde.",
+        "Output": "Utdata",
+        "OutputDescription": "Ange var den slutliga filen ska sparas.",
+        "Subtitle": "Undertext",
+        "SubtitleDescription": "Välj vilka undertexter som ska inkluderas i utdatafilen.",
+        "Type": "Typ",
+        "TypeDescription": "Välj vilken typ av videor du vill bearbeta.",
+        "Video": "Video",
+        "VideoDescription": "Välj kodningsmetoden som används för videoströmmen."
       }
     },
     "PauseDialog": {
