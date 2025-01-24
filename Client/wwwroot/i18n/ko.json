@@ -253,6 +253,136 @@
         "NoMoreImports": "이 스크립트에는 더 이상 가져올 항목이 없습니다"
       }
     },
+    "NewLibraryWizard": {
+      "Title": "새 라이브러리",
+      "Labels": {
+        "FileExtensions": "확장자",
+        "FileExtensionsDescription": "이 라이브러리에서 처리할 확장자를 지정하세요.",
+        "FileTypes": "파일 유형",
+        "FileTypesDescription": "이 라이브러리에서 감지 및 처리할 파일 유형을 지정하세요.",
+        "General": "일반",
+        "GeneralDescription": "이 라이브러리에 대한 일반 정보를 입력하세요.",
+        "LibraryType": "유형",
+        "LibraryTypeDescription": "생성하려는 라이브러리 유형을 선택하세요.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "지정된 다운로드 폴더에서 발견된 파일을 처리합니다. 파일은 해당 폴더에서 감지될 때마다 처리됩니다. 동일한 파일이 다시 처리되지 않도록 처리 후 폴더에서 파일을 이동하거나 삭제하세요. 파일이 다시 나타나면 새 파일로 간주되어 다시 처리됩니다.",
+            "Title": "다운로드"
+          },
+          "Files": {
+            "Description": "지정된 폴더에 있는 개별 파일을 처리합니다. 이 옵션은 파일을 하나씩 처리할 때 적합합니다.",
+            "Title": "파일"
+          },
+          "Folders": {
+            "Description": "지정된 디렉토리에서 전체 폴더를 처리합니다. 폴더 자체를 처리하며, 내부 개별 파일은 처리되지 않습니다. 전체 폴더를 처리하도록 설계된 흐름에 적합합니다.",
+            "Title": "폴더"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "확장자",
+        "FileExtensions-Help": "모든 파일을 처리하려면 비워 두거나, 이 라이브러리에서 처리할 파일 확장자를 지정하세요.",
+        "Flow": "흐름",
+        "Flow-Help": "이 라이브러리에서 항목을 처리하는 데 사용되는 흐름입니다.",
+        "Name": "이름",
+        "Name-Help": "새 라이브러리의 이름으로 고유해야 합니다.",
+        "Path": "경로",
+        "Path-Help": "라이브러리의 디렉토리 경로를 지정하세요.",
+        "PathWindows": "경로",
+        "PathWindows-Help": "라이브러리의 디렉토리 경로를 지정하세요. 네트워크 경로의 경우 \\\\my-nas\\media\\movies 형식을 사용하세요."
+      },
+      "FileTypes": {
+        "Audio": "오디오",
+        "Audiobook": "오디오북",
+        "AudiobookDescription": "mp3, m4b, aax와 같은 오디오북 파일을 처리합니다.",
+        "AudioDescription": "mp3, flac, wav, aac 등과 같은 오디오 파일을 처리합니다.",
+        "Comic": "만화",
+        "ComicDescription": "cbz, cbr, cb7, pdf와 같은 만화 파일을 처리합니다.",
+        "Custom": "사용자 지정",
+        "CustomDescription": "처리할 파일의 확장자를 수동으로 지정합니다.",
+        "eBook": "전자책",
+        "eBookDescription": "epub, mobi, azw3, pdf와 같은 전자책 파일을 처리합니다.",
+        "Image": "이미지",
+        "ImageDescription": "jpg, png, gif, bmp, tiff와 같은 이미지 파일을 처리합니다.",
+        "Video": "비디오",
+        "VideoDescription": "mkv, mp4, wmv, ts, mpeg 등의 비디오 파일을 처리합니다."
+      },
+      "Messages": {
+        "FlowRequired": "흐름은 필수입니다.",
+        "NameRequired": "라이브러리 이름은 필수입니다.",
+        "PathRequired": "라이브러리 경로는 필수입니다."
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Title": "새로운 비디오 마법사",
+      "Labels": {
+        "Bitrate": "비트레이트",
+        "BitrateDescription": "비디오 인코딩 시 고정 비트레이트를 사용합니다. 이렇게 하면 비디오 간에 파일 크기가 일정하게 유지되지만 비트레이트가 최적이 아닐 경우 저장 공간을 낭비하거나 품질이 손실될 수 있습니다.",
+        "FileExtensions": "확장자",
+        "FileExtensionsDescription": "이 라이브러리에서 처리할 확장자를 지정합니다.",
+        "Quality": "품질",
+        "QualityDescription": "입력 비디오에 따라 적응형 인코딩을 사용하여 일정한 품질 수준을 달성합니다. 이는 권장되며 비디오 간 일정한 품질을 제공하고 가장 작은 파일을 생성합니다.",
+        "UseOriginal": "수정 없이 원본 사용",
+        "Types": {
+          "Film": "영화",
+          "FilmDescription": "영화를 처리하고 Meta 플러그인을 사용하여 정보를 조회합니다. 이를 통해 영화의 원래 언어를 파악할 수 있습니다.",
+          "TV": "TV",
+          "TVDescription": "TV 프로그램을 처리하고 Meta 플러그인을 사용하여 정보를 조회합니다. 이를 통해 TV 프로그램의 원래 언어를 파악할 수 있습니다.",
+          "Video": "비디오",
+          "VideoDescription": "일반적인 비디오 파일로 추가적인 메타 조회는 수행되지 않습니다."
+        }
+      },
+      "Fields": {
+        "AudioChannels": "채널",
+        "AudioChannels-Help": "오디오 채널 수입니다. 기존 오디오 트랙을 사용하여 이 트랙을 만들며, 필요에 따라 다운믹스를 할 수 있지만 업믹스는 하지 않으며, 채널 수가 부족하면 해당 트랙은 추가되지 않습니다.",
+        "AudioCodec": "코덱",
+        "AudioCodec-Help": "오디오에 사용할 코덱",
+        "AudioLanguages": "언어",
+        "AudioLanguages-Help": "유지할 언어를 원하는 순서대로 지정합니다.",
+        "Bitrate": "비트레이트",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "오디오 변환",
+        "ConvertAudioDescription": "지정된 형식으로 오디오 트랙을 변환합니다.",
+        "CropBlackBars": "검은 띠 자르기",
+        "CropBlackBars-Help": "FileFlows는 비디오 파일에서 검은 띠를 감지하고, 찾을 경우 이를 잘라 파일 크기를 줄이며, 플레이어에서 비율 변경을 허용합니다.",
+        "DefaultLanguage": "기본 언어",
+        "DefaultLanguage-Help": "현재 언어가 지정되지 않은 오디오 트랙에 할당할 언어를 지정합니다.",
+        "DeleteOld": "원본 삭제",
+        "DeleteOld-Help": "원본 파일을 삭제하고, 다른 비디오 파일이 없으면 원본 폴더도 삭제합니다.",
+        "DontConvertAudio": "오디오 변환 안 함",
+        "DontConvertAudioDescription": "오디오 트랙을 변경하지 않고 그대로 복사합니다.",
+        "KeepAllSubtitles": "모든 자막 유지",
+        "KeepAllSubtitles-Help": "원본 비디오에서 모든 자막을 유지합니다.",
+        "KeepOnlySpecifiedSubtitles": "지정된 자막만 유지",
+        "KeepOnlySpecifiedSubtitles-Help": "지정된 자막만 유지하고 나머지는 제거됩니다.",
+        "Name": "이름",
+        "Name-Help": "새로 생성된 흐름의 이름으로, 고유해야 합니다.",
+        "OutputPath": "출력 경로",
+        "OutputPath-Help": "최종 비디오 파일을 저장할 경로입니다.",
+        "OutputPathWindows": "출력 경로",
+        "OutputPathWindows-Help": "최종 비디오 파일을 저장할 경로입니다.\n예: \\\\my-nas\\media\\movies와 같이 네트워크 경로를 사용할 수 있습니다.",
+        "Quality": "품질",
+        "Quality-Suffix": "고품질",
+        "ReplaceOriginal": "원본 교체",
+        "ReplaceOriginal-Help": "새로 생성된 비디오 파일로 원본 비디오 파일을 교체합니다.",
+        "SaveToFolder": "폴더에 저장",
+        "SaveToFolder-Help": "새로 생성된 파일을 새 위치에 저장합니다.",
+        "SubtitleLanguages": "언어",
+        "SubtitleLanguages-Help": "유지할 언어를 원하는 순서대로 지정합니다.",
+        "TwoAudioVersions": "두 개의 오디오 버전",
+        "TwoAudioVersions-Help": "두 개의 오디오 트랙 버전을 생성해야 하는 경우입니다. 예를 들어, 서라운드와 스테레오 트랙을 생성하는 경우입니다. 그렇지 않으면 한 개의 버전만 생성됩니다.",
+        "VideoCodec": "비디오 코덱",
+        "VideoCodec-Help": "비디오에 사용할 코덱",
+        "VideoContainer": "컨테이너",
+        "VideoContainer-Help": "사용할 비디오 컨테이너입니다. MP4는 자막 형식이 적기 때문에 MKV를 사용하는 것이 좋습니다."
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "최소한 하나의 오디오 언어를 지정해야 합니다.",
+        "Audio2LanguageRequired": "추가 오디오 언어를 최소한 하나 지정해야 합니다.",
+        "NameRequired": "이름은 필수입니다.",
+        "OutputPathRequired": "출력 경로는 필수입니다."
+      }
+    },
     "PauseDialog": {
       "Message": "처리 중단 시간을 선택하세요.\n참고: 현재 실행 중인 플로우는 계속 실행되지만, 지정된 시간이 끝날 때까지 다른 플로우는 실행되지 않습니다.",
       "Title": "처리 중단"

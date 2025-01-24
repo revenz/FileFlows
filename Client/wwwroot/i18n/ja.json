@@ -253,6 +253,136 @@
         "NoMoreImports": "このスクリプトには追加のインポートはありません"
       }
     },
+    "NewLibraryWizard": {
+      "Title": "新しいライブラリ",
+      "Labels": {
+        "FileExtensions": "拡張子",
+        "FileExtensionsDescription": "このライブラリで処理する拡張子を指定します。",
+        "FileTypes": "ファイルタイプ",
+        "FileTypesDescription": "このライブラリで検出および処理するファイルタイプを指定します。",
+        "General": "一般",
+        "GeneralDescription": "このライブラリに関する一般的な情報を入力してください。",
+        "LibraryType": "タイプ",
+        "LibraryTypeDescription": "作成するライブラリの種類を選択してください。",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "指定されたダウンロードフォルダ内で見つかったファイルを処理します。ファイルはフォルダ内で検出されるたびに処理されます。同じファイルを再処理しないように、処理後にそのフォルダからファイルを移動または削除してください。ファイルが再び出現すると、新しいものとして扱われ、再処理されます。",
+            "Title": "ダウンロード"
+          },
+          "Files": {
+            "Description": "指定されたフォルダ内の個々のファイルを処理します。このオプションは、ファイルを1つずつ処理する場合に適しています。",
+            "Title": "ファイル"
+          },
+          "Folders": {
+            "Description": "指定されたディレクトリ内のフォルダ全体を処理します。フォルダそのものを処理し、中の個々のファイルは処理されません。このオプションは、フォルダ全体を処理するように設計されたフローに適しています。",
+            "Title": "フォルダ"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "拡張子",
+        "FileExtensions-Help": "すべてのファイルを処理するには空白のままにするか、このライブラリで処理するファイルの拡張子を指定してください。",
+        "Flow": "フロー",
+        "Flow-Help": "このライブラリ内の項目を処理するために使用するフロー。",
+        "Name": "名前",
+        "Name-Help": "新しいライブラリの名前。ユニークである必要があります。",
+        "Path": "パス",
+        "Path-Help": "ライブラリ用のディレクトリパスを指定してください。",
+        "PathWindows": "パス",
+        "PathWindows-Help": "ライブラリ用のディレクトリパスを指定してください。ネットワークパスの場合は、\\\\my-nas\\media\\movies の形式を使用してください。"
+      },
+      "FileTypes": {
+        "Audio": "オーディオ",
+        "Audiobook": "オーディオブック",
+        "AudiobookDescription": "mp3、m4b、aaxなどのオーディオブックファイルを処理します。",
+        "AudioDescription": "mp3、flac、wav、aacなどのオーディオファイルを処理します。",
+        "Comic": "コミック",
+        "ComicDescription": "cbz、cbr、cb7、pdfなどのコミックファイルを処理します。",
+        "Custom": "カスタム",
+        "CustomDescription": "処理するファイルの拡張子を手動で指定します。",
+        "eBook": "電子書籍",
+        "eBookDescription": "epub、mobi、azw3、pdfなどの電子書籍ファイルを処理します。",
+        "Image": "画像",
+        "ImageDescription": "jpg、png、gif、bmp、tiffなどの画像ファイルを処理します。",
+        "Video": "ビデオ",
+        "VideoDescription": "mkv、mp4、wmv、ts、mpegなどのビデオファイルを処理します。"
+      },
+      "Messages": {
+        "FlowRequired": "フローは必須です。",
+        "NameRequired": "ライブラリ名は必須です。",
+        "PathRequired": "ライブラリパスは必須です。"
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Title": "新しいビデオウィザード",
+      "Labels": {
+        "Bitrate": "ビットレート",
+        "BitrateDescription": "ビデオのエンコード時に固定ビットレートを使用します。これにより、ビデオ間でファイルサイズが一定になりますが、ビットレートが最適でない場合、ストレージを無駄にしたり品質を失ったりする可能性があります。",
+        "FileExtensions": "拡張子",
+        "FileExtensionsDescription": "このライブラリで処理する拡張子を指定します。",
+        "Quality": "品質",
+        "QualityDescription": "ビデオの入力に基づいて適応的なエンコードを使用し、一定の品質レベルを達成します。これは推奨され、ビデオ間で一定の品質を維持し、最小のファイルサイズを生成します。",
+        "UseOriginal": "変更せずにオリジナルを使用",
+        "Types": {
+          "Film": "映画",
+          "FilmDescription": "映画を処理し、Metaプラグインを使用してその情報を検索します。これにより、映画の元の言語を特定できます。",
+          "TV": "テレビ",
+          "TVDescription": "テレビ番組を処理し、Metaプラグインを使用してその情報を検索します。これにより、テレビ番組の元の言語を特定できます。",
+          "Video": "ビデオ",
+          "VideoDescription": "一般的なビデオファイルで、追加のメタデータ検索は行われません。"
+        }
+      },
+      "Fields": {
+        "AudioChannels": "チャンネル",
+        "AudioChannels-Help": "オーディオのチャンネル数。既存のオーディオトラックを使用してこのトラックを作成し、必要に応じてダウンミックスできますが、アップミックスは行いません。そのため、利用可能なチャンネル数より多くを選択した場合、そのトラックは追加されません。",
+        "AudioCodec": "コーデック",
+        "AudioCodec-Help": "オーディオに使用するコーデック",
+        "AudioLanguages": "言語",
+        "AudioLanguages-Help": "保持したい言語を順番に指定します。",
+        "Bitrate": "ビットレート",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "オーディオを変換",
+        "ConvertAudioDescription": "指定された形式にオーディオトラックを変換します。",
+        "CropBlackBars": "黒帯をトリミング",
+        "CropBlackBars-Help": "FileFlowsはビデオファイル内の黒帯を検出し、見つかった場合はファイルサイズを縮小し、プレーヤーでのアスペクト比変更を可能にするためにトリミングします。",
+        "DefaultLanguage": "デフォルト言語",
+        "DefaultLanguage-Help": "現在言語が指定されていないオーディオトラックに割り当てる言語を指定します。",
+        "DeleteOld": "オリジナルを削除",
+        "DeleteOld-Help": "オリジナルファイルを削除するか、他のビデオファイルが見つからない場合は元のフォルダも削除します。",
+        "DontConvertAudio": "オーディオを変換しない",
+        "DontConvertAudioDescription": "オーディオトラックを変更せずにそのままコピーします。",
+        "KeepAllSubtitles": "すべての字幕を保持",
+        "KeepAllSubtitles-Help": "オリジナルビデオからすべての字幕を保持します。",
+        "KeepOnlySpecifiedSubtitles": "指定した字幕のみ保持",
+        "KeepOnlySpecifiedSubtitles-Help": "指定した字幕のみ保持し、それ以外は削除されます。",
+        "Name": "名前",
+        "Name-Help": "新しく作成されたフローの名前で、ユニークである必要があります。",
+        "OutputPath": "出力パス",
+        "OutputPath-Help": "最終的なビデオファイルを保存するパス。",
+        "OutputPathWindows": "出力パス",
+        "OutputPathWindows-Help": "最終的なビデオファイルを保存するパス。\n例: \\\\my-nas\\media\\movies のようにネットワークパスを指定できます。",
+        "Quality": "品質",
+        "Quality-Suffix": "高品質",
+        "ReplaceOriginal": "オリジナルを置き換える",
+        "ReplaceOriginal-Help": "オリジナルのビデオファイルを新しく作成したものと置き換えます。",
+        "SaveToFolder": "フォルダーに保存",
+        "SaveToFolder-Help": "新しく作成されたファイルを新しい場所に保存します。",
+        "SubtitleLanguages": "言語",
+        "SubtitleLanguages-Help": "保持したい言語を順番に指定します。",
+        "TwoAudioVersions": "2つのオーディオバージョン",
+        "TwoAudioVersions-Help": "2つのオーディオトラックバージョンを作成する必要がある場合。例えば、サラウンドとステレオのトラックを作成する場合です。それ以外は、1つのバージョンだけが作成されます。",
+        "VideoCodec": "ビデオコーデック",
+        "VideoCodec-Help": "ビデオに使用するコーデック",
+        "VideoContainer": "コンテナ",
+        "VideoContainer-Help": "使用するビデオコンテナ。MP4は字幕フォーマットが少ないため、MKVの使用をお勧めします。"
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "少なくとも1つのオーディオ言語を指定する必要があります。",
+        "Audio2LanguageRequired": "少なくとも1つの追加のオーディオ言語を指定する必要があります。",
+        "NameRequired": "名前は必須です。",
+        "OutputPathRequired": "出力パスは必須です。"
+      }
+    },
     "PauseDialog": {
       "Message": "処理を一時停止する時間を選択します。\n注: 現在のフローは実行を続けますが、他のフローはこの時間が経過するまで実行されません。",
       "Title": "処理を一時停止"

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -12,23 +13,24 @@ public partial class InputLanguages : Input<List<string>>
     /// Gets or sets if the original language option should be included
     /// </summary>
     [Parameter] public bool OriginalLanguage { get; set; }
-    
-    private object[] _MutliselectValue;
-    
+
+
     /// <summary>
     /// Gets or stes the value bound to the MultiSelect
     /// </summary>
-    private object[] MutliselectValue
-    {
-        get => _MutliselectValue;
-        set
-        {
-            _MutliselectValue = value;
-            Value = value.Where(x => x != null).Select(x => x.ToString()).Where(x => x != null).ToList()!;
-        }
-    }
+    private object[] MutliselectValue { get; set; } = [];
 
     private List<ListOption> LanguageOptions = [];
+
+    /// <summary>
+    /// Called when the multiselect value chnages
+    /// </summary>
+    /// <param name="value">the new value</param>
+    private void UpdateMultiselectValue(object[] value)
+    {
+        Value = value.Where(x => x != null).Select(x => x.ToString()).Where(x => x != null).ToList()!;
+        _ = Validate();
+    }
     
 
     /// <summary>
@@ -59,5 +61,12 @@ public partial class InputLanguages : Input<List<string>>
                 Label = Translater.Instant("Labels.OriginalLanguage"),
                 Value = "orig"
             });
+    }
+
+    public override Task<bool> Validate()
+    {
+        bool required = this.Validators.Any(x => x is Required);
+        return base.Validate();
+
     }
 }

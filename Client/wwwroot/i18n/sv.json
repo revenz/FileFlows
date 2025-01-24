@@ -253,6 +253,136 @@
         "NoMoreImports": "Det finns inga fler importer tillgängliga för detta skript"
       }
     },
+    "NewLibraryWizard": {
+      "Title": "Ny Bibliotek",
+      "Labels": {
+        "FileExtensions": "Filändelser",
+        "FileExtensionsDescription": "Ange filändelser som ska behandlas i det här biblioteket.",
+        "FileTypes": "Filtyper",
+        "FileTypesDescription": "Ange vilka filtyper som ska detekteras och behandlas i det här biblioteket.",
+        "General": "Allmänt",
+        "GeneralDescription": "Fyll i allmän information om det här biblioteket.",
+        "LibraryType": "Typ",
+        "LibraryTypeDescription": "Välj typ av bibliotek som du vill skapa.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "Behandlar filer som finns i en angiven nedladdningsmapp. Filerna behandlas varje gång de upptäcks i mappen. För att undvika att filer behandlas igen, flytta eller ta bort dem från mappen efter behandling. Om en fil återkommer behandlas den som ny och behandlas på nytt.",
+            "Title": "Nedladdningar"
+          },
+          "Files": {
+            "Description": "Behandlar enstaka filer som finns i en angiven mapp. Detta alternativ är bra för att behandla filer en i taget.",
+            "Title": "Filer"
+          },
+          "Folders": {
+            "Description": "Behandlar hela mappar som finns i en angiven katalog. Endast mappen behandlas, inte de enskilda filerna i den. Använd detta alternativ om ditt arbetsflöde är designat för att behandla hela mappar.",
+            "Title": "Mappar"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "Filändelser",
+        "FileExtensions-Help": "Lämna tomt för att behandla alla filer eller specificera filändelserna för de filer som ska behandlas.",
+        "Flow": "Arbetsflöde",
+        "Flow-Help": "Arbetsflödet som används för att behandla poster i detta bibliotek.",
+        "Name": "Namn",
+        "Name-Help": "Namnet på det nya biblioteket, som måste vara unikt.",
+        "Path": "Sökväg",
+        "Path-Help": "Ange sökvägen till bibliotekets katalog.",
+        "PathWindows": "Sökväg",
+        "PathWindows-Help": "Ange sökvägen till bibliotekets katalog. För nätverksvägar, använd formatet \\\\min-nas\\media\\filmer."
+      },
+      "FileTypes": {
+        "Audio": "Ljud",
+        "Audiobook": "Ljudbok",
+        "AudiobookDescription": "Behandlar ljudboksfiler som mp3, m4b och aax.",
+        "AudioDescription": "Behandlar ljudfiler som mp3, flac, wav, aac och mer.",
+        "Comic": "Serier",
+        "ComicDescription": "Behandlar seriekomiksfiler som cbz, cbr, cb7 och pdf.",
+        "Custom": "Anpassad",
+        "CustomDescription": "Specifikera filändelser manuellt för behandling.",
+        "eBook": "E-bok",
+        "eBookDescription": "Behandlar e-boksfiler som epub, mobi, azw3 och pdf.",
+        "Image": "Bild",
+        "ImageDescription": "Behandlar bildfiler som jpg, png, gif, bmp och tiff.",
+        "Video": "Video",
+        "VideoDescription": "Behandlar videofiler som mkv, mp4, wmv, ts, mpeg och mer."
+      },
+      "Messages": {
+        "FlowRequired": "Arbetsflöde är obligatoriskt.",
+        "NameRequired": "Bibliotekets namn är obligatoriskt.",
+        "PathRequired": "Bibliotekets sökväg är obligatorisk."
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Title": "Ny Video Wizard",
+      "Labels": {
+        "Bitrate": "Bitrate",
+        "BitrateDescription": "Använder en fast bitrate när videon kodas. Detta ger konsekventa filstorlekar över videor, men slösar lagring eller förlorar kvalitet om bitraten inte är optimal.",
+        "FileExtensions": "Filändelser",
+        "FileExtensionsDescription": "Ange filändelser för att behandla i detta bibliotek.",
+        "Quality": "Kvalitet",
+        "QualityDescription": "Använder adaptiv kodning baserat på videons ingång för att uppnå ett konstant kvalitetsnivå. Detta rekommenderas och ger en konstant kvalitet över videor och producerar också de minsta filerna.",
+        "UseOriginal": "Använd original utan modifiering",
+        "Types": {
+          "Film": "Film",
+          "FilmDescription": "Bearbeta filmer och hämta deras information med Meta-pluginet. Detta hjälper till att bestämma filmens originalspråk.",
+          "TV": "TV",
+          "TVDescription": "Bearbeta TV-serier och hämta deras information med Meta-pluginet. Detta hjälper till att bestämma TV-seriens originalspråk.",
+          "Video": "Video",
+          "VideoDescription": "En generell videofil, ingen ytterligare metadatainhämtning sker."
+        }
+      },
+      "Fields": {
+        "AudioChannels": "Kanaler",
+        "AudioChannels-Help": "Antalet kanaler för ljudet. Använder befintliga ljudspår för att skapa detta spår och kan nedmixas vid behov men kommer inte att uppmixas, så om du väljer ett kanalantal som är högre än vad som finns tillgängligt, kommer detta spår inte att läggas till.",
+        "AudioCodec": "Codec",
+        "AudioCodec-Help": "Codec att använda för ljudet",
+        "AudioLanguages": "Språk",
+        "AudioLanguages-Help": "Ange språken som du vill behålla i den ordning du vill ha dem.",
+        "Bitrate": "Bitrate",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "Konvertera ljud",
+        "ConvertAudioDescription": "Konvertera ljudspåren till de angivna formaten",
+        "CropBlackBars": "Beskär svarta kanter",
+        "CropBlackBars-Help": "FileFlows kommer att försöka upptäcka svarta kanter i videofilen och om de hittas kommer de att beskäras för att minska filstorleken och för att möjliggöra ändring av bildförhållandet i spelare.",
+        "DefaultLanguage": "Standardspråk",
+        "DefaultLanguage-Help": "Anger språket som ska tilldelas ljudspår som inte har något språk specificerat.",
+        "DeleteOld": "Rensa original",
+        "DeleteOld-Help": "Om originalfilen ska tas bort och om originalmappen också ska tas bort om inga andra videofiler finns kvar.",
+        "DontConvertAudio": "Konvertera inte ljud",
+        "DontConvertAudioDescription": "Kopiera alla ljudspår utan några ändringar",
+        "KeepAllSubtitles": "Bevara alla undertexter",
+        "KeepAllSubtitles-Help": "Bevara alla undertexter från originalvideon",
+        "KeepOnlySpecifiedSubtitles": "Bevara endast",
+        "KeepOnlySpecifiedSubtitles-Help": "Bevara endast de specificerade undertexterna, resten tas bort",
+        "Name": "Namn",
+        "Name-Help": "Namnet på den nya flödet, detta måste vara unikt.",
+        "OutputPath": "Utmatningsväg",
+        "OutputPath-Help": "Vägen att spara den slutliga videofilen till.",
+        "OutputPathWindows": "Utmatningsväg",
+        "OutputPathWindows-Help": "Vägen att spara den slutliga videofilen till.\nDetta kan vara en nätverksväg, till exempel \\\\min-nas\\media\\filmer",
+        "Quality": "Kvalitet",
+        "Quality-Suffix": "Högre kvalitet",
+        "ReplaceOriginal": "Ersätt originalet",
+        "ReplaceOriginal-Help": "Ersätt originalvideofilen med den nyligen skapade.",
+        "SaveToFolder": "Spara till mapp",
+        "SaveToFolder-Help": "Spara den nyligen skapade filen till en ny plats",
+        "SubtitleLanguages": "Språk för undertexter",
+        "SubtitleLanguages-Help": "Ange språken som du vill behålla i den ordning du vill ha dem.",
+        "TwoAudioVersions": "Två ljudversioner",
+        "TwoAudioVersions-Help": "Om två versioner av ljudspår ska skapas. Till exempel om du vill skapa surround- och stereo-spår. Annars skapas bara en version.",
+        "VideoCodec": "Video Codec",
+        "VideoCodec-Help": "Codec att använda för videon",
+        "VideoContainer": "Container",
+        "VideoContainer-Help": "Videokontainern att använda, det rekommenderas att använda MKV eftersom MP4 stöder färre undertextformat."
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "Du måste specificera minst ett ljudspråk.",
+        "Audio2LanguageRequired": "Du måste specificera minst ett ytterligare ljudspråk.",
+        "NameRequired": "Namn är obligatoriskt.",
+        "OutputPathRequired": "Utmatningsväg är obligatorisk."
+      }
+    },
     "PauseDialog": {
       "Message": "Välj hur länge behandlingen ska pausas.\nObs: De aktuella flödena kommer att fortsätta köras, men inga andra flöden kommer att köras tills tiden är slut.",
       "Title": "Pausa behandling"

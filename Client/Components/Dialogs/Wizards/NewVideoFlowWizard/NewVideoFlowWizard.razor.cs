@@ -91,7 +91,7 @@ public partial class NewVideoFlowWizard : IModal
     /// </summary>
     private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng", 
         OutputPath;
-    private int VideoEncoderType, SelectedType;
+    private int VideoEncoderType, SelectedType, Audio1Channels, Audio2Channels;
     private bool ConvertAudio = false, TwoAudioVersions = false, ReplaceOriginal = true, DeleteOld = false, SubtitleKeepOnly = false;
     /// <summary>
     /// The new libraries extensions
@@ -101,7 +101,7 @@ public partial class NewVideoFlowWizard : IModal
     /// <summary>
     /// The input options
     /// </summary>
-    private List<ListOption> VideoCodecs = [], VideoContainers = [], AudioCodecs = [], LanguageOptions = [];
+    private List<ListOption> VideoCodecs = [], VideoContainers = [], AudioCodecs = [], AudioChannels = [], LanguageOptions = [];
     
     /// <summary>
     /// Gets or sets the flow wizard
@@ -173,6 +173,30 @@ public partial class NewVideoFlowWizard : IModal
         {
             if (value is string codec)
                 Audio2Codec = codec;
+        }
+    }
+    /// <summary>
+    /// Gets or sets bound audio 1 channels
+    /// </summary>
+    private object BoundAudio1Channels
+    {
+        get => Audio1Channels;
+        set
+        {
+            if (value is int channels)
+                Audio1Channels = channels;
+        }
+    }
+    /// <summary>
+    /// Gets or sets bound audio 2 channels
+    /// </summary>
+    private object BoundAudio2Channels
+    {
+        get => Audio2Channels;
+        set
+        {
+            if (value is int channels)
+                Audio2Channels = channels;
         }
     }
     
@@ -277,6 +301,13 @@ public partial class NewVideoFlowWizard : IModal
             new() { Label = "FLAC", Value = "flac" },
             new() { Label = "OPUS", Value = "opus" }
         ];
+        AudioChannels =
+        [
+            new () { Label = lblUseOriginal, Value = 0 },
+            new() { Label = "Stereo", Value = 2 },
+            new() { Label = "5.1", Value = 6 },
+            new() { Label = "7.1", Value = 8 }
+        ];
 
         initDone = true;
         StateHasChanged();
@@ -307,10 +338,21 @@ public partial class NewVideoFlowWizard : IModal
                 Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio1LanguageRequired");
                 return;
             }
-            if (TwoAudioVersions && Audio2Languages.Count == 0)
+
+            if (TwoAudioVersions)
             {
-                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2LanguageRequired");
-                return;
+                if (Audio2Languages.Count == 0)
+                {
+                    Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2LanguageRequired");
+                    return;
+                }
+
+                if (string.Equals(Audio1Codec, Audio2Codec, StringComparison.InvariantCultureIgnoreCase) &&
+                    Audio1Channels == Audio2Channels)
+                {
+                    Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2MustBeDifferent");
+                    return;
+                }
             }
         }
 
@@ -403,10 +445,18 @@ public partial class NewVideoFlowWizard : IModal
     private async Task<bool> OnAudio2PageAdvanced()
     {
         bool valid = Audio2Languages.Count > 0;
-        if(valid)
-            return true;
         await Editor.Validate();
-        return false;
+        if (valid == false)
+            return false;
+
+        if (string.Equals(Audio1Codec, Audio2Codec, StringComparison.InvariantCultureIgnoreCase) &&
+            Audio1Channels == Audio2Channels)
+        {
+            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2MustBeDifferent");
+            return false;
+        }
+
+        return true;
     }
 }
 

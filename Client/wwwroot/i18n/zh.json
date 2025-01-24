@@ -253,6 +253,136 @@
         "NoMoreImports": "该脚本没有其他可用的导入"
       }
     },
+    "NewLibraryWizard": {
+      "Title": "新库",
+      "Labels": {
+        "FileExtensions": "文件扩展名",
+        "FileExtensionsDescription": "指定在此库中要处理的文件扩展名。",
+        "FileTypes": "文件类型",
+        "FileTypesDescription": "指定要在此库中检测并处理的文件类型。",
+        "General": "常规",
+        "GeneralDescription": "输入有关此库的一般信息。",
+        "LibraryType": "类型",
+        "LibraryTypeDescription": "选择您要创建的库类型。",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "处理在指定的下载文件夹中找到的文件。每当文件在文件夹中被检测到时，就会处理这些文件。为了避免文件再次被处理，请在处理后将其移动或删除。如果文件重新出现，它将被视为新文件并重新处理。",
+            "Title": "下载"
+          },
+          "Files": {
+            "Description": "处理在指定文件夹中找到的单个文件。此选项适用于逐个处理文件。",
+            "Title": "文件"
+          },
+          "Folders": {
+            "Description": "处理在指定目录中找到的整个文件夹。只处理文件夹本身，而不处理文件夹中的单个文件。如果您的流程设计为处理整个文件夹，请使用此选项。",
+            "Title": "文件夹"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "文件扩展名",
+        "FileExtensions-Help": "为空则处理所有文件，或指定要处理的文件扩展名。",
+        "Flow": "流程",
+        "Flow-Help": "用于处理此库中项目的流程。",
+        "Name": "名称",
+        "Name-Help": "新库的名称，必须唯一。",
+        "Path": "路径",
+        "Path-Help": "指定库目录的路径。",
+        "PathWindows": "路径",
+        "PathWindows-Help": "指定库目录的路径。对于网络路径，请使用格式 \\\\我的-nas\\媒体\\电影。"
+      },
+      "FileTypes": {
+        "Audio": "音频",
+        "Audiobook": "有声书",
+        "AudiobookDescription": "处理有声书文件，如 mp3、m4b 和 aax。",
+        "AudioDescription": "处理音频文件，如 mp3、flac、wav、aac 等。",
+        "Comic": "漫画",
+        "ComicDescription": "处理漫画文件，如 cbz、cbr、cb7 和 pdf。",
+        "Custom": "自定义",
+        "CustomDescription": "手动指定要处理的文件扩展名。",
+        "eBook": "电子书",
+        "eBookDescription": "处理电子书文件，如 epub、mobi、azw3 和 pdf。",
+        "Image": "图像",
+        "ImageDescription": "处理图像文件，如 jpg、png、gif、bmp 和 tiff。",
+        "Video": "视频",
+        "VideoDescription": "处理视频文件，如 mkv、mp4、wmv、ts、mpeg 等。"
+      },
+      "Messages": {
+        "FlowRequired": "流程是必需的。",
+        "NameRequired": "库名称是必需的。",
+        "PathRequired": "库路径是必需的。"
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Title": "新视频向导",
+      "Labels": {
+        "Bitrate": "比特率",
+        "BitrateDescription": "使用固定的比特率对视频进行编码。这会使视频的文件大小保持一致，但如果比特率不理想，则会浪费存储空间或降低质量。",
+        "FileExtensions": "文件扩展名",
+        "FileExtensionsDescription": "指定在此库中处理的文件扩展名。",
+        "Quality": "质量",
+        "QualityDescription": "基于视频的输入使用自适应编码来实现恒定的质量水平。推荐使用此方法，它能确保视频质量一致，并且产生最小的文件。",
+        "UseOriginal": "使用未修改的原始文件",
+        "Types": {
+          "Film": "电影",
+          "FilmDescription": "处理电影并使用Meta插件查找其信息。这将有助于确定电影的原始语言。",
+          "TV": "电视",
+          "TVDescription": "处理电视节目并使用Meta插件查找其信息。这将有助于确定电视节目的原始语言。",
+          "Video": "视频",
+          "VideoDescription": "一个通用的视频文件，不会进行任何附加的元数据查找。"
+        }
+      },
+      "Fields": {
+        "AudioChannels": "音频通道",
+        "AudioChannels-Help": "音频的通道数。将使用现有音轨来创建此音轨，并且可以进行降混，但无法升混，因此如果选择的通道数高于现有的音轨数量，则该音轨将不会被添加。",
+        "AudioCodec": "音频编解码器",
+        "AudioCodec-Help": "用于音频的编解码器",
+        "AudioLanguages": "音频语言",
+        "AudioLanguages-Help": "指定要保留的语言，并按所需顺序排列。",
+        "Bitrate": "比特率",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "转换音频",
+        "ConvertAudioDescription": "将音轨转换为指定的格式",
+        "CropBlackBars": "裁剪黑边",
+        "CropBlackBars-Help": "FileFlows将尝试检测视频文件中的黑边，如果找到，它会裁剪这些黑边以减少文件大小，并允许播放器更改纵横比。",
+        "DefaultLanguage": "默认语言",
+        "DefaultLanguage-Help": "指定要分配给当前没有指定语言的音轨的语言。",
+        "DeleteOld": "清理原始文件",
+        "DeleteOld-Help": "如果应删除原始文件，并且如果没有其他视频文件，则也应删除原始文件夹。",
+        "DontConvertAudio": "不转换音频",
+        "DontConvertAudioDescription": "直接复制所有音轨，而不进行任何修改",
+        "KeepAllSubtitles": "保留所有字幕",
+        "KeepAllSubtitles-Help": "保留原始视频中的所有字幕",
+        "KeepOnlySpecifiedSubtitles": "仅保留指定字幕",
+        "KeepOnlySpecifiedSubtitles-Help": "仅保留指定的字幕，其余的将被删除",
+        "Name": "名称",
+        "Name-Help": "新创建的流程的名称，必须是唯一的。",
+        "OutputPath": "输出路径",
+        "OutputPath-Help": "保存最终视频文件的路径。",
+        "OutputPathWindows": "输出路径",
+        "OutputPathWindows-Help": "保存最终视频文件的路径。\n这可以是网络路径，例如 \\\\my-nas\\media\\movies",
+        "Quality": "质量",
+        "Quality-Suffix": "更高质量",
+        "ReplaceOriginal": "替换原始文件",
+        "ReplaceOriginal-Help": "用新创建的视频文件替换原始视频文件。",
+        "SaveToFolder": "保存到文件夹",
+        "SaveToFolder-Help": "将新创建的文件保存到新位置",
+        "SubtitleLanguages": "字幕语言",
+        "SubtitleLanguages-Help": "指定要保留的语言，并按所需顺序排列。",
+        "TwoAudioVersions": "两个音频版本",
+        "TwoAudioVersions-Help": "如果应该创建两个版本的音频轨道。例如，如果您希望创建环绕声和立体声轨道。否则，只会创建一个版本。",
+        "VideoCodec": "视频编解码器",
+        "VideoCodec-Help": "用于视频的编解码器",
+        "VideoContainer": "视频容器",
+        "VideoContainer-Help": "使用的视频容器，建议使用MKV，因为MP4支持的字幕格式较少。"
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "您必须指定至少一种音频语言。",
+        "Audio2LanguageRequired": "您必须指定至少第二种音频语言。",
+        "NameRequired": "名称是必需的。",
+        "OutputPathRequired": "输出路径是必需的。"
+      }
+    },
     "PauseDialog": {
       "Message": "选择暂停处理的时间。\n注意：当前流将继续执行，但在此时间结束之前不会执行其他流。",
       "Title": "暂停处理"

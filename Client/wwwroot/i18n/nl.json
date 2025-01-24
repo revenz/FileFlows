@@ -253,6 +253,136 @@
         "NoMoreImports": "Er zijn geen extra importen beschikbaar voor dit script"
       }
     },
+    "NewLibraryWizard": {
+      "Title": "Nieuwe Bibliotheek",
+      "Labels": {
+        "FileExtensions": "Extensies",
+        "FileExtensionsDescription": "Specificeer de extensies die in deze bibliotheek verwerkt moeten worden.",
+        "FileTypes": "Bestandstypen",
+        "FileTypesDescription": "Specificeer welke bestandstypen moeten worden gedetecteerd en verwerkt in deze bibliotheek.",
+        "General": "Algemeen",
+        "GeneralDescription": "Voer algemene informatie in over deze bibliotheek.",
+        "LibraryType": "Type",
+        "LibraryTypeDescription": "Kies het type bibliotheek dat u wilt maken.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "Verwerkt bestanden die worden gevonden in een aangewezen downloadmap. Bestanden worden verwerkt telkens wanneer ze in de map worden gedetecteerd. Om te voorkomen dat bestanden opnieuw worden verwerkt, verplaatst of verwijdert u ze na verwerking. Als een bestand opnieuw verschijnt, wordt het als nieuw beschouwd en opnieuw verwerkt.",
+            "Title": "Downloads"
+          },
+          "Files": {
+            "Description": "Verwerkt afzonderlijke bestanden die in de opgegeven map staan. Deze optie is geschikt voor het één voor één verwerken van bestanden.",
+            "Title": "Bestanden"
+          },
+          "Folders": {
+            "Description": "Verwerkt volledige mappen die worden gevonden in de opgegeven directory. De map zelf wordt verwerkt, niet de afzonderlijke bestanden erin. Kies deze optie als uw stroom is ontworpen om volledige mappen te verwerken.",
+            "Title": "Mappen"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "Extensies",
+        "FileExtensions-Help": "Laat leeg om alle bestanden te verwerken of specificeer de extensies van de bestanden die verwerkt moeten worden.",
+        "Flow": "Stroom",
+        "Flow-Help": "De stroom die wordt gebruikt om items in deze bibliotheek te verwerken.",
+        "Name": "Naam",
+        "Name-Help": "De naam van de nieuwe bibliotheek, die uniek moet zijn.",
+        "Path": "Pad",
+        "Path-Help": "Specificeer het pad van de directory voor de bibliotheek.",
+        "PathWindows": "Pad",
+        "PathWindows-Help": "Specificeer het pad van de directory voor de bibliotheek. Voor netwerklocaties gebruikt u het formaat \\\\mijn-nas\\media\\films."
+      },
+      "FileTypes": {
+        "Audio": "Audio",
+        "Audiobook": "Luisterboek",
+        "AudiobookDescription": "Verwerkt luisterboekbestanden zoals mp3, m4b en aax.",
+        "AudioDescription": "Verwerkt audiobestanden zoals mp3, flac, wav, aac, enz.",
+        "Comic": "Stripboek",
+        "ComicDescription": "Verwerkt stripboekbestanden zoals cbz, cbr, cb7 en pdf.",
+        "Custom": "Aangepast",
+        "CustomDescription": "Specificeer handmatig de bestandsextensies die verwerkt moeten worden.",
+        "eBook": "eBook",
+        "eBookDescription": "Verwerkt eBook-bestanden zoals epub, mobi, azw3 en pdf.",
+        "Image": "Afbeelding",
+        "ImageDescription": "Verwerkt afbeeldingsbestanden zoals jpg, png, gif, bmp en tiff.",
+        "Video": "Video",
+        "VideoDescription": "Verwerkt videobestanden zoals mkv, mp4, wmv, ts, mpeg, enz."
+      },
+      "Messages": {
+        "FlowRequired": "De stroom is verplicht.",
+        "NameRequired": "De bibliotheeknaam is verplicht.",
+        "PathRequired": "Het bibliotheekpad is verplicht."
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Title": "Nieuwe Video Wizard",
+      "Labels": {
+        "Bitrate": "Bitrate",
+        "BitrateDescription": "Gebruik een vaste bitrate bij het coderen van de video. Dit zorgt voor consistente bestandsgroottes tussen video's, maar verspilt opslagruimte of verliest kwaliteit als de bitrate niet optimaal is.",
+        "FileExtensions": "Extensies",
+        "FileExtensionsDescription": "Geef de extensies op die in deze bibliotheek verwerkt moeten worden.",
+        "Quality": "Kwaliteit",
+        "QualityDescription": "Gebruik adaptieve codering op basis van de invoer van de video om een constant kwaliteitsniveau te bereiken. Dit wordt aanbevolen en zorgt voor een constante kwaliteit tussen video's en ook voor de kleinste bestanden.",
+        "UseOriginal": "Gebruik origineel zonder wijziging",
+        "Types": {
+          "Film": "Film",
+          "FilmDescription": "Verwerk films en zoek hun informatie op met de Meta-plug-in. Dit helpt de oorspronkelijke taal van de film te bepalen.",
+          "TV": "TV",
+          "TVDescription": "Verwerk tv-shows en zoek hun informatie op met de Meta-plug-in. Dit helpt de oorspronkelijke taal van de tv-show te bepalen.",
+          "Video": "Video",
+          "VideoDescription": "Een generiek videobestand, er wordt geen aanvullende metadata opgezocht."
+        }
+      },
+      "Fields": {
+        "AudioChannels": "Kanalen",
+        "AudioChannels-Help": "Het aantal kanalen voor het audio. Bestaande audiotracks worden gebruikt om deze track te maken en kunnen zo nodig worden afgemengd, maar zullen niet worden opgevoerd. Als je een hoger aantal kanalen kiest dan beschikbaar is, wordt de track niet toegevoegd.",
+        "AudioCodec": "Codec",
+        "AudioCodec-Help": "De codec die voor het audio gebruikt moet worden",
+        "AudioLanguages": "Talen",
+        "AudioLanguages-Help": "Geef de talen op die je wilt behouden in de volgorde waarin je ze wilt.",
+        "Bitrate": "Bitrate",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "Audio converteren",
+        "ConvertAudioDescription": "Converteer de audiotracks naar de opgegeven formaten",
+        "CropBlackBars": "Snijd zwarte balken",
+        "CropBlackBars-Help": "FileFlows probeert zwarte balken in het videobestand te detecteren en snijdt deze af als ze gevonden worden om de bestandsgrootte te verkleinen en de beeldverhouding in de mediaspelers aan te passen.",
+        "DefaultLanguage": "Standaardtaal",
+        "DefaultLanguage-Help": "Geef de taal op die toegewezen moet worden aan audiotracks die momenteel geen taal hebben.",
+        "DeleteOld": "Oude bestand opruimen",
+        "DeleteOld-Help": "Als het originele bestand verwijderd moet worden en als de originele map verwijderd moet worden als er geen andere videobestanden meer zijn.",
+        "DontConvertAudio": "Converteer audio niet",
+        "DontConvertAudioDescription": "Kopieer alle audiotracks zonder wijzigingen",
+        "KeepAllSubtitles": "Behoud alle ondertitels",
+        "KeepAllSubtitles-Help": "Behoud alle ondertitels van het originele bestand",
+        "KeepOnlySpecifiedSubtitles": "Behoud alleen opgegeven ondertitels",
+        "KeepOnlySpecifiedSubtitles-Help": "Behoud alleen de opgegeven ondertitels, de rest wordt verwijderd",
+        "Name": "Naam",
+        "Name-Help": "De naam van de nieuw aangemaakte flow, deze moet uniek zijn.",
+        "OutputPath": "Uitvoerpad",
+        "OutputPath-Help": "Het pad waar het uiteindelijke videobestand opgeslagen moet worden.",
+        "OutputPathWindows": "Uitvoerpad",
+        "OutputPathWindows-Help": "Het pad waar het uiteindelijke videobestand opgeslagen moet worden.\nDit kan een netwerkpad zijn, bijvoorbeeld \\\\my-nas\\media\\movies",
+        "Quality": "Kwaliteit",
+        "Quality-Suffix": "Hogere Kwaliteit",
+        "ReplaceOriginal": "Vervang origineel",
+        "ReplaceOriginal-Help": "Vervang het originele videobestand door het nieuw aangemaakte bestand.",
+        "SaveToFolder": "Opslaan in map",
+        "SaveToFolder-Help": "Sla het nieuw aangemaakte bestand op in een nieuwe locatie",
+        "SubtitleLanguages": "Talen",
+        "SubtitleLanguages-Help": "Geef de talen op die je wilt behouden in de volgorde waarin je ze wilt.",
+        "TwoAudioVersions": "Twee audio versies",
+        "TwoAudioVersions-Help": "Als er twee versies van audiotracks aangemaakt moeten worden. Bijvoorbeeld, als je een surround- en een stereotrack wilt maken. Anders wordt er maar één versie aangemaakt.",
+        "VideoCodec": "Video Codec",
+        "VideoCodec-Help": "De codec die voor de video gebruikt moet worden",
+        "VideoContainer": "Container",
+        "VideoContainer-Help": "De videobestandscontainer die gebruikt moet worden, het wordt aanbevolen om MKV te gebruiken omdat MP4 minder ondertitelingsformaten ondersteunt."
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "Je moet minstens één audiotaal opgeven.",
+        "Audio2LanguageRequired": "Je moet minstens één extra audiotaal opgeven.",
+        "NameRequired": "De naam is vereist.",
+        "OutputPathRequired": "Het uitvoerpad is vereist."
+      }
+    },
     "PauseDialog": {
       "Message": "Selecteer de hoeveelheid tijd om de verwerking te pauzeren.\nOpmerking: De huidige stromen blijven uitvoeren, maar er zullen geen andere stromen worden uitgevoerd totdat deze tijd verstreken is.",
       "Title": "Pauzeer Verwerking"

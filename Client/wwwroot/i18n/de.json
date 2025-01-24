@@ -253,6 +253,136 @@
         "NoMoreImports": "Für dieses Skript gibt es keine zusätzlichen Importe."
       }
     },
+    "NewLibraryWizard": {
+      "Title": "Neue Bibliothek",
+      "Labels": {
+        "FileExtensions": "Erweiterungen",
+        "FileExtensionsDescription": "Geben Sie die Erweiterungen an, die in dieser Bibliothek verarbeitet werden sollen.",
+        "FileTypes": "Dateitypen",
+        "FileTypesDescription": "Geben Sie an, welche Dateitypen in dieser Bibliothek erkannt und verarbeitet werden sollen.",
+        "General": "Allgemein",
+        "GeneralDescription": "Geben Sie allgemeine Informationen zu dieser Bibliothek ein.",
+        "LibraryType": "Typ",
+        "LibraryTypeDescription": "Wählen Sie den Typ der zu erstellenden Bibliothek aus.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "Verarbeitet Dateien, die in einem bestimmten Download-Ordner gefunden werden. Dateien werden jedes Mal verarbeitet, wenn sie in diesem Ordner gefunden werden. Um eine erneute Verarbeitung derselben Datei zu vermeiden, verschieben oder löschen Sie Dateien aus diesem Ordner, nachdem sie verarbeitet wurden. Wenn eine Datei erneut erscheint, wird sie als neu behandelt und erneut verarbeitet.",
+            "Title": "Downloads"
+          },
+          "Files": {
+            "Description": "Verarbeitet einzelne Dateien im angegebenen Ordner. Diese Option ist ideal, wenn Dateien einzeln verarbeitet werden sollen.",
+            "Title": "Dateien"
+          },
+          "Folders": {
+            "Description": "Verarbeitet gesamte Unterordner des angegebenen Ordners. Der Ordner selbst wird verarbeitet, nicht die einzelnen Dateien darin. Wählen Sie diese Option, wenn Ihr Flow für die Verarbeitung von Ordnern als Ganzes ausgelegt ist.",
+            "Title": "Ordner"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "Erweiterungen",
+        "FileExtensions-Help": "Leer lassen, um jede Datei zu verarbeiten, oder die Dateierweiterungen angeben, die in dieser Bibliothek verarbeitet werden sollen.",
+        "Flow": "Flow",
+        "Flow-Help": "Der Flow, mit dem die Elemente in dieser Bibliothek verarbeitet werden.",
+        "Name": "Name",
+        "Name-Help": "Der Name der neu erstellten Bibliothek, dieser muss eindeutig sein.",
+        "Path": "Pfad",
+        "Path-Help": "Geben Sie den Verzeichnispfad für die Bibliothek an.",
+        "PathWindows": "Pfad",
+        "PathWindows-Help": "Geben Sie den Verzeichnispfad für die Bibliothek an. Für Netzwerkpfade verwenden Sie das Format \\\\mein-nas\\medien\\filme."
+      },
+      "FileTypes": {
+        "Audio": "Audio",
+        "Audiobook": "Hörbuch",
+        "AudiobookDescription": "Verarbeitet Hörbuchdateien wie mp3, m4b und aax.",
+        "AudioDescription": "Verarbeitet Audiodateien wie mp3, flac, wav, aac usw.",
+        "Comic": "Comic",
+        "ComicDescription": "Verarbeitet Comic-Dateien wie cbz, cbr, cb7 und pdf.",
+        "Custom": "Benutzerdefiniert",
+        "CustomDescription": "Manuelle Angabe der zu verarbeitenden Dateierweiterungen.",
+        "eBook": "eBook",
+        "eBookDescription": "Verarbeitet eBook-Dateien wie epub, mobi, azw3 und pdf.",
+        "Image": "Bild",
+        "ImageDescription": "Verarbeitet Bilddateien wie jpg, png, gif, bmp und tiff.",
+        "Video": "Video",
+        "VideoDescription": "Verarbeitet Videodateien wie mkv, mp4, wmv, ts, mpeg usw."
+      },
+      "Messages": {
+        "FlowRequired": "Der Flow ist erforderlich.",
+        "NameRequired": "Der Bibliotheksname ist erforderlich.",
+        "PathRequired": "Der Bibliothekspfad ist erforderlich."
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Title": "Neuer Video-Assistent",
+      "Labels": {
+        "Bitrate": "Bitrate",
+        "BitrateDescription": "Verwendet eine feste Bitrate bei der Video-Codierung. Dies sorgt für konstante Dateigrößen bei den Videos, kann jedoch Speicherplatz verschwenden oder Qualität verlieren, wenn die Bitrate nicht optimal ist.",
+        "FileExtensions": "Erweiterungen",
+        "FileExtensionsDescription": "Geben Sie die Erweiterungen an, die in dieser Bibliothek verarbeitet werden sollen.",
+        "Quality": "Qualität",
+        "QualityDescription": "Verwendet eine adaptive Kodierung basierend auf dem Eingangsvideo, um ein konstantes Qualitätsniveau zu erreichen. Dies wird empfohlen, da es konstante Qualität über alle Videos hinweg gewährleistet und die kleinsten Dateigrößen erzeugt.",
+        "UseOriginal": "Original ohne Modifikation verwenden",
+        "Types": {
+          "Film": "Film",
+          "FilmDescription": "Verarbeitet Filme und sucht deren Informationen mithilfe des Meta-Plugins. Dies hilft, die Originalsprache des Films zu bestimmen.",
+          "TV": "TV",
+          "TVDescription": "Verarbeitet TV-Shows und sucht deren Informationen mithilfe des Meta-Plugins. Dies hilft, die Originalsprache der TV-Show zu bestimmen.",
+          "Video": "Video",
+          "VideoDescription": "Eine generische Videodatei; es wird keine zusätzliche Metadatenabfrage durchgeführt."
+        }
+      },
+      "Fields": {
+        "AudioChannels": "Kanäle",
+        "AudioChannels-Help": "Die Anzahl der Kanäle für den Ton. Vorhandene Audiotracks werden verwendet, um diesen Track zu erstellen. Downmixing wird unterstützt, wenn nötig, jedoch kein Upmixing. Wenn Sie eine Kanalanzahl wählen, die höher ist als die verfügbaren Kanäle, wird dieser Track nicht hinzugefügt.",
+        "AudioCodec": "Codec",
+        "AudioCodec-Help": "Der Codec, der für den Audio-Stream verwendet werden soll.",
+        "AudioLanguages": "Sprachen",
+        "AudioLanguages-Help": "Geben Sie die Sprachen an, die Sie beibehalten möchten, in der gewünschten Reihenfolge.",
+        "Bitrate": "Bitrate",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "Audio konvertieren",
+        "ConvertAudioDescription": "Konvertiert die Audiotracks in die angegebenen Formate.",
+        "CropBlackBars": "Schwarze Balken zuschneiden",
+        "CropBlackBars-Help": "FileFlows wird versuchen, schwarze Balken in der Videodatei zu erkennen und zuzuschneiden, um die Dateigröße zu reduzieren und eine Änderung des Seitenverhältnisses im Player zu ermöglichen.",
+        "DefaultLanguage": "Standard-Sprache",
+        "DefaultLanguage-Help": "Legt die Sprache fest, die den Audiotracks zugewiesen wird, die keine Sprache angegeben haben.",
+        "DeleteOld": "Original löschen",
+        "DeleteOld-Help": "Löscht die Originaldatei und entfernt den Ordner, wenn keine anderen Videodateien mehr vorhanden sind.",
+        "DontConvertAudio": "Audio nicht konvertieren",
+        "DontConvertAudioDescription": "Kopiert alle Audiotracks ohne Änderungen.",
+        "KeepAllSubtitles": "Alle Untertitel behalten",
+        "KeepAllSubtitles-Help": "Behalten Sie alle Untertitel der Originalvideo-Datei.",
+        "KeepOnlySpecifiedSubtitles": "Nur behalten",
+        "KeepOnlySpecifiedSubtitles-Help": "Behalten Sie nur die angegebenen Untertitel, alle anderen werden entfernt.",
+        "Name": "Name",
+        "Name-Help": "Der Name des neu erstellten Workflows. Dieser muss eindeutig sein.",
+        "OutputPath": "Ausgabepfad",
+        "OutputPath-Help": "Der Pfad, in dem die endgültige Videodatei gespeichert wird.",
+        "OutputPathWindows": "Ausgabepfad",
+        "OutputPathWindows-Help": "Der Pfad, in dem die endgültige Videodatei gespeichert wird. Dies kann z.B. ein Netzwerkpfad wie \\\\mein-nas\\medien\\filme sein.",
+        "Quality": "Qualität",
+        "Quality-Suffix": "Höhere Qualität",
+        "ReplaceOriginal": "Original ersetzen",
+        "ReplaceOriginal-Help": "Ersetzt die Originalvideodatei mit der neu erstellten.",
+        "SaveToFolder": "In Ordner speichern",
+        "SaveToFolder-Help": "Speichert die neu erstellte Datei an einem neuen Ort.",
+        "SubtitleLanguages": "Sprachen",
+        "SubtitleLanguages-Help": "Geben Sie die Sprachen an, die Sie beibehalten möchten, in der gewünschten Reihenfolge.",
+        "TwoAudioVersions": "Zwei Audio-Versionen",
+        "TwoAudioVersions-Help": "Ob zwei Versionen der Audiotracks erstellt werden sollen. Beispielsweise, wenn sowohl Surround- als auch Stereo-Audiotracks erstellt werden sollen. Andernfalls wird nur eine Version erstellt.",
+        "VideoCodec": "Video-Codec",
+        "VideoCodec-Help": "Der Codec, der für das Video verwendet werden soll.",
+        "VideoContainer": "Container",
+        "VideoContainer-Help": "Der Container, der für das Video verwendet werden soll. Es wird empfohlen, MKV zu verwenden, da MP4 weniger Untertitelformate unterstützt."
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "Sie müssen mindestens eine Audiosprache angeben.",
+        "Audio2LanguageRequired": "Sie müssen mindestens eine zusätzliche Audiosprache angeben.",
+        "NameRequired": "Der Name ist erforderlich.",
+        "OutputPathRequired": "Der Ausgabepfad ist erforderlich."
+      }
+    },
     "PauseDialog": {
       "Message": "Wählen Sie die Zeitspanne aus, für die die Verarbeitung unterbrochen werden soll.\nHinweis: Die aktuellen Flows werden weiterhin ausgeführt, aber keine weiteren Flows werden ausgeführt, bis die Zeit abgelaufen ist.",
       "Title": "Verarbeitung unterbrechen"

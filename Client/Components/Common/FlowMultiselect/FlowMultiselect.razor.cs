@@ -70,7 +70,7 @@ public partial class FlowMultiselect : ComponentBase
                 });
             }
             jsMultiselect = await jsObjectReference.InvokeAsync<IJSObjectReference>("createMultiselect", DotNetObjectReference.Create(this), 
-                Uid, Options);
+                Uid, mappedValueList);
         }
     }
     

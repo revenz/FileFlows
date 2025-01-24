@@ -100,13 +100,13 @@
             
             <FlowWizardPage Title="@lblPageAudio1" Description="@lblPageAudio1Description" Indented="true" Visible="@ConvertAudio"  OnPageAdvanced="OnAudio1PageAdvanced" >
                 <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
-
-                <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
-
+                <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec" />
+                <InputSelect @bind-Value="@BoundAudio1Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
             </FlowWizardPage>
             <FlowWizardPage Title="@lblPageAudio2" Description="@lblPageAudio2Description" Indented="true" Visible="@(ConvertAudio && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
                 <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
                 <InputSelect @bind-Value="@BoundAudio2Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
+                <InputSelect @bind-Value="@BoundAudio2Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
             </FlowWizardPage>
             <FlowWizardPage Title="@lblPageSubtitle" Description="@lblPageSubtitleDescription">
 

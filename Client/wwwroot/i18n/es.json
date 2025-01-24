@@ -253,6 +253,136 @@
         "NoMoreImports": "No hay más importaciones disponibles para este script"
       }
     },
+    "NewLibraryWizard": {
+      "Title": "Nueva Biblioteca",
+      "Labels": {
+        "FileExtensions": "Extensiones",
+        "FileExtensionsDescription": "Especifica las extensiones a procesar en esta biblioteca.",
+        "FileTypes": "Tipos de Archivos",
+        "FileTypesDescription": "Especifica qué tipos de archivos deben detectarse y procesarse en esta biblioteca.",
+        "General": "General",
+        "GeneralDescription": "Introduce la información general sobre esta biblioteca.",
+        "LibraryType": "Tipo",
+        "LibraryTypeDescription": "Elige el tipo de biblioteca que deseas crear.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "Procesa archivos encontrados en una carpeta de descargas designada. Los archivos se procesan cada vez que se encuentran en la carpeta. Para evitar procesar el mismo archivo repetidamente, mueve o elimina los archivos de esta carpeta después de procesarlos. Si un archivo vuelve a aparecer, se trata como nuevo y se procesa nuevamente.",
+            "Title": "Descargas"
+          },
+          "Files": {
+            "Description": "Procesa archivos individuales ubicados en la carpeta especificada. Esta opción es ideal cuando se desea manejar archivos uno por uno.",
+            "Title": "Archivos"
+          },
+          "Folders": {
+            "Description": "Procesa carpetas completas dentro de la carpeta especificada. La carpeta en sí se procesa, no los archivos individuales dentro de ella. Elige esta opción si tu flujo está diseñado para trabajar con carpetas completas.",
+            "Title": "Carpetas"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "Extensiones",
+        "FileExtensions-Help": "Déjalo en blanco para procesar todos los archivos o indica las extensiones de archivo que deseas procesar en esta biblioteca.",
+        "Flow": "Flujo",
+        "Flow-Help": "El flujo que procesará los elementos en esta biblioteca.",
+        "Name": "Nombre",
+        "Name-Help": "El nombre de la biblioteca nueva, debe ser único.",
+        "Path": "Ruta",
+        "Path-Help": "Especifica la ruta del directorio para la biblioteca.",
+        "PathWindows": "Ruta",
+        "PathWindows-Help": "Especifica la ruta del directorio para la biblioteca. Para rutas de red, usa el formato \\\\mi-nas\\medios\\películas."
+      },
+      "FileTypes": {
+        "Audio": "Audio",
+        "Audiobook": "Audiolibro",
+        "AudiobookDescription": "Procesa archivos de audiolibros como mp3, m4b y aax.",
+        "AudioDescription": "Procesa archivos de audio como mp3, flac, wav, aac, etc.",
+        "Comic": "Cómic",
+        "ComicDescription": "Procesa archivos de cómics como cbz, cbr, cb7 y pdf.",
+        "Custom": "Personalizado",
+        "CustomDescription": "Especifica manualmente las extensiones de archivo a procesar.",
+        "eBook": "eBook",
+        "eBookDescription": "Procesa archivos de libros electrónicos como epub, mobi, azw3 y pdf.",
+        "Image": "Imagen",
+        "ImageDescription": "Procesa archivos de imagen como jpg, png, gif, bmp y tiff.",
+        "Video": "Vídeo",
+        "VideoDescription": "Procesa archivos de vídeo como mkv, mp4, wmv, ts, mpeg, etc."
+      },
+      "Messages": {
+        "FlowRequired": "El flujo es obligatorio.",
+        "NameRequired": "El nombre de la biblioteca es obligatorio.",
+        "PathRequired": "La ruta de la biblioteca es obligatoria."
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Title": "Nuevo Asistente de Video",
+      "Labels": {
+        "Bitrate": "Tasa de bits",
+        "BitrateDescription": "Usa una tasa de bits fija al codificar el video. Esto produce tamaños de archivo consistentes en todos los videos, pero desperdicia espacio de almacenamiento o pierde calidad si la tasa de bits no es óptima.",
+        "FileExtensions": "Extensiones",
+        "FileExtensionsDescription": "Especifica las extensiones a procesar en esta biblioteca.",
+        "Quality": "Calidad",
+        "QualityDescription": "Usa una codificación adaptativa basada en la entrada del video para lograr un nivel de calidad constante. Esto es recomendado y produce una calidad constante en todos los videos, además de generar los archivos más pequeños.",
+        "UseOriginal": "Usar original sin modificación",
+        "Types": {
+          "Film": "Película",
+          "FilmDescription": "Procesa películas y busca su información usando el plugin Meta. Esto ayuda a determinar el idioma original de la película.",
+          "TV": "TV",
+          "TVDescription": "Procesa programas de TV y busca su información usando el plugin Meta. Esto ayuda a determinar el idioma original del programa de TV.",
+          "Video": "Video",
+          "VideoDescription": "Un archivo de video genérico, no se realizará ninguna búsqueda adicional de metadatos."
+        }
+      },
+      "Fields": {
+        "AudioChannels": "Canales",
+        "AudioChannels-Help": "El número de canales para el audio. Usará las pistas de audio existentes para crear esta pista, y puede hacer downmix si es necesario, pero no hará upmix, por lo que si elige un número de canales más alto del disponible, esa pista no se agregará.",
+        "AudioCodec": "Códec",
+        "AudioCodec-Help": "El códec que se usará para el audio.",
+        "AudioLanguages": "Idiomas",
+        "AudioLanguages-Help": "Especifica los idiomas que deseas mantener en el orden que desees.",
+        "Bitrate": "Tasa de bits",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "Convertir Audio",
+        "ConvertAudioDescription": "Convierte las pistas de audio a los formatos especificados.",
+        "CropBlackBars": "Recortar Barras Negras",
+        "CropBlackBars-Help": "FileFlows intentará detectar barras negras en el archivo de video, y si las encuentra, las recortará para reducir el tamaño del archivo y permitir el cambio de relación de aspecto en los reproductores.",
+        "DefaultLanguage": "Idioma Predeterminado",
+        "DefaultLanguage-Help": "Especifica el idioma a asignar a las pistas de audio que actualmente no tienen idioma especificado.",
+        "DeleteOld": "Eliminar Original",
+        "DeleteOld-Help": "Si debe eliminar el archivo original y si también se debe eliminar la carpeta original si no se encuentran otros archivos de video.",
+        "DontConvertAudio": "No convertir audio",
+        "DontConvertAudioDescription": "Copia todos los archivos de audio sin modificaciones.",
+        "KeepAllSubtitles": "Mantener Todos los Subtítulos",
+        "KeepAllSubtitles-Help": "Mantén todos los subtítulos del archivo de video original.",
+        "KeepOnlySpecifiedSubtitles": "Mantener Solo",
+        "KeepOnlySpecifiedSubtitles-Help": "Mantén solo los subtítulos especificados, el resto serán eliminados.",
+        "Name": "Nombre",
+        "Name-Help": "El nombre del flujo recién creado. Debe ser único.",
+        "OutputPath": "Ruta de salida",
+        "OutputPath-Help": "La ruta donde se guardará el archivo de video final.",
+        "OutputPathWindows": "Ruta de salida",
+        "OutputPathWindows-Help": "La ruta donde se guardará el archivo de video final. Puede ser una ruta de red como \\\\mi-nas\\media\\peliculas.",
+        "Quality": "Calidad",
+        "Quality-Suffix": "Mayor calidad",
+        "ReplaceOriginal": "Reemplazar Original",
+        "ReplaceOriginal-Help": "Reemplaza el archivo de video original con el recién creado.",
+        "SaveToFolder": "Guardar en Carpeta",
+        "SaveToFolder-Help": "Guarda el archivo recién creado en una nueva ubicación.",
+        "SubtitleLanguages": "Idiomas",
+        "SubtitleLanguages-Help": "Especifica los idiomas que deseas mantener en el orden que desees.",
+        "TwoAudioVersions": "Dos Versiones de Audio",
+        "TwoAudioVersions-Help": "Si deben crearse dos versiones de las pistas de audio. Por ejemplo, si deseas crear una pista en Surround y otra en estéreo. De lo contrario, se creará solo una versión.",
+        "VideoCodec": "Códec de Video",
+        "VideoCodec-Help": "El códec que se usará para el video.",
+        "VideoContainer": "Contenedor",
+        "VideoContainer-Help": "El contenedor que se usará para el video. Se recomienda usar MKV, ya que MP4 soporta menos formatos de subtítulos."
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "Debes especificar al menos un idioma de audio.",
+        "Audio2LanguageRequired": "Debes especificar al menos un idioma adicional de audio.",
+        "NameRequired": "El nombre es obligatorio.",
+        "OutputPathRequired": "La ruta de salida es obligatoria."
+      }
+    },
     "PauseDialog": {
       "Message": "Selecciona la cantidad de tiempo para pausar el procesamiento.\nNota: Los flows actuales continuarán ejecutándose, pero no se ejecutarán otros flows hasta que se cumpla este tiempo.",
       "Title": "Pausar Procesamiento"

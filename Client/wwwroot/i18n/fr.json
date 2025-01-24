@@ -253,6 +253,136 @@
         "NoMoreImports": "Il n'y a pas d'importations supplémentaires disponibles pour ce script"
       }
     },
+    "NewLibraryWizard": {
+      "Title": "Nouvelle Bibliothèque",
+      "Labels": {
+        "FileExtensions": "Extensions",
+        "FileExtensionsDescription": "Spécifiez les extensions à traiter dans cette bibliothèque.",
+        "FileTypes": "Types de Fichiers",
+        "FileTypesDescription": "Indiquez les types de fichiers à détecter et à traiter dans cette bibliothèque.",
+        "General": "Général",
+        "GeneralDescription": "Entrez des informations générales sur cette bibliothèque.",
+        "LibraryType": "Type",
+        "LibraryTypeDescription": "Choisissez le type de bibliothèque que vous souhaitez créer.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "Traite les fichiers trouvés dans un dossier de téléchargements désigné. Les fichiers sont traités chaque fois qu'ils sont détectés dans ce dossier. Pour éviter de traiter à nouveau le même fichier, déplacez ou supprimez les fichiers de ce dossier après traitement. Si un fichier réapparaît, il est considéré comme nouveau et est à nouveau traité.",
+            "Title": "Téléchargements"
+          },
+          "Files": {
+            "Description": "Traite des fichiers individuels situés dans le dossier spécifié. Cette option est idéale pour gérer les fichiers un par un.",
+            "Title": "Fichiers"
+          },
+          "Folders": {
+            "Description": "Traite les dossiers complets trouvés dans le dossier spécifié. Le dossier lui-même est traité, et non les fichiers individuels à l'intérieur. Choisissez cette option si votre flux est conçu pour traiter des dossiers entiers.",
+            "Title": "Dossiers"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "Extensions",
+        "FileExtensions-Help": "Laissez vide pour traiter tous les fichiers ou spécifiez les extensions de fichier à traiter dans cette bibliothèque.",
+        "Flow": "Flux",
+        "Flow-Help": "Le flux utilisé pour traiter les éléments dans cette bibliothèque.",
+        "Name": "Nom",
+        "Name-Help": "Le nom de la nouvelle bibliothèque, qui doit être unique.",
+        "Path": "Chemin",
+        "Path-Help": "Spécifiez le chemin du répertoire pour la bibliothèque.",
+        "PathWindows": "Chemin",
+        "PathWindows-Help": "Spécifiez le chemin du répertoire pour la bibliothèque. Pour les chemins réseau, utilisez le format \\\\mon-nas\\medias\\films."
+      },
+      "FileTypes": {
+        "Audio": "Audio",
+        "Audiobook": "Livre Audio",
+        "AudiobookDescription": "Traite les fichiers de livres audio tels que mp3, m4b et aax.",
+        "AudioDescription": "Traite les fichiers audio tels que mp3, flac, wav, aac, etc.",
+        "Comic": "Bande Dessinée",
+        "ComicDescription": "Traite les fichiers de bandes dessinées tels que cbz, cbr, cb7 et pdf.",
+        "Custom": "Personnalisé",
+        "CustomDescription": "Spécifiez manuellement les extensions de fichiers à traiter.",
+        "eBook": "Livre Électronique",
+        "eBookDescription": "Traite les fichiers de livres électroniques tels que epub, mobi, azw3 et pdf.",
+        "Image": "Image",
+        "ImageDescription": "Traite les fichiers d'image tels que jpg, png, gif, bmp et tiff.",
+        "Video": "Vidéo",
+        "VideoDescription": "Traite les fichiers vidéo tels que mkv, mp4, wmv, ts, mpeg, etc."
+      },
+      "Messages": {
+        "FlowRequired": "Le flux est requis.",
+        "NameRequired": "Le nom de la bibliothèque est requis.",
+        "PathRequired": "Le chemin de la bibliothèque est requis."
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Title": "Nouvel Assistant Vidéo",
+      "Labels": {
+        "Bitrate": "Débit binaire",
+        "BitrateDescription": "Utilise un débit binaire fixe lors de l'encodage de la vidéo. Cela produit des tailles de fichiers cohérentes entre les vidéos, mais gaspille de l'espace de stockage ou perd de la qualité si le débit binaire n'est pas optimal.",
+        "FileExtensions": "Extensions",
+        "FileExtensionsDescription": "Spécifiez les extensions à traiter dans cette bibliothèque.",
+        "Quality": "Qualité",
+        "QualityDescription": "Utilise un encodage adaptatif basé sur l'entrée de la vidéo pour atteindre un niveau de qualité constant. Ceci est recommandé et produit une qualité constante entre les vidéos, tout en générant les fichiers les plus petits.",
+        "UseOriginal": "Utiliser l'original sans modification",
+        "Types": {
+          "Film": "Film",
+          "FilmDescription": "Traite les films et recherche leurs informations en utilisant le plugin Meta. Cela permet de déterminer la langue d'origine du film.",
+          "TV": "TV",
+          "TVDescription": "Traite les émissions de télévision et recherche leurs informations en utilisant le plugin Meta. Cela permet de déterminer la langue d'origine de l'émission de télévision.",
+          "Video": "Vidéo",
+          "VideoDescription": "Un fichier vidéo générique, aucune recherche de métadonnées supplémentaire ne sera effectuée."
+        }
+      },
+      "Fields": {
+        "AudioChannels": "Canaux",
+        "AudioChannels-Help": "Le nombre de canaux audio. Utilisera les pistes audio existantes pour créer cette piste, et peut effectuer un downmix si nécessaire, mais ne fera pas de upmix, donc si vous choisissez un nombre de canaux supérieur à celui disponible, cette piste ne sera pas ajoutée.",
+        "AudioCodec": "Codec",
+        "AudioCodec-Help": "Le codec à utiliser pour l'audio.",
+        "AudioLanguages": "Langues",
+        "AudioLanguages-Help": "Spécifiez les langues que vous souhaitez conserver dans l'ordre que vous souhaitez.",
+        "Bitrate": "Débit binaire",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "Convertir l'audio",
+        "ConvertAudioDescription": "Convertit les pistes audio dans les formats spécifiés.",
+        "CropBlackBars": "Recadrer les barres noires",
+        "CropBlackBars-Help": "FileFlows essaiera de détecter les barres noires dans le fichier vidéo, et si elles sont trouvées, elles seront recadrées pour réduire la taille du fichier et permettre un changement de rapport d'aspect dans les lecteurs.",
+        "DefaultLanguage": "Langue par défaut",
+        "DefaultLanguage-Help": "Spécifie la langue à attribuer aux pistes audio qui n'ont actuellement pas de langue spécifiée.",
+        "DeleteOld": "Supprimer l'original",
+        "DeleteOld-Help": "Si le fichier original doit être supprimé et si le dossier original doit également être supprimé si aucun autre fichier vidéo n'est trouvé.",
+        "DontConvertAudio": "Ne pas convertir l'audio",
+        "DontConvertAudioDescription": "Copie toutes les pistes audio sans modifications.",
+        "KeepAllSubtitles": "Conserver tous les sous-titres",
+        "KeepAllSubtitles-Help": "Conservez tous les sous-titres du fichier vidéo original.",
+        "KeepOnlySpecifiedSubtitles": "Conserver uniquement",
+        "KeepOnlySpecifiedSubtitles-Help": "Conservez uniquement les sous-titres spécifiés, les autres seront supprimés.",
+        "Name": "Nom",
+        "Name-Help": "Le nom du flux nouvellement créé. Il doit être unique.",
+        "OutputPath": "Chemin de sortie",
+        "OutputPath-Help": "Le chemin où le fichier vidéo final sera enregistré.",
+        "OutputPathWindows": "Chemin de sortie",
+        "OutputPathWindows-Help": "Le chemin où le fichier vidéo final sera enregistré. Cela peut être un chemin réseau comme \\\\mon-nas\\media\\films.",
+        "Quality": "Qualité",
+        "Quality-Suffix": "Qualité supérieure",
+        "ReplaceOriginal": "Remplacer l'original",
+        "ReplaceOriginal-Help": "Remplace le fichier vidéo original par le nouveau créé.",
+        "SaveToFolder": "Enregistrer dans un dossier",
+        "SaveToFolder-Help": "Enregistrez le fichier nouvellement créé à un nouvel emplacement.",
+        "SubtitleLanguages": "Langues",
+        "SubtitleLanguages-Help": "Spécifiez les langues que vous souhaitez conserver dans l'ordre que vous souhaitez.",
+        "TwoAudioVersions": "Deux versions audio",
+        "TwoAudioVersions-Help": "Si deux versions des pistes audio doivent être créées. Par exemple, si vous souhaitez créer une piste surround et une piste stéréo. Sinon, une seule version sera créée.",
+        "VideoCodec": "Codec vidéo",
+        "VideoCodec-Help": "Le codec à utiliser pour la vidéo.",
+        "VideoContainer": "Conteneur",
+        "VideoContainer-Help": "Le conteneur vidéo à utiliser. Il est recommandé d'utiliser MKV, car MP4 prend en charge moins de formats de sous-titres."
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "Vous devez spécifier au moins une langue audio.",
+        "Audio2LanguageRequired": "Vous devez spécifier au moins une langue audio supplémentaire.",
+        "NameRequired": "Le nom est obligatoire.",
+        "OutputPathRequired": "Le chemin de sortie est obligatoire."
+      }
+    },
     "PauseDialog": {
       "Message": "Sélectionnez la durée de la pause dans le traitement.\nRemarque : Les flows actuels continueront à s'exécuter, mais aucun autre flow ne sera exécuté jusqu'à ce que ce temps soit écoulé.",
       "Title": "Pause du Traitement"

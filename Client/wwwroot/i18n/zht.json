@@ -253,6 +253,136 @@
         "NoMoreImports": "此腳本沒有其他可用的導入"
       }
     },
+    "NewLibraryWizard": {
+      "Title": "新庫",
+      "Labels": {
+        "FileExtensions": "檔案副檔名",
+        "FileExtensionsDescription": "指定在此庫中要處理的檔案副檔名。",
+        "FileTypes": "檔案類型",
+        "FileTypesDescription": "指定要在此庫中檢測並處理的檔案類型。",
+        "General": "常規",
+        "GeneralDescription": "輸入有關此庫的一般資訊。",
+        "LibraryType": "類型",
+        "LibraryTypeDescription": "選擇您要創建的庫類型。",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "處理在指定的下載資料夾中找到的檔案。每當檔案在資料夾中被檢測到時，就會處理這些檔案。為了避免檔案再次被處理，請在處理後將其移動或刪除。如果檔案重新出現，它將被視為新檔案並重新處理。",
+            "Title": "下載"
+          },
+          "Files": {
+            "Description": "處理在指定資料夾中找到的單一檔案。此選項適用於逐一處理檔案。",
+            "Title": "檔案"
+          },
+          "Folders": {
+            "Description": "處理在指定目錄中找到的整個資料夾。只處理資料夾本身，而不處理資料夾中的單一檔案。如果您的流程設計為處理整個資料夾，請使用此選項。",
+            "Title": "資料夾"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "檔案副檔名",
+        "FileExtensions-Help": "為空則處理所有檔案，或指定要處理的檔案副檔名。",
+        "Flow": "流程",
+        "Flow-Help": "用來處理此庫中項目的流程。",
+        "Name": "名稱",
+        "Name-Help": "新庫的名稱，必須是唯一的。",
+        "Path": "路徑",
+        "Path-Help": "指定庫資料夾的路徑。",
+        "PathWindows": "路徑",
+        "PathWindows-Help": "指定庫資料夾的路徑。對於網路路徑，請使用格式 \\\\我的-nas\\媒體\\電影。"
+      },
+      "FileTypes": {
+        "Audio": "音訊",
+        "Audiobook": "有聲書",
+        "AudiobookDescription": "處理有聲書檔案，如 mp3、m4b 和 aax。",
+        "AudioDescription": "處理音訊檔案，如 mp3、flac、wav、aac 等。",
+        "Comic": "漫畫",
+        "ComicDescription": "處理漫畫檔案，如 cbz、cbr、cb7 和 pdf。",
+        "Custom": "自定義",
+        "CustomDescription": "手動指定要處理的檔案副檔名。",
+        "eBook": "電子書",
+        "eBookDescription": "處理電子書檔案，如 epub、mobi、azw3 和 pdf。",
+        "Image": "影像",
+        "ImageDescription": "處理影像檔案，如 jpg、png、gif、bmp 和 tiff。",
+        "Video": "影片",
+        "VideoDescription": "處理影片檔案，如 mkv、mp4、wmv、ts、mpeg 等。"
+      },
+      "Messages": {
+        "FlowRequired": "流程是必需的。",
+        "NameRequired": "庫名稱是必需的。",
+        "PathRequired": "庫路徑是必需的。"
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Title": "新影片向導",
+      "Labels": {
+        "Bitrate": "位元速率",
+        "BitrateDescription": "使用固定的位元速率編碼影片。這將使影片的檔案大小保持一致，但如果位元速率不理想，則會浪費儲存空間或降低品質。",
+        "FileExtensions": "檔案副檔名",
+        "FileExtensionsDescription": "指定在此庫中處理的檔案副檔名。",
+        "Quality": "品質",
+        "QualityDescription": "根據影片的輸入使用自適應編碼來達到固定的品質水準。這是推薦的方式，可以確保影片品質一致，並且生成最小的檔案。",
+        "UseOriginal": "使用未修改的原始檔案",
+        "Types": {
+          "Film": "電影",
+          "FilmDescription": "處理電影並使用Meta插件查找其資訊。這將有助於確定電影的原始語言。",
+          "TV": "電視",
+          "TVDescription": "處理電視節目並使用Meta插件查找其資訊。這將有助於確定電視節目的原始語言。",
+          "Video": "影片",
+          "VideoDescription": "一個通用的影片檔案，不會進行任何附加的元資料查找。"
+        }
+      },
+      "Fields": {
+        "AudioChannels": "音訊通道",
+        "AudioChannels-Help": "音訊的通道數量。將使用現有的音軌來創建此音軌，並且可以進行降混，但無法升混，因此如果選擇的通道數高於現有的音軌數量，則該音軌將不會被添加。",
+        "AudioCodec": "音訊編解碼器",
+        "AudioCodec-Help": "用於音訊的編解碼器",
+        "AudioLanguages": "音訊語言",
+        "AudioLanguages-Help": "指定要保留的語言，並按所需順序排列。",
+        "Bitrate": "位元速率",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "轉換音訊",
+        "ConvertAudioDescription": "將音軌轉換為指定的格式",
+        "CropBlackBars": "裁剪黑邊",
+        "CropBlackBars-Help": "FileFlows將嘗試檢測影片檔案中的黑邊，若找到，將裁剪這些黑邊以減少檔案大小並允許播放器更改縱橫比。",
+        "DefaultLanguage": "預設語言",
+        "DefaultLanguage-Help": "指定要分配給當前未指定語言的音軌的語言。",
+        "DeleteOld": "刪除原始檔案",
+        "DeleteOld-Help": "如果應刪除原始檔案，且如果沒有其他影片檔案，則也應刪除原始檔案夾。",
+        "DontConvertAudio": "不轉換音訊",
+        "DontConvertAudioDescription": "直接複製所有音軌，不進行任何修改",
+        "KeepAllSubtitles": "保留所有字幕",
+        "KeepAllSubtitles-Help": "保留原始影片中的所有字幕",
+        "KeepOnlySpecifiedSubtitles": "僅保留指定字幕",
+        "KeepOnlySpecifiedSubtitles-Help": "僅保留指定的字幕，其他的將被刪除",
+        "Name": "名稱",
+        "Name-Help": "新建流程的名稱，必須是唯一的。",
+        "OutputPath": "輸出路徑",
+        "OutputPath-Help": "保存最終影片檔案的路徑。",
+        "OutputPathWindows": "輸出路徑",
+        "OutputPathWindows-Help": "保存最終影片檔案的路徑。\n這可以是網路路徑，例如 \\\\my-nas\\media\\movies",
+        "Quality": "品質",
+        "Quality-Suffix": "更高品質",
+        "ReplaceOriginal": "替換原始檔案",
+        "ReplaceOriginal-Help": "用新創建的影片檔案替換原始影片檔案。",
+        "SaveToFolder": "保存到資料夾",
+        "SaveToFolder-Help": "將新創建的檔案保存到新位置",
+        "SubtitleLanguages": "字幕語言",
+        "SubtitleLanguages-Help": "指定要保留的語言，並按所需順序排列。",
+        "TwoAudioVersions": "兩個音訊版本",
+        "TwoAudioVersions-Help": "如果應該創建兩個版本的音軌。例如，如果您希望創建環繞聲和立體聲音軌。否則，只會創建一個版本。",
+        "VideoCodec": "影片編解碼器",
+        "VideoCodec-Help": "用於影片的編解碼器",
+        "VideoContainer": "影片容器",
+        "VideoContainer-Help": "使用的影片容器，建議使用MKV，因為MP4支持的字幕格式較少。"
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "您必須指定至少一種音訊語言。",
+        "Audio2LanguageRequired": "您必須指定至少第二種音訊語言。",
+        "NameRequired": "名稱是必需的。",
+        "OutputPathRequired": "輸出路徑是必需的。"
+      }
+    },
     "PauseDialog": {
       "Message": "選擇暫停處理的時間。\n注意：當前流程將繼續執行，但在此期間不會執行其他流程。",
       "Title": "暫停處理"
