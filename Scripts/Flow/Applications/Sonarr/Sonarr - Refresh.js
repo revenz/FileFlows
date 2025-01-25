@@ -6,7 +6,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * @uid 01d7fc57-2613-4e14-92bc-29b2ba259f86
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:8989)
  * @param {string} ApiKey API Key
- * @output Item renamed successfully
+ * @output Item refreshed successfully
  * @output Item not found
  */
 //Orignally authored by Shaun Agius and Anthony Clerici as the Radarr - Rename Script modifed to just refresh instead.
@@ -32,9 +32,9 @@ function Script(URI, ApiKey) {
                 isNewSeries: false
             }
 
-        // Ensure series is refreshed before renaming
+        // Ensure series is refreshed
         let refreshData = sonarr.sendCommand('RefreshSeries', refreshBody);
-        // Wait for the completion of the scan
+        // Wait for the completion of the refresh
         let refreshCompleted = sonarr.waitForCompletion(refreshData.id, sonarr);
         if (!refreshCompleted) {
             Logger.WLog('refresh failed');
