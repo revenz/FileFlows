@@ -343,6 +343,10 @@
         "Bitrate-Suffix": "KB",
         "ConvertAudio": "转换音频",
         "ConvertAudioDescription": "将音轨转换为指定的格式",
+        "CopyAllAudio": "复制所有音频",
+        "CopyAllAudioDescription": "按原样复制所有音频轨道，不做任何修改。",
+        "CopyOnlyLanguages": "仅复制指定语言",
+        "CopyOnlyLanguagesDescription": "仅复制以下指定的语言，所有其他语言将被移除。音频轨道将按原样复制，不做任何修改。",
         "CropBlackBars": "裁剪黑边",
         "CropBlackBars-Help": "FileFlows将尝试检测视频文件中的黑边，如果找到，它会裁剪这些黑边以减少文件大小，并允许播放器更改纵横比。",
         "DefaultLanguage": "默认语言",
@@ -379,8 +383,10 @@
       "Messages": {
         "Audio1LanguageRequired": "您必须指定至少一种音频语言。",
         "Audio2LanguageRequired": "您必须指定至少第二种音频语言。",
+        "AudioMode2LanguagesRequired": "需要音频语言。",
         "NameRequired": "名称是必需的。",
-        "OutputPathRequired": "输出路径是必需的。"
+        "OutputPathRequired": "输出路径是必需的。",
+        "SubtitleLanguageRequired": "需要字幕语言。"
       },
       "Pages": {
         "Audio": "音频",

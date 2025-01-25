@@ -343,6 +343,10 @@
         "Bitrate-Suffix": "KB",
         "ConvertAudio": "オーディオを変換",
         "ConvertAudioDescription": "指定された形式にオーディオトラックを変換します。",
+        "CopyAllAudio": "すべてのオーディオをコピー",
+        "CopyAllAudioDescription": "すべてのオーディオトラックをそのまま変更せずにコピーします。",
+        "CopyOnlyLanguages": "指定された言語のみコピー",
+        "CopyOnlyLanguagesDescription": "以下で指定された言語のみをコピーします。他のすべての言語は削除されます。オーディオトラックは変更せずにコピーされます。",
         "CropBlackBars": "黒帯をトリミング",
         "CropBlackBars-Help": "FileFlowsはビデオファイル内の黒帯を検出し、見つかった場合はファイルサイズを縮小し、プレーヤーでのアスペクト比変更を可能にするためにトリミングします。",
         "DefaultLanguage": "デフォルト言語",
@@ -379,8 +383,10 @@
       "Messages": {
         "Audio1LanguageRequired": "少なくとも1つのオーディオ言語を指定する必要があります。",
         "Audio2LanguageRequired": "少なくとも1つの追加のオーディオ言語を指定する必要があります。",
+        "AudioMode2LanguagesRequired": "音声言語が必要です。",
         "NameRequired": "名前は必須です。",
-        "OutputPathRequired": "出力パスは必須です。"
+        "OutputPathRequired": "出力パスは必須です。",
+        "SubtitleLanguageRequired": "字幕言語が必要です。"
       },
       "Pages": {
         "Audio": "オーディオ",

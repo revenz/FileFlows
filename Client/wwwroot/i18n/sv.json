@@ -343,6 +343,10 @@
         "Bitrate-Suffix": "KB",
         "ConvertAudio": "Konvertera ljud",
         "ConvertAudioDescription": "Konvertera ljudspåren till de angivna formaten",
+        "CopyAllAudio": "Kopiera all ljud",
+        "CopyAllAudioDescription": "Kopiera alla ljudspår precis som de är, utan ändringar.",
+        "CopyOnlyLanguages": "Kopiera endast specifika språk",
+        "CopyOnlyLanguagesDescription": "Kopiera endast de språk som anges nedan. Alla andra språk kommer att tas bort. Ljudspåren kopieras utan ändringar.",
         "CropBlackBars": "Beskär svarta kanter",
         "CropBlackBars-Help": "FileFlows kommer att försöka upptäcka svarta kanter i videofilen och om de hittas kommer de att beskäras för att minska filstorleken och för att möjliggöra ändring av bildförhållandet i spelare.",
         "DefaultLanguage": "Standardspråk",
@@ -379,8 +383,10 @@
       "Messages": {
         "Audio1LanguageRequired": "Du måste specificera minst ett ljudspråk.",
         "Audio2LanguageRequired": "Du måste specificera minst ett ytterligare ljudspråk.",
+        "AudioMode2LanguagesRequired": "Ljudspråk krävs.",
         "NameRequired": "Namn är obligatoriskt.",
-        "OutputPathRequired": "Utmatningsväg är obligatorisk."
+        "OutputPathRequired": "Utmatningsväg är obligatorisk.",
+        "SubtitleLanguageRequired": "Undertextspråk krävs."
       },
       "Pages": {
         "Audio": "Ljud",

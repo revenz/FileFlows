@@ -77,14 +77,25 @@
             <FlowWizardPage Title="@lblPageAudio" Description="@lblPageAudioDescription">
 
                 <ul class="ul-radio-list">
-                    <li @onclick="() => ConvertAudio = false" class="clickable-radio @(ConvertAudio == false ? "active" : "")">
+                    <li @onclick="() => AudioMode = 0" class="clickable-radio @(AudioMode == 0 ? "active" : "")">
                         <i class="fas fa-copy"></i>
                         <div class="info">
-                            <span>@lblDontConvertAudio</span>
-                            <p>@lblDontConvertAudioDescription</p>
+                            <span>@lblCopyAllAudio</span>
+                            <p>@lblCopyAllAudioDescription</p>
                         </div>
                     </li>
-                    <li @onclick="() => ConvertAudio = true" class="clickable-radio @(ConvertAudio ? "active" : "")">
+                    <li @onclick="() => AudioMode = 1" class="clickable-radio @(AudioMode == 1 ? "active" : "")">
+                        <i class="fas fa-copy"></i>
+                        <div class="info">
+                            <span>@lblCopyOnlyLanguages</span>
+                            <p>@lblCopyOnlyLanguagesDescription</p>
+                        </div>
+                        <div class="options">
+                            <InputSelect @bind-Value="@BoundDefaultLanguage" AllowClear="false" Options=@LanguageOptions Label="Dialogs.NewVideoFlowWizard.Fields.DefaultLanguage" />
+                            <InputLanguages @bind-Value="@AudioMode2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator"/>
+                        </div>
+                    </li>
+                    <li @onclick="() => AudioMode = 2" class="clickable-radio @(AudioMode == 2 ? "active" : "")">
                         <i class="fas fa-volume-up"></i>
                         <div class="info">
                             <span>@lblConvertAudio</span>
@@ -98,12 +109,12 @@
                 </ul>
             </FlowWizardPage>
             
-            <FlowWizardPage Title="@lblPageAudio1" Description="@lblPageAudio1Description" Indented="true" Visible="@ConvertAudio"  OnPageAdvanced="OnAudio1PageAdvanced" >
+            <FlowWizardPage Title="@lblPageAudio1" Description="@lblPageAudio1Description" Indented="true" Visible="@(AudioMode == 2)"  OnPageAdvanced="OnAudio1PageAdvanced" >
                 <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
                 <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec" />
                 <InputSelect @bind-Value="@BoundAudio1Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
             </FlowWizardPage>
-            <FlowWizardPage Title="@lblPageAudio2" Description="@lblPageAudio2Description" Indented="true" Visible="@(ConvertAudio && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
+            <FlowWizardPage Title="@lblPageAudio2" Description="@lblPageAudio2Description" Indented="true" Visible="@(AudioMode == 2 && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
                 <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
                 <InputSelect @bind-Value="@BoundAudio2Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
                 <InputSelect @bind-Value="@BoundAudio2Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />

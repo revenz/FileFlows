@@ -343,14 +343,16 @@
         "Bitrate-Suffix": "KB",
         "ConvertAudio": "Convert Audio",
         "ConvertAudioDescription": "Convert the audio tracks to the specified formats.",
+        "CopyAllAudio": "Copy All Audio",
+        "CopyAllAudioDescription": "Copy all audio tracks as-is, without any modifications.",
+        "CopyOnlyLanguages": "Copy Only Specified Languages",
+        "CopyOnlyLanguagesDescription": "Copy only the languages specified below. All other languages will be removed. The audio tracks will be copied without modification.",
         "CropBlackBars": "Crop Black Bars",
         "CropBlackBars-Help": "FileFlows will attempt to detect black bars in the video file and crop them, reducing file size and enabling aspect ratio adjustments on players.",
         "DefaultLanguage": "Default Language",
         "DefaultLanguage-Help": "Specifies the language to assign to audio tracks that do not have a language specified.",
         "DeleteOld": "Clean Up Original",
         "DeleteOld-Help": "Deletes the original file and removes the original folder if no other video files remain.",
-        "DontConvertAudio": "Don't Convert Audio",
-        "DontConvertAudioDescription": "Directly copy all the audio tracks without any modifications.",
         "KeepAllSubtitles": "Keep All Subtitles",
         "KeepAllSubtitles-Help": "Retain all the subtitles from the original video.",
         "KeepOnlySpecifiedSubtitles": "Keep Only",
@@ -386,8 +388,10 @@
       "Messages": {
         "Audio1LanguageRequired": "You must specify at least one audio language.",
         "Audio2LanguageRequired": "You must specify at least one additional audio language.",
+        "AudioMode2LanguagesRequired": "Audio languages are required.",
         "NameRequired": "The name is required.",
-        "OutputPathRequired": "The output path is required."
+        "OutputPathRequired": "The output path is required.",
+        "SubtitleLanguageRequired": "Subtitles languages are required."
       },
       "Pages": {
         "Audio": "Audio",

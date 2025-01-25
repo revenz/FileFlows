@@ -343,6 +343,10 @@
         "Bitrate-Suffix": "KB",
         "ConvertAudio": "Audio converteren",
         "ConvertAudioDescription": "Converteer de audiotracks naar de opgegeven formaten",
+        "CopyAllAudio": "Alle audio kopiëren",
+        "CopyAllAudioDescription": "Kopieer alle audiotracks zoals ze zijn, zonder aanpassingen.",
+        "CopyOnlyLanguages": "Alleen specifieke talen kopiëren",
+        "CopyOnlyLanguagesDescription": "Kopieer alleen de hieronder gespecificeerde talen. Alle andere talen worden verwijderd. De audiotracks worden zonder aanpassingen gekopieerd.",
         "CropBlackBars": "Snijd zwarte balken",
         "CropBlackBars-Help": "FileFlows probeert zwarte balken in het videobestand te detecteren en snijdt deze af als ze gevonden worden om de bestandsgrootte te verkleinen en de beeldverhouding in de mediaspelers aan te passen.",
         "DefaultLanguage": "Standaardtaal",
@@ -379,8 +383,10 @@
       "Messages": {
         "Audio1LanguageRequired": "Je moet minstens één audiotaal opgeven.",
         "Audio2LanguageRequired": "Je moet minstens één extra audiotaal opgeven.",
+        "AudioMode2LanguagesRequired": "Audiotalen zijn vereist.",
         "NameRequired": "De naam is vereist.",
-        "OutputPathRequired": "Het uitvoerpad is vereist."
+        "OutputPathRequired": "Het uitvoerpad is vereist.",
+        "SubtitleLanguageRequired": "Ondertiteltalen zijn vereist."
       },
       "Pages": {
         "Audio": "Audio",

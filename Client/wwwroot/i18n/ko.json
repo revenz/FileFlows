@@ -343,6 +343,10 @@
         "Bitrate-Suffix": "KB",
         "ConvertAudio": "오디오 변환",
         "ConvertAudioDescription": "지정된 형식으로 오디오 트랙을 변환합니다.",
+        "CopyAllAudio": "모든 오디오 복사",
+        "CopyAllAudioDescription": "모든 오디오 트랙을 그대로 수정 없이 복사합니다.",
+        "CopyOnlyLanguages": "지정된 언어만 복사",
+        "CopyOnlyLanguagesDescription": "아래에 지정된 언어만 복사합니다. 나머지 언어는 모두 제거됩니다. 오디오 트랙은 수정 없이 복사됩니다.",
         "CropBlackBars": "검은 띠 자르기",
         "CropBlackBars-Help": "FileFlows는 비디오 파일에서 검은 띠를 감지하고, 찾을 경우 이를 잘라 파일 크기를 줄이며, 플레이어에서 비율 변경을 허용합니다.",
         "DefaultLanguage": "기본 언어",
@@ -379,8 +383,10 @@
       "Messages": {
         "Audio1LanguageRequired": "최소한 하나의 오디오 언어를 지정해야 합니다.",
         "Audio2LanguageRequired": "추가 오디오 언어를 최소한 하나 지정해야 합니다.",
+        "AudioMode2LanguagesRequired": "오디오 언어가 필요합니다.",
         "NameRequired": "이름은 필수입니다.",
-        "OutputPathRequired": "출력 경로는 필수입니다."
+        "OutputPathRequired": "출력 경로는 필수입니다.",
+        "SubtitleLanguageRequired": "자막 언어가 필요합니다."
       },
       "Pages": {
         "Audio": "オーディオ",

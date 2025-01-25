@@ -65,7 +65,8 @@ public partial class NewVideoFlowWizard : IModal
         lblPageSubtitle, lblPageSubtitleDescription, lblPageOutput, lblPageOutputDescription,
         lblQuality, lblQualityDescription, lblBitrate, lblBitrateDescription, 
         lblTypeFilm, lblTypeFilmDescription, lblTypeTV, lblTypeTVDescription, lblTypeVideo, lblTypeVideoDescription,
-        lblDontConvertAudio, lblDontConvertAudioDescription, lblConvertAudio, lblConvertAudioDescription,
+        lblCopyAllAudio, lblCopyAllAudioDescription,
+        lblCopyOnlyLanguages, lblCopyOnlyLanguagesDescription, lblConvertAudio, lblConvertAudioDescription,
         lblKeepAllSubtitles, lblKeepAllSubtitlesDescription, lblKeepOnlySpecifiedSubtitles, lblKeepOnlySpecifiedSubtitlesDescription,
         lblReplaceOriginal, lblReplaceOriginalDescription, lblSaveToFolder, lblSaveToFolderDescription;
 
@@ -75,7 +76,7 @@ public partial class NewVideoFlowWizard : IModal
     private int SelectedVideoEncodingType;
     private int Quality, Bitrate = 5000;
     private bool CropBlackBars;
-    private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [];
+    private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode2Languages = [];
     
     /// <summary>
     /// The new libraries name
@@ -87,8 +88,8 @@ public partial class NewVideoFlowWizard : IModal
     /// </summary>
     private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng", 
         OutputPath;
-    private int SelectedType, Audio1Channels, Audio2Channels;
-    private bool ConvertAudio, TwoAudioVersions, ReplaceOriginal = true, DeleteOld, SubtitleKeepOnly;
+    private int SelectedType, Audio1Channels, Audio2Channels, AudioMode;
+    private bool TwoAudioVersions, ReplaceOriginal = true, DeleteOld, SubtitleKeepOnly;
 
     /// <summary>
     /// The input options
@@ -240,9 +241,10 @@ public partial class NewVideoFlowWizard : IModal
         lblQualityDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.QualityDescription");
         lblBitrate = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Bitrate");
         lblBitrateDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.BitrateDescription");
-        
-        lblDontConvertAudio = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.DontConvertAudio");
-        lblDontConvertAudioDescription=Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.DontConvertAudioDescription");
+        lblCopyAllAudio = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyAllAudio");
+        lblCopyAllAudioDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyAllAudioDescription");
+        lblCopyOnlyLanguages = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyOnlyLanguages");
+        lblCopyOnlyLanguagesDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyOnlyLanguagesDescription");
         lblConvertAudio= Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.ConvertAudio");
         lblConvertAudioDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.ConvertAudioDescription");
        
@@ -317,52 +319,8 @@ public partial class NewVideoFlowWizard : IModal
     /// </summary>
     private async Task Save()
     {
-        await Editor.Validate();
-        if (string.IsNullOrWhiteSpace(VideoFlowName))
-        {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
+        if (await ValidateFlow() == false)
             return;
-        }
-
-        if (ReplaceOriginal == false && string.IsNullOrWhiteSpace(OutputPath))
-        {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.OutputPathRequired");
-            return;
-        }
-
-        if (ConvertAudio)
-        {
-            if (Audio1Languages.Count == 0)
-            {
-                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio1LanguageRequired");
-                return;
-            }
-
-            if (TwoAudioVersions)
-            {
-                if (Audio2Languages.Count == 0)
-                {
-                    Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2LanguageRequired");
-                    return;
-                }
-
-                if (string.Equals(Audio1Codec, Audio2Codec, StringComparison.InvariantCultureIgnoreCase) &&
-                    Audio1Channels == Audio2Channels)
-                {
-                    Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2MustBeDifferent");
-                    return;
-                }
-            }
-        }
-
-        if (SubtitleKeepOnly)
-        {
-            if (SubtitleLanguages.Count == 0)
-            {
-                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.SubtitleLanguageRequired");
-                return;
-            }
-        }
 
         Wizard.ShowBlocker("Labels.Saving");
 
@@ -375,33 +333,8 @@ public partial class NewVideoFlowWizard : IModal
                 FlowElementUid = builder.ElementUids.VideoFile,
                 Outputs = 1
             });
-            switch (SelectedType)
-            {
-                case 0: // film
-                    builder.AddAndConnect(new FlowPart()
-                    {
-                        FlowElementUid = builder.ElementUids.MovieLookup,
-                        Outputs = 2,
-                        Type = FlowElementType.Logic,
-                        Model = ExpandoHelper.ToExpandoObject(new 
-                        {
-                            UseFolderName = true
-                        })
-                    });
-                    break;
-                case 1: // tv
-                    builder.AddAndConnect(new FlowPart()
-                    {
-                        FlowElementUid = builder.ElementUids.TVShowLookup,
-                        Outputs = 2,
-                        Type = FlowElementType.Logic,
-                        Model = ExpandoHelper.ToExpandoObject(new 
-                        {
-                            UseFolderName = true
-                        })
-                    });
-                    break;
-            }
+            FlowAddMetaLookup(builder);
+            
             builder.AddAndConnect(new FlowPart()
             {
                 FlowElementUid = builder.ElementUids.FFmpegBuilderStart,
@@ -419,124 +352,9 @@ public partial class NewVideoFlowWizard : IModal
             bool videoEncode = string.IsNullOrWhiteSpace(VideoCodec) == false;
 
             if (videoEncode)
-            {
-                string codecLabel = VideoCodec switch
-                {
-                    "h265" => "HEVC",
-                    _ => VideoCodec.ToUpper()
-                };
-                if (SelectedVideoEncodingType == 1)
-                {
-                    // bitrate encode
-                    builder.AddAndConnect(new FlowPart()
-                    {
-                        FlowElementUid = builder.ElementUids.FFmpegBuilderVideoBitrateEncode,
-                        Outputs = 1,
-                        Name = codecLabel,
-                        Type = FlowElementType.BuildPart,
-                        Model = ExpandoHelper.ToExpandoObject(new
-                        {
-                            Codec = VideoCodec,
-                            Encoder= "",
-                            Bitrate
-                        })
-                    });
-                }
-                else
-                {
-                    // quality encode
-                    builder.AddAndConnect(new FlowPart()
-                    {
-                        FlowElementUid = builder.ElementUids.FFmpegBuilderVideoEncode,
-                        Outputs = 1,
-                        Name = codecLabel + " (Bitrate)",
-                        Type = FlowElementType.BuildPart,
-                        Model = ExpandoHelper.ToExpandoObject(new
-                        {
-                            Codec = VideoCodec,
-                            Encoder= "",
-                            Quality = GetQuality(VideoCodec, Quality),
-                            Speed = "medium"
-                        })
-                    });
-                }
-
-                if (CropBlackBars)
-                {
-                    builder.AddAndConnect(new FlowPart()
-                    {
-                        FlowElementUid = builder.ElementUids.FFmpegBuildeCropBlackBars,
-                        Outputs = 2,
-                        Type = FlowElementType.BuildPart,
-                        Model = ExpandoHelper.ToExpandoObject(new
-                        {
-                            CroppingThreshold = 10
-                        })
-                    });
-                }
-            }
-
-            if (ConvertAudio)
-            {
-                builder.AddAndConnect(new FlowPart()
-                {
-                    FlowElementUid = builder.ElementUids.FFmpegBuilderAudioSetLanguage,
-                    Outputs = 2,
-                    Type = FlowElementType.BuildPart,
-                    Model = ExpandoHelper.ToExpandoObject(new
-                    {
-                        StreamType = "Both",
-                        Language = DefaultLanguage
-                    })
-                }, allOutputs: true);
-                
-                builder.AddAndConnect(new FlowPart()
-                {
-                    FlowElementUid = builder.ElementUids.FFmpegBuilderAudioLanguageConverter,
-                    Outputs = 2,
-                    Type = FlowElementType.BuildPart,
-                    Model = ExpandoHelper.ToExpandoObject(new
-                    {
-                        Languages = Audio1Languages,
-                        Codec = Audio1Codec,
-                        Channels = Audio1Channels,
-                        Bitrate = GetBitratePerChannel(Audio1Codec)
-                    })
-                }, allOutputs: true);
-
-                if (TwoAudioVersions)
-                {
-                    builder.AddAndConnect(new FlowPart()
-                    {
-                        FlowElementUid = builder.ElementUids.FFmpegBuilderAudioLanguageConverter,
-                        Outputs = 2,
-                        Type = FlowElementType.BuildPart,
-                        Model = ExpandoHelper.ToExpandoObject(new
-                        {
-                            Languages = Audio2Languages,
-                            Codec = Audio2Codec,
-                            Channels = Audio2Channels,
-                            Bitrate = GetBitratePerChannel(Audio2Codec)
-                        })
-                    }, allOutputs: true);
-                }
-            }
-
-            if (SubtitleKeepOnly)
-            {
-                builder.AddAndConnect(new FlowPart()
-                {
-                    FlowElementUid = builder.ElementUids.FFmpegBuilderLanguageRemover,
-                    Outputs = 2,
-                    Type = FlowElementType.BuildPart,
-                    Model = ExpandoHelper.ToExpandoObject(new
-                    {
-                        StreamType = "Subtitle",
-                        Languages = SubtitleLanguages,
-                        NotMatching = true
-                    })
-                }, allOutputs: true);
-            }
+                FlowAddVideo(builder);
+            FlowAddAudio(builder);
+            FlowAddSubtitles(builder);
             
             var executor = builder.AddAndConnect(new FlowPart()
             {
@@ -552,46 +370,7 @@ public partial class NewVideoFlowWizard : IModal
 
 
             var preOutputColumn = builder.CurrentColumn;
-            FlowPart fpOutput;
-            if (ReplaceOriginal)
-            {
-                fpOutput = builder.AddAndConnect(new FlowPart()
-                {
-                    FlowElementUid = builder.ElementUids.ReplaceOriginal,
-                    Outputs = 1,
-                    Type = FlowElementType.Process
-                }, row: videoEncode ? 6 : 0, column: videoEncode ? (preOutputColumn + 4) : 0);
-            }
-            else
-            {
-                fpOutput = builder.AddAndConnect(new FlowPart()
-                {
-                    FlowElementUid = builder.ElementUids.MoveFile,
-                    Outputs = 2,
-                    Type = FlowElementType.Process,
-                    Model = ExpandoHelper.ToExpandoObject(new
-                    {
-                        DestinationPath = OutputPath,
-                        DeleteOriginal = DeleteOld,
-                        MoveFolder = true
-                    })
-                }, row: videoEncode ? 5 : 0, column: videoEncode ? (preOutputColumn + 4) : 0);
-
-                if (DeleteOld)
-                {
-                    builder.AddAndConnect(new FlowPart()
-                    {
-                        FlowElementUid = builder.ElementUids.DeleteSourceDirectory,
-                        Outputs = 2,
-                        Type = FlowElementType.Process,
-                        Model = ExpandoHelper.ToExpandoObject(new
-                        {
-                            IfEmpty = true,
-                            IncludePatterns = new[] { "^((?!sample).)*\\.(mkv|mp4|avi|divx|mov|mp(e)?g)$ " }
-                        })
-                    }, row: videoEncode ? 6 : 0, column: videoEncode ? (preOutputColumn + 3) : 0);
-                }
-            }
+            FlowPart fpOutput = FlowAddOutput(builder, videoEncode);
 
             if (videoEncode)
             {
@@ -664,6 +443,316 @@ public partial class NewVideoFlowWizard : IModal
         catch(Exception)
         {
             Wizard.HideBlocker();
+        }
+    }
+
+    /// <summary>
+    /// Adds the output flow elements
+    /// </summary>
+    /// <param name="builder">the flow builder</param>
+    /// <param name="videoEncode">if video encoding will occur</param>
+    /// <returns>the primary flow output flow part</returns>
+    private FlowPart FlowAddOutput(FlowBuilder builder, bool videoEncode)
+    {
+        int preOutputColumn = builder.CurrentColumn;
+        FlowPart fpOutput;
+        if (ReplaceOriginal)
+        {
+            fpOutput = builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = builder.ElementUids.ReplaceOriginal,
+                Outputs = 1,
+                Type = FlowElementType.Process
+            }, row: videoEncode ? 6 : 0, column: videoEncode ? (preOutputColumn + 4) : 0);
+        }
+        else
+        {
+            fpOutput = builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = builder.ElementUids.MoveFile,
+                Outputs = 2,
+                Type = FlowElementType.Process,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    DestinationPath = OutputPath,
+                    DeleteOriginal = DeleteOld,
+                    MoveFolder = true
+                })
+            }, row: videoEncode ? 5 : 0, column: videoEncode ? (preOutputColumn + 4) : 0);
+
+            if (DeleteOld)
+            {
+                builder.AddAndConnect(new FlowPart()
+                {
+                    FlowElementUid = builder.ElementUids.DeleteSourceDirectory,
+                    Outputs = 2,
+                    Type = FlowElementType.Process,
+                    Model = ExpandoHelper.ToExpandoObject(new
+                    {
+                        IfEmpty = true,
+                        IncludePatterns = new[] { "^((?!sample).)*\\.(mkv|mp4|avi|divx|mov|mp(e)?g)$ " }
+                    })
+                }, row: videoEncode ? 6 : 0, column: videoEncode ? (preOutputColumn + 3) : 0);
+            }
+        }
+
+        return fpOutput;
+    }
+
+    /// <summary>
+    /// Validates the flow before saving
+    /// </summary>
+    /// <returns>true if flow is valid, otherwise false</returns>
+    private async Task<bool> ValidateFlow()
+    {
+        await Editor.Validate();
+        if (string.IsNullOrWhiteSpace(VideoFlowName))
+        {
+            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
+            return false;
+        }
+
+        if (ReplaceOriginal == false && string.IsNullOrWhiteSpace(OutputPath))
+        {
+            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.OutputPathRequired");
+            return false;
+        }
+
+        if (AudioMode == 1)
+        {
+            if (AudioMode2Languages.Count == 0)
+            {
+                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.AudioMode2LanguagesRequired");
+                return false;
+            }
+        }
+        else if (AudioMode == 2)
+        {
+            if (Audio1Languages.Count == 0)
+            {
+                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio1LanguageRequired");
+                return false;
+            }
+
+            if (TwoAudioVersions)
+            {
+                if (Audio2Languages.Count == 0)
+                {
+                    Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2LanguageRequired");
+                    return false;
+                }
+
+                if (string.Equals(Audio1Codec, Audio2Codec, StringComparison.InvariantCultureIgnoreCase) &&
+                    Audio1Channels == Audio2Channels)
+                {
+                    Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2MustBeDifferent");
+                    return false;
+                }
+            }
+        }
+
+        if (SubtitleKeepOnly)
+        {
+            if (SubtitleLanguages.Count == 0)
+            {
+                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.SubtitleLanguageRequired");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Adds the meta lookup flow parts to the flow
+    /// </summary>
+    /// <param name="builder">the flow builder</param>
+    private void FlowAddMetaLookup(FlowBuilder builder)
+    {
+        switch (SelectedType)
+        {
+            case 0: // film
+                builder.AddAndConnect(new FlowPart()
+                {
+                    FlowElementUid = builder.ElementUids.MovieLookup,
+                    Outputs = 2,
+                    Type = FlowElementType.Logic,
+                    Model = ExpandoHelper.ToExpandoObject(new
+                    {
+                        UseFolderName = true
+                    })
+                });
+                break;
+            case 1: // tv
+                builder.AddAndConnect(new FlowPart()
+                {
+                    FlowElementUid = builder.ElementUids.TVShowLookup,
+                    Outputs = 2,
+                    Type = FlowElementType.Logic,
+                    Model = ExpandoHelper.ToExpandoObject(new
+                    {
+                        UseFolderName = true
+                    })
+                });
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Adds the video flow parts to the flow
+    /// </summary>
+    /// <param name="builder">the flow builder</param>
+    private void FlowAddVideo(FlowBuilder builder)
+    {
+        string codecLabel = VideoCodec switch
+        {
+            "h265" => "HEVC",
+            _ => VideoCodec.ToUpper()
+        };
+        if (SelectedVideoEncodingType == 1)
+        {
+            // bitrate encode
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = builder.ElementUids.FFmpegBuilderVideoBitrateEncode,
+                Outputs = 1,
+                Name = codecLabel,
+                Type = FlowElementType.BuildPart,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    Codec = VideoCodec,
+                    Encoder = "",
+                    Bitrate
+                })
+            });
+        }
+        else
+        {
+            // quality encode
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = builder.ElementUids.FFmpegBuilderVideoEncode,
+                Outputs = 1,
+                Name = codecLabel + " (Bitrate)",
+                Type = FlowElementType.BuildPart,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    Codec = VideoCodec,
+                    Encoder = "",
+                    Quality = GetQuality(VideoCodec, Quality),
+                    Speed = "medium"
+                })
+            });
+        }
+
+        if (CropBlackBars)
+        {
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = builder.ElementUids.FFmpegBuildeCropBlackBars,
+                Outputs = 2,
+                Type = FlowElementType.BuildPart,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    CroppingThreshold = 10
+                })
+            });
+        }
+    }
+
+    /// <summary>
+    /// Adds the subtitle flow parts to the flow
+    /// </summary>
+    /// <param name="builder">the flow builder</param>
+    private void FlowAddSubtitles(FlowBuilder builder)
+    {
+        if (SubtitleKeepOnly)
+        {
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = builder.ElementUids.FFmpegBuilderLanguageRemover,
+                Outputs = 2,
+                Type = FlowElementType.BuildPart,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    StreamType = "Subtitle",
+                    Languages = SubtitleLanguages,
+                    NotMatching = true
+                })
+            }, allOutputs: true);
+        }
+    }
+
+    /// <summary>
+    /// Adds the audio flow parts to the flow
+    /// </summary>
+    /// <param name="builder">the flow builder</param>
+    private void FlowAddAudio(FlowBuilder builder)
+    {
+        if (AudioMode > 1)
+        {
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = builder.ElementUids.FFmpegBuilderAudioSetLanguage,
+                Outputs = 2,
+                Type = FlowElementType.BuildPart,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    StreamType = "Both",
+                    Language = DefaultLanguage
+                })
+            }, allOutputs: true);
+        }
+
+        if (AudioMode == 1)
+        {
+            // copy audio only matching languages
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = builder.ElementUids.FFmpegBuilderLanguageRemover,
+                Outputs = 2,
+                Type = FlowElementType.BuildPart,
+                Name = lblCopyOnlyLanguages,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    StreamType = "Audio",
+                    Languages = AudioMode2Languages,
+                    NotMatching = true
+                })
+            }, allOutputs: true);
+        }
+        else if (AudioMode == 2)
+        {
+            // convert audio
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = builder.ElementUids.FFmpegBuilderAudioLanguageConverter,
+                Outputs = 2,
+                Type = FlowElementType.BuildPart,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    Languages = Audio1Languages,
+                    Codec = Audio1Codec,
+                    Channels = Audio1Channels,
+                    Bitrate = GetBitratePerChannel(Audio1Codec)
+                })
+            }, allOutputs: true);
+
+            if (TwoAudioVersions)
+            {
+                builder.AddAndConnect(new FlowPart()
+                {
+                    FlowElementUid = builder.ElementUids.FFmpegBuilderAudioLanguageConverter,
+                    Outputs = 2,
+                    Type = FlowElementType.BuildPart,
+                    Model = ExpandoHelper.ToExpandoObject(new
+                    {
+                        Languages = Audio2Languages,
+                        Codec = Audio2Codec,
+                        Channels = Audio2Channels,
+                        Bitrate = GetBitratePerChannel(Audio2Codec)
+                    })
+                }, allOutputs: true);
+            }
         }
     }
 

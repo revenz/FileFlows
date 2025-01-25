@@ -343,6 +343,10 @@
         "Bitrate-Suffix": "KB",
         "ConvertAudio": "Конвертировать аудио",
         "ConvertAudioDescription": "Конвертировать аудиотреки в указанные форматы",
+        "CopyAllAudio": "Копировать все аудио",
+        "CopyAllAudioDescription": "Копировать все аудиодорожки как есть, без изменений.",
+        "CopyOnlyLanguages": "Копировать только указанные языки",
+        "CopyOnlyLanguagesDescription": "Копировать только указанные ниже языки. Все остальные языки будут удалены. Аудиодорожки будут скопированы без изменений.",
         "CropBlackBars": "Обрезать черные полосы",
         "CropBlackBars-Help": "FileFlows попытается обнаружить черные полосы в видеофайле и, если они найдены, обрежет их для уменьшения размера файла и изменения соотношения сторон на плеерах.",
         "DefaultLanguage": "Язык по умолчанию",
@@ -379,8 +383,10 @@
       "Messages": {
         "Audio1LanguageRequired": "Необходимо указать хотя бы один язык для аудио.",
         "Audio2LanguageRequired": "Необходимо указать хотя бы один дополнительный язык для аудио.",
+        "AudioMode2LanguagesRequired": "Требуются языки аудио.",
         "NameRequired": "Имя обязательно.",
-        "OutputPathRequired": "Необходим путь для вывода."
+        "OutputPathRequired": "Необходим путь для вывода.",
+        "SubtitleLanguageRequired": "Требуются языки субтитров."
       },
       "Pages": {
         "Audio": "Аудио",

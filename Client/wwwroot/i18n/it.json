@@ -343,6 +343,10 @@
         "Bitrate-Suffix": "KB",
         "ConvertAudio": "Converti Audio",
         "ConvertAudioDescription": "Converte le tracce audio nei formati specificati.",
+        "CopyAllAudio": "Copia tutto l'audio",
+        "CopyAllAudioDescription": "Copia tutte le tracce audio così come sono, senza modifiche.",
+        "CopyOnlyLanguages": "Copia solo lingue specifiche",
+        "CopyOnlyLanguagesDescription": "Copia solo le lingue specificate di seguito. Tutte le altre lingue verranno rimosse. Le tracce audio verranno copiate senza modifiche.",
         "CropBlackBars": "Ritaglia le barre nere",
         "CropBlackBars-Help": "FileFlows cercherà di rilevare le barre nere nel file video e, se le troverà, le ritaglierà per ridurre le dimensioni del file e consentire il cambio del rapporto d'aspetto nei lettori.",
         "DefaultLanguage": "Lingua predefinita",
@@ -379,8 +383,10 @@
       "Messages": {
         "Audio1LanguageRequired": "Devi specificare almeno una lingua audio.",
         "Audio2LanguageRequired": "Devi specificare almeno una lingua audio aggiuntiva.",
+        "AudioMode2LanguagesRequired": "Le lingue audio sono obbligatorie.",
         "NameRequired": "Il nome è obbligatorio.",
-        "OutputPathRequired": "Il percorso di uscita è obbligatorio."
+        "OutputPathRequired": "Il percorso di uscita è obbligatorio.",
+        "SubtitleLanguageRequired": "Le lingue dei sottotitoli sono obbligatorie."
       },
       "Pages": {
         "Audio": "Audio",
