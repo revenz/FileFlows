@@ -378,7 +378,14 @@
         "VideoCodec": "Codec vidéo",
         "VideoCodec-Help": "Le codec à utiliser pour la vidéo.",
         "VideoContainer": "Conteneur",
-        "VideoContainer-Help": "Le conteneur vidéo à utiliser. Il est recommandé d'utiliser MKV, car MP4 prend en charge moins de formats de sous-titres."
+        "VideoContainer-Help": "Le conteneur vidéo à utiliser. Il est recommandé d'utiliser MKV, car MP4 prend en charge moins de formats de sous-titres.",
+        "QualityLevel": {
+          "Good": "Bon",
+          "High": "Élevé",
+          "Ok": "OK",
+          "Recommended": "Recommandé",
+          "VeryHigh": "Très Élevé"
+        }
       },
       "Messages": {
         "Audio1LanguageRequired": "Vous devez spécifier au moins une langue audio.",

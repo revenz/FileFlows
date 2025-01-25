@@ -378,7 +378,14 @@
         "VideoCodec": "비디오 코덱",
         "VideoCodec-Help": "비디오에 사용할 코덱",
         "VideoContainer": "컨테이너",
-        "VideoContainer-Help": "사용할 비디오 컨테이너입니다. MP4는 자막 형식이 적기 때문에 MKV를 사용하는 것이 좋습니다."
+        "VideoContainer-Help": "사용할 비디오 컨테이너입니다. MP4는 자막 형식이 적기 때문에 MKV를 사용하는 것이 좋습니다.",
+        "QualityLevel": {
+          "Good": "좋음",
+          "High": "높음",
+          "Ok": "보통",
+          "Recommended": "추천",
+          "VeryHigh": "매우 높음"
+        }
       },
       "Messages": {
         "Audio1LanguageRequired": "최소한 하나의 오디오 언어를 지정해야 합니다.",

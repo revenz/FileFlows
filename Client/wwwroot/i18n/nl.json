@@ -378,7 +378,14 @@
         "VideoCodec": "Video Codec",
         "VideoCodec-Help": "De codec die voor de video gebruikt moet worden",
         "VideoContainer": "Container",
-        "VideoContainer-Help": "De videobestandscontainer die gebruikt moet worden, het wordt aanbevolen om MKV te gebruiken omdat MP4 minder ondertitelingsformaten ondersteunt."
+        "VideoContainer-Help": "De videobestandscontainer die gebruikt moet worden, het wordt aanbevolen om MKV te gebruiken omdat MP4 minder ondertitelingsformaten ondersteunt.",
+        "QualityLevel": {
+          "Good": "Goed",
+          "High": "Hoog",
+          "Ok": "OK",
+          "Recommended": "Aanbevolen",
+          "VeryHigh": "Zeer Hoog"
+        }
       },
       "Messages": {
         "Audio1LanguageRequired": "Je moet minstens één audiotaal opgeven.",

@@ -378,7 +378,14 @@
         "VideoCodec": "Video Codec",
         "VideoCodec-Help": "Codec att använda för videon",
         "VideoContainer": "Container",
-        "VideoContainer-Help": "Videokontainern att använda, det rekommenderas att använda MKV eftersom MP4 stöder färre undertextformat."
+        "VideoContainer-Help": "Videokontainern att använda, det rekommenderas att använda MKV eftersom MP4 stöder färre undertextformat.",
+        "QualityLevel": {
+          "Good": "Bra",
+          "High": "Hög",
+          "Ok": "OK",
+          "Recommended": "Rekommenderad",
+          "VeryHigh": "Mycket Hög"
+        }
       },
       "Messages": {
         "Audio1LanguageRequired": "Du måste specificera minst ett ljudspråk.",

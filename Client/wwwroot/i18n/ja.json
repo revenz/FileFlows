@@ -378,7 +378,14 @@
         "VideoCodec": "ビデオコーデック",
         "VideoCodec-Help": "ビデオに使用するコーデック",
         "VideoContainer": "コンテナ",
-        "VideoContainer-Help": "使用するビデオコンテナ。MP4は字幕フォーマットが少ないため、MKVの使用をお勧めします。"
+        "VideoContainer-Help": "使用するビデオコンテナ。MP4は字幕フォーマットが少ないため、MKVの使用をお勧めします。",
+        "QualityLevel": {
+          "Good": "良い",
+          "High": "高い",
+          "Ok": "普通",
+          "Recommended": "推奨",
+          "VeryHigh": "非常に高い"
+        }
       },
       "Messages": {
         "Audio1LanguageRequired": "少なくとも1つのオーディオ言語を指定する必要があります。",

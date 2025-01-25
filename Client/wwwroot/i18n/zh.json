@@ -378,7 +378,14 @@
         "VideoCodec": "视频编解码器",
         "VideoCodec-Help": "用于视频的编解码器",
         "VideoContainer": "视频容器",
-        "VideoContainer-Help": "使用的视频容器，建议使用MKV，因为MP4支持的字幕格式较少。"
+        "VideoContainer-Help": "使用的视频容器，建议使用MKV，因为MP4支持的字幕格式较少。",
+        "QualityLevel": {
+          "Good": "良好",
+          "High": "高",
+          "Ok": "可以",
+          "Recommended": "推荐",
+          "VeryHigh": "非常高"
+        }
       },
       "Messages": {
         "Audio1LanguageRequired": "您必须指定至少一种音频语言。",
