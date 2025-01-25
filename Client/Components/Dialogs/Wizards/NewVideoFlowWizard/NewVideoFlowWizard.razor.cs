@@ -59,7 +59,7 @@ public partial class NewVideoFlowWizard : IModal
     /// <summary>
     /// Translation strings
     /// </summary>
-    private string lblTitle, lblUseOriginal, lblPageType, lblPageTypeDescription, 
+    private string lblUseOriginal, lblPageType, lblPageTypeDescription, 
         lblPageVideo, lblPageVideoDescription, lblGeneral, lblGeneralDescription,
         lblPageAudio, lblPageAudioDescription, lblPageAudio1, lblPageAudio1Description, lblPageAudio2, lblPageAudio2Description, 
         lblPageSubtitle, lblPageSubtitleDescription, lblPageOutput, lblPageOutputDescription,
@@ -72,31 +72,23 @@ public partial class NewVideoFlowWizard : IModal
     /// <summary>
     /// Gets the selected encoding type
     /// </summary>
-    private int SelectedVideoEncodingType = 0;
-    private int Quality = 0, Bitrate = 5000;
+    private int SelectedVideoEncodingType;
+    private int Quality, Bitrate = 5000;
     private bool CropBlackBars;
-    private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguges = [];
+    private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [];
     
     /// <summary>
     /// The new libraries name
     /// </summary>
     private string VideoFlowName { get; set; } = string.Empty;
-    /// <summary>
-    /// The new libraries path
-    /// </summary>
-    private string VideoFlowPath {get;set;} = string.Empty;
 
     /// <summary>
     /// Flow properties
     /// </summary>
     private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng", 
         OutputPath;
-    private int VideoEncoderType, SelectedType, Audio1Channels, Audio2Channels;
-    private bool ConvertAudio = false, TwoAudioVersions = false, ReplaceOriginal = true, DeleteOld = false, SubtitleKeepOnly = false;
-    /// <summary>
-    /// The new libraries extensions
-    /// </summary>
-    private string[] Extensions = [];
+    private int SelectedType, Audio1Channels, Audio2Channels;
+    private bool ConvertAudio, TwoAudioVersions, ReplaceOriginal = true, DeleteOld, SubtitleKeepOnly;
 
     /// <summary>
     /// The input options
@@ -114,7 +106,7 @@ public partial class NewVideoFlowWizard : IModal
     private FlowWizard Wizard { get; set; }
 
     private bool IsWindows;
-    // if the initalization has been done
+    // if the initialization has been done
     private bool initDone;
     
     /// <summary>
@@ -204,19 +196,6 @@ public partial class NewVideoFlowWizard : IModal
                 Audio2Channels = channels;
         }
     }
-    
-    /// <summary>
-    /// Gets or sets bound video encoder type
-    /// </summary>
-    private object BoundVideoEncoderType
-    {
-        get => VideoEncoderType;
-        set
-        {
-            if (value is int type)
-                VideoEncoderType = type;
-        }
-    }
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -231,7 +210,6 @@ public partial class NewVideoFlowWizard : IModal
         else
             Audio1Languages = ["eng", "orig"];
         
-        lblTitle = Translater.Instant("Dialogs.NewVideoFlowWizard.Title");
         lblUseOriginal = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.UseOriginal");
         
         lblPageType = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Type");
@@ -294,7 +272,7 @@ public partial class NewVideoFlowWizard : IModal
             new () { Label = lblUseOriginal, Value = ""},
             new() { Label = "H264", Value = "h264" },
             new() { Label = "HEVC", Value = "h265" },
-            // dont include 10-bit here, dont need to confuse users
+            // don't include 10-bit here, don't need to confuse users
             // new() { Label = "HEVC (10-Bit)", Value = "h265 10BIT" },
             new() { Label = "AV1", Value = "av1" },
             // new() { Label = "AV1 (10-Bit)", Value = "av1 10BIT" },
@@ -379,7 +357,7 @@ public partial class NewVideoFlowWizard : IModal
 
         if (SubtitleKeepOnly)
         {
-            if (SubtitleLanguges.Count == 0)
+            if (SubtitleLanguages.Count == 0)
             {
                 Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.SubtitleLanguageRequired");
                 return;
@@ -391,6 +369,7 @@ public partial class NewVideoFlowWizard : IModal
         try
         {
             var builder = new FlowBuilder(VideoFlowName);
+            builder.MaxRows = 7;
             builder.Add(new FlowPart()
             {
                 FlowElementUid = builder.ElementUids.VideoFile,
@@ -437,7 +416,9 @@ public partial class NewVideoFlowWizard : IModal
                 Type = FlowElementType.BuildPart
             });
 
-            if (string.IsNullOrWhiteSpace(VideoCodec) == false)
+            bool videoEncode = string.IsNullOrWhiteSpace(VideoCodec) == false;
+
+            if (videoEncode)
             {
                 string codecLabel = VideoCodec switch
                 {
@@ -456,6 +437,7 @@ public partial class NewVideoFlowWizard : IModal
                         Model = ExpandoHelper.ToExpandoObject(new
                         {
                             Codec = VideoCodec,
+                            Encoder= "",
                             Bitrate
                         })
                     });
@@ -472,6 +454,7 @@ public partial class NewVideoFlowWizard : IModal
                         Model = ExpandoHelper.ToExpandoObject(new
                         {
                             Codec = VideoCodec,
+                            Encoder= "",
                             Quality = GetQuality(VideoCodec, Quality),
                             Speed = "medium"
                         })
@@ -549,13 +532,13 @@ public partial class NewVideoFlowWizard : IModal
                     Model = ExpandoHelper.ToExpandoObject(new
                     {
                         StreamType = "Subtitle",
-                        Languages = SubtitleLanguges,
+                        Languages = SubtitleLanguages,
                         NotMatching = true
                     })
                 }, allOutputs: true);
             }
             
-            builder.AddAndConnect(new FlowPart()
+            var executor = builder.AddAndConnect(new FlowPart()
             {
                 FlowElementUid = builder.ElementUids.FFmpegBuilderExecutor,
                 Outputs = 2,
@@ -566,20 +549,22 @@ public partial class NewVideoFlowWizard : IModal
                     Strictness = "experimental"
                 })
             }, allOutputs: true);
-            
 
+
+            var preOutputColumn = builder.CurrentColumn;
+            FlowPart fpOutput;
             if (ReplaceOriginal)
             {
-                builder.AddAndConnect(new FlowPart()
+                fpOutput = builder.AddAndConnect(new FlowPart()
                 {
                     FlowElementUid = builder.ElementUids.ReplaceOriginal,
                     Outputs = 1,
                     Type = FlowElementType.Process
-                });
+                }, row: videoEncode ? 6 : 0, column: videoEncode ? (preOutputColumn + 4) : 0);
             }
             else
             {
-                builder.AddAndConnect(new FlowPart()
+                fpOutput = builder.AddAndConnect(new FlowPart()
                 {
                     FlowElementUid = builder.ElementUids.MoveFile,
                     Outputs = 2,
@@ -590,7 +575,7 @@ public partial class NewVideoFlowWizard : IModal
                         DeleteOriginal = DeleteOld,
                         MoveFolder = true
                     })
-                });
+                }, row: videoEncode ? 5 : 0, column: videoEncode ? (preOutputColumn + 4) : 0);
 
                 if (DeleteOld)
                 {
@@ -604,8 +589,66 @@ public partial class NewVideoFlowWizard : IModal
                             IfEmpty = true,
                             IncludePatterns = new[] { "^((?!sample).)*\\.(mkv|mp4|avi|divx|mov|mp(e)?g)$ " }
                         })
-                    });
+                    }, row: videoEncode ? 6 : 0, column: videoEncode ? (preOutputColumn + 3) : 0);
                 }
+            }
+
+            if (videoEncode)
+            {
+                // is using encoding, so catch an error turn off hardware and try again
+
+                string codecLabel = VideoCodec switch
+                {
+                    "h265" => "HEVC",
+                    _ => VideoCodec.ToUpper()
+                };
+                builder.CurrentColumn = preOutputColumn + 4;
+                builder.CurrentRow = 0;
+                var secondEncode = builder.Add(
+                    SelectedVideoEncodingType == 1
+                        ? new FlowPart()
+                        {
+                            // bitrate encode
+                            FlowElementUid = builder.ElementUids.FFmpegBuilderVideoBitrateEncode,
+                            Outputs = 1,
+                            Name = codecLabel + " (CPU)",
+                            Type = FlowElementType.BuildPart,
+                            Model = ExpandoHelper.ToExpandoObject(new
+                            {
+                                Codec = VideoCodec,
+                                Encoder= "CPU",
+                                Bitrate
+                            })
+                        }
+                        : new FlowPart()
+                        {
+                            FlowElementUid = builder.ElementUids.FFmpegBuilderVideoEncode,
+                            Outputs = 1,
+                            Name = codecLabel + " (Bitrate) (CPU)",
+                            Type = FlowElementType.BuildPart,
+                            Model = ExpandoHelper.ToExpandoObject(new
+                            {
+                                Codec = VideoCodec,
+                                Encoder= "CPU",
+                                Quality = GetQuality(VideoCodec, Quality),
+                                Speed = "medium"
+                            })
+                        }, row: 1);
+                builder.Connect(executor, secondEncode, -1);
+                
+                var secondExecutor = builder.AddAndConnect(new FlowPart()
+                {
+                    FlowElementUid = builder.ElementUids.FFmpegBuilderExecutor,
+                    Outputs = 2,
+                    Type = FlowElementType.BuildEnd,
+                    Model = ExpandoHelper.ToExpandoObject(new
+                    {
+                        HardwareDecoding = false,
+                        Strictness = "experimental"
+                    })
+                }, row: 2);
+                
+                builder.Connect(secondExecutor, fpOutput, 1);
             }
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow", builder.Flow);
@@ -659,10 +702,7 @@ public partial class NewVideoFlowWizard : IModal
     /// <summary>
     /// Required validator
     /// </summary>
-    private readonly List<Validator> RequiredValidator = new()
-    {
-        new Required()
-    };
+    private readonly List<Validator> RequiredValidator = [new Required()];
     
     
     /// <summary>

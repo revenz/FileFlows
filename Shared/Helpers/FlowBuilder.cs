@@ -11,8 +11,10 @@ public class FlowBuilder
     private const int COL_OFFSET = -20;
     private const int COL_WIDTH = 100;
     private const int ROW_HEIGHT = 140;
-    private const int MAX_ROWS = 7;
-    private int CurrentColumn = 1, CurrentRow = 1;
+    /// <summary>
+    /// Gets or sets the max rows in this flow
+    /// </summary>
+    public int MaxRows { get; set; } = 8;
 
     /// <summary>
     /// Initialises a new instance of the Flow Builder
@@ -25,6 +27,15 @@ public class FlowBuilder
             Name = flowName,
         };
     }
+
+    /// <summary>
+    /// Gets the current row
+    /// </summary>
+    public int CurrentRow { get; set; } = 1;
+    /// <summary>
+    /// Gets the current column
+    /// </summary>
+    public int CurrentColumn { get; set; } = 1;
     
     /// <summary>
     /// Gets the flow element UIDs
@@ -67,7 +78,7 @@ public class FlowBuilder
         if (Flow.Parts.Any())
             flowPart.Inputs = 1; // not the first, must have an input
         Flow.Parts.Add(flowPart);
-        if (++CurrentRow > MAX_ROWS)
+        if (++CurrentRow > MaxRows)
         {
             CurrentRow = 1;
             CurrentColumn += 3;
