@@ -9,7 +9,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * @output Item refreshed successfully
  * @output Item not found
  */
-//Orignally authored by Shaun Agius and Anthony Clerici as the Radarr - Rename Script modifed to just refresh instead.
+//Orignally authored by Shaun Agius and Anthony Clerici as the Sonarr - Rename Script modifed to just refresh instead.
 function Script(URI, ApiKey) {
     // Remove trailing / from URI
     URI = URI.replace(/\/$/, '');
