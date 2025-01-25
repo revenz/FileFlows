@@ -3,6 +3,7 @@ import { Radarr } from 'Shared/Radarr';
 /**
  * @description This script will send a refresh command to Radarr for processing libraries in place.
  * @author Shaun Agius, Anthony Clerici : Modified by Macnemarion
+ * @uid 78578502-07eb-44f5-99a9-76387c90d7f4
  * @param {string} URI Radarr root URI and port (e.g. http://radarr:7878)
  * @param {string} ApiKey API Key
  * @output Item refreshed successfully
