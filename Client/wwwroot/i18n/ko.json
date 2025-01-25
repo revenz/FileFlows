@@ -353,8 +353,6 @@
         "DefaultLanguage-Help": "현재 언어가 지정되지 않은 오디오 트랙에 할당할 언어를 지정합니다.",
         "DeleteOld": "원본 삭제",
         "DeleteOld-Help": "원본 파일을 삭제하고, 다른 비디오 파일이 없으면 원본 폴더도 삭제합니다.",
-        "DontConvertAudio": "오디오 변환 안 함",
-        "DontConvertAudioDescription": "오디오 트랙을 변경하지 않고 그대로 복사합니다.",
         "KeepAllSubtitles": "모든 자막 유지",
         "KeepAllSubtitles-Help": "원본 비디오에서 모든 자막을 유지합니다.",
         "KeepOnlySpecifiedSubtitles": "지정된 자막만 유지",

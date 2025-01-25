@@ -353,8 +353,6 @@
         "DefaultLanguage-Help": "指定要分配给当前没有指定语言的音轨的语言。",
         "DeleteOld": "清理原始文件",
         "DeleteOld-Help": "如果应删除原始文件，并且如果没有其他视频文件，则也应删除原始文件夹。",
-        "DontConvertAudio": "不转换音频",
-        "DontConvertAudioDescription": "直接复制所有音轨，而不进行任何修改",
         "KeepAllSubtitles": "保留所有字幕",
         "KeepAllSubtitles-Help": "保留原始视频中的所有字幕",
         "KeepOnlySpecifiedSubtitles": "仅保留指定字幕",

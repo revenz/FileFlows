@@ -353,8 +353,6 @@
         "DefaultLanguage-Help": "Anger språket som ska tilldelas ljudspår som inte har något språk specificerat.",
         "DeleteOld": "Rensa original",
         "DeleteOld-Help": "Om originalfilen ska tas bort och om originalmappen också ska tas bort om inga andra videofiler finns kvar.",
-        "DontConvertAudio": "Konvertera inte ljud",
-        "DontConvertAudioDescription": "Kopiera alla ljudspår utan några ändringar",
         "KeepAllSubtitles": "Bevara alla undertexter",
         "KeepAllSubtitles-Help": "Bevara alla undertexter från originalvideon",
         "KeepOnlySpecifiedSubtitles": "Bevara endast",

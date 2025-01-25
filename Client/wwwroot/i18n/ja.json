@@ -353,8 +353,6 @@
         "DefaultLanguage-Help": "現在言語が指定されていないオーディオトラックに割り当てる言語を指定します。",
         "DeleteOld": "オリジナルを削除",
         "DeleteOld-Help": "オリジナルファイルを削除するか、他のビデオファイルが見つからない場合は元のフォルダも削除します。",
-        "DontConvertAudio": "オーディオを変換しない",
-        "DontConvertAudioDescription": "オーディオトラックを変更せずにそのままコピーします。",
         "KeepAllSubtitles": "すべての字幕を保持",
         "KeepAllSubtitles-Help": "オリジナルビデオからすべての字幕を保持します。",
         "KeepOnlySpecifiedSubtitles": "指定した字幕のみ保持",

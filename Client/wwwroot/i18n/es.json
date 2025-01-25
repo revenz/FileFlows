@@ -353,8 +353,6 @@
         "DefaultLanguage-Help": "Especifica el idioma a asignar a las pistas de audio que actualmente no tienen idioma especificado.",
         "DeleteOld": "Eliminar Original",
         "DeleteOld-Help": "Si debe eliminar el archivo original y si también se debe eliminar la carpeta original si no se encuentran otros archivos de video.",
-        "DontConvertAudio": "No convertir audio",
-        "DontConvertAudioDescription": "Copia todos los archivos de audio sin modificaciones.",
         "KeepAllSubtitles": "Mantener Todos los Subtítulos",
         "KeepAllSubtitles-Help": "Mantén todos los subtítulos del archivo de video original.",
         "KeepOnlySpecifiedSubtitles": "Mantener Solo",

@@ -353,8 +353,6 @@
         "DefaultLanguage-Help": "Geef de taal op die toegewezen moet worden aan audiotracks die momenteel geen taal hebben.",
         "DeleteOld": "Oude bestand opruimen",
         "DeleteOld-Help": "Als het originele bestand verwijderd moet worden en als de originele map verwijderd moet worden als er geen andere videobestanden meer zijn.",
-        "DontConvertAudio": "Converteer audio niet",
-        "DontConvertAudioDescription": "Kopieer alle audiotracks zonder wijzigingen",
         "KeepAllSubtitles": "Behoud alle ondertitels",
         "KeepAllSubtitles-Help": "Behoud alle ondertitels van het originele bestand",
         "KeepOnlySpecifiedSubtitles": "Behoud alleen opgegeven ondertitels",

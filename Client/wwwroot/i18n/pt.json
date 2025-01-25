@@ -353,8 +353,6 @@
         "DefaultLanguage-Help": "Especifica o idioma a ser atribuído às faixas de áudio que atualmente não possuem idioma especificado.",
         "DeleteOld": "Limpar Original",
         "DeleteOld-Help": "Se o arquivo original deve ser excluído e se a pasta original deve ser removida caso não haja outros arquivos de vídeo encontrados.",
-        "DontConvertAudio": "Não converter áudio",
-        "DontConvertAudioDescription": "Copiar todas as faixas de áudio sem modificações",
         "KeepAllSubtitles": "Manter Todas as Legendas",
         "KeepAllSubtitles-Help": "Manter todas as legendas do vídeo original",
         "KeepOnlySpecifiedSubtitles": "Manter Somente",

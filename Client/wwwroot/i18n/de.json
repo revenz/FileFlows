@@ -353,8 +353,6 @@
         "DefaultLanguage-Help": "Legt die Sprache fest, die den Audiotracks zugewiesen wird, die keine Sprache angegeben haben.",
         "DeleteOld": "Original löschen",
         "DeleteOld-Help": "Löscht die Originaldatei und entfernt den Ordner, wenn keine anderen Videodateien mehr vorhanden sind.",
-        "DontConvertAudio": "Audio nicht konvertieren",
-        "DontConvertAudioDescription": "Kopiert alle Audiotracks ohne Änderungen.",
         "KeepAllSubtitles": "Alle Untertitel behalten",
         "KeepAllSubtitles-Help": "Behalten Sie alle Untertitel der Originalvideo-Datei.",
         "KeepOnlySpecifiedSubtitles": "Nur behalten",
