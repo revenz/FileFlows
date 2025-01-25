@@ -333,6 +333,8 @@
         }
       },
       "Fields": {
+        "AttemptHardwareEncode": "하드웨어 인코딩",
+        "AttemptHardwareEncode-Help": "하드웨어 인코딩(GPU)을 시도합니다. GPU 인코딩이 실패하면 CPU 인코딩으로 전환됩니다.",
         "AudioChannels": "채널",
         "AudioChannels-Help": "오디오 채널 수입니다. 기존 오디오 트랙을 사용하여 이 트랙을 만들며, 필요에 따라 다운믹스를 할 수 있지만 업믹스는 하지 않으며, 채널 수가 부족하면 해당 트랙은 추가되지 않습니다.",
         "AudioCodec": "코덱",
@@ -410,6 +412,16 @@
         "TypeDescription": "処理する動画の種類を選択します。",
         "Video": "ビデオ",
         "VideoDescription": "ビデオストリームのエンコード方法を選択します。"
+      },
+      "Parts": {
+        "CpuFailOverEncode": "CPU 장애 복구 인코딩",
+        "CpuFailOverExecutor": "CPU 장애 복구 실행기",
+        "DefaultLanguage": "기본 언어를 ''{lang}''로 설정",
+        "PrimaryAudio": "주 오디오",
+        "RemoveUnsupportedSubtitles": "지원되지 않는 자막 제거",
+        "RemoveUnwantedSubtitles": "원하지 않는 자막 언어 제거",
+        "RemuxToContainer": "{container}로 리멕스",
+        "SecondaryAudio": "보조 오디오"
       }
     },
     "PauseDialog": {

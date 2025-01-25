@@ -333,6 +333,8 @@
         }
       },
       "Fields": {
+        "AttemptHardwareEncode": "Hardware Encoding",
+        "AttemptHardwareEncode-Help": "Try using hardware encoding (GPU). If the GPU encoding fails, it will fall back to CPU encoding.",
         "AudioChannels": "Kanäle",
         "AudioChannels-Help": "Die Anzahl der Kanäle für den Ton. Vorhandene Audiotracks werden verwendet, um diesen Track zu erstellen. Downmixing wird unterstützt, wenn nötig, jedoch kein Upmixing. Wenn Sie eine Kanalanzahl wählen, die höher ist als die verfügbaren Kanäle, wird dieser Track nicht hinzugefügt.",
         "AudioCodec": "Codec",
@@ -410,6 +412,16 @@
         "TypeDescription": "Wählen Sie die Art der zu verarbeitenden Videos.",
         "Video": "Video",
         "VideoDescription": "Wählen Sie die Kodiermethode für den Videostream."
+      },
+      "Parts": {
+        "CpuFailOverEncode": "Резервная кодировка на CPU",
+        "CpuFailOverExecutor": "Исполнитель резервной кодировки на CPU",
+        "DefaultLanguage": "Язык по умолчанию ''{lang}''",
+        "PrimaryAudio": "Основной аудиотрек",
+        "RemoveUnsupportedSubtitles": "Удалить неподдерживаемые субтитры",
+        "RemoveUnwantedSubtitles": "Удалить нежелательные языки субтитров",
+        "RemuxToContainer": "Перемонтировать в {container}",
+        "SecondaryAudio": "Вторичный аудиотрек"
       }
     },
     "PauseDialog": {

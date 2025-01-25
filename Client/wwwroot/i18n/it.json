@@ -333,6 +333,8 @@
         }
       },
       "Fields": {
+        "AttemptHardwareEncode": "Codifica Hardware",
+        "AttemptHardwareEncode-Help": "Provare a utilizzare la codifica hardware (GPU). Se la codifica GPU fallisce, verrà utilizzata la codifica CPU.",
         "AudioChannels": "Canali",
         "AudioChannels-Help": "Il numero di canali audio. Utilizzerà le tracce audio esistenti per creare questa traccia, e può fare downmix se necessario, ma non farà upmix, quindi se scegli un numero di canali maggiore di quello disponibile, quella traccia non verrà aggiunta.",
         "AudioCodec": "Codec",
@@ -410,6 +412,16 @@
         "TypeDescription": "Seleziona il tipo di video da elaborare.",
         "Video": "Video",
         "VideoDescription": "Scegli il metodo di codifica per lo stream video."
+      },
+      "Parts": {
+        "CpuFailOverEncode": "Codifica di failover su CPU",
+        "CpuFailOverExecutor": "Esecutore di failover su CPU",
+        "DefaultLanguage": "Lingua predefinita su ''{lang}''",
+        "PrimaryAudio": "Audio primario",
+        "RemoveUnsupportedSubtitles": "Rimuovi sottotitoli non supportati",
+        "RemoveUnwantedSubtitles": "Rimuovi lingue di sottotitoli indesiderate",
+        "RemuxToContainer": "Remux in {container}",
+        "SecondaryAudio": "Audio secondario"
       }
     },
     "PauseDialog": {

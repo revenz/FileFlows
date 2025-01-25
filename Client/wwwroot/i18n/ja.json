@@ -333,6 +333,8 @@
         }
       },
       "Fields": {
+        "AttemptHardwareEncode": "ハードウェアエンコード",
+        "AttemptHardwareEncode-Help": "ハードウェアエンコード（GPU）を使用してみてください。GPUエンコードが失敗した場合、CPUエンコードに切り替わります。",
         "AudioChannels": "チャンネル",
         "AudioChannels-Help": "オーディオのチャンネル数。既存のオーディオトラックを使用してこのトラックを作成し、必要に応じてダウンミックスできますが、アップミックスは行いません。そのため、利用可能なチャンネル数より多くを選択した場合、そのトラックは追加されません。",
         "AudioCodec": "コーデック",
@@ -410,6 +412,16 @@
         "TypeDescription": "処理する動画の種類を選択します。",
         "Video": "ビデオ",
         "VideoDescription": "ビデオストリームのエンコード方法を選択します。"
+      },
+      "Parts": {
+        "CpuFailOverEncode": "CPU フェイルオーバーエンコード",
+        "CpuFailOverExecutor": "CPU フェイルオーバー実行者",
+        "DefaultLanguage": "デフォルト言語を ''{lang}'' に設定",
+        "PrimaryAudio": "主要オーディオ",
+        "RemoveUnsupportedSubtitles": "サポートされていない字幕を削除",
+        "RemoveUnwantedSubtitles": "不要な字幕言語を削除",
+        "RemuxToContainer": "{container} にリマックス",
+        "SecondaryAudio": "副次オーディオ"
       }
     },
     "PauseDialog": {

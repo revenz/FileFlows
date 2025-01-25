@@ -333,6 +333,8 @@
         }
       },
       "Fields": {
+        "AttemptHardwareEncode": "硬體編碼",
+        "AttemptHardwareEncode-Help": "嘗試使用硬體編碼（GPU）。如果GPU編碼失敗，將回退到CPU編碼。",
         "AudioChannels": "音訊通道",
         "AudioChannels-Help": "音訊的通道數量。將使用現有的音軌來創建此音軌，並且可以進行降混，但無法升混，因此如果選擇的通道數高於現有的音軌數量，則該音軌將不會被添加。",
         "AudioCodec": "音訊編解碼器",
@@ -410,6 +412,16 @@
         "TypeDescription": "選擇將要處理的視頻類型。",
         "Video": "視頻",
         "VideoDescription": "選擇用於視頻流的編碼方法。"
+      },
+      "Parts": {
+        "CpuFailOverEncode": "Резервная кодировка на CPU",
+        "CpuFailOverExecutor": "Исполнитель резервной кодировки на CPU",
+        "DefaultLanguage": "Язык по умолчанию ''{lang}''",
+        "PrimaryAudio": "Основной аудиотрек",
+        "RemoveUnsupportedSubtitles": "Удалить неподдерживаемые субтитры",
+        "RemoveUnwantedSubtitles": "Удалить нежелательные языки субтитров",
+        "RemuxToContainer": "Перемонтировать в {container}",
+        "SecondaryAudio": "Вторичный аудиотрек"
       }
     },
     "PauseDialog": {

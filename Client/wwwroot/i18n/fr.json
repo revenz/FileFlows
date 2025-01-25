@@ -333,6 +333,8 @@
         }
       },
       "Fields": {
+        "AttemptHardwareEncode": "Encodage matériel",
+        "AttemptHardwareEncode-Help": "Essayez d'utiliser l'encodage matériel (GPU). Si l'encodage GPU échoue, il reviendra à l'encodage CPU.",
         "AudioChannels": "Canaux",
         "AudioChannels-Help": "Le nombre de canaux audio. Utilisera les pistes audio existantes pour créer cette piste, et peut effectuer un downmix si nécessaire, mais ne fera pas de upmix, donc si vous choisissez un nombre de canaux supérieur à celui disponible, cette piste ne sera pas ajoutée.",
         "AudioCodec": "Codec",
@@ -410,6 +412,16 @@
         "TypeDescription": "Sélectionnez le type de vidéos à traiter.",
         "Video": "Vidéo",
         "VideoDescription": "Choisissez la méthode d'encodage pour le flux vidéo."
+      },
+      "Parts": {
+        "CpuFailOverEncode": "Encodage de secours CPU",
+        "CpuFailOverExecutor": "Exécuteur de secours CPU",
+        "DefaultLanguage": "Langue par défaut ''{lang}''",
+        "PrimaryAudio": "Audio principal",
+        "RemoveUnsupportedSubtitles": "Supprimer les sous-titres non pris en charge",
+        "RemoveUnwantedSubtitles": "Supprimer les langues de sous-titres indésirables",
+        "RemuxToContainer": "Remux dans {container}",
+        "SecondaryAudio": "Audio secondaire"
       }
     },
     "PauseDialog": {

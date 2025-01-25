@@ -42,6 +42,9 @@ public partial class InputLanguages : Input<List<string>>
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        Logger.Instance.ILog("Value: " , this.Value);
+        MutliselectValue = this.Value?.Select(object (x) => x)?.ToArray() ?? [];
+        Logger.Instance.ILog("MutliselectValue: " , this.Value);
         var profile = await ProfileService.Get();
         LanguageOptions = LanguageHelper.Languages.DistinctBy(x => x.Iso2).Select(x =>
         {

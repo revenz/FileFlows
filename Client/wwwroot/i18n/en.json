@@ -88,6 +88,7 @@
     "Ok": "OK",
     "Open": "Open",
     "OperatingSystem": "Operating System",
+    "OriginalLanguage": "Original Language",
     "Other": "Other",
     "Output": "Output",
     "Paste": "Paste",
@@ -333,6 +334,8 @@
         }
       },
       "Fields": {
+        "AttemptHardwareEncode": "Hardware Encoding",
+        "AttemptHardwareEncode-Help": "Try using hardware encoding (GPU). If the GPU encoding fails, it will fall back to CPU encoding.",
         "AudioChannels": "Channels",
         "AudioChannels-Help": "The number of channels for the audio. Existing audio tracks will be used to create this track. Downmixing is supported if necessary, but upmixing is not, so if you choose a channel count higher than what is available, that track will not be added.",
         "AudioCodec": "Codec",
@@ -410,6 +413,16 @@
         "TypeDescription": "Select the type of videos to process.",
         "Video": "Video",
         "VideoDescription": "Choose the encoder method for the video stream."
+      },
+      "Parts": {
+        "CpuFailOverEncode": "CPU Fail-over Encode",
+        "CpuFailOverExecutor": "CPU Fail-over Executor",
+        "DefaultLanguage": "Default Language to ''{lang}''",
+        "PrimaryAudio": "Primary Audio",
+        "RemoveUnsupportedSubtitles": "Remove Unsupported Subtitles",
+        "RemoveUnwantedSubtitles": "Remove Unwanted Subtitle Languages",
+        "RemuxToContainer": "Remux to {container}",
+        "SecondaryAudio": "Secondary Audio"
       }
     },
     "PauseDialog": {

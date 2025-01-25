@@ -75,8 +75,8 @@ public partial class NewVideoFlowWizard : IModal
     /// </summary>
     private int SelectedVideoEncodingType;
     private int Quality, Bitrate = 5000;
-    private bool CropBlackBars;
-    private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode2Languages = [];
+    private bool CropBlackBars, AttemptHardwareEncode = true;
+    private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
     
     /// <summary>
     /// The new libraries name
@@ -205,12 +205,24 @@ public partial class NewVideoFlowWizard : IModal
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
 
         if (profile.UseGerman)
+        {
             Audio1Languages = ["eng", "deu", "orig"];
+            SubtitleLanguages = ["eng", "deu", "orig"];
+            AudioMode1Languages = ["eng", "deu", "orig"];
+        }
         else if (profile.UseFrench)
+        {
             Audio1Languages = ["eng", "fre", "orig"];
+            SubtitleLanguages = ["eng", "fre", "orig"];
+            AudioMode1Languages = ["eng", "fre", "orig"];
+        }
         else
+        {
             Audio1Languages = ["eng", "orig"];
-        
+            SubtitleLanguages = ["eng", "orig"];
+            AudioMode1Languages = ["eng", "orig"];
+        }
+
         lblUseOriginal = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.UseOriginal");
         
         lblPageType = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Type");
@@ -269,6 +281,10 @@ public partial class NewVideoFlowWizard : IModal
                 Label = name, Value = x.Iso2
             };
         }).OrderBy(x => x.Label.ToLowerInvariant()).ToList();
+        LanguageOptions.Insert(0, new ListOption() { 
+            Label = Translater.Instant("Labels.OriginalLanguage"), 
+            Value = "OriginalLanguage" 
+        });
         VideoCodecs =
         [
             new () { Label = lblUseOriginal, Value = ""},
@@ -341,13 +357,8 @@ public partial class NewVideoFlowWizard : IModal
                 Outputs = 1,
                 Type = FlowElementType.BuildStart
             }, allOutputsIncludingFailure: true);
-            
-            builder.AddAndConnect(new FlowPart()
-            {
-                FlowElementUid = VideoContainer == "MP4" ? builder.ElementUids.FFmpegBuilderRemuxToMp4 : builder.ElementUids.FFmpegBuilderRemuxToMkv,
-                Outputs = 1,
-                Type = FlowElementType.BuildPart
-            });
+
+            FlowAddRemux(builder);
 
             bool videoEncode = string.IsNullOrWhiteSpace(VideoCodec) == false;
 
@@ -370,17 +381,11 @@ public partial class NewVideoFlowWizard : IModal
 
 
             var preOutputColumn = builder.CurrentColumn;
-            FlowPart fpOutput = FlowAddOutput(builder, videoEncode);
+            FlowPart fpOutput = FlowAddOutput(builder, videoEncode && AttemptHardwareEncode);
 
-            if (videoEncode)
+            if (videoEncode && AttemptHardwareEncode)
             {
                 // is using encoding, so catch an error turn off hardware and try again
-
-                string codecLabel = VideoCodec switch
-                {
-                    "h265" => "HEVC",
-                    _ => VideoCodec.ToUpper()
-                };
                 builder.CurrentColumn = preOutputColumn + 4;
                 builder.CurrentRow = 0;
                 var secondEncode = builder.Add(
@@ -390,7 +395,7 @@ public partial class NewVideoFlowWizard : IModal
                             // bitrate encode
                             FlowElementUid = builder.ElementUids.FFmpegBuilderVideoBitrateEncode,
                             Outputs = 1,
-                            Name = codecLabel + " (CPU)",
+                            Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.CpuFailOverEncode"),
                             Type = FlowElementType.BuildPart,
                             Model = ExpandoHelper.ToExpandoObject(new
                             {
@@ -403,7 +408,7 @@ public partial class NewVideoFlowWizard : IModal
                         {
                             FlowElementUid = builder.ElementUids.FFmpegBuilderVideoEncode,
                             Outputs = 1,
-                            Name = codecLabel + " (Bitrate) (CPU)",
+                            Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.CpuFailOverEncode"),
                             Type = FlowElementType.BuildPart,
                             Model = ExpandoHelper.ToExpandoObject(new
                             {
@@ -418,6 +423,7 @@ public partial class NewVideoFlowWizard : IModal
                 var secondExecutor = builder.AddAndConnect(new FlowPart()
                 {
                     FlowElementUid = builder.ElementUids.FFmpegBuilderExecutor,
+                    Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.CpuFailOverExecutor"),
                     Outputs = 2,
                     Type = FlowElementType.BuildEnd,
                     Model = ExpandoHelper.ToExpandoObject(new
@@ -430,7 +436,7 @@ public partial class NewVideoFlowWizard : IModal
                 builder.Connect(secondExecutor, fpOutput, 1);
             }
             
-            var saveResult = await HttpHelper.Put<Flow>("/api/flow", builder.Flow);
+            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", builder.Flow);
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
@@ -450,9 +456,9 @@ public partial class NewVideoFlowWizard : IModal
     /// Adds the output flow elements
     /// </summary>
     /// <param name="builder">the flow builder</param>
-    /// <param name="videoEncode">if video encoding will occur</param>
+    /// <param name="attemptVideoHardwareEncoding">if video hardware encoding will be attempted</param>
     /// <returns>the primary flow output flow part</returns>
-    private FlowPart FlowAddOutput(FlowBuilder builder, bool videoEncode)
+    private FlowPart FlowAddOutput(FlowBuilder builder, bool attemptVideoHardwareEncoding)
     {
         int preOutputColumn = builder.CurrentColumn;
         FlowPart fpOutput;
@@ -463,7 +469,7 @@ public partial class NewVideoFlowWizard : IModal
                 FlowElementUid = builder.ElementUids.ReplaceOriginal,
                 Outputs = 1,
                 Type = FlowElementType.Process
-            }, row: videoEncode ? 6 : 0, column: videoEncode ? (preOutputColumn + 4) : 0);
+            }, row: attemptVideoHardwareEncoding ? 6 : 0, column: attemptVideoHardwareEncoding ? (preOutputColumn + 4) : 0);
         }
         else
         {
@@ -478,7 +484,7 @@ public partial class NewVideoFlowWizard : IModal
                     DeleteOriginal = DeleteOld,
                     MoveFolder = true
                 })
-            }, row: videoEncode ? 5 : 0, column: videoEncode ? (preOutputColumn + 4) : 0);
+            }, row: attemptVideoHardwareEncoding ? 5 : 0, column: attemptVideoHardwareEncoding ? (preOutputColumn + 4) : 0);
 
             if (DeleteOld)
             {
@@ -492,7 +498,7 @@ public partial class NewVideoFlowWizard : IModal
                         IfEmpty = true,
                         IncludePatterns = new[] { "^((?!sample).)*\\.(mkv|mp4|avi|divx|mov|mp(e)?g)$ " }
                     })
-                }, row: videoEncode ? 6 : 0, column: videoEncode ? (preOutputColumn + 3) : 0);
+                }, row: attemptVideoHardwareEncoding ? 6 : 0, column: attemptVideoHardwareEncoding ? (preOutputColumn + 3) : 0);
             }
         }
 
@@ -520,7 +526,7 @@ public partial class NewVideoFlowWizard : IModal
 
         if (AudioMode == 1)
         {
-            if (AudioMode2Languages.Count == 0)
+            if (AudioMode1Languages.Count == 0)
             {
                 Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.AudioMode2LanguagesRequired");
                 return false;
@@ -561,7 +567,46 @@ public partial class NewVideoFlowWizard : IModal
         }
         return true;
     }
-
+    
+    /// <summary>
+    /// Adds the remux flow parts to the flow
+    /// </summary>
+    /// <param name="builder">the flow builder</param>
+    private void FlowAddRemux(FlowBuilder builder)
+    {
+        builder.AddAndConnect(new FlowPart()
+        {
+            FlowElementUid = VideoContainer == "MP4" ? builder.ElementUids.FFmpegBuilderRemuxToMp4 : builder.ElementUids.FFmpegBuilderRemuxToMkv,
+            Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.RemuxToContainer", new { container = VideoContainer}),
+            Outputs = 1,
+            Type = FlowElementType.BuildPart
+        });
+        if(VideoContainer == "MP4")
+        {
+            // need to remove subtitles that arent supported in MP4
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = builder.ElementUids.FFmpegBuilderSubtitleFormatRemover,
+                Outputs = 2,
+                Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.RemoveUnsupportedSubtitles"),
+                Type = FlowElementType.BuildPart,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    SubtitlesToRemove = new List<string>
+                    {
+                        "xsub",           // DivX subtitles (XSUB)
+                        "dvbsub",         // DVB subtitles (codec dvb_subtitle)
+                        "dvdsub",         // DVD subtitles (codec dvd_subtitle)
+                        "dvb_teletext",   // DVB/Teletext Format
+                        "hdmv_pgs_subtitle", // Presentation Graphic Stream (PGS)
+                        "ttml",           // TTML subtitle
+                        "OTHER"           // Unknown/Other
+                    }
+                })
+            });
+        }
+    }
+    
     /// <summary>
     /// Adds the meta lookup flow parts to the flow
     /// </summary>
@@ -620,7 +665,7 @@ public partial class NewVideoFlowWizard : IModal
                 Model = ExpandoHelper.ToExpandoObject(new
                 {
                     Codec = VideoCodec,
-                    Encoder = "",
+                    Encoder = AttemptHardwareEncode ? "" : "CPU",
                     Bitrate
                 })
             });
@@ -637,7 +682,7 @@ public partial class NewVideoFlowWizard : IModal
                 Model = ExpandoHelper.ToExpandoObject(new
                 {
                     Codec = VideoCodec,
-                    Encoder = "",
+                    Encoder = AttemptHardwareEncode ? "" : "CPU",
                     Quality = GetQuality(VideoCodec, Quality),
                     Speed = "medium"
                 })
@@ -670,6 +715,7 @@ public partial class NewVideoFlowWizard : IModal
             builder.AddAndConnect(new FlowPart()
             {
                 FlowElementUid = builder.ElementUids.FFmpegBuilderLanguageRemover,
+                Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.RemoveUnwantedSubtitles"),
                 Outputs = 2,
                 Type = FlowElementType.BuildPart,
                 Model = ExpandoHelper.ToExpandoObject(new
@@ -693,6 +739,7 @@ public partial class NewVideoFlowWizard : IModal
             builder.AddAndConnect(new FlowPart()
             {
                 FlowElementUid = builder.ElementUids.FFmpegBuilderAudioSetLanguage,
+                Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.DefaultLanguage", new {lang = DefaultLanguage}),
                 Outputs = 2,
                 Type = FlowElementType.BuildPart,
                 Model = ExpandoHelper.ToExpandoObject(new
@@ -715,7 +762,7 @@ public partial class NewVideoFlowWizard : IModal
                 Model = ExpandoHelper.ToExpandoObject(new
                 {
                     StreamType = "Audio",
-                    Languages = AudioMode2Languages,
+                    Languages = AudioMode1Languages,
                     NotMatching = true
                 })
             }, allOutputs: true);
@@ -726,11 +773,13 @@ public partial class NewVideoFlowWizard : IModal
             builder.AddAndConnect(new FlowPart()
             {
                 FlowElementUid = builder.ElementUids.FFmpegBuilderAudioLanguageConverter,
+                Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.PrimaryAudio"),
                 Outputs = 2,
                 Type = FlowElementType.BuildPart,
                 Model = ExpandoHelper.ToExpandoObject(new
                 {
                     Languages = Audio1Languages,
+                    RemoveOthers = true,
                     Codec = Audio1Codec,
                     Channels = Audio1Channels,
                     Bitrate = GetBitratePerChannel(Audio1Codec)
@@ -742,6 +791,7 @@ public partial class NewVideoFlowWizard : IModal
                 builder.AddAndConnect(new FlowPart()
                 {
                     FlowElementUid = builder.ElementUids.FFmpegBuilderAudioLanguageConverter,
+                    Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.SecondaryAudio"),
                     Outputs = 2,
                     Type = FlowElementType.BuildPart,
                     Model = ExpandoHelper.ToExpandoObject(new

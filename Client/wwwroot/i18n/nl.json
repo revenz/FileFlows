@@ -333,6 +333,8 @@
         }
       },
       "Fields": {
+        "AttemptHardwareEncode": "Hardware Encoding",
+        "AttemptHardwareEncode-Help": "Probeer hardware encoding (GPU) te gebruiken. Als GPU-encoding mislukt, wordt overgeschakeld naar CPU-encoding.",
         "AudioChannels": "Kanalen",
         "AudioChannels-Help": "Het aantal kanalen voor het audio. Bestaande audiotracks worden gebruikt om deze track te maken en kunnen zo nodig worden afgemengd, maar zullen niet worden opgevoerd. Als je een hoger aantal kanalen kiest dan beschikbaar is, wordt de track niet toegevoegd.",
         "AudioCodec": "Codec",
@@ -410,6 +412,16 @@
         "TypeDescription": "Selecteer het type video's dat u wilt verwerken.",
         "Video": "Video",
         "VideoDescription": "Kies de coderingsmethode voor de videostream."
+      },
+      "Parts": {
+        "CpuFailOverEncode": "CPU failover codering",
+        "CpuFailOverExecutor": "CPU failover uitvoerder",
+        "DefaultLanguage": "Standaardtaal naar ''{lang}''",
+        "PrimaryAudio": "Primaire audio",
+        "RemoveUnsupportedSubtitles": "Verwijder niet-ondersteunde ondertitels",
+        "RemoveUnwantedSubtitles": "Verwijder ongewenste ondertitel talen",
+        "RemuxToContainer": "Remux naar {container}",
+        "SecondaryAudio": "Secundaire audio"
       }
     },
     "PauseDialog": {

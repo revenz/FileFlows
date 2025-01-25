@@ -175,7 +175,12 @@ public class FlowElementUids
     /// <summary>
     /// Gets the UID for FFmpeg Builder Remux to MP4
     /// </summary>
-    public string FFmpegBuilderRemuxToMp4 => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderRemuxToMp4";
+    public string FFmpegBuilderRemuxToMp4 => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderRemuxToMP4";
+
+    /// <summary>
+    /// Gets the UID for FFmpeg Builder Subtitle Format Remover
+    /// </summary>
+    public string FFmpegBuilderSubtitleFormatRemover => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderSubtitleFormatRemover";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Crop Black Bars

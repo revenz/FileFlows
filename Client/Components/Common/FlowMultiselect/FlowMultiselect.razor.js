@@ -4,24 +4,25 @@
  * @param {object} dotNetObject - The .NET object
  * @param {string} uid - The unique identifier for the input element.
  * @param {array} options - The options to show
+ * @param {array} initialValues - The initially selected values
  * @returns {Multiselect} - The created `Multiselect` instance.
  */
-export function createMultiselect(dotNetObject, uid, options) {
-    return new Multiselect(dotNetObject, uid, options);
+export function createMultiselect(dotNetObject, uid, options, initialValues) {
+    return new Multiselect(dotNetObject, uid, options, initialValues);
 }
 
 /**
  * Class representing a multiselect input
  */
 export class Multiselect {
-    constructor(dotNetObject, uid, options) {
+    constructor(dotNetObject, uid, options, initialValues) {
         this.container = document.getElementById(uid);
         this.multiselect__tags = this.container.querySelector('.multiselect__tags');
         this.multiselect__options = this.container.querySelector('.multiselect__options');
         this.input = this.container.querySelector(".multiselect__input");
         this.options = options || [];
         this.filteredOptions = [...this.options]; // Copy of options for filtering
-        this.selected = [];
+        this.selected = initialValues || [];
         this.dotNetObject = dotNetObject;
         this.init();
     }

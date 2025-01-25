@@ -69,8 +69,21 @@ public partial class FlowMultiselect : ComponentBase
                     Value = kv.Key
                 });
             }
+            List<string> initialValues = [];
+            foreach (var value in Value)
+            {
+                var option = Options.FirstOrDefault(x =>
+                    x.Value == value || (x.Value != null && value != null && x.Value.Equals(value)));
+                if (option != null)
+                {
+                    var key = MappedValues.FirstOrDefault(x => x.Value == option);
+                    if(string.IsNullOrEmpty(key.Key) == false)
+                        initialValues.Add(key.Key);
+                }
+            }
+
             jsMultiselect = await jsObjectReference.InvokeAsync<IJSObjectReference>("createMultiselect", DotNetObjectReference.Create(this), 
-                Uid, mappedValueList);
+                Uid, mappedValueList, initialValues);
         }
     }
     

@@ -333,6 +333,8 @@
         }
       },
       "Fields": {
+        "AttemptHardwareEncode": "Hårdvarukodning",
+        "AttemptHardwareEncode-Help": "Försök att använda hårdvarukodning (GPU). Om GPU-kodning misslyckas, kommer den att återgå till CPU-kodning.",
         "AudioChannels": "Kanaler",
         "AudioChannels-Help": "Antalet kanaler för ljudet. Använder befintliga ljudspår för att skapa detta spår och kan nedmixas vid behov men kommer inte att uppmixas, så om du väljer ett kanalantal som är högre än vad som finns tillgängligt, kommer detta spår inte att läggas till.",
         "AudioCodec": "Codec",
@@ -410,6 +412,16 @@
         "TypeDescription": "Välj vilken typ av videor du vill bearbeta.",
         "Video": "Video",
         "VideoDescription": "Välj kodningsmetoden som används för videoströmmen."
+      },
+      "Parts": {
+        "CpuFailOverEncode": "Резервная кодировка на CPU",
+        "CpuFailOverExecutor": "Исполнитель резервной кодировки на CPU",
+        "DefaultLanguage": "Язык по умолчанию ''{lang}''",
+        "PrimaryAudio": "Основной аудиотрек",
+        "RemoveUnsupportedSubtitles": "Удалить неподдерживаемые субтитры",
+        "RemoveUnwantedSubtitles": "Удалить нежелательные языки субтитров",
+        "RemuxToContainer": "Перемонтировать в {container}",
+        "SecondaryAudio": "Вторичный аудиотрек"
       }
     },
     "PauseDialog": {

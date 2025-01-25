@@ -17,6 +17,7 @@
                 
                 @if (string.IsNullOrWhiteSpace(VideoCodec) == false)
                 {
+                    <InputSwitch @bind-Value="@AttemptHardwareEncode" Label="Dialogs.NewVideoFlowWizard.Fields.AttemptHardwareEncode"/>
                     <InputSwitch @bind-Value="@CropBlackBars" Label="Dialogs.NewVideoFlowWizard.Fields.CropBlackBars"/>
                 }
             </FlowWizardPage>
@@ -92,7 +93,7 @@
                         </div>
                         <div class="options">
                             <InputSelect @bind-Value="@BoundDefaultLanguage" AllowClear="false" Options=@LanguageOptions Label="Dialogs.NewVideoFlowWizard.Fields.DefaultLanguage" />
-                            <InputLanguages @bind-Value="@AudioMode2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator"/>
+                            <InputLanguages @bind-Value="@AudioMode1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator"  OriginalLanguage="true" />
                         </div>
                     </li>
                     <li @onclick="() => AudioMode = 2" class="clickable-radio @(AudioMode == 2 ? "active" : "")">
@@ -110,12 +111,12 @@
             </FlowWizardPage>
             
             <FlowWizardPage Title="@lblPageAudio1" Description="@lblPageAudio1Description" Indented="true" Visible="@(AudioMode == 2)"  OnPageAdvanced="OnAudio1PageAdvanced" >
-                <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
+                <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator"  OriginalLanguage="true" />
                 <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec" />
                 <InputSelect @bind-Value="@BoundAudio1Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
             </FlowWizardPage>
             <FlowWizardPage Title="@lblPageAudio2" Description="@lblPageAudio2Description" Indented="true" Visible="@(AudioMode == 2 && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
-                <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" />
+                <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" OriginalLanguage="true" />
                 <InputSelect @bind-Value="@BoundAudio2Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
                 <InputSelect @bind-Value="@BoundAudio2Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
             </FlowWizardPage>
@@ -136,7 +137,7 @@
                             <p>@lblKeepOnlySpecifiedSubtitlesDescription</p>
                         </div>
                         <div class="options">
-                            <InputLanguages @bind-Value="@SubtitleLanguages" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator" />
+                            <InputLanguages @bind-Value="@SubtitleLanguages" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator" OriginalLanguage="true" />
                         </div>
                     </li>
                 </ul>
