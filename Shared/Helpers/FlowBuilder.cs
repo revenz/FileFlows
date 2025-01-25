@@ -83,15 +83,18 @@ public class FlowBuilder
     /// <param name="row">the row to add it</param>
     /// <param name="column">the column to add it</param>
     /// <param name="allOutputs">If all outputs should be connected</param>
+    /// <param name="allOutputsIncludingFailure">If all oututs including the failure output should be connected</param>
     /// <returns>the flow part that was added</returns>
-    public FlowPart AddAndConnect(FlowPart flowPart, int output = 1, int row = 0, int column = 0, bool allOutputs = false)
+    public FlowPart AddAndConnect(FlowPart flowPart, int output = 1, int row = 0, int column = 0, bool allOutputs = false, bool allOutputsIncludingFailure = false)
     {
         var last = Flow.Parts.Last();
         Add(flowPart, row, column);
-        if (allOutputs)
+        if (allOutputs || allOutputsIncludingFailure)
         {
             for(int i=1;i<=last.Outputs;i++)
                 Connect(last, flowPart, i);
+            if(allOutputsIncludingFailure)
+                Connect(last, flowPart, -1);
         }
         else
         {

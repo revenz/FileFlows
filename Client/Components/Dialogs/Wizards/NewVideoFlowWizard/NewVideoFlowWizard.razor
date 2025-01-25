@@ -52,17 +52,17 @@
 
                 <ul class="ul-radio-list">
                     <li @onclick="() => SelectedVideoEncodingType = 0" class="clickable-radio @(SelectedVideoEncodingType == 0 ? "active" : "")">
-                        <img src="icons/crf.svg" alt=""/>
+                        <i class="fas fa-trophy"></i>
                         <div class="info">
                             <span>@lblQuality</span>
                             <p>@lblQualityDescription</p>
                         </div>
                         <div class="options">
-                            <InputSlider Min="0" Max="51"  HideLabel="true"  Inverse="true" @bind-Value="Quality" Label="Dialogs.NewVideoFlowWizard.Fields.Quality"></InputSlider>
+                            <InputRadioGroup @bind-Value="Quality" TItem="Int32" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.Quality" Options="QualityOptions" />
                         </div>
                     </li>
                     <li @onclick="() => SelectedVideoEncodingType = 1" class="clickable-radio @(SelectedVideoEncodingType == 1 ? "active" : "")">
-                        <img src="icons/bitrate.svg" alt=""/>
+                        <i class="fas fa-compact-disc"></i>
                         <div class="info">
                             <span>@lblBitrate</span>
                             <p>@lblBitrateDescription</p>

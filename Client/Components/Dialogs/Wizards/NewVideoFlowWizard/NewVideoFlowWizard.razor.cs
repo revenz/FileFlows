@@ -73,7 +73,7 @@ public partial class NewVideoFlowWizard : IModal
     /// Gets the selected encoding type
     /// </summary>
     private int SelectedVideoEncodingType = 0;
-    private int Quality = 22, Bitrate = 5000;
+    private int Quality = 0, Bitrate = 5000;
     private bool CropBlackBars;
     private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguges = [];
     
@@ -101,7 +101,12 @@ public partial class NewVideoFlowWizard : IModal
     /// <summary>
     /// The input options
     /// </summary>
-    private List<ListOption> VideoCodecs = [], VideoContainers = [], AudioCodecs = [], AudioChannels = [], LanguageOptions = [];
+    private List<ListOption> VideoCodecs = [],
+        VideoContainers = [],
+        AudioCodecs = [],
+        AudioChannels = [],
+        LanguageOptions = [],
+        QualityOptions = [];
     
     /// <summary>
     /// Gets or sets the flow wizard
@@ -218,6 +223,13 @@ public partial class NewVideoFlowWizard : IModal
     {
         var profile = await ProfileService.Get(); 
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
+
+        if (profile.UseGerman)
+            Audio1Languages = ["eng", "deu", "orig"];
+        else if (profile.UseFrench)
+            Audio1Languages = ["eng", "fre", "orig"];
+        else
+            Audio1Languages = ["eng", "orig"];
         
         lblTitle = Translater.Instant("Dialogs.NewVideoFlowWizard.Title");
         lblUseOriginal = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.UseOriginal");
@@ -282,9 +294,10 @@ public partial class NewVideoFlowWizard : IModal
             new () { Label = lblUseOriginal, Value = ""},
             new() { Label = "H264", Value = "h264" },
             new() { Label = "HEVC", Value = "h265" },
-            new() { Label = "HEVC (10-Bit)", Value = "h265 10BIT" },
+            // dont include 10-bit here, dont need to confuse users
+            // new() { Label = "HEVC (10-Bit)", Value = "h265 10BIT" },
             new() { Label = "AV1", Value = "av1" },
-            new() { Label = "AV1 (10-Bit)", Value = "av1 10BIT" },
+            // new() { Label = "AV1 (10-Bit)", Value = "av1 10BIT" },
             new() { Label = "VP9", Value = "vp9" }
         ];
         VideoContainers =
@@ -297,7 +310,7 @@ public partial class NewVideoFlowWizard : IModal
             new () { Label = lblUseOriginal, Value = ""},
             new() { Label = "AAC", Value = "aac" },
             new() { Label = "AC3", Value = "ac3" },
-            new() { Label = "DTS", Value = "dts" },
+            // new() { Label = "DTS", Value = "dts" },
             new() { Label = "FLAC", Value = "flac" },
             new() { Label = "OPUS", Value = "opus" }
         ];
@@ -307,6 +320,14 @@ public partial class NewVideoFlowWizard : IModal
             new() { Label = "Stereo", Value = 2 },
             new() { Label = "5.1", Value = 6 },
             new() { Label = "7.1", Value = 8 }
+        ];
+        QualityOptions =
+        [
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Ok"), Value = -2},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Good"), Value = -1},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Recommended"), Value = 0},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.High"), Value = 1},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.VeryHigh"), Value = 2},
         ];
 
         initDone = true;
@@ -407,7 +428,7 @@ public partial class NewVideoFlowWizard : IModal
                 FlowElementUid = builder.ElementUids.FFmpegBuilderStart,
                 Outputs = 1,
                 Type = FlowElementType.BuildStart
-            }, allOutputs: true);
+            }, allOutputsIncludingFailure: true);
             
             builder.AddAndConnect(new FlowPart()
             {
@@ -418,40 +439,47 @@ public partial class NewVideoFlowWizard : IModal
 
             if (string.IsNullOrWhiteSpace(VideoCodec) == false)
             {
+                string codecLabel = VideoCodec switch
+                {
+                    "h265" => "HEVC",
+                    _ => VideoCodec.ToUpper()
+                };
+                if (SelectedVideoEncodingType == 1)
+                {
+                    // bitrate encode
+                    builder.AddAndConnect(new FlowPart()
+                    {
+                        FlowElementUid = builder.ElementUids.FFmpegBuilderVideoBitrateEncode,
+                        Outputs = 1,
+                        Name = codecLabel,
+                        Type = FlowElementType.BuildPart,
+                        Model = ExpandoHelper.ToExpandoObject(new
+                        {
+                            Codec = VideoCodec,
+                            Bitrate
+                        })
+                    });
+                }
+                else
+                {
+                    // quality encode
+                    builder.AddAndConnect(new FlowPart()
+                    {
+                        FlowElementUid = builder.ElementUids.FFmpegBuilderVideoEncode,
+                        Outputs = 1,
+                        Name = codecLabel + " (Bitrate)",
+                        Type = FlowElementType.BuildPart,
+                        Model = ExpandoHelper.ToExpandoObject(new
+                        {
+                            Codec = VideoCodec,
+                            Quality = GetQuality(VideoCodec, Quality),
+                            Speed = "medium"
+                        })
+                    });
+                }
+
                 if (CropBlackBars)
                 {
-                    if (SelectedVideoEncodingType == 1)
-                    {
-                        // bitrate encode
-                        builder.AddAndConnect(new FlowPart()
-                        {
-                            FlowElementUid = builder.ElementUids.FFmpegBuilderVideoBitrateEncode,
-                            Outputs = 1,
-                            Type = FlowElementType.BuildPart,
-                            Model = ExpandoHelper.ToExpandoObject(new
-                            {
-                                Codec = VideoCodec,
-                                Bitrate
-                            })
-                        });
-                    }
-                    else
-                    {
-                        // quality encode
-                        builder.AddAndConnect(new FlowPart()
-                        {
-                            FlowElementUid = builder.ElementUids.FFmpegBuilderVideoEncode,
-                            Outputs = 1,
-                            Type = FlowElementType.BuildPart,
-                            Model = ExpandoHelper.ToExpandoObject(new
-                            {
-                                Codec = VideoCodec,
-                                Quality,
-                                Speed = "medium"
-                            })
-                        });
-                    }
-                    
                     builder.AddAndConnect(new FlowPart()
                     {
                         FlowElementUid = builder.ElementUids.FFmpegBuildeCropBlackBars,
@@ -488,7 +516,8 @@ public partial class NewVideoFlowWizard : IModal
                     {
                         Languages = Audio1Languages,
                         Codec = Audio1Codec,
-                        Channels = Audio1Channels
+                        Channels = Audio1Channels,
+                        Bitrate = GetBitratePerChannel(Audio1Codec)
                     })
                 }, allOutputs: true);
 
@@ -503,7 +532,8 @@ public partial class NewVideoFlowWizard : IModal
                         {
                             Languages = Audio2Languages,
                             Codec = Audio2Codec,
-                            Channels = Audio2Channels
+                            Channels = Audio2Channels,
+                            Bitrate = GetBitratePerChannel(Audio2Codec)
                         })
                     }, allOutputs: true);
                 }
@@ -593,6 +623,22 @@ public partial class NewVideoFlowWizard : IModal
             Wizard.HideBlocker();
         }
     }
+
+    /// <summary>
+    /// Gets the quality a specified codec
+    /// </summary>
+    /// <param name="codec">the codec</param>
+    /// <param name="quality">the quality index</param>
+    /// <returns>the quality int for the codec</returns>
+    private int GetQuality(string codec, int quality)
+        => quality switch
+        {
+            -2 => 28,
+            -1 => 25,
+            1 => 20,
+            2 => 18,
+            _ => 22
+        };
 
     /// <summary>
     /// Gets the bitrate per channel for a specified codec

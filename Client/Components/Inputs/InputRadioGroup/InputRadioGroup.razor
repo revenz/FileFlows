@@ -1,0 +1,14 @@
+@namespace FileFlows.Client.Components.Inputs
+@typeparam TItem
+@inherits Input<TItem>
+
+<InputWrapper Input="@this">
+    <div class="radio-btn-group">
+    @foreach (var opt in Options)
+    {
+        <button class="radio-btn-group-btn @(IsActive(opt) ? "active" : "")" @onclick="(() => SetValue(opt))"> 
+            @opt.Label
+        </button>
+    }
+    </div>
+</InputWrapper>

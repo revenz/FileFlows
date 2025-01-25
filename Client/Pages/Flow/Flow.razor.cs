@@ -1088,7 +1088,11 @@ public partial class Flow : ComponentBase, IDisposable
         if (result.Result == FlowTemplatePickerResult.ResultCode.Open)
         {
             if (result.Uid != null)
+            {
                 await OpenFlowInNewTab(result.Uid.Value, showBlocker: true);
+                StateHasChanged();
+            }
+
             return;
         }
 

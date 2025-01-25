@@ -114,8 +114,15 @@ public partial class FlowTemplatePicker : VisibleEscapableComponent
         if (Selected?.Path == "wizard:video")
         {
             Visible = false;
-            await ModalService.ShowModal<NewVideoFlowWizard, Library>(new NewVideoFlowWizardOptions());
-            
+            var result = await ModalService.ShowModal<NewVideoFlowWizard, Flow>(new NewVideoFlowWizardOptions());
+            if (result.Success(out var newFlow))
+            {
+                ShowTask.SetResult(new()
+                {
+                    Result = FlowTemplatePickerResult.ResultCode.Open,
+                    Uid = newFlow.Uid
+                });
+            }
             return;
         }
         
