@@ -3,6 +3,7 @@ import { Sonarr } from 'Shared/Sonarr';
 /**
  * @description This script will refresh the file through Sonarr for processing libraries in place
  * @author Shaun Agius, Anthony Clerici : Modified by Macnemarion
+ * @uid 01d7fc57-2613-4e14-92bc-29b2ba259f86
  * @param {string} URI Sonarr root URI and port (e.g. http://sonarr:8989)
  * @param {string} ApiKey API Key
  * @output Item renamed successfully
