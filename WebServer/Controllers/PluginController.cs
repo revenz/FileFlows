@@ -334,10 +334,10 @@ public class PluginController : BaseController
 
     
     /// <summary>
-    /// Set state of a processing node
+    /// Set state of the plugin
     /// </summary>
-    /// <param name="uid">The UID of the processing node</param>
-    /// <param name="enable">Whether or not this node is enabled and will process files</param>
+    /// <param name="uid">The UID of the plugin node</param>
+    /// <param name="enable">Whether or not this plugin is enabled</param>
     /// <returns>an awaited task</returns>
     [HttpPut("state/{uid}")]
     public async Task<PluginInfo> SetState([FromRoute] Guid uid, [FromQuery] bool? enable)
@@ -345,7 +345,7 @@ public class PluginController : BaseController
         var service = ServiceLoader.Load<PluginService>();
         var plugin = await service.GetByUid(uid);
         if (plugin == null)
-            throw new Exception("Node not found.");
+            throw new Exception("Plugin not found.");
         if (enable != null && plugin.Enabled != enable.Value)
         {
             plugin.Enabled = enable.Value;
