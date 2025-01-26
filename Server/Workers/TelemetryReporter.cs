@@ -31,9 +31,9 @@ public class TelemetryReporter : ServerWorker
         }
 
         // unRAID adds this
-        var hostOs = Environment.GetEnvironmentVariable("HOST_OS");
-        if(string.IsNullOrWhiteSpace(hostOs) == false)
-            return "Docker: " + hostOs.Trim();
+        // var hostOs = Environment.GetEnvironmentVariable("HOST_OS");
+        // if(string.IsNullOrWhiteSpace(hostOs) == false)
+        //     return "Docker: " + hostOs.Trim();
 
         var dockerHostOs = GetDockerHostOs();
         if (string.IsNullOrWhiteSpace(dockerHostOs) == false)
