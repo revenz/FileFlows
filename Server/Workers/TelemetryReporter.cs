@@ -21,16 +21,18 @@ public class TelemetryReporter : ServerWorker
 
     private string GetHostOs()
     {
-        if(Application.Docker == false)
+        if (Application.Docker == false)
+        {
             return OperatingSystem.IsMacOS() ? "MacOS" :
                 OperatingSystem.IsLinux() ? "Linux" :
                 OperatingSystem.IsFreeBSD() ? "FreeBSD" :
                 OperatingSystem.IsWindows() ? "Windows" :
                 RuntimeInformation.OSDescription;
+        }
 
-        // unraid adds this
+        // unRAID adds this
         var hostOs = Environment.GetEnvironmentVariable("HOST_OS");
-        if(string.IsNullOrWhiteSpace(hostOs))
+        if(string.IsNullOrWhiteSpace(hostOs) == false)
             return hostOs.Trim();
 
         return GetDockerHostOs()?.EmptyAsNull() ?? "Docker";
@@ -91,8 +93,6 @@ public class TelemetryReporter : ServerWorker
 // #else
             if (settings.DisableTelemetry == true && LicenseService.IsLicensed())
                 return; // they have turned it off, dont report anything
-
-            bool isDocker = Application.Docker;
 
             TelemetryData data = new TelemetryData();
             data.ClientUid = settings.Uid;
