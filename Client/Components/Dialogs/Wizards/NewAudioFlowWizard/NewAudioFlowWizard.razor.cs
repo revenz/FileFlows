@@ -118,8 +118,9 @@ public partial class NewAudioFlowWizard : IModal
         AudioCodecs =
         [
             new() { Label = "AAC", Value = "aac" },
-            new() { Label = "MP3", Value = "mp3" },
-            new() { Label = "OGG", Value = "ogg" },
+            new() { Label = "MP3", Value = "MP3" },
+            new () { Label = "OGG (Vorbis)", Value = "ogg"},
+            new () { Label = "OGG (Opus)", Value = "libopus"},
             new() { Label = "WAV", Value = "wav" }
         ];
 
@@ -146,13 +147,14 @@ public partial class NewAudioFlowWizard : IModal
         try
         {
             var builder = new FlowBuilder(FlowName);
-            builder.MaxRows = 7;
             builder.Add(new FlowPart()
             {
                 FlowElementUid = FlowElementUids.AudioFile,
                 Outputs = 1
             });
 
+            FlowAudio(builder);
+            FlowAddOutput(builder);
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", builder.Flow);
             if (saveResult.Success == false)
@@ -208,6 +210,76 @@ public partial class NewAudioFlowWizard : IModal
             return true;
         await Editor.Validate();
         return false;
+    }
+    
+    /// <summary>
+    /// Adds the audio flow parts to the flow
+    /// </summary>
+    /// <param name="builder">the flow builder</param>
+    private void FlowAudio(FlowBuilder builder)
+    {
+        builder.AddAndConnect(new FlowPart()
+        {
+            FlowElementUid = FlowElementUids.Audio_ConvertAudio,
+            Outputs = 2,
+            Type = FlowElementType.Process,
+            Model = ExpandoHelper.ToExpandoObject(new
+            {
+                Codec,
+                SampleRate = 0,
+                Channels = 0,
+                Bitrate,
+                Normalize
+            })
+        });
+    }
+    
+    /// <summary>
+    /// Adds the output flow elements
+    /// </summary>
+    /// <param name="builder">the flow builder</param>
+    /// <returns>the primary flow output flow part</returns>
+    private void FlowAddOutput(FlowBuilder builder)
+    {
+        if (ReplaceOriginal)
+        {
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = FlowElementUids.ReplaceOriginal,
+                Outputs = 1,
+                Type = FlowElementType.Process
+            });
+        }
+        else
+        {
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = FlowElementUids.MoveFile,
+                Outputs = 2,
+                Type = FlowElementType.Process,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    DestinationPath = OutputPath,
+                    DeleteOriginal = DeleteOld,
+                    MoveFolder = true
+                })
+            });
+
+            if (DeleteOld)
+            {
+                builder.AddAndConnect(new FlowPart()
+                {
+                    FlowElementUid = FlowElementUids.DeleteSourceDirectory,
+                    Outputs = 2,
+                    Type = FlowElementType.Process,
+                    Model = ExpandoHelper.ToExpandoObject(new
+                    {
+                        IfEmpty = true,
+                        IncludePatterns = new[] { "*.mp3", "*.ogg", "*.flac", "*.m4a", "*.wav", "*.ac3", "*.wma" }
+                    })
+                });
+            }
+        }
     }
 }
 

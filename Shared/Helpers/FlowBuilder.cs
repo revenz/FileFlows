@@ -171,6 +171,11 @@ public class FlowElementUids
     /// Gets the UID for a AudioFile flow element
     /// </summary>
     public static string AudioFile => "FileFlows.AudioNodes.AudioFile";
+
+    /// <summary>
+    /// Gets the UID for a ConvertAudio flow element
+    /// </summary>
+    public static string Audio_ConvertAudio => "FileFlows.AudioNodes.ConvertAudio";
     /// <summary>
     /// Gets the UID for a ImageFile flow element
     /// </summary>
