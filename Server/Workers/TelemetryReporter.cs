@@ -39,7 +39,7 @@ public class TelemetryReporter : ServerWorker
         if (string.IsNullOrWhiteSpace(dockerHostOs) == false)
             return "Docker:" + dockerHostOs.Trim();
 
-        return "Docker";
+        return "Docker: Unknown";
 
     }
     /// <summary>
@@ -53,25 +53,25 @@ public class TelemetryReporter : ServerWorker
         try
         {
             // Create a new process to run the Docker CLI command
-            var process = new Process
+            var processStartInfo = new ProcessStartInfo
             {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "docker",
-                    Arguments = "info --format '{{json .OperatingSystem}}'",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                }
+                FileName = "docker",
+                Arguments = "info --format '{{json .OperatingSystem}}'",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
             };
+            using var process = Process.Start(processStartInfo);
 
             process.Start();
 
             // Read the output from the Docker command
             string output = process.StandardOutput.ReadToEnd();
-            Logger.Instance.ILog("Docker Info: " + output);
             process.WaitForExit();
+            
+            Logger.Instance.ILog("Docker Info: " + output);
+            Logger.Instance.ILog("Docker ExitCode: " + process.ExitCode);
 
             // Check the exit code to ensure the command succeeded
             if (process.ExitCode == 0)
