@@ -1,0 +1,41 @@
+@namespace FileFlows.Client.Components.Dialogs.Wizards
+
+@using InputText = FileFlows.Client.Components.Inputs.InputText
+@inherits InputRegister
+
+<Editor @ref="Editor"></Editor>
+@if (Editor != null && initDone)
+{
+    <CascadingValue IsFixed="true" Value="Editor">
+        <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
+
+            <FlowWizardPage TLabel="Dialogs.NewAudioFlowWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
+                <InputText @bind-Value="@FlowName" Label="Dialogs.NewAudioFlowWizard.Fields.Name" Validators=@RequiredValidator />
+
+                <InputSelect @bind-Value="@BoundCodec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewAudioFlowWizard.Fields.Codec" />
+                <InputSelect @bind-Value="@BoundBitrate" AllowClear="false" Options=@AudioBitrates Label="Dialogs.NewAudioFlowWizard.Fields.Bitrate" />
+                <InputSwitch @bind-Value="@Normalize" Label="Dialogs.NewAudioFlowWizard.Fields.Normalize" />
+            </FlowWizardPage>
+            
+            <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">
+
+                <FlowRadioGroup TItem="bool" @bind-Value="ReplaceOriginal" LabelPrefix="Dialogs.NewFlowCommon.Output">
+                    <FlowRadioGroupItem TItem="bool" Value="true" Icon="fas fa-file-import" TLabel="ReplaceOriginal" />
+                    <FlowRadioGroupItem TItem="bool" Value="false" Icon="fas fa-file-export" TLabel="SaveToFolder">
+                        <div class="options">
+                            @if (IsWindows)
+                            {
+                                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewFlowCommon.Fields.OutputPathWindows" Validators=@RequiredValidator Directory=@true/>
+                            }
+                            else
+                            {
+                                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewFlowCommon.Fields.OutputPath" Validators=@RequiredValidator Directory=@true/>
+                            }
+                            <InputSwitch @bind-Value="DeleteOld" Label="Dialogs.NewFlowCommon.Fields.DeleteOld"/>
+                        </div>
+                    </FlowRadioGroupItem>
+                </FlowRadioGroup>
+            </FlowWizardPage>
+        </FlowWizard>
+    </CascadingValue>
+}

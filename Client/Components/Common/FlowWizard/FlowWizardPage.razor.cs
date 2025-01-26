@@ -65,6 +65,20 @@ public partial class FlowWizardPage : ComponentBase
         set { _Title = Translater.TranslateIfNeeded(value); }
     }
 
+    /// <summary>
+    /// Gets or sets the title of the page.
+    /// </summary>
+    [Parameter] public string TLabel
+    {
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value) == false)
+            {
+                _Title = Translater.TranslateIfNeeded(value);
+                _Description = Translater.TranslateIfNeeded(value + "Description");
+            }
+        }
+    }
     
     private string _Description;
 

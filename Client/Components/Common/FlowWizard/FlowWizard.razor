@@ -46,17 +46,21 @@
             {
                 <span class="cancel" @onclick="Cancel">@Translater.Instant("Labels.Cancel")</span>
             }
-            @if (ActivePage != Pages.FirstOrDefault(x => x.Visible))
+            @if (NonWizard == false && ActivePage != Pages.FirstOrDefault(x => x.Visible))
             {
                 <span class="previous" @onclick="Previous">@Translater.Instant("Labels.Previous")</span>
             }
-            @if (ActivePage != Pages.LastOrDefault(x => x.Visible))
+            @if (NonWizard)
+            {
+                <span class="finish" @onclick="Finish">@Translater.Instant(FinishButtonLabel?.EmptyAsNull() ?? "Labels.Finish")</span>
+            }
+            else if (ActivePage != Pages.LastOrDefault(x => x.Visible))
             {
                 <span class="next @(ActivePage?.NextDisabled == true ? "disabled" : "")" @onclick="Next">@Translater.Instant("Labels.Next")</span>
             }
             else
             {
-                <span class="finish" @onclick="Finish">@Translater.Instant("Labels.Finish")</span>
+                <span class="finish" @onclick="Finish">@Translater.Instant(FinishButtonLabel?.EmptyAsNull() ?? "Labels.Finish")</span>
             }
         </div>
     </div>

@@ -227,7 +227,7 @@ public partial class Flow : ComponentBase, IDisposable
                 AddFlow(newOnly: true);
                 return;
             }
-
+            
             await OpenFlowInNewTab(Uid);
 
         }
@@ -253,6 +253,11 @@ public partial class Flow : ComponentBase, IDisposable
             }
         }
     }
+    
+    /// <summary>
+    /// Gets or sets a new flow that a user is creating
+    /// </summary>
+    public static FFlow? NewFlowToOpen { get; set; }
 
     public async Task OpenFlowInNewTab(Guid uid, bool showBlocker = false)
     {
@@ -266,15 +271,25 @@ public partial class Flow : ComponentBase, IDisposable
             Blocker.Show("Pages.Flow.Messages.LoadingFlow");
         try
         {
-
-            var modelResult = await GetModel(API_URL + "/" + uid);
-            if (modelResult.Success == false || modelResult.Data == null)
+            FFlow flow;
+            if (NewFlowToOpen?.Uid == uid)
             {
-                Toast.ShowWarning("Pages.Flow.Messages.FailedToLoadFlow");
-                return;
+                flow = NewFlowToOpen;
+                NewFlowToOpen = null;
             }
+            else
+            {
 
-            FFlow flow = (modelResult.Success ? modelResult.Data : null) ?? new FFlow { Parts = new List<ffPart>() };
+                var modelResult = await GetModel(API_URL + "/" + uid);
+                if (modelResult.Success == false || modelResult.Data == null)
+                {
+                    Toast.ShowWarning("Pages.Flow.Messages.FailedToLoadFlow");
+                    return;
+                }
+
+                flow = (modelResult.Success ? modelResult.Data : null) ??
+                             new FFlow { Parts = new List<ffPart>() };
+            }
 
             var fEditor = new FlowEditor(this, flow, ProfileService);
             await fEditor.Initialize();

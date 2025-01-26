@@ -33,6 +33,28 @@ public partial class FlowWizard : ComponentBase
     [Parameter] public bool Cancelable { get; set; }
     
     /// <summary>
+    /// Gets or sets if this wizard isnt a next/previous/finish wizard, but a list of wizard pages
+    /// where each page is effectively a selected group and next submits that selected group
+    /// </summary>
+    [Parameter] public bool NonWizard { get; set; }
+    /// <summary>
+    /// Gets or sets the selected page index
+    /// </summary>
+    [Parameter]
+    public int SelectedPageIndex { get; set; }
+
+    /// <summary>
+    /// Event called when the selected page index changes
+    /// </summary>
+    [Parameter] 
+    public EventCallback<int> SelectedPageIndexChanged { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the finish button label
+    /// </summary>
+    [Parameter] public string FinishButtonLabel { get; set; }
+    
+    /// <summary>
     /// Gets or sets an event when a finish is clicked
     /// </summary>
     [Parameter] public EventCallback OnFinish { get; set; }
@@ -88,7 +110,9 @@ public partial class FlowWizard : ComponentBase
             return;
         
         ActivePage = page;
-        await OnPageChanged.InvokeAsync(Pages.IndexOf(page));
+        SelectedPageIndex = Pages.IndexOf(page);
+        await SelectedPageIndexChanged.InvokeAsync(SelectedPageIndex);
+        await OnPageChanged.InvokeAsync(SelectedPageIndex);
         StateHasChanged();
     }
  

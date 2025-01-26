@@ -346,14 +346,14 @@ public partial class NewVideoFlowWizard : IModal
             builder.MaxRows = 7;
             builder.Add(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.VideoFile,
+                FlowElementUid = FlowElementUids.VideoFile,
                 Outputs = 1
             });
             FlowAddMetaLookup(builder);
             
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.FFmpegBuilderStart,
+                FlowElementUid = FlowElementUids.FFmpegBuilderStart,
                 Outputs = 1,
                 Type = FlowElementType.BuildStart
             }, allOutputsIncludingFailure: true);
@@ -369,7 +369,7 @@ public partial class NewVideoFlowWizard : IModal
             
             var executor = builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.FFmpegBuilderExecutor,
+                FlowElementUid = FlowElementUids.FFmpegBuilderExecutor,
                 Outputs = 2,
                 Type = FlowElementType.BuildEnd,
                 Model = ExpandoHelper.ToExpandoObject(new
@@ -393,7 +393,7 @@ public partial class NewVideoFlowWizard : IModal
                         ? new FlowPart()
                         {
                             // bitrate encode
-                            FlowElementUid = builder.ElementUids.FFmpegBuilderVideoBitrateEncode,
+                            FlowElementUid = FlowElementUids.FFmpegBuilderVideoBitrateEncode,
                             Outputs = 1,
                             Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.CpuFailOverEncode"),
                             Type = FlowElementType.BuildPart,
@@ -406,7 +406,7 @@ public partial class NewVideoFlowWizard : IModal
                         }
                         : new FlowPart()
                         {
-                            FlowElementUid = builder.ElementUids.FFmpegBuilderVideoEncode,
+                            FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncode,
                             Outputs = 1,
                             Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.CpuFailOverEncode"),
                             Type = FlowElementType.BuildPart,
@@ -422,7 +422,7 @@ public partial class NewVideoFlowWizard : IModal
                 
                 var secondExecutor = builder.AddAndConnect(new FlowPart()
                 {
-                    FlowElementUid = builder.ElementUids.FFmpegBuilderExecutor,
+                    FlowElementUid = FlowElementUids.FFmpegBuilderExecutor,
                     Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.CpuFailOverExecutor"),
                     Outputs = 2,
                     Type = FlowElementType.BuildEnd,
@@ -466,7 +466,7 @@ public partial class NewVideoFlowWizard : IModal
         {
             fpOutput = builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.ReplaceOriginal,
+                FlowElementUid = FlowElementUids.ReplaceOriginal,
                 Outputs = 1,
                 Type = FlowElementType.Process
             }, row: attemptVideoHardwareEncoding ? 6 : 0, column: attemptVideoHardwareEncoding ? (preOutputColumn + 4) : 0);
@@ -475,7 +475,7 @@ public partial class NewVideoFlowWizard : IModal
         {
             fpOutput = builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.MoveFile,
+                FlowElementUid = FlowElementUids.MoveFile,
                 Outputs = 2,
                 Type = FlowElementType.Process,
                 Model = ExpandoHelper.ToExpandoObject(new
@@ -490,7 +490,7 @@ public partial class NewVideoFlowWizard : IModal
             {
                 builder.AddAndConnect(new FlowPart()
                 {
-                    FlowElementUid = builder.ElementUids.DeleteSourceDirectory,
+                    FlowElementUid = FlowElementUids.DeleteSourceDirectory,
                     Outputs = 2,
                     Type = FlowElementType.Process,
                     Model = ExpandoHelper.ToExpandoObject(new
@@ -576,7 +576,7 @@ public partial class NewVideoFlowWizard : IModal
     {
         builder.AddAndConnect(new FlowPart()
         {
-            FlowElementUid = VideoContainer == "MP4" ? builder.ElementUids.FFmpegBuilderRemuxToMp4 : builder.ElementUids.FFmpegBuilderRemuxToMkv,
+            FlowElementUid = VideoContainer == "MP4" ? FlowElementUids.FFmpegBuilderRemuxToMp4 : FlowElementUids.FFmpegBuilderRemuxToMkv,
             Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.RemuxToContainer", new { container = VideoContainer}),
             Outputs = 1,
             Type = FlowElementType.BuildPart
@@ -586,7 +586,7 @@ public partial class NewVideoFlowWizard : IModal
             // need to remove subtitles that arent supported in MP4
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.FFmpegBuilderSubtitleFormatRemover,
+                FlowElementUid = FlowElementUids.FFmpegBuilderSubtitleFormatRemover,
                 Outputs = 2,
                 Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.RemoveUnsupportedSubtitles"),
                 Type = FlowElementType.BuildPart,
@@ -618,7 +618,7 @@ public partial class NewVideoFlowWizard : IModal
             case 0: // film
                 builder.AddAndConnect(new FlowPart()
                 {
-                    FlowElementUid = builder.ElementUids.MovieLookup,
+                    FlowElementUid = FlowElementUids.MovieLookup,
                     Outputs = 2,
                     Type = FlowElementType.Logic,
                     Model = ExpandoHelper.ToExpandoObject(new
@@ -630,7 +630,7 @@ public partial class NewVideoFlowWizard : IModal
             case 1: // tv
                 builder.AddAndConnect(new FlowPart()
                 {
-                    FlowElementUid = builder.ElementUids.TVShowLookup,
+                    FlowElementUid = FlowElementUids.TVShowLookup,
                     Outputs = 2,
                     Type = FlowElementType.Logic,
                     Model = ExpandoHelper.ToExpandoObject(new
@@ -658,7 +658,7 @@ public partial class NewVideoFlowWizard : IModal
             // bitrate encode
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.FFmpegBuilderVideoBitrateEncode,
+                FlowElementUid = FlowElementUids.FFmpegBuilderVideoBitrateEncode,
                 Outputs = 1,
                 Name = codecLabel,
                 Type = FlowElementType.BuildPart,
@@ -675,7 +675,7 @@ public partial class NewVideoFlowWizard : IModal
             // quality encode
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.FFmpegBuilderVideoEncode,
+                FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncode,
                 Outputs = 1,
                 Name = codecLabel + " (Bitrate)",
                 Type = FlowElementType.BuildPart,
@@ -693,7 +693,7 @@ public partial class NewVideoFlowWizard : IModal
         {
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.FFmpegBuildeCropBlackBars,
+                FlowElementUid = FlowElementUids.FFmpegBuildeCropBlackBars,
                 Outputs = 2,
                 Type = FlowElementType.BuildPart,
                 Model = ExpandoHelper.ToExpandoObject(new
@@ -714,7 +714,7 @@ public partial class NewVideoFlowWizard : IModal
         {
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.FFmpegBuilderLanguageRemover,
+                FlowElementUid = FlowElementUids.FFmpegBuilderLanguageRemover,
                 Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.RemoveUnwantedSubtitles"),
                 Outputs = 2,
                 Type = FlowElementType.BuildPart,
@@ -738,7 +738,7 @@ public partial class NewVideoFlowWizard : IModal
         {
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.FFmpegBuilderAudioSetLanguage,
+                FlowElementUid = FlowElementUids.FFmpegBuilderAudioSetLanguage,
                 Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.DefaultLanguage", new {lang = DefaultLanguage}),
                 Outputs = 2,
                 Type = FlowElementType.BuildPart,
@@ -755,7 +755,7 @@ public partial class NewVideoFlowWizard : IModal
             // copy audio only matching languages
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.FFmpegBuilderLanguageRemover,
+                FlowElementUid = FlowElementUids.FFmpegBuilderLanguageRemover,
                 Outputs = 2,
                 Type = FlowElementType.BuildPart,
                 Name = lblCopyOnlyLanguages,
@@ -772,7 +772,7 @@ public partial class NewVideoFlowWizard : IModal
             // convert audio
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = builder.ElementUids.FFmpegBuilderAudioLanguageConverter,
+                FlowElementUid = FlowElementUids.FFmpegBuilderAudioLanguageConverter,
                 Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.PrimaryAudio"),
                 Outputs = 2,
                 Type = FlowElementType.BuildPart,
@@ -790,7 +790,7 @@ public partial class NewVideoFlowWizard : IModal
             {
                 builder.AddAndConnect(new FlowPart()
                 {
-                    FlowElementUid = builder.ElementUids.FFmpegBuilderAudioLanguageConverter,
+                    FlowElementUid = FlowElementUids.FFmpegBuilderAudioLanguageConverter,
                     Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.SecondaryAudio"),
                     Outputs = 2,
                     Type = FlowElementType.BuildPart,

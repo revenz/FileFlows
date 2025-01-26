@@ -1,0 +1,68 @@
+
+ul.ul-radio-list{
+  list-style: none;
+  padding: 0;
+  --border-radius:0.75rem;
+
+  li {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    align-items: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0.5rem 0.5rem 0;
+
+    + li {
+      margin-top:1rem;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    i, img {
+      width: 5rem;
+      min-width: 5rem;
+      text-align: center;      
+    }
+    i {
+      font-size: 2.5rem;
+    }
+    img {
+      width: 3rem;
+      max-height: 3rem;
+    }
+
+    span {
+      font-weight: bold;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: gray;
+    }
+
+    &.clickable-radio:hover {
+      background-color: var(--base);
+    }
+
+    border: solid 1px transparent;
+    border-left-width: var(--border-radius);
+    
+    .options {
+      display:none;
+    }
+
+    &.active {
+      border-color: var(--accent);
+      .options {
+        display: unset;
+        margin:1.5rem 0 1rem 0;
+        grid-column: 2 / 3;
+      }
+    }
+  }
+}

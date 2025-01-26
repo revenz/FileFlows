@@ -1,0 +1,27 @@
+@namespace FileFlows.Client.Components.Common
+@typeparam TItem
+
+<ul class="ul-radio-list">
+    @foreach (var item in Items)
+    {
+        bool selected = item.Value.Equals(Value);
+        
+        <li @onclick="() => Select(item.Value)" class="clickable-radio @(selected ? "active" : "")">
+            <i class="@item.Icon"></i>
+            <div class="info">
+                <span>@item.Title</span>
+                <p>@item.Description</p>
+            </div>
+            @if (item.ChildContent != null)
+            {
+                <div class="options">
+                    @item.ChildContent
+                </div>
+            }
+        </li>
+    }
+</ul>
+
+<CascadingValue IsFixed=true Value=this>
+    @ChildContent
+</CascadingValue>

@@ -38,11 +38,6 @@ public class FlowBuilder
     public int CurrentColumn { get; set; } = 1;
     
     /// <summary>
-    /// Gets the flow element UIDs
-    /// </summary>
-    public FlowElementUids ElementUids { get; init; } = new();
-
-    /// <summary>
     /// Gets the flow tha that is being built
     /// </summary>
     public Flow Flow { get; init; }
@@ -140,96 +135,125 @@ public class FlowBuilder
 public class FlowElementUids
 {
     /// <summary>
+    /// Gets the UID for InputFile
+    /// </summary>
+    public static string InputFile => "FileFlows.BasicNodes.File.InputFile";
+    /// <summary>
+    /// Gets the UID for InputFolder
+    /// </summary>
+    public static string InputFolder => "FileFlows.BasicNodes.File.InputFolder";
+    /// <summary>
+    /// Gets the UID for FlowFailure
+    /// </summary>
+    public static string FlowFailure => "FileFlows.BasicNodes.FlowFailure";
+    /// <summary>
+    /// Gets the UID for SubFlowInput
+    /// </summary>
+    public static string SubFlowInput => "SubFlowInput"; // no namespace
+    /// <summary>
+    /// Gets the UID for InputUrl
+    /// </summary>
+    public static string InputUrl => "FileFlows.Web.FlowElements.InputUrl";
+    /// <summary>
     /// Gets the UID for a Replace Original flow element
     /// </summary>
-    public string ReplaceOriginal => "FileFlows.BasicNodes.File.ReplaceOriginal";
+    public static string ReplaceOriginal => "FileFlows.BasicNodes.File.ReplaceOriginal";
     /// <summary>
     /// Gets the UID for a Move File flow element
     /// </summary>
-    public string MoveFile => "FileFlows.BasicNodes.File.MoveFile";
+    public static string MoveFile => "FileFlows.BasicNodes.File.MoveFile";
     /// <summary>
     /// Gets the UID for a Delete Source Directory flow element
     /// </summary>
-    public string DeleteSourceDirectory => "FileFlows.BasicNodes.File.DeleteSourceDirectory";
+    public static string DeleteSourceDirectory => "FileFlows.BasicNodes.File.DeleteSourceDirectory";
+    
+    /// <summary>
+    /// Gets the UID for a AudioFile flow element
+    /// </summary>
+    public static string AudioFile => "FileFlows.AudioNodes.AudioFile";
+    /// <summary>
+    /// Gets the UID for a ImageFile flow element
+    /// </summary>
+    public static string ImageFile => "FileFlows.ImageNodes.Images.ImageFile";
     
     /// <summary>
     /// Gets the UID for a video file flow element
     /// </summary>
-    public string VideoFile => "FileFlows.VideoNodes.VideoFile";
+    public static string VideoFile => "FileFlows.VideoNodes.VideoFile";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Start
     /// </summary>
-    public string FFmpegBuilderStart => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderStart";
+    public static string FFmpegBuilderStart => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderStart";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Executor
     /// </summary>
-    public string FFmpegBuilderExecutor => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderExecutor";
+    public static string FFmpegBuilderExecutor => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderExecutor";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Remux to MKV
     /// </summary>
-    public string FFmpegBuilderRemuxToMkv => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderRemuxToMkv";
+    public static string FFmpegBuilderRemuxToMkv => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderRemuxToMkv";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Remux to MP4
     /// </summary>
-    public string FFmpegBuilderRemuxToMp4 => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderRemuxToMP4";
+    public static string FFmpegBuilderRemuxToMp4 => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderRemuxToMP4";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Subtitle Format Remover
     /// </summary>
-    public string FFmpegBuilderSubtitleFormatRemover => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderSubtitleFormatRemover";
+    public static string FFmpegBuilderSubtitleFormatRemover => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderSubtitleFormatRemover";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Crop Black Bars
     /// </summary>
-    public string FFmpegBuildeCropBlackBars => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderCropBlackBars";
+    public static string FFmpegBuildeCropBlackBars => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderCropBlackBars";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Video Encode
     /// </summary>
-    public string FFmpegBuildeVideoEncode => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncode";
+    public static string FFmpegBuildeVideoEncode => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncode";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Audio Language Converter
     /// </summary>
-    public string FFmpegBuilderAudioLanguageConverter => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderAudioLanguageConverter";
+    public static string FFmpegBuilderAudioLanguageConverter => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderAudioLanguageConverter";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Set Language
     /// </summary>
-    public string FFmpegBuilderAudioSetLanguage => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderAudioSetLanguage";
+    public static string FFmpegBuilderAudioSetLanguage => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderAudioSetLanguage";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Video Encode (Quality Encoding)
     /// </summary>
-    public string FFmpegBuilderVideoEncode => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncode";
+    public static string FFmpegBuilderVideoEncode => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncode";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Bitrate Encode
     /// </summary>
-    public string FFmpegBuilderVideoBitrateEncode => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoBitrateEncode";
+    public static string FFmpegBuilderVideoBitrateEncode => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoBitrateEncode";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Track Remover
     /// </summary>
-    public string FFmpegBuilderTrackRemover => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderTrackRemover";
+    public static string FFmpegBuilderTrackRemover => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderTrackRemover";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Language Remover
     /// </summary>
-    public string FFmpegBuilderLanguageRemover => "FileFlows.VideoNodes.FfmpegBuilderNodes.FFmpegBuilderLanguageRemover";
+    public static string FFmpegBuilderLanguageRemover => "FileFlows.VideoNodes.FfmpegBuilderNodes.FFmpegBuilderLanguageRemover";
     
     
     /// <summary>
     /// Gets the UID for Movie Lookup 
     /// </summary>
-    public string MovieLookup => "MetaNodes.TheMovieDb.MovieLookup";
+    public static string MovieLookup => "MetaNodes.TheMovieDb.MovieLookup";
     
     /// <summary>
     /// Gets the UID for TV Show Lookup 
     /// </summary>
-    public string TVShowLookup => "MetaNodes.TheMovieDb.TVShowLookup";
+    public static string TVShowLookup => "MetaNodes.TheMovieDb.TVShowLookup";
 }
