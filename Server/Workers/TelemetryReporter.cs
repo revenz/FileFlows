@@ -70,6 +70,7 @@ public class TelemetryReporter : ServerWorker
 
             // Read the output from the Docker command
             string output = process.StandardOutput.ReadToEnd();
+            Logger.Instance.ILog("Docker Info: " + output);
             process.WaitForExit();
 
             // Check the exit code to ensure the command succeeded
@@ -79,9 +80,10 @@ public class TelemetryReporter : ServerWorker
                 return output.Trim().Trim('"');
             }
         }
-        catch
+        catch (Exception ex)
         {
             // Catch any exceptions and return an empty string
+            Logger.Instance.ILog("Docker Info Failed: " + ex.Message + "\n" + ex.StackTrace);
         }
 
         return string.Empty;
