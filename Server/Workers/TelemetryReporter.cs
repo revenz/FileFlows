@@ -56,7 +56,7 @@ public class TelemetryReporter : ServerWorker
             var processStartInfo = new ProcessStartInfo
             {
                 FileName = "docker",
-                Arguments = "info --format '{{json .OperatingSystem}}'",
+                ArgumentList = { "info", "--format", "'{{json .OperatingSystem}}'" },
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
