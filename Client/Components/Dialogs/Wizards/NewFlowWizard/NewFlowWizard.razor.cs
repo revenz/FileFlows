@@ -158,20 +158,31 @@ public partial class NewFlowWizard : IModal
         switch (FlowVideo)
         {
             case 0: // Convert Video
+            {
                 var result = await ModalService.ShowModal<NewVideoFlowWizard, Flow>(new NewVideoFlowWizardOptions());
                 if (result.Success(out var newFlow))
                 {
                     NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
                     return true;
                 }
-
+            }
                 return false;
             case 1: // Blank Video
                 CreateBasicFlow(FlowElementUids.VideoFile);
                 return true;
             case 2: // Audio to Video
-                return true;
+            {
+                var result =
+                    await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions());
+                if (result.Success(out var newFlow))
+                {
+                    NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
+                    return true;
+                }
+                return false;
+            }
         }
+
         return false;
     }
 
@@ -184,7 +195,21 @@ public partial class NewFlowWizard : IModal
         switch (FlowAudio)
         {
             case 0: // Convert Audio
+            {
                 var result = await ModalService.ShowModal<NewAudioFlowWizard, Flow>(new NewAudioFlowWizardOptions());
+                if (result.Success(out var newFlow))
+                {
+                    NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
+                    return true;
+                }
+            }
+                return false;
+            case 1: // Blank Audio
+                CreateBasicFlow(FlowElementUids.AudioFile);
+                return true;
+            case 2: // Audio to Video
+            {
+                var result = await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions());
                 if (result.Success(out var newFlow))
                 {
                     NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
@@ -192,11 +217,7 @@ public partial class NewFlowWizard : IModal
                 }
 
                 return false;
-            case 1: // Blank Audio
-                CreateBasicFlow(FlowElementUids.AudioFile);
-                return true;
-            case 2: // Audio to Video
-                return true;
+            }
         }
         return false;
     }

@@ -387,6 +387,24 @@
         "Normalize-Help": "If the audio should be normalized when processing."
       }
     },
+    "NewAudioToVideoWizard": {
+      "Pages": {
+        "General": "General",
+        "GeneralDescription": "Create a new flow to convert audio to video."
+      },
+      "Fields": {
+        "Codec": "Codec",
+        "Codec-Help": "The codec for the newly created video file.",
+        "Visualization": "Visualization",
+        "Visualization-Help": "The visualization to show in the video.",
+        "Name": "Name",
+        "Name-Help": "The name of the newly created flow. This must be unique.",
+        "Container": "Container",
+        "Container-Help": "The video container to save the new video into.",
+        "Resolution": "Resolution",
+        "Resolution-Help": "The resolution of the newly created video file."
+      }
+    },
     "NewFlowCommon": {
       "Pages": {
         "Output": "Output",
