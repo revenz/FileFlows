@@ -28,6 +28,8 @@ public static class DockerModHelper
     {
         if (Globals.IsDocker == false)
             return true; // Only run on Docker instances
+        if (mod.Name.ToLowerInvariant().Equals("docker"))
+            return true; // we dont run this old mod anymore, its now installed part of the container
 
         await _semaphore.WaitAsync();
 
@@ -179,6 +181,12 @@ public static class DockerModHelper
         foreach (var unknown in unknownMods)
         {
             string name = Path.GetFileNameWithoutExtension(unknown.Name);
+            if (name.Contains("_docker_[", StringComparison.InvariantCultureIgnoreCase))
+            {
+                unknown.Delete();
+                continue;
+            }
+
             try
             {
                 Logger.Instance.WLog($"About to uninstall DockerMod '{name}'");
