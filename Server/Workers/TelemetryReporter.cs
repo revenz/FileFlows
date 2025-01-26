@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using FileFlows.Server.Helpers;
 using FileFlows.Services;
 using FileFlows.ServerShared.Workers;
@@ -16,6 +17,68 @@ public class TelemetryReporter : ServerWorker
     public TelemetryReporter() : base(ScheduleType.Daily, 5, quiet: true)
     {
         Trigger();
+    }
+
+    private string GetHostOs()
+    {
+        if(Application.Docker == false)
+            return OperatingSystem.IsMacOS() ? "MacOS" :
+                OperatingSystem.IsLinux() ? "Linux" :
+                OperatingSystem.IsFreeBSD() ? "FreeBSD" :
+                OperatingSystem.IsWindows() ? "Windows" :
+                RuntimeInformation.OSDescription;
+
+        // unraid adds this
+        var hostOs = Environment.GetEnvironmentVariable("HOST_OS");
+        if(string.IsNullOrWhiteSpace(hostOs))
+            return hostOs.Trim();
+
+        return GetDockerHostOs()?.EmptyAsNull() ?? "Docker";
+
+    }
+    /// <summary>
+    /// Gets the host operating system by running the Docker command.
+    /// </summary>
+    /// <returns>
+    /// A string representing the host operating system, or an empty string if the OS cannot be determined.
+    /// </returns>
+    public static string GetDockerHostOs()
+    {
+        try
+        {
+            // Create a new process to run the Docker CLI command
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "docker",
+                    Arguments = "info --format '{{json .OperatingSystem}}'",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+
+            process.Start();
+
+            // Read the output from the Docker command
+            string output = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+
+            // Check the exit code to ensure the command succeeded
+            if (process.ExitCode == 0)
+            {
+                // Trim and clean the output, removing any extra quotes
+                return output.Trim().Trim('"');
+            }
+        }
+        catch
+        {
+            // Catch any exceptions and return an empty string
+        }
+
+        return string.Empty;
     }
 
     /// <inheritdoc />
