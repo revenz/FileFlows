@@ -308,6 +308,63 @@
         "OutputDescription": "最終ファイルの保存先を指定します。"
       }
     },
+    "NewFlowWizard": {
+      "Title": "新しいフローウィザード",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "オーディオからビデオへ",
+          "AudioToVideoDescription": "オーディオファイルをビデオファイルに変換します。",
+          "Blank": "空のオーディオ",
+          "BlankDescription": "オーディオファイルを処理するカスタムフローを作成するための空のオーディオベースのフロー。",
+          "Convert": "オーディオを変換",
+          "ConvertDescription": "オーディオフォーマットを変換するフローを作成します。"
+        },
+        "Basic": {
+          "FailureFlow": "空の失敗フロー",
+          "FailureFlowDescription": "フローが何らかの理由で失敗したときに実行される基本的な失敗フロー。",
+          "File": "空のファイル",
+          "FileDescription": "個別のファイルを処理するカスタムフローを作成するための空のファイルベースのフロー。",
+          "Folder": "空のフォルダ",
+          "FolderDescription": "フォルダ全体を処理するカスタムフローを作成するための空のフォルダベースのフロー。",
+          "SubFlow": "空のサブフロー",
+          "SubFlowDescription": "再利用可能なサブフローを作成するための空のサブフローベースのフロー。",
+          "Url": "URL",
+          "UrlDescription": "URLを処理するフローを作成するための空のURLベースのフロー。"
+        },
+        "Book": {
+          "Comic": "コミック",
+          "ComicDescription": "コミックを変換し、操作するためのフローを作成します。たとえば、画像フォーマットを変換したり、画像をリサイズしたりします。",
+          "eBook": "eBook",
+          "eBookDescription": "eBookフォーマットを変換するためのフローを作成します。"
+        },
+        "Image": {
+          "Blank": "空の画像",
+          "BlankDescription": "画像を処理するカスタムフローを作成するための空の画像ベースのフロー。",
+          "Convert": "画像を変換",
+          "ConvertDescription": "画像フォーマットを変換するフローを作成します。"
+        },
+        "Video": {
+          "AudioToVideo": "オーディオからビデオへ",
+          "AudioToVideoDescription": "オーディオファイルをビデオファイルに変換します。",
+          "Blank": "空のビデオ",
+          "BlankDescription": "ビデオファイルを処理するカスタムフローを作成するための空のビデオベースのフロー。",
+          "Convert": "ビデオを変換",
+          "ConvertDescription": "ビデオ、オーディオ、字幕を操作できるビデオ変換フローを作成するためのガイド付きウィザード。"
+        }
+      },
+      "Pages": {
+        "Audio": "オーディオ",
+        "AudioDescription": "オーディオファイルを処理するフローを作成します。",
+        "Basic": "基本",
+        "BasicDescription": "カスタムフローを作成するための基本的な空のフローを選択します。",
+        "Book": "本",
+        "BookDescription": "本を処理するフローを作成します。",
+        "Image": "画像",
+        "ImageDescription": "画像ファイルを処理するフローを作成します。",
+        "Video": "ビデオ",
+        "VideoDescription": "ビデオファイルを処理するフローを作成します。"
+      }
+    },
     "NewLibraryWizard": {
       "Title": "新しいライブラリ",
       "Labels": {

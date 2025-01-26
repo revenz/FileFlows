@@ -308,6 +308,63 @@
         "OutputDescription": "Especifica dónde se debe guardar el archivo final."
       }
     },
+    "NewFlowWizard": {
+      "Title": "Neuer Flow-Assistent",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "Audio zu Video",
+          "AudioToVideoDescription": "Konvertiere eine Audiodatei in eine Videodatei.",
+          "Blank": "Leerer Audio-Flow",
+          "BlankDescription": "Ein leerer Flow zur Erstellung benutzerdefinierter Workflows für die Verarbeitung von Audiodateien.",
+          "Convert": "Audio konvertieren",
+          "ConvertDescription": "Erstelle einen Workflow zum Konvertieren von Audioformaten."
+        },
+        "Basic": {
+          "FailureFlow": "Leerer Fehler-Flow",
+          "FailureFlowDescription": "Ein grundlegender Fehler-Flow, der ausgeführt wird, wenn ein Workflow fehlschlägt.",
+          "File": "Leere Datei",
+          "FileDescription": "Ein leerer Flow zur Erstellung benutzerdefinierter Workflows für die Verarbeitung einzelner Dateien.",
+          "Folder": "Leerer Ordner",
+          "FolderDescription": "Ein leerer Flow zur Erstellung von Workflows zur Verarbeitung ganzer Ordner.",
+          "SubFlow": "Leerer Sub-Flow",
+          "SubFlowDescription": "Ein leerer Flow zur Erstellung wiederverwendbarer Sub-Flows.",
+          "Url": "URL",
+          "UrlDescription": "Ein leerer Flow zur Erstellung von Workflows zur Verarbeitung von URLs."
+        },
+        "Book": {
+          "Comic": "Comic",
+          "ComicDescription": "Erstelle einen Flow zur Verarbeitung von Comics, z. B. zum Konvertieren von Bildformaten oder Ändern der Bildgröße.",
+          "eBook": "eBook",
+          "eBookDescription": "Erstelle einen Flow zum Konvertieren von eBook-Formaten."
+        },
+        "Image": {
+          "Blank": "Leeres Bild",
+          "BlankDescription": "Ein leerer Flow zur Erstellung von Workflows für die Verarbeitung von Bildern.",
+          "Convert": "Bild konvertieren",
+          "ConvertDescription": "Erstelle einen Flow zum Konvertieren von Bildformaten."
+        },
+        "Video": {
+          "AudioToVideo": "Audio zu Video",
+          "AudioToVideoDescription": "Konvertiere eine Audiodatei in eine Videodatei.",
+          "Blank": "Leeres Video",
+          "BlankDescription": "Ein leerer Flow zur Erstellung von Workflows für die Verarbeitung von Videodateien.",
+          "Convert": "Video konvertieren",
+          "ConvertDescription": "Ein geführter Assistent zur Erstellung eines Video-Konvertierungsflows, der Video, Audio und Untertitel manipuliert."
+        }
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "AudioDescription": "Erstelle einen Flow zur Verarbeitung von Audiodateien.",
+        "Basic": "Basis",
+        "BasicDescription": "Wähle einen Basis-Flow aus, um einen benutzerdefinierten Workflow zu erstellen.",
+        "Book": "Buch",
+        "BookDescription": "Erstelle einen Flow zur Verarbeitung von Büchern.",
+        "Image": "Bild",
+        "ImageDescription": "Erstelle einen Flow zur Verarbeitung von Bilddateien.",
+        "Video": "Video",
+        "VideoDescription": "Erstelle einen Flow zur Verarbeitung von Videodateien."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nueva Biblioteca",
       "Labels": {

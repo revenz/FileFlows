@@ -308,6 +308,63 @@
         "OutputDescription": "Spécifiez où enregistrer le fichier final."
       }
     },
+    "NewFlowWizard": {
+      "Title": "Assistant de Nouveau Flux",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "Audio en Vidéo",
+          "AudioToVideoDescription": "Convertissez un fichier audio en un fichier vidéo.",
+          "Blank": "Flux Audio Vide",
+          "BlankDescription": "Un flux vide pour créer des flux personnalisés pour traiter des fichiers audio.",
+          "Convert": "Convertir l'Audio",
+          "ConvertDescription": "Créez un flux pour convertir des formats audio."
+        },
+        "Basic": {
+          "FailureFlow": "Flux d'Échec Vide",
+          "FailureFlowDescription": "Un flux basique qui s'exécute lorsqu'un flux échoue.",
+          "File": "Fichier Vide",
+          "FileDescription": "Un flux vide pour créer des flux personnalisés pour traiter des fichiers individuels.",
+          "Folder": "Dossier Vide",
+          "FolderDescription": "Un flux vide pour créer des flux pour traiter des dossiers entiers.",
+          "SubFlow": "Sous-Flux Vide",
+          "SubFlowDescription": "Un flux vide pour créer des sous-flux réutilisables.",
+          "Url": "URL",
+          "UrlDescription": "Un flux vide pour créer des flux pour traiter des URLs."
+        },
+        "Book": {
+          "Comic": "Bande Dessinée",
+          "ComicDescription": "Créez un flux pour traiter des bandes dessinées, par exemple convertir des formats d'image ou redimensionner des images.",
+          "eBook": "eBook",
+          "eBookDescription": "Créez un flux pour convertir des formats d'eBooks."
+        },
+        "Image": {
+          "Blank": "Image Vide",
+          "BlankDescription": "Un flux vide pour créer des flux pour traiter des images.",
+          "Convert": "Convertir l'Image",
+          "ConvertDescription": "Créez un flux pour convertir des formats d'image."
+        },
+        "Video": {
+          "AudioToVideo": "Audio en Vidéo",
+          "AudioToVideoDescription": "Convertissez un fichier audio en un fichier vidéo.",
+          "Blank": "Vidéo Vide",
+          "BlankDescription": "Un flux vide pour créer des flux pour traiter des fichiers vidéo.",
+          "Convert": "Convertir la Vidéo",
+          "ConvertDescription": "Un assistant guidé pour créer un flux de conversion vidéo qui manipule la vidéo, l'audio et les sous-titres."
+        }
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "AudioDescription": "Créez un flux pour traiter des fichiers audio.",
+        "Basic": "Basique",
+        "BasicDescription": "Choisissez un flux vide basique pour créer un flux personnalisé.",
+        "Book": "Livre",
+        "BookDescription": "Créez un flux pour traiter des livres.",
+        "Image": "Image",
+        "ImageDescription": "Créez un flux pour traiter des fichiers image.",
+        "Video": "Vidéo",
+        "VideoDescription": "Créez un flux pour traiter des fichiers vidéo."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nouvelle Bibliothèque",
       "Labels": {

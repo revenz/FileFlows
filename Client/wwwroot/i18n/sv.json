@@ -308,6 +308,63 @@
         "OutputDescription": "Ange var den slutliga filen ska sparas."
       }
     },
+    "NewFlowWizard": {
+      "Title": "Ny Flöde Wizard",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "Audio till Video",
+          "AudioToVideoDescription": "Konvertera en ljudfil till en videofil.",
+          "Blank": "Tom Audio",
+          "BlankDescription": "En tom ljudbaserad flöde som används för att skapa ett anpassat flöde för att bearbeta ljudfiler.",
+          "Convert": "Konvertera Audio",
+          "ConvertDescription": "Skapa ett flöde för att konvertera ljudformat."
+        },
+        "Basic": {
+          "FailureFlow": "Tom Fel Flöde",
+          "FailureFlowDescription": "Grundläggande flöde som körs när ett flöde misslyckas av någon anledning.",
+          "File": "Tom Fil",
+          "FileDescription": "Ett tomt filbaserat flöde för att skapa ett anpassat flöde för att bearbeta enskilda filer.",
+          "Folder": "Tom Mapp",
+          "FolderDescription": "Ett tomt mappbaserat flöde som används för att skapa ett anpassat flöde för att bearbeta en hel mapp.",
+          "SubFlow": "Tom SubFlow",
+          "SubFlowDescription": "Ett tomt subflow-baserat flöde som används för att skapa ett återanvändbart subflow.",
+          "Url": "URL",
+          "UrlDescription": "Ett tomt URL-baserat flöde som används för att skapa ett flöde för att bearbeta URL:er."
+        },
+        "Book": {
+          "Comic": "Serietidning",
+          "ComicDescription": "Skapa ett flöde för att konvertera och manipulera serier, till exempel konvertera bildformat, ändra storlek på bilder, etc.",
+          "eBook": "eBook",
+          "eBookDescription": "Skapa ett flöde för att konvertera eBook-format."
+        },
+        "Image": {
+          "Blank": "Tom Bild",
+          "BlankDescription": "Ett tomt bildbaserat flöde som används för att skapa ett anpassat flöde för att bearbeta bilder.",
+          "Convert": "Konvertera Bild",
+          "ConvertDescription": "Skapa ett flöde för att konvertera bildformat."
+        },
+        "Video": {
+          "AudioToVideo": "Audio till Video",
+          "AudioToVideoDescription": "Konvertera en ljudfil till en videofil.",
+          "Blank": "Tom Video",
+          "BlankDescription": "Ett tomt videobaserat flöde som används för att skapa ett anpassat flöde för att bearbeta videofiler.",
+          "Convert": "Konvertera Video",
+          "ConvertDescription": "En guidad assistent för att skapa ett videokonverteringsflöde som gör det möjligt att manipulera video, ljud och undertexter i en videofil."
+        }
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "AudioDescription": "Skapa ett flöde för att bearbeta ljudfiler.",
+        "Basic": "Grundläggande",
+        "BasicDescription": "Välj ett grundläggande tomt flöde för att skapa ett anpassat flöde.",
+        "Book": "Bok",
+        "BookDescription": "Skapa ett flöde för att bearbeta böcker.",
+        "Image": "Bild",
+        "ImageDescription": "Skapa ett flöde för att bearbeta bildfiler.",
+        "Video": "Video",
+        "VideoDescription": "Skapa ett flöde för att bearbeta videofiler."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Ny Bibliotek",
       "Labels": {

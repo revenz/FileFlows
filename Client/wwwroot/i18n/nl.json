@@ -308,6 +308,63 @@
         "OutputDescription": "Specificeer waar het uiteindelijke bestand moet worden opgeslagen."
       }
     },
+    "NewFlowWizard": {
+      "Title": "Nieuwe Flow Wizard",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "Audio naar Video",
+          "AudioToVideoDescription": "Zet een audio bestand om naar een video bestand.",
+          "Blank": "Lege Audio",
+          "BlankDescription": "Een lege audio-gebaseerde flow om een aangepaste flow te maken voor het verwerken van audio bestanden.",
+          "Convert": "Converteer Audio",
+          "ConvertDescription": "Maak een flow voor het converteren van audioformaten."
+        },
+        "Basic": {
+          "FailureFlow": "Lege Fout Flow",
+          "FailureFlowDescription": "Basisfout flow die wordt uitgevoerd wanneer een flow om welke reden dan ook faalt.",
+          "File": "Lege Bestanden",
+          "FileDescription": "Een lege bestand-gebaseerde flow voor het maken van een aangepaste flow om individuele bestanden te verwerken.",
+          "Folder": "Lege Map",
+          "FolderDescription": "Een lege map-gebaseerde flow die wordt gebruikt om een aangepaste flow te maken voor het verwerken van een gehele map.",
+          "SubFlow": "Lege Subflow",
+          "SubFlowDescription": "Een lege subflow-gebaseerde flow die wordt gebruikt om een herbruikbare subflow te maken.",
+          "Url": "URL",
+          "UrlDescription": "Een lege URL-gebaseerde flow die wordt gebruikt om een flow te maken voor het verwerken van URL's."
+        },
+        "Book": {
+          "Comic": "Stripboek",
+          "ComicDescription": "Maak een flow voor het converteren van stripboeken en het manipuleren ervan, bijvoorbeeld het converteren van afbeeldingsformaten, het aanpassen van de grootte van afbeeldingen, enz.",
+          "eBook": "eBook",
+          "eBookDescription": "Maak een flow voor het converteren van eBookformaten."
+        },
+        "Image": {
+          "Blank": "Lege Afbeelding",
+          "BlankDescription": "Een lege afbeelding-gebaseerde flow die wordt gebruikt om een aangepaste flow te maken voor het verwerken van afbeeldingen.",
+          "Convert": "Converteer Afbeelding",
+          "ConvertDescription": "Maak een flow voor het converteren van afbeeldingsformaten."
+        },
+        "Video": {
+          "AudioToVideo": "Audio naar Video",
+          "AudioToVideoDescription": "Zet een audio bestand om naar een video bestand.",
+          "Blank": "Lege Video",
+          "BlankDescription": "Een lege video-gebaseerde flow die wordt gebruikt om een aangepaste flow te maken voor het verwerken van videobestanden.",
+          "Convert": "Converteer Video",
+          "ConvertDescription": "Een begeleide wizard om een video-conversieflow te maken die het mogelijk maakt om video, audio en ondertitels in een videobestand te manipuleren."
+        }
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "AudioDescription": "Maak een flow voor het verwerken van audio bestanden.",
+        "Basic": "Basis",
+        "BasicDescription": "Kies een basis lege flow om een aangepaste flow te maken.",
+        "Book": "Boek",
+        "BookDescription": "Maak een flow voor het verwerken van boeken.",
+        "Image": "Afbeelding",
+        "ImageDescription": "Maak een flow voor het verwerken van afbeeldingsbestanden.",
+        "Video": "Video",
+        "VideoDescription": "Maak een flow voor het verwerken van videobestanden."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nieuwe Bibliotheek",
       "Labels": {

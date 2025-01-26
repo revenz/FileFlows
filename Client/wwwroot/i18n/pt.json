@@ -308,6 +308,63 @@
         "OutputDescription": "Especifique onde salvar o arquivo final."
       }
     },
+    "NewFlowWizard": {
+      "Title": "Assistente de Novo Fluxo",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "Áudio para Vídeo",
+          "AudioToVideoDescription": "Converter um arquivo de áudio em um arquivo de vídeo.",
+          "Blank": "Áudio em Branco",
+          "BlankDescription": "Um fluxo de áudio em branco usado para criar um fluxo personalizado para processar arquivos de áudio.",
+          "Convert": "Converter Áudio",
+          "ConvertDescription": "Criar um fluxo para converter formatos de áudio."
+        },
+        "Basic": {
+          "FailureFlow": "Fluxo de Falha em Branco",
+          "FailureFlowDescription": "Fluxo básico que será executado quando um fluxo falhar por qualquer motivo.",
+          "File": "Arquivo em Branco",
+          "FileDescription": "Um fluxo baseado em arquivos em branco para criar um fluxo personalizado para processar arquivos individuais.",
+          "Folder": "Pasta em Branco",
+          "FolderDescription": "Um fluxo baseado em pasta em branco usado para criar um fluxo personalizado para processar uma pasta inteira.",
+          "SubFlow": "Subfluxo em Branco",
+          "SubFlowDescription": "Um fluxo baseado em subfluxo em branco usado para criar um subfluxo reutilizável.",
+          "Url": "URL",
+          "UrlDescription": "Um fluxo baseado em URL em branco usado para criar um fluxo para processar URLs."
+        },
+        "Book": {
+          "Comic": "Quadrinhos",
+          "ComicDescription": "Criar um fluxo para converter e manipular quadrinhos, por exemplo, converter formatos de imagem, redimensionar imagens, etc.",
+          "eBook": "eBook",
+          "eBookDescription": "Criar um fluxo para converter formatos de eBook."
+        },
+        "Image": {
+          "Blank": "Imagem em Branco",
+          "BlankDescription": "Um fluxo baseado em imagem em branco usado para criar um fluxo personalizado para processar imagens.",
+          "Convert": "Converter Imagem",
+          "ConvertDescription": "Criar um fluxo para converter formatos de imagem."
+        },
+        "Video": {
+          "AudioToVideo": "Áudio para Vídeo",
+          "AudioToVideoDescription": "Converter um arquivo de áudio em um arquivo de vídeo.",
+          "Blank": "Vídeo em Branco",
+          "BlankDescription": "Um fluxo baseado em vídeo em branco usado para criar um fluxo personalizado para processar arquivos de vídeo.",
+          "Convert": "Converter Vídeo",
+          "ConvertDescription": "Um assistente guiado para criar um fluxo de conversão de vídeo que permitirá manipular vídeo, áudio e legendas em um arquivo de vídeo."
+        }
+      },
+      "Pages": {
+        "Audio": "Áudio",
+        "AudioDescription": "Criar um fluxo para processar arquivos de áudio.",
+        "Basic": "Básico",
+        "BasicDescription": "Escolha um fluxo básico em branco para criar um fluxo personalizado.",
+        "Book": "Livro",
+        "BookDescription": "Criar um fluxo para processar livros.",
+        "Image": "Imagem",
+        "ImageDescription": "Criar um fluxo para processar arquivos de imagem.",
+        "Video": "Vídeo",
+        "VideoDescription": "Criar um fluxo para processar arquivos de vídeo."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nova Biblioteca",
       "Labels": {

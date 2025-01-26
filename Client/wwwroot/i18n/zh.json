@@ -308,6 +308,63 @@
         "OutputDescription": "指定最终文件的保存位置。"
       }
     },
+    "NewFlowWizard": {
+      "Title": "新建流程向导",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "音频转视频",
+          "AudioToVideoDescription": "将音频文件转换为视频文件。",
+          "Blank": "空音频",
+          "BlankDescription": "基于音频的空流程，用于创建自定义流程以处理音频文件。",
+          "Convert": "转换音频",
+          "ConvertDescription": "创建转换音频格式的流程。"
+        },
+        "Basic": {
+          "FailureFlow": "空失败流程",
+          "FailureFlowDescription": "当流程因某种原因失败时执行的基本流程。",
+          "File": "空文件",
+          "FileDescription": "基于文件的空流程，用于创建自定义流程以处理单个文件。",
+          "Folder": "空文件夹",
+          "FolderDescription": "基于文件夹的空流程，用于创建自定义流程以处理整个文件夹。",
+          "SubFlow": "空子流程",
+          "SubFlowDescription": "基于子流程的空流程，用于创建可重用的子流程。",
+          "Url": "URL",
+          "UrlDescription": "基于URL的空流程，用于创建处理URL的流程。"
+        },
+        "Book": {
+          "Comic": "漫画",
+          "ComicDescription": "创建用于转换和操作漫画的流程，例如转换图像格式，调整图像大小等。",
+          "eBook": "电子书",
+          "eBookDescription": "创建用于转换电子书格式的流程。"
+        },
+        "Image": {
+          "Blank": "空图像",
+          "BlankDescription": "基于图像的空流程，用于创建自定义流程以处理图像。",
+          "Convert": "转换图像",
+          "ConvertDescription": "创建转换图像格式的流程。"
+        },
+        "Video": {
+          "AudioToVideo": "音频转视频",
+          "AudioToVideoDescription": "将音频文件转换为视频文件。",
+          "Blank": "空视频",
+          "BlankDescription": "基于视频的空流程，用于创建自定义流程以处理视频文件。",
+          "Convert": "转换视频",
+          "ConvertDescription": "一个引导向导，用于创建视频转换流程，允许操作视频、音频和字幕。"
+        }
+      },
+      "Pages": {
+        "Audio": "音频",
+        "AudioDescription": "创建处理音频文件的流程。",
+        "Basic": "基础",
+        "BasicDescription": "选择一个基础空流程来创建自定义流程。",
+        "Book": "书籍",
+        "BookDescription": "创建处理书籍的流程。",
+        "Image": "图像",
+        "ImageDescription": "创建处理图像文件的流程。",
+        "Video": "视频",
+        "VideoDescription": "创建处理视频文件的流程。"
+      }
+    },
     "NewLibraryWizard": {
       "Title": "新库",
       "Labels": {

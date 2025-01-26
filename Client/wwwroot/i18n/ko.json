@@ -308,6 +308,63 @@
         "OutputDescription": "최종 파일을 저장할 위치를 지정합니다."
       }
     },
+    "NewFlowWizard": {
+      "Title": "새로운 흐름 마법사",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "오디오에서 비디오로",
+          "AudioToVideoDescription": "오디오 파일을 비디오 파일로 변환합니다.",
+          "Blank": "빈 오디오",
+          "BlankDescription": "오디오 파일을 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 오디오 기반 흐름입니다.",
+          "Convert": "오디오 변환",
+          "ConvertDescription": "오디오 포맷 변환을 위한 흐름을 생성합니다."
+        },
+        "Basic": {
+          "FailureFlow": "빈 실패 흐름",
+          "FailureFlowDescription": "흐름이 실패했을 때 실행되는 기본 실패 흐름입니다.",
+          "File": "빈 파일",
+          "FileDescription": "개별 파일을 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 파일 기반 흐름입니다.",
+          "Folder": "빈 폴더",
+          "FolderDescription": "전체 폴더를 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 폴더 기반 흐름입니다.",
+          "SubFlow": "빈 서브 흐름",
+          "SubFlowDescription": "재사용 가능한 서브 흐름을 만들 때 사용하는 빈 서브 흐름입니다.",
+          "Url": "URL",
+          "UrlDescription": "URL을 처리하기 위한 흐름을 만들 때 사용하는 빈 URL 기반 흐름입니다."
+        },
+        "Book": {
+          "Comic": "만화",
+          "ComicDescription": "만화책을 변환하고 다루는 흐름을 생성합니다. 예를 들어, 이미지 포맷 변환, 이미지 크기 조정 등.",
+          "eBook": "전자책",
+          "eBookDescription": "전자책 포맷 변환을 위한 흐름을 생성합니다."
+        },
+        "Image": {
+          "Blank": "빈 이미지",
+          "BlankDescription": "이미지 파일을 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 이미지 기반 흐름입니다.",
+          "Convert": "이미지 변환",
+          "ConvertDescription": "이미지 포맷 변환을 위한 흐름을 생성합니다."
+        },
+        "Video": {
+          "AudioToVideo": "오디오에서 비디오로",
+          "AudioToVideoDescription": "오디오 파일을 비디오 파일로 변환합니다.",
+          "Blank": "빈 비디오",
+          "BlankDescription": "비디오 파일을 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 비디오 기반 흐름입니다.",
+          "Convert": "비디오 변환",
+          "ConvertDescription": "비디오 파일에서 비디오, 오디오, 자막을 다룰 수 있도록 비디오 변환 흐름을 만드는 마법사입니다."
+        }
+      },
+      "Pages": {
+        "Audio": "오디오",
+        "AudioDescription": "오디오 파일을 처리하는 흐름을 생성합니다.",
+        "Basic": "기본",
+        "BasicDescription": "사용자 정의 흐름을 만들기 위한 기본 빈 흐름을 선택합니다.",
+        "Book": "책",
+        "BookDescription": "책을 처리하는 흐름을 생성합니다.",
+        "Image": "이미지",
+        "ImageDescription": "이미지 파일을 처리하는 흐름을 생성합니다.",
+        "Video": "비디오",
+        "VideoDescription": "비디오 파일을 처리하는 흐름을 생성합니다."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "새 라이브러리",
       "Labels": {

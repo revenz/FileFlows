@@ -308,6 +308,63 @@
         "OutputDescription": "Specifica dove salvare il file finale."
       }
     },
+    "NewFlowWizard": {
+      "Title": "Wizard Nuovo Flusso",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "Audio in Video",
+          "AudioToVideoDescription": "Converti un file audio in un file video.",
+          "Blank": "Flusso Audio Vuoto",
+          "BlankDescription": "Un flusso vuoto per creare flussi personalizzati per la gestione dei file audio.",
+          "Convert": "Converti Audio",
+          "ConvertDescription": "Crea un flusso per convertire i formati audio."
+        },
+        "Basic": {
+          "FailureFlow": "Flusso di Errore Vuoto",
+          "FailureFlowDescription": "Un flusso di base che viene eseguito quando un flusso fallisce.",
+          "File": "File Vuoto",
+          "FileDescription": "Un flusso vuoto per creare flussi personalizzati per la gestione di singoli file.",
+          "Folder": "Cartella Vuota",
+          "FolderDescription": "Un flusso vuoto per creare flussi per la gestione di intere cartelle.",
+          "SubFlow": "Sotto-flusso Vuoto",
+          "SubFlowDescription": "Un flusso vuoto per creare sotto-flussi riutilizzabili.",
+          "Url": "URL",
+          "UrlDescription": "Un flusso vuoto per creare flussi per la gestione di URL."
+        },
+        "Book": {
+          "Comic": "Fumetto",
+          "ComicDescription": "Crea un flusso per gestire fumetti, ad esempio convertire formati immagine o ridimensionare immagini.",
+          "eBook": "eBook",
+          "eBookDescription": "Crea un flusso per convertire formati di eBook."
+        },
+        "Image": {
+          "Blank": "Immagine Vuota",
+          "BlankDescription": "Un flusso vuoto per creare flussi per la gestione delle immagini.",
+          "Convert": "Converti Immagine",
+          "ConvertDescription": "Crea un flusso per convertire formati di immagine."
+        },
+        "Video": {
+          "AudioToVideo": "Audio in Video",
+          "AudioToVideoDescription": "Converti un file audio in un file video.",
+          "Blank": "Video Vuoto",
+          "BlankDescription": "Un flusso vuoto per creare flussi per la gestione di file video.",
+          "Convert": "Converti Video",
+          "ConvertDescription": "Una guida per creare un flusso di conversione video che gestisce video, audio e sottotitoli."
+        }
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "AudioDescription": "Crea un flusso per la gestione dei file audio.",
+        "Basic": "Base",
+        "BasicDescription": "Scegli un flusso vuoto base per creare un flusso personalizzato.",
+        "Book": "Libro",
+        "BookDescription": "Crea un flusso per la gestione dei libri.",
+        "Image": "Immagine",
+        "ImageDescription": "Crea un flusso per la gestione dei file immagine.",
+        "Video": "Video",
+        "VideoDescription": "Crea un flusso per la gestione dei file video."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nuova Libreria",
       "Labels": {

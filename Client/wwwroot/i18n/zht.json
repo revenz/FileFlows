@@ -308,6 +308,63 @@
         "OutputDescription": "指定最終檔案的保存位置。"
       }
     },
+    "NewFlowWizard": {
+      "Title": "新增流程向導",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "音頻轉影片",
+          "AudioToVideoDescription": "將音頻檔案轉換為影片檔案。",
+          "Blank": "空白音頻",
+          "BlankDescription": "基於音頻的空白流程，用於創建自定義流程以處理音頻檔案。",
+          "Convert": "轉換音頻",
+          "ConvertDescription": "創建轉換音頻格式的流程。"
+        },
+        "Basic": {
+          "FailureFlow": "空白失敗流程",
+          "FailureFlowDescription": "當流程因某些原因失敗時執行的基本流程。",
+          "File": "空白檔案",
+          "FileDescription": "基於檔案的空白流程，用於創建自定義流程以處理單個檔案。",
+          "Folder": "空白資料夾",
+          "FolderDescription": "基於資料夾的空白流程，用於創建自定義流程以處理整個資料夾。",
+          "SubFlow": "空白子流程",
+          "SubFlowDescription": "基於子流程的空白流程，用於創建可重複使用的子流程。",
+          "Url": "URL",
+          "UrlDescription": "基於URL的空白流程，用於創建處理URL的流程。"
+        },
+        "Book": {
+          "Comic": "漫畫",
+          "ComicDescription": "創建用於轉換和處理漫畫的流程，例如轉換圖片格式、調整圖片大小等。",
+          "eBook": "電子書",
+          "eBookDescription": "創建用於轉換電子書格式的流程。"
+        },
+        "Image": {
+          "Blank": "空白圖像",
+          "BlankDescription": "基於圖像的空白流程，用於創建自定義流程以處理圖像。",
+          "Convert": "轉換圖像",
+          "ConvertDescription": "創建轉換圖像格式的流程。"
+        },
+        "Video": {
+          "AudioToVideo": "音頻轉影片",
+          "AudioToVideoDescription": "將音頻檔案轉換為影片檔案。",
+          "Blank": "空白影片",
+          "BlankDescription": "基於影片的空白流程，用於創建自定義流程以處理影片檔案。",
+          "Convert": "轉換影片",
+          "ConvertDescription": "一個引導式工具，用於創建影片轉換流程，允許操作影片、音頻和字幕。"
+        }
+      },
+      "Pages": {
+        "Audio": "音頻",
+        "AudioDescription": "創建處理音頻檔案的流程。",
+        "Basic": "基礎",
+        "BasicDescription": "選擇一個基礎空白流程來創建自定義流程。",
+        "Book": "書籍",
+        "BookDescription": "創建處理書籍的流程。",
+        "Image": "圖像",
+        "ImageDescription": "創建處理圖像檔案的流程。",
+        "Video": "影片",
+        "VideoDescription": "創建處理影片檔案的流程。"
+      }
+    },
     "NewLibraryWizard": {
       "Title": "新庫",
       "Labels": {
