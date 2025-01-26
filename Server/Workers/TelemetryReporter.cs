@@ -77,7 +77,7 @@ public class TelemetryReporter : ServerWorker
             if (process.ExitCode == 0)
             {
                 // Trim and clean the output, removing any extra quotes
-                return output.Trim().Trim('"');
+                return output.Replace("'", "").Replace("\"", "").Trim();
             }
         }
         catch (Exception)
