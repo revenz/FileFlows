@@ -31,15 +31,15 @@ public class TelemetryReporter : ServerWorker
         }
 
         // unRAID adds this
-        // var hostOs = Environment.GetEnvironmentVariable("HOST_OS");
-        // if(string.IsNullOrWhiteSpace(hostOs) == false)
-        //     return "Docker: " + hostOs.Trim();
+        var hostOs = Environment.GetEnvironmentVariable("HOST_OS");
+        if(string.IsNullOrWhiteSpace(hostOs) == false)
+            return "Docker: " + hostOs.Trim();
 
         var dockerHostOs = GetDockerHostOs();
         if (string.IsNullOrWhiteSpace(dockerHostOs) == false)
             return "Docker:" + dockerHostOs.Trim();
 
-        return "Docker: Unknown";
+        return "Docker";
 
     }
     /// <summary>
@@ -69,9 +69,9 @@ public class TelemetryReporter : ServerWorker
             // Read the output from the Docker command
             string output = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
-            
-            Logger.Instance.ILog("Docker Info: " + output);
-            Logger.Instance.ILog("Docker ExitCode: " + process.ExitCode);
+
+            if (output.Contains("daemon"))
+                return string.Empty; // likely `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
 
             // Check the exit code to ensure the command succeeded
             if (process.ExitCode == 0)
@@ -80,10 +80,9 @@ public class TelemetryReporter : ServerWorker
                 return output.Trim().Trim('"');
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            // Catch any exceptions and return an empty string
-            Logger.Instance.ILog("Docker Info Failed: " + ex.Message + "\n" + ex.StackTrace);
+            // Ignored
         }
 
         return string.Empty;
