@@ -426,7 +426,6 @@
       }
     },
     "NewVideoFlowWizard": {
-      "Title": "Assistente de Novo Vídeo",
       "Labels": {
         "Bitrate": "Taxa de bits",
         "BitrateDescription": "Usa uma taxa de bits fixa ao codificar o vídeo. Isso produz tamanhos de arquivos consistentes entre vídeos, mas desperdiça armazenamento ou perde qualidade se a taxa de bits não for ideal.",

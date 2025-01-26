@@ -426,7 +426,6 @@
       }
     },
     "NewVideoFlowWizard": {
-      "Title": "Ny Video Wizard",
       "Labels": {
         "Bitrate": "Bitrate",
         "BitrateDescription": "Använder en fast bitrate när videon kodas. Detta ger konsekventa filstorlekar över videor, men slösar lagring eller förlorar kvalitet om bitraten inte är optimal.",

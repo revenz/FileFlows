@@ -426,7 +426,6 @@
       }
     },
     "NewVideoFlowWizard": {
-      "Title": "新影片向導",
       "Labels": {
         "Bitrate": "位元速率",
         "BitrateDescription": "使用固定的位元速率編碼影片。這將使影片的檔案大小保持一致，但如果位元速率不理想，則會浪費儲存空間或降低品質。",

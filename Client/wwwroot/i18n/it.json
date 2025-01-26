@@ -426,7 +426,6 @@
       }
     },
     "NewVideoFlowWizard": {
-      "Title": "Nuovo Wizardo Video",
       "Labels": {
         "Bitrate": "Bitrate",
         "BitrateDescription": "Utilizza un bitrate fisso durante la codifica del video. Ciò produce dimensioni di file costanti tra i video, ma spreca spazio di archiviazione o perde qualità se il bitrate non è ottimale.",

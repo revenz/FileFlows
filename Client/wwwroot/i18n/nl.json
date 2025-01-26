@@ -426,7 +426,6 @@
       }
     },
     "NewVideoFlowWizard": {
-      "Title": "Nieuwe Video Wizard",
       "Labels": {
         "Bitrate": "Bitrate",
         "BitrateDescription": "Gebruik een vaste bitrate bij het coderen van de video. Dit zorgt voor consistente bestandsgroottes tussen video's, maar verspilt opslagruimte of verliest kwaliteit als de bitrate niet optimaal is.",

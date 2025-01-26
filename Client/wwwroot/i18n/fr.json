@@ -426,7 +426,6 @@
       }
     },
     "NewVideoFlowWizard": {
-      "Title": "Nouvel Assistant Vidéo",
       "Labels": {
         "Bitrate": "Débit binaire",
         "BitrateDescription": "Utilise un débit binaire fixe lors de l'encodage de la vidéo. Cela produit des tailles de fichiers cohérentes entre les vidéos, mais gaspille de l'espace de stockage ou perd de la qualité si le débit binaire n'est pas optimal.",

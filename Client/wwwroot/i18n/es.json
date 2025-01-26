@@ -426,7 +426,6 @@
       }
     },
     "NewVideoFlowWizard": {
-      "Title": "Nuevo Asistente de Video",
       "Labels": {
         "Bitrate": "Tasa de bits",
         "BitrateDescription": "Usa una tasa de bits fija al codificar el video. Esto produce tamaños de archivo consistentes en todos los videos, pero desperdicia espacio de almacenamiento o pierde calidad si la tasa de bits no es óptima.",

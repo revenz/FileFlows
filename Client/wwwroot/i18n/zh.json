@@ -426,7 +426,6 @@
       }
     },
     "NewVideoFlowWizard": {
-      "Title": "新视频向导",
       "Labels": {
         "Bitrate": "比特率",
         "BitrateDescription": "使用固定的比特率对视频进行编码。这会使视频的文件大小保持一致，但如果比特率不理想，则会浪费存储空间或降低质量。",

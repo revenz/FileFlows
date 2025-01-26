@@ -426,7 +426,6 @@
       }
     },
     "NewVideoFlowWizard": {
-      "Title": "Neuer Video-Assistent",
       "Labels": {
         "Bitrate": "Bitrate",
         "BitrateDescription": "Verwendet eine feste Bitrate bei der Video-Codierung. Dies sorgt für konstante Dateigrößen bei den Videos, kann jedoch Speicherplatz verschwenden oder Qualität verlieren, wenn die Bitrate nicht optimal ist.",
