@@ -112,12 +112,7 @@ public class TelemetryReporter : ServerWorker
                 HardwareInfo = x.Uid == CommonVariables.InternalNodeUid ? hardwareInfo : x.HardwareInfo
             }).ToList();
             data.Architecture = RuntimeInformation.ProcessArchitecture.ToString();
-            data.OS = isDocker ? "Docker" :
-                OperatingSystem.IsMacOS() ? "MacOS" :
-                OperatingSystem.IsLinux() ? "Linux" :
-                OperatingSystem.IsFreeBSD() ? "FreeBSD" :
-                OperatingSystem.IsWindows() ? "Windows" :
-                RuntimeInformation.OSDescription;
+            data.OS = GetHostOs();
 
             var lfService = ServiceLoader.Load<LibraryFileService>();
             var libFileStatus = lfService.GetStatus().Result;
