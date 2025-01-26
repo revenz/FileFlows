@@ -254,9 +254,71 @@
         "NoMoreImports": "There are no additional imports available to this script"
       }
     },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "Bitrate",
+        "Bitrate-Help": "The bitrate of the converted audio file.",
+        "Codec": "Codec",
+        "Codec-Help": "The codec to use for audio conversion.",
+        "Name": "Name",
+        "Name-Help": "The name of the flow. This must be unique.",
+        "Normalize": "Normalize",
+        "Normalize-Help": "Indicate whether the audio should be normalized during processing."
+      },
+      "Pages": {
+        "General": "General",
+        "GeneralDescription": "Create a flow to convert audio files."
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "Codec",
+        "Codec-Help": "The codec for the output video file.",
+        "Container": "Container",
+        "Container-Help": "The container format for the video file.",
+        "Name": "Name",
+        "Name-Help": "The name of the flow. This must be unique.",
+        "Resolution": "Resolution",
+        "Resolution-Help": "The resolution of the output video file.",
+        "Visualization": "Visualization",
+        "Visualization-Help": "The visualization to display in the video."
+      },
+      "Pages": {
+        "General": "General",
+        "GeneralDescription": "Create a flow to convert audio into video."
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "Clean Up Original",
+        "DeleteOld-Help": "Delete the original file and remove its folder if no other files remain.",
+        "OutputPath": "Output Path",
+        "OutputPath-Help": "The path where the final file will be saved.",
+        "OutputPathWindows": "Output Path (Windows)",
+        "OutputPathWindows-Help": "The save location. This can include a network path, e.g., \\\\my-nas\\media\\output."
+      },
+      "Output": {
+        "ReplaceOriginal": "Replace Original",
+        "ReplaceOriginalDescription": "Replace the original file with the converted one.",
+        "SaveToFolder": "Save to Folder",
+        "SaveToFolderDescription": "Save the converted file to a new location."
+      },
+      "Pages": {
+        "Output": "Output",
+        "OutputDescription": "Specify where the final file should be saved."
+      }
+    },
     "NewFlowWizard": {
       "Title": "New Flow Wizard",
       "Flow": {
+        "Audio": {
+          "AudioToVideo": "Audio to Video",
+          "AudioToVideoDescription": "Convert an audio file into a a video file",
+          "Blank": "Blank Audio",
+          "BlankDescription": "A blank audio based flow used to create a custom flow for processing audio files.",
+          "Convert": "Convert Audio",
+          "ConvertDescription": "Create a flow for converting audio formats."
+        },
         "Basic": {
           "FailureFlow": "Blank Failure Flow",
           "FailureFlowDescription": "Basic failure flow that will be executed when a flow failures for any reason.",
@@ -269,6 +331,18 @@
           "Url": "URL",
           "UrlDescription": "A blank URL based flow used to create a flow for processing URLs."
         },
+        "Book": {
+          "Comic": "Comic",
+          "ComicDescription": "Create a flow for converting comic book and manipulating them, for example convert image formats, resizing images etc.",
+          "eBook": "eBook",
+          "eBookDescription": "Create a flow for converting eBook formats."
+        },
+        "Image": {
+          "Blank": "Blank Image",
+          "BlankDescription": "A blank image based flow used to create a custom flow for processing images.",
+          "Convert": "Convert Image",
+          "ConvertDescription": "Create a flow for converting image formats."
+        },
         "Video": {
           "AudioToVideo": "Audio to Video",
           "AudioToVideoDescription": "Convert an audio file into a a video file",
@@ -276,26 +350,6 @@
           "BlankDescription": "A blank video based flow used to create a custom flow for processing video files.",
           "Convert": "Convert Video",
           "ConvertDescription": "A guided wizard to create a video conversion flow that will allow manipulating video, audio and subtitles in a video file."
-        },
-        "Book": {
-          "eBook": "eBook",
-          "eBookDescription": "Create a flow for converting eBook formats.",
-          "Comic": "Comic",
-          "ComicDescription": "Create a flow for converting comic book and manipulating them, for example convert image formats, resizing images etc."
-        },
-        "Image": {
-          "Convert": "Convert Image",
-          "ConvertDescription": "Create a flow for converting image formats.",
-          "Blank": "Blank Image",
-          "BlankDescription": "A blank image based flow used to create a custom flow for processing images."
-        },
-        "Audio": {
-          "Convert": "Convert Audio",
-          "ConvertDescription": "Create a flow for converting audio formats.",
-          "Blank": "Blank Audio",
-          "BlankDescription": "A blank audio based flow used to create a custom flow for processing audio files.",
-          "AudioToVideo": "Audio to Video",
-          "AudioToVideoDescription": "Convert an audio file into a a video file"
         }
       },
       "Pages": {
@@ -369,60 +423,6 @@
         "FlowRequired": "The flow is required.",
         "NameRequired": "The library name is required.",
         "PathRequired": "The library path is required."
-      }
-    },
-    "NewAudioFlowWizard": {
-      "Pages": {
-        "General": "General",
-        "GeneralDescription": "Create a new flow to convert audio files."
-      },
-      "Fields": {
-        "Codec": "Codec",
-        "Codec-Help": "The codec to convert the audio to.",
-        "Bitrate": "Bitrate",
-        "Bitrate-Help": "The bitrate of the converted audio.",
-        "Name": "Name",
-        "Name-Help": "The name of the newly created flow. This must be unique.",
-        "Normalize": "Normalize",
-        "Normalize-Help": "If the audio should be normalized when processing."
-      }
-    },
-    "NewAudioToVideoWizard": {
-      "Pages": {
-        "General": "General",
-        "GeneralDescription": "Create a new flow to convert audio to video."
-      },
-      "Fields": {
-        "Codec": "Codec",
-        "Codec-Help": "The codec for the newly created video file.",
-        "Visualization": "Visualization",
-        "Visualization-Help": "The visualization to show in the video.",
-        "Name": "Name",
-        "Name-Help": "The name of the newly created flow. This must be unique.",
-        "Container": "Container",
-        "Container-Help": "The video container to save the new video into.",
-        "Resolution": "Resolution",
-        "Resolution-Help": "The resolution of the newly created video file."
-      }
-    },
-    "NewFlowCommon": {
-      "Pages": {
-        "Output": "Output",
-        "OutputDescription": "Specify the location where the final file should be saved."
-      },
-      "Output": {
-        "ReplaceOriginal": "Replace Original",
-        "ReplaceOriginalDescription": "Replace the original file with the newly created one.",
-        "SaveToFolder": "Save to Folder",
-        "SaveToFolderDescription": "Save the newly created file to a new location."
-      },
-      "Fields": {
-        "OutputPath": "Output Path",
-        "OutputPath-Help": "The path where the final file will be saved.",
-        "OutputPathWindows": "Output Path",
-        "OutputPathWindows-Help": "The path to save the final file. This can include a network path, e.g., \\\\my-nas\\media\\output.",
-        "DeleteOld": "Clean Up Original",
-        "DeleteOld-Help": "Deletes the original file and removes the original folder if no other files remain."
       }
     },
     "NewVideoFlowWizard": {

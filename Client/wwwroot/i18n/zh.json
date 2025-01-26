@@ -254,6 +254,60 @@
         "NoMoreImports": "该脚本没有其他可用的导入"
       }
     },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "比特率",
+        "Bitrate-Help": "转换后音频文件的比特率。",
+        "Codec": "编解码器",
+        "Codec-Help": "用于音频转换的编解码器。",
+        "Name": "名称",
+        "Name-Help": "流程的名称，必须是唯一的。",
+        "Normalize": "标准化",
+        "Normalize-Help": "指定在处理期间是否需要标准化音频。"
+      },
+      "Pages": {
+        "General": "常规",
+        "GeneralDescription": "创建一个流程以转换音频文件。"
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "编解码器",
+        "Codec-Help": "输出视频文件的编解码器。",
+        "Container": "容器",
+        "Container-Help": "视频文件的容器格式。",
+        "Name": "名称",
+        "Name-Help": "流程的名称，必须是唯一的。",
+        "Resolution": "分辨率",
+        "Resolution-Help": "输出视频文件的分辨率。",
+        "Visualization": "可视化效果",
+        "Visualization-Help": "要在视频中显示的可视化效果。"
+      },
+      "Pages": {
+        "General": "常规",
+        "GeneralDescription": "创建一个流程以将音频转换为视频。"
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "清理原文件",
+        "DeleteOld-Help": "删除原文件和原文件夹（如果没有其他文件）。",
+        "OutputPath": "输出路径",
+        "OutputPath-Help": "最终文件保存的路径。",
+        "OutputPathWindows": "输出路径（Windows）",
+        "OutputPathWindows-Help": "保存位置。可以包含网络路径，例如 \\\\我的-nas\\媒体\\输出。"
+      },
+      "Output": {
+        "ReplaceOriginal": "替换原文件",
+        "ReplaceOriginalDescription": "用转换后的文件替换原文件。",
+        "SaveToFolder": "保存到文件夹",
+        "SaveToFolderDescription": "将转换后的文件保存到新位置。"
+      },
+      "Pages": {
+        "Output": "输出",
+        "OutputDescription": "指定最终文件的保存位置。"
+      }
+    },
     "NewLibraryWizard": {
       "Title": "新库",
       "Labels": {

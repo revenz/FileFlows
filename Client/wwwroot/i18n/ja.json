@@ -254,6 +254,60 @@
         "NoMoreImports": "このスクリプトには追加のインポートはありません"
       }
     },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "ビットレート",
+        "Bitrate-Help": "変換されたオーディオファイルのビットレート。",
+        "Codec": "コーデック",
+        "Codec-Help": "オーディオ変換に使用するコーデック。",
+        "Name": "名前",
+        "Name-Help": "フローの名前。これが一意である必要があります。",
+        "Normalize": "正規化",
+        "Normalize-Help": "処理中にオーディオを正規化するかどうかを示します。"
+      },
+      "Pages": {
+        "General": "一般",
+        "GeneralDescription": "オーディオファイルを変換するフローを作成します。"
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "コーデック",
+        "Codec-Help": "出力ビデオファイル用のコーデック。",
+        "Container": "コンテナ",
+        "Container-Help": "ビデオファイルのコンテナ形式。",
+        "Name": "名前",
+        "Name-Help": "フローの名前。これが一意である必要があります。",
+        "Resolution": "解像度",
+        "Resolution-Help": "出力ビデオファイルの解像度。",
+        "Visualization": "ビジュアライゼーション",
+        "Visualization-Help": "ビデオに表示されるビジュアライゼーション。"
+      },
+      "Pages": {
+        "General": "一般",
+        "GeneralDescription": "オーディオをビデオに変換するフローを作成します。"
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "元を削除",
+        "DeleteOld-Help": "元のファイルと、他のファイルがない場合は元のフォルダーを削除します。",
+        "OutputPath": "出力パス",
+        "OutputPath-Help": "最終ファイルを保存するパス。",
+        "OutputPathWindows": "出力パス (Windows)",
+        "OutputPathWindows-Help": "保存先。ネットワークパスを含めることができます（例：\\\\my-nas\\media\\output）。"
+      },
+      "Output": {
+        "ReplaceOriginal": "元を置き換える",
+        "ReplaceOriginalDescription": "元のファイルを変換後のファイルで置き換えます。",
+        "SaveToFolder": "フォルダーに保存",
+        "SaveToFolderDescription": "変換されたファイルを新しい場所に保存します。"
+      },
+      "Pages": {
+        "Output": "出力",
+        "OutputDescription": "最終ファイルの保存先を指定します。"
+      }
+    },
     "NewLibraryWizard": {
       "Title": "新しいライブラリ",
       "Labels": {

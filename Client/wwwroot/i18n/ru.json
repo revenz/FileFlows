@@ -254,6 +254,60 @@
         "NoMoreImports": "Для этого скрипта нет дополнительных импортов"
       }
     },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "Битрейт",
+        "Bitrate-Help": "Битрейт преобразованного аудиофайла.",
+        "Codec": "Кодек",
+        "Codec-Help": "Кодек, используемый для преобразования аудио.",
+        "Name": "Имя",
+        "Name-Help": "Имя потока. Оно должно быть уникальным.",
+        "Normalize": "Нормализовать",
+        "Normalize-Help": "Указывает, нужно ли нормализовать аудио во время обработки."
+      },
+      "Pages": {
+        "General": "Общее",
+        "GeneralDescription": "Создайте поток для преобразования аудиофайлов."
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "Кодек",
+        "Codec-Help": "Кодек для выходного видеофайла.",
+        "Container": "Контейнер",
+        "Container-Help": "Формат контейнера для видеофайла.",
+        "Name": "Имя",
+        "Name-Help": "Имя потока. Оно должно быть уникальным.",
+        "Resolution": "Разрешение",
+        "Resolution-Help": "Разрешение выходного видеофайла.",
+        "Visualization": "Визуализация",
+        "Visualization-Help": "Визуализация, которая будет отображаться в видео."
+      },
+      "Pages": {
+        "General": "Общее",
+        "GeneralDescription": "Создайте поток для преобразования аудио в видео."
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "Очистить оригинал",
+        "DeleteOld-Help": "Удаляет оригинальный файл и исходную папку, если в ней не осталось других файлов.",
+        "OutputPath": "Путь вывода",
+        "OutputPath-Help": "Путь, по которому будет сохранен итоговый файл.",
+        "OutputPathWindows": "Путь вывода (Windows)",
+        "OutputPathWindows-Help": "Место сохранения. Может включать сетевой путь, например, \\\\мой-nas\\media\\output."
+      },
+      "Output": {
+        "ReplaceOriginal": "Заменить оригинал",
+        "ReplaceOriginalDescription": "Заменяет оригинальный файл на преобразованный.",
+        "SaveToFolder": "Сохранить в папку",
+        "SaveToFolderDescription": "Сохраняет преобразованный файл в новое место."
+      },
+      "Pages": {
+        "Output": "Вывод",
+        "OutputDescription": "Укажите, где сохранить итоговый файл."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Новая библиотека",
       "Labels": {

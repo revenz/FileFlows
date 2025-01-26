@@ -254,6 +254,60 @@
         "NoMoreImports": "Er zijn geen extra importen beschikbaar voor dit script"
       }
     },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "Bitrate",
+        "Bitrate-Help": "De bitrate van het geconverteerde audiobestand.",
+        "Codec": "Codec",
+        "Codec-Help": "De codec die wordt gebruikt voor de audioconversie.",
+        "Name": "Naam",
+        "Name-Help": "De naam van de stroom. Deze moet uniek zijn.",
+        "Normalize": "Normaliseren",
+        "Normalize-Help": "Geeft aan of audio moet worden genormaliseerd tijdens verwerking."
+      },
+      "Pages": {
+        "General": "Algemeen",
+        "GeneralDescription": "Maak een stroom om audiobestanden te converteren."
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "Codec",
+        "Codec-Help": "De codec voor het uitvoervideobestand.",
+        "Container": "Container",
+        "Container-Help": "Het containerformaat voor het videobestand.",
+        "Name": "Naam",
+        "Name-Help": "De naam van de stroom. Deze moet uniek zijn.",
+        "Resolution": "Resolutie",
+        "Resolution-Help": "De resolutie van het uitvoervideobestand.",
+        "Visualization": "Visualisatie",
+        "Visualization-Help": "De visualisatie die in de video wordt weergegeven."
+      },
+      "Pages": {
+        "General": "Algemeen",
+        "GeneralDescription": "Maak een stroom om audio naar video te converteren."
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "Opruimen Origineel",
+        "DeleteOld-Help": "Verwijder het originele bestand en de originele map als er geen andere bestanden meer zijn.",
+        "OutputPath": "Uitvoerpad",
+        "OutputPath-Help": "Het pad waar het uiteindelijke bestand wordt opgeslagen.",
+        "OutputPathWindows": "Uitvoerpad (Windows)",
+        "OutputPathWindows-Help": "De opslaglocatie. Dit kan een netwerkpad bevatten, bijvoorbeeld \\\\mijn-nas\\media\\output."
+      },
+      "Output": {
+        "ReplaceOriginal": "Vervang Origineel",
+        "ReplaceOriginalDescription": "Vervang het originele bestand door het geconverteerde bestand.",
+        "SaveToFolder": "Opslaan in map",
+        "SaveToFolderDescription": "Sla het geconverteerde bestand op op een nieuwe locatie."
+      },
+      "Pages": {
+        "Output": "Uitvoer",
+        "OutputDescription": "Specificeer waar het uiteindelijke bestand moet worden opgeslagen."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nieuwe Bibliotheek",
       "Labels": {

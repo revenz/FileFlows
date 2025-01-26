@@ -254,6 +254,60 @@
         "NoMoreImports": "Non ci sono ulteriori import disponibili per questo script"
       }
     },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "Bitrate",
+        "Bitrate-Help": "Il bitrate del file audio convertito.",
+        "Codec": "Codec",
+        "Codec-Help": "Il codec da utilizzare per la conversione audio.",
+        "Name": "Nome",
+        "Name-Help": "Il nome del flusso. Deve essere univoco.",
+        "Normalize": "Normalizzare",
+        "Normalize-Help": "Indica se l'audio deve essere normalizzato durante l'elaborazione."
+      },
+      "Pages": {
+        "General": "Generale",
+        "GeneralDescription": "Crea un flusso per convertire file audio."
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "Codec",
+        "Codec-Help": "Il codec per il file video di output.",
+        "Container": "Contenitore",
+        "Container-Help": "Il formato contenitore per il file video.",
+        "Name": "Nome",
+        "Name-Help": "Il nome del flusso. Deve essere univoco.",
+        "Resolution": "Risoluzione",
+        "Resolution-Help": "La risoluzione del file video di output.",
+        "Visualization": "Visualizzazione",
+        "Visualization-Help": "La visualizzazione da mostrare nel video."
+      },
+      "Pages": {
+        "General": "Generale",
+        "GeneralDescription": "Crea un flusso per convertire audio in video."
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "Pulisci Originale",
+        "DeleteOld-Help": "Elimina il file originale e la cartella originale se non rimangono altri file.",
+        "OutputPath": "Percorso di output",
+        "OutputPath-Help": "Il percorso in cui salvare il file finale.",
+        "OutputPathWindows": "Percorso di output (Windows)",
+        "OutputPathWindows-Help": "La posizione di salvataggio. Può includere un percorso di rete, ad esempio, \\\\my-nas\\media\\output."
+      },
+      "Output": {
+        "ReplaceOriginal": "Sostituisci Originale",
+        "ReplaceOriginalDescription": "Sostituisce il file originale con quello convertito.",
+        "SaveToFolder": "Salva in una cartella",
+        "SaveToFolderDescription": "Salva il file convertito in una nuova posizione."
+      },
+      "Pages": {
+        "Output": "Output",
+        "OutputDescription": "Specifica dove salvare il file finale."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nuova Libreria",
       "Labels": {

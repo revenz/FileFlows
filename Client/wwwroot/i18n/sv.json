@@ -254,6 +254,60 @@
         "NoMoreImports": "Det finns inga fler importer tillgängliga för detta skript"
       }
     },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "Bitrate",
+        "Bitrate-Help": "Bitraten för den konverterade ljudfilen.",
+        "Codec": "Codec",
+        "Codec-Help": "Codecen som används för ljudkonverteringen.",
+        "Name": "Namn",
+        "Name-Help": "Flödets namn. Det måste vara unikt.",
+        "Normalize": "Normalisera",
+        "Normalize-Help": "Anger om ljudet ska normaliseras under bearbetning."
+      },
+      "Pages": {
+        "General": "Allmänt",
+        "GeneralDescription": "Skapa ett flöde för att konvertera ljudfiler."
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "Codec",
+        "Codec-Help": "Codecen för videoutfilen.",
+        "Container": "Container",
+        "Container-Help": "Behållarformatet för videofilen.",
+        "Name": "Namn",
+        "Name-Help": "Flödets namn. Det måste vara unikt.",
+        "Resolution": "Upplösning",
+        "Resolution-Help": "Upplösningen för videoutfilen.",
+        "Visualization": "Visualisering",
+        "Visualization-Help": "Visualiseringen som ska visas i videon."
+      },
+      "Pages": {
+        "General": "Allmänt",
+        "GeneralDescription": "Skapa ett flöde för att konvertera ljud till video."
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "Rensa original",
+        "DeleteOld-Help": "Tar bort originalfilen och originalmappen om inga andra filer finns kvar.",
+        "OutputPath": "Utmatningssökväg",
+        "OutputPath-Help": "Sökvägen där den slutliga filen sparas.",
+        "OutputPathWindows": "Utmatningssökväg (Windows)",
+        "OutputPathWindows-Help": "Sparplatsen. Kan inkludera en nätverkssökväg, till exempel \\\\min-nas\\media\\output."
+      },
+      "Output": {
+        "ReplaceOriginal": "Ersätt original",
+        "ReplaceOriginalDescription": "Ersätt originalfilen med den konverterade filen.",
+        "SaveToFolder": "Spara i mapp",
+        "SaveToFolderDescription": "Spara den konverterade filen på en ny plats."
+      },
+      "Pages": {
+        "Output": "Utmatning",
+        "OutputDescription": "Ange var den slutliga filen ska sparas."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Ny Bibliotek",
       "Labels": {

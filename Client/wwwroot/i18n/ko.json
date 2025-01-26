@@ -254,6 +254,60 @@
         "NoMoreImports": "이 스크립트에는 더 이상 가져올 항목이 없습니다"
       }
     },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "비트레이트",
+        "Bitrate-Help": "변환된 오디오 파일의 비트레이트입니다.",
+        "Codec": "코덱",
+        "Codec-Help": "오디오 변환에 사용할 코덱입니다.",
+        "Name": "이름",
+        "Name-Help": "플로우의 이름입니다. 고유해야 합니다.",
+        "Normalize": "정규화",
+        "Normalize-Help": "처리 중 오디오를 정규화할지 여부를 나타냅니다."
+      },
+      "Pages": {
+        "General": "일반",
+        "GeneralDescription": "오디오 파일을 변환하는 플로우를 생성합니다."
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "코덱",
+        "Codec-Help": "출력 비디오 파일의 코덱입니다.",
+        "Container": "컨테이너",
+        "Container-Help": "비디오 파일의 컨테이너 형식입니다.",
+        "Name": "이름",
+        "Name-Help": "플로우의 이름입니다. 고유해야 합니다.",
+        "Resolution": "해상도",
+        "Resolution-Help": "출력 비디오 파일의 해상도입니다.",
+        "Visualization": "시각화",
+        "Visualization-Help": "비디오에 표시될 시각화입니다."
+      },
+      "Pages": {
+        "General": "일반",
+        "GeneralDescription": "오디오를 비디오로 변환하는 플로우를 생성합니다."
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "원본 정리",
+        "DeleteOld-Help": "원본 파일을 삭제하고, 다른 파일이 없으면 원본 폴더를 제거합니다.",
+        "OutputPath": "출력 경로",
+        "OutputPath-Help": "최종 파일을 저장할 경로입니다.",
+        "OutputPathWindows": "출력 경로 (Windows)",
+        "OutputPathWindows-Help": "저장 위치입니다. 네트워크 경로를 포함할 수 있습니다(예: \\\\my-nas\\media\\output)."
+      },
+      "Output": {
+        "ReplaceOriginal": "원본 교체",
+        "ReplaceOriginalDescription": "원본 파일을 변환된 파일로 교체합니다.",
+        "SaveToFolder": "폴더에 저장",
+        "SaveToFolderDescription": "변환된 파일을 새로운 위치에 저장합니다."
+      },
+      "Pages": {
+        "Output": "출력",
+        "OutputDescription": "최종 파일을 저장할 위치를 지정합니다."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "새 라이브러리",
       "Labels": {
