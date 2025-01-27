@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "Rensa original",
         "DeleteOld-Help": "Tar bort originalfilen och originalmappen om inga andra filer finns kvar.",
+        "Description": "Beskrivning",
+        "Description-Help": "Beskrivningen av det nyss skapade flödet.",
         "OutputPath": "Utmatningssökväg",
         "OutputPath-Help": "Sökvägen där den slutliga filen sparas.",
         "OutputPathWindows": "Utmatningssökväg (Windows)",
@@ -404,6 +406,8 @@
         "FailureDescription": "Skapa ett flöde som körs vid misslyckande",
         "Image": "Bild",
         "ImageDescription": "Skapa ett flöde för att bearbeta bildfiler.",
+        "Users": "Användare",
+        "UsersDescription": "Öppna ett befintligt flöde",
         "Video": "Video",
         "VideoDescription": "Skapa ett flöde för att bearbeta videofiler."
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "Beskrivning.",
+        "Icon": "Ikon",
         "Outputs": "Utgångar",
         "Outputs-Help": "Antalet utgångar detta underskript har. Detta är antalet utgångar som kommer att vara tillgängliga när detta underskript används i ett annat flöde.",
         "OutputsKey": "Utgång",
@@ -1450,7 +1455,7 @@
         "Enabled": "Aktiverad",
         "FlowRunners": "Flödeskörningar",
         "FlowRunners-Help": "Antalet flödeskörningsinstanser som är tillgängliga för att köra ett flöde.",
-        "Icon": "Anpassad ikon",
+        "Icon": "Ikon",
         "InternalProcessingNodeDescription": "Detta är den inbyggda behandlingsnoden i FileFlows.\n\nDenna nod låter dig köra FileFlows utan att behöva installera några andra noder på fjärrsystem och låter dig använda FileFlows som en fristående applikation.\n\nDu kan fortsätta använda denna interna nod och ytterligare behandlingsnoder om du vill, eller så kan du inaktivera denna nod och bara använda ytterligare noder.",
         "Libraries": "Bibliotek",
         "Libraries-Help": "Välj vilka bibliotek denna nod kan bearbeta",

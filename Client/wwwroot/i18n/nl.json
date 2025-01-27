@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "Opruimen Origineel",
         "DeleteOld-Help": "Verwijder het originele bestand en de originele map als er geen andere bestanden meer zijn.",
+        "Description": "Beschrijving",
+        "Description-Help": "De beschrijving van de nieuw aangemaakte flow.",
         "OutputPath": "Uitvoerpad",
         "OutputPath-Help": "Het pad waar het uiteindelijke bestand wordt opgeslagen.",
         "OutputPathWindows": "Uitvoerpad (Windows)",
@@ -404,6 +406,8 @@
         "FailureDescription": "Maak een flow die wordt uitgevoerd bij een fout",
         "Image": "Afbeelding",
         "ImageDescription": "Maak een flow voor het verwerken van afbeeldingsbestanden.",
+        "Users": "Gebruikers",
+        "UsersDescription": "Een bestaande flow openen",
         "Video": "Video",
         "VideoDescription": "Maak een flow voor het verwerken van videobestanden."
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "Beschrijving.",
+        "Icon": "Icoon",
         "Outputs": "Uitgangen",
         "Outputs-Help": "Het aantal uitgangen dat deze substroom heeft. Dit is het aantal uitgangen dat beschikbaar zal zijn bij het gebruik van deze substroom in een andere stroom.",
         "OutputsKey": "Uitgang",
@@ -1450,7 +1455,7 @@
         "Enabled": "Ingeschakeld",
         "FlowRunners": "Flow Runners",
         "FlowRunners-Help": "Het aantal beschikbare flow runner-instanties om een flow uit te voeren.",
-        "Icon": "Aangepast pictogram",
+        "Icon": "Icoon",
         "InternalProcessingNodeDescription": "Dit is het ingebouwde verwerkingsknooppunt in FileFlows.\n\nDit knooppunt stelt je in staat om FileFlows uit te voeren zonder je zorgen te maken over het installeren van andere knooppunten op externe systemen en stelt je in staat om FileFlows als een zelfstandige applicatie te gebruiken.\n\nJe kunt dit interne knooppunt blijven gebruiken en extra verwerkingsknooppunten toevoegen als je dat wilt, of je kunt dit knooppunt uitschakelen en alleen gebruik maken van extra knooppunten.",
         "Libraries": "Bibliotheken",
         "Libraries-Help": "Selecteer welke bibliotheken dit knooppunt kan verwerken",

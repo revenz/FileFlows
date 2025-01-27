@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "清理原文件",
         "DeleteOld-Help": "删除原文件和原文件夹（如果没有其他文件）。",
+        "Description": "描述",
+        "Description-Help": "新创建的流程的描述。",
         "OutputPath": "输出路径",
         "OutputPath-Help": "最终文件保存的路径。",
         "OutputPathWindows": "输出路径（Windows）",
@@ -404,6 +406,8 @@
         "FailureDescription": "创建一个在失败时执行的流程",
         "Image": "图像",
         "ImageDescription": "创建处理图像文件的流程。",
+        "Users": "用户",
+        "UsersDescription": "打开现有的流",
         "Video": "视频",
         "VideoDescription": "创建处理视频文件的流程。"
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "描述。",
+        "Icon": "图标",
         "Outputs": "输出",
         "Outputs-Help": "此子流程具有的输出数量。当在其他流程中使用此子流程时，这就是可用的输出数量",
         "OutputsKey": "输出",
@@ -1450,7 +1455,7 @@
         "Enabled": "启用",
         "FlowRunners": "流程运行程序",
         "FlowRunners-Help": "可用于执行流程的流程运行程序实例的数量。",
-        "Icon": "自定义图标",
+        "Icon": "图标",
         "InternalProcessingNodeDescription": "这是FileFlows中的内置处理节点。\n\n此节点允许您运行FileFlows，而无需担心在远程系统上安装任何其他节点，并允许您将FileFlows用作自包含的应用程序。\n\n如果愿意，您可以继续使用此内部节点和附加处理节点，或者您可以禁用此节点，仅使用附加节点。",
         "Libraries": "库",
         "Libraries-Help": "选择此节点可以处理哪些库",

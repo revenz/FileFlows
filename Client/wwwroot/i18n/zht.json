@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "清理原始檔案",
         "DeleteOld-Help": "刪除原始檔案及原始資料夾（如果沒有其他檔案）。",
+        "Description": "描述",
+        "Description-Help": "新建立流程的描述。",
         "OutputPath": "輸出路徑",
         "OutputPath-Help": "最終檔案保存的路徑。",
         "OutputPathWindows": "輸出路徑（Windows）",
@@ -404,6 +406,8 @@
         "FailureDescription": "創建一個在失敗時執行的流程",
         "Image": "圖像",
         "ImageDescription": "創建處理圖像檔案的流程。",
+        "Users": "使用者",
+        "UsersDescription": "打開現有的流",
         "Video": "影片",
         "VideoDescription": "創建處理影片檔案的流程。"
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "描述。",
+        "Icon": "圖標",
         "Outputs": "輸出",
         "Outputs-Help": "此子流程有多少個輸出。當在另一個流程中使用此子流程時，將提供這些輸出。",
         "OutputsKey": "輸出",
@@ -1450,7 +1455,7 @@
         "Enabled": "啟用",
         "FlowRunners": "流程執行者",
         "FlowRunners-Help": "可用於執行流程的流程執行者實例數量。",
-        "Icon": "自訂圖標",
+        "Icon": "圖標",
         "InternalProcessingNodeDescription": "這是FileFlows內建的處理節點。\n\n此節點允許您在不需要在遠程系統上安裝任何其他節點的情況下運行FileFlows，並將FileFlows作為自包含的應用程式使用。\n\n您可以繼續使用此內部節點以及額外的處理節點，或者您可以禁用此節點並僅使用其他節點。",
         "Libraries": "資料庫",
         "Libraries-Help": "選擇此節點可以處理的資料庫",

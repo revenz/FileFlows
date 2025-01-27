@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "Limpar Original",
         "DeleteOld-Help": "Exclui o arquivo original e a pasta original se não restarem outros arquivos.",
+        "Description": "Descrição",
+        "Description-Help": "A descrição do fluxo recém-criado.",
         "OutputPath": "Caminho de saída",
         "OutputPath-Help": "O caminho onde o arquivo final será salvo.",
         "OutputPathWindows": "Caminho de saída (Windows)",
@@ -404,6 +406,8 @@
         "FailureDescription": "Crie um fluxo para executar em caso de falha",
         "Image": "Imagem",
         "ImageDescription": "Criar um fluxo para processar arquivos de imagem.",
+        "Users": "Usuários",
+        "UsersDescription": "Abrir um fluxo existente",
         "Video": "Vídeo",
         "VideoDescription": "Criar um fluxo para processar arquivos de vídeo."
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "Descrição.",
+        "Icon": "Ícone",
         "Outputs": "Saídas",
         "Outputs-Help": "O número de saídas que este sub flow possui. Este é o número de saídas que estarão disponíveis ao usar este sub flow em outro flow",
         "OutputsKey": "Saída",
@@ -1450,7 +1455,7 @@
         "Enabled": "Habilitado",
         "FlowRunners": "Flow Runners",
         "FlowRunners-Help": "O número de instâncias de flow runner disponíveis para executar um flow.",
-        "Icon": "Ícone personalizado",
+        "Icon": "Ícone",
         "InternalProcessingNodeDescription": "Este é o node de processamento integrado no FileFlows. Este node permite que você execute o FileFlows sem se preocupar em instalar outros nodes em sistemas remotos e permite que você use o FileFlows como um aplicativo autônomo. Você pode continuar usando este node interno e nodes de processamento adicionais se desejar, ou pode desativar este node e usar apenas nodes adicionais.",
         "Libraries": "Bibliotecas",
         "Libraries-Help": "Selecione quais bibliotecas este node pode processar",

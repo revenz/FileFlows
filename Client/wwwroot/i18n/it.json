@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "Pulisci Originale",
         "DeleteOld-Help": "Elimina il file originale e la cartella originale se non rimangono altri file.",
+        "Description": "Descrizione",
+        "Description-Help": "La descrizione del flusso appena creato.",
         "OutputPath": "Percorso di output",
         "OutputPath-Help": "Il percorso in cui salvare il file finale.",
         "OutputPathWindows": "Percorso di output (Windows)",
@@ -404,6 +406,8 @@
         "FailureDescription": "Crea un flusso da eseguire in caso di errore",
         "Image": "Immagine",
         "ImageDescription": "Crea un flusso per la gestione dei file immagine.",
+        "Users": "Utenti",
+        "UsersDescription": "Aprire un flusso esistente",
         "Video": "Video",
         "VideoDescription": "Crea un flusso per la gestione dei file video."
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "Descrizione.",
+        "Icon": "Icona",
         "Outputs": "Output",
         "Outputs-Help": "Il numero di output che ha questo sottoflow. Questo è il numero di output disponibili quando si utilizza questo sottoflow in un altro flow.",
         "OutputsKey": "Output",
@@ -1450,7 +1455,7 @@
         "Enabled": "Abilitato",
         "FlowRunners": "Esecutori di flow",
         "FlowRunners-Help": "Il numero di istanze di esecutore di flow disponibili per eseguire un flow.",
-        "Icon": "Icona personalizzata",
+        "Icon": "Icona",
         "InternalProcessingNodeDescription": "Questo è il nodo di elaborazione integrato in FileFlows.\n\nQuesto nodo ti consente di eseguire FileFlows senza preoccuparti di installare altri nodi su sistemi remoti e ti consente di utilizzare FileFlows come un'applicazione autonoma.\n\nPuoi continuare a utilizzare questo nodo interno e nodi di elaborazione aggiuntivi se lo desideri, oppure puoi disabilitare questo nodo e utilizzare solo nodi aggiuntivi.",
         "Libraries": "Librerie",
         "Libraries-Help": "Seleziona quali librerie questo nodo può elaborare",

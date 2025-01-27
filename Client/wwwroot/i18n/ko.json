@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "원본 정리",
         "DeleteOld-Help": "원본 파일을 삭제하고, 다른 파일이 없으면 원본 폴더를 제거합니다.",
+        "Description": "설명",
+        "Description-Help": "새로 생성된 플로우에 대한 설명입니다.",
         "OutputPath": "출력 경로",
         "OutputPath-Help": "최종 파일을 저장할 경로입니다.",
         "OutputPathWindows": "출력 경로 (Windows)",
@@ -404,6 +406,8 @@
         "FailureDescription": "실패 시 실행할 플로우를 생성",
         "Image": "이미지",
         "ImageDescription": "이미지 파일을 처리하는 흐름을 생성합니다.",
+        "Users": "사용자",
+        "UsersDescription": "기존 플로우 열기",
         "Video": "비디오",
         "VideoDescription": "비디오 파일을 처리하는 흐름을 생성합니다."
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "설명.",
+        "Icon": "아이콘",
         "Outputs": "출력",
         "Outputs-Help": "이 서브 흐름의 출력 수입니다. 이 서브 흐름을 다른 흐름에서 사용할 때 사용 가능한 출력 수입니다.",
         "OutputsKey": "출력",
@@ -1450,7 +1455,7 @@
         "Enabled": "활성화",
         "FlowRunners": "흐름 러너",
         "FlowRunners-Help": "흐름을 실행할 수 있는 흐름 러너 인스턴스의 수.",
-        "Icon": "맞춤 아이콘",
+        "Icon": "아이콘",
         "InternalProcessingNodeDescription": "이것은 FileFlows의 내장 처리 노드입니다.\n\n이 노드는 다른 원격 시스템에 추가 노드를 설치하지 않고도 FileFlows를 실행할 수 있도록 하며, FileFlows를 독립 실행형 애플리케이션으로 사용할 수 있게 해줍니다.\n\n원하는 경우 이 내부 노드와 추가 처리 노드를 계속 사용할 수 있으며, 이 노드를 비활성화하고 추가 노드만 사용할 수 있습니다.",
         "Libraries": "라이브러리",
         "Libraries-Help": "이 노드에서 처리할 수 있는 라이브러리를 선택합니다.",

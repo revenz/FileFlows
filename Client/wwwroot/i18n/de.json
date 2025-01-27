@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "Original bereinigen",
         "DeleteOld-Help": "Löscht die Originaldatei und entfernt den Originalordner, falls keine anderen Dateien übrig sind.",
+        "Description": "Beschreibung",
+        "Description-Help": "Die Beschreibung des neu erstellten Flusses.",
         "OutputPath": "Ausgabepfad",
         "OutputPath-Help": "Der Pfad, in dem die endgültige Datei gespeichert wird.",
         "OutputPathWindows": "Ausgabepfad (Windows)",
@@ -404,6 +406,8 @@
         "FailureDescription": "Erstelle einen Flow, der bei Fehler ausgeführt wird",
         "Image": "Bild",
         "ImageDescription": "Erstelle einen Flow zur Verarbeitung von Bilddateien.",
+        "Users": "Benutzer",
+        "UsersDescription": "Einen bestehenden Flow öffnen",
         "Video": "Video",
         "VideoDescription": "Erstelle einen Flow zur Verarbeitung von Videodateien."
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "Beschreibung.",
+        "Icon": "Symbol",
         "Outputs": "Outputs",
         "Outputs-Help": "Die Anzahl der Outputs, die dieser sub Flow hat. Dies ist die Anzahl der Outputs, die verfügbar sind, wenn dieser sub Flow in einem anderen Flow verwendet wird",
         "OutputsKey": "Output",
@@ -1450,7 +1455,7 @@
         "Enabled": "Aktiviert",
         "FlowRunners": "Flow Runners",
         "FlowRunners-Help": "Die Anzahl der Flow-Runner-Instanzen, die zur Ausführung eines Flows zur Verfügung stehen.",
-        "Icon": "Benutzerdefiniertes Symbol",
+        "Icon": "Symbol",
         "InternalProcessingNodeDescription": "Dies ist der interne Node in FileFlows. \n\n Mit diesem Knoten können Sie FileFlows ausführen, ohne sich um die Installation anderer Knoten auf entfernten Systemen kümmern zu müssen, und Sie können FileFlows als eigenständige Anwendung verwenden.\n\nSie können diesen internen Knoten und zusätzliche Verarbeitungsknoten verwenden, wenn Sie dies wünschen, oder Sie können diesen Knoten deaktivieren und nur zusätzliche Knoten verwenden.",
         "Libraries": "Bibliotheken",
         "Libraries-Help": "Auswahl der Bibliotheken, die dieser Node verarbeiten kann.",

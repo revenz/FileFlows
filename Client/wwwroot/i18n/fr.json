@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "Nettoyer l'original",
         "DeleteOld-Help": "Supprime le fichier original et son dossier si aucun autre fichier ne reste.",
+        "Description": "Description",
+        "Description-Help": "La description du flux nouvellement créé.",
         "OutputPath": "Chemin de sortie",
         "OutputPath-Help": "Le chemin où le fichier final sera enregistré.",
         "OutputPathWindows": "Chemin de sortie (Windows)",
@@ -404,6 +406,8 @@
         "FailureDescription": "Créez un flux à exécuter en cas d'échec",
         "Image": "Image",
         "ImageDescription": "Créez un flux pour traiter des fichiers image.",
+        "Users": "Utilisateurs",
+        "UsersDescription": "Ouvrir un flux existant",
         "Video": "Vidéo",
         "VideoDescription": "Créez un flux pour traiter des fichiers vidéo."
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "Description.",
+        "Icon": "",
         "Outputs": "Sorties",
         "Outputs-Help": "Le nombre de sorties que ce sous-flow a. C'est le nombre de sorties qui sera disponible lors de l'utilisation de ce sous-flow dans un autre flow.",
         "OutputsKey": "Sortie",

@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "Limpiar original",
         "DeleteOld-Help": "Elimina el archivo original y la carpeta si no quedan otros archivos.",
+        "Description": "Descripción",
+        "Description-Help": "La descripción del flujo recién creado.",
         "OutputPath": "Ruta de salida",
         "OutputPath-Help": "La ruta donde se guardará el archivo final.",
         "OutputPathWindows": "Ruta de salida (Windows)",
@@ -404,6 +406,8 @@
         "FailureDescription": "Crea un flujo que se ejecute en caso de fallo",
         "Image": "Bild",
         "ImageDescription": "Erstelle einen Flow zur Verarbeitung von Bilddateien.",
+        "Users": "Usuarios",
+        "UsersDescription": "Abrir un flujo existente",
         "Video": "Video",
         "VideoDescription": "Erstelle einen Flow zur Verarbeitung von Videodateien."
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "Descripción.",
+        "Icon": "Ícono",
         "Outputs": "Salidas",
         "Outputs-Help": "El número de salidas que tiene este subflow. Este es el número de salidas que estarán disponibles al usar este subflow en otro flow.",
         "OutputsKey": "Salida",
@@ -1450,7 +1455,7 @@
         "Enabled": "Habilitado",
         "FlowRunners": "Ejecutores de Flow",
         "FlowRunners-Help": "El número de instancias de ejecutores de flow disponibles para ejecutar un flow.",
-        "Icon": "Icono personalizado",
+        "Icon": "Ícono",
         "InternalProcessingNodeDescription": "Este es el nodo de procesamiento incorporado en FileFlows.\n\nEste nodo te permite ejecutar FileFlows sin preocuparte por instalar otros nodos en sistemas remotos y te permite usar FileFlows como una aplicación autónoma.\n\nPuedes continuar usando este nodo interno y nodos de procesamiento adicionales si lo deseas, o puedes deshabilitar este nodo y usar solo nodos adicionales.",
         "Libraries": "Bibliotecas",
         "Libraries-Help": "Selecciona qué bibliotecas puede procesar este nodo",

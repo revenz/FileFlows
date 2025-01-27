@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "元を削除",
         "DeleteOld-Help": "元のファイルと、他のファイルがない場合は元のフォルダーを削除します。",
+        "Description": "説明",
+        "Description-Help": "新しく作成されたフローの説明です。",
         "OutputPath": "出力パス",
         "OutputPath-Help": "最終ファイルを保存するパス。",
         "OutputPathWindows": "出力パス (Windows)",
@@ -404,6 +406,8 @@
         "FailureDescription": "失敗時に実行されるフローを作成",
         "Image": "画像",
         "ImageDescription": "画像ファイルを処理するフローを作成します。",
+        "Users": "ユーザー",
+        "UsersDescription": "既存のフローを開く",
         "Video": "ビデオ",
         "VideoDescription": "ビデオファイルを処理するフローを作成します。"
       }
@@ -1121,6 +1125,7 @@
       },
       "Fields": {
         "Description": "説明",
+        "Icon": "アイコン",
         "Outputs": "出力",
         "Outputs-Help": "このサブフローの出力の数です。このサブフローを他のフローで使用する際に利用可能な出力の数です。",
         "OutputsKey": "出力",
@@ -1450,7 +1455,7 @@
         "Enabled": "有効",
         "FlowRunners": "フローロンナー",
         "FlowRunners-Help": "フローを実行するために使用できるフローロンナーインスタンスの数。",
-        "Icon": "カスタムアイコン",
+        "Icon": "アイコン",
         "InternalProcessingNodeDescription": "これはFileFlows内蔵の処理ノードです。\n\nこのノードを使用すると、リモートシステムに他のノードをインストールすることを心配せずにFileFlowsを実行でき、FileFlowsを自己完結型アプリケーションとして使用できます。\n\nこの内部ノードと追加の処理ノードを引き続き使用することもできますし、このノードを無効にして追加のノードのみを使用することもできます。",
         "Libraries": "ライブラリ",
         "Libraries-Help": "このノードが処理できるライブラリを選択",
