@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "要向子流程添加输入字段以便传递自定义参数，请在 `字段` 选项卡中创建这些字段。\n\n子流程必须有一个 `输入`，可以是任何有效的输入流程元素，例如 `输入文件`、`视频文件`等。"
       },
       "Fields": {
-        "Author": "作者",
-        "Author-Help": "可选地指定此流程的作者。",
         "Description": "描述。",
-        "MinimumVersion": "最低版本",
         "Outputs": "输出",
         "Outputs-Help": "此子流程具有的输出数量。当在其他流程中使用此子流程时，这就是可用的输出数量",
         "OutputsKey": "输出",
         "OutputsValue": "描述",
-        "Tags": "标签",
         "Variables": "变量",
         "VariablesKey": "名称",
         "VariablesValue": "值",

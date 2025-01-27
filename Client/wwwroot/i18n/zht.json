@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "要向子流程添加輸入字段以便傳遞自定義參數，請在 `Fields` 標籤中創建這些字段。\n\n子流程必須有一個 `輸入`，它可以是任何有效的輸入流程元素，例如 `輸入文件`，`視頻文件` 等。"
       },
       "Fields": {
-        "Author": "作者",
-        "Author-Help": "可選的，指定此流程的作者。",
         "Description": "描述。",
-        "MinimumVersion": "最低版本",
         "Outputs": "輸出",
         "Outputs-Help": "此子流程有多少個輸出。當在另一個流程中使用此子流程時，將提供這些輸出。",
         "OutputsKey": "輸出",
         "OutputsValue": "描述",
-        "Tags": "標籤",
         "Variables": "變量",
         "VariablesKey": "名稱",
         "VariablesValue": "值",

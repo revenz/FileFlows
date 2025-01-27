@@ -406,10 +406,10 @@
         "FailureDescription": "Create a flow to execute on failure",
         "Image": "Image",
         "ImageDescription": "Create a flow to process image files.",
-        "Video": "Video",
-        "VideoDescription": "Create a flow to process video files.",
         "Users": "Users",
-        "UsersDescription": "Open an existing flow"
+        "UsersDescription": "Open an existing flow",
+        "Video": "Video",
+        "VideoDescription": "Create a flow to process video files."
       }
     },
     "NewImageFlowWizard": {

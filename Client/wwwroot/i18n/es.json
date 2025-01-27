@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "Para agregar campos de entrada a un subflow y poder pasar parámetros personalizados a este subflow, créalos en la pestaña `Campos`.\n\nUn subflow debe tener una única `Entrada`, que puede ser cualquier elemento de flow de entrada válido, por ejemplo, `Archivo de Entrada`, `Archivo de Video`, etc."
       },
       "Fields": {
-        "Author": "Autor",
-        "Author-Help": "Opcionalmente especifique el autor de este flow.",
         "Description": "Descripción.",
-        "MinimumVersion": "Versión Mínima",
         "Outputs": "Salidas",
         "Outputs-Help": "El número de salidas que tiene este subflow. Este es el número de salidas que estarán disponibles al usar este subflow en otro flow.",
         "OutputsKey": "Salida",
         "OutputsValue": "Descripción",
-        "Tags": "Etiquetas",
         "Variables": "Variables",
         "VariablesKey": "Nombre",
         "VariablesValue": "Valor",

@@ -43,6 +43,7 @@ public class Program
     {
         if (Directory.Exists(directory) == false)
             return;
+        FileFlows.Services.ServiceHelpers.TranslationFileHelper.SyncWithEnglish(directory);
         var jsonFiles = Directory.GetFiles(directory, "*.json");
 
         foreach (var jsonFile in jsonFiles)

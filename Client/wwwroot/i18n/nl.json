@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "Om invoervelden aan een substroom toe te voegen zodat je aangepaste parameters naar deze substroom kunt doorgeven, maak deze op het tabblad `Velden`.\n\nEen substroom moet een enkele `Invoer` hebben, die elk geldig invoerstroomelement kan zijn, bijv. `Invoerbestand`, `Videobestand`, enz."
       },
       "Fields": {
-        "Author": "Auteur",
-        "Author-Help": "Optioneel de auteur van deze stroom opgeven.",
         "Description": "Beschrijving.",
-        "MinimumVersion": "Minimale versie",
         "Outputs": "Uitgangen",
         "Outputs-Help": "Het aantal uitgangen dat deze substroom heeft. Dit is het aantal uitgangen dat beschikbaar zal zijn bij het gebruik van deze substroom in een andere stroom.",
         "OutputsKey": "Uitgang",
         "OutputsValue": "Beschrijving",
-        "Tags": "Tags",
         "Variables": "Variabelen",
         "VariablesKey": "Naam",
         "VariablesValue": "Waarde",

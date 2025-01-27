@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "서브 흐름에 입력 필드를 추가하여 이 서브 흐름에 사용자 지정 매개변수를 전달할 수 있습니다. `Fields` 탭에서 이를 생성하십시오.\n\n서브 흐름은 단일 `Input`이 있어야 하며, 이는 유효한 입력 흐름 요소일 수 있습니다. 예: `입력 파일`, `비디오 파일` 등."
       },
       "Fields": {
-        "Author": "작성자",
-        "Author-Help": "이 흐름의 작성자를 선택적으로 지정하십시오.",
         "Description": "설명.",
-        "MinimumVersion": "최소 버전",
         "Outputs": "출력",
         "Outputs-Help": "이 서브 흐름의 출력 수입니다. 이 서브 흐름을 다른 흐름에서 사용할 때 사용 가능한 출력 수입니다.",
         "OutputsKey": "출력",
         "OutputsValue": "설명",
-        "Tags": "태그",
         "Variables": "변수",
         "VariablesKey": "이름",
         "VariablesValue": "값",

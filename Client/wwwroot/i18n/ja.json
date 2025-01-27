@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "サブフローにカスタムパラメータを渡すための入力フィールドを追加するには、`Fields` タブで作成します。\n\nサブフローには、任意の有効な入力フロー要素（例: `Input File`, `Video File` など）の単一の `Input` が必要です。"
       },
       "Fields": {
-        "Author": "作成者",
-        "Author-Help": "このフローの作成者を指定することができます。",
         "Description": "説明",
-        "MinimumVersion": "最小バージョン",
         "Outputs": "出力",
         "Outputs-Help": "このサブフローの出力の数です。このサブフローを他のフローで使用する際に利用可能な出力の数です。",
         "OutputsKey": "出力",
         "OutputsValue": "説明",
-        "Tags": "タグ",
         "Variables": "変数",
         "VariablesKey": "名前",
         "VariablesValue": "値",

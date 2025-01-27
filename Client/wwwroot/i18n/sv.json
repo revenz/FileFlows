@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "För att lägga till indatafält till ett underskript så att du kan skicka in anpassade parametrar till detta underskript, skapa dessa på fliken `Fält`.\n\nEtt underskript måste ha en enda `Indata`, vilket kan vara valfria giltiga indataflödeselement, t.ex. `Indatafil`, `Videofil` osv."
       },
       "Fields": {
-        "Author": "Författare",
-        "Author-Help": "Valfritt ange författaren till detta flöde.",
         "Description": "Beskrivning.",
-        "MinimumVersion": "Minimi version",
         "Outputs": "Utgångar",
         "Outputs-Help": "Antalet utgångar detta underskript har. Detta är antalet utgångar som kommer att vara tillgängliga när detta underskript används i ett annat flöde.",
         "OutputsKey": "Utgång",
         "OutputsValue": "Beskrivning",
-        "Tags": "Taggar",
         "Variables": "Variabler",
         "VariablesKey": "Namn",
         "VariablesValue": "Värde",

@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "Um Eingabefelder zu einem sub Flow hinzuzufügen, damit Sie benutzerdefinierte Parameter an diesen Sub Flow übergeben können, erstellen Sie diese auf der Registerkarte. Ein sub Flow muss einen einzigen Imput haben, der ein beliebiges gültiges Eingabeablaufelement sein kann, z. B. 'Eingangsdatei', 'Videodatei' usw."
       },
       "Fields": {
-        "Author": "Author",
-        "Author-Help": "Geben Sie optional den Autor dieses Flows an.",
         "Description": "Beschreibung.",
-        "MinimumVersion": "Minimale Version",
         "Outputs": "Outputs",
         "Outputs-Help": "Die Anzahl der Outputs, die dieser sub Flow hat. Dies ist die Anzahl der Outputs, die verfügbar sind, wenn dieser sub Flow in einem anderen Flow verwendet wird",
         "OutputsKey": "Output",
         "OutputsValue": "Beschreibung",
-        "Tags": "Tags",
         "Variables": "Variablen",
         "VariablesKey": "Name",
         "VariablesValue": "Wert",

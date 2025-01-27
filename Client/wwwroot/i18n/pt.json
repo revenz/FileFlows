@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "Para adicionar campos de entrada a um sub flow, para que você possa passar parâmetros personalizados para este sub flow, crie-os na aba `Fields`.\n\nUm sub flow deve ter um único `Input`, que pode ser qualquer elemento de flow de entrada válido, por exemplo, `Input File`, `Video File`, etc."
       },
       "Fields": {
-        "Author": "Autor",
-        "Author-Help": "Opcionalmente, especifique o autor deste flow.",
         "Description": "Descrição.",
-        "MinimumVersion": "Versão Mínima",
         "Outputs": "Saídas",
         "Outputs-Help": "O número de saídas que este sub flow possui. Este é o número de saídas que estarão disponíveis ao usar este sub flow em outro flow",
         "OutputsKey": "Saída",
         "OutputsValue": "Descrição",
-        "Tags": "Tags",
         "Variables": "Variáveis",
         "VariablesKey": "Nome",
         "VariablesValue": "Valor",

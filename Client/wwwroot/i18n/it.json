@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "Per aggiungere campi di input a un sottoflow per poter passare parametri personalizzati a questo sottoflow, crea questi nella scheda `Campi`.\n\nUn sottoflow deve avere un singolo `Input` che può essere qualsiasi elemento di flow di input valido, ad esempio `Input File`, `Video File`, ecc."
       },
       "Fields": {
-        "Author": "Autore",
-        "Author-Help": "Specifica facoltativamente l'autore di questo flow.",
         "Description": "Descrizione.",
-        "MinimumVersion": "Versione Minima",
         "Outputs": "Output",
         "Outputs-Help": "Il numero di output che ha questo sottoflow. Questo è il numero di output disponibili quando si utilizza questo sottoflow in un altro flow.",
         "OutputsKey": "Output",
         "OutputsValue": "Descrizione",
-        "Tags": "Tag",
         "Variables": "Variabili",
         "VariablesKey": "Nome",
         "VariablesValue": "Valore",

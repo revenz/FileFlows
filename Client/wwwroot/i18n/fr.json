@@ -1120,15 +1120,11 @@
         "SubFlowHelp": "Pour ajouter des champs d'entrée à un sous-flow afin de passer des paramètres personnalisés à ce sous-flow, créez-les dans l'onglet `Champs`.\n\nUn sous-flow doit avoir un seul `Input` qui peut être n'importe quel élément d'entrée valide, par exemple `Fichier d'Entrée`, `Fichier Vidéo`, etc."
       },
       "Fields": {
-        "Author": "Auteur",
-        "Author-Help": "Optionnellement, spécifiez l'auteur de ce flow.",
         "Description": "Description.",
-        "MinimumVersion": "Version Minimale",
         "Outputs": "Sorties",
         "Outputs-Help": "Le nombre de sorties que ce sous-flow a. C'est le nombre de sorties qui sera disponible lors de l'utilisation de ce sous-flow dans un autre flow.",
         "OutputsKey": "Sortie",
         "OutputsValue": "Description",
-        "Tags": "Tags",
         "Variables": "Variables",
         "VariablesKey": "Nom",
         "VariablesValue": "Valeur",
