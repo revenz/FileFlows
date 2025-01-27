@@ -288,6 +288,35 @@
         "GeneralDescription": "Maak een stroom om audio naar video te converteren."
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "Zelfde als bron"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "Verwijder lege pagina's",
+        "DeleteNonPageImages-Help": "Verwijder lege pagina's uit het nieuwe stripboekbestand.",
+        "EnsureTopDirectory": "Zorg voor bovenste map",
+        "EnsureTopDirectory-Help": "Zorgt ervoor dat alle bestanden zich direct in de bovenste map van het stripboekbestand bevinden, zonder submappen.",
+        "Format": "Afbeeldingsformaat",
+        "Format-Help": "Het afbeeldingsformaat om elke pagina op te slaan.",
+        "Name": "Naam",
+        "Name-Help": "De naam van de flow. Dit moet uniek zijn.",
+        "Quality": "Kwaliteit",
+        "Quality-Help": "Kwaliteit van de stripboekpagina's, 1 voor meeste compressie/slechtste kwaliteit, 100 voor beste kwaliteit."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "Sla de strip op als een CBZ (zip) archiefbestand.",
+        "Pdf": "PDF",
+        "PdfDescription": "Sla de strip op als een PDF-bestand."
+      },
+      "Pages": {
+        "Format": "Formaat",
+        "FormatDescription": "Kies het formaat om de strips op te slaan.",
+        "General": "Algemeen",
+        "GeneralDescription": "Maak een nieuwe flow om strips te verwerken."
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "Opruimen Origineel",

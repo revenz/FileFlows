@@ -288,6 +288,35 @@
         "GeneralDescription": "Erstellen Sie einen Flow, um Audio in Video umzuwandeln."
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "Gleich wie Quelle"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "Leere Seiten löschen",
+        "DeleteNonPageImages-Help": "Leere Seiten aus der neuen Comic-Datei entfernen.",
+        "EnsureTopDirectory": "Oberstes Verzeichnis sicherstellen",
+        "EnsureTopDirectory-Help": "Stellt sicher, dass alle Dateien direkt im obersten Verzeichnis der Comic-Datei gespeichert sind, ohne Unterverzeichnisse.",
+        "Format": "Bildformat",
+        "Format-Help": "Das Bildformat, in dem jede Seite gespeichert werden soll.",
+        "Name": "Name",
+        "Name-Help": "Der Name des Flows. Dieser muss eindeutig sein.",
+        "Quality": "Qualität",
+        "Quality-Help": "Qualität der Comic-Seiten, 1 für höchste Kompression/schlechteste Qualität, 100 für beste Qualität."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "Speichern Sie den Comic im CBZ (Zip-Archiv)-Format.",
+        "Pdf": "PDF",
+        "PdfDescription": "Speichern Sie den Comic in einer PDF-Datei."
+      },
+      "Pages": {
+        "Format": "Format",
+        "FormatDescription": "Wählen Sie das Format, in dem der Comic gespeichert werden soll.",
+        "General": "Allgemein",
+        "GeneralDescription": "Einen neuen Flow zur Verarbeitung von Comics erstellen."
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "Original bereinigen",

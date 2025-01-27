@@ -288,6 +288,35 @@
         "GeneralDescription": "オーディオをビデオに変換するフローを作成します。"
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "ソースと同じ"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "空白ページを削除",
+        "DeleteNonPageImages-Help": "新しいコミックファイルから空白ページを削除します。",
+        "EnsureTopDirectory": "トップディレクトリを確保",
+        "EnsureTopDirectory-Help": "すべてのファイルがサブディレクトリなしでコミックファイルのトップディレクトリ内に直接配置されていることを保証します。",
+        "Format": "画像フォーマット",
+        "Format-Help": "各ページを保存する画像フォーマット。",
+        "Name": "名前",
+        "Name-Help": "フローの名前です。一意である必要があります。",
+        "Quality": "品質",
+        "Quality-Help": "コミックページの品質。1は最も圧縮される/最悪の品質、100は最高の品質。"
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "コミックをCBZ（ZIPアーカイブフォーマット）として保存します。",
+        "Pdf": "PDF",
+        "PdfDescription": "コミックをPDFファイルとして保存します。"
+      },
+      "Pages": {
+        "Format": "フォーマット",
+        "FormatDescription": "コミックを保存するフォーマットを選択します。",
+        "General": "一般",
+        "GeneralDescription": "コミックを処理する新しいフローを作成します。"
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "元を削除",

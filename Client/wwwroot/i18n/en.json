@@ -288,6 +288,35 @@
         "GeneralDescription": "Create a flow to convert audio into video."
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "Same as source"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "Delete Empty Pages",
+        "DeleteNonPageImages-Help": "Remove empty pages from the new comic file.",
+        "EnsureTopDirectory": "Ensure Top Directory",
+        "EnsureTopDirectory-Help": "Ensure all files are directly in the top directory of the comic book file, without subdirectories.",
+        "Format": "Image Format",
+        "Format-Help": "The image format to save each page as.",
+        "Name": "Name",
+        "Name-Help": "The name of the flow. This must be unique.",
+        "Quality": "Quality",
+        "Quality-Help": "Quality of the comic book pages, 1 for most compression/worst quality, 100 for best quality."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "Save the comic as a CBZ (zip) archive format.",
+        "Pdf": "PDF",
+        "PdfDescription": "Save the comic to a PDF file."
+      },
+      "Pages": {
+        "Format": "Format",
+        "FormatDescription": "Select the format to save the comic book.",
+        "General": "General",
+        "GeneralDescription": "Create a new flow to process comics."
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "Clean Up Original",

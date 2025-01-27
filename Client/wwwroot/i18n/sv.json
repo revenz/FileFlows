@@ -288,6 +288,35 @@
         "GeneralDescription": "Skapa ett flöde för att konvertera ljud till video."
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "Igual à fonte"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "Excluir páginas vazias",
+        "DeleteNonPageImages-Help": "Excluir as páginas vazias do novo arquivo de quadrinhos.",
+        "EnsureTopDirectory": "Garantir diretório principal",
+        "EnsureTopDirectory-Help": "Garante que todos os arquivos estejam diretamente no diretório principal do arquivo do quadrinho, sem subdiretórios.",
+        "Format": "Formato da imagem",
+        "Format-Help": "O formato da imagem para salvar cada página.",
+        "Name": "Nome",
+        "Name-Help": "O nome do fluxo. Este deve ser único.",
+        "Quality": "Qualidade",
+        "Quality-Help": "Qualidade das páginas do quadrinho, 1 para maior compressão/pior qualidade, 100 para melhor qualidade."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "Salvar o quadrinho no formato CBZ (arquivo zip).",
+        "Pdf": "PDF",
+        "PdfDescription": "Salvar o quadrinho em um arquivo PDF."
+      },
+      "Pages": {
+        "Format": "Formato",
+        "FormatDescription": "Escolha o formato para salvar os quadrinhos.",
+        "General": "Geral",
+        "GeneralDescription": "Criar um novo fluxo para processar quadrinhos."
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "Rensa original",

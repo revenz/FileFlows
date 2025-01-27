@@ -117,7 +117,7 @@ public partial class NewFlowWizard : IModal
                 close = await CreateImage();
                 break;
             case 4: // Book
-                CreateBook();
+                close = await CreateBook();
                 break;
         }
         if(close)
@@ -250,15 +250,25 @@ public partial class NewFlowWizard : IModal
     /// <summary>
     /// Creates a video flow
     /// </summary>
-    private void CreateBook()
+    /// <returns>if the dialog should be closed</returns>
+    private async Task<bool>  CreateBook()
     {
         switch (FlowBook)
         {
             case 0: // eBook
-                return;
+                return true;
             case 1: // Comic Book
-                return;
+            {
+                var result = await ModalService.ShowModal<NewComicFlowWizard, Flow>(new NewComicFlowWizardOptions());
+                if (result.Success(out var newFlow))
+                {
+                    NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
+                    return true;
+                }
+            }
+                return false;
         }
+        return false;
     }
 
     /// <summary>

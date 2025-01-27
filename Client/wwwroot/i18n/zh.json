@@ -288,6 +288,35 @@
         "GeneralDescription": "创建一个流程以将音频转换为视频。"
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "与源相同"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "删除空白页面",
+        "DeleteNonPageImages-Help": "从新漫画文件中删除空白页面。",
+        "EnsureTopDirectory": "确保顶级目录",
+        "EnsureTopDirectory-Help": "确保所有文件都直接位于漫画文件的顶级目录中，没有子目录。",
+        "Format": "图片格式",
+        "Format-Help": "保存每一页的图片格式。",
+        "Name": "名称",
+        "Name-Help": "流程的名称。必须唯一。",
+        "Quality": "质量",
+        "Quality-Help": "漫画页面的质量，1为最高压缩/最差质量，100为最佳质量。"
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "将漫画保存为CBZ（zip格式）文件。",
+        "Pdf": "PDF",
+        "PdfDescription": "将漫画保存为PDF文件。"
+      },
+      "Pages": {
+        "Format": "格式",
+        "FormatDescription": "选择保存漫画的格式。",
+        "General": "常规",
+        "GeneralDescription": "创建一个新的流程来处理漫画。"
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "清理原文件",

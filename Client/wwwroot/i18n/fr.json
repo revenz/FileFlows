@@ -288,6 +288,35 @@
         "GeneralDescription": "Créez un flux pour convertir de l'audio en vidéo."
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "Identique à la source"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "Supprimer les pages vides",
+        "DeleteNonPageImages-Help": "Supprimer les pages vides du nouveau fichier de comic.",
+        "EnsureTopDirectory": "Assurer le répertoire principal",
+        "EnsureTopDirectory-Help": "S'assure que tous les fichiers sont directement dans le répertoire principal du fichier de comic, sans sous-répertoires.",
+        "Format": "Format d'image",
+        "Format-Help": "Le format d'image pour enregistrer chaque page.",
+        "Name": "Nom",
+        "Name-Help": "Le nom du flux. Il doit être unique.",
+        "Quality": "Qualité",
+        "Quality-Help": "Qualité des pages du comic, 1 pour la plus grande compression/la moins bonne qualité, 100 pour la meilleure qualité."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "Enregistrez le comic au format CBZ (archive zip).",
+        "Pdf": "PDF",
+        "PdfDescription": "Enregistrez le comic dans un fichier PDF."
+      },
+      "Pages": {
+        "Format": "Format",
+        "FormatDescription": "Choisissez le format pour enregistrer le comic.",
+        "General": "Général",
+        "GeneralDescription": "Créer un nouveau flux pour traiter les comics."
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "Nettoyer l'original",

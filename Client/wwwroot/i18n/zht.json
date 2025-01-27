@@ -288,6 +288,35 @@
         "GeneralDescription": "建立一個流程來將音訊轉換為視訊。"
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "與來源相同"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "刪除空白頁面",
+        "DeleteNonPageImages-Help": "從新漫畫文件中刪除空白頁面。",
+        "EnsureTopDirectory": "確保頂級目錄",
+        "EnsureTopDirectory-Help": "確保所有檔案直接位於漫畫文件的頂級目錄中，沒有子目錄。",
+        "Format": "圖片格式",
+        "Format-Help": "儲存每頁的圖片格式。",
+        "Name": "名稱",
+        "Name-Help": "流程的名稱。必須唯一。",
+        "Quality": "品質",
+        "Quality-Help": "漫畫頁面的品質，1為最高壓縮/最差品質，100為最佳品質。"
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "將漫畫儲存為CBZ（zip格式）檔案。",
+        "Pdf": "PDF",
+        "PdfDescription": "將漫畫儲存為PDF檔案。"
+      },
+      "Pages": {
+        "Format": "格式",
+        "FormatDescription": "選擇保存漫畫的格式。",
+        "General": "一般",
+        "GeneralDescription": "創建一個新的流程來處理漫畫。"
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "清理原始檔案",

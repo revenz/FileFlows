@@ -192,6 +192,10 @@ public class FlowElementUids
     /// Gets the UID for a ImageResizer flow element
     /// </summary>
     public static string ImageResizer => "FileFlows.ImageNodes.Images.ImageResizer";
+    /// <summary>
+    /// Gets the UID for a ComicConverter flow element
+    /// </summary>
+    public static string ComicConverter => "FileFlows.ComicNodes.Comics.ComicConverter";
     
     /// <summary>
     /// Gets the UID for a video file flow element

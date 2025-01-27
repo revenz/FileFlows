@@ -288,6 +288,35 @@
         "GeneralDescription": "Crea un flusso per convertire audio in video."
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "Uguale alla sorgente"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "Elimina pagine vuote",
+        "DeleteNonPageImages-Help": "Rimuove le pagine vuote dal nuovo file del fumetto.",
+        "EnsureTopDirectory": "Assicurare la directory principale",
+        "EnsureTopDirectory-Help": "Assicura che tutti i file siano direttamente nella directory principale del file del fumetto, senza sottodirectory.",
+        "Format": "Formato immagine",
+        "Format-Help": "Il formato immagine in cui salvare ogni pagina.",
+        "Name": "Nome",
+        "Name-Help": "Il nome del flusso. Deve essere univoco.",
+        "Quality": "Qualità",
+        "Quality-Help": "Qualità delle pagine del fumetto, 1 per massima compressione/peggiore qualità, 100 per migliore qualità."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "Salva il fumetto nel formato CBZ (archivio zip).",
+        "Pdf": "PDF",
+        "PdfDescription": "Salva il fumetto in un file PDF."
+      },
+      "Pages": {
+        "Format": "Formato",
+        "FormatDescription": "Seleziona il formato per salvare il fumetto.",
+        "General": "Generale",
+        "GeneralDescription": "Crea un nuovo flusso per elaborare i fumetti."
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "Pulisci Originale",

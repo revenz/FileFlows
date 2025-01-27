@@ -288,6 +288,35 @@
         "GeneralDescription": "오디오를 비디오로 변환하는 플로우를 생성합니다."
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "원본과 동일"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "빈 페이지 삭제",
+        "DeleteNonPageImages-Help": "새 만화 파일에서 빈 페이지를 제거합니다.",
+        "EnsureTopDirectory": "최상위 디렉토리 보장",
+        "EnsureTopDirectory-Help": "모든 파일이 만화 파일의 최상위 디렉토리에 직접 위치하도록 보장하며 하위 디렉토리가 없습니다.",
+        "Format": "이미지 형식",
+        "Format-Help": "각 페이지를 저장할 이미지 형식입니다.",
+        "Name": "이름",
+        "Name-Help": "플로우의 이름입니다. 고유해야 합니다.",
+        "Quality": "품질",
+        "Quality-Help": "만화 페이지의 품질. 1은 최대 압축/최저 품질, 100은 최고 품질입니다."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "만화를 CBZ (ZIP 압축 형식)로 저장합니다.",
+        "Pdf": "PDF",
+        "PdfDescription": "만화를 PDF 파일로 저장합니다."
+      },
+      "Pages": {
+        "Format": "형식",
+        "FormatDescription": "만화를 저장할 형식을 선택하세요.",
+        "General": "일반",
+        "GeneralDescription": "만화를 처리할 새로운 플로우를 생성합니다."
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "원본 정리",

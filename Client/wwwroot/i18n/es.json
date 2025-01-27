@@ -288,6 +288,35 @@
         "GeneralDescription": "Crea un flujo para convertir audio a video."
       }
     },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "Igual que la fuente"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "Eliminar páginas vacías",
+        "DeleteNonPageImages-Help": "Eliminar las páginas vacías del nuevo archivo de cómic.",
+        "EnsureTopDirectory": "Asegurar directorio principal",
+        "EnsureTopDirectory-Help": "Asegura que todos los archivos estén directamente en el directorio principal del archivo del cómic, sin subdirectorios.",
+        "Format": "Formato de imagen",
+        "Format-Help": "El formato de imagen en el que se guardará cada página.",
+        "Name": "Nombre",
+        "Name-Help": "El nombre del flujo. Debe ser único.",
+        "Quality": "Calidad",
+        "Quality-Help": "Calidad de las páginas del cómic, 1 para mayor compresión/peor calidad, 100 para mejor calidad."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "Guarda el cómic como un archivo CBZ (formato de archivo zip).",
+        "Pdf": "PDF",
+        "PdfDescription": "Guarda el cómic como un archivo PDF."
+      },
+      "Pages": {
+        "Format": "Formato",
+        "FormatDescription": "Selecciona el formato para guardar el cómic.",
+        "General": "General",
+        "GeneralDescription": "Crear un nuevo flujo para procesar cómics."
+      }
+    },
     "NewFlowCommon": {
       "Fields": {
         "DeleteOld": "Limpiar original",
