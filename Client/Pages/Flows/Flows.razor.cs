@@ -47,15 +47,13 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         => typeof(ffFlow).FullName;
 
 
+    /// <summary>
+    /// Adds a new flow
+    /// </summary>
     private void Add()
     {
-        #if(DEBUG)
-        
+        //NavigationManager.NavigateTo("flows/" + Guid.Empty);
         _ = ModalService.ShowModal<NewFlowWizard, Flow>(new NewVideoFlowWizardOptions());
-        return;
-        #else
-        NavigationManager.NavigateTo("flows/" + Guid.Empty);
-        #endif
     }
 
     public override async Task<bool> Edit(FlowListModel item)
