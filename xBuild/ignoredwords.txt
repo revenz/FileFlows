@@ -225,3 +225,4 @@ mpeg
 subfolders
 Downmixing
 upmixing
+Lossy
