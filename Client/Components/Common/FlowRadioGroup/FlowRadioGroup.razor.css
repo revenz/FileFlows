@@ -1,7 +1,8 @@
 ul.ul-radio-list {
   list-style: none;
   padding: 0;
-  --border-radius:0.75rem; }
+  --border-radius:0.75rem;
+  user-select: none; }
   ul.ul-radio-list li {
     display: grid;
     grid-template-columns: 5rem 1fr;

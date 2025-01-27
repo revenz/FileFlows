@@ -204,7 +204,7 @@ public partial class FlowWizard : ComponentBase
     /// <summary>
     /// Completes the wizard
     /// </summary>
-    private void Finish()
+    public void Finish()
         => OnFinish.InvokeAsync();
     
     /// <summary>

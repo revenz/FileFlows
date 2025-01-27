@@ -6,7 +6,8 @@
     {
         bool selected = item.Value.Equals(Value);
         
-        <li @onclick="() => Select(item.Value)" class="clickable-radio @(selected ? "active" : "")">
+        <li @onclick="() => Select(item.Value)" class="clickable-radio @(selected ? "active" : "")"
+            @ondblclick="() => DblClick(item.Value)">
             <i class="@item.Icon"></i>
             <div class="info">
                 <span>@item.Title</span>

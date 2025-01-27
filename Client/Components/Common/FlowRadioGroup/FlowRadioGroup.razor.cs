@@ -30,6 +30,11 @@ public partial class FlowRadioGroup<TItem> : ComponentBase
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
     
+    /// <summary>
+    /// Gets or sets the wizard contaning this
+    /// </summary>
+    [CascadingParameter] public FlowWizard FlowWizard { get; set; }
+    
 
     /// <summary>
     /// Represents a collection of tabs.
@@ -56,5 +61,17 @@ public partial class FlowRadioGroup<TItem> : ComponentBase
     {
         Value = itemValue;
         ValueChanged.InvokeAsync(itemValue);
+    }
+
+    /// <summary>
+    /// Dbl Click a new value
+    /// </summary>
+    /// <param name="itemValue">the item value</param>
+    private void DblClick(TItem itemValue)
+    {
+        Value = itemValue;
+        ValueChanged.InvokeAsync(itemValue);
+        if(FlowWizard is { NonWizard: true })
+            FlowWizard.Finish();
     }
 }

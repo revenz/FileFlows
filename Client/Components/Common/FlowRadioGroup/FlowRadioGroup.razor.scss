@@ -2,6 +2,7 @@ ul.ul-radio-list{
   list-style: none;
   padding: 0;
   --border-radius:0.75rem;
+  user-select: none;
 
   li {
     display: grid;
