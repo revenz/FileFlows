@@ -8,7 +8,9 @@
         
         <li @onclick="() => Select(item.Value)" class="clickable-radio @(selected ? "active" : "")"
             @ondblclick="() => DblClick(item.Value)">
-            <i class="@item.Icon"></i>
+            <span class="icon">
+                <TableItemIcon Icon="@item.Icon" Unwrapped="true"/>
+            </span>
             <div class="info">
                 <span>@item.RenderTitle</span>
                 <p>@item.RenderDescription</p>

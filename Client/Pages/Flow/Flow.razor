@@ -42,7 +42,7 @@
                 <FlowTab Icon="fas fa-cogs" Title="@lblProperties" Visible="ActiveFlow?.Flow?.Type != FlowType.Failure">
                     <FlowPropertiesEditor @ref="PropertiesEditor" FlowEditor="@ActiveFlow" Mode="General" />
                 </FlowTab>
-                <FlowTab @ref="@tabFields" Icon="fas fa-sliders-h" Title="@lblFields" Visible="ActiveFlow?.Flow?.Type != FlowType.Failure">
+                <FlowTab @ref="@tabFields" Icon="fas fa-sliders-h" Title="@lblFields" Visible="ActiveFlow?.Flow?.Type == FlowType.SubFlow">
                     <FlowPropertiesEditor @ref="PropertiesEditor" FlowEditor="@ActiveFlow" Mode="Fields" />
                 </FlowTab>
             </FlowTabs>

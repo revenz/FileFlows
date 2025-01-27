@@ -407,7 +407,9 @@
         "Image": "Image",
         "ImageDescription": "Create a flow to process image files.",
         "Video": "Video",
-        "VideoDescription": "Create a flow to process video files."
+        "VideoDescription": "Create a flow to process video files.",
+        "Users": "Users",
+        "UsersDescription": "Open an existing flow"
       }
     },
     "NewImageFlowWizard": {
@@ -1122,15 +1124,12 @@
         "SubFlowHelp": "To add input fields to a sub flow so you can pass in custom parameters to this sub flow, create these on the `Fields` tab.\n\nA sub flow must have a single `Input` which can be any valid input flow elements, e.g. `Input File`, `Video File` etc."
       },
       "Fields": {
-        "Author": "Author",
-        "Author-Help": "Optionally specify the author of this flow.",
-        "Description": "Description.",
-        "MinimumVersion": "Minimum Version",
+        "Description": "Description",
+        "Icon": "Icon",
         "Outputs": "Outputs",
         "Outputs-Help": "The number of outputs this sub flow has.  This is the number of outputs that will be available when using this sub flow in another flow",
         "OutputsKey": "Output",
         "OutputsValue": "Description",
-        "Tags": "Tags",
         "Variables": "Variables",
         "VariablesKey": "Name",
         "VariablesValue": "Value",

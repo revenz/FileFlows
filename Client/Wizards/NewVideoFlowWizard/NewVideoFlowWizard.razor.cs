@@ -232,7 +232,6 @@ public partial class NewVideoFlowWizard : IModal
         lblPageTypeDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.TypeDescription"); 
         lblGeneral = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.General");
         lblGeneralDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.GeneralDescription");
-        Description = lblGeneralDescription;
         lblPageVideo = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Video");
         lblPageVideoDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.VideoDescription");
         lblPageAudio = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio");

@@ -3,45 +3,46 @@ ul.ul-radio-list {
   padding: 0;
   --border-radius:0.75rem;
   user-select: none; }
-  ul.ul-radio-list li {
-    display: grid;
-    grid-template-columns: 5rem 1fr;
-    align-items: center;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    border-radius: var(--border-radius);
-    padding: 0.5rem 0.5rem 0.5rem 0;
-    border: solid 1px transparent;
-    border-left-width: var(--border-radius); }
-    ul.ul-radio-list li + li {
-      margin-top: 1rem; }
-    ul.ul-radio-list li .info {
-      display: flex;
-      flex-direction: column; }
-    ul.ul-radio-list li i, ul.ul-radio-list li img {
-      width: 5rem;
-      min-width: 5rem;
-      text-align: center; }
-    ul.ul-radio-list li i {
-      font-size: 2.5rem; }
-    ul.ul-radio-list li img {
-      width: 3rem;
-      max-height: 3rem; }
-    ul.ul-radio-list li span {
-      font-weight: bold; }
-    ul.ul-radio-list li p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: gray; }
-    ul.ul-radio-list li.clickable-radio:hover {
-      background-color: var(--base); }
-    ul.ul-radio-list li .options {
-      display: none; }
-    ul.ul-radio-list li.active {
-      border-color: var(--accent); }
-      ul.ul-radio-list li.active .options {
-        display: unset;
-        margin: 1.5rem 0 1rem 0;
-        grid-column: 2 / 3; }
+
+li {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  border: solid 1px transparent;
+  border-left-width: var(--border-radius); }
+  li + li {
+    margin-top: 1rem; }
+  li .info {
+    display: flex;
+    flex-direction: column; }
+  li .icon ::deep i, li .icon ::deep img {
+    width: 5rem;
+    min-width: 5rem;
+    text-align: center; }
+  li .icon ::deep i {
+    font-size: 2.5rem; }
+  li .icon ::deep img {
+    width: 3rem;
+    max-height: 3rem; }
+  li span {
+    font-weight: bold; }
+  li p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: gray; }
+  li.clickable-radio:hover {
+    background-color: var(--base); }
+  li .options {
+    display: none; }
+  li.active {
+    border-color: var(--accent); }
+    li.active .options {
+      display: unset;
+      margin: 1.5rem 0 1rem 0;
+      grid-column: 2 / 3; }
 
 /*# sourceMappingURL=FlowRadioGroup.razor.css.map */

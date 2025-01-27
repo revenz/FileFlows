@@ -48,53 +48,43 @@
             </ToolBar>
 
             <Columns>
-                <FlowTableColumn TItem="FlowListModel">
+                <FlowTableColumn TItem="FlowListModel"  NoHeight="true">
                     <Header>
                         @Globals.lblName
                     </Header>
                     <Cell Context="item">
-                        <span class="name-actual">@item.Name</span>
+                        <div class="table-item">
+                            <span class="icon">
+                                <TableItemIcon Icon="@item.Icon" DefaultIcon="fas fa-sitemap" />
+                            </span>
+                            <div class="center">
+                                <span class="name">
+                                    <span class="name-actual">@item.Name</span>
+                                @if (string.IsNullOrWhiteSpace(item.Description) == false)
+                                {
+                                    <span class="description"><span>@item.Description</span></span>
+                                }
+                                </span>
+                            </div>
+                        </div>
                     </Cell>
                 </FlowTableColumn>
-                <FlowTableColumn TItem="FlowListModel" Hidden="@(SelectedType != FlowType.Failure)" Width="10rem">
+                <FlowTableColumn TItem="FlowListModel" Width="10rem"  NoHeight="true">
                     <Header>
-                        @lblDefault
-                    </Header>
-                    <Cell Context="item">
-                        <span>
-                            @if (item.Default)
-                            {
-                                <i class="fas fa-check"></i>
-                            }
+                        <span class="in-use">
+                            @lblInUse
                         </span>
-                    </Cell>
-                </FlowTableColumn>
-                
-                <FlowTableColumn TItem="FlowListModel" Hidden="@(SelectedType != FlowType.SubFlow)" Width="10rem">
-                    <Header>
-                        @lblReadOnly
-                    </Header>
-                    <Cell Context="item">
-                        <span>
-                            @if (item.ReadOnly)
-                            {
-                                <i class="fas fa-check"></i>
-                            }
-                        </span>
-                    </Cell>
-                </FlowTableColumn>
-                
-                <FlowTableColumn TItem="FlowListModel" Width="10rem">
-                    <Header>
-                        @lblInUse
                     </Header>
                     <Cell Context="item">
                         @if (item.UsedBy?.Any() == true)
                         {
-                            <i class="fas fa-check"></i>
+                            <div class="in-use">
+                                <i class="fas fa-check"></i>
+                            </div>
                         }
                     </Cell>
                 </FlowTableColumn>
+               
             </Columns>
         </FlowTable>
 
