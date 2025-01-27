@@ -64,7 +64,9 @@ public class FlowController : BaseController
                 Name = item.Name,
                 Type = item.Type,
                 Uid = item.Uid,
-                ReadOnly = item.ReadOnly
+                ReadOnly = item.ReadOnly,
+                Icon = item.Icon,
+                Description = item.Description
             });
         }
         var dictFlows  = list.ToDictionary(x => x.Uid, x => x);
@@ -194,12 +196,13 @@ public class FlowController : BaseController
             Uid = flow.Type == FlowType.SubFlow ? (object)flow.Uid : null,
             flow.Type,
             Revision = Math.Max(1, flow.Revision),
+            flow.Description,
+            flow.Icon,
             Properties = new
             {
-                flow.Properties.Description,
-                flow.Properties.Tags,
-                Author = flow.Properties.Author?.EmptyAsNull(),
-                MinimumVersion = flow.Properties.MinimumVersion?.EmptyAsNull(),
+                // flow.Properties.Tags,
+                // Author = flow.Properties.Author?.EmptyAsNull(),
+                // MinimumVersion = flow.Properties.MinimumVersion?.EmptyAsNull(),
                 flow.Properties.Fields,
                 flow.Properties.Variables,
                 flow.Properties.Outputs
@@ -699,7 +702,7 @@ public class FlowController : BaseController
         ele.Inputs = 1;
         ele.Outputs = flow.Properties.Outputs?.Count ?? 0;
         ele.OutputLabels = flow.Properties.Outputs?.Select(x => x.Value)?.ToList() ?? new ();
-        ele.Description = flow.Properties.Description;
+        ele.Description = flow.Description;
         ele.NoEditorOnAdd = flow.Properties?.Fields?.Any() != true;
         IDictionary<string, object> model = new ExpandoObject()!;
         model.Add("Output", 1);

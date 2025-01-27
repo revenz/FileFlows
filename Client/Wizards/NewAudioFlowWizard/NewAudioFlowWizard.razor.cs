@@ -1,17 +1,17 @@
+using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
-using FileFlows.Plugin.Types;
 using Microsoft.AspNetCore.Components;
 
-namespace FileFlows.Client.Components.Dialogs.Wizards;
+namespace FileFlows.Client.Wizards;
 
 /// <summary>
-/// New Comic Flow wizard
+/// New Audio Flow wizard
 /// </summary>
-public partial class NewComicFlowWizard : IModal
+public partial class NewAudioFlowWizard : IModal
 {
     private Editor _Editor;
-    
+
     /// <summary>
     /// Gets or sets the editor
     /// </summary>
@@ -57,7 +57,7 @@ public partial class NewComicFlowWizard : IModal
         TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
     }
 
-    private List<string> Image1Languages = [], Image2Languages = [], SubtitleLanguages = [], ImageMode1Languages = [];
+    private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
     
     /// <summary>
     /// The new flow name
@@ -67,14 +67,14 @@ public partial class NewComicFlowWizard : IModal
     /// <summary>
     /// Flow properties
     /// </summary>
-    private string OutputPath, Format = "";
-    private int Quality = 70;
-    private bool Cbz = true, EnsureTopDirectory, DeleteNonPageImages, ReplaceOriginal = true, DeleteOld;
+    private string Codec = "aac", OutputPath, Description = string.Empty;
+    private int Bitrate = 192;
+    private bool ReplaceOriginal = true, DeleteOld, Normalize;
 
     /// <summary>
     /// The input options
     /// </summary>
-    private List<ListOption> ImageFormats = [];
+    private List<ListOption> AudioCodecs = [], AudioBitrates = [];
     
     /// <summary>
     /// Gets or sets the flow wizard
@@ -86,15 +86,27 @@ public partial class NewComicFlowWizard : IModal
     private bool IsWindows;
     
     /// <summary>
-    /// Gets or sets bound Format
+    /// Gets or sets bound codec
     /// </summary>
-    private object BoundFormat
+    private object BoundCodec
     {
-        get => Format;
+        get => Codec;
         set
         {
             if (value is string codec)
-                Format = codec;
+                Codec = codec;
+        }
+    }
+    /// <summary>
+    /// Gets or sets bound bitrate
+    /// </summary>
+    private object BoundBitrate
+    {
+        get => Bitrate;
+        set
+        {
+            if (value is int bitrate)
+                Bitrate = bitrate;
         }
     }
     
@@ -104,12 +116,20 @@ public partial class NewComicFlowWizard : IModal
         var profile = await ProfileService.Get(); 
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
 
-        ImageFormats =
+        AudioCodecs =
         [
-            new () { Value = "", Label = Translater.Instant("Dialogs.NewComicFlowWizard.Labels.SameAsSource") },
-            new () { Value = "WebP", Label = "WebP" },
-            new () { Value = "JPEG", Label = "JPEG" },
+            new() { Label = "AAC", Value = "aac" },
+            new() { Label = "MP3", Value = "MP3" },
+            new () { Label = "OGG (Vorbis)", Value = "ogg"},
+            new () { Label = "OGG (Opus)", Value = "libopus"},
+            new() { Label = "WAV", Value = "wav" }
         ];
+
+        AudioBitrates = Enumerable.Range(0, 9).Select(x => new ListOption()
+        {
+            Label = (x * 32 + 64) + " KBps",
+            Value = (x * 32 + 64)
+        }).ToList();
 
         initDone = true;
         StateHasChanged();
@@ -130,14 +150,18 @@ public partial class NewComicFlowWizard : IModal
             var builder = new FlowBuilder(FlowName);
             builder.Add(new FlowPart()
             {
-                FlowElementUid = FlowElementUids.ImageFile,
+                FlowElementUid = FlowElementUids.AudioFile,
                 Outputs = 1
             });
 
-            FlowFormat(builder);
+            FlowAudio(builder);
             FlowAddOutput(builder);
             
-            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", builder.Flow);
+            var flow = builder.Flow;
+            flow.Description = Description;
+            flow.Icon = "fas fa-headphones";
+            
+            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
@@ -194,23 +218,23 @@ public partial class NewComicFlowWizard : IModal
     }
     
     /// <summary>
-    /// Adds the image flow parts to the flow
+    /// Adds the audio flow parts to the flow
     /// </summary>
     /// <param name="builder">the flow builder</param>
-    private void FlowFormat(FlowBuilder builder)
+    private void FlowAudio(FlowBuilder builder)
     {
         builder.AddAndConnect(new FlowPart()
         {
-            FlowElementUid = FlowElementUids.ComicConverter,
+            FlowElementUid = FlowElementUids.Audio_ConvertAudio,
             Outputs = 2,
             Type = FlowElementType.Process,
             Model = ExpandoHelper.ToExpandoObject(new
             {
-                EnsureTopDirectory,
-                DeleteNonPageImages,
-                Format = Cbz ? "CBZ" : "PDF",
-                Quality = Cbz && string.IsNullOrWhiteSpace(Format) == false ? Quality : 100,
-                Codec = Cbz ? Format ?? string.Empty : string.Empty
+                Codec,
+                SampleRate = 0,
+                Channels = 0,
+                Bitrate,
+                Normalize
             })
         });
     }
@@ -256,7 +280,7 @@ public partial class NewComicFlowWizard : IModal
                     Model = ExpandoHelper.ToExpandoObject(new
                     {
                         IfEmpty = true,
-                        IncludePatterns = new[] { "*.jpeg", "*.jpe", "*.jpg", "*.png", "*.bmp", "*.gif", "*.heic", "*.tiff", "*.psd" }
+                        IncludePatterns = new[] { "*.mp3", "*.ogg", "*.flac", "*.m4a", "*.wav", "*.ac3", "*.wma" }
                     })
                 });
             }
@@ -265,8 +289,8 @@ public partial class NewComicFlowWizard : IModal
 }
 
 /// <summary>
-/// The New Image Flow Wizard Options
+/// The New Audio Flow Wizard Options
 /// </summary>
-public class NewComicFlowWizardOptions : IModalOptions
+public class NewAudioFlowWizardOptions : IModalOptions
 {
 }

@@ -1,6 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
-using FileFlows.Client.Components.Dialogs.Wizards;
+using FileFlows.Client.Wizards;
 using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
 

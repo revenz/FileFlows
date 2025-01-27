@@ -46,6 +46,16 @@ public class Flow : FileFlowObject
     /// Gets or sets if this is the default failure flow
     /// </summary>
     public bool Default { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the description of the flow
+    /// </summary>
+    public string Description { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the Icon of the flow
+    /// </summary>
+    public string Icon { get; set; }
 
     /// <summary>
     /// Private instance of the FlowProperties, this ensures it is never null

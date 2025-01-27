@@ -1,26 +1,18 @@
+using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
 using FileFlows.Plugin.Types;
 using Microsoft.AspNetCore.Components;
 
-namespace FileFlows.Client.Components.Dialogs.Wizards;
+namespace FileFlows.Client.Wizards;
 
 /// <summary>
-/// New Image Flow wizard
+/// New Comic Flow wizard
 /// </summary>
-public partial class NewImageFlowWizard : IModal
+public partial class NewComicFlowWizard : IModal
 {
     private Editor _Editor;
     
-    internal const string IMAGE_FORMAT_BMP = "Bmp";
-    internal const string IMAGE_FORMAT_GIF = "Gif";
-    internal const string IMAGE_FORMAT_JPEG = "Jpeg";
-    internal const string IMAGE_FORMAT_PBM = "Pbm";
-    internal const string IMAGE_FORMAT_PNG = "Png";
-    internal const string IMAGE_FORMAT_TIFF = "Tiff";
-    internal const string IMAGE_FORMAT_TGA = "Tga";
-    internal const string IMAGE_FORMAT_WEBP = "WebP";
-
     /// <summary>
     /// Gets or sets the editor
     /// </summary>
@@ -76,10 +68,9 @@ public partial class NewImageFlowWizard : IModal
     /// <summary>
     /// Flow properties
     /// </summary>
-    private string Format = IMAGE_FORMAT_JPEG, OutputPath;
-    private int Quality = 70, ResizeMode = 1;
-    private bool Resize = false, ReplaceOriginal = true, DeleteOld;
-    public NumberPercent Width = new() { Value = 1920 }, Height = new() { Value = 1080 };
+    private string OutputPath, Format = "", Description = string.Empty;
+    private int Quality = 70;
+    private bool Cbz = true, EnsureTopDirectory, DeleteNonPageImages, ReplaceOriginal = true, DeleteOld;
 
     /// <summary>
     /// The input options
@@ -103,8 +94,8 @@ public partial class NewImageFlowWizard : IModal
         get => Format;
         set
         {
-            if (value is string v)
-                Format = v;
+            if (value is string codec)
+                Format = codec;
         }
     }
     
@@ -116,16 +107,9 @@ public partial class NewImageFlowWizard : IModal
 
         ImageFormats =
         [
-            new () { Value = "###GROUP###", Label = Translater.Instant("Dialogs.NewImageFlowWizard.Labels.LosslessFormats") },
-            new () { Value = IMAGE_FORMAT_PNG, Label = "PNG" },
-            new () { Value = IMAGE_FORMAT_BMP, Label = "Bitmap" },
-            new () { Value = IMAGE_FORMAT_TIFF, Label = "TIFF" },
-            new () { Value = IMAGE_FORMAT_TGA, Label = "TGA" },
-            new () { Value = IMAGE_FORMAT_WEBP, Label = "WebP" },
-            new () { Value = "###GROUP###", Label = Translater.Instant("Dialogs.NewImageFlowWizard.Labels.LossyFormats") },
-            new () { Value = IMAGE_FORMAT_JPEG, Label = "JPEG" },
-            new () { Value = IMAGE_FORMAT_GIF, Label = "GIF" },
-            new () { Value = IMAGE_FORMAT_PBM, Label = "PBM" },
+            new () { Value = "", Label = Translater.Instant("Dialogs.NewComicFlowWizard.Labels.SameAsSource") },
+            new () { Value = "WebP", Label = "WebP" },
+            new () { Value = "JPEG", Label = "JPEG" },
         ];
 
         initDone = true;
@@ -151,10 +135,14 @@ public partial class NewImageFlowWizard : IModal
                 Outputs = 1
             });
 
-            FlowImage(builder);
+            FlowFormat(builder);
             FlowAddOutput(builder);
             
-            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", builder.Flow);
+            var flow = builder.Flow;
+            flow.Description = Description;
+            flow.Icon = "fas fa-journal-whills";
+            
+            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
@@ -214,39 +202,22 @@ public partial class NewImageFlowWizard : IModal
     /// Adds the image flow parts to the flow
     /// </summary>
     /// <param name="builder">the flow builder</param>
-    private void FlowImage(FlowBuilder builder)
+    private void FlowFormat(FlowBuilder builder)
     {
-        if (Resize)
+        builder.AddAndConnect(new FlowPart()
         {
-            builder.AddAndConnect(new FlowPart()
+            FlowElementUid = FlowElementUids.ComicConverter,
+            Outputs = 2,
+            Type = FlowElementType.Process,
+            Model = ExpandoHelper.ToExpandoObject(new
             {
-                FlowElementUid = FlowElementUids.ImageResizer,
-                Outputs = 1,
-                Type = FlowElementType.Process,
-                Model = ExpandoHelper.ToExpandoObject(new
-                {
-                    Format,
-                    Quality = Format is IMAGE_FORMAT_WEBP or IMAGE_FORMAT_JPEG ? Quality : 100,
-                    Mode = ResizeMode,
-                    Width,
-                    Height
-                })
-            });
-        }
-        else
-        {
-            builder.AddAndConnect(new FlowPart()
-            {
-                FlowElementUid = FlowElementUids.ImageConvert,
-                Outputs = 2,
-                Type = FlowElementType.Process,
-                Model = ExpandoHelper.ToExpandoObject(new
-                {
-                    Format,
-                    Quality = Format is IMAGE_FORMAT_WEBP or IMAGE_FORMAT_JPEG ? Quality : 100
-                })
-            });
-        }
+                EnsureTopDirectory,
+                DeleteNonPageImages,
+                Format = Cbz ? "CBZ" : "PDF",
+                Quality = Cbz && string.IsNullOrWhiteSpace(Format) == false ? Quality : 100,
+                Codec = Cbz ? Format ?? string.Empty : string.Empty
+            })
+        });
     }
     
     /// <summary>
@@ -301,6 +272,6 @@ public partial class NewImageFlowWizard : IModal
 /// <summary>
 /// The New Image Flow Wizard Options
 /// </summary>
-public class NewImageFlowWizardOptions : IModalOptions
+public class NewComicFlowWizardOptions : IModalOptions
 {
 }

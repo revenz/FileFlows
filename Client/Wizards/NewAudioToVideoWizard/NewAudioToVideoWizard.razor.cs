@@ -1,13 +1,15 @@
+using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
+using FileFlows.Shared.Widgets;
 using Microsoft.AspNetCore.Components;
 
-namespace FileFlows.Client.Components.Dialogs.Wizards;
+namespace FileFlows.Client.Wizards;
 
 /// <summary>
-/// New Audio Flow wizard
+/// New Audio to Video Flow wizard
 /// </summary>
-public partial class NewAudioFlowWizard : IModal
+public partial class NewAudioToVideoWizard : IModal
 {
     private Editor _Editor;
 
@@ -66,14 +68,14 @@ public partial class NewAudioFlowWizard : IModal
     /// <summary>
     /// Flow properties
     /// </summary>
-    private string Codec = "aac", OutputPath;
-    private int Bitrate = 192;
-    private bool ReplaceOriginal = true, DeleteOld, Normalize;
+    private string Codec = "h265", Container = "MKV", Resolution = "640x480", OutputPath, Description = string.Empty;
+    private int Visualization = 1;
+    private bool ReplaceOriginal = true, DeleteOld;
 
     /// <summary>
     /// The input options
     /// </summary>
-    private List<ListOption> AudioCodecs = [], AudioBitrates = [];
+    private List<ListOption> VideoCodecs = [], VideoResolutions = [], VideoContainers = [], Visualizations = [];
     
     /// <summary>
     /// Gets or sets the flow wizard
@@ -97,15 +99,39 @@ public partial class NewAudioFlowWizard : IModal
         }
     }
     /// <summary>
-    /// Gets or sets bound bitrate
+    /// Gets or sets bound container
     /// </summary>
-    private object BoundBitrate
+    private object BoundContainer
     {
-        get => Bitrate;
+        get => Container;
         set
         {
-            if (value is int bitrate)
-                Bitrate = bitrate;
+            if (value is string v)
+                Container = v;
+        }
+    }
+    /// <summary>
+    /// Gets or sets bound Resolution
+    /// </summary>
+    private object BoundResolution
+    {
+        get => Resolution;
+        set
+        {
+            if (value is string v)
+                Resolution = v;
+        }
+    }
+    /// <summary>
+    /// Gets or sets bound Visualization
+    /// </summary>
+    private object BoundVisualization
+    {
+        get => Visualization;
+        set
+        {
+            if (value is int v)
+                Visualization = v;
         }
     }
     
@@ -115,20 +141,32 @@ public partial class NewAudioFlowWizard : IModal
         var profile = await ProfileService.Get(); 
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
 
-        AudioCodecs =
+        VideoCodecs =
         [
-            new() { Label = "AAC", Value = "aac" },
-            new() { Label = "MP3", Value = "MP3" },
-            new () { Label = "OGG (Vorbis)", Value = "ogg"},
-            new () { Label = "OGG (Opus)", Value = "libopus"},
-            new() { Label = "WAV", Value = "wav" }
+            new() { Label = "H264", Value = "h264" },
+            new() { Label = "HEVC", Value = "h265" },
+        ];
+        
+        VideoContainers =
+        [
+            new() { Label = "MKV", Value = "mkv" },
+            new() { Label = "MP4", Value = "mp4" }
         ];
 
-        AudioBitrates = Enumerable.Range(0, 9).Select(x => new ListOption()
-        {
-            Label = (x * 32 + 64) + " KBps",
-            Value = (x * 32 + 64)
-        }).ToList();
+        Visualizations =
+        [
+            new () { Label = "Waves", Value = 1} ,
+            new () { Label = "Audio Vector Scope", Value = 2} ,
+            new () { Label = "Spectrum", Value = 3} ,
+        ];
+        VideoResolutions =
+        [
+            new () { Label = "480P", Value = "640x480"} ,
+            new () { Label = "720P", Value = "1280x720"} ,
+            new () { Label = "1080P", Value = "1920x1080"} ,
+            new () { Label = "4K", Value = "3840x2160"} ,
+        ];
+
 
         initDone = true;
         StateHasChanged();
@@ -149,14 +187,18 @@ public partial class NewAudioFlowWizard : IModal
             var builder = new FlowBuilder(FlowName);
             builder.Add(new FlowPart()
             {
-                FlowElementUid = FlowElementUids.AudioFile,
+                FlowElementUid = FlowElementUids.InputFile,
                 Outputs = 1
             });
 
-            FlowAudio(builder);
+            FlowVideo(builder);
             FlowAddOutput(builder);
             
-            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", builder.Flow);
+            var flow = builder.Flow;
+            flow.Description = Description;
+            flow.Icon = "fas fa-headphones";
+            
+            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
@@ -216,20 +258,19 @@ public partial class NewAudioFlowWizard : IModal
     /// Adds the audio flow parts to the flow
     /// </summary>
     /// <param name="builder">the flow builder</param>
-    private void FlowAudio(FlowBuilder builder)
+    private void FlowVideo(FlowBuilder builder)
     {
         builder.AddAndConnect(new FlowPart()
         {
-            FlowElementUid = FlowElementUids.Audio_ConvertAudio,
+            FlowElementUid = FlowElementUids.AudioToVideo,
             Outputs = 2,
             Type = FlowElementType.Process,
             Model = ExpandoHelper.ToExpandoObject(new
             {
-                Codec,
-                SampleRate = 0,
-                Channels = 0,
-                Bitrate,
-                Normalize
+                Visualization,
+                Container,
+                Resolution,
+                Codec
             })
         });
     }
@@ -284,8 +325,8 @@ public partial class NewAudioFlowWizard : IModal
 }
 
 /// <summary>
-/// The New Audio Flow Wizard Options
+/// The New Audio to Video Flow Wizard Options
 /// </summary>
-public class NewAudioFlowWizardOptions : IModalOptions
+public class NewAudioToVideoWizardOptions : IModalOptions
 {
 }

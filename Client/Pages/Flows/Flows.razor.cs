@@ -2,7 +2,7 @@ using FileFlows.Client.Components.Common;
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
-using FileFlows.Client.Components.Dialogs.Wizards;
+using FileFlows.Client.Wizards;
 using Microsoft.JSInterop;
 using ffFlow = FileFlows.Shared.Models.Flow;
 

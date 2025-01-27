@@ -1,4 +1,4 @@
-@namespace FileFlows.Client.Components.Dialogs.Wizards
+@namespace FileFlows.Client.Wizards
 
 @using InputText = FileFlows.Client.Components.Inputs.InputText
 @inherits InputRegister
@@ -9,13 +9,13 @@
     <CascadingValue IsFixed="true" Value="Editor">
         <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
 
-            <FlowWizardPage TLabel="Dialogs.NewAudioToVideoWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
-                <InputText @bind-Value="@FlowName" Label="Dialogs.NewAudioToVideoWizard.Fields.Name" Validators=@RequiredValidator />
+            <FlowWizardPage TLabel="Dialogs.NewAudioFlowWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
+                <InputText @bind-Value="@FlowName" Label="Dialogs.NewAudioFlowWizard.Fields.Name" Validators=@RequiredValidator />
+                <InputText @bind-Value="@Description" Label="Dialogs.NewFlowCommon.Fields.Description" />
 
-                <InputSelect @bind-Value="@BoundVisualization" AllowClear="false" Options=@Visualizations Label="Dialogs.NewAudioToVideoWizard.Fields.Visualization" />
-                <InputSelect @bind-Value="@BoundContainer" AllowClear="false" Options=@VideoContainers Label="Dialogs.NewAudioToVideoWizard.Fields.Container" />
-                <InputSelect @bind-Value="@BoundResolution" AllowClear="false" Options=@VideoResolutions Label="Dialogs.NewAudioToVideoWizard.Fields.Resolution" />
-                <InputSelect @bind-Value="@BoundCodec" AllowClear="false" Options=@VideoCodecs Label="Dialogs.NewAudioToVideoWizard.Fields.Codec" />
+                <InputSelect @bind-Value="@BoundCodec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewAudioFlowWizard.Fields.Codec" />
+                <InputSelect @bind-Value="@BoundBitrate" AllowClear="false" Options=@AudioBitrates Label="Dialogs.NewAudioFlowWizard.Fields.Bitrate" />
+                <InputSwitch @bind-Value="@Normalize" Label="Dialogs.NewAudioFlowWizard.Fields.Normalize" />
             </FlowWizardPage>
             
             <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">

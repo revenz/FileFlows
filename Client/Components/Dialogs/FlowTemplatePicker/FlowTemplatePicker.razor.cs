@@ -1,6 +1,6 @@
 ﻿
 using BlazorMonaco;
-using FileFlows.Client.Components.Dialogs.Wizards;
+using FileFlows.Client.Wizards;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;

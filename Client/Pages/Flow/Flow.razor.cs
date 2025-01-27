@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using BlazorContextMenu;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Wizards;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace FileFlows.Client.Pages;
@@ -22,6 +23,10 @@ public partial class Flow : ComponentBase, IDisposable
     /// Gets or sets the UID of the flow to edit
     /// </summary>
     [Parameter] public Guid Uid { get; set; }
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
     [Inject] INavigationService NavigationService { get; set; }
     [Inject] public IBlazorContextMenuService ContextMenuService { get; set; }
     [CascadingParameter] Blocker Blocker { get; set; }
@@ -1097,46 +1102,59 @@ public partial class Flow : ComponentBase, IDisposable
     /// <param name="newOnly">if only new options should be shown and no open existing</param>
     private async void AddFlow(bool newOnly = false)
     {
-        var result  = await TemplatePicker.Show((FlowType)(-1));
-        if(result == null || result.Result == FlowTemplatePickerResult.ResultCode.Cancel)
-            return; // twas canceled
-        if (result.Result == FlowTemplatePickerResult.ResultCode.Open)
+        var result  = await ModalService.ShowModal<NewFlowWizard, FFlow>(new NewFlowWizardOptions()
         {
-            if (result.Uid != null)
-            {
-                await OpenFlowInNewTab(result.Uid.Value, showBlocker: true);
-                StateHasChanged();
-            }
-
+            ShowCreated = newOnly == false,
+            DontAutoNavigateTo = true
+        });
+        if (result.IsFailed)
             return;
-        }
-
-        var flowTemplateModel = result.Model;
-        if (flowTemplateModel.Fields?.Any() != true)
-        {
-            // nothing extra to fill in, go to the flow editor, typically this if basic flows
-            await AddNewFlow(flowTemplateModel.Flow, isDirty: true);
-            return;
-        }
+        await OpenFlowInNewTab(result.Value.Uid, showBlocker: true);
+        StateHasChanged();
         
-        var newFlow = await AddEditor.Show(flowTemplateModel);
-        if (newFlow == null)
-            return; // was canceled
-        
-        if (newFlow.Uid != Guid.Empty)
-        {
-            if ((Profile.ConfigurationStatus & ConfigurationStatus.Flows) != ConfigurationStatus.Flows)
-            {
-                // refresh the app configuration status
-                await ProfileService.Refresh();
-            }
-            await AddNewFlow(newFlow, isDirty: false);
-        }
-        else
-        {
-            // edit it
-            await AddNewFlow(newFlow, isDirty: true);
-        }
+        //
+        //
+        //
+        // var result  = await TemplatePicker.Show((FlowType)(-1));
+        // if(result == null || result.Result == FlowTemplatePickerResult.ResultCode.Cancel)
+        //     return; // twas canceled
+        // if (result.Result == FlowTemplatePickerResult.ResultCode.Open)
+        // {
+        //     if (result.Uid != null)
+        //     {
+        //         await OpenFlowInNewTab(result.Uid.Value, showBlocker: true);
+        //         StateHasChanged();
+        //     }
+        //
+        //     return;
+        // }
+        //
+        // var flowTemplateModel = result.Model;
+        // if (flowTemplateModel.Fields?.Any() != true)
+        // {
+        //     // nothing extra to fill in, go to the flow editor, typically this if basic flows
+        //     await AddNewFlow(flowTemplateModel.Flow, isDirty: true);
+        //     return;
+        // }
+        //
+        // var newFlow = await AddEditor.Show(flowTemplateModel);
+        // if (newFlow == null)
+        //     return; // was canceled
+        //
+        // if (newFlow.Uid != Guid.Empty)
+        // {
+        //     if ((Profile.ConfigurationStatus & ConfigurationStatus.Flows) != ConfigurationStatus.Flows)
+        //     {
+        //         // refresh the app configuration status
+        //         await ProfileService.Refresh();
+        //     }
+        //     await AddNewFlow(newFlow, isDirty: false);
+        // }
+        // else
+        // {
+        //     // edit it
+        //     await AddNewFlow(newFlow, isDirty: true);
+        // }
     }
 
 } 

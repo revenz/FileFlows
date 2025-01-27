@@ -9,26 +9,21 @@ public class FlowProperties
 {
     private List<FlowField> _Fields = new();
     
-    /// <summary>
-    /// Gets or sets the description of the flow
-    /// </summary>
-    public string Description { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the author or this flow
-    /// </summary>
-    public string Author { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the the minimum version required for this template
-    /// </summary>
-    public string MinimumVersion { get; set; }
-    
-    /// <summary>
-    /// Gets or sets tags for this flow
-    /// </summary>
-    public string[] Tags { get; set; }
-    
+    // /// <summary>
+    // /// Gets or sets the author or this flow
+    // /// </summary>
+    // public string Author { get; set; }
+    //
+    // /// <summary>
+    // /// Gets or sets the the minimum version required for this template
+    // /// </summary>
+    // public string MinimumVersion { get; set; }
+    //
+    // /// <summary>
+    // /// Gets or sets tags for this flow
+    // /// </summary>
+    // public string[] Tags { get; set; }
+    //
     /// <summary>
     /// Gets or sets the outputs, only used for sub flows
     /// </summary>

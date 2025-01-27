@@ -25,12 +25,23 @@ public partial class FlowRadioGroupItem<TItem> : ComponentBase
     /// <summary>
     /// Gets or sets the title
     /// </summary>
+    [Parameter] 
     public string Title { get; set; }
 
     /// <summary>
     /// Gets or sets the description
     /// </summary>
+    [Parameter] 
     public string Description { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the title for rendering
+    /// </summary>
+    public string RenderTitle { get; set; }
+    /// <summary>
+    /// Gets or sets the description for rendering
+    /// </summary>
+    public string RenderDescription { get; set; }
 
     /// <summary>
     /// Gets or sets the value
@@ -47,10 +58,21 @@ public partial class FlowRadioGroupItem<TItem> : ComponentBase
     /// </summary>
     protected override void OnInitialized()
     {
-        string label = (string.IsNullOrWhiteSpace(RadioGroup.LabelPrefix) ? string.Empty : RadioGroup.LabelPrefix + ".")
-                       + TLabel;
-        Title = Translater.Instant(label);
-        Description = Translater.TranslateIfHasTranslation(label + "Description", string.Empty);
+        if (string.IsNullOrWhiteSpace(TLabel) == false)
+        {
+            string label = (string.IsNullOrWhiteSpace(RadioGroup.LabelPrefix)
+                               ? string.Empty
+                               : RadioGroup.LabelPrefix + ".")
+                           + TLabel;
+            RenderTitle = Translater.Instant(label);
+            RenderDescription = Translater.TranslateIfHasTranslation(label + "Description", string.Empty);
+        }
+        else
+        {
+            RenderTitle = Title ?? string.Empty;
+            RenderDescription = Description ?? string.Empty;
+        }
+
         RadioGroup.AddItem(this);
     }
 }

@@ -1,16 +1,26 @@
+using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
-using FileFlows.Shared.Widgets;
+using FileFlows.Plugin.Types;
 using Microsoft.AspNetCore.Components;
 
-namespace FileFlows.Client.Components.Dialogs.Wizards;
+namespace FileFlows.Client.Wizards;
 
 /// <summary>
-/// New Audio to Video Flow wizard
+/// New Image Flow wizard
 /// </summary>
-public partial class NewAudioToVideoWizard : IModal
+public partial class NewImageFlowWizard : IModal
 {
     private Editor _Editor;
+    
+    internal const string IMAGE_FORMAT_BMP = "Bmp";
+    internal const string IMAGE_FORMAT_GIF = "Gif";
+    internal const string IMAGE_FORMAT_JPEG = "Jpeg";
+    internal const string IMAGE_FORMAT_PBM = "Pbm";
+    internal const string IMAGE_FORMAT_PNG = "Png";
+    internal const string IMAGE_FORMAT_TIFF = "Tiff";
+    internal const string IMAGE_FORMAT_TGA = "Tga";
+    internal const string IMAGE_FORMAT_WEBP = "WebP";
 
     /// <summary>
     /// Gets or sets the editor
@@ -57,7 +67,7 @@ public partial class NewAudioToVideoWizard : IModal
         TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
     }
 
-    private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
+    private List<string> Image1Languages = [], Image2Languages = [], SubtitleLanguages = [], ImageMode1Languages = [];
     
     /// <summary>
     /// The new flow name
@@ -67,14 +77,15 @@ public partial class NewAudioToVideoWizard : IModal
     /// <summary>
     /// Flow properties
     /// </summary>
-    private string Codec = "h265", Container = "MKV", Resolution = "640x480", OutputPath;
-    private int Visualization = 1;
-    private bool ReplaceOriginal = true, DeleteOld;
+    private string Format = IMAGE_FORMAT_JPEG, OutputPath, Description = string.Empty;
+    private int Quality = 70, ResizeMode = 1;
+    private bool Resize = false, ReplaceOriginal = true, DeleteOld;
+    public NumberPercent Width = new() { Value = 1920 }, Height = new() { Value = 1080 };
 
     /// <summary>
     /// The input options
     /// </summary>
-    private List<ListOption> VideoCodecs = [], VideoResolutions = [], VideoContainers = [], Visualizations = [];
+    private List<ListOption> ImageFormats = [];
     
     /// <summary>
     /// Gets or sets the flow wizard
@@ -86,51 +97,15 @@ public partial class NewAudioToVideoWizard : IModal
     private bool IsWindows;
     
     /// <summary>
-    /// Gets or sets bound codec
+    /// Gets or sets bound Format
     /// </summary>
-    private object BoundCodec
+    private object BoundFormat
     {
-        get => Codec;
-        set
-        {
-            if (value is string codec)
-                Codec = codec;
-        }
-    }
-    /// <summary>
-    /// Gets or sets bound container
-    /// </summary>
-    private object BoundContainer
-    {
-        get => Container;
+        get => Format;
         set
         {
             if (value is string v)
-                Container = v;
-        }
-    }
-    /// <summary>
-    /// Gets or sets bound Resolution
-    /// </summary>
-    private object BoundResolution
-    {
-        get => Resolution;
-        set
-        {
-            if (value is string v)
-                Resolution = v;
-        }
-    }
-    /// <summary>
-    /// Gets or sets bound Visualization
-    /// </summary>
-    private object BoundVisualization
-    {
-        get => Visualization;
-        set
-        {
-            if (value is int v)
-                Visualization = v;
+                Format = v;
         }
     }
     
@@ -140,32 +115,19 @@ public partial class NewAudioToVideoWizard : IModal
         var profile = await ProfileService.Get(); 
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
 
-        VideoCodecs =
+        ImageFormats =
         [
-            new() { Label = "H264", Value = "h264" },
-            new() { Label = "HEVC", Value = "h265" },
+            new () { Value = "###GROUP###", Label = Translater.Instant("Dialogs.NewImageFlowWizard.Labels.LosslessFormats") },
+            new () { Value = IMAGE_FORMAT_PNG, Label = "PNG" },
+            new () { Value = IMAGE_FORMAT_BMP, Label = "Bitmap" },
+            new () { Value = IMAGE_FORMAT_TIFF, Label = "TIFF" },
+            new () { Value = IMAGE_FORMAT_TGA, Label = "TGA" },
+            new () { Value = IMAGE_FORMAT_WEBP, Label = "WebP" },
+            new () { Value = "###GROUP###", Label = Translater.Instant("Dialogs.NewImageFlowWizard.Labels.LossyFormats") },
+            new () { Value = IMAGE_FORMAT_JPEG, Label = "JPEG" },
+            new () { Value = IMAGE_FORMAT_GIF, Label = "GIF" },
+            new () { Value = IMAGE_FORMAT_PBM, Label = "PBM" },
         ];
-        
-        VideoContainers =
-        [
-            new() { Label = "MKV", Value = "mkv" },
-            new() { Label = "MP4", Value = "mp4" }
-        ];
-
-        Visualizations =
-        [
-            new () { Label = "Waves", Value = 1} ,
-            new () { Label = "Audio Vector Scope", Value = 2} ,
-            new () { Label = "Spectrum", Value = 3} ,
-        ];
-        VideoResolutions =
-        [
-            new () { Label = "480P", Value = "640x480"} ,
-            new () { Label = "720P", Value = "1280x720"} ,
-            new () { Label = "1080P", Value = "1920x1080"} ,
-            new () { Label = "4K", Value = "3840x2160"} ,
-        ];
-
 
         initDone = true;
         StateHasChanged();
@@ -186,14 +148,18 @@ public partial class NewAudioToVideoWizard : IModal
             var builder = new FlowBuilder(FlowName);
             builder.Add(new FlowPart()
             {
-                FlowElementUid = FlowElementUids.InputFile,
+                FlowElementUid = FlowElementUids.ImageFile,
                 Outputs = 1
             });
 
-            FlowVideo(builder);
+            FlowImage(builder);
             FlowAddOutput(builder);
+
+            var flow = builder.Flow;
+            flow.Description = Description;
+            flow.Icon = "fas fa-image";
             
-            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", builder.Flow);
+            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
@@ -250,24 +216,42 @@ public partial class NewAudioToVideoWizard : IModal
     }
     
     /// <summary>
-    /// Adds the audio flow parts to the flow
+    /// Adds the image flow parts to the flow
     /// </summary>
     /// <param name="builder">the flow builder</param>
-    private void FlowVideo(FlowBuilder builder)
+    private void FlowImage(FlowBuilder builder)
     {
-        builder.AddAndConnect(new FlowPart()
+        if (Resize)
         {
-            FlowElementUid = FlowElementUids.AudioToVideo,
-            Outputs = 2,
-            Type = FlowElementType.Process,
-            Model = ExpandoHelper.ToExpandoObject(new
+            builder.AddAndConnect(new FlowPart()
             {
-                Visualization,
-                Container,
-                Resolution,
-                Codec
-            })
-        });
+                FlowElementUid = FlowElementUids.ImageResizer,
+                Outputs = 1,
+                Type = FlowElementType.Process,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    Format,
+                    Quality = Format is IMAGE_FORMAT_WEBP or IMAGE_FORMAT_JPEG ? Quality : 100,
+                    Mode = ResizeMode,
+                    Width,
+                    Height
+                })
+            });
+        }
+        else
+        {
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = FlowElementUids.ImageConvert,
+                Outputs = 2,
+                Type = FlowElementType.Process,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    Format,
+                    Quality = Format is IMAGE_FORMAT_WEBP or IMAGE_FORMAT_JPEG ? Quality : 100
+                })
+            });
+        }
     }
     
     /// <summary>
@@ -311,7 +295,7 @@ public partial class NewAudioToVideoWizard : IModal
                     Model = ExpandoHelper.ToExpandoObject(new
                     {
                         IfEmpty = true,
-                        IncludePatterns = new[] { "*.mp3", "*.ogg", "*.flac", "*.m4a", "*.wav", "*.ac3", "*.wma" }
+                        IncludePatterns = new[] { "*.jpeg", "*.jpe", "*.jpg", "*.png", "*.bmp", "*.gif", "*.heic", "*.tiff", "*.psd" }
                     })
                 });
             }
@@ -320,8 +304,8 @@ public partial class NewAudioToVideoWizard : IModal
 }
 
 /// <summary>
-/// The New Audio to Video Flow Wizard Options
+/// The New Image Flow Wizard Options
 /// </summary>
-public class NewAudioToVideoWizardOptions : IModalOptions
+public class NewImageFlowWizardOptions : IModalOptions
 {
 }

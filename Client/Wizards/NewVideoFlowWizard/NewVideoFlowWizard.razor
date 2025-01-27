@@ -1,4 +1,4 @@
-@namespace FileFlows.Client.Components.Dialogs.Wizards
+@namespace FileFlows.Client.Wizards
 
 @using InputText = FileFlows.Client.Components.Inputs.InputText
 @inherits InputRegister
@@ -11,6 +11,7 @@
             
             <FlowWizardPage Title="@lblGeneral" Description="@lblGeneralDescription" OnPageAdvanced="OnGeneralPageAdvanced">
                 <InputText @bind-Value="@VideoFlowName" Label="Dialogs.NewVideoFlowWizard.Fields.Name" Validators=@RequiredValidator />
+                <InputText @bind-Value="@Description" Label="Dialogs.NewFlowCommon.Fields.Description"  />
 
                 <InputSelect @bind-Value="@BoundVideoContainer" AllowClear="false" Options=@VideoContainers Label="Dialogs.NewVideoFlowWizard.Fields.VideoContainer" />
                 <InputSelect @bind-Value="@BoundVideoCodec" AllowClear="false" Options=@VideoCodecs Label="Dialogs.NewVideoFlowWizard.Fields.VideoCodec" />

@@ -1,8 +1,9 @@
+using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
-namespace FileFlows.Client.Components.Dialogs.Wizards;
+namespace FileFlows.Client.Wizards;
 
 /// <summary>
 /// New library wizard

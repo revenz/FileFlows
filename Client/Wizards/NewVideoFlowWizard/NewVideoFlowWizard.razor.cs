@@ -1,8 +1,9 @@
+using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
-namespace FileFlows.Client.Components.Dialogs.Wizards;
+namespace FileFlows.Client.Wizards;
 
 /// <summary>
 /// New videoFlow wizard
@@ -82,6 +83,8 @@ public partial class NewVideoFlowWizard : IModal
     /// The new libraries name
     /// </summary>
     private string VideoFlowName { get; set; } = string.Empty;
+
+    private string Description = string.Empty;
 
     /// <summary>
     /// Flow properties
@@ -229,6 +232,7 @@ public partial class NewVideoFlowWizard : IModal
         lblPageTypeDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.TypeDescription"); 
         lblGeneral = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.General");
         lblGeneralDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.GeneralDescription");
+        Description = lblGeneralDescription;
         lblPageVideo = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Video");
         lblPageVideoDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.VideoDescription");
         lblPageAudio = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio");
@@ -435,8 +439,12 @@ public partial class NewVideoFlowWizard : IModal
                 
                 builder.Connect(secondExecutor, fpOutput, 1);
             }
+
+            var flow = builder.Flow;
+            flow.Description = Description;
+            flow.Icon = "fas fa-video";
             
-            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", builder.Flow);
+            var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();

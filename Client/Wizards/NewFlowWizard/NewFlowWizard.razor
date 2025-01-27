@@ -1,4 +1,4 @@
-@namespace FileFlows.Client.Components.Dialogs.Wizards
+@namespace FileFlows.Client.Wizards
 
 @inherits InputRegister
 
@@ -59,6 +59,19 @@
                 </FlowRadioGroup>
             </FlowWizardPage>
             
+            @if (ShowCreated && Flows.Count > 0)
+            {
+                <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Users">
+                    <FlowRadioGroup TItem="Guid" @bind-Value="FlowUid" LabelPrefix="Dialogs.NewFlowWizard.Flow.Users">
+                        @foreach (var flow in Flows)
+                        {
+                            <FlowRadioGroupItem TItem="Guid" Value="@flow.Uid" Icon="@GetFlowIcon(flow)" 
+                                                Title="@flow.Name" Description="@flow.Description" />
+                        }
+                    </FlowRadioGroup>
+                </FlowWizardPage>
+            }
+
         </FlowWizard>
     </CascadingValue>
 }

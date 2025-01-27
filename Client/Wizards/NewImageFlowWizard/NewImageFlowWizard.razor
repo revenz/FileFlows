@@ -1,4 +1,4 @@
-@namespace FileFlows.Client.Components.Dialogs.Wizards
+@namespace FileFlows.Client.Wizards
 
 @using InputText = FileFlows.Client.Components.Inputs.InputText
 @inherits InputRegister
@@ -11,7 +11,8 @@
 
             <FlowWizardPage TLabel="Dialogs.NewImageFlowWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
                 <InputText @bind-Value="@FlowName" Label="Dialogs.NewImageFlowWizard.Fields.Name" Validators=@RequiredValidator />
-
+                <InputText @bind-Value="@Description" Label="Dialogs.NewFlowCommon.Fields.Description" />
+                
                 <InputSelect @bind-Value="@BoundFormat" AllowClear="false" Options=@ImageFormats Label="Dialogs.NewImageFlowWizard.Fields.Format" />
                 @if (Format is IMAGE_FORMAT_WEBP or IMAGE_FORMAT_JPEG)
                 {

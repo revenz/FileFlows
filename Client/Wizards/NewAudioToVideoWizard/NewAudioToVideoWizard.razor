@@ -1,4 +1,4 @@
-@namespace FileFlows.Client.Components.Dialogs.Wizards
+@namespace FileFlows.Client.Wizards
 
 @using InputText = FileFlows.Client.Components.Inputs.InputText
 @inherits InputRegister
@@ -9,26 +9,14 @@
     <CascadingValue IsFixed="true" Value="Editor">
         <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
 
-            <FlowWizardPage TLabel="Dialogs.NewComicFlowWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
-                <InputText @bind-Value="@FlowName" Label="Dialogs.NewComicFlowWizard.Fields.Name" Validators=@RequiredValidator />
-                <InputSwitch @bind-Value="@DeleteNonPageImages" Label="Dialogs.NewComicFlowWizard.Fields.DeleteNonPageImages" />
-                
-            </FlowWizardPage>
-            
-            <FlowWizardPage TLabel="Dialogs.NewComicFlowWizard.Pages.Format">
+            <FlowWizardPage TLabel="Dialogs.NewAudioToVideoWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
+                <InputText @bind-Value="@FlowName" Label="Dialogs.NewAudioToVideoWizard.Fields.Name" Validators=@RequiredValidator />
+                <InputText @bind-Value="@Description" Label="Dialogs.NewFlowCommon.Fields.Description" />
 
-                <FlowRadioGroup TItem="bool" @bind-Value="Cbz" LabelPrefix="Dialogs.NewComicFlowWizard.Format">
-                    <FlowRadioGroupItem TItem="bool" Value="true" Icon="fas fa-archive" TLabel="Cbz">
-                        <InputSwitch @bind-Value="@EnsureTopDirectory" Label="Dialogs.NewComicFlowWizard.Fields.EnsureTopDirectory" />
-                        <InputSelect @bind-Value="@BoundFormat" AllowClear="false" Options=@ImageFormats Label="Dialogs.NewComicFlowWizard.Fields.Format" />
-                        @if (string.IsNullOrWhiteSpace(Format) == false)
-                        {
-                            <InputSlider @bind-Value="@Quality" Label="Dialogs.NewComicFlowWizard.Fields.Quality" Min="1" Max="100"/>
-                        }
-                    </FlowRadioGroupItem>
-                    <FlowRadioGroupItem TItem="bool" Value="false" Icon="fas fa-file-pdf" TLabel="Pdf" />
-                </FlowRadioGroup>
-                
+                <InputSelect @bind-Value="@BoundVisualization" AllowClear="false" Options=@Visualizations Label="Dialogs.NewAudioToVideoWizard.Fields.Visualization" />
+                <InputSelect @bind-Value="@BoundContainer" AllowClear="false" Options=@VideoContainers Label="Dialogs.NewAudioToVideoWizard.Fields.Container" />
+                <InputSelect @bind-Value="@BoundResolution" AllowClear="false" Options=@VideoResolutions Label="Dialogs.NewAudioToVideoWizard.Fields.Resolution" />
+                <InputSelect @bind-Value="@BoundCodec" AllowClear="false" Options=@VideoCodecs Label="Dialogs.NewAudioToVideoWizard.Fields.Codec" />
             </FlowWizardPage>
             
             <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">

@@ -321,6 +321,8 @@
       "Fields": {
         "DeleteOld": "Clean Up Original",
         "DeleteOld-Help": "Delete the original file and remove its folder if no other files remain.",
+        "Description": "Description",
+        "Description-Help": "The description of the newly created flow.",
         "OutputPath": "Output Path",
         "OutputPath-Help": "The path where the final file will be saved.",
         "OutputPathWindows": "Output Path (Windows)",

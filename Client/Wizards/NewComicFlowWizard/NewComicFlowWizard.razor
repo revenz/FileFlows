@@ -1,4 +1,4 @@
-@namespace FileFlows.Client.Components.Dialogs.Wizards
+@namespace FileFlows.Client.Wizards
 
 @using InputText = FileFlows.Client.Components.Inputs.InputText
 @inherits InputRegister
@@ -9,12 +9,27 @@
     <CascadingValue IsFixed="true" Value="Editor">
         <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
 
-            <FlowWizardPage TLabel="Dialogs.NewAudioFlowWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
-                <InputText @bind-Value="@FlowName" Label="Dialogs.NewAudioFlowWizard.Fields.Name" Validators=@RequiredValidator />
+            <FlowWizardPage TLabel="Dialogs.NewComicFlowWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
+                <InputText @bind-Value="@FlowName" Label="Dialogs.NewComicFlowWizard.Fields.Name" Validators=@RequiredValidator />
+                <InputText @bind-Value="@Description" Label="Dialogs.NewFlowCommon.Fields.Description" />
+                <InputSwitch @bind-Value="@DeleteNonPageImages" Label="Dialogs.NewComicFlowWizard.Fields.DeleteNonPageImages" />
+                
+            </FlowWizardPage>
+            
+            <FlowWizardPage TLabel="Dialogs.NewComicFlowWizard.Pages.Format">
 
-                <InputSelect @bind-Value="@BoundCodec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewAudioFlowWizard.Fields.Codec" />
-                <InputSelect @bind-Value="@BoundBitrate" AllowClear="false" Options=@AudioBitrates Label="Dialogs.NewAudioFlowWizard.Fields.Bitrate" />
-                <InputSwitch @bind-Value="@Normalize" Label="Dialogs.NewAudioFlowWizard.Fields.Normalize" />
+                <FlowRadioGroup TItem="bool" @bind-Value="Cbz" LabelPrefix="Dialogs.NewComicFlowWizard.Format">
+                    <FlowRadioGroupItem TItem="bool" Value="true" Icon="fas fa-archive" TLabel="Cbz">
+                        <InputSwitch @bind-Value="@EnsureTopDirectory" Label="Dialogs.NewComicFlowWizard.Fields.EnsureTopDirectory" />
+                        <InputSelect @bind-Value="@BoundFormat" AllowClear="false" Options=@ImageFormats Label="Dialogs.NewComicFlowWizard.Fields.Format" />
+                        @if (string.IsNullOrWhiteSpace(Format) == false)
+                        {
+                            <InputSlider @bind-Value="@Quality" Label="Dialogs.NewComicFlowWizard.Fields.Quality" Min="1" Max="100"/>
+                        }
+                    </FlowRadioGroupItem>
+                    <FlowRadioGroupItem TItem="bool" Value="false" Icon="fas fa-file-pdf" TLabel="Pdf" />
+                </FlowRadioGroup>
+                
             </FlowWizardPage>
             
             <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">

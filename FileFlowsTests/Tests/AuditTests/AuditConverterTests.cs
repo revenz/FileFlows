@@ -12,11 +12,6 @@ public class AuditConverterTests
         Flow flowOld = new()
         {
             Name = "old flow",
-            Properties = new()
-            {
-                Author = "old author",
-                MinimumVersion = "1.2.3.4"
-            },
             Parts = new()
             {
                 new()
@@ -78,11 +73,6 @@ public class AuditConverterTests
         Flow flowNew = new()
         {
             Name = "New flow",
-            Properties = new()
-            {
-                Author = "new author",
-                MinimumVersion = "1.2.3.5"
-            },
             Parts = new()
             {
                 new()

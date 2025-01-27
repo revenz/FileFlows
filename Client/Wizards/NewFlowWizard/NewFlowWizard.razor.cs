@@ -1,8 +1,9 @@
+using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
-namespace FileFlows.Client.Components.Dialogs.Wizards;
+namespace FileFlows.Client.Wizards;
 
 /// <summary>
 /// New Flow wizard
@@ -62,6 +63,13 @@ public partial class NewFlowWizard : IModal
 
     // if the initialization has been done
     private bool initDone;
+    private bool ShowCreated;
+    /// <summary>
+    /// Gets or sets if the flow shouldn't be auto navigated to
+    /// </summary>
+    public bool DontAutoNavigateTo { get; set; }
+    private Guid FlowUid = Guid.Empty;
+    private List<Flow> Flows = new List<Flow>();
 
     /// <summary>
     /// A dictionary of all available flow elements
@@ -75,6 +83,21 @@ public partial class NewFlowWizard : IModal
         var elementsResult = await HttpHelper.Get<FlowElement[]>("/api/flow/elements");
         if (elementsResult.Success)
             AvailableElements = elementsResult.Data.ToDictionary(x => x.Uid);
+
+        if (Options is NewFlowWizardOptions options)
+        {
+            DontAutoNavigateTo = options.DontAutoNavigateTo;
+            if (options.ShowCreated)
+            {
+                ShowCreated = true;
+                var flowResult = await HttpHelper.Get<List<Flow>>("/api/flow/list-all");
+                if (flowResult.Success)
+                {
+                    Flows = flowResult.Data ?? [];
+                    FlowUid = Flows.FirstOrDefault()?.Uid ?? Guid.Empty;
+                }
+            }
+        }
         
         initDone = true;
         StateHasChanged();
@@ -101,68 +124,86 @@ public partial class NewFlowWizard : IModal
     /// </summary>
     public async Task Select()
     {
-        bool close = true;
+        Flow? flow = null;
         switch (SelectedCategory)
         {
             case 0: // Basic
-                CreateBasic();
+                flow = CreateBasic();
                 break;
             case 1: // Video
-                close = await CreateVideo();
+                flow = await CreateVideo();
                 break;
             case 2: // Audio
-                close = await CreateAudio();
+                flow = await CreateAudio();
                 break;
             case 3: // Image
-                close = await CreateImage();
+                flow = await CreateImage();
                 break;
             case 4: // Book
-                close = await CreateBook();
+                flow = await CreateBook();
                 break;
             case 5: // Failure
-                await CreateFailure();
+                flow =await CreateFailure();
+                break;
+            case 6: // Users
+                flow = await GetUserFlow();
                 break;
         }
-        if(close)
-            TaskCompletionSource.TrySetResult(null);
+
+        if (flow != null)
+        {
+            if(DontAutoNavigateTo == false)
+                NavigationManager.NavigateTo("flows/" + flow.Uid);
+            
+            TaskCompletionSource.TrySetResult(flow);
+        }
+    }
+
+    /// <summary>
+    /// Gets the users flow
+    /// </summary>
+    /// <returns>the users flow</returns>
+    private async Task<Flow?> GetUserFlow()
+    {
+        var flowResult = await HttpHelper.Get<Flow>($"/api/flow/{FlowUid}");
+        if(flowResult.Success)
+            return flowResult.Data;
+        return null;
     }
 
     /// <summary>
     /// Creates a basic flow
     /// </summary>
-    private void CreateBasic()
+    private Flow? CreateBasic()
     {
         switch (FlowBasic)
         {
             case 0: // Blank File
-                CreateBasicFlow(FlowElementUids.InputFile);
-                return;
+                return CreateBasicFlow(FlowElementUids.InputFile, "fas fa-file", "Custom file based flow.");
             case 1: // Blank Folder
-                CreateBasicFlow(FlowElementUids.InputFolder);
-                return;
+                return CreateBasicFlow(FlowElementUids.InputFolder, "fas fa-folder", "Custom folder based flow.");
             case 2: // Blank Failure Flow
-                CreateBasicFlow(FlowElementUids.FlowFailure);
-                return;
+                return CreateBasicFlow(FlowElementUids.FlowFailure, "fas fa-exclamation-circle", "Custom failure flow.");
             case 3: // Blank Sub Flow
-                CreateBasicFlow(FlowElementUids.SubFlowInput);
-                return;
+                return CreateBasicFlow(FlowElementUids.SubFlowInput, "fas fa-subway", "Custom sub flow.");
             case 4: // Blank Input URL
-                CreateBasicFlow(FlowElementUids.InputUrl);
-                return;
+                return CreateBasicFlow(FlowElementUids.InputUrl, "fas fa-globe", "Custom URL processing flow.");
         }
+
+        return null;
     }
     
     
     /// <summary>
     /// Creates a failure flow
     /// </summary>
-    private async Task CreateFailure()
+    /// <returns>if the flow that was created</returns>
+    private async Task<Flow?> CreateFailure()
     {
         if (FlowFailure == 0)
         {
             // Blank File
-            CreateBasicFlow(FlowElementUids.FlowFailure);
-            return;
+            return CreateBasicFlow(FlowElementUids.FlowFailure, "fas fa-exclamation-circle", "Custom failure flow.");
         }
 
         string name = FlowFailure switch
@@ -237,22 +278,33 @@ public partial class NewFlowWizard : IModal
             });
         }
 
+        var flow = builder.Flow;
+        flow.Icon = FlowFailure switch
+        {
+            1 => "fas fa-rocket",
+            2 => "fab fa-discord",
+            3 => "fas fa-flag",
+            4 => "fab fa-telegram-plane",
+            _ => "fas fa-exclamation-circle"
+        };
+        flow.Description = $"Sends a {name.ToLowerInvariant()} when a failure occurs.";
+
         var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", builder.Flow);
         if (saveResult.Success == false)
         {
             Wizard.HideBlocker();
             Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
-            return;
+            return null;
         }
         
-        NavigationManager.NavigateTo("flows/" + saveResult.Data.Uid);
+        return saveResult.Data;
     }
 
     /// <summary>
     /// Creates a video flow
     /// </summary>
-    /// <returns>if the dialog should be closed</returns>
-    private async Task<bool> CreateVideo()
+    /// <returns>if the flow that was created</returns>
+    private async Task<Flow?> CreateVideo()
     {
         switch (FlowVideo)
         {
@@ -260,36 +312,29 @@ public partial class NewFlowWizard : IModal
             {
                 var result = await ModalService.ShowModal<NewVideoFlowWizard, Flow>(new NewVideoFlowWizardOptions());
                 if (result.Success(out var newFlow))
-                {
-                    NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
-                    return true;
-                }
+                    return newFlow;
             }
-                return false;
+                return null;
             case 1: // Blank Video
-                CreateBasicFlow(FlowElementUids.VideoFile);
-                return true;
+                return CreateBasicFlow(FlowElementUids.VideoFile, "fas fa-video", "Custom video processing flow.");
             case 2: // Audio to Video
             {
                 var result =
                     await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions());
                 if (result.Success(out var newFlow))
-                {
-                    NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
-                    return true;
-                }
-                return false;
+                    return newFlow;
+                return null;
             }
         }
 
-        return false;
+        return null;
     }
 
     /// <summary>
     /// Creates a video flow
     /// </summary>
-    /// <returns>if the dialog should be closed</returns>
-    private async Task<bool> CreateAudio()
+    /// <returns>if the flow that was created</returns>
+    private async Task<Flow?> CreateAudio()
     {
         switch (FlowAudio)
         {
@@ -297,35 +342,27 @@ public partial class NewFlowWizard : IModal
             {
                 var result = await ModalService.ShowModal<NewAudioFlowWizard, Flow>(new NewAudioFlowWizardOptions());
                 if (result.Success(out var newFlow))
-                {
-                    NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
-                    return true;
+                    return newFlow;
                 }
-            }
-                return false;
+                return null;
             case 1: // Blank Audio
-                CreateBasicFlow(FlowElementUids.AudioFile);
-                return true;
+                return CreateBasicFlow(FlowElementUids.AudioFile, "fas fa-headphones", "Custom audio processing flow.");
             case 2: // Audio to Video
             {
                 var result = await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions());
                 if (result.Success(out var newFlow))
-                {
-                    NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
-                    return true;
-                }
-
-                return false;
+                    return newFlow;
+                return null;
             }
         }
-        return false;
+        return null;
     }
 
     /// <summary>
     /// Creates a video flow
     /// </summary>
-    /// <returns>if the dialog should be closed</returns>
-    private async Task<bool> CreateImage()
+    /// <returns>if the flow that was created</returns>
+    private async Task<Flow?> CreateImage()
     {
         switch (FlowImage)
         {
@@ -333,48 +370,43 @@ public partial class NewFlowWizard : IModal
             {
                 var result = await ModalService.ShowModal<NewImageFlowWizard, Flow>(new NewImageFlowWizardOptions());
                 if (result.Success(out var newFlow))
-                {
-                    NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
-                    return true;
-                }
+                    return newFlow;
             }
-                return false;
+                return null;
             case 1: // Blank Image
-                CreateBasicFlow(FlowElementUids.ImageFile);
-                return true;
+                return CreateBasicFlow(FlowElementUids.ImageFile, "fas fa-image", "Custom image processing flow.");
         }
-        return false;
+        return null;
     }
 
     /// <summary>
     /// Creates a video flow
     /// </summary>
-    /// <returns>if the dialog should be closed</returns>
-    private async Task<bool>  CreateBook()
+    /// <returns>if the flow that was created</returns>
+    private async Task<Flow?>  CreateBook()
     {
         switch (FlowBook)
         {
             case 0: // eBook
-                return true;
+                return null;
             case 1: // Comic Book
             {
                 var result = await ModalService.ShowModal<NewComicFlowWizard, Flow>(new NewComicFlowWizardOptions());
                 if (result.Success(out var newFlow))
-                {
-                    NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
-                    return true;
-                }
+                    return newFlow;
             }
-                return false;
+                return null;
         }
-        return false;
+        return null;
     }
 
     /// <summary>
     /// Creates a basic flow with a single input flow element
     /// </summary>
     /// <param name="inputFlowElementUid">the UID of the input flow element</param>
-    private void CreateBasicFlow(string inputFlowElementUid)
+    /// <param name="icon">the icon for the new flow</param>
+    /// <param name="description">the description for the flow</param>
+    private Flow CreateBasicFlow(string inputFlowElementUid, string icon, string description)
     {
         var flow = new Flow()
         {
@@ -405,8 +437,45 @@ public partial class NewFlowWizard : IModal
         }
         
         flow.Parts = [ part ];
+        flow.Description = description;
+        flow.Icon = icon;
         Pages.Flow.NewFlowToOpen = flow;
-        NavigationManager.NavigateTo("flows/" + flow.Uid);
+        return flow;
+    }
+
+    /// <summary>
+    /// Gets the icon to show for a flow
+    /// </summary>
+    /// <param name="flow">the flow</param>
+    /// <returns>the icon</returns>
+    private string GetFlowIcon(Flow flow)
+    {
+        if(string.IsNullOrEmpty(flow.Icon) == false)
+            return flow.Icon;
+        
+        var input = flow.Parts?.FirstOrDefault()?.FlowElementUid;
+        if (input == FlowElementUids.FlowFailure || flow.Name.Contains("fail", StringComparison.CurrentCultureIgnoreCase))
+            return "fas fa-exclamation-circle";
+        if(input == FlowElementUids.SubFlowInput || flow.Name.Replace(" ", "").Contains("subflow", StringComparison.CurrentCultureIgnoreCase))
+            return "fas fa-subway";
+        if(input == FlowElementUids.VideoFile || 
+           flow.Name.Contains("video", StringComparison.CurrentCultureIgnoreCase) ||
+           flow.Name.Contains("movie", StringComparison.CurrentCultureIgnoreCase) || 
+           flow.Name.Contains("tv", StringComparison.CurrentCultureIgnoreCase))
+            return "fas fa-video";
+        if(input == FlowElementUids.InputFile)
+            return "fas fa-file";
+        if(input == FlowElementUids.InputFolder)
+            return "fas fa-folder";
+        if(input == FlowElementUids.InputUrl|| flow.Name.Contains("web", StringComparison.CurrentCultureIgnoreCase))
+            return "fas fa-globe";
+        if(input == FlowElementUids.AudioFile|| flow.Name.Contains("audio", StringComparison.CurrentCultureIgnoreCase)
+                                             || flow.Name.Contains("music", StringComparison.CurrentCultureIgnoreCase))
+            return "fas fa-headphones";
+        if(input == FlowElementUids.ImageFile|| flow.Name.Contains("image", StringComparison.CurrentCultureIgnoreCase)
+                                             || flow.Name.Contains("picture", StringComparison.CurrentCultureIgnoreCase))
+            return "fas fa-image";
+        return "fas fa-sitemap";
     }
 }
 
@@ -415,4 +484,13 @@ public partial class NewFlowWizard : IModal
 /// </summary>
 public class NewFlowWizardOptions : IModalOptions
 {
+    /// <summary>
+    /// Gets or sets if the users created flows should be shown
+    /// </summary>
+    public bool ShowCreated { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if the flow shouldn't be auto navigated to
+    /// </summary>
+    public bool DontAutoNavigateTo { get; set; }
 }
