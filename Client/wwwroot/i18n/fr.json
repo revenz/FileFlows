@@ -366,6 +366,18 @@
           "eBook": "eBook",
           "eBookDescription": "Créez un flux pour convertir des formats d'eBooks."
         },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "Envoie un message détaillé à Apprise lorsqu'une erreur se produit.",
+          "Blank": "Flux d'échec vide",
+          "BlankDescription": "Un flux d'échec de base qui s'exécute lorsqu'un flux échoue.",
+          "Discord": "Discord",
+          "DiscordDescription": "Envoie un message détaillé à Discord lorsqu'une erreur se produit.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "Envoie un message détaillé à Gotify lorsqu'une erreur se produit.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "Envoie un message détaillé à Telegram lorsqu'une erreur se produit."
+        },
         "Image": {
           "Blank": "Image Vide",
           "BlankDescription": "Un flux vide pour créer des flux pour traiter des images.",
@@ -388,6 +400,8 @@
         "BasicDescription": "Choisissez un flux vide basique pour créer un flux personnalisé.",
         "Book": "Livre",
         "BookDescription": "Créez un flux pour traiter des livres.",
+        "Failure": "Échec",
+        "FailureDescription": "Créez un flux à exécuter en cas d'échec",
         "Image": "Image",
         "ImageDescription": "Créez un flux pour traiter des fichiers image.",
         "Video": "Vidéo",

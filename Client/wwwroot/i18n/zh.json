@@ -366,6 +366,18 @@
           "eBook": "电子书",
           "eBookDescription": "创建用于转换电子书格式的流程。"
         },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "当发生失败时，向Apprise发送详细消息。",
+          "Blank": "空白失败流程",
+          "BlankDescription": "当任何流程失败时执行的基本失败流程。",
+          "Discord": "Discord",
+          "DiscordDescription": "当发生失败时，向Discord发送详细消息。",
+          "Gotify": "Gotify",
+          "GotifyDescription": "当发生失败时，向Gotify发送详细消息。",
+          "Telegram": "Telegram",
+          "TelegramDescription": "当发生失败时，向Telegram发送详细消息。"
+        },
         "Image": {
           "Blank": "空图像",
           "BlankDescription": "基于图像的空流程，用于创建自定义流程以处理图像。",
@@ -388,6 +400,8 @@
         "BasicDescription": "选择一个基础空流程来创建自定义流程。",
         "Book": "书籍",
         "BookDescription": "创建处理书籍的流程。",
+        "Failure": "失败",
+        "FailureDescription": "创建一个在失败时执行的流程",
         "Image": "图像",
         "ImageDescription": "创建处理图像文件的流程。",
         "Video": "视频",

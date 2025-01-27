@@ -366,6 +366,18 @@
           "eBook": "전자책",
           "eBookDescription": "전자책 포맷 변환을 위한 흐름을 생성합니다."
         },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "실패가 발생했을 때 Apprise에 자세한 메시지를 보냅니다.",
+          "Blank": "빈 실패 흐름",
+          "BlankDescription": "어떤 흐름이 실패할 때 실행되는 기본 실패 흐름입니다.",
+          "Discord": "Discord",
+          "DiscordDescription": "실패가 발생했을 때 Discord에 자세한 메시지를 보냅니다.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "실패가 발생했을 때 Gotify에 자세한 메시지를 보냅니다.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "실패가 발생했을 때 Telegram에 자세한 메시지를 보냅니다."
+        },
         "Image": {
           "Blank": "빈 이미지",
           "BlankDescription": "이미지 파일을 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 이미지 기반 흐름입니다.",
@@ -388,6 +400,8 @@
         "BasicDescription": "사용자 정의 흐름을 만들기 위한 기본 빈 흐름을 선택합니다.",
         "Book": "책",
         "BookDescription": "책을 처리하는 흐름을 생성합니다.",
+        "Failure": "실패",
+        "FailureDescription": "실패 시 실행할 플로우를 생성",
         "Image": "이미지",
         "ImageDescription": "이미지 파일을 처리하는 흐름을 생성합니다.",
         "Video": "비디오",

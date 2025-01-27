@@ -366,6 +366,18 @@
           "eBook": "eBook",
           "eBookDescription": "Criar um fluxo para converter formatos de eBook."
         },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "Envia uma mensagem detalhada para o Apprise quando ocorre uma falha.",
+          "Blank": "Fluxo de falha em branco",
+          "BlankDescription": "Um fluxo básico de falha que é executado quando qualquer fluxo falha.",
+          "Discord": "Discord",
+          "DiscordDescription": "Envia uma mensagem detalhada para o Discord quando ocorre uma falha.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "Envia uma mensagem detalhada para o Gotify quando ocorre uma falha.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "Envia uma mensagem detalhada para o Telegram quando ocorre uma falha."
+        },
         "Image": {
           "Blank": "Imagem em Branco",
           "BlankDescription": "Um fluxo baseado em imagem em branco usado para criar um fluxo personalizado para processar imagens.",
@@ -388,6 +400,8 @@
         "BasicDescription": "Escolha um fluxo básico em branco para criar um fluxo personalizado.",
         "Book": "Livro",
         "BookDescription": "Criar um fluxo para processar livros.",
+        "Failure": "Falha",
+        "FailureDescription": "Crie um fluxo para executar em caso de falha",
         "Image": "Imagem",
         "ImageDescription": "Criar um fluxo para processar arquivos de imagem.",
         "Video": "Vídeo",

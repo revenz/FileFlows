@@ -44,8 +44,18 @@
 
             <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Book">
                 <FlowRadioGroup TItem="Int32" @bind-Value="FlowBook" LabelPrefix="Dialogs.NewFlowWizard.Flow.Book">
-                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-book" TLabel="eBook" />
+                    @* <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-book" TLabel="eBook" /> *@
                     <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-journal-whills" TLabel="Comic" />
+                </FlowRadioGroup>
+            </FlowWizardPage>
+
+            <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Failure">
+                <FlowRadioGroup TItem="Int32" @bind-Value="FlowFailure" LabelPrefix="Dialogs.NewFlowWizard.Flow.Failure">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-exclamation-circle" TLabel="Blank" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-rocket" TLabel="Apprise" />
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fab fa-discord" TLabel="Discord" />
+                    <FlowRadioGroupItem TItem="Int32" Value="3" Icon="fas fa-flag" TLabel="Gotify" />
+                    <FlowRadioGroupItem TItem="Int32" Value="4" Icon="fab fa-telegram-plane" TLabel="Telegram" />
                 </FlowRadioGroup>
             </FlowWizardPage>
             

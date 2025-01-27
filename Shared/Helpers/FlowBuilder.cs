@@ -135,6 +135,22 @@ public class FlowBuilder
 public class FlowElementUids
 {
     /// <summary>
+    /// Gets the UID for Apprise
+    /// </summary>
+    public static string Apprise => "FileFlows.Apprise.Communication.Apprise";
+    /// <summary>
+    /// Gets the UID for Gotify
+    /// </summary>
+    public static string Gotify => "FileFlows.Gotify.Communication.Gotify";
+    /// <summary>
+    /// Gets the UID for Telegram
+    /// </summary>
+    public static string Telegram => "FileFlows.Telegram.Communication.Telegram";
+    /// <summary>
+    /// Gets the UID for Discord
+    /// </summary>
+    public static string Discord => "FileFlows.DiscordNodes.Communication.Discord";
+    /// <summary>
     /// Gets the UID for InputFile
     /// </summary>
     public static string InputFile => "FileFlows.BasicNodes.File.InputFile";

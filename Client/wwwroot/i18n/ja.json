@@ -366,6 +366,18 @@
           "eBook": "eBook",
           "eBookDescription": "eBookフォーマットを変換するためのフローを作成します。"
         },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "失敗が発生したときにAppriseに詳細なメッセージを送信します。",
+          "Blank": "空の失敗フロー",
+          "BlankDescription": "フローが失敗したときに実行される基本的な失敗フロー。",
+          "Discord": "Discord",
+          "DiscordDescription": "失敗が発生したときにDiscordに詳細なメッセージを送信します。",
+          "Gotify": "Gotify",
+          "GotifyDescription": "失敗が発生したときにGotifyに詳細なメッセージを送信します。",
+          "Telegram": "Telegram",
+          "TelegramDescription": "失敗が発生したときにTelegramに詳細なメッセージを送信します。"
+        },
         "Image": {
           "Blank": "空の画像",
           "BlankDescription": "画像を処理するカスタムフローを作成するための空の画像ベースのフロー。",
@@ -388,6 +400,8 @@
         "BasicDescription": "カスタムフローを作成するための基本的な空のフローを選択します。",
         "Book": "本",
         "BookDescription": "本を処理するフローを作成します。",
+        "Failure": "失敗",
+        "FailureDescription": "失敗時に実行されるフローを作成",
         "Image": "画像",
         "ImageDescription": "画像ファイルを処理するフローを作成します。",
         "Video": "ビデオ",

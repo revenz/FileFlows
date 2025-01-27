@@ -366,6 +366,18 @@
           "eBook": "eBook",
           "eBookDescription": "Erstelle einen Flow zum Konvertieren von eBook-Formaten."
         },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "Sendet eine detaillierte Nachricht an Apprise, wenn ein Fehler aufgetreten ist.",
+          "Blank": "Leerer Fehler-Flow",
+          "BlankDescription": "Ein grundlegender Fehler-Flow, der ausgeführt wird, wenn ein Flow fehlschlägt.",
+          "Discord": "Discord",
+          "DiscordDescription": "Sendet eine detaillierte Nachricht an Discord, wenn ein Fehler aufgetreten ist.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "Sendet eine detaillierte Nachricht an Gotify, wenn ein Fehler aufgetreten ist.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "Sendet eine detaillierte Nachricht an Telegram, wenn ein Fehler aufgetreten ist."
+        },
         "Image": {
           "Blank": "Leeres Bild",
           "BlankDescription": "Ein leerer Flow zur Erstellung von Workflows für die Verarbeitung von Bildern.",
@@ -388,6 +400,8 @@
         "BasicDescription": "Wähle einen Basis-Flow aus, um einen benutzerdefinierten Workflow zu erstellen.",
         "Book": "Buch",
         "BookDescription": "Erstelle einen Flow zur Verarbeitung von Büchern.",
+        "Failure": "Fehler",
+        "FailureDescription": "Erstelle einen Flow, der bei Fehler ausgeführt wird",
         "Image": "Bild",
         "ImageDescription": "Erstelle einen Flow zur Verarbeitung von Bilddateien.",
         "Video": "Video",

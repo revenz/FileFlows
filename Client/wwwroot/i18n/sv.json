@@ -366,6 +366,18 @@
           "eBook": "eBook",
           "eBookDescription": "Skapa ett flöde för att konvertera eBook-format."
         },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "Skickar ett detaljerat meddelande till Apprise när ett fel uppstår.",
+          "Blank": "Tom felflöde",
+          "BlankDescription": "Ett grundläggande felflöde som körs när ett flöde misslyckas.",
+          "Discord": "Discord",
+          "DiscordDescription": "Skickar ett detaljerat meddelande till Discord när ett fel uppstår.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "Skickar ett detaljerat meddelande till Gotify när ett fel uppstår.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "Skickar ett detaljerat meddelande till Telegram när ett fel uppstår."
+        },
         "Image": {
           "Blank": "Tom Bild",
           "BlankDescription": "Ett tomt bildbaserat flöde som används för att skapa ett anpassat flöde för att bearbeta bilder.",
@@ -388,6 +400,8 @@
         "BasicDescription": "Välj ett grundläggande tomt flöde för att skapa ett anpassat flöde.",
         "Book": "Bok",
         "BookDescription": "Skapa ett flöde för att bearbeta böcker.",
+        "Failure": "Misslyckande",
+        "FailureDescription": "Skapa ett flöde som körs vid misslyckande",
         "Image": "Bild",
         "ImageDescription": "Skapa ett flöde för att bearbeta bildfiler.",
         "Video": "Video",

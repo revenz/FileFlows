@@ -344,21 +344,21 @@
           "AudioToVideo": "Audio to Video",
           "AudioToVideoDescription": "Convert an audio file into a video file.",
           "Blank": "Blank Audio",
-          "BlankDescription": "A blank flow for creating custom workflows to process audio files.",
+          "BlankDescription": "A blank flow for creating custom flows to process audio files.",
           "Convert": "Convert Audio",
-          "ConvertDescription": "Create a workflow to convert audio formats."
+          "ConvertDescription": "Create a flow to convert audio formats."
         },
         "Basic": {
           "FailureFlow": "Blank Failure Flow",
-          "FailureFlowDescription": "A basic failure flow that executes when any workflow fails.",
+          "FailureFlowDescription": "A basic failure flow that executes when any flow fails.",
           "File": "Blank File",
-          "FileDescription": "A blank flow for creating custom workflows to process individual files.",
+          "FileDescription": "A blank flow for creating custom flows to process individual files.",
           "Folder": "Blank Folder",
-          "FolderDescription": "A blank flow for creating workflows to process entire folders.",
+          "FolderDescription": "A blank flow for creating flows to process entire folders.",
           "SubFlow": "Blank Sub Flow",
           "SubFlowDescription": "A blank flow for creating reusable sub-flows.",
           "Url": "URL",
-          "UrlDescription": "A blank flow for creating workflows to process URLs."
+          "UrlDescription": "A blank flow for creating flows to process URLs."
         },
         "Book": {
           "Comic": "Comic",
@@ -366,9 +366,21 @@
           "eBook": "eBook",
           "eBookDescription": "Create a flow for converting eBook formats."
         },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "Sends a detailed message to Apprise when there has been a failure.",
+          "Blank": "Blank Failure Flow",
+          "BlankDescription": "A basic failure flow that executes when any flow fails.",
+          "Discord": "Discord",
+          "DiscordDescription": "Sends a detailed message to Discord when there has been a failure.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "Sends a detailed message to Gotify when there has been a failure.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "Sends a detailed message to Telegram when there has been a failure."
+        },
         "Image": {
           "Blank": "Blank Image",
-          "BlankDescription": "A blank flow for creating workflows to process images.",
+          "BlankDescription": "A blank flow for creating flows to process images.",
           "Convert": "Convert Image",
           "ConvertDescription": "Create a flow for converting image formats."
         },
@@ -376,7 +388,7 @@
           "AudioToVideo": "Audio to Video",
           "AudioToVideoDescription": "Convert an audio file into a video file.",
           "Blank": "Blank Video",
-          "BlankDescription": "A blank flow for creating workflows to process video files.",
+          "BlankDescription": "A blank flow for creating flows to process video files.",
           "Convert": "Convert Video",
           "ConvertDescription": "A guided wizard to create a video conversion flow that manipulates video, audio, and subtitles."
         }
@@ -385,9 +397,11 @@
         "Audio": "Audio",
         "AudioDescription": "Create a flow to process audio files.",
         "Basic": "Basic",
-        "BasicDescription": "Choose a basic blank flow to create a custom workflow.",
+        "BasicDescription": "Choose a basic blank flow to create a custom flow.",
         "Book": "Book",
         "BookDescription": "Create a flow to process books.",
+        "Failure": "Failure",
+        "FailureDescription": "Create a flow to execute on failure",
         "Image": "Image",
         "ImageDescription": "Create a flow to process image files.",
         "Video": "Video",
@@ -1189,7 +1203,7 @@
         "Finish": {
           "Bottom": "With these steps, you're well on your way to maximizing the power of FileFlows.\n\nIf you have any questions or need assistance along the way, don't hesitate to reach out to our support team.",
           "CreateALibrary": "Create A Library:",
-          "CreateALibraryDescription": "Establish a library to automate file processing.\nYour library will automatically detect and process files based on your specified criteria,\nsimplifying your workflow without the need for manual intervention.",
+          "CreateALibraryDescription": "Establish a library to automate file processing.\nYour library will automatically detect and process files based on your specified criteria,\nsimplifying your flow without the need for manual intervention.",
           "CreateFirstFlow": "Create Your First Flow:",
           "CreateFirstFlowDescription": "Utilize the plugins you've selected to craft your first flow.\nWhether it's processing video files, audio tracks, images, or any other type of file, your flow\nempowers you to tailor the handling of your files to your specific needs, whether they're simple\nor complex.",
           "Top": "You've successfully configured FileFlows to suit your needs. Now it's time to put it to work!"
@@ -1636,7 +1650,7 @@
         "DelayBetweenNextFile-Help": "The delay in milliseconds to wait between starting a file and requesting a new one. Setting this delay to zero means it will immediately request a new file. If the delay is too short, features like load balancing and library runner limits may not work properly, as a file might not have fully started before the next request.",
         "DelayBetweenNextFile-Suffix": "milliseconds",
         "DockerModsOnServer": "DockerMods On Server",
-        "DockerModsOnServer-Help": "DockerMods should run automatically upon server startup or when specifically enabled. Otherwise, they will only execute when a workflow is initiated.",
+        "DockerModsOnServer-Help": "DockerMods should run automatically upon server startup or when specifically enabled. Otherwise, they will only execute when a flow is initiated.",
         "DontUseTempFilesWhenMovingOrCopying": "Temp Files for Moving/Copying",
         "DontUseTempFilesWhenMovingOrCopying-Help": "Use .fftemp files to avoid premature detection during move/copy.",
         "HideProcessingFinishedNotifications": "Processing Finished Notifications",

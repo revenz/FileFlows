@@ -366,6 +366,18 @@
           "eBook": "eBook",
           "eBookDescription": "Maak een flow voor het converteren van eBookformaten."
         },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "Verstuurt een gedetailleerd bericht naar Apprise wanneer er een fout optreedt.",
+          "Blank": "Lege Foutstroom",
+          "BlankDescription": "Een basisfoutstroom die wordt uitgevoerd wanneer een stroom mislukt.",
+          "Discord": "Discord",
+          "DiscordDescription": "Verstuurt een gedetailleerd bericht naar Discord wanneer er een fout optreedt.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "Verstuurt een gedetailleerd bericht naar Gotify wanneer er een fout optreedt.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "Verstuurt een gedetailleerd bericht naar Telegram wanneer er een fout optreedt."
+        },
         "Image": {
           "Blank": "Lege Afbeelding",
           "BlankDescription": "Een lege afbeelding-gebaseerde flow die wordt gebruikt om een aangepaste flow te maken voor het verwerken van afbeeldingen.",
@@ -388,6 +400,8 @@
         "BasicDescription": "Kies een basis lege flow om een aangepaste flow te maken.",
         "Book": "Boek",
         "BookDescription": "Maak een flow voor het verwerken van boeken.",
+        "Failure": "Fout",
+        "FailureDescription": "Maak een flow die wordt uitgevoerd bij een fout",
         "Image": "Afbeelding",
         "ImageDescription": "Maak een flow voor het verwerken van afbeeldingsbestanden.",
         "Video": "Video",

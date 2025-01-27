@@ -24,7 +24,7 @@ public partial class NewFlowWizard : IModal
     /// <summary>
     /// Flow values
     /// </summary>
-    private int SelectedCategory = 0, FlowBasic = 0, FlowVideo = 0, FlowAudio = 0, FlowImage = 0, FlowBook = 0;
+    private int SelectedCategory = 0, FlowBasic = 0, FlowVideo = 0, FlowAudio = 0, FlowImage = 0, FlowBook = 1, FlowFailure;
 
     /// <summary>
     /// Gets or sets the editor
@@ -119,6 +119,9 @@ public partial class NewFlowWizard : IModal
             case 4: // Book
                 close = await CreateBook();
                 break;
+            case 5: // Failure
+                await CreateFailure();
+                break;
         }
         if(close)
             TaskCompletionSource.TrySetResult(null);
@@ -147,6 +150,102 @@ public partial class NewFlowWizard : IModal
                 CreateBasicFlow(FlowElementUids.InputUrl);
                 return;
         }
+    }
+    
+    
+    /// <summary>
+    /// Creates a failure flow
+    /// </summary>
+    private async Task CreateFailure()
+    {
+        if (FlowFailure == 0)
+        {
+            // Blank File
+            CreateBasicFlow(FlowElementUids.FlowFailure);
+            return;
+        }
+
+        string name = FlowFailure switch
+        {
+            1 => "Apprise Notification",
+            2 => "Discord Notification",
+            3 => "Gotify Notification",
+            4 => "Telegram Notification",
+            _ => "Failure Notification"
+        };
+        
+
+        var builder = new FlowBuilder(name);
+        builder.Add(new ()
+        {
+            FlowElementUid = FlowElementUids.FlowFailure,
+            Type = FlowElementType.Input,
+        });
+
+        if (FlowFailure == 1)
+        {
+            builder.AddAndConnect(new()
+            {
+                FlowElementUid = FlowElementUids.Apprise,
+                Type = FlowElementType.Communication,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    MessageType = "warning",
+                    Message = "FileFlows - File \u0027{file.FullName}\u0027 failed",
+                    Tag = new string[] {}
+                })
+            });
+        }
+        else if (FlowFailure == 2)
+        {
+            builder.AddAndConnect(new()
+            {
+                FlowElementUid = FlowElementUids.Discord,
+                Type = FlowElementType.Communication,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    Message = "{file.FullName}",
+                    Title = "FileFlows - File Failed",
+                    MessageType = "Warning"
+                })
+            });
+        }
+        else if (FlowFailure == 3)
+        {
+            builder.AddAndConnect(new()
+            {
+                FlowElementUid = FlowElementUids.Gotify,
+                Type = FlowElementType.Communication,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    Message = "{file.FullName}",
+                    Title = "FileFlows - File Failed",
+                    Priority = 2
+                })
+            });
+        }
+        else if (FlowFailure == 4)
+        {
+            builder.AddAndConnect(new()
+            {
+                FlowElementUid = FlowElementUids.Telegram,
+                Type = FlowElementType.Communication,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    Message = "FileFlows - File \u0027{file.FullName}\u0027 failed"
+                })
+            });
+        }
+
+        var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", builder.Flow);
+        if (saveResult.Success == false)
+        {
+            Wizard.HideBlocker();
+            Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+            return;
+        }
+        
+        NavigationManager.NavigateTo("flows/" + saveResult.Data.Uid);
     }
 
     /// <summary>
