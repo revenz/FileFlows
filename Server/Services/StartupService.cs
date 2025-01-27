@@ -88,6 +88,12 @@ public class StartupService : IStartupService
                 UpdateStatus(error);
                 return Result<bool>.Fail(error);
             }
+
+            if (CheckVersion().Failed(out error))
+            {
+                UpdateStatus(error);
+                return Result<bool>.Fail(error);
+            }
         
             UpdateStatus("Updating Templates...");
             UpdateTemplates();
@@ -438,4 +444,27 @@ public class StartupService : IStartupService
         }
     }
 
+    /// <summary>
+    /// Gets the version
+    /// </summary>
+    /// <returns>true if successful</returns>
+    private Result<bool> CheckVersion()
+    {
+        try
+        {
+            var versionParts = Globals.Version.Split(".");
+            int year = int.Parse("20" + versionParts[0]);
+            int month = int.Parse(versionParts[1]);
+            var date = new DateTime(year, month, 1);
+
+            if (date < DateTime.Now.AddMonths(-4))
+                return Result<bool>.Fail("Version is out of date, please upgrade to continue.");
+            
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return Result<bool>.Fail(ex.Message);
+        }
+    }
 }
