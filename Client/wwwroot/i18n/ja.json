@@ -365,6 +365,46 @@
         "VideoDescription": "ビデオファイルを処理するフローを作成します。"
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "ロスレス形式",
+        "LossyFormats": "ロッシー形式"
+      },
+      "Fields": {
+        "Format": "形式",
+        "Format-Help": "ファイルを保存する画像形式。",
+        "Height": "高さ",
+        "Height-Help": "リサイズ後の画像の高さ。",
+        "Name": "名前",
+        "Name-Help": "フローの名前です。これが一意である必要があります。",
+        "Quality": "品質",
+        "Quality-Help": "新しい画像ファイルに使用する品質 (1～100)。",
+        "Resize": "リサイズ",
+        "Resize-Help": "画像をリサイズするかどうか。",
+        "Width": "幅",
+        "Width-Help": "リサイズ後の画像の幅。"
+      },
+      "Pages": {
+        "General": "一般",
+        "GeneralDescription": "画像を処理する新しいフローを作成します。",
+        "ResizeMode": "リサイズ",
+        "ResizeModeDescription": "画像をリサイズする方法を選択します。"
+      },
+      "Resize": {
+        "Contain": "コンテイン",
+        "ContainDescription": "指定された領域内に収まるようにアスペクト比を保持して画像をリサイズします。",
+        "Cover": "カバー",
+        "CoverDescription": "指定された幅/高さをカバーするように画像をリサイズし、余分な部分を切り取ります。",
+        "Fill": "フィル",
+        "FillDescription": "指定された幅/高さ全体に画像を埋め込み、アスペクト比を無視します。",
+        "Max": "最大",
+        "MaxDescription": "指定された幅/高さ内に収まり、アスペクト比を維持しながら画像をリサイズしますが、いずれの寸法も下回りません。",
+        "Min": "最小",
+        "MinDescription": "指定された幅/高さ内に収まるようにアスペクト比を維持しながら画像をリサイズします。",
+        "Pad": "パッド",
+        "PadDescription": "指定された幅/高さにリサイズし、必要に応じてパディングしてアスペクト比を保持します。"
+      }
+    },
     "NewLibraryWizard": {
       "Title": "新しいライブラリ",
       "Labels": {

@@ -365,6 +365,46 @@
         "VideoDescription": "Skapa ett flöde för att bearbeta videofiler."
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "Förlustfria Format",
+        "LossyFormats": "Förlustformat"
+      },
+      "Fields": {
+        "Format": "Format",
+        "Format-Help": "Bildformatet som filen sparas i.",
+        "Height": "Höjd",
+        "Height-Help": "Höjden på den omstorlekade bilden.",
+        "Name": "Namn",
+        "Name-Help": "Namnet på flödet. Det måste vara unikt.",
+        "Quality": "Kvalitet",
+        "Quality-Help": "Kvaliteten mellan 1 och 100 för den nya bildfilen.",
+        "Resize": "Ändra storlek",
+        "Resize-Help": "Om bilden ska ändra storlek.",
+        "Width": "Bredd",
+        "Width-Help": "Bredden på den omstorlekade bilden."
+      },
+      "Pages": {
+        "General": "Allmänt",
+        "GeneralDescription": "Skapa ett nytt flöde för att bearbeta bilder.",
+        "ResizeMode": "Ändra storlek",
+        "ResizeModeDescription": "Välj hur bilden ska ändra storlek."
+      },
+      "Resize": {
+        "Contain": "Innehåll",
+        "ContainDescription": "Ändrar storlek på bilden för att passa inom den angivna ytan med bibehållna proportioner.",
+        "Cover": "Täcka",
+        "CoverDescription": "Ändrar storlek på bilden för att täcka hela bredden/höjden och beskär överskottet.",
+        "Fill": "Fyll",
+        "FillDescription": "Fyller hela angiven bredd/höjd utan att ta hänsyn till proportioner.",
+        "Max": "Maximal",
+        "MaxDescription": "Ändrar storlek på bilden för att hålla sig inom angivna dimensioner med bibehållna proportioner.",
+        "Min": "Minsta",
+        "MinDescription": "Ändrar storlek så att bilden passar inom angiven bredd/höjd med bibehållna proportioner.",
+        "Pad": "Fyll ut",
+        "PadDescription": "Ändrar storlek på bilden till angiven bredd/höjd, bibehåller proportioner och lägger till utfyllnad vid behov."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Ny Bibliotek",
       "Labels": {

@@ -365,6 +365,46 @@
         "VideoDescription": "創建處理影片檔案的流程。"
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "無損格式",
+        "LossyFormats": "有損格式"
+      },
+      "Fields": {
+        "Format": "格式",
+        "Format-Help": "儲存檔案的圖片格式。",
+        "Height": "高度",
+        "Height-Help": "調整大小後的圖片高度。",
+        "Name": "名稱",
+        "Name-Help": "流程的名稱。必須是唯一的。",
+        "Quality": "品質",
+        "Quality-Help": "新圖片檔案的品質，範圍為1到100。",
+        "Resize": "調整大小",
+        "Resize-Help": "是否調整圖片大小。",
+        "Width": "寬度",
+        "Width-Help": "調整大小後的圖片寬度。"
+      },
+      "Pages": {
+        "General": "一般",
+        "GeneralDescription": "建立一個用於處理圖片的新流程。",
+        "ResizeMode": "調整模式",
+        "ResizeModeDescription": "選擇調整圖片大小的模式。"
+      },
+      "Resize": {
+        "Contain": "包含",
+        "ContainDescription": "將圖片調整以適應指定區域，同時保持比例。",
+        "Cover": "覆蓋",
+        "CoverDescription": "將圖片調整以覆蓋指定的寬度/高度，裁剪多餘部分。",
+        "Fill": "填滿",
+        "FillDescription": "將圖片調整以填滿指定的寬度/高度，忽略比例。",
+        "Max": "最大",
+        "MaxDescription": "將圖片調整以保持在指定的寬度/高度內，同時保持比例。",
+        "Min": "最小",
+        "MinDescription": "將圖片調整以適應指定的寬度/高度，同時保持比例。",
+        "Pad": "填充邊距",
+        "PadDescription": "將圖片調整至指定的寬度/高度，保持比例並在必要時填充邊距。"
+      }
+    },
     "NewLibraryWizard": {
       "Title": "新庫",
       "Labels": {

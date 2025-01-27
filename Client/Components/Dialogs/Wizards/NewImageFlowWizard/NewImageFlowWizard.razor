@@ -1,0 +1,62 @@
+@namespace FileFlows.Client.Components.Dialogs.Wizards
+
+@using InputText = FileFlows.Client.Components.Inputs.InputText
+@inherits InputRegister
+
+<Editor @ref="Editor"></Editor>
+@if (Editor != null && initDone)
+{
+    <CascadingValue IsFixed="true" Value="Editor">
+        <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
+
+            <FlowWizardPage TLabel="Dialogs.NewImageFlowWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
+                <InputText @bind-Value="@FlowName" Label="Dialogs.NewImageFlowWizard.Fields.Name" Validators=@RequiredValidator />
+
+                <InputSelect @bind-Value="@BoundFormat" AllowClear="false" Options=@ImageFormats Label="Dialogs.NewImageFlowWizard.Fields.Format" />
+                @if (Format is IMAGE_FORMAT_WEBP or IMAGE_FORMAT_JPEG)
+                {
+                    <InputSlider @bind-Value="@Quality" Label="Dialogs.NewImageFlowWizard.Fields.Quality" Min="1" Max="100" />
+                }
+                <InputSwitch @bind-Value="@Resize" Label="Dialogs.NewImageFlowWizard.Fields.Resize" />
+                @if (Resize)
+                {
+                    <InputNumberPercent @bind-Value="@Width" Label="Dialogs.NewImageFlowWizard.Fields.Width" Unit="Pixels" />
+                    <InputNumberPercent @bind-Value="@Height" Label="Dialogs.NewImageFlowWizard.Fields.Height" Unit="Pixels" />
+                }
+            </FlowWizardPage>
+            
+            <FlowWizardPage TLabel="Dialogs.NewImageFlowWizard.Pages.ResizeMode" Visible="@Resize">
+
+                <FlowRadioGroup TItem="int" @bind-Value="ResizeMode" LabelPrefix="Dialogs.NewImageFlowWizard.Resize">
+                    <FlowRadioGroupItem TItem="int" Value="1" Icon="fas fa-expand" TLabel="Fill" />
+                    <FlowRadioGroupItem TItem="int" Value="2" Icon="fas fa-compress" TLabel="Contain" />
+                    <FlowRadioGroupItem TItem="int" Value="3" Icon="fas fa-crop" TLabel="Cover" />
+                    <FlowRadioGroupItem TItem="int" Value="4" Icon="fas fa-border-style" TLabel="Pad" />
+                    <FlowRadioGroupItem TItem="int" Value="5" Icon="fas fa-arrows-alt-v" TLabel="Min" />
+                    <FlowRadioGroupItem TItem="int" Value="6" Icon="fas fa-arrows-alt-h" TLabel="Max" />
+                </FlowRadioGroup>
+                
+            </FlowWizardPage>
+            
+            <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">
+
+                <FlowRadioGroup TItem="bool" @bind-Value="ReplaceOriginal" LabelPrefix="Dialogs.NewFlowCommon.Output">
+                    <FlowRadioGroupItem TItem="bool" Value="true" Icon="fas fa-file-import" TLabel="ReplaceOriginal" />
+                    <FlowRadioGroupItem TItem="bool" Value="false" Icon="fas fa-file-export" TLabel="SaveToFolder">
+                        <div class="options">
+                            @if (IsWindows)
+                            {
+                                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewFlowCommon.Fields.OutputPathWindows" Validators=@RequiredValidator Directory=@true/>
+                            }
+                            else
+                            {
+                                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewFlowCommon.Fields.OutputPath" Validators=@RequiredValidator Directory=@true/>
+                            }
+                            <InputSwitch @bind-Value="DeleteOld" Label="Dialogs.NewFlowCommon.Fields.DeleteOld"/>
+                        </div>
+                    </FlowRadioGroupItem>
+                </FlowRadioGroup>
+            </FlowWizardPage>
+        </FlowWizard>
+    </CascadingValue>
+}

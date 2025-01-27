@@ -365,6 +365,46 @@
         "VideoDescription": "Erstelle einen Flow zur Verarbeitung von Videodateien."
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "Verlustfreie Formate",
+        "LossyFormats": "Verlustbehaftete Formate"
+      },
+      "Fields": {
+        "Format": "Format",
+        "Format-Help": "Das Bildformat, in dem die Datei gespeichert werden soll.",
+        "Height": "Höhe",
+        "Height-Help": "Die Höhe des geänderten Bildes.",
+        "Name": "Name",
+        "Name-Help": "Der Name des Flows. Dieser muss eindeutig sein.",
+        "Quality": "Qualität",
+        "Quality-Help": "Die Qualität von 1 bis 100, die für die neue Bilddatei verwendet werden soll.",
+        "Resize": "Größe ändern",
+        "Resize-Help": "Ob das Bild in der Größe geändert werden soll oder nicht.",
+        "Width": "Breite",
+        "Width-Help": "Die Breite des geänderten Bildes."
+      },
+      "Pages": {
+        "General": "Allgemein",
+        "GeneralDescription": "Erstellen Sie einen neuen Flow, um Bilder zu verarbeiten.",
+        "ResizeMode": "Größe ändern",
+        "ResizeModeDescription": "Wählen Sie den Modus zum Ändern der Bildgröße."
+      },
+      "Resize": {
+        "Contain": "Einhüllen",
+        "ContainDescription": "Passt das Bild an den angegebenen Bereich an und behält das Seitenverhältnis bei.",
+        "Cover": "Abdecken",
+        "CoverDescription": "Passt das Bild an die angegebene Breite/Höhe an und schneidet überflüssige Teile ab.",
+        "Fill": "Ausfüllen",
+        "FillDescription": "Füllt das Bild auf die gesamte angegebene Breite/Höhe aus und ignoriert das Seitenverhältnis.",
+        "Max": "Max",
+        "MaxDescription": "Passt das Bild an die angegebene Breite/Höhe an, behält das Seitenverhältnis bei, unterschreitet jedoch keine Dimension.",
+        "Min": "Min",
+        "MinDescription": "Passt das Bild an die angegebene Breite/Höhe an, behält das Seitenverhältnis bei, überschreitet jedoch keine Dimension.",
+        "Pad": "Auffüllen",
+        "PadDescription": "Passt das Bild auf die gewünschte Breite/Höhe an, behält das Seitenverhältnis bei und fügt bei Bedarf Polsterung hinzu."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Neue Bibliothek",
       "Labels": {

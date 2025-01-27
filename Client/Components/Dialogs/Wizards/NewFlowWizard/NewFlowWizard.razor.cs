@@ -114,7 +114,7 @@ public partial class NewFlowWizard : IModal
                 close = await CreateAudio();
                 break;
             case 3: // Image
-                CreateImage();
+                close = await CreateImage();
                 break;
             case 4: // Book
                 CreateBook();
@@ -225,16 +225,26 @@ public partial class NewFlowWizard : IModal
     /// <summary>
     /// Creates a video flow
     /// </summary>
-    private void CreateImage()
+    /// <returns>if the dialog should be closed</returns>
+    private async Task<bool> CreateImage()
     {
         switch (FlowImage)
         {
             case 0: // Convert Image
-                return;
+            {
+                var result = await ModalService.ShowModal<NewImageFlowWizard, Flow>(new NewImageFlowWizardOptions());
+                if (result.Success(out var newFlow))
+                {
+                    NavigationManager.NavigateTo($"flows/{newFlow.Uid}");
+                    return true;
+                }
+            }
+                return false;
             case 1: // Blank Image
                 CreateBasicFlow(FlowElementUids.ImageFile);
-                return;
+                return true;
         }
+        return false;
     }
 
     /// <summary>

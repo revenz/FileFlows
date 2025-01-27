@@ -365,6 +365,46 @@
         "VideoDescription": "Erstelle einen Flow zur Verarbeitung von Videodateien."
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "Formatos Sin Pérdida",
+        "LossyFormats": "Formatos Con Pérdida"
+      },
+      "Fields": {
+        "Format": "Formato",
+        "Format-Help": "El formato de imagen en el que se guardará el archivo.",
+        "Height": "Altura",
+        "Height-Help": "La altura de la imagen redimensionada.",
+        "Name": "Nombre",
+        "Name-Help": "El nombre del flujo. Debe ser único.",
+        "Quality": "Calidad",
+        "Quality-Help": "La calidad de 1 a 100 para usar en el nuevo archivo de imagen.",
+        "Resize": "Redimensionar",
+        "Resize-Help": "Si la imagen debe redimensionarse o no.",
+        "Width": "Ancho",
+        "Width-Help": "El ancho de la imagen redimensionada."
+      },
+      "Pages": {
+        "General": "General",
+        "GeneralDescription": "Crea un nuevo flujo para procesar imágenes.",
+        "ResizeMode": "Redimensionar",
+        "ResizeModeDescription": "Elige el modo para redimensionar imágenes."
+      },
+      "Resize": {
+        "Contain": "Contener",
+        "ContainDescription": "Redimensiona la imagen para que encaje dentro del área especificada, conservando la relación de aspecto.",
+        "Cover": "Cubrir",
+        "CoverDescription": "Redimensiona la imagen para cubrir el ancho/alto especificado, recortando el exceso.",
+        "Fill": "Llenar",
+        "FillDescription": "Llena la imagen a todo el ancho/alto especificado, ignorando la relación de aspecto.",
+        "Max": "Máx",
+        "MaxDescription": "Redimensiona la imagen para encajar dentro del ancho/alto especificado, conservando la relación de aspecto, pero sin ser menor que ninguna dimensión.",
+        "Min": "Mín",
+        "MinDescription": "Redimensiona la imagen para encajar dentro del ancho/alto especificado, conservando la relación de aspecto, pero sin exceder ninguna dimensión.",
+        "Pad": "Rellenar",
+        "PadDescription": "Redimensiona la imagen al ancho/alto deseado, conservando la relación de aspecto y agregando relleno si es necesario."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nueva Biblioteca",
       "Labels": {

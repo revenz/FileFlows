@@ -365,6 +365,46 @@
         "VideoDescription": "Criar um fluxo para processar arquivos de vídeo."
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "Formatos Sem Perdas",
+        "LossyFormats": "Formatos com Perdas"
+      },
+      "Fields": {
+        "Format": "Formato",
+        "Format-Help": "O formato de imagem para salvar o arquivo.",
+        "Height": "Altura",
+        "Height-Help": "A altura da imagem redimensionada.",
+        "Name": "Nome",
+        "Name-Help": "O nome do fluxo. Este deve ser único.",
+        "Quality": "Qualidade",
+        "Quality-Help": "A qualidade de 1 a 100 para usar no novo arquivo de imagem.",
+        "Resize": "Redimensionar",
+        "Resize-Help": "Se a imagem deve ser redimensionada ou não.",
+        "Width": "Largura",
+        "Width-Help": "A largura da imagem redimensionada."
+      },
+      "Pages": {
+        "General": "Geral",
+        "GeneralDescription": "Crie um novo fluxo para processar imagens.",
+        "ResizeMode": "Redimensionar",
+        "ResizeModeDescription": "Escolha o modo para redimensionar imagens."
+      },
+      "Resize": {
+        "Contain": "Conter",
+        "ContainDescription": "Redimensiona a imagem para caber na área especificada enquanto mantém a proporção.",
+        "Cover": "Cobrir",
+        "CoverDescription": "Redimensiona a imagem para cobrir a largura/altura especificada, cortando o excesso.",
+        "Fill": "Preencher",
+        "FillDescription": "Preenche a imagem na largura/altura total especificada, ignorando a proporção.",
+        "Max": "Máximo",
+        "MaxDescription": "Redimensiona a imagem para caber dentro da largura/altura especificada, mantendo a proporção, sem ser menor que nenhuma das dimensões.",
+        "Min": "Mínimo",
+        "MinDescription": "Redimensiona a imagem para caber dentro da largura/altura especificada, mantendo a proporção.",
+        "Pad": "Preencher",
+        "PadDescription": "Redimensiona a imagem para a largura/altura desejada, mantendo a proporção e preenchendo se necessário."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nova Biblioteca",
       "Labels": {

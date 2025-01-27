@@ -365,6 +365,46 @@
         "VideoDescription": "创建处理视频文件的流程。"
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "无损格式",
+        "LossyFormats": "有损格式"
+      },
+      "Fields": {
+        "Format": "格式",
+        "Format-Help": "保存文件的图片格式。",
+        "Height": "高度",
+        "Height-Help": "调整大小后的图片高度。",
+        "Name": "名称",
+        "Name-Help": "流程的名称。必须是唯一的。",
+        "Quality": "质量",
+        "Quality-Help": "新图片文件的质量，范围为1到100。",
+        "Resize": "调整大小",
+        "Resize-Help": "是否调整图片大小。",
+        "Width": "宽度",
+        "Width-Help": "调整大小后的图片宽度。"
+      },
+      "Pages": {
+        "General": "通用",
+        "GeneralDescription": "创建一个用于处理图片的新流程。",
+        "ResizeMode": "调整模式",
+        "ResizeModeDescription": "选择调整图片大小的模式。"
+      },
+      "Resize": {
+        "Contain": "包含",
+        "ContainDescription": "调整图片以适应指定区域，同时保持宽高比。",
+        "Cover": "覆盖",
+        "CoverDescription": "调整图片以覆盖指定的宽度/高度，裁剪多余部分。",
+        "Fill": "填充",
+        "FillDescription": "调整图片以填满指定的宽度/高度，忽略宽高比。",
+        "Max": "最大",
+        "MaxDescription": "调整图片以保持在指定的宽度/高度内，同时保持宽高比。",
+        "Min": "最小",
+        "MinDescription": "调整图片以适应指定的宽度/高度，同时保持宽高比。",
+        "Pad": "填充边距",
+        "PadDescription": "调整图片大小以匹配指定的宽度/高度，同时保持宽高比并在必要时添加边距。"
+      }
+    },
     "NewLibraryWizard": {
       "Title": "新库",
       "Labels": {

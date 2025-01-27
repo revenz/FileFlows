@@ -365,6 +365,46 @@
         "VideoDescription": "Crea un flusso per la gestione dei file video."
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "Formati Senza Perdita",
+        "LossyFormats": "Formati Con Perdita"
+      },
+      "Fields": {
+        "Format": "Formato",
+        "Format-Help": "Il formato immagine con cui salvare il file.",
+        "Height": "Altezza",
+        "Height-Help": "L'altezza dell'immagine ridimensionata.",
+        "Name": "Nome",
+        "Name-Help": "Il nome del flusso. Deve essere univoco.",
+        "Quality": "Qualità",
+        "Quality-Help": "La qualità da 1 a 100 da utilizzare per il nuovo file immagine.",
+        "Resize": "Ridimensiona",
+        "Resize-Help": "Se l'immagine deve essere ridimensionata o meno.",
+        "Width": "Larghezza",
+        "Width-Help": "La larghezza dell'immagine ridimensionata."
+      },
+      "Pages": {
+        "General": "Generale",
+        "GeneralDescription": "Crea un nuovo flusso per elaborare le immagini.",
+        "ResizeMode": "Ridimensiona",
+        "ResizeModeDescription": "Scegli il metodo per ridimensionare le immagini."
+      },
+      "Resize": {
+        "Contain": "Contieni",
+        "ContainDescription": "Ridimensiona l'immagine per adattarsi all'area specificata mantenendo il rapporto d'aspetto.",
+        "Cover": "Coprire",
+        "CoverDescription": "Ridimensiona l'immagine per coprire la larghezza/altezza specificata, ritagliando l'eccesso.",
+        "Fill": "Riempi",
+        "FillDescription": "Riempe l'immagine su tutta la larghezza/altezza specificata, ignorando il rapporto d'aspetto.",
+        "Max": "Max",
+        "MaxDescription": "Ridimensiona l'immagine per adattarsi alla larghezza/altezza specificata mantenendo il rapporto d'aspetto senza essere inferiore alle dimensioni.",
+        "Min": "Min",
+        "MinDescription": "Ridimensiona l'immagine per adattarsi alla larghezza/altezza specificata mantenendo il rapporto d'aspetto senza superare le dimensioni.",
+        "Pad": "Riempire",
+        "PadDescription": "Ridimensiona l'immagine alla larghezza/altezza desiderata mantenendo il rapporto d'aspetto e aggiungendo margini se necessario."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nuova Libreria",
       "Labels": {

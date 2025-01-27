@@ -365,6 +365,46 @@
         "VideoDescription": "Maak een flow voor het verwerken van videobestanden."
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "Verliesloze Formaten",
+        "LossyFormats": "Verlieslatende Formaten"
+      },
+      "Fields": {
+        "Format": "Formaat",
+        "Format-Help": "Het afbeeldingsformaat waarin het bestand wordt opgeslagen.",
+        "Height": "Hoogte",
+        "Height-Help": "De hoogte van de aangepaste afbeelding.",
+        "Name": "Naam",
+        "Name-Help": "De naam van de flow. Dit moet uniek zijn.",
+        "Quality": "Kwaliteit",
+        "Quality-Help": "De kwaliteit van 1 tot 100 voor het nieuwe afbeeldingsbestand.",
+        "Resize": "Formaat aanpassen",
+        "Resize-Help": "Of de afbeelding moet worden aangepast of niet.",
+        "Width": "Breedte",
+        "Width-Help": "De breedte van de aangepaste afbeelding."
+      },
+      "Pages": {
+        "General": "Algemeen",
+        "GeneralDescription": "Maak een nieuwe flow om afbeeldingen te verwerken.",
+        "ResizeMode": "Formaat aanpassen",
+        "ResizeModeDescription": "Kies de modus om afbeeldingen aan te passen."
+      },
+      "Resize": {
+        "Contain": "Behouden",
+        "ContainDescription": "Past de afbeelding aan zodat deze binnen het opgegeven gebied past, met behoud van de beeldverhouding.",
+        "Cover": "Bedekken",
+        "CoverDescription": "Past de afbeelding aan zodat deze het opgegeven gebied bedekt en snijdt overtollige delen af.",
+        "Fill": "Opvullen",
+        "FillDescription": "Vult de afbeelding in de volledige breedte/hoogte zoals opgegeven, zonder rekening te houden met de beeldverhouding.",
+        "Max": "Max",
+        "MaxDescription": "Past de afbeelding aan zodat deze binnen de opgegeven breedte/hoogte past, met behoud van de beeldverhouding, maar niet kleiner dan de opgegeven afmetingen.",
+        "Min": "Min",
+        "MinDescription": "Past de afbeelding aan zodat deze binnen de opgegeven breedte/hoogte past, met behoud van de beeldverhouding.",
+        "Pad": "Opmaken",
+        "PadDescription": "Past de afbeelding aan naar de gewenste breedte/hoogte, behoudt de beeldverhouding en voegt indien nodig opvulling toe."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nieuwe Bibliotheek",
       "Labels": {

@@ -365,6 +365,46 @@
         "VideoDescription": "Créez un flux pour traiter des fichiers vidéo."
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "Formats Sans Perte",
+        "LossyFormats": "Formats Avec Perte"
+      },
+      "Fields": {
+        "Format": "Format",
+        "Format-Help": "Le format d'image dans lequel enregistrer le fichier.",
+        "Height": "Hauteur",
+        "Height-Help": "La hauteur de l'image redimensionnée.",
+        "Name": "Nom",
+        "Name-Help": "Le nom du flux. Cela doit être unique.",
+        "Quality": "Qualité",
+        "Quality-Help": "La qualité de 1 à 100 à utiliser pour le nouveau fichier image.",
+        "Resize": "Redimensionner",
+        "Resize-Help": "Si l'image doit être redimensionnée ou non.",
+        "Width": "Largeur",
+        "Width-Help": "La largeur de l'image redimensionnée."
+      },
+      "Pages": {
+        "General": "Général",
+        "GeneralDescription": "Créez un nouveau flux pour traiter les images.",
+        "ResizeMode": "Redimensionner",
+        "ResizeModeDescription": "Choisissez le mode pour redimensionner les images."
+      },
+      "Resize": {
+        "Contain": "Contenir",
+        "ContainDescription": "Redimensionne l'image pour qu'elle s'insère dans la zone spécifiée, tout en conservant le ratio d'aspect.",
+        "Cover": "Couvrir",
+        "CoverDescription": "Redimensionne l'image pour couvrir la largeur/hauteur spécifiée, en rognant tout excédent.",
+        "Fill": "Remplir",
+        "FillDescription": "Remplit l'image à la largeur/hauteur spécifiée, en ignorant le ratio d'aspect.",
+        "Max": "Max",
+        "MaxDescription": "Redimensionne l'image pour qu'elle s'insère dans la largeur/hauteur spécifiée, tout en conservant le ratio d'aspect, sans être inférieure à aucune dimension.",
+        "Min": "Min",
+        "MinDescription": "Redimensionne l'image pour qu'elle s'insère dans la largeur/hauteur spécifiée, tout en conservant le ratio d'aspect, sans dépasser aucune dimension.",
+        "Pad": "Compléter",
+        "PadDescription": "Redimensionne l'image à la largeur/hauteur désirée, tout en conservant le ratio d'aspect, et ajoute un remplissage si nécessaire."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "Nouvelle Bibliothèque",
       "Labels": {

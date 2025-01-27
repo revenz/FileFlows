@@ -365,6 +365,46 @@
         "VideoDescription": "비디오 파일을 처리하는 흐름을 생성합니다."
       }
     },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "무손실 형식",
+        "LossyFormats": "손실 형식"
+      },
+      "Fields": {
+        "Format": "형식",
+        "Format-Help": "파일을 저장할 이미지 형식.",
+        "Height": "높이",
+        "Height-Help": "크기 조정된 이미지의 높이.",
+        "Name": "이름",
+        "Name-Help": "플로우의 이름입니다. 고유해야 합니다.",
+        "Quality": "품질",
+        "Quality-Help": "새 이미지 파일에 사용할 1에서 100까지의 품질.",
+        "Resize": "크기 조정",
+        "Resize-Help": "이미지를 크기 조정할지 여부.",
+        "Width": "너비",
+        "Width-Help": "크기 조정된 이미지의 너비."
+      },
+      "Pages": {
+        "General": "일반",
+        "GeneralDescription": "이미지를 처리하기 위한 새 플로우를 만듭니다.",
+        "ResizeMode": "크기 조정",
+        "ResizeModeDescription": "이미지를 크기 조정하는 방법을 선택하세요."
+      },
+      "Resize": {
+        "Contain": "맞추기",
+        "ContainDescription": "지정된 영역 내에 맞도록 종횡비를 유지하면서 이미지를 크기 조정합니다.",
+        "Cover": "덮기",
+        "CoverDescription": "지정된 너비/높이를 덮도록 이미지를 크기 조정하며 초과된 부분을 자릅니다.",
+        "Fill": "채우기",
+        "FillDescription": "지정된 너비/높이 전체를 채우도록 이미지를 크기 조정하며, 종횡비는 무시합니다.",
+        "Max": "최대",
+        "MaxDescription": "지정된 너비/높이에 맞게 종횡비를 유지하며, 어느 차원도 지정된 값 이하로 축소되지 않도록 이미지를 크기 조정합니다.",
+        "Min": "최소",
+        "MinDescription": "지정된 너비/높이에 맞도록 종횡비를 유지하며 이미지를 크기 조정합니다.",
+        "Pad": "패드",
+        "PadDescription": "지정된 너비/높이에 맞도록 이미지를 크기 조정하며, 필요 시 패딩을 추가하여 종횡비를 유지합니다."
+      }
+    },
     "NewLibraryWizard": {
       "Title": "새 라이브러리",
       "Labels": {
