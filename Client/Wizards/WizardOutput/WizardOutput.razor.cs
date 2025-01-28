@@ -73,14 +73,9 @@ public partial class WizardOutput : ComponentBase
             // reseller
             fpOutput = builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = FlowElementUids.MoveFile,
-                Outputs = 2,
-                Type = FlowElementType.Process,
-                Model = ExpandoHelper.ToExpandoObject(new
-                {
-                    DestinationPath = "{ResellerUserOutputDir}",
-                    DeleteOriginal = true
-                })
+                FlowElementUid = FlowElementUids.MoveToUserFolder,
+                Outputs = 1,
+                Type = FlowElementType.Process
             }, row: row, column: col > 0 ? (preOutputColumn + col) : 0);
         }
         else

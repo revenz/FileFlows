@@ -179,6 +179,11 @@ public class FlowElementUids
     /// </summary>
     public static string MoveFile => "FileFlows.BasicNodes.File.MoveFile";
     /// <summary>
+    /// Gets the UID for a Move To User Folder flow element
+    /// </summary>
+    public static string MoveToUserFolder => "FileFlows.ResellerPlugin.FlowElements.MoveToUserFolder";
+    
+    /// <summary>
     /// Gets the UID for a Delete Source Directory flow element
     /// </summary>
     public static string DeleteSourceDirectory => "FileFlows.BasicNodes.File.DeleteSourceDirectory";
