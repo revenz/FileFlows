@@ -467,6 +467,12 @@ public class LocalFileService(bool dontUseTemporaryFilesForMoveCopy) : IFileServ
                         Logger?.ILog("Input/output error, retrying move");
                         Thread.Sleep(count * 30_000);
                     }
+                    else if (ex is IOException && ex.Message.Contains("Access to the path") &&
+                             ex.Message.Contains("is denied"))
+                    {
+                        Logger?.ILog("Access denied error, retrying move");
+                        Thread.Sleep(count * 30_000);
+                    }
                     else
                     {
                         return Result<bool>.Fail(ex.Message);
@@ -607,6 +613,12 @@ public class LocalFileService(bool dontUseTemporaryFilesForMoveCopy) : IFileServ
                     if (OperatingSystem.IsMacOS() && ex.Message.Contains("Input/output error", StringComparison.InvariantCultureIgnoreCase))
                     {
                         Logger?.ILog("Input/output error, retrying move");
+                        Thread.Sleep(count * 30_000);
+                    }
+                    else if (ex is IOException && ex.Message.Contains("Access to the path") &&
+                             ex.Message.Contains("is denied"))
+                    {
+                        Logger?.ILog("Access denied error, retrying copy");
                         Thread.Sleep(count * 30_000);
                     }
                     else
