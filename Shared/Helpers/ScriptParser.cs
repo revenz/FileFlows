@@ -1,7 +1,5 @@
 using System.Text;
-using System.Text.RegularExpressions;
 using FileFlows.Plugin;
-using FileFlows.ScriptExecution;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.Shared.Helpers;
@@ -157,7 +155,32 @@ public class ScriptParser
                 param.Type = ScriptArgumentType.Int;
                 break;
             default:
-                throw new Exception("Invalid parameter type: " + paramMatch.Groups[2].Value);
+            {
+                // Improved regex to handle mixed quotes and escaped characters
+                var match = Regex.Match(paramMatch.Groups[2].Value, @"^\(([^)]+)\)(\[\])?$");
+                if (match.Success)
+                {
+                    string optionsString = match.Groups[1].Value; // Get the part inside parentheses
+                    bool isMultiSelect = match.Groups[2].Success; // Check if it ends with []
+
+                    // Parse individual options while supporting mixed quotes
+                    var options = Regex.Matches(optionsString, @"(['""])(.*?)(?<!\\)\1")
+                        .Cast<Match>()
+                        .Select(m => m.Groups[2].Value.Replace("\\'", "'").Replace("\\\"", "\""))
+                        .ToArray();
+
+                    param.Type = isMultiSelect
+                        ? ScriptArgumentType.SelectMultiple
+                        : ScriptArgumentType.Select;
+
+                    param.Options = options;
+                }
+                else
+                {
+                    throw new Exception("Invalid parameter type: " + paramMatch.Groups[2].Value);
+                }
+            }
+                break;
         }
 
         try
@@ -250,6 +273,8 @@ public class ScriptParser
                         {
                             ScriptArgumentType.Bool => "{bool}",
                             ScriptArgumentType.Int => "{int}",
+                            ScriptArgumentType.Select => GenerateSelectParameter(parameter),
+                            ScriptArgumentType.SelectMultiple => GenerateSelectParameter(parameter),
                             _ => "{string}",
                         }
                     ) + $" {parameter.Name} {parameter.Description}");
@@ -277,5 +302,23 @@ public class ScriptParser
                 header.AppendLine($" * @{name} {value}");
         }
 
+    }
+
+    /// <summary>
+    /// Generates the script parameter for an select
+    /// </summary>
+    /// <param name="parameter">the parameter</param>
+    /// <returns>the script parameter string</returns>
+    private static string GenerateSelectParameter(ScriptParameter parameter)
+    {
+        string str = "(" + string.Join("|", parameter.Options?.Select(x =>
+        {
+            if(x.Contains('\''))
+                return '"' + x + '"';
+            return "'" + x + "'";
+        }) ?? []) + ")";
+        if (parameter.Type == ScriptArgumentType.SelectMultiple)
+            str += "[]";
+        return "{" + str + "}";
     }
 }

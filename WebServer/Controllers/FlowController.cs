@@ -595,16 +595,33 @@ public class FlowController : BaseController
                     ScriptArgumentType.Bool => FormInputType.Switch,
                     ScriptArgumentType.Int => FormInputType.Int,
                     ScriptArgumentType.String => FormInputType.TextVariable,
+                    ScriptArgumentType.Select => FormInputType.Select,
+                    ScriptArgumentType.SelectMultiple => FormInputType.MultiSelect,
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 ef.Name = x.Name;
                 ef.Order = ++count;
-                ef.Description = x.Description;
+                ef.Description = x.Description.TrimStart(' ', '-');
+                if (x.Options?.Any() == true && x.Type is ScriptArgumentType.Select or ScriptArgumentType.SelectMultiple)
+                {
+                    ef.Parameters = new()
+                    {
+                        {
+                            "Options", x.Options.Select(o => new ListOption()
+                            {
+                                Label = o,
+                                Value = o
+                            })
+                        }
+                    };
+                }
                 model.Add(ef.Name, x.Type switch
                 {
                     ScriptArgumentType.Bool => false,
                     ScriptArgumentType.Int => 0,
                     ScriptArgumentType.String => string.Empty,
+                    ScriptArgumentType.Select => string.Empty,
+                    ScriptArgumentType.SelectMultiple => new string[]{},
                     _ => null!
                 });
                 return ef;

@@ -131,6 +131,7 @@
     "Search": "搜尋",
     "Searching": "搜尋中",
     "Select": "選擇",
+    "SelectedNum": "{num} 已選擇",
     "SelectOne": "選擇一個",
     "SetStatusProcessed": "標記為已處理",
     "Settings": "設定",

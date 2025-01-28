@@ -131,6 +131,7 @@
     "Search": "検索",
     "Searching": "検索中",
     "Select": "選択",
+    "SelectedNum": "{num} 選択済み",
     "SelectOne": "1つを選択",
     "SetStatusProcessed": "処理済みとしてマーク",
     "Settings": "設定",

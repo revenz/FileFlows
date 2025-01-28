@@ -172,6 +172,11 @@ public class ScriptParameter
     public string Description { get; set; } = string.Empty;
     
     /// <summary>
+    /// Gets or sets options for the parameter
+    /// </summary>
+    public string[]? Options { get; set; } 
+    
+    /// <summary>
     /// Gets or sets the type of script argument
     /// </summary>
     public ScriptArgumentType Type {get; set; }
@@ -193,5 +198,13 @@ public enum ScriptArgumentType
     /// <summary>
     /// Boolean parameter
     /// </summary>
-    Bool
+    Bool,
+    /// <summary>
+    /// Select for a single value
+    /// </summary>
+    Select,
+    /// <summary>
+    /// Select for an array of values
+    /// </summary>
+    SelectMultiple
 }

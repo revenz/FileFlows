@@ -131,6 +131,7 @@
     "Search": "Pesquisar",
     "Searching": "Pesquisando",
     "Select": "Selecionar",
+    "SelectedNum": "{num, plural, one {# selecionado} other {# selecionados}}",
     "SelectOne": "Selecionar Um",
     "SetStatusProcessed": "Marcar como Processado",
     "Settings": "Configurações",

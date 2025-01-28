@@ -236,6 +236,20 @@ public class Executor
                         case JsonValueKind.String:
                             engine.SetValue(arg.Key, je.GetString());
                             continue;
+                        case JsonValueKind.Array:
+                            // Convert JsonElement array to a .NET array
+                            var array = je.EnumerateArray()
+                                .Select(item => item.ValueKind switch
+                                {
+                                    JsonValueKind.False => (object)false,
+                                    JsonValueKind.True => true,
+                                    JsonValueKind.Number => item.GetDouble(),
+                                    JsonValueKind.String => item.GetString(),
+                                    _ => null // Handle unsupported value kinds, if needed
+                                })
+                                .ToArray();
+                            engine.SetValue(arg.Key, array);
+                            continue;
                     }   
                 }
                 

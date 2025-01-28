@@ -12,7 +12,7 @@ public partial class Variables : ListPage<Guid, Variable>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        lblValue = Translater.Instant("Pages.Flows.Fields.VariablesValue");
+        lblValue = Translater.Instant("Pages.Flow.Fields.VariablesValue");
     }
 
     private async Task Add()

@@ -131,6 +131,7 @@
     "Search": "Cerca",
     "Searching": "Ricerca",
     "Select": "Seleziona",
+    "SelectedNum": "{num, plural, one {# selezionato} other {# selezionati}}",
     "SelectOne": "Seleziona Uno",
     "SetStatusProcessed": "Contrassegna come Elaborato",
     "Settings": "Impostazioni",

@@ -131,6 +131,7 @@
     "Search": "검색",
     "Searching": "검색 중",
     "Select": "선택",
+    "SelectedNum": "{num} 선택됨",
     "SelectOne": "하나 선택",
     "SetStatusProcessed": "처리됨으로 표시",
     "Settings": "설정",

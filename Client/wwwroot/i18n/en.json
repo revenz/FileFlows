@@ -131,6 +131,7 @@
     "Search": "Search",
     "Searching": "Searching",
     "Select": "Select",
+    "SelectedNum": "{num} selected",
     "SelectOne": "Select One",
     "SetStatusProcessed": "Mark as Processed",
     "Settings": "Settings",

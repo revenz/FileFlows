@@ -131,6 +131,7 @@
     "Search": "Поиск",
     "Searching": "Поиск...",
     "Select": "Выбрать",
+    "SelectedNum": "{num, plural, one {# выбран} other {# выбрано}}",
     "SelectOne": "Выбрать один",
     "SetStatusProcessed": "Отметить как обработанный",
     "Settings": "Настройки",

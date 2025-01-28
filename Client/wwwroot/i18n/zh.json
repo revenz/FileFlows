@@ -131,6 +131,7 @@
     "Search": "搜索",
     "Searching": "正在搜索",
     "Select": "选择",
+    "SelectedNum": "{num} 已选择",
     "SelectOne": "选择一个",
     "SetStatusProcessed": "标记为已处理",
     "Settings": "设置",
