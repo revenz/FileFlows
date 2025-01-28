@@ -155,9 +155,14 @@ public class ImageMagickHelper
     /// <returns>A result indicating whether the conversion was successful.</returns>
     public Result<bool> ConvertImage(string imagePath, string destination, ImageOptions? options)
     {
-        if(destination.EndsWith(".heic", StringComparison.InvariantCultureIgnoreCase))
-            return ConvertImageUsingFFmpeg(imagePath, destination, options);
-        
+        if (destination.EndsWith(".heic", StringComparison.InvariantCultureIgnoreCase))
+        {
+            var result = ConvertImageUsingFFmpeg(imagePath, destination, options);
+            if (result.IsFailed == false)
+                return true;
+            Logger.ILog("Failed using FFmpeg trying ImageMagick");
+        }
+
         try
         {
             // Execute ImageMagick command for resizing
@@ -262,6 +267,8 @@ public class ImageMagickHelper
     {
         try
         {
+            Logger.ILog("Attempting to use FFmpeg to convert image");
+            
             // Initialize FFmpeg command arguments
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
