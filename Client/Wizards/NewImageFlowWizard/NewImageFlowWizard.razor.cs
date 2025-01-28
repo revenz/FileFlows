@@ -21,6 +21,7 @@ public partial class NewImageFlowWizard : IModal
     internal const string IMAGE_FORMAT_TIFF = "Tiff";
     internal const string IMAGE_FORMAT_TGA = "Tga";
     internal const string IMAGE_FORMAT_WEBP = "WebP";
+    internal const string IMAGE_FORMAT_HEIC = "Heic";
 
     /// <summary>
     /// Gets or sets the editor
@@ -126,6 +127,7 @@ public partial class NewImageFlowWizard : IModal
             new () { Value = "###GROUP###", Label = Translater.Instant("Dialogs.NewImageFlowWizard.Labels.LossyFormats") },
             new () { Value = IMAGE_FORMAT_JPEG, Label = "JPEG" },
             new () { Value = IMAGE_FORMAT_GIF, Label = "GIF" },
+            new () { Value = IMAGE_FORMAT_HEIC, Label = "HEIC" },
             new () { Value = IMAGE_FORMAT_PBM, Label = "PBM" },
         ];
 
