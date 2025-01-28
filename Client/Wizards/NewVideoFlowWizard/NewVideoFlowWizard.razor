@@ -1,7 +1,7 @@
 @namespace FileFlows.Client.Wizards
 
 @using InputText = FileFlows.Client.Components.Inputs.InputText
-@inherits InputRegister
+@inherits FlowWizardBase
 
 <Editor @ref="Editor"></Editor>
 @if (Editor != null && initDone)
@@ -9,8 +9,8 @@
     <CascadingValue IsFixed="true" Value="Editor">
         <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
             
-            <FlowWizardPage Title="@lblGeneral" Description="@lblGeneralDescription" OnPageAdvanced="OnGeneralPageAdvanced">
-                <InputText @bind-Value="@VideoFlowName" Label="Dialogs.NewVideoFlowWizard.Fields.Name" Validators=@RequiredValidator />
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
+                <InputText @bind-Value="@FlowName" Label="Dialogs.NewVideoFlowWizard.Fields.Name" Validators=@RequiredValidator />
                 <InputText @bind-Value="@Description" Label="Dialogs.NewFlowCommon.Fields.Description"  />
 
                 <InputSelect @bind-Value="@BoundVideoContainer" AllowClear="false" Options=@VideoContainers Label="Dialogs.NewVideoFlowWizard.Fields.VideoContainer" />
@@ -23,154 +23,62 @@
                 }
             </FlowWizardPage>
 
-            <FlowWizardPage Title="@lblPageType" Description="@lblPageTypeDescription">
-
-                <ul class="ul-radio-list">
-                    <li @onclick="() => SelectedType = 0" class="clickable-radio @(SelectedType == 0 ? "active" : "")">
-                        <i class="fas fa-film"></i>
-                        <div class="info">
-                            <span>@lblTypeFilm</span>
-                            <p>@lblTypeFilmDescription</p>
-                        </div>
-                    </li>
-                    <li @onclick="() => SelectedType = 1" class="clickable-radio @(SelectedType == 1 ? "active" : "")">
-                        <i class="fas fa-tv"></i>
-                        <div class="info">
-                            <span>@lblTypeTV</span>
-                            <p>@lblTypeTVDescription</p>
-                        </div>
-                    </li>
-                    <li @onclick="() => SelectedType = 2" class="clickable-radio @(SelectedType == 2 ? "active" : "")">
-                        <i class="fas fa-video"></i>
-                        <div class="info">
-                            <span>@lblTypeVideo</span>
-                            <p>@lblTypeVideoDescription</p>
-                        </div>
-                    </li>
-                </ul>
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Type" >
+                <FlowRadioGroup TItem="Int32" @bind-Value="SelectedType" LabelPrefix="Dialogs.NewVideoFlowWizard.Labels.Types">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-film" TLabel="Film" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-tv" TLabel="TV" />
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-video" TLabel="Video" />
+                </FlowRadioGroup>
             </FlowWizardPage>
             
-            <FlowWizardPage Title="@lblPageVideo" Description="@lblPageVideoDescription" Visible="@(VideoCodec != string.Empty)">
-
-                <ul class="ul-radio-list">
-                    <li @onclick="() => SelectedVideoEncodingType = 0" class="clickable-radio @(SelectedVideoEncodingType == 0 ? "active" : "")">
-                        <i class="fas fa-trophy"></i>
-                        <div class="info">
-                            <span>@lblQuality</span>
-                            <p>@lblQualityDescription</p>
-                        </div>
-                        <div class="options">
-                            <InputRadioGroup @bind-Value="Quality" TItem="Int32" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.Quality" Options="QualityOptions" />
-                        </div>
-                    </li>
-                    <li @onclick="() => SelectedVideoEncodingType = 1" class="clickable-radio @(SelectedVideoEncodingType == 1 ? "active" : "")">
-                        <i class="fas fa-compact-disc"></i>
-                        <div class="info">
-                            <span>@lblBitrate</span>
-                            <p>@lblBitrateDescription</p>
-                        </div>
-                        <div class="options">
-                            <InputNumber TItem="int" HideLabel="true" Min="0" Max="1000000000" @bind-Value="Bitrate" Label="Dialogs.NewVideoFlowWizard.Fields.Bitrate"></InputNumber>
-                        </div>
-                    </li>
-                </ul>
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Video" Visible="@(VideoCodec != string.Empty)">
+                <FlowRadioGroup TItem="Int32" @bind-Value="SelectedVideoEncodingType" LabelPrefix="Dialogs.NewVideoFlowWizard.Labels">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-trophy" TLabel="Quality">
+                        <InputRadioGroup @bind-Value="Quality" TItem="Int32" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.Quality" Options="QualityOptions" />
+                    </FlowRadioGroupItem>
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-compact-disc" TLabel="Bitrate">
+                        <InputNumber TItem="int" HideLabel="true" Min="0" Max="1000000000" @bind-Value="Bitrate" Label="Dialogs.NewVideoFlowWizard.Fields.Bitrate"></InputNumber>
+                    </FlowRadioGroupItem>
+                </FlowRadioGroup>
             </FlowWizardPage>
 
-            <FlowWizardPage Title="@lblPageAudio" Description="@lblPageAudioDescription">
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio">
 
-                <ul class="ul-radio-list">
-                    <li @onclick="() => AudioMode = 0" class="clickable-radio @(AudioMode == 0 ? "active" : "")">
-                        <i class="fas fa-copy"></i>
-                        <div class="info">
-                            <span>@lblCopyAllAudio</span>
-                            <p>@lblCopyAllAudioDescription</p>
-                        </div>
-                    </li>
-                    <li @onclick="() => AudioMode = 1" class="clickable-radio @(AudioMode == 1 ? "active" : "")">
-                        <i class="fas fa-copy"></i>
-                        <div class="info">
-                            <span>@lblCopyOnlyLanguages</span>
-                            <p>@lblCopyOnlyLanguagesDescription</p>
-                        </div>
-                        <div class="options">
-                            <InputSelect @bind-Value="@BoundDefaultLanguage" AllowClear="false" Options=@LanguageOptions Label="Dialogs.NewVideoFlowWizard.Fields.DefaultLanguage" />
-                            <InputLanguages @bind-Value="@AudioMode1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator"  OriginalLanguage="true" />
-                        </div>
-                    </li>
-                    <li @onclick="() => AudioMode = 2" class="clickable-radio @(AudioMode == 2 ? "active" : "")">
-                        <i class="fas fa-volume-up"></i>
-                        <div class="info">
-                            <span>@lblConvertAudio</span>
-                            <p>@lblConvertAudioDescription</p>
-                        </div>
-                        <div class="options">
-                            <InputSelect @bind-Value="@BoundDefaultLanguage" AllowClear="false" Options=@LanguageOptions Label="Dialogs.NewVideoFlowWizard.Fields.DefaultLanguage" />
-                            <InputSwitch @bind-Value="TwoAudioVersions" Label="Dialogs.NewVideoFlowWizard.Fields.TwoAudioVersions" />
-                        </div>
-                    </li>
-                </ul>
+                <FlowRadioGroup TItem="Int32" @bind-Value="AudioMode" LabelPrefix="Dialogs.NewVideoFlowWizard.Fields">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-copy" TLabel="CopyAllAudio" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-copy" TLabel="CopyOnlyLanguages">
+                        <InputSelect @bind-Value="@BoundDefaultLanguage" AllowClear="false" Options=@LanguageOptions Label="Dialogs.NewVideoFlowWizard.Fields.DefaultLanguage" />
+                        <InputLanguages @bind-Value="@AudioMode1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator"  OriginalLanguage="true" />
+                    </FlowRadioGroupItem>
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-volume-up" TLabel="ConvertAudio">
+                        <InputSelect @bind-Value="@BoundDefaultLanguage" AllowClear="false" Options=@LanguageOptions Label="Dialogs.NewVideoFlowWizard.Fields.DefaultLanguage" />
+                        <InputSwitch @bind-Value="TwoAudioVersions" Label="Dialogs.NewVideoFlowWizard.Fields.TwoAudioVersions" />
+                    </FlowRadioGroupItem>
+                </FlowRadioGroup>
             </FlowWizardPage>
             
-            <FlowWizardPage Title="@lblPageAudio1" Description="@lblPageAudio1Description" Indented="true" Visible="@(AudioMode == 2)"  OnPageAdvanced="OnAudio1PageAdvanced" >
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio1" Indented="true" Visible="@(AudioMode == 2)"  OnPageAdvanced="OnAudio1PageAdvanced" >
                 <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator"  OriginalLanguage="true" />
                 <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec" />
                 <InputSelect @bind-Value="@BoundAudio1Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
             </FlowWizardPage>
-            <FlowWizardPage Title="@lblPageAudio2" Description="@lblPageAudio2Description" Indented="true" Visible="@(AudioMode == 2 && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio2" Indented="true" Visible="@(AudioMode == 2 && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
                 <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" OriginalLanguage="true" />
                 <InputSelect @bind-Value="@BoundAudio2Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
                 <InputSelect @bind-Value="@BoundAudio2Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
             </FlowWizardPage>
-            <FlowWizardPage Title="@lblPageSubtitle" Description="@lblPageSubtitleDescription">
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Subtitle">
 
-                <ul class="ul-radio-list">
-                    <li @onclick="() => SubtitleKeepOnly = false" class="clickable-radio @(SubtitleKeepOnly == false ? "active" : "")">
-                        <i class="fas fa-copy"></i>
-                        <div class="info">
-                            <span>@lblKeepAllSubtitles</span>
-                            <p>@lblKeepAllSubtitlesDescription</p>
-                        </div>
-                    </li>
-                    <li @onclick="() => SubtitleKeepOnly = true" class="clickable-radio @(SubtitleKeepOnly ? "active" : "")">
-                        <i class="fas fa-comment-dots"></i>
-                        <div class="info">
-                            <span>@lblKeepOnlySpecifiedSubtitles</span>
-                            <p>@lblKeepOnlySpecifiedSubtitlesDescription</p>
-                        </div>
-                        <div class="options">
-                            <InputLanguages @bind-Value="@SubtitleLanguages" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator" OriginalLanguage="true" />
-                        </div>
-                    </li>
-                </ul>
+                <FlowRadioGroup TItem="Boolean" @bind-Value="SubtitleKeepOnly" LabelPrefix="Dialogs.NewVideoFlowWizard.Fields">
+                    <FlowRadioGroupItem TItem="Boolean" Value="false" Icon="fas fa-copy" TLabel="KeepAllSubtitles" />
+                    <FlowRadioGroupItem TItem="Boolean" Value="true" Icon="fas fa-comment-dots" TLabel="KeepOnlySpecifiedSubtitles">
+                        <InputLanguages @bind-Value="@SubtitleLanguages" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator" OriginalLanguage="true" />
+                    </FlowRadioGroupItem>
+                </FlowRadioGroup>
             </FlowWizardPage>
-            <FlowWizardPage Title="@lblPageOutput" Description="@lblPageOutputDescription">
-                <ul class="ul-radio-list">
-                    <li @onclick="() => ReplaceOriginal = true" class="clickable-radio @(ReplaceOriginal ? "active" : "")">
-                        <i class="fas fa-file-import"></i>
-                        <div class="info">
-                            <span>@lblReplaceOriginal</span>
-                            <p>@lblReplaceOriginalDescription</p>
-                        </div>
-                    </li>
-                    <li @onclick="() => ReplaceOriginal = false" class="clickable-radio @(ReplaceOriginal == false ? "active" : "")">
-                        <i class="fas fa-file-export"></i>
-                        <div class="info">
-                            <span>@lblSaveToFolder</span>
-                            <p>@lblSaveToFolderDescription</p>
-                        </div>
-                        <div class="options">
-                            @if (IsWindows)
-                            {
-                                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewVideoFlowWizard.Fields.OutputPathWindows" Validators=@RequiredValidator Directory=@true/>
-                            }
-                            else
-                            {
-                                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewVideoFlowWizard.Fields.OutputPath" Validators=@RequiredValidator Directory=@true/>
-                            }
-                            <InputSwitch @bind-Value="DeleteOld" Label="Dialogs.NewVideoFlowWizard.Fields.DeleteOld" />
-                        </div>
-                    </li>
-                </ul>
+
+            <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">
+                <WizardOutput @ref="Output" />
             </FlowWizardPage>
         </FlowWizard>
     </CascadingValue>

@@ -1,0 +1,22 @@
+@namespace FileFlows.Client.Wizards
+
+<FlowRadioGroup TItem="Int32" @bind-Value="OutputMode" LabelPrefix="Dialogs.NewFlowCommon.Output">
+    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-file-import" TLabel="ReplaceOriginal" />
+    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-file-export" TLabel="SaveToFolder">
+        <div class="options">
+            @if (IsWindows)
+            {
+                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewFlowCommon.Fields.OutputPathWindows" Validators=@RequiredValidator Directory=@true/>
+            }
+            else
+            {
+                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewFlowCommon.Fields.OutputPath" Validators=@RequiredValidator Directory=@true/>
+            }
+            <InputSwitch @bind-Value="DeleteOld" Label="Dialogs.NewFlowCommon.Fields.DeleteOld"/>
+        </div>
+    </FlowRadioGroupItem>
+    @if (IsReseller)
+    {
+        <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-people-carry" TLabel="ResellerMove" />
+    }
+</FlowRadioGroup>

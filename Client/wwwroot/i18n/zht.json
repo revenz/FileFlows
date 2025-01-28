@@ -328,9 +328,15 @@
         "OutputPathWindows": "輸出路徑（Windows）",
         "OutputPathWindows-Help": "保存位置。可以包含網路路徑，例如 \\\\我的-nas\\媒體\\輸出。"
       },
+      "Messages": {
+        "NameRequired": "名稱是必需的。",
+        "OutputPathRequired": "輸出路徑是必需的。"
+      },
       "Output": {
         "ReplaceOriginal": "替換原始檔案",
         "ReplaceOriginalDescription": "用轉換後的檔案替換原始檔案。",
+        "ResellerMove": "經銷商移動",
+        "ResellerMoveDescription": "將文件移動到用戶專用的臨時文件夾以供下載。文件將在設定的時間後自動刪除。",
         "SaveToFolder": "保存到資料夾",
         "SaveToFolderDescription": "將轉換後的檔案保存到新位置。"
       },
@@ -551,18 +557,12 @@
         "CropBlackBars-Help": "FileFlows將嘗試檢測影片檔案中的黑邊，若找到，將裁剪這些黑邊以減少檔案大小並允許播放器更改縱橫比。",
         "DefaultLanguage": "預設語言",
         "DefaultLanguage-Help": "指定要分配給當前未指定語言的音軌的語言。",
-        "DeleteOld": "刪除原始檔案",
-        "DeleteOld-Help": "如果應刪除原始檔案，且如果沒有其他影片檔案，則也應刪除原始檔案夾。",
         "KeepAllSubtitles": "保留所有字幕",
-        "KeepAllSubtitles-Help": "保留原始影片中的所有字幕",
+        "KeepAllSubtitlesDescription": "保留原始影片中的所有字幕",
         "KeepOnlySpecifiedSubtitles": "僅保留指定字幕",
-        "KeepOnlySpecifiedSubtitles-Help": "僅保留指定的字幕，其他的將被刪除",
+        "KeepOnlySpecifiedSubtitlesDescription": "僅保留指定的字幕，其他的將被刪除",
         "Name": "名稱",
         "Name-Help": "新建流程的名稱，必須是唯一的。",
-        "OutputPath": "輸出路徑",
-        "OutputPath-Help": "保存最終影片檔案的路徑。",
-        "OutputPathWindows": "輸出路徑",
-        "OutputPathWindows-Help": "保存最終影片檔案的路徑。\n這可以是網路路徑，例如 \\\\my-nas\\media\\movies",
         "Quality": "品質",
         "Quality-Suffix": "更高品質",
         "ReplaceOriginal": "替換原始檔案",
@@ -589,8 +589,6 @@
         "Audio1LanguageRequired": "您必須指定至少一種音訊語言。",
         "Audio2LanguageRequired": "您必須指定至少第二種音訊語言。",
         "AudioMode2LanguagesRequired": "需要音訊語言。",
-        "NameRequired": "名稱是必需的。",
-        "OutputPathRequired": "輸出路徑是必需的。",
         "SubtitleLanguageRequired": "需要字幕語言。"
       },
       "Pages": {

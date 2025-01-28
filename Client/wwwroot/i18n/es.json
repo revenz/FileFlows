@@ -328,9 +328,15 @@
         "OutputPathWindows": "Ruta de salida (Windows)",
         "OutputPathWindows-Help": "La ubicación de guardado. Puede incluir una ruta de red, por ejemplo, \\\\my-nas\\media\\output."
       },
+      "Messages": {
+        "NameRequired": "El nombre es obligatorio.",
+        "OutputPathRequired": "La ruta de salida es obligatoria."
+      },
       "Output": {
         "ReplaceOriginal": "Reemplazar original",
         "ReplaceOriginalDescription": "Reemplaza el archivo original con el convertido.",
+        "ResellerMove": "Mover a revendedor",
+        "ResellerMoveDescription": "Mueve el archivo a una carpeta temporal única para el usuario para su descarga. El archivo se eliminará automáticamente después de un período de tiempo establecido.",
         "SaveToFolder": "Guardar en carpeta",
         "SaveToFolderDescription": "Guarda el archivo convertido en una nueva ubicación."
       },
@@ -551,18 +557,12 @@
         "CropBlackBars-Help": "FileFlows intentará detectar barras negras en el archivo de video, y si las encuentra, las recortará para reducir el tamaño del archivo y permitir el cambio de relación de aspecto en los reproductores.",
         "DefaultLanguage": "Idioma Predeterminado",
         "DefaultLanguage-Help": "Especifica el idioma a asignar a las pistas de audio que actualmente no tienen idioma especificado.",
-        "DeleteOld": "Eliminar Original",
-        "DeleteOld-Help": "Si debe eliminar el archivo original y si también se debe eliminar la carpeta original si no se encuentran otros archivos de video.",
         "KeepAllSubtitles": "Mantener Todos los Subtítulos",
-        "KeepAllSubtitles-Help": "Mantén todos los subtítulos del archivo de video original.",
+        "KeepAllSubtitlesDescription": "Mantén todos los subtítulos del archivo de video original.",
         "KeepOnlySpecifiedSubtitles": "Mantener Solo",
-        "KeepOnlySpecifiedSubtitles-Help": "Mantén solo los subtítulos especificados, el resto serán eliminados.",
+        "KeepOnlySpecifiedSubtitlesDescription": "Mantén solo los subtítulos especificados, el resto serán eliminados.",
         "Name": "Nombre",
         "Name-Help": "El nombre del flujo recién creado. Debe ser único.",
-        "OutputPath": "Ruta de salida",
-        "OutputPath-Help": "La ruta donde se guardará el archivo de video final.",
-        "OutputPathWindows": "Ruta de salida",
-        "OutputPathWindows-Help": "La ruta donde se guardará el archivo de video final. Puede ser una ruta de red como \\\\mi-nas\\media\\peliculas.",
         "Quality": "Calidad",
         "Quality-Suffix": "Mayor calidad",
         "ReplaceOriginal": "Reemplazar Original",
@@ -589,8 +589,6 @@
         "Audio1LanguageRequired": "Debes especificar al menos un idioma de audio.",
         "Audio2LanguageRequired": "Debes especificar al menos un idioma adicional de audio.",
         "AudioMode2LanguagesRequired": "Se requieren idiomas de audio.",
-        "NameRequired": "El nombre es obligatorio.",
-        "OutputPathRequired": "La ruta de salida es obligatoria.",
         "SubtitleLanguageRequired": "Se requieren idiomas de subtítulos."
       },
       "Pages": {

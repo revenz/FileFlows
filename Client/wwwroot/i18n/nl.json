@@ -328,9 +328,15 @@
         "OutputPathWindows": "Uitvoerpad (Windows)",
         "OutputPathWindows-Help": "De opslaglocatie. Dit kan een netwerkpad bevatten, bijvoorbeeld \\\\mijn-nas\\media\\output."
       },
+      "Messages": {
+        "NameRequired": "De naam is vereist.",
+        "OutputPathRequired": "Het uitvoerpad is vereist."
+      },
       "Output": {
         "ReplaceOriginal": "Vervang Origineel",
         "ReplaceOriginalDescription": "Vervang het originele bestand door het geconverteerde bestand.",
+        "ResellerMove": "Reseller Verplaatsen",
+        "ResellerMoveDescription": "Verplaatst het bestand naar een tijdelijke map die uniek is voor de gebruiker om te downloaden. Het bestand wordt automatisch verwijderd na een bepaalde tijd.",
         "SaveToFolder": "Opslaan in map",
         "SaveToFolderDescription": "Sla het geconverteerde bestand op op een nieuwe locatie."
       },
@@ -551,18 +557,12 @@
         "CropBlackBars-Help": "FileFlows probeert zwarte balken in het videobestand te detecteren en snijdt deze af als ze gevonden worden om de bestandsgrootte te verkleinen en de beeldverhouding in de mediaspelers aan te passen.",
         "DefaultLanguage": "Standaardtaal",
         "DefaultLanguage-Help": "Geef de taal op die toegewezen moet worden aan audiotracks die momenteel geen taal hebben.",
-        "DeleteOld": "Oude bestand opruimen",
-        "DeleteOld-Help": "Als het originele bestand verwijderd moet worden en als de originele map verwijderd moet worden als er geen andere videobestanden meer zijn.",
         "KeepAllSubtitles": "Behoud alle ondertitels",
-        "KeepAllSubtitles-Help": "Behoud alle ondertitels van het originele bestand",
+        "KeepAllSubtitlesDescription": "Behoud alle ondertitels van het originele bestand",
         "KeepOnlySpecifiedSubtitles": "Behoud alleen opgegeven ondertitels",
-        "KeepOnlySpecifiedSubtitles-Help": "Behoud alleen de opgegeven ondertitels, de rest wordt verwijderd",
+        "KeepOnlySpecifiedSubtitlesDescription": "Behoud alleen de opgegeven ondertitels, de rest wordt verwijderd",
         "Name": "Naam",
         "Name-Help": "De naam van de nieuw aangemaakte flow, deze moet uniek zijn.",
-        "OutputPath": "Uitvoerpad",
-        "OutputPath-Help": "Het pad waar het uiteindelijke videobestand opgeslagen moet worden.",
-        "OutputPathWindows": "Uitvoerpad",
-        "OutputPathWindows-Help": "Het pad waar het uiteindelijke videobestand opgeslagen moet worden.\nDit kan een netwerkpad zijn, bijvoorbeeld \\\\my-nas\\media\\movies",
         "Quality": "Kwaliteit",
         "Quality-Suffix": "Hogere Kwaliteit",
         "ReplaceOriginal": "Vervang origineel",
@@ -589,8 +589,6 @@
         "Audio1LanguageRequired": "Je moet minstens één audiotaal opgeven.",
         "Audio2LanguageRequired": "Je moet minstens één extra audiotaal opgeven.",
         "AudioMode2LanguagesRequired": "Audiotalen zijn vereist.",
-        "NameRequired": "De naam is vereist.",
-        "OutputPathRequired": "Het uitvoerpad is vereist.",
         "SubtitleLanguageRequired": "Ondertiteltalen zijn vereist."
       },
       "Pages": {

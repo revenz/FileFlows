@@ -328,9 +328,15 @@
         "OutputPathWindows": "Utmatningssökväg (Windows)",
         "OutputPathWindows-Help": "Sparplatsen. Kan inkludera en nätverkssökväg, till exempel \\\\min-nas\\media\\output."
       },
+      "Messages": {
+        "NameRequired": "Namn är obligatoriskt.",
+        "OutputPathRequired": "Utmatningsväg är obligatorisk."
+      },
       "Output": {
         "ReplaceOriginal": "Ersätt original",
         "ReplaceOriginalDescription": "Ersätt originalfilen med den konverterade filen.",
+        "ResellerMove": "Återförsäljare Flytta",
+        "ResellerMoveDescription": "Flyttar filen till en temporär mapp som är unik för användaren för nedladdning. Filen tas automatiskt bort efter en angiven tidsperiod.",
         "SaveToFolder": "Spara i mapp",
         "SaveToFolderDescription": "Spara den konverterade filen på en ny plats."
       },
@@ -551,18 +557,12 @@
         "CropBlackBars-Help": "FileFlows kommer att försöka upptäcka svarta kanter i videofilen och om de hittas kommer de att beskäras för att minska filstorleken och för att möjliggöra ändring av bildförhållandet i spelare.",
         "DefaultLanguage": "Standardspråk",
         "DefaultLanguage-Help": "Anger språket som ska tilldelas ljudspår som inte har något språk specificerat.",
-        "DeleteOld": "Rensa original",
-        "DeleteOld-Help": "Om originalfilen ska tas bort och om originalmappen också ska tas bort om inga andra videofiler finns kvar.",
         "KeepAllSubtitles": "Bevara alla undertexter",
-        "KeepAllSubtitles-Help": "Bevara alla undertexter från originalvideon",
+        "KeepAllSubtitlesDescription": "Bevara alla undertexter från originalvideon",
         "KeepOnlySpecifiedSubtitles": "Bevara endast",
-        "KeepOnlySpecifiedSubtitles-Help": "Bevara endast de specificerade undertexterna, resten tas bort",
+        "KeepOnlySpecifiedSubtitlesDescription": "Bevara endast de specificerade undertexterna, resten tas bort",
         "Name": "Namn",
         "Name-Help": "Namnet på den nya flödet, detta måste vara unikt.",
-        "OutputPath": "Utmatningsväg",
-        "OutputPath-Help": "Vägen att spara den slutliga videofilen till.",
-        "OutputPathWindows": "Utmatningsväg",
-        "OutputPathWindows-Help": "Vägen att spara den slutliga videofilen till.\nDetta kan vara en nätverksväg, till exempel \\\\min-nas\\media\\filmer",
         "Quality": "Kvalitet",
         "Quality-Suffix": "Högre kvalitet",
         "ReplaceOriginal": "Ersätt originalet",
@@ -589,8 +589,6 @@
         "Audio1LanguageRequired": "Du måste specificera minst ett ljudspråk.",
         "Audio2LanguageRequired": "Du måste specificera minst ett ytterligare ljudspråk.",
         "AudioMode2LanguagesRequired": "Ljudspråk krävs.",
-        "NameRequired": "Namn är obligatoriskt.",
-        "OutputPathRequired": "Utmatningsväg är obligatorisk.",
         "SubtitleLanguageRequired": "Undertextspråk krävs."
       },
       "Pages": {

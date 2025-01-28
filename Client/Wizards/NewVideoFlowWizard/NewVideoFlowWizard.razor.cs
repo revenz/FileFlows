@@ -8,68 +8,12 @@ namespace FileFlows.Client.Wizards;
 /// <summary>
 /// New videoFlow wizard
 /// </summary>
-public partial class NewVideoFlowWizard : IModal
+public partial class NewVideoFlowWizard 
 {
-    private Editor _Editor;
-
-    /// <summary>
-    /// Gets or sets the editor
-    /// </summary>
-    public Editor Editor
-    {
-        get => _Editor;
-        set
-        {
-            if (_Editor != value && value != null)
-            {
-                _Editor = value;
-                StateHasChanged();
-            }
-        }
-    }
-    
-    /// <summary>
-    /// Gets or sets the profile service
-    /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
-    
-    /// <inheritdoc />
-    [Parameter]
-    public IModalOptions Options { get; set; }
-
-    /// <inheritdoc />
-    [Parameter]
-    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
-    
-    /// <summary>
-    /// Closes the dialog
-    /// </summary>
-    public void Close()
-    {
-        TaskCompletionSource.TrySetCanceled(); // Set result when closing
-    }
-
-    /// <summary>
-    /// Cancels the dialog
-    /// </summary>
-    public void Cancel()
-    {
-        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
-    }
-
     /// <summary>
     /// Translation strings
     /// </summary>
-    private string lblUseOriginal, lblPageType, lblPageTypeDescription, 
-        lblPageVideo, lblPageVideoDescription, lblGeneral, lblGeneralDescription,
-        lblPageAudio, lblPageAudioDescription, lblPageAudio1, lblPageAudio1Description, lblPageAudio2, lblPageAudio2Description, 
-        lblPageSubtitle, lblPageSubtitleDescription, lblPageOutput, lblPageOutputDescription,
-        lblQuality, lblQualityDescription, lblBitrate, lblBitrateDescription, 
-        lblTypeFilm, lblTypeFilmDescription, lblTypeTV, lblTypeTVDescription, lblTypeVideo, lblTypeVideoDescription,
-        lblCopyAllAudio, lblCopyAllAudioDescription,
-        lblCopyOnlyLanguages, lblCopyOnlyLanguagesDescription, lblConvertAudio, lblConvertAudioDescription,
-        lblKeepAllSubtitles, lblKeepAllSubtitlesDescription, lblKeepOnlySpecifiedSubtitles, lblKeepOnlySpecifiedSubtitlesDescription,
-        lblReplaceOriginal, lblReplaceOriginalDescription, lblSaveToFolder, lblSaveToFolderDescription;
+    private string lblUseOriginal, lblCopyOnlyLanguages;
 
     /// <summary>
     /// Gets the selected encoding type
@@ -79,20 +23,13 @@ public partial class NewVideoFlowWizard : IModal
     private bool CropBlackBars, AttemptHardwareEncode = true;
     private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
     
-    /// <summary>
-    /// The new libraries name
-    /// </summary>
-    private string VideoFlowName { get; set; } = string.Empty;
-
-    private string Description = string.Empty;
 
     /// <summary>
     /// Flow properties
     /// </summary>
-    private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng", 
-        OutputPath;
+    private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng";
     private int SelectedType, Audio1Channels, Audio2Channels, AudioMode;
-    private bool TwoAudioVersions, ReplaceOriginal = true, DeleteOld, SubtitleKeepOnly;
+    private bool TwoAudioVersions, SubtitleKeepOnly;
 
     /// <summary>
     /// The input options
@@ -228,50 +165,8 @@ public partial class NewVideoFlowWizard : IModal
 
         lblUseOriginal = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.UseOriginal");
         
-        lblPageType = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Type");
-        lblPageTypeDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.TypeDescription"); 
-        lblGeneral = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.General");
-        lblGeneralDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.GeneralDescription");
-        lblPageVideo = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Video");
-        lblPageVideoDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.VideoDescription");
-        lblPageAudio = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio");
-        lblPageAudioDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.AudioDescription");
-        lblPageAudio1 = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio1");
-        lblPageAudio1Description = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio1Description");
-        lblPageAudio2 = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio2");
-        lblPageAudio2Description = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Audio2Description");
-        lblPageSubtitle = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Subtitle");
-        lblPageSubtitleDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.SubtitleDescription");
-        lblPageOutput = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.Output");
-        lblPageOutputDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Pages.OutputDescription");
-        
-        lblTypeFilm = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Types.Film");
-        lblTypeFilmDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Types.FilmDescription");
-        lblTypeTV = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Types.TV");
-        lblTypeTVDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Types.TVDescription");
-        lblTypeVideo = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Types.Video");
-        lblTypeVideoDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Types.VideoDescription");
-        
-        lblQuality = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Quality");
-        lblQualityDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.QualityDescription");
-        lblBitrate = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.Bitrate");
-        lblBitrateDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.BitrateDescription");
-        lblCopyAllAudio = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyAllAudio");
-        lblCopyAllAudioDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyAllAudioDescription");
         lblCopyOnlyLanguages = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyOnlyLanguages");
-        lblCopyOnlyLanguagesDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyOnlyLanguagesDescription");
-        lblConvertAudio= Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.ConvertAudio");
-        lblConvertAudioDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.ConvertAudioDescription");
-       
-        lblKeepAllSubtitles = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.KeepAllSubtitles");
-        lblKeepAllSubtitlesDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.KeepAllSubtitles-Help");
-        lblKeepOnlySpecifiedSubtitles = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.KeepOnlySpecifiedSubtitles");
-        lblKeepOnlySpecifiedSubtitlesDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.KeepOnlySpecifiedSubtitles-Help");
-            
-        lblReplaceOriginal = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.ReplaceOriginal");
-        lblReplaceOriginalDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.ReplaceOriginal-Help");
-        lblSaveToFolder = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.SaveToFolder");
-        lblSaveToFolderDescription = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.SaveToFolder-Help");
+   
         
         LanguageOptions = LanguageHelper.Languages.DistinctBy(x => x.Iso2).Select(x =>
         {
@@ -345,7 +240,7 @@ public partial class NewVideoFlowWizard : IModal
 
         try
         {
-            var builder = new FlowBuilder(VideoFlowName);
+            var builder = new FlowBuilder(FlowName);
             builder.MaxRows = 7;
             builder.Add(new FlowPart()
             {
@@ -384,7 +279,9 @@ public partial class NewVideoFlowWizard : IModal
 
 
             var preOutputColumn = builder.CurrentColumn;
-            FlowPart fpOutput = FlowAddOutput(builder, videoEncode && AttemptHardwareEncode);
+            FlowPart fpOutput = Output.FlowAddOutput(builder,
+                ["mkv", "mp4", "avi", "divx", "mov", "mpeg", "mpe"],
+                videoEncode && AttemptHardwareEncode ? 5 : 0, videoEncode && AttemptHardwareEncode ? 4 : 0);
 
             if (videoEncode && AttemptHardwareEncode)
             {
@@ -459,58 +356,6 @@ public partial class NewVideoFlowWizard : IModal
         }
     }
 
-    /// <summary>
-    /// Adds the output flow elements
-    /// </summary>
-    /// <param name="builder">the flow builder</param>
-    /// <param name="attemptVideoHardwareEncoding">if video hardware encoding will be attempted</param>
-    /// <returns>the primary flow output flow part</returns>
-    private FlowPart FlowAddOutput(FlowBuilder builder, bool attemptVideoHardwareEncoding)
-    {
-        int preOutputColumn = builder.CurrentColumn;
-        FlowPart fpOutput;
-        if (ReplaceOriginal)
-        {
-            fpOutput = builder.AddAndConnect(new FlowPart()
-            {
-                FlowElementUid = FlowElementUids.ReplaceOriginal,
-                Outputs = 1,
-                Type = FlowElementType.Process
-            }, row: attemptVideoHardwareEncoding ? 6 : 0, column: attemptVideoHardwareEncoding ? (preOutputColumn + 4) : 0);
-        }
-        else
-        {
-            fpOutput = builder.AddAndConnect(new FlowPart()
-            {
-                FlowElementUid = FlowElementUids.MoveFile,
-                Outputs = 2,
-                Type = FlowElementType.Process,
-                Model = ExpandoHelper.ToExpandoObject(new
-                {
-                    DestinationPath = OutputPath,
-                    DeleteOriginal = DeleteOld,
-                    MoveFolder = true
-                })
-            }, row: attemptVideoHardwareEncoding ? 5 : 0, column: attemptVideoHardwareEncoding ? (preOutputColumn + 4) : 0);
-
-            if (DeleteOld)
-            {
-                builder.AddAndConnect(new FlowPart()
-                {
-                    FlowElementUid = FlowElementUids.DeleteSourceDirectory,
-                    Outputs = 2,
-                    Type = FlowElementType.Process,
-                    Model = ExpandoHelper.ToExpandoObject(new
-                    {
-                        IfEmpty = true,
-                        IncludePatterns = new[] { "^((?!sample).)*\\.(mkv|mp4|avi|divx|mov|mp(e)?g)$ " }
-                    })
-                }, row: attemptVideoHardwareEncoding ? 6 : 0, column: attemptVideoHardwareEncoding ? (preOutputColumn + 3) : 0);
-            }
-        }
-
-        return fpOutput;
-    }
 
     /// <summary>
     /// Validates the flow before saving
@@ -519,17 +364,14 @@ public partial class NewVideoFlowWizard : IModal
     private async Task<bool> ValidateFlow()
     {
         await Editor.Validate();
-        if (string.IsNullOrWhiteSpace(VideoFlowName))
+        if (string.IsNullOrWhiteSpace(FlowName))
         {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
+            Toast.ShowError("Dialogs.NewFlowCommon.Messages.NameRequired");
             return false;
         }
-
-        if (ReplaceOriginal == false && string.IsNullOrWhiteSpace(OutputPath))
-        {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.OutputPathRequired");
+        
+        if(Output.Validate() == false)
             return false;
-        }
 
         if (AudioMode == 1)
         {
@@ -857,7 +699,7 @@ public partial class NewVideoFlowWizard : IModal
     /// <returns>true if successful, otherwise false</returns>
     private async Task<bool> OnGeneralPageAdvanced()
     {
-        bool valid = string.IsNullOrWhiteSpace(VideoFlowName) == false;
+        bool valid = string.IsNullOrWhiteSpace(FlowName) == false;
         if(valid)
             return true;
         await Editor.Validate();

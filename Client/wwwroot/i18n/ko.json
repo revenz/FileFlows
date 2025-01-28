@@ -328,9 +328,15 @@
         "OutputPathWindows": "출력 경로 (Windows)",
         "OutputPathWindows-Help": "저장 위치입니다. 네트워크 경로를 포함할 수 있습니다(예: \\\\my-nas\\media\\output)."
       },
+      "Messages": {
+        "NameRequired": "이름은 필수입니다.",
+        "OutputPathRequired": "출력 경로는 필수입니다."
+      },
       "Output": {
         "ReplaceOriginal": "원본 교체",
         "ReplaceOriginalDescription": "원본 파일을 변환된 파일로 교체합니다.",
+        "ResellerMove": "리셀러 이동",
+        "ResellerMoveDescription": "사용자가 다운로드할 수 있도록 사용자 고유의 임시 폴더로 파일을 이동합니다. 파일은 설정된 시간이 지나면 자동으로 삭제됩니다.",
         "SaveToFolder": "폴더에 저장",
         "SaveToFolderDescription": "변환된 파일을 새로운 위치에 저장합니다."
       },
@@ -551,18 +557,12 @@
         "CropBlackBars-Help": "FileFlows는 비디오 파일에서 검은 띠를 감지하고, 찾을 경우 이를 잘라 파일 크기를 줄이며, 플레이어에서 비율 변경을 허용합니다.",
         "DefaultLanguage": "기본 언어",
         "DefaultLanguage-Help": "현재 언어가 지정되지 않은 오디오 트랙에 할당할 언어를 지정합니다.",
-        "DeleteOld": "원본 삭제",
-        "DeleteOld-Help": "원본 파일을 삭제하고, 다른 비디오 파일이 없으면 원본 폴더도 삭제합니다.",
         "KeepAllSubtitles": "모든 자막 유지",
-        "KeepAllSubtitles-Help": "원본 비디오에서 모든 자막을 유지합니다.",
+        "KeepAllSubtitlesDescription": "원본 비디오에서 모든 자막을 유지합니다.",
         "KeepOnlySpecifiedSubtitles": "지정된 자막만 유지",
-        "KeepOnlySpecifiedSubtitles-Help": "지정된 자막만 유지하고 나머지는 제거됩니다.",
+        "KeepOnlySpecifiedSubtitlesDescription": "지정된 자막만 유지하고 나머지는 제거됩니다.",
         "Name": "이름",
         "Name-Help": "새로 생성된 흐름의 이름으로, 고유해야 합니다.",
-        "OutputPath": "출력 경로",
-        "OutputPath-Help": "최종 비디오 파일을 저장할 경로입니다.",
-        "OutputPathWindows": "출력 경로",
-        "OutputPathWindows-Help": "최종 비디오 파일을 저장할 경로입니다.\n예: \\\\my-nas\\media\\movies와 같이 네트워크 경로를 사용할 수 있습니다.",
         "Quality": "품질",
         "Quality-Suffix": "고품질",
         "ReplaceOriginal": "원본 교체",
@@ -589,8 +589,6 @@
         "Audio1LanguageRequired": "최소한 하나의 오디오 언어를 지정해야 합니다.",
         "Audio2LanguageRequired": "추가 오디오 언어를 최소한 하나 지정해야 합니다.",
         "AudioMode2LanguagesRequired": "오디오 언어가 필요합니다.",
-        "NameRequired": "이름은 필수입니다.",
-        "OutputPathRequired": "출력 경로는 필수입니다.",
         "SubtitleLanguageRequired": "자막 언어가 필요합니다."
       },
       "Pages": {

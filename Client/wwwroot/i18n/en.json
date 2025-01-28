@@ -328,9 +328,15 @@
         "OutputPathWindows": "Output Path (Windows)",
         "OutputPathWindows-Help": "The save location. This can include a network path, e.g., \\\\my-nas\\media\\output."
       },
+      "Messages": {
+        "NameRequired": "The name is required.",
+        "OutputPathRequired": "The output path is required."
+      },
       "Output": {
         "ReplaceOriginal": "Replace Original",
         "ReplaceOriginalDescription": "Replace the original file with the converted one.",
+        "ResellerMove": "Reseller Move",
+        "ResellerMoveDescription": "Moves the file to a temporary folder unique to the user for downloading. The file will be automatically deleted after a set period of time.",
         "SaveToFolder": "Save to Folder",
         "SaveToFolderDescription": "Save the converted file to a new location."
       },
@@ -551,18 +557,12 @@
         "CropBlackBars-Help": "FileFlows will attempt to detect black bars in the video file and crop them, reducing file size and enabling aspect ratio adjustments on players.",
         "DefaultLanguage": "Default Language",
         "DefaultLanguage-Help": "Specifies the language to assign to audio tracks that do not have a language specified.",
-        "DeleteOld": "Clean Up Original",
-        "DeleteOld-Help": "Deletes the original file and removes the original folder if no other video files remain.",
         "KeepAllSubtitles": "Keep All Subtitles",
-        "KeepAllSubtitles-Help": "Retain all the subtitles from the original video.",
+        "KeepAllSubtitlesDescription": "Retain all the subtitles from the original video.",
         "KeepOnlySpecifiedSubtitles": "Keep Only",
-        "KeepOnlySpecifiedSubtitles-Help": "Keep only the specified subtitles; all others will be removed.",
+        "KeepOnlySpecifiedSubtitlesDescription": "Keep only the specified subtitles; all others will be removed.",
         "Name": "Name",
         "Name-Help": "The name of the newly created flow. This must be unique.",
-        "OutputPath": "Output Path",
-        "OutputPath-Help": "The path where the final video file will be saved.",
-        "OutputPathWindows": "Output Path",
-        "OutputPathWindows-Help": "The path to save the final video file. This can include a network path, e.g., \\\\my-nas\\media\\movies.",
         "Quality": "Quality",
         "Quality-Suffix": "Higher Quality",
         "ReplaceOriginal": "Replace Original",
@@ -589,8 +589,6 @@
         "Audio1LanguageRequired": "You must specify at least one audio language.",
         "Audio2LanguageRequired": "You must specify at least one additional audio language.",
         "AudioMode2LanguagesRequired": "Audio languages are required.",
-        "NameRequired": "The name is required.",
-        "OutputPathRequired": "The output path is required.",
         "SubtitleLanguageRequired": "Subtitles languages are required."
       },
       "Pages": {

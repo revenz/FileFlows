@@ -328,9 +328,15 @@
         "OutputPathWindows": "Ausgabepfad (Windows)",
         "OutputPathWindows-Help": "Der Speicherort. Kann einen Netzwerkpfad enthalten, z. B. \\\\my-nas\\media\\output."
       },
+      "Messages": {
+        "NameRequired": "Der Name ist erforderlich.",
+        "OutputPathRequired": "Der Ausgabepfad ist erforderlich."
+      },
       "Output": {
         "ReplaceOriginal": "Original ersetzen",
         "ReplaceOriginalDescription": "Ersetzt die Originaldatei durch die konvertierte Datei.",
+        "ResellerMove": "Wiederverkäufer Verschieben",
+        "ResellerMoveDescription": "Verschiebt die Datei in einen temporären Ordner, der dem Benutzer zum Herunterladen zur Verfügung steht. Die Datei wird nach einer festgelegten Zeit automatisch gelöscht.",
         "SaveToFolder": "In Ordner speichern",
         "SaveToFolderDescription": "Speichert die konvertierte Datei in einem neuen Speicherort."
       },
@@ -551,18 +557,12 @@
         "CropBlackBars-Help": "FileFlows wird versuchen, schwarze Balken in der Videodatei zu erkennen und zuzuschneiden, um die Dateigröße zu reduzieren und eine Änderung des Seitenverhältnisses im Player zu ermöglichen.",
         "DefaultLanguage": "Standard-Sprache",
         "DefaultLanguage-Help": "Legt die Sprache fest, die den Audiotracks zugewiesen wird, die keine Sprache angegeben haben.",
-        "DeleteOld": "Original löschen",
-        "DeleteOld-Help": "Löscht die Originaldatei und entfernt den Ordner, wenn keine anderen Videodateien mehr vorhanden sind.",
         "KeepAllSubtitles": "Alle Untertitel behalten",
-        "KeepAllSubtitles-Help": "Behalten Sie alle Untertitel der Originalvideo-Datei.",
+        "KeepAllSubtitlesDescription": "Behalten Sie alle Untertitel der Originalvideo-Datei.",
         "KeepOnlySpecifiedSubtitles": "Nur behalten",
-        "KeepOnlySpecifiedSubtitles-Help": "Behalten Sie nur die angegebenen Untertitel, alle anderen werden entfernt.",
+        "KeepOnlySpecifiedSubtitlesDescription": "Behalten Sie nur die angegebenen Untertitel, alle anderen werden entfernt.",
         "Name": "Name",
         "Name-Help": "Der Name des neu erstellten Workflows. Dieser muss eindeutig sein.",
-        "OutputPath": "Ausgabepfad",
-        "OutputPath-Help": "Der Pfad, in dem die endgültige Videodatei gespeichert wird.",
-        "OutputPathWindows": "Ausgabepfad",
-        "OutputPathWindows-Help": "Der Pfad, in dem die endgültige Videodatei gespeichert wird. Dies kann z.B. ein Netzwerkpfad wie \\\\mein-nas\\medien\\filme sein.",
         "Quality": "Qualität",
         "Quality-Suffix": "Höhere Qualität",
         "ReplaceOriginal": "Original ersetzen",
@@ -589,8 +589,6 @@
         "Audio1LanguageRequired": "Sie müssen mindestens eine Audiosprache angeben.",
         "Audio2LanguageRequired": "Sie müssen mindestens eine zusätzliche Audiosprache angeben.",
         "AudioMode2LanguagesRequired": "Audiosprachen sind erforderlich.",
-        "NameRequired": "Der Name ist erforderlich.",
-        "OutputPathRequired": "Der Ausgabepfad ist erforderlich.",
         "SubtitleLanguageRequired": "Untertitelsprachen sind erforderlich."
       },
       "Pages": {

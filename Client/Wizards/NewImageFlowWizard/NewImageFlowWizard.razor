@@ -1,7 +1,7 @@
 @namespace FileFlows.Client.Wizards
 
 @using InputText = FileFlows.Client.Components.Inputs.InputText
-@inherits InputRegister
+@inherits FlowWizardBase
 
 <Editor @ref="Editor"></Editor>
 @if (Editor != null && initDone)
@@ -38,25 +38,9 @@
                 </FlowRadioGroup>
                 
             </FlowWizardPage>
-            
-            <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">
 
-                <FlowRadioGroup TItem="bool" @bind-Value="ReplaceOriginal" LabelPrefix="Dialogs.NewFlowCommon.Output">
-                    <FlowRadioGroupItem TItem="bool" Value="true" Icon="fas fa-file-import" TLabel="ReplaceOriginal" />
-                    <FlowRadioGroupItem TItem="bool" Value="false" Icon="fas fa-file-export" TLabel="SaveToFolder">
-                        <div class="options">
-                            @if (IsWindows)
-                            {
-                                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewFlowCommon.Fields.OutputPathWindows" Validators=@RequiredValidator Directory=@true/>
-                            }
-                            else
-                            {
-                                <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewFlowCommon.Fields.OutputPath" Validators=@RequiredValidator Directory=@true/>
-                            }
-                            <InputSwitch @bind-Value="DeleteOld" Label="Dialogs.NewFlowCommon.Fields.DeleteOld"/>
-                        </div>
-                    </FlowRadioGroupItem>
-                </FlowRadioGroup>
+            <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">
+                <WizardOutput @ref="Output" />
             </FlowWizardPage>
         </FlowWizard>
     </CascadingValue>

@@ -328,9 +328,15 @@
         "OutputPathWindows": "出力パス (Windows)",
         "OutputPathWindows-Help": "保存先。ネットワークパスを含めることができます（例：\\\\my-nas\\media\\output）。"
       },
+      "Messages": {
+        "NameRequired": "名前は必須です。",
+        "OutputPathRequired": "出力パスは必須です。"
+      },
       "Output": {
         "ReplaceOriginal": "元を置き換える",
         "ReplaceOriginalDescription": "元のファイルを変換後のファイルで置き換えます。",
+        "ResellerMove": "リセラームーブ",
+        "ResellerMoveDescription": "ユーザー専用の一時フォルダにファイルを移動し、ダウンロードできるようにします。ファイルは設定された期間が経過した後に自動的に削除されます。",
         "SaveToFolder": "フォルダーに保存",
         "SaveToFolderDescription": "変換されたファイルを新しい場所に保存します。"
       },
@@ -551,18 +557,12 @@
         "CropBlackBars-Help": "FileFlowsはビデオファイル内の黒帯を検出し、見つかった場合はファイルサイズを縮小し、プレーヤーでのアスペクト比変更を可能にするためにトリミングします。",
         "DefaultLanguage": "デフォルト言語",
         "DefaultLanguage-Help": "現在言語が指定されていないオーディオトラックに割り当てる言語を指定します。",
-        "DeleteOld": "オリジナルを削除",
-        "DeleteOld-Help": "オリジナルファイルを削除するか、他のビデオファイルが見つからない場合は元のフォルダも削除します。",
         "KeepAllSubtitles": "すべての字幕を保持",
-        "KeepAllSubtitles-Help": "オリジナルビデオからすべての字幕を保持します。",
+        "KeepAllSubtitlesDescription": "オリジナルビデオからすべての字幕を保持します。",
         "KeepOnlySpecifiedSubtitles": "指定した字幕のみ保持",
-        "KeepOnlySpecifiedSubtitles-Help": "指定した字幕のみ保持し、それ以外は削除されます。",
+        "KeepOnlySpecifiedSubtitlesDescription": "指定した字幕のみ保持し、それ以外は削除されます。",
         "Name": "名前",
         "Name-Help": "新しく作成されたフローの名前で、ユニークである必要があります。",
-        "OutputPath": "出力パス",
-        "OutputPath-Help": "最終的なビデオファイルを保存するパス。",
-        "OutputPathWindows": "出力パス",
-        "OutputPathWindows-Help": "最終的なビデオファイルを保存するパス。\n例: \\\\my-nas\\media\\movies のようにネットワークパスを指定できます。",
         "Quality": "品質",
         "Quality-Suffix": "高品質",
         "ReplaceOriginal": "オリジナルを置き換える",
@@ -589,8 +589,6 @@
         "Audio1LanguageRequired": "少なくとも1つのオーディオ言語を指定する必要があります。",
         "Audio2LanguageRequired": "少なくとも1つの追加のオーディオ言語を指定する必要があります。",
         "AudioMode2LanguagesRequired": "音声言語が必要です。",
-        "NameRequired": "名前は必須です。",
-        "OutputPathRequired": "出力パスは必須です。",
         "SubtitleLanguageRequired": "字幕言語が必要です。"
       },
       "Pages": {

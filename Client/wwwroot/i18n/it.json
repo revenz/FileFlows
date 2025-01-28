@@ -328,9 +328,15 @@
         "OutputPathWindows": "Percorso di output (Windows)",
         "OutputPathWindows-Help": "La posizione di salvataggio. Può includere un percorso di rete, ad esempio, \\\\my-nas\\media\\output."
       },
+      "Messages": {
+        "NameRequired": "Il nome è obbligatorio.",
+        "OutputPathRequired": "Il percorso di uscita è obbligatorio."
+      },
       "Output": {
         "ReplaceOriginal": "Sostituisci Originale",
         "ReplaceOriginalDescription": "Sostituisce il file originale con quello convertito.",
+        "ResellerMove": "Spostamento del rivenditore",
+        "ResellerMoveDescription": "Sposta il file in una cartella temporanea unica per l'utente per il download. Il file verrà eliminato automaticamente dopo un periodo di tempo stabilito.",
         "SaveToFolder": "Salva in una cartella",
         "SaveToFolderDescription": "Salva il file convertito in una nuova posizione."
       },
@@ -551,18 +557,12 @@
         "CropBlackBars-Help": "FileFlows cercherà di rilevare le barre nere nel file video e, se le troverà, le ritaglierà per ridurre le dimensioni del file e consentire il cambio del rapporto d'aspetto nei lettori.",
         "DefaultLanguage": "Lingua predefinita",
         "DefaultLanguage-Help": "Specifica la lingua da assegnare alle tracce audio che attualmente non hanno una lingua specificata.",
-        "DeleteOld": "Elimina l'originale",
-        "DeleteOld-Help": "Se il file originale deve essere eliminato e se la cartella originale deve essere rimossa se non vengono trovati altri file video.",
         "KeepAllSubtitles": "Mantieni tutti i sottotitoli",
-        "KeepAllSubtitles-Help": "Mantieni tutti i sottotitoli dal video originale.",
+        "KeepAllSubtitlesDescription": "Mantieni tutti i sottotitoli dal video originale.",
         "KeepOnlySpecifiedSubtitles": "Mantieni solo",
-        "KeepOnlySpecifiedSubtitles-Help": "Mantieni solo i sottotitoli specificati, gli altri saranno rimossi.",
+        "KeepOnlySpecifiedSubtitlesDescription": "Mantieni solo i sottotitoli specificati, gli altri saranno rimossi.",
         "Name": "Nome",
         "Name-Help": "Il nome del nuovo flusso, deve essere unico.",
-        "OutputPath": "Percorso di uscita",
-        "OutputPath-Help": "Il percorso dove verrà salvato il file video finale.",
-        "OutputPathWindows": "Percorso di uscita",
-        "OutputPathWindows-Help": "Il percorso dove verrà salvato il file video finale. Può essere un percorso di rete, come \\\\mio-nas\\media\\film.",
         "Quality": "Qualità",
         "Quality-Suffix": "Qualità superiore",
         "ReplaceOriginal": "Sostituisci l'originale",
@@ -589,8 +589,6 @@
         "Audio1LanguageRequired": "Devi specificare almeno una lingua audio.",
         "Audio2LanguageRequired": "Devi specificare almeno una lingua audio aggiuntiva.",
         "AudioMode2LanguagesRequired": "Le lingue audio sono obbligatorie.",
-        "NameRequired": "Il nome è obbligatorio.",
-        "OutputPathRequired": "Il percorso di uscita è obbligatorio.",
         "SubtitleLanguageRequired": "Le lingue dei sottotitoli sono obbligatorie."
       },
       "Pages": {

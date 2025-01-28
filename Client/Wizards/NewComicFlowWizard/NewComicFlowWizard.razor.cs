@@ -3,74 +3,23 @@ using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
 using FileFlows.Plugin.Types;
 using Microsoft.AspNetCore.Components;
+using Polly;
 
 namespace FileFlows.Client.Wizards;
 
 /// <summary>
 /// New Comic Flow wizard
 /// </summary>
-public partial class NewComicFlowWizard : IModal
+public partial class NewComicFlowWizard 
 {
-    private Editor _Editor;
-    
-    /// <summary>
-    /// Gets or sets the editor
-    /// </summary>
-    public Editor Editor
-    {
-        get => _Editor;
-        set
-        {
-            if (_Editor != value && value != null)
-            {
-                _Editor = value;
-                StateHasChanged();
-            }
-        }
-    }
-    
-    /// <summary>
-    /// Gets or sets the profile service
-    /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
-    
-    /// <inheritdoc />
-    [Parameter]
-    public IModalOptions Options { get; set; }
-
-    /// <inheritdoc />
-    [Parameter]
-    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
-    
-    /// <summary>
-    /// Closes the dialog
-    /// </summary>
-    public void Close()
-    {
-        TaskCompletionSource.TrySetCanceled(); // Set result when closing
-    }
-
-    /// <summary>
-    /// Cancels the dialog
-    /// </summary>
-    public void Cancel()
-    {
-        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
-    }
-
     private List<string> Image1Languages = [], Image2Languages = [], SubtitleLanguages = [], ImageMode1Languages = [];
     
     /// <summary>
-    /// The new flow name
-    /// </summary>
-    private string FlowName { get; set; } = string.Empty;
-
-    /// <summary>
     /// Flow properties
     /// </summary>
-    private string OutputPath, Format = "", Description = string.Empty;
+    private string Format = "";
     private int Quality = 70;
-    private bool Cbz = true, EnsureTopDirectory, DeleteNonPageImages, ReplaceOriginal = true, DeleteOld;
+    private bool Cbz = true, EnsureTopDirectory, DeleteNonPageImages;
 
     /// <summary>
     /// The input options
@@ -84,7 +33,6 @@ public partial class NewComicFlowWizard : IModal
 
     // if the initialization has been done
     private bool initDone;
-    private bool IsWindows;
     
     /// <summary>
     /// Gets or sets bound Format
@@ -100,11 +48,8 @@ public partial class NewComicFlowWizard : IModal
     }
     
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        var profile = await ProfileService.Get(); 
-        IsWindows = profile.ServerOS == OperatingSystemType.Windows;
-
         ImageFormats =
         [
             new () { Value = "", Label = Translater.Instant("Dialogs.NewComicFlowWizard.Labels.SameAsSource") },
@@ -136,7 +81,9 @@ public partial class NewComicFlowWizard : IModal
             });
 
             FlowFormat(builder);
-            FlowAddOutput(builder);
+            Output.FlowAddOutput(builder,
+                new[] { "*.jpeg", "*.jpe", "*.jpg", "*.png", "*.bmp", "*.gif", "*.heic", "*.tiff", "*.psd" }
+            );
             
             var flow = builder.Flow;
             flow.Description = Description;
@@ -171,12 +118,7 @@ public partial class NewComicFlowWizard : IModal
             return false;
         }
 
-        if (ReplaceOriginal == false && string.IsNullOrWhiteSpace(OutputPath))
-        {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.OutputPathRequired");
-            return false;
-        }
-        return true;
+        return Output.Validate();
     }
     
     /// <summary>
@@ -218,54 +160,6 @@ public partial class NewComicFlowWizard : IModal
                 Codec = Cbz ? Format ?? string.Empty : string.Empty
             })
         });
-    }
-    
-    /// <summary>
-    /// Adds the output flow elements
-    /// </summary>
-    /// <param name="builder">the flow builder</param>
-    /// <returns>the primary flow output flow part</returns>
-    private void FlowAddOutput(FlowBuilder builder)
-    {
-        if (ReplaceOriginal)
-        {
-            builder.AddAndConnect(new FlowPart()
-            {
-                FlowElementUid = FlowElementUids.ReplaceOriginal,
-                Outputs = 1,
-                Type = FlowElementType.Process
-            });
-        }
-        else
-        {
-            builder.AddAndConnect(new FlowPart()
-            {
-                FlowElementUid = FlowElementUids.MoveFile,
-                Outputs = 2,
-                Type = FlowElementType.Process,
-                Model = ExpandoHelper.ToExpandoObject(new
-                {
-                    DestinationPath = OutputPath,
-                    DeleteOriginal = DeleteOld,
-                    MoveFolder = true
-                })
-            });
-
-            if (DeleteOld)
-            {
-                builder.AddAndConnect(new FlowPart()
-                {
-                    FlowElementUid = FlowElementUids.DeleteSourceDirectory,
-                    Outputs = 2,
-                    Type = FlowElementType.Process,
-                    Model = ExpandoHelper.ToExpandoObject(new
-                    {
-                        IfEmpty = true,
-                        IncludePatterns = new[] { "*.jpeg", "*.jpe", "*.jpg", "*.png", "*.bmp", "*.gif", "*.heic", "*.tiff", "*.psd" }
-                    })
-                });
-            }
-        }
     }
 }
 
