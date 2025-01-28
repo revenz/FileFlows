@@ -47,6 +47,7 @@ public partial class Scripts
         destination.Name = source.Name;
         destination.Description = source.Description;
         destination.Code = source.Code;
+        destination.Help = source.Help;
         destination.Author = source.Author;
         destination.Type = source.Type;
         destination.Language = source.Language;

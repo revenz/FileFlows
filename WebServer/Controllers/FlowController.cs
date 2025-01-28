@@ -609,6 +609,16 @@ public class FlowController : BaseController
                 });
                 return ef;
             }).ToList();
+
+            if (string.IsNullOrWhiteSpace(script.Help) == false)
+            {
+                ele.Fields.Insert(0, new ElementField()
+                {
+                    InputType = FormInputType.Label,
+                    Name = script.Help
+                });
+            }
+            
             ele.Type = FlowElementType.Script;
             ele.Outputs = script.Outputs.Count;
             ele.Model = model as ExpandoObject;

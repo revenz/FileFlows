@@ -449,8 +449,12 @@
             break;
         case FormInputType.Label:
             {
+                var labelTranslated = Translater.TranslateIfNeeded(label);
+                if (labelTranslated.StartsWith("Flow.Parts.Script.Fields."))
+                    labelTranslated = labelTranslated[25..].Trim();
+                
                 <div class="input-label">
-                    @Translater.TranslateIfNeeded(label)
+                    @labelTranslated
                 </div>
             }
             break;

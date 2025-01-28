@@ -63,6 +63,7 @@ public class ScriptParser
         
         comments = comments[atIndex..];
 
+        bool inDescription = false, inHelp = false;
         foreach (var line in comments.Split('\n'))
         {
             if (ParseArgument(model, line))
@@ -71,19 +72,44 @@ public class ScriptParser
                 continue;
             if (line.StartsWith('@') == false)
             {
-                if (string.IsNullOrWhiteSpace(model.Description))
-                    model.Description = line;
-                else
-                    model.Description += "\n" + line;
+                if (inDescription)
+                {
+                    if (string.IsNullOrWhiteSpace(model.Description))
+                        model.Description = line;
+                    else
+                        model.Description += "\n" + line;
+                }
+                else if (inHelp)
+                {
+                    if (string.IsNullOrWhiteSpace(model.Help))
+                        model.Help = line;
+                    else
+                        model.Help += "\n" + line;
+                }
+
+                continue;
             }
-            else if (line.StartsWith("@name "))
+            
+
+            inDescription = false;
+            inHelp = false;
+            
+            if (line.StartsWith("@name "))
                 model.Name = line["@name ".Length..].Trim();
             else if (line.StartsWith("@uid ") && Guid.TryParse(line[5..].Trim(), out var uid))
                 model.Uid = uid;
             else if (line.StartsWith("@revision ") && int.TryParse(line["@revision ".Length..].Trim(), out var revision))
                 model.Revision = revision;
             else if (line.StartsWith("@description "))
+            {
                 model.Description = line["@description ".Length..].Trim();
+                inDescription = true;
+            }
+            else if (line.StartsWith("@help "))
+            {
+                model.Help = line["@help ".Length..].Trim();
+                inHelp = true;
+            }
             else if (line.StartsWith("@author "))
                 model.Author = line["@author ".Length..].Trim();
             else if (line.StartsWith("@minimumversion ", StringComparison.InvariantCultureIgnoreCase) &&
@@ -211,6 +237,7 @@ public class ScriptParser
         if(skipName == false)
             AddField("name", script.Name);
         AddField("description", script.Description);
+        AddField("help", script.Help);
         AddField("author", script.Author);
         AddField("revision", script.Revision?.ToString());
         AddField("minimumVersion", script.MinimumVersion?.ToString());
