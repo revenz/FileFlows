@@ -255,7 +255,7 @@ public class ImageMagickHelper
             return Result<bool>.Fail(ex.Message);
         }
     }
-    
+
     /// <summary>
     /// Converts an image from one format to another and applies optional resizing options using FFmpeg.
     /// </summary>
@@ -268,11 +268,10 @@ public class ImageMagickHelper
         try
         {
             Logger.ILog("Attempting to use FFmpeg to convert image");
-            
             // Initialize FFmpeg command arguments
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = EXE_FFMPEG, // FFmpeg command
+                FileName = "ffmpeg", // FFmpeg command
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
@@ -289,7 +288,7 @@ public class ImageMagickHelper
                 var result = GetImageDimensions(imagePath);
                 if (result.Failed(out string error))
                     return Result<bool>.Fail(error);
-                    
+
                 (int width, int height) = result.Value;
 
                 // Apply image resizing logic
@@ -301,32 +300,38 @@ public class ImageMagickHelper
                 {
                     case ResizeMode.Contain:
                         startInfo.ArgumentList.Add("-vf");
-                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}:force_original_aspect_ratio=decrease");
+                        startInfo.ArgumentList.Add(
+                            $"scale={newWidth}:{newHeight}:force_original_aspect_ratio=decrease");
                         break;
 
                     case ResizeMode.Cover:
                         startInfo.ArgumentList.Add("-vf");
-                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}:force_original_aspect_ratio=increase,crop={newWidth}:{newHeight}");
+                        startInfo.ArgumentList.Add(
+                            $"scale={newWidth}:{newHeight}:force_original_aspect_ratio=increase,crop={newWidth}:{newHeight}");
                         break;
 
                     case ResizeMode.Fill:
                         startInfo.ArgumentList.Add("-vf");
-                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}!"); // Force exact dimensions, ignoring aspect ratio
+                        startInfo.ArgumentList.Add(
+                            $"scale={newWidth}:{newHeight}!"); // Force exact dimensions, ignoring aspect ratio
                         break;
 
                     case ResizeMode.Min:
                         startInfo.ArgumentList.Add("-vf");
-                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}:force_original_aspect_ratio=decrease");
+                        startInfo.ArgumentList.Add(
+                            $"scale={newWidth}:{newHeight}:force_original_aspect_ratio=decrease");
                         break;
 
                     case ResizeMode.Max:
                         startInfo.ArgumentList.Add("-vf");
-                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}:force_original_aspect_ratio=increase");
+                        startInfo.ArgumentList.Add(
+                            $"scale={newWidth}:{newHeight}:force_original_aspect_ratio=increase");
                         break;
 
                     case ResizeMode.Pad:
                         startInfo.ArgumentList.Add("-vf");
-                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight},pad={newWidth}:{newHeight}:{(newWidth - width) / 2}:{(newHeight - height) / 2}:color=white");
+                        startInfo.ArgumentList.Add(
+                            $"scale={newWidth}:{newHeight},pad={newWidth}:{newHeight}:{(newWidth - width) / 2}:{(newHeight - height) / 2}:color=white");
                         break;
                     default:
                         startInfo.ArgumentList.Add("-vf");
@@ -342,10 +347,30 @@ public class ImageMagickHelper
             // Output file
             startInfo.ArgumentList.Add(destination);
 
-            Logger.ILog("Arguments: " + string.Join(" ", startInfo.ArgumentList.Select(x => x.Contains(' ') ? $"\"{x}\"" : x)));
+            Logger.ILog("Arguments: " +
+                        string.Join(" ", startInfo.ArgumentList.Select(x => x.Contains(' ') ? $"\"{x}\"" : x)));
 
+            // Start FFmpeg process
             using Process? process = Process.Start(startInfo);
+
+            // Capture and log the standard output and error asynchronously
+            process.OutputDataReceived += (sender, e) =>
+            {
+                if (e.Data != null)
+                    Logger.ILog("FFmpeg Output: " + e.Data);
+            };
+
+            process.ErrorDataReceived += (sender, e) =>
+            {
+                if (e.Data != null)
+                    Logger.ILog("FFmpeg Error: " + e.Data);
+            };
+
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
             process.WaitForExit();
+
             if (process.ExitCode != 0)
                 return Result<bool>.Fail("Failed to convert image using FFmpeg");
 
