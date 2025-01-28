@@ -674,8 +674,8 @@ public class FlowWorker : Worker
                 return false;
             }
 
-
-            if (revision == CurrentConfig?.Revision)
+            string dir = GetConfigurationDirectory(revision);
+            if (revision == CurrentConfig?.Revision && Directory.Exists(dir))
                 return true;
 
             var config = service.GetCurrentConfiguration().Result;
@@ -685,7 +685,6 @@ public class FlowWorker : Worker
                 return false;
             }
 
-            string dir = GetConfigurationDirectory(revision);
             try
             {
                 if (Directory.Exists(dir))
