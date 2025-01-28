@@ -263,6 +263,7 @@ public class ImageHelper : IImageHelper
         {
             if (ImageMagick.CanUseImageMagick())
             {
+                Logger.ILog($"Converting using ImageMagick to {type}");
                 var result = ImageMagick.ConvertImage(imagePath, destination, new ImageOptions()
                 {
                     Quality = quality

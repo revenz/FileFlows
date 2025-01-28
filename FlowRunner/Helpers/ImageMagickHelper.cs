@@ -23,7 +23,7 @@ public class ImageMagickHelper
     /// <summary>
     /// The ImageMagick executable files
     /// </summary>
-    private readonly string EXE_CONVERT, EXE_IDENTIFY;
+    private readonly string EXE_CONVERT, EXE_IDENTIFY, EXE_FFMPEG;
 
     /// <summary>
     /// Constructs a new instance of the ImageMagickHelper
@@ -37,6 +37,8 @@ public class ImageMagickHelper
                       (OperatingSystem.IsWindows() ? "magick.exe" : "convert");
         EXE_IDENTIFY = args.GetToolPath("identify")?.EmptyAsNull() ??
                        (OperatingSystem.IsWindows() ? "identify.exe" : "identify");
+        EXE_FFMPEG  = args.GetToolPath("ffmpeg")?.EmptyAsNull() ??
+                      (OperatingSystem.IsWindows() ? "ffmpeg.exe" : "ffmpeg");
     }
 
 
@@ -153,6 +155,9 @@ public class ImageMagickHelper
     /// <returns>A result indicating whether the conversion was successful.</returns>
     public Result<bool> ConvertImage(string imagePath, string destination, ImageOptions? options)
     {
+        if(destination.EndsWith(".heic", StringComparison.InvariantCultureIgnoreCase))
+            return ConvertImageUsingFFmpeg(imagePath, destination, options);
+        
         try
         {
             // Execute ImageMagick command for resizing
@@ -244,6 +249,116 @@ public class ImageMagickHelper
         {
             return Result<bool>.Fail(ex.Message);
         }
+    }
+    
+    /// <summary>
+    /// Converts an image from one format to another and applies optional resizing options using FFmpeg.
+    /// </summary>
+    /// <param name="imagePath">The path to the input image file.</param>
+    /// <param name="destination">The path to save the converted image.</param>
+    /// <param name="options">Optional parameters for resizing the image.</param>
+    /// <returns>A result indicating whether the conversion was successful.</returns>
+    public Result<bool> ConvertImageUsingFFmpeg(string imagePath, string destination, ImageOptions? options)
+    {
+        try
+        {
+            // Initialize FFmpeg command arguments
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = EXE_FFMPEG, // FFmpeg command
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            // Input image
+            startInfo.ArgumentList.Add("-i");
+            startInfo.ArgumentList.Add(imagePath);
+
+            if (options != null)
+            {
+                // Get image dimensions (if resizing is required)
+                var result = GetImageDimensions(imagePath);
+                if (result.Failed(out string error))
+                    return Result<bool>.Fail(error);
+                    
+                (int width, int height) = result.Value;
+
+                // Apply image resizing logic
+                (int newWidth, int newHeight) = ImageHelper.CalculateNewDimensions(width, height, options);
+                Logger.ILog("New Dimensions: " + newWidth + "x" + newHeight);
+                Logger.ILog("Mode: " + options.Mode);
+
+                switch (options.Mode)
+                {
+                    case ResizeMode.Contain:
+                        startInfo.ArgumentList.Add("-vf");
+                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}:force_original_aspect_ratio=decrease");
+                        break;
+
+                    case ResizeMode.Cover:
+                        startInfo.ArgumentList.Add("-vf");
+                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}:force_original_aspect_ratio=increase,crop={newWidth}:{newHeight}");
+                        break;
+
+                    case ResizeMode.Fill:
+                        startInfo.ArgumentList.Add("-vf");
+                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}!"); // Force exact dimensions, ignoring aspect ratio
+                        break;
+
+                    case ResizeMode.Min:
+                        startInfo.ArgumentList.Add("-vf");
+                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}:force_original_aspect_ratio=decrease");
+                        break;
+
+                    case ResizeMode.Max:
+                        startInfo.ArgumentList.Add("-vf");
+                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}:force_original_aspect_ratio=increase");
+                        break;
+
+                    case ResizeMode.Pad:
+                        startInfo.ArgumentList.Add("-vf");
+                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight},pad={newWidth}:{newHeight}:{(newWidth - width) / 2}:{(newHeight - height) / 2}:color=white");
+                        break;
+                    default:
+                        startInfo.ArgumentList.Add("-vf");
+                        startInfo.ArgumentList.Add($"scale={newWidth}:{newHeight}!");
+                        break;
+                }
+
+                // If quality is specified, set the bitrate
+                if (options.Quality != null)
+                    AddQualityFFmpeg(startInfo, options.Quality.Value);
+            }
+
+            // Output file
+            startInfo.ArgumentList.Add(destination);
+
+            Logger.ILog("Arguments: " + string.Join(" ", startInfo.ArgumentList.Select(x => x.Contains(' ') ? $"\"{x}\"" : x)));
+
+            using Process? process = Process.Start(startInfo);
+            process.WaitForExit();
+            if (process.ExitCode != 0)
+                return Result<bool>.Fail("Failed to convert image using FFmpeg");
+
+            return Result<bool>.Success(true);
+        }
+        catch (Exception ex)
+        {
+            return Result<bool>.Fail(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Adds the quality parameter to the FFmpeg command if quality is specified.
+    /// </summary>
+    /// <param name="startInfo">The process start info object.</param>
+    /// <param name="quality">The quality value to apply to the conversion.</param>
+    private void AddQualityFFmpeg(ProcessStartInfo startInfo, int quality)
+    {
+        startInfo.ArgumentList.Add("-q:v");
+        startInfo.ArgumentList.Add(quality.ToString());
     }
 
 
