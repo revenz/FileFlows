@@ -201,26 +201,9 @@ public class NodeParameters
     public Func<string[], string, string, Result<bool>>? SendEmail { get; set; }
     
     /// <summary>
-    /// Function to retrieve a cached item of type T from the remote cache.
+    /// Gets the cache helper
     /// </summary>
-    public Func<string, Type, object?>? CacheGetFunc { get; set; }
-
-    /// <summary>
-    /// Function to store an item in the remote cache.
-    /// </summary>
-    public Action<string, object, TimeSpan?>? CacheSet { get; set; }
-    
-    /// <summary>
-    /// Generic method to get a cached value of type T.
-    /// </summary>
-    public T? CacheGet<T>(string key)
-    {
-        if (CacheGetFunc == null)
-            throw new InvalidOperationException("CacheGetFunc function is not assigned.");
-
-        var obj = CacheGetFunc(key, typeof(T));
-        return obj is T value ? value : default;
-    }
+    public CacheHelper Cache { get; init; }
 
     /// <summary>
     /// Gets or sets a goto flow 

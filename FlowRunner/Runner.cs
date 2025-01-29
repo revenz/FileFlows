@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using FileFlows.FlowRunner.Helpers;
 using FileFlows.FlowRunner.RunnerFlowElements;
 using FileFlows.FlowRunner.TemplateRenders;
+using FileFlows.Plugin.Helpers;
 using FileFlows.Plugin.Services;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared.FileServices;
@@ -457,6 +458,31 @@ public class Runner
     private void RunActual(FlowLogger logger, FlowRunnerCommunicator communicator)
     {
         VariablesHelper.StartedAt = DateTime.Now;
+        
+        var cacheService = ServiceLoader.Load<IDistributedCacheService>();
+        var cacheHelper = new CacheHelper((key) =>
+        {
+            try
+            {
+                var json = cacheService.GetJsonAsync(key).Result;
+                return json ?? default;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }, (key, json, expiration) =>
+        {
+            try
+            {
+                cacheService.StoreJsonAsync(key, json, expiration).Wait();
+            }
+            catch (Exception)
+            {
+                // Ignore
+            }
+        });
+        
         nodeParameters = new NodeParameters(Info.LibraryFile.Name, logger,
             Info.IsDirectory, Info.LibraryPath, fileService: FileService.Instance)
         {
@@ -472,7 +498,8 @@ public class Runner
             NotificationCallback = (severity, title, message) =>
             {
                 ServiceLoader.Load<INotificationService>().Record((NotificationSeverity)severity, title, message);
-            }
+            },
+            Cache = cacheHelper
         };
         
         nodeParameters.Variables["library.Name"] = Info.Library.Name;
@@ -555,36 +582,6 @@ public class Runner
         };
         nodeParameters.SendEmail = (to, subject, body) => ServiceLoader.Load<EmailService>().Send(to, subject, body).Result;
 
-        var cacheService = ServiceLoader.Load<IDistributedCacheService>();
-        nodeParameters.CacheGetFunc = (key, type) =>
-        {
-            try
-            {
-                var json = cacheService.GetJsonAsync(key).Result;
-                if (json == null)
-                    return default;
-                logger.ILog($"Cached '{key}': {json}");
-                return JsonSerializer.Deserialize(json, type) ?? null;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        };
-        nodeParameters.CacheSet = (key, value, expiration) =>
-        {
-            if (value == null)
-                return;
-            try
-            {
-                var json = JsonSerializer.Serialize(value);
-                cacheService.StoreJsonAsync(key, json, expiration).Wait();
-            }
-            catch (Exception)
-            {
-                // Ignore
-            }
-        };
 
         var renderer = new ScribanRenderer();
         nodeParameters.RenderTemplate = (template) =>
