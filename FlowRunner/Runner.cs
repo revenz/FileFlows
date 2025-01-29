@@ -469,6 +469,7 @@ public class Runner
             }
             catch (Exception)
             {
+                // Ignore
                 return null;
             }
         }, (key, json, expiration) =>
