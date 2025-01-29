@@ -460,7 +460,7 @@ public class Runner
         VariablesHelper.StartedAt = DateTime.Now;
         
         var cacheService = ServiceLoader.Load<IDistributedCacheService>();
-        var cacheHelper = new CacheHelper((key) =>
+        var cacheHelper = new CacheHelper(logger, (key) =>
         {
             try
             {

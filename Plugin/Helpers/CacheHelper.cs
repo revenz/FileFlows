@@ -5,9 +5,11 @@ namespace FileFlows.Plugin.Helpers;
 /// <summary>
 /// Cache Helper
 /// </summary>
+/// <param name="logger">the logger to use</param>
 /// <param name="GetJsonFunc">the Get Json function</param>
 /// <param name="SetJsonFunc">the Set JSON function</param>
 public class CacheHelper(
+    ILogger logger,
     Func<string, string?>? GetJsonFunc , 
     Action<string, string, TimeSpan?>? SetJsonFunc)
 {
@@ -23,6 +25,7 @@ public class CacheHelper(
             var json = GetJsonFunc(key);
             if (string.IsNullOrWhiteSpace(json))
                 return default;
+            logger?.ILog($"Got JSON '{key}' from cache: " + json);
             return JsonSerializer.Deserialize<T>(json) ?? default;
         }
         catch (Exception)
