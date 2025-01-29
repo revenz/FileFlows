@@ -556,27 +556,15 @@ public class Runner
         nodeParameters.SendEmail = (to, subject, body) => ServiceLoader.Load<EmailService>().Send(to, subject, body).Result;
 
         var cacheService = ServiceLoader.Load<IDistributedCacheService>();
-        MethodInfo? cacheGetMethod = null;
-        nodeParameters.CacheGetFunc = async (key, type) =>
+        nodeParameters.CacheGetFunc = (key, type) =>
         {
-            cacheGetMethod ??= typeof(IDistributedCacheService)
-                .GetMethod(nameof(IDistributedCacheService.GetAsync))
-                ?.MakeGenericMethod(type);
-
-            if (cacheGetMethod == null)
-                throw new InvalidOperationException("Unable to find GetAsync<T> method on IDistributedCacheService.");
-
-            var task = (Task?)cacheGetMethod.Invoke(cacheService, new object[] { key });
-
-            if (task == null)
-                return null;
-
-            await task.ConfigureAwait(false);
-
-            var resultProperty = task.GetType().GetProperty("Result");
-            return resultProperty?.GetValue(task);
+            var json = cacheService.GetJsonAsync(key).Result;
+            if (json == null)
+                return default;
+            return JsonSerializer.Deserialize(json, type) ?? null;
         };
-        nodeParameters.CacheSet = cacheService.StoreAsync;
+        nodeParameters.CacheSet = (key, value, expiration) => 
+            cacheService.StoreAsync(key, value, expiration).Wait();
         
         var renderer = new ScribanRenderer();
         nodeParameters.RenderTemplate = (template) =>

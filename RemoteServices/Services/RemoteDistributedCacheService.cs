@@ -7,13 +7,14 @@ namespace FileFlows.RemoteServices;
 /// </summary>
 public class RemoteDistributedCacheService : RemoteService, IDistributedCacheService
 {
+
     /// <inheritdoc />
-    public async Task<T?> GetAsync<T>(string key)
+    public async Task<string?> GetJsonAsync(string key)
     {
         try
         {
-            var result = await HttpHelper.Get<T>($"{ServiceBaseUrl}/remote/cache/" + key);
-            if (result.Success && result.Data != null)
+            var result = await HttpHelper.Get<string>($"{ServiceBaseUrl}/remote/cache/" + key);
+            if (result is { Success: true, Data: not null })
                 return result.Data;
             return default;
         }
@@ -26,7 +27,7 @@ public class RemoteDistributedCacheService : RemoteService, IDistributedCacheSer
     }
 
     /// <inheritdoc />
-    public async Task StoreAsync<T>(string key, T value, TimeSpan? expiration = null)
+    public async Task StoreAsync(string key, object value, TimeSpan? expiration = null)
     {
         try
         {
