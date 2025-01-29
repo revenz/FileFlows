@@ -26,10 +26,11 @@ public class CacheHelper(
             if (string.IsNullOrWhiteSpace(json))
                 return default;
             logger?.ILog($"Got JSON '{key}' from cache: " + json);
-            return JsonSerializer.Deserialize<T>(json) ?? default;
+            return JsonSerializer.Deserialize<T>(json);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logger?.ILog($"Got exception '{key}' from cache: " + ex.Message);
             return default;
         }
     }
