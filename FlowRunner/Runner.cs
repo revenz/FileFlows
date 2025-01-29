@@ -1,4 +1,5 @@
-﻿using FileFlows.ServerShared;
+﻿using System.Reflection;
+using FileFlows.ServerShared;
 using FileFlows.Plugin;
 using FileFlows.ServerShared.Services;
 using FileFlows.Shared.Models;
@@ -9,6 +10,7 @@ using FileFlows.FlowRunner.TemplateRenders;
 using FileFlows.Plugin.Services;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared.FileServices;
+using FileFlows.ServerShared.Interfaces;
 using FileFlows.Shared.Helpers;
 using FlowHelper = FileFlows.FlowRunner.Helpers.FlowHelper;
 
@@ -552,6 +554,29 @@ public class Runner
             return task.Result.Success;
         };
         nodeParameters.SendEmail = (to, subject, body) => ServiceLoader.Load<EmailService>().Send(to, subject, body).Result;
+
+        var cacheService = ServiceLoader.Load<IDistributedCacheService>();
+        MethodInfo? cacheGetMethod = null;
+        nodeParameters.CacheGetFunc = async (key, type) =>
+        {
+            cacheGetMethod ??= typeof(IDistributedCacheService)
+                .GetMethod(nameof(IDistributedCacheService.GetAsync))
+                ?.MakeGenericMethod(type);
+
+            if (cacheGetMethod == null)
+                throw new InvalidOperationException("Unable to find GetAsync<T> method on IDistributedCacheService.");
+
+            var task = (Task?)cacheGetMethod.Invoke(cacheService, new object[] { key });
+
+            if (task == null)
+                return null;
+
+            await task.ConfigureAwait(false);
+
+            var resultProperty = task.GetType().GetProperty("Result");
+            return resultProperty?.GetValue(task);
+        };
+        nodeParameters.CacheSet = cacheService.StoreAsync;
         
         var renderer = new ScribanRenderer();
         nodeParameters.RenderTemplate = (template) =>

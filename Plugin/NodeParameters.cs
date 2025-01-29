@@ -199,6 +199,28 @@ public class NodeParameters
     /// Gets or sets the function responsible for deleting a remote directory
     /// </summary>
     public Func<string[], string, string, Result<bool>>? SendEmail { get; set; }
+    
+    /// <summary>
+    /// Function to retrieve a cached item of type T from the remote cache.
+    /// </summary>
+    public Func<string, Type, Task<object?>>? CacheGetFunc { get; set; }
+
+    /// <summary>
+    /// Function to store an item in the remote cache.
+    /// </summary>
+    public Func<string, object, TimeSpan?, Task>? CacheSet { get; set; }
+    
+    /// <summary>
+    /// Generic method to get a cached value of type T.
+    /// </summary>
+    public async Task<T?> CacheGet<T>(string key)
+    {
+        if (CacheGetFunc == null)
+            throw new InvalidOperationException("CacheGetFunc function is not assigned.");
+
+        var obj = await CacheGetFunc(key, typeof(T));
+        return obj is T value ? value : default;
+    }
 
     /// <summary>
     /// Gets or sets a goto flow 

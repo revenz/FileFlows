@@ -206,7 +206,8 @@ public class StartupService : IStartupService
             new ScheduledReportWorker(),
             new StatisticSyncer(),
             new UpdateWorker(),
-            new ResellerWorker()
+            new ResellerWorker(),
+            new DistributedCacheCleanerWorker()
             //new LibraryFileServiceUpdater()
         );
 

@@ -1,3 +1,5 @@
+using FileFlows.ServerShared.Interfaces;
+
 namespace FileFlows.RemoteServices;
 
 /// <summary>
@@ -25,6 +27,7 @@ public static class ServiceLoader
             .AddSingleton<IStatisticService>(() => new StatisticService())
             .AddSingleton<IVariableService>(() => new VariableService())
             .AddSingleton<INotificationService>(() => new NotificationService())
+            .AddSingleton<IDistributedCacheService>(() => new RemoteDistributedCacheService())
             .AddSingleton<EmailService>(() => new EmailService())
             .AddSingleton<HardwareInfoService>(() => new HardwareInfoService())
             .BuildServiceProvider(); // Build the service provider
