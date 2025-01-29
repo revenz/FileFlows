@@ -27,14 +27,14 @@ public class RemoteDistributedCacheService : RemoteService, IDistributedCacheSer
     }
 
     /// <inheritdoc />
-    public async Task StoreAsync(string key, object value, TimeSpan? expiration = null)
+    public async Task StoreJsonAsync(string key, string json, TimeSpan? expiration = null)
     {
         try
         {
             _ = await HttpHelper.Post($"{ServiceBaseUrl}/remote/cache", new
             {
                 Key = key,
-                Value = value,
+                Json = json,
                 Expiration = expiration
             });
         }

@@ -558,15 +558,34 @@ public class Runner
         var cacheService = ServiceLoader.Load<IDistributedCacheService>();
         nodeParameters.CacheGetFunc = (key, type) =>
         {
-            var json = cacheService.GetJsonAsync(key).Result;
-            if (json == null)
-                return default;
-            logger.ILog($"Cached '{key}': {json}");
-            return JsonSerializer.Deserialize(json, type) ?? null;
+            try
+            {
+                var json = cacheService.GetJsonAsync(key).Result;
+                if (json == null)
+                    return default;
+                logger.ILog($"Cached '{key}': {json}");
+                return JsonSerializer.Deserialize(json, type) ?? null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         };
-        nodeParameters.CacheSet = (key, value, expiration) => 
-            cacheService.StoreAsync(key, value, expiration).Wait();
-        
+        nodeParameters.CacheSet = (key, value, expiration) =>
+        {
+            if (value == null)
+                return;
+            try
+            {
+                var json = JsonSerializer.Serialize(value);
+                cacheService.StoreJsonAsync(key, json, expiration).Wait();
+            }
+            catch (Exception)
+            {
+                // Ignore
+            }
+        };
+
         var renderer = new ScribanRenderer();
         nodeParameters.RenderTemplate = (template) =>
             renderer.Render(nodeParameters, template);

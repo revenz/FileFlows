@@ -8,15 +8,6 @@ namespace FileFlows.WebServer.Controllers.RemoteControllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class DistributedCacheController : Controller
 {
-    /// <summary>
-    /// The service
-    /// </summary>
-    private readonly DistributedCacheService service;
-
-    public DistributedCacheController()
-    {
-        service = ServiceLoader.Load<DistributedCacheService>();
-    }
 
     /// <summary>
     /// Gets a cached item by key.
@@ -24,7 +15,8 @@ public class DistributedCacheController : Controller
     [HttpGet("{key}")]
     public IActionResult Get(string key)
     {
-        var result = service.Get<object>(key);
+        var service = ServiceLoader.Load<DistributedCacheService>();
+        var result = service.GetJson(key);
         return result is not null ? Ok(result) : NotFound();
     }
 
@@ -37,7 +29,8 @@ public class DistributedCacheController : Controller
         if(data == null)
             return BadRequest("No data to store");
         
-        service.Store(data.Key, data.Value, data.Expiration);
+        var service = ServiceLoader.Load<DistributedCacheService>();
+        service.StoreJson(data.Key, data.Json, data.Expiration);
         return Ok();
     }
 
@@ -51,9 +44,9 @@ public class DistributedCacheController : Controller
         /// </summary>
         public string Key { get; init; }
         /// <summary>
-        /// Gets the value to store
+        /// Gets the json to store
         /// </summary>
-        public object Value { get; init; }
+        public string Json { get; init; }
         /// <summary>
         /// Gets the expiration of the data being stored
         /// </summary>
