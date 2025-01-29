@@ -561,6 +561,7 @@ public class Runner
             var json = cacheService.GetJsonAsync(key).Result;
             if (json == null)
                 return default;
+            logger.ILog($"Cached '{key}': {json}");
             return JsonSerializer.Deserialize(json, type) ?? null;
         };
         nodeParameters.CacheSet = (key, value, expiration) => 
