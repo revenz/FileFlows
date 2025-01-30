@@ -40,7 +40,7 @@ public class CacheHelper(
     /// </summary>
     /// <param name="key">the key for the item in the cache</param>
     /// <returns>The JSON string if found, otherwise null</returns>
-    public string Get(string key)
+    public string GetJson(string key)
         => GetJsonFunc?.Invoke(key) ?? null;
 
     /// <summary>
@@ -49,13 +49,32 @@ public class CacheHelper(
     /// <param name="key">the key for the item in the cache</param>
     /// <param name="value">the value being stored</param>
     /// <param name="minutes">the number of minutes an item is being stored for</param>
-    public void Set(string key, object value, int minutes = 0)
+    public void SetObject(string key, object value, int minutes = 0)
     {
         if (value == null)
             return;
         try
         {
             var json = JsonSerializer.Serialize(value);
+            SetJsonFunc(key, json, minutes > 0 ? TimeSpan.FromMinutes(minutes) : null);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
+    }
+    /// <summary>
+    /// Stores an json in the cache
+    /// </summary>
+    /// <param name="key">the key for the item in the cache</param>
+    /// <param json="json">the value json stored</param>
+    /// <param name="minutes">the number of minutes an item is being stored for</param>
+    public void SetJson(string key, string json, int minutes = 0)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return;
+        try
+        {
             SetJsonFunc(key, json, minutes > 0 ? TimeSpan.FromMinutes(minutes) : null);
         }
         catch (Exception)
