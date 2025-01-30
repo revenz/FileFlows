@@ -90,6 +90,10 @@ public partial class NewLibraryWizard : IModal
     /// </summary>
     private Guid FlowUid { get; set; }
     /// <summary>
+    /// Gets or sets the flow to run against folder
+    /// </summary>
+    private Guid FlowUidFolder { get; set; }
+    /// <summary>
     /// The new libraries extensions
     /// </summary>
     private string[] Extensions = [];
@@ -98,6 +102,10 @@ public partial class NewLibraryWizard : IModal
     /// The input options
     /// </summary>
     private List<ListOption> FlowOptions = [];
+    /// <summary>
+    /// The input options folders
+    /// </summary>
+    private List<ListOption> FlowOptionsFolders = [];
     
     /// <summary>
     /// Gets or sets the flow wizard
@@ -112,7 +120,7 @@ public partial class NewLibraryWizard : IModal
     /// <summary>
     /// The flows
     /// </summary>
-    private Dictionary<Guid, string> Flows = [];
+    private Dictionary<Guid, string> Flows = [], FlowsFolders = [];
     
     /// <summary>
     /// Gets or sets flow uid
@@ -127,14 +135,40 @@ public partial class NewLibraryWizard : IModal
         }
     }
 
+    /// <summary>
+    /// Gets or sets flow uid Folder
+    /// </summary>
+    private object BoundFlowUidFolder
+    {
+        get => FlowUidFolder;
+        set
+        {
+            if (value is Guid uid)
+                FlowUidFolder = uid;
+        }
+    }
+
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        var flowResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list");
+        var flowResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list?folderFlows=false");
         if (flowResult.Success)
         {
             Flows = flowResult.Data;
-            FlowOptions = flowResult.Data.OrderBy(x => x.Value.ToLowerInvariant())
+            FlowOptions = flowResult.Data
+                .OrderBy(x => x.Value.ToLowerInvariant())
+                .Select(x => new ListOption()
+                {
+                    Value = x.Key,
+                    Label = x.Value
+                }).ToList();
+        }
+        var flowResultFolders = await HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list?folderFlows=true");
+        if (flowResultFolders.Success)
+        {
+            FlowsFolders = flowResultFolders.Data;
+            FlowOptionsFolders = flowResultFolders.Data
+                .OrderBy(x => x.Value.ToLowerInvariant())
                 .Select(x => new ListOption()
                 {
                     Value = x.Key,
@@ -208,6 +242,8 @@ public partial class NewLibraryWizard : IModal
     /// </summary>
     private async Task Save()
     {
+        await Editor.Validate();
+        
         if (string.IsNullOrWhiteSpace(LibraryName))
         {
             Toast.ShowError("Dialogs.NewLibraryWizard.Messages.NameRequired");
@@ -218,12 +254,17 @@ public partial class NewLibraryWizard : IModal
             Toast.ShowError("Dialogs.NewLibraryWizard.Messages.PathRequired");
             return;
         }
-        if (FlowUid == Guid.Empty || Flows.TryGetValue(FlowUid, out var flowName) == false)
+
+        var flowUid = SelectedLibraryType == 1 ? FlowUidFolder : FlowUid;
+        var flowsDictionary = SelectedLibraryType == 1 ? FlowsFolders : Flows;
+
+        if (flowUid == Guid.Empty || !flowsDictionary.TryGetValue(flowUid, out var flowName))
         {
             Toast.ShowError("Dialogs.NewLibraryWizard.Messages.FlowRequired");
             return;
         }
-        
+
+
         Wizard.ShowBlocker("Labels.Saving");
 
         try
@@ -234,7 +275,7 @@ public partial class NewLibraryWizard : IModal
                 Path = LibraryPath.Trim(),
                 Flow = new()
                 {
-                    Uid = FlowUid,
+                    Uid = flowUid,
                     Name = flowName,
                     Type = typeof(Flow).FullName
                 },

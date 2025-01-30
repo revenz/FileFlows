@@ -14,6 +14,10 @@
                 <ul class="library-type">
                     @foreach (var option in libraryTypeOptions)
                     {
+                        if (option.Value == 1 && FlowsFolders.Count == 0)
+                        {
+                            continue;
+                        }
                         <li @onclick="() => SelectedLibraryType = option.Value" class="clickable-radio @(SelectedLibraryType == option.Value ? "active" : "")">
                             <i class="@option.Icon"></i>
                             <div class="info">
@@ -36,7 +40,15 @@
                     <InputFile @bind-Value="@LibraryPath" Label="Dialogs.NewLibraryWizard.Fields.Path" Validators=@RequiredValidator Directory=@true/>
                 }
 
-                <InputSelect @bind-Value="@BoundFlowUid" AllowClear="false" Options=@FlowOptions Label="Dialogs.NewLibraryWizard.Fields.Flow" />
+                @if (SelectedLibraryType == 1)
+                {
+                    <InputSelect @bind-Value="@BoundFlowUidFolder" AllowClear="false" Options=@FlowOptionsFolders Label="Dialogs.NewLibraryWizard.Fields.Flow" Validators=@RequiredValidator />
+                    
+                }
+                else
+                {
+                    <InputSelect @bind-Value="@BoundFlowUid" AllowClear="false" Options=@FlowOptions Label="Dialogs.NewLibraryWizard.Fields.Flow" Validators=@RequiredValidator />
+                }
 
             </FlowWizardPage>
             
