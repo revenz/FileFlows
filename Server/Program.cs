@@ -9,10 +9,10 @@ namespace FileFlows.Server;
 /// </summary>
 public class Program
 {
-    /// <summary>
-    /// General cache used by the server
-    /// </summary>
-    internal static CacheStore GeneralCache = new ();
+    // /// <summary>
+    // /// General cache used by the server
+    // /// </summary>
+    // internal static CacheStore GeneralCache = new ();
 
     [STAThread] // need for Photino.net on windows
     public static void Main(string[] args)

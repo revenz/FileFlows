@@ -113,72 +113,99 @@ export class InputCode
             "javascript"
         );
 
+            monaco.editor.createModel(
+                `const CacheStore = {
+            /**
+             * Gets an JSON string from the cache store.
+             * @param {string} key - The name of the object to get.
+             * @returns {string} - The value of the object as a JSON string.
+             */
+            GetJson: function(key:string) { },
+
+            /**
+             * Sets an object in the cache store.
+             * @param {string} key - The name of the object to set.
+             * @param {object} value - The value of the object.
+             * @param {int} minutes - The number of minutes to keep this object in the cache for.
+             */
+            SetObject: function(key:string, value, minutes: number) { },
+
+            /**
+             * Sets an JSON string in the cache store.
+             * @param {string} key - The name of the object to set.
+             * @param {string} json - The json to store
+             * @param {int} minutes - The number of minutes to keep this object in the cache for.
+             */
+            SetJson: function(key:string, json: string, value:number) { }
+        }`,
+                "javascript"
+            );
         
-        monaco.editor.createModel(
-            `const CacheStore = {
-        /**
-         * Clears the cache store.
-         */
-        Clear: function() { },
-        
-        /**
-         * Gets an object from the cache store.
-         * @param {string} key - The name of the object to get.
-         * @returns {object} - The value of the object.
-         */
-        Get: function(key:string) { },
-        
-        /**
-         * Gets an integer from the cache store.
-         * @param {string} key - The name of the object to get.
-         * @returns {number} - The value of the integer.
-         */
-        GetInt: function(key:string) { },
-        
-        /**
-         * Gets a boolean from the cache store.
-         * @param {string} key - The name of the object to get.
-         * @returns {boolean} - The value of the boolean.
-         */
-        GetBool: function(key:string) { },
-        
-        /**
-         * Gets a string from the cache store.
-         * @param {string} key - The name of the object to get.
-         * @returns {string} - The value of the string.
-         */
-        GetString: function(key:string) { },
-        
-        /**
-         * Sets an object in the cache store.
-         * @param {string} key - The name of the object to set.
-         * @param {object} value - The value of the object.
-         */
-        Set: function(key:string, value) { },
-        
-        /**
-         * Sets an integer in the cache store.
-         * @param {string} key - The name of the object to set.
-         * @param {number} value - The value of the integer.
-         */
-        SetInt: function(key:string, value:number) { },
-        
-        /**
-         * Sets a string in the cache store.
-         * @param {string} key - The name of the object to set.
-         * @param {string} value - The value of the string.
-         */
-        SetString: function(key:string, value:string) { },
-        
-        /**
-         * Sets a boolean in the cache store.
-         * @param {string} key - The name of the object to set.
-         * @param {boolean} value - The value of the boolean.
-         */
-        SetBool: function(key:string, value:boolean) { }
-    }`,
-            "javascript"
-        );
+    //     monaco.editor.createModel(
+    //         `const CacheStore = {
+    //     /**
+    //      * Clears the cache store.
+    //      */
+    //     Clear: function() { },
+    //    
+    //     /**
+    //      * Gets an object from the cache store.
+    //      * @param {string} key - The name of the object to get.
+    //      * @returns {object} - The value of the object.
+    //      */
+    //     Get: function(key:string) { },
+    //    
+    //     /**
+    //      * Gets an integer from the cache store.
+    //      * @param {string} key - The name of the object to get.
+    //      * @returns {number} - The value of the integer.
+    //      */
+    //     GetInt: function(key:string) { },
+    //    
+    //     /**
+    //      * Gets a boolean from the cache store.
+    //      * @param {string} key - The name of the object to get.
+    //      * @returns {boolean} - The value of the boolean.
+    //      */
+    //     GetBool: function(key:string) { },
+    //    
+    //     /**
+    //      * Gets a string from the cache store.
+    //      * @param {string} key - The name of the object to get.
+    //      * @returns {string} - The value of the string.
+    //      */
+    //     GetString: function(key:string) { },
+    //    
+    //     /**
+    //      * Sets an object in the cache store.
+    //      * @param {string} key - The name of the object to set.
+    //      * @param {object} value - The value of the object.
+    //      */
+    //     Set: function(key:string, value) { },
+    //    
+    //     /**
+    //      * Sets an integer in the cache store.
+    //      * @param {string} key - The name of the object to set.
+    //      * @param {number} value - The value of the integer.
+    //      */
+    //     SetInt: function(key:string, value:number) { },
+    //    
+    //     /**
+    //      * Sets a string in the cache store.
+    //      * @param {string} key - The name of the object to set.
+    //      * @param {string} value - The value of the string.
+    //      */
+    //     SetString: function(key:string, value:string) { },
+    //    
+    //     /**
+    //      * Sets a boolean in the cache store.
+    //      * @param {string} key - The name of the object to set.
+    //      * @param {boolean} value - The value of the boolean.
+    //      */
+    //     SetBool: function(key:string, value:boolean) { }
+    // }`,
+    //         "javascript"
+    //     );
 
 
         monaco.editor.createModel(

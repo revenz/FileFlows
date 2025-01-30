@@ -187,7 +187,7 @@ public class Executor
             .SetValue("Variables", Variables)
             .SetValue("Sleep", (int milliseconds) => Thread.Sleep(milliseconds))
             .SetValue("http", HttpClient)
-            .SetValue("CacheStore", CacheStore.Instance)
+            //.SetValue("CacheStore", CacheStore.Instance)
             .SetValue("LanguageHelper", languageHelperWrapper)
             .SetValue("StringContent", (string content) => new StringContent(content))
             .SetValue("JsonContent", (object content) =>

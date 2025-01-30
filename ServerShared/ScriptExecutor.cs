@@ -270,6 +270,7 @@ public class ScriptExecutor : IScriptExecutor
         foreach (var arg in execArgs.AdditionalArguments ?? new())
             executor.AdditionalArguments.Add(arg.Key, arg.Value);
         executor.AdditionalArguments["Flow"] = args;
+        executor.AdditionalArguments["CacheStore"] = args.Cache;
 
         executor.AdditionalArguments["PluginMethod"] = PluginMethodInvoker;
 
