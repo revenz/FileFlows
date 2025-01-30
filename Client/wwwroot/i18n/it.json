@@ -476,11 +476,11 @@
             "Title": "Download"
           },
           "Files": {
-            "Description": "Elabora file singoli presenti nella cartella specificata. Questa opzione è ideale quando i file devono essere gestiti uno per uno.",
+            "Description": "Elabora tutti i singoli file nella cartella selezionata e nelle sue sottocartelle. Questa è l'opzione tipica quando si desidera gestire i file uno per uno, come la conversione di formati video, audio o immagini. Cercherà i file da elaborare nella cartella e in tutte le sottocartelle.",
             "Title": "File"
           },
           "Folders": {
-            "Description": "Elabora intere cartelle trovate nella directory specificata. La cartella stessa viene elaborata, non i file individuali al suo interno. Scegli questa opzione se il tuo flusso è progettato per gestire cartelle intere.",
+            "Description": "Elabora la cartella selezionata nel suo insieme, senza cercare file singoli. Scegli questa opzione se desideri lavorare con la cartella stessa, come comprimere tutti i file nella cartella in un file ZIP o eseguire operazioni a livello di cartella.",
             "Title": "Cartelle"
           }
         }

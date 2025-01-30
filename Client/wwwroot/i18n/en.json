@@ -476,11 +476,11 @@
             "Title": "Downloads"
           },
           "Files": {
-            "Description": "Processes individual files located in the specified folder. This is typically the preferred option when you want to handle files one by one.",
+            "Description": "Processes all individual files in the selected folder and its subfolders. This is the typical choice when you want to handle files one by one, such as converting video, audio, or image formats. It will search the folder and any subfolders for eligible files to process.",
             "Title": "Files"
           },
           "Folders": {
-            "Description": "Processes entire subfolders of the specified folder. The folder itself is processed, not the individual files inside it. Choose this option if your flow is designed to work with folders as a whole.",
+            "Description": "Processes the selected folder as a whole, without looking inside for individual files. Choose this option if you want to work with the folder itself, such as compressing all files in the folder into a zip file or performing folder-level operations.",
             "Title": "Folders"
           }
         }

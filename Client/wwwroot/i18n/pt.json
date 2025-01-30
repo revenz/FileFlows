@@ -476,11 +476,11 @@
             "Title": "Downloads"
           },
           "Files": {
-            "Description": "Processa arquivos individuais encontrados em uma pasta especificada. Esta opção é adequada para o processamento de arquivos um por vez.",
+            "Description": "Processa todos os arquivos individuais na pasta selecionada e suas subpastas. Esta é a opção típica quando você deseja processar os arquivos um por um, como converter formatos de vídeo, áudio ou imagem. Ele irá procurar na pasta e em todas as subpastas por arquivos elegíveis para processar.",
             "Title": "Arquivos"
           },
           "Folders": {
-            "Description": "Processa pastas inteiras encontradas em um diretório especificado. A pasta em si é processada, mas os arquivos individuais dentro dela não são. Use esta opção se seu fluxo for projetado para processar pastas inteiras.",
+            "Description": "Processa a pasta selecionada como um todo, sem procurar arquivos individuais. Escolha esta opção se você deseja trabalhar com a pasta em si, como compactar todos os arquivos da pasta em um arquivo zip ou realizar operações a nível de pasta.",
             "Title": "Pastas"
           }
         }

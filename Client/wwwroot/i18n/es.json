@@ -476,11 +476,11 @@
             "Title": "Descargas"
           },
           "Files": {
-            "Description": "Procesa archivos individuales ubicados en la carpeta especificada. Esta opción es ideal cuando se desea manejar archivos uno por uno.",
+            "Description": "Procesa todos los archivos individuales en la carpeta seleccionada y sus subcarpetas. Esta es la opción típica cuando desea manejar los archivos uno por uno, como convertir formatos de video, audio o imágenes. Buscará en la carpeta y en cualquier subcarpeta los archivos elegibles para procesar.",
             "Title": "Archivos"
           },
           "Folders": {
-            "Description": "Procesa carpetas completas dentro de la carpeta especificada. La carpeta en sí se procesa, no los archivos individuales dentro de ella. Elige esta opción si tu flujo está diseñado para trabajar con carpetas completas.",
+            "Description": "Procesa la carpeta seleccionada en su totalidad, sin buscar archivos individuales. Elija esta opción si desea trabajar con la carpeta en sí, como comprimir todos los archivos de la carpeta en un archivo ZIP o realizar operaciones a nivel de carpeta.",
             "Title": "Carpetas"
           }
         }

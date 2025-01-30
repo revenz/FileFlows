@@ -476,11 +476,11 @@
             "Title": "Downloads"
           },
           "Files": {
-            "Description": "Verwerkt afzonderlijke bestanden die in de opgegeven map staan. Deze optie is geschikt voor het één voor één verwerken van bestanden.",
+            "Description": "Verwerkt alle individuele bestanden in de geselecteerde map en de submappen. Dit is de gebruikelijke keuze wanneer je bestanden één voor één wilt verwerken, zoals het converteren van video-, audio- of afbeeldingsformaten. Het doorzoekt de map en alle submappen naar geschikte bestanden om te verwerken.",
             "Title": "Bestanden"
           },
           "Folders": {
-            "Description": "Verwerkt volledige mappen die worden gevonden in de opgegeven directory. De map zelf wordt verwerkt, niet de afzonderlijke bestanden erin. Kies deze optie als uw stroom is ontworpen om volledige mappen te verwerken.",
+            "Description": "Verwerkt de geselecteerde map als geheel, zonder naar individuele bestanden te zoeken. Kies deze optie als je met de map zelf wilt werken, bijvoorbeeld door alle bestanden in de map naar een zipbestand te comprimeren of mapgerelateerde bewerkingen uit te voeren.",
             "Title": "Mappen"
           }
         }

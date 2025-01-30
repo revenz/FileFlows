@@ -476,11 +476,11 @@
             "Title": "Téléchargements"
           },
           "Files": {
-            "Description": "Traite des fichiers individuels situés dans le dossier spécifié. Cette option est idéale pour gérer les fichiers un par un.",
+            "Description": "Traite tous les fichiers individuels dans le dossier sélectionné et ses sous-dossiers. C'est le choix typique lorsque vous souhaitez traiter les fichiers un par un, comme convertir des formats vidéo, audio ou image. Il recherchera dans le dossier et ses sous-dossiers les fichiers à traiter.",
             "Title": "Fichiers"
           },
           "Folders": {
-            "Description": "Traite les dossiers complets trouvés dans le dossier spécifié. Le dossier lui-même est traité, et non les fichiers individuels à l'intérieur. Choisissez cette option si votre flux est conçu pour traiter des dossiers entiers.",
+            "Description": "Traite le dossier sélectionné dans son ensemble, sans rechercher de fichiers individuels. Choisissez cette option si vous souhaitez travailler avec le dossier lui-même, comme compresser tous les fichiers du dossier dans un fichier ZIP ou effectuer des opérations au niveau du dossier.",
             "Title": "Dossiers"
           }
         }

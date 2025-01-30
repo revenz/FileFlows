@@ -476,11 +476,11 @@
             "Title": "Downloads"
           },
           "Files": {
-            "Description": "Verarbeitet einzelne Dateien im angegebenen Ordner. Diese Option ist ideal, wenn Dateien einzeln verarbeitet werden sollen.",
+            "Description": "Verarbeitet alle einzelnen Dateien im ausgewählten Ordner und dessen Unterordner. Dies ist die typische Wahl, wenn Sie Dateien einzeln bearbeiten möchten, z. B. durch Konvertieren von Video-, Audio- oder Bildformaten. Es wird den Ordner und alle Unterordner nach geeigneten Dateien durchsuchen, die verarbeitet werden sollen.",
             "Title": "Dateien"
           },
           "Folders": {
-            "Description": "Verarbeitet gesamte Unterordner des angegebenen Ordners. Der Ordner selbst wird verarbeitet, nicht die einzelnen Dateien darin. Wählen Sie diese Option, wenn Ihr Flow für die Verarbeitung von Ordnern als Ganzes ausgelegt ist.",
+            "Description": "Verarbeitet den ausgewählten Ordner als Ganzes, ohne nach einzelnen Dateien zu suchen. Wählen Sie diese Option, wenn Sie mit dem Ordner selbst arbeiten möchten, z. B. um alle Dateien im Ordner in eine ZIP-Datei zu komprimieren oder ordnerspezifische Operationen auszuführen.",
             "Title": "Ordner"
           }
         }

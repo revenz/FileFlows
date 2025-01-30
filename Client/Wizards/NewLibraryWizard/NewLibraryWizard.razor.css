@@ -25,7 +25,7 @@ ul.library-type {
       font-weight: bold; }
     ul.library-type li p {
       margin: 0;
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: gray; }
     ul.library-type li.clickable-radio:hover {
       background-color: var(--base); }

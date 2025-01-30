@@ -476,11 +476,11 @@
             "Title": "Nedladdningar"
           },
           "Files": {
-            "Description": "Behandlar enstaka filer som finns i en angiven mapp. Detta alternativ är bra för att behandla filer en i taget.",
+            "Description": "Behandlar alla individuella filer i den valda mappen och dess undermappar. Detta är det vanliga valet när du vill hantera filer en i taget, som att konvertera video-, ljud- eller bildformat. Den kommer att söka i mappen och alla undermappar efter lämpliga filer att bearbeta.",
             "Title": "Filer"
           },
           "Folders": {
-            "Description": "Behandlar hela mappar som finns i en angiven katalog. Endast mappen behandlas, inte de enskilda filerna i den. Använd detta alternativ om ditt arbetsflöde är designat för att behandla hela mappar.",
+            "Description": "Behandlar den valda mappen som en helhet utan att söka efter individuella filer. Välj det här alternativet om du vill arbeta med själva mappen, som att komprimera alla filer i mappen till en zip-fil eller utföra mapprelaterade operationer.",
             "Title": "Mappar"
           }
         }
