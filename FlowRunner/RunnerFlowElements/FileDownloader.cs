@@ -52,6 +52,14 @@ public class FileDownloader : Node
             return -1;
         }
 
+        if (args.Variables.TryGetValue("file.Orig.Size", out object? value) == false || value == null || value is long tSize == false ||
+            tSize <= 0)
+        {
+            var size = new FileInfo(dest).Length;
+            args.Variables["file.Orig.Size"] = size;
+            args.Logger?.ILog("Set file.Orig.Size to: " + size);
+        }
+
         args.SetWorkingFile(dest);
         return 1;
     }
