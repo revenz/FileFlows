@@ -275,7 +275,7 @@ internal  class DbObjectManager : BaseManager
     /// </summary>
     /// <param name="uids">the UIDs of the items to delete</param>
     /// <param name="auditDetails">The audit details</param>
-    public async Task Delete(Guid[] uids, AuditDetails auditDetails)
+    public async Task Delete(Guid[] uids, AuditDetails? auditDetails)
     {
         if (uids?.Any() != true)
             return; // nothing to delete

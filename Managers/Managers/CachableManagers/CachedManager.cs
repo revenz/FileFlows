@@ -1,8 +1,5 @@
-using FileFlows.DataLayer.Models;
-using FileFlows.Plugin;
 using FileFlows.ServerShared.Models;
 using FileFlows.Shared.Helpers;
-using Microsoft.Extensions.Logging;
 
 namespace FileFlows.Managers;
 
@@ -19,7 +16,7 @@ public abstract class CachedManager<T> where T : FileFlowObject, new()
     /// <summary>
     /// Gets if the cache should be used
     /// </summary>
-    protected bool UseCache => SettingsManager.UseCache;
+    protected virtual bool UseCache => SettingsManager.UseCache;
 
     /// <summary>
     /// Gets if the revisions should be saved
@@ -76,7 +73,7 @@ public abstract class CachedManager<T> where T : FileFlowObject, new()
     {
         try
         {
-            if (SettingsManager.UseCache)
+            if (UseCache)
                 return (await GetData()).FirstOrDefault(x => x.Uid == uid);
             return await DatabaseAccessManager.Instance.FileFlowsObjectManager.Single<T>(uid);
         }
@@ -86,7 +83,7 @@ public abstract class CachedManager<T> where T : FileFlowObject, new()
             return null;
         }
     }
-
+    
     /// <summary>
     /// Gets a item by it's name
     /// This is virtual so plugins can override it and use the package name
@@ -224,7 +221,7 @@ public abstract class CachedManager<T> where T : FileFlowObject, new()
     /// </summary>
     /// <param name="uids">the UIDs of the items to delete</param>
     /// <param name="auditDetails">the audit details</param>
-    public async Task Delete(Guid[] uids, AuditDetails auditDetails)
+    public async Task Delete(Guid[] uids, AuditDetails? auditDetails)
     {
         if (uids?.Any() != true)
             return;

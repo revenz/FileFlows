@@ -1,0 +1,2274 @@
+{
+  "Flow": {
+    "Parts": {
+      "AudioBitrateMatches": {
+        "Description": "Kontrollera om en ljudbitrate matchar begr\u00E4nsningarna.",
+        "Label": "Ljudbitrate Matchar",
+        "Fields": {
+          "BitrateKilobytes": "Bitrate",
+          "BitrateKilobytes-Help": "Bitrate i kilobyte f\u00F6r att k\u00F6ra matchningen mot.",
+          "BitrateKilobytes-Suffix": "Kilobyte",
+          "Match": "Match"
+        },
+        "Outputs": {
+          "1": "Matcher",
+          "2": "Matcher inte"
+        }
+      },
+      "AudioFile": {
+        "Description": "En inmatningsljudfil som har l\u00E4st sin ljudinformation och kan bearbetas",
+        "Label": "Ljudfil",
+        "Outputs": {
+          "1": "Ljudfil fr\u00E5n bibliotek"
+        }
+      },
+      "AudioFileNormalization": {
+        "Description": "Normaliserar en ljudfil med hj\u00E4lp av tv\u00E5 pass av FFMPEG:s loudnorm-filter",
+        "Label": "Ljudfil Normalisering",
+        "Outputs": {
+          "1": "Ljudfil normaliserad och sparad i tillf\u00E4llig fil"
+        }
+      },
+      "ConvertAudio": {
+        "Description": "Konvertera en ljudfil till den specificerade ljudkodningen",
+        "Label": "Konvertera ljud",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitrate f\u00F6r den nya filen, ju h\u00F6gre bitrate desto b\u00E4ttre kvalitet men st\u00F6rre fil.",
+          "Channels": "Kanaler",
+          "Channels-Help": "Antalet kanaler den konverterade filen kommer att ha.\nOm du specificerar fler kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att uppblanda den.\nOm du specificerar f\u00E4rre kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att nedblanda den.",
+          "Codec": "Codec",
+          "Codec-Help": "Den ljudkodning som filen ska konverteras till.",
+          "CustomExtension": "Till\u00E4gg",
+          "CustomExtension-Help": "M\u00F6jligg\u00F6r att ange ett anpassat filnamnstill\u00E4gg att anv\u00E4nda ist\u00E4llet f\u00F6r det automatiska som best\u00E4ms av kodningen.",
+          "HighEfficiency": "H\u00F6g effektivitet",
+          "HighEfficiency-Help": "Kommer att anv\u00E4nda h\u00F6g effektivitet, detta kommer att \u00E4ndra till\u00E4gget till m4a och minska st\u00F6dda uppspelningsenheter, men kan minska filens storlek.",
+          "Normalize": "Normalisera",
+          "Normalize-Help": "Om ljudet ska normaliseras med tv\u00E5 pass ljudnormalisering",
+          "SampleRate": "Samplingsfrekvens",
+          "SampleRate-Help": "Samplingsfrekvensen som ska anv\u00E4ndas",
+          "SkipIfCodecMatches": "Hoppa \u00F6ver om Codec Matchar",
+          "SkipIfCodecMatches-Help": "Om den befintliga ljudkodningen matchar kommer denna fil inte att bearbetas oavsett bitrate. Annars, om avst\u00E4ngd, m\u00E5ste bitraten vara mindre \u00E4n eller lika med f\u00F6r att hoppa \u00F6ver."
+        },
+        "Outputs": {
+          "1": "Ljud konverterat och sparat i tillf\u00E4llig fil",
+          "2": "Ljud redan i codec, ingen konvertering gjord"
+        }
+      },
+      "ConvertToAAC": {
+        "Description": "Konvertera en ljudfil till AAC",
+        "Label": "Konvertera till AAC",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitrate f\u00F6r den nya AAC-filen, ju h\u00F6gre bitrate desto b\u00E4ttre kvalitet men st\u00F6rre fil.  192 Kbps \u00E4r den rekommenderade hastigheten.",
+          "Channels": "Kanaler",
+          "Channels-Help": "Antalet kanaler den konverterade filen kommer att ha.\nOm du specificerar fler kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att uppblanda den.\nOm du specificerar f\u00E4rre kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att nedblanda den.",
+          "CustomExtension": "Till\u00E4gg",
+          "CustomExtension-Help": "M\u00F6jligg\u00F6r att ange ett anpassat filnamnstill\u00E4gg att anv\u00E4nda ist\u00E4llet f\u00F6r det automatiska som best\u00E4ms av kodningen.",
+          "HighEfficiency": "H\u00F6g effektivitet",
+          "HighEfficiency-Help": "Kommer att anv\u00E4nda h\u00F6g effektivitet, detta kommer att \u00E4ndra till\u00E4gget till m4a och minska st\u00F6dda uppspelningsenheter, men kan minska filens storlek.",
+          "Normalize": "Normalisera",
+          "Normalize-Help": "Om ljudet ska normaliseras med tv\u00E5 pass ljudnormalisering",
+          "SampleRate": "Samplingsfrekvens",
+          "SampleRate-Help": "Samplingsfrekvensen som ska anv\u00E4ndas",
+          "SkipIfCodecMatches": "Hoppa \u00F6ver om Codec Matchar",
+          "SkipIfCodecMatches-Help": "Om den befintliga ljudkodningen matchar kommer denna fil inte att bearbetas oavsett bitrate. Annars, om avst\u00E4ngd, m\u00E5ste bitraten vara mindre \u00E4n eller lika med f\u00F6r att hoppa \u00F6ver."
+        },
+        "Outputs": {
+          "1": "Ljud konverterat och sparat i tillf\u00E4llig fil",
+          "2": "Ljud redan i codec, ingen konvertering gjord"
+        }
+      },
+      "ConvertToFLAC": {
+        "Description": "Konvertera en ljudfil till FLAC",
+        "Label": "Konvertera till FLAC",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitrate f\u00F6r den nya FLAC-filen, ju h\u00F6gre bitrate desto b\u00E4ttre kvalitet men st\u00F6rre fil.  128 Kbps \u00E4r den rekommenderade hastigheten.",
+          "Channels": "Kanaler",
+          "Channels-Help": "Antalet kanaler den konverterade filen kommer att ha.\nOm du specificerar fler kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att uppblanda den.\nOm du specificerar f\u00E4rre kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att nedblanda den.",
+          "CustomExtension": "Till\u00E4gg",
+          "CustomExtension-Help": "M\u00F6jligg\u00F6r att ange ett anpassat filnamnstill\u00E4gg att anv\u00E4nda ist\u00E4llet f\u00F6r det automatiska som best\u00E4ms av kodningen.",
+          "Normalize": "Normalisera",
+          "Normalize-Help": "Om ljudet ska normaliseras med tv\u00E5 pass ljudnormalisering",
+          "SampleRate": "Samplingsfrekvens",
+          "SampleRate-Help": "Samplingsfrekvensen som ska anv\u00E4ndas",
+          "SkipIfCodecMatches": "Hoppa \u00F6ver om Codec Matchar",
+          "SkipIfCodecMatches-Help": "Om den befintliga ljudkodningen matchar kommer denna fil inte att bearbetas oavsett bitrate. Annars, om avst\u00E4ngd, m\u00E5ste bitraten vara mindre \u00E4n eller lika med f\u00F6r att hoppa \u00F6ver."
+        },
+        "Outputs": {
+          "1": "Ljud konverterat och sparat i tillf\u00E4llig fil",
+          "2": "Ljud redan i codec, ingen konvertering gjord"
+        }
+      },
+      "ConvertToMP3": {
+        "Description": "Konvertera en ljudfil till MP3",
+        "Label": "Konvertera till MP3",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitraten f\u00F6r den nya MP3-filen, ju h\u00F6gre bitrate desto b\u00E4ttre kvalitet men st\u00F6rre fil. Rekommenderad hastighet \u00E4r 192 Kbps.",
+          "Channels": "Kanaler",
+          "Channels-Help": "Antalet kanaler den konverterade filen kommer att ha.\nOm du specificerar fler kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att uppblanda det.\nOm du specificerar f\u00E4rre kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att nedblanda det.",
+          "CustomExtension": "Fil\u00E4ndelse",
+          "CustomExtension-Help": "Till\u00E5ter dig att ange en anpassad fil\u00E4ndelse som ska anv\u00E4ndas ist\u00E4llet f\u00F6r den automatiska som best\u00E4ms av codec.",
+          "Normalize": "Normalisera",
+          "Normalize-Help": "Om ljudet ska normaliseras med tv\u00E5passeringars ljudnormalisering.",
+          "SampleRate": "Samplingsfrekvens",
+          "SampleRate-Help": "Den samplingsfrekvens som ska anv\u00E4ndas",
+          "SkipIfCodecMatches": "Hoppa \u00F6ver om codec matchar",
+          "SkipIfCodecMatches-Help": "Om den befintliga ljudcodec matchar, kommer denna fil inte att behandlas oavsett bitrate. Annars, om avst\u00E4ngd, m\u00E5ste bitraten vara mindre \u00E4n eller lika med f\u00F6r att hoppa \u00F6ver."
+        },
+        "Outputs": {
+          "1": "Ljud konverterat och sparat i tillf\u00E4llig fil",
+          "2": "Ljud redan i codec, ingen konvertering gjord"
+        }
+      },
+      "ConvertToOGG": {
+        "Description": "Konvertera en ljudfil till OGG",
+        "Label": "Konvertera till OGG",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitraten f\u00F6r den nya OGG-filen, ju h\u00F6gre bitrate desto b\u00E4ttre kvalitet men st\u00F6rre fil. Rekommenderad hastighet \u00E4r 128 Kbps.",
+          "Channels": "Kanaler",
+          "Channels-Help": "Antalet kanaler den konverterade filen kommer att ha.\nOm du specificerar fler kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att uppblanda det.\nOm du specificerar f\u00E4rre kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att nedblanda det.",
+          "CustomExtension": "Fil\u00E4ndelse",
+          "CustomExtension-Help": "Till\u00E5ter dig att ange en anpassad fil\u00E4ndelse som ska anv\u00E4ndas ist\u00E4llet f\u00F6r den automatiska som best\u00E4ms av codec.",
+          "Normalize": "Normalisera",
+          "Normalize-Help": "Om ljudet ska normaliseras med tv\u00E5passeringars ljudnormalisering.",
+          "SampleRate": "Samplingsfrekvens",
+          "SampleRate-Help": "Den samplingsfrekvens som ska anv\u00E4ndas",
+          "SkipIfCodecMatches": "Hoppa \u00F6ver om codec matchar",
+          "SkipIfCodecMatches-Help": "Om den befintliga ljudcodec matchar, kommer denna fil inte att behandlas oavsett bitrate. Annars, om avst\u00E4ngd, m\u00E5ste bitraten vara mindre \u00E4n eller lika med f\u00F6r att hoppa \u00F6ver."
+        },
+        "Outputs": {
+          "1": "Ljud konverterat och sparat i tillf\u00E4llig fil",
+          "2": "Ljud redan i codec, ingen konvertering gjord"
+        }
+      },
+      "ConvertToWAV": {
+        "Description": "Konvertera en ljudfil till WAV",
+        "Label": "Konvertera till WAV",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitraten f\u00F6r den nya WAV-filen, ju h\u00F6gre bitrate desto b\u00E4ttre kvalitet men st\u00F6rre fil. Rekommenderad hastighet \u00E4r 128 Kbps.",
+          "Channels": "Kanaler",
+          "Channels-Help": "Antalet kanaler den konverterade filen kommer att ha.\nOm du specificerar fler kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att uppblanda det.\nOm du specificerar f\u00E4rre kanaler \u00E4n k\u00E4llan kommer FFmpeg automatiskt att nedblanda det.",
+          "CustomExtension": "Fil\u00E4ndelse",
+          "CustomExtension-Help": "Till\u00E5ter dig att ange en anpassad fil\u00E4ndelse som ska anv\u00E4ndas ist\u00E4llet f\u00F6r den automatiska som best\u00E4ms av codec.",
+          "Normalize": "Normalisera",
+          "Normalize-Help": "Om ljudet ska normaliseras med tv\u00E5passeringars ljudnormalisering.",
+          "SampleRate": "Samplingsfrekvens",
+          "SampleRate-Help": "Den samplingsfrekvens som ska anv\u00E4ndas",
+          "SkipIfCodecMatches": "Hoppa \u00F6ver om codec matchar",
+          "SkipIfCodecMatches-Help": "Om den befintliga ljudcodec matchar, kommer denna fil inte att behandlas oavsett bitrate. Annars, om avst\u00E4ngd, m\u00E5ste bitraten vara mindre \u00E4n eller lika med f\u00F6r att hoppa \u00F6ver."
+        },
+        "Outputs": {
+          "1": "Ljud konverterat och sparat i tillf\u00E4llig fil",
+          "2": "Ljud redan i codec, ingen konvertering gjord"
+        }
+      },
+      "CreateAudioBook": {
+        "Description": "Skapar en ljudbok fr\u00E5n ljudfiler som finns i inmatningskatalogen",
+        "Label": "Skapa ljudbok",
+        "Fields": {
+          "DeleteSourceFiles": "Ta bort k\u00E4llfiler",
+          "DeleteSourceFiles-Help": "N\u00E4r detta \u00E4r aktiverat kommer k\u00E4llfilerna som utg\u00F6r den nyss skapade m4b-filen att tas bort, annars kommer de att l\u00E4mnas or\u00F6rda.",
+          "DestinationPath": "M\u00E5lv\u00E4g",
+          "DestinationPath-Help": "V\u00E4gen d\u00E4r den nyss skapade filen ska sparas. Om den l\u00E4mnas tom kommer filen att skapas i den tillf\u00E4lliga katalogen och tas bort om den inte flyttas efter\u00E5t.",
+          "UpdateWorkingFile": "Uppdatera arbetsfil",
+          "UpdateWorkingFile-Help": "N\u00E4r detta \u00E4r aktiverat kommer arbetsfilen att uppdateras till den nyss skapade filen."
+        },
+        "Outputs": {
+          "1": "Ljudbok skapad",
+          "2": "Ljudbok skapades inte"
+        }
+      },
+      "EmbedArtwork": {
+        "Description": "Infogar omslagsbild i en ljudfil",
+        "Label": "B\u00E4dda in omslagsbild",
+        "Outputs": {
+          "1": "Omslagsbild hittad och infogad i ljudfilen",
+          "2": "Ingen omslagsbild hittades f\u00F6r att infoga"
+        }
+      },
+      "BatchScript": {
+        "Description": "Till\u00E5ter dig att k\u00F6ra ett batch (.bat) skript i en Windows-milj\u00F6.",
+        "Label": "Batch-skript (.bat)",
+        "Fields": {
+          "Code": "Kod"
+        },
+        "Outputs": {
+          "1": "returnerade 1",
+          "10": "returnerade 10",
+          "2": "returnerade 2",
+          "3": "returnerade 3",
+          "4": "returnerade 4",
+          "5": "returnerade 5",
+          "6": "returnerade 6",
+          "7": "returnerade 7",
+          "8": "returnerade 8",
+          "9": "returnerade 9"
+        }
+      },
+      "CompleteFlow": {
+        "Description": "Avslutar/avslutar fl\u00F6det som framg\u00E5ngsrikt",
+        "Label": "Slutf\u00F6r fl\u00F6de"
+      },
+      "CopyFile": {
+        "Description": "Kopierar en fil till m\u00E5lmappen",
+        "Label": "Kopiera fil",
+        "Fields": {
+          "AdditionalFiles": "Ytterligare filer",
+          "AdditionalFiles-Help": "Ytterligare filer att kopiera fr\u00E5n katalogen till den nya katalogen.\nVarje v\u00E4rde kan inneh\u00E5lla en kombination av giltig bokstavlig s\u00F6kv\u00E4g och jokertecken (* och ?), men st\u00F6djer inte regulj\u00E4ra uttryck.",
+          "AdditionalFilesFromOriginal": "Ursprunglig katalog",
+          "AdditionalFilesFromOriginal-Help": "Om de ytterligare filerna ska kopieras fr\u00E5n arbetskatalogen eller fr\u00E5n den ursprungliga katalogen. Sl\u00E5 p\u00E5 f\u00F6r ursprunglig katalog.",
+          "CopyFolder": "Kopiera mapp",
+          "CopyFolder-Help": "Om den relativa biblioteksmappstrukturen ocks\u00E5 ska kopieras",
+          "DestinationFile": "M\u00E5lfil",
+          "DestinationFile-Help": "Filnamnet f\u00F6r att kopiera filen till. Om tomt anv\u00E4nds det ursprungliga filnamnet",
+          "DestinationPath": "M\u00E5lmapp",
+          "DestinationPath-Help": "Mappen dit filen kommer att kopieras",
+          "InputFile": "Fil att kopiera",
+          "InputFile-Help": "Fil som ska kopieras, om tomt kommer arbetsfilen att kopieras",
+          "InputFile-Placeholder": "Arbetsfil",
+          "PreserverOriginalDates": "Bevara datum",
+          "PreserverOriginalDates-Help": "Om den ursprungliga skapelse- och sista skrivtiden f\u00F6r den ursprungliga ing\u00E5ngsfilen ska bevaras."
+        },
+        "Outputs": {
+          "1": "Fil kopierad"
+        }
+      },
+      "CSharpScript": {
+        "Description": "Till\u00E5ter dig att k\u00F6ra C#-kod inom fl\u00F6det.",
+        "Label": "C# Funktion",
+        "Fields": {
+          "Code": "Kod"
+        },
+        "Outputs": {
+          "1": "\u00E5tergav 1",
+          "10": "\u00E5tergav 10",
+          "2": "\u00E5tergav 2",
+          "3": "\u00E5tergav 3",
+          "4": "\u00E5tergav 4",
+          "5": "\u00E5tergav 5",
+          "6": "\u00E5tergav 6",
+          "7": "\u00E5tergav 7",
+          "8": "\u00E5tergav 8",
+          "9": "\u00E5tergav 9"
+        }
+      },
+      "Delete": {
+        "Description": "Tar bort en fil eller mapp",
+        "Label": "Ta bort",
+        "Fields": {
+          "FileName": "S\u00F6kv\u00E4g",
+          "FileName-Help": "En s\u00F6kv\u00E4g till en fil eller mapp som ska tas bort.\n\nOm den l\u00E4mnas tom tas den aktuella arbetsfilen bort."
+        },
+        "Outputs": {
+          "1": "Fil borttagen"
+        }
+      },
+      "DeleteSourceDirectory": {
+        "Description": "Tar bort k\u00E4llmappen f\u00F6r den ursprungliga bibliotekfilen",
+        "Label": "Ta bort k\u00E4llmapp",
+        "Fields": {
+          "IfEmpty": "Om tomt",
+          "IfEmpty-Help": "Ta bort k\u00E4llmappen endast om den \u00E4r tom",
+          "IncludePatterns": "Inkludera m\u00F6nster",
+          "IncludePatterns-Help": "Valfritt, om inst\u00E4llt kommer endast filer som matchar dessa m\u00F6nster att r\u00E4knas f\u00F6r att se om mappen \u00E4r tom. N\u00E5got av dessa m\u00F6nster kan matcha.",
+          "TopMostOnly": "Endast h\u00F6gst upp",
+          "TopMostOnly-Help": "N\u00E4r aktiverat tas endast mappen som direkt inneh\u00E5ller filen bort, medan h\u00F6gre niv\u00E5mappar f\u00F6rblir intakta."
+        },
+        "Outputs": {
+          "1": "K\u00E4llmappen borttagen",
+          "2": "Mappen TOGS INTE BORT"
+        }
+      },
+      "Executor": {
+        "Description": "Utf\u00F6r f\u00F6ljande process mot filen.\nUtdata 1: Processen returnerade framg\u00E5ngsrik exitkod\nUtdata 2: Processen returnerade en icke-framg\u00E5ngsrik exitkod.",
+        "Label": "Utf\u00F6rare",
+        "Fields": {
+          "Arguments": "Argument",
+          "Arguments-Help": "Argumenten som ska skickas till processen som ska utf\u00F6ras",
+          "FileName": "Filnamn",
+          "FileName-Help": "Namnet p\u00E5 filen som ska utf\u00F6ras",
+          "OutputErrorVariable": "Utdatat felvariabel",
+          "OutputErrorVariable-Help": "Ett valfritt variabelnamn f\u00F6r att lagra processens felutdata",
+          "OutputVariable": "Utdatat variabel",
+          "OutputVariable-Help": "Ett valfritt variabelnamn f\u00F6r att lagra processens utdata",
+          "SuccessCode": "Framg\u00E5ngskod",
+          "SuccessCode-Help": "Exitkoden f\u00F6r processen som anger att processen var framg\u00E5ngsrik. Vanligtvis b\u00F6r detta vara 0.",
+          "Timeout": "Timeout",
+          "Timeout-Help": "Hur l\u00E4nge processen kan k\u00F6ras innan den avslutas. Anv\u00E4nd 0 f\u00F6r ingen timeout.",
+          "Timeout-Suffix": "sekunder",
+          "WorkingDirectory": "Arbetsmapp",
+          "WorkingDirectory-Help": "Mappen d\u00E4r processen kommer att k\u00F6ras"
+        },
+        "Outputs": {
+          "1": "Processen returnerade framg\u00E5ng",
+          "2": "Processen returnerade misslyckande"
+        }
+      },
+      "FailFlow": {
+        "Description": "Misslyckas med en flow omedelbart, anv\u00E4ndbart om du vill att en viss v\u00E4g ska misslyckas.",
+        "Label": "Misslyckas med fl\u00F6de",
+        "Fields": {
+          "Reason": "Orsak",
+          "Reason-Help": "En valfri orsak f\u00F6r att registrera varf\u00F6r fl\u00F6det misslyckades."
+        }
+      },
+      "FileDateCompare": {
+        "Description": "Kontrollerar om filens skapelse- eller senaste skrivdatum matchar den angivna datumbegr\u00E4nsningen.",
+        "Label": "Filens datumj\u00E4mf\u00F6relse",
+        "Fields": {
+          "Date": "Datum",
+          "DateComparision": "J\u00E4mf\u00F6relse",
+          "FileName": "Filnamn",
+          "FileName-Help": "Filen som ska kontrolleras. L\u00E4mna tomt f\u00F6r att kontrollera den aktuella arbetsfilen."
+        },
+        "Outputs": {
+          "1": "\u00D6verensst\u00E4mmer med datumbegr\u00E4nsningen.",
+          "2": "\u00D6verensst\u00E4mmer inte med datumbegr\u00E4nsningen."
+        }
+      },
+      "FileExists": {
+        "Description": "Kontrollerar om en fil finns\n\nOutput 1: Filen finns\nOutput 2: Filen finns inte",
+        "Label": "Fil finns",
+        "Fields": {
+          "FileName": "Filnamn",
+          "FileName-Help": "Filen som ska kontrolleras. L\u00E4mna tomt f\u00F6r att kontrollera den aktuella arbetsfilen."
+        },
+        "Outputs": {
+          "1": "Filen finns",
+          "2": "Filen finns inte"
+        }
+      },
+      "FileExtension": {
+        "Description": "Kontrollerar om filen har ett av de konfigurerade fil\u00E4ndelserna.\n\nOutput 1: Matchar\nOutput 2: Matchar inte",
+        "Label": "Fil\u00E4ndelse",
+        "Fields": {
+          "Extensions": "Fil\u00E4ndelser",
+          "Extensions-Help": "En lista \u00F6ver fallet ok\u00E4nsliga fil\u00E4ndelser som ska matchas.\nOutput 1: Matchar\nOutput 2: Matchar inte"
+        },
+        "Outputs": {
+          "1": "Fil\u00E4ndelsen matchar",
+          "2": "Fil\u00E4ndelsen matchar inte"
+        }
+      },
+      "FileNameMatches": {
+        "Description": "Kontrollerar om det ursprungliga filnamnet (inklusive fullst\u00E4ndig s\u00F6kv\u00E4g) matchar det angivna v\u00E4rdet med hj\u00E4lp av str\u00E4ngoperationer.",
+        "Label": "Filnamnet matchar",
+        "Fields": {
+          "Value": "Matchningsv\u00E4rde",
+          "Value-Help": "Ange v\u00E4rdet att j\u00E4mf\u00F6ra med. Variabler st\u00F6ds och matchningen sker genom str\u00E4ngoperationer."
+        },
+        "Outputs": {
+          "1": "Matchar",
+          "2": "Matchar inte"
+        }
+      },
+      "FileSize": {
+        "Description": "Kontrollerar om filstorleken matchar de konfigurerade parametrarna. V\u00E4rdena \u00E4r i megabyte.\n\nOutput 1: Matchar\nOutput 2: Matchar inte",
+        "Label": "Filstorlek",
+        "Fields": {
+          "Comparison": "J\u00E4mf\u00F6relse",
+          "Lower": "St\u00F6rre \u00E4n",
+          "Lower-Help": "V\u00E4rdet m\u00E5ste vara st\u00F6rre \u00E4n detta antal megabyte",
+          "Lower-Suffix": "MB",
+          "Upper": "Mindre \u00E4n",
+          "Upper-Help": "V\u00E4rdet m\u00E5ste vara mindre \u00E4n detta antal megabyte. L\u00E4mna som 0 f\u00F6r att inte testa \u00F6vre gr\u00E4ns.",
+          "Upper-Suffix": "MB"
+        },
+        "Outputs": {
+          "1": "Filstorleken ligger inom intervallet",
+          "2": "Filstorleken ligger inte inom intervallet"
+        }
+      },
+      "FileSizeCompare": {
+        "Description": "Kontrollerar om filstorleken har \u00E4ndrats j\u00E4mf\u00F6rt med den ursprungliga filen.",
+        "Label": "Filstorleksj\u00E4mf\u00F6relse",
+        "Outputs": {
+          "1": "Mindre \u00E4n originalet",
+          "2": "Samma storlek som originalet",
+          "3": "St\u00F6rre \u00E4n originalet"
+        }
+      },
+      "FileSizeWithin": {
+        "Description": "Kontrollerar om den nya filstorleken ligger inom det till\u00E5tna intervallet f\u00F6r den ursprungliga filstorleken.",
+        "Label": "Filstorlek inom",
+        "Fields": {
+          "Value": "V\u00E4rde",
+          "Value-Help": "Det till\u00E5tna avvikelsen f\u00F6r filstorleken, detta v\u00E4rde kan vara b\u00E5de plus och minus denna avvikelse."
+        },
+        "Outputs": {
+          "1": "Filstorleken ligger inom det till\u00E5tna intervallet",
+          "2": "Filstorleken ligger inte inom det till\u00E5tna intervallet"
+        }
+      },
+      "FolderDateCompare": {
+        "Description": "Kontrollerar om mappens skapelse- eller senaste \u00E4ndringstid matchar den angivna datumbegr\u00E4nsningen.",
+        "Label": "Mappdatumj\u00E4mf\u00F6relse",
+        "Fields": {
+          "Date": "Datum",
+          "DateComparision": "J\u00E4mf\u00F6relse",
+          "Path": "S\u00F6kv\u00E4g",
+          "Path-Help": "S\u00F6kv\u00E4gen till mappen som ska kontrolleras. L\u00E4mna tomt f\u00F6r att kontrollera den aktuella arbetsfilen.\nOm en fil anges kommer mappen som inneh\u00E5ller filen att kontrolleras."
+        },
+        "Outputs": {
+          "1": "Matchar datumbegr\u00E4nsningen.",
+          "2": "Matchar inte datumbegr\u00E4nsningen."
+        }
+      },
+      "FolderIterator": {
+        "Description": "Itererar \u00F6ver alla filer i en angiven mapp och k\u00F6r dessa filer mot en underfl\u00F6de.",
+        "Label": "Mappiterering",
+        "Fields": {
+          "Flow": "Fl\u00F6de",
+          "Flow-Help": "Underfl\u00F6det som filerna ska k\u00F6ras mot.",
+          "Folder": "Mapp",
+          "Folder-Help": "Mappen vars filer ska itereras.",
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "Ett valfritt m\u00F6nster f\u00F6r att begr\u00E4nsa filerna f\u00F6r iteration, detta kan vara ett wildcard-m\u00F6nster som b\u00F6rjar med \u0060*\u0060 eller ett regulj\u00E4rt uttryck.",
+          "Recursive": "Rekursiv",
+          "Recursive-Help": "Om filer i alla undermappar ocks\u00E5 ska itereras, eller om endast filerna p\u00E5 \u00F6versta niv\u00E5n ska itereras."
+        },
+        "Outputs": {
+          "1": "Mappens filer har itererats"
+        }
+      },
+      "Function": {
+        "Label": "Funktion",
+        "Fields": {
+          "Code": "Kod",
+          "Code-Help": "\u00E5terge -1 f\u00F6r fel och stoppa fl\u00F6det. \u00E5terge 0 f\u00F6r att slutf\u00F6ra fl\u00F6det. \u00E5terge 1 eller mer f\u00F6r att anropa \u00F6nskad utdata.",
+          "Outputs": "Utdata",
+          "Template": "Mall",
+          "Template-Help": "VARNING: Detta kommer att ers\u00E4tta allt i kodblocket med den valda mallen."
+        },
+        "Outputs": {
+          "1": "\u00E5tergav 1",
+          "10": "\u00E5tergav 10",
+          "2": "\u00E5tergav 2",
+          "3": "\u00E5tergav 3",
+          "4": "\u00E5tergav 4",
+          "5": "\u00E5tergav 5",
+          "6": "\u00E5tergav 6",
+          "7": "\u00E5tergav 7",
+          "8": "\u00E5tergav 8",
+          "9": "\u00E5tergav 9"
+        }
+      },
+      "GotoFlow": {
+        "Description": "Detta g\u00F6r att du kan byta till ett annat fl\u00F6de f\u00F6r att bearbeta. Detta fl\u00F6de kommer att avslutas och parametrarna samt arbetsfilen kommer att \u00F6verf\u00F6ras till det nya Fl\u00F6det.",
+        "Label": "G\u00E5 till fl\u00F6de",
+        "Fields": {
+          "Flow": "Fl\u00F6de",
+          "UpdateFlowUsed": "Uppdatera Fl\u00F6de",
+          "UpdateFlowUsed-Help": "Om filen \u0060Fl\u00F6de\u0060 m\u00E5ste uppdateras f\u00F6r att referera till detta nya Fl\u00F6de eller om den ska l\u00E4mnas som den ursprungliga Fl\u00F6det."
+        }
+      },
+      "HasHardLinks": {
+        "Description": "Kontrollerar om en fil har h\u00E5rda l\u00E4nkar eller inte",
+        "Label": "Har h\u00E5rda l\u00E4nkar",
+        "Fields": {
+          "Count": "Antal",
+          "Count-Help": "Antalet h\u00E5rda l\u00E4nkar som kr\u00E4vs f\u00F6r att anropa utdata 1.",
+          "FileName": "Filnamn",
+          "FileName-Help": "Filen som ska kontrolleras. L\u00E4mna tomt f\u00F6r att kontrollera den aktuella arbetsfilen."
+        },
+        "Outputs": {
+          "1": "H\u00E5rda l\u00E4nkar uppt\u00E4ckta",
+          "2": "Inga h\u00E5rda l\u00E4nkar uppt\u00E4ckta"
+        }
+      },
+      "IfBoolean": {
+        "Description": "Kontrollerar om en variabel \u00E4r sann eller falsk",
+        "Label": "Om Boolesk",
+        "Fields": {
+          "Variable": "Variabel",
+          "Variable-Help": "Namnet p\u00E5 variabeln som ska kontrolleras"
+        },
+        "Outputs": {
+          "1": "Sant",
+          "2": "Falskt"
+        }
+      },
+      "IfString": {
+        "Description": "Testar om en variabel matchar en str\u00E4ng",
+        "Label": "Om Str\u00E4ng",
+        "Fields": {
+          "Options": "Alternativ",
+          "Options-Help": "Str\u00E4ngen att matcha mot.",
+          "Outputs": "Utdata",
+          "Outputs-Help": "Detta b\u00F6r matcha antalet alternativ som finns",
+          "Variable": "Variabel",
+          "Variable-Help": "Namnet p\u00E5 variabeln som ska kontrolleras"
+        },
+        "Outputs": {
+          "1": "Matchade str\u00E4ng 1",
+          "10": "Matchade str\u00E4ng 10",
+          "2": "Matchade str\u00E4ng 2",
+          "3": "Matchade str\u00E4ng 3",
+          "4": "Matchade str\u00E4ng 4",
+          "5": "Matchade str\u00E4ng 5",
+          "6": "Matchade str\u00E4ng 6",
+          "7": "Matchade str\u00E4ng 7",
+          "8": "Matchade str\u00E4ng 8",
+          "9": "Matchade str\u00E4ng 9"
+        }
+      },
+      "InputFile": {
+        "Description": "Ett ing\u00E5ngsfl\u00F6deselement f\u00F6r en fil. Detta \u00E4r obligatoriskt och \u00E4r startpunkten f\u00F6r ett fl\u00F6de. Vilket ing\u00E5ngsfl\u00F6deselement kan anv\u00E4ndas, men minst ett kr\u00E4vs.",
+        "Label": "Ing\u00E5ngsfil",
+        "Outputs": {
+          "1": "Biblioteksfil"
+        }
+      },
+      "InputFolder": {
+        "Description": "Ett ing\u00E5ngsfl\u00F6deselement f\u00F6r en mapp. Detta fungerar endast om biblioteket som anv\u00E4nder detta fl\u00F6de \u00E4r konfigurerat f\u00F6r mappar.",
+        "Label": "Ing\u00E5ngsmapp",
+        "Outputs": {
+          "1": "Biblioteksmap"
+        }
+      },
+      "IsDocker": {
+        "Description": "Best\u00E4mmer om detta fl\u00F6de k\u00F6rs p\u00E5 Docker",
+        "Label": "\u00C4r Docker",
+        "Outputs": {
+          "1": "K\u00F6rs p\u00E5 Docker",
+          "2": "K\u00F6rs inte p\u00E5 Docker"
+        }
+      },
+      "IsFromLibrary": {
+        "Description": "Kontrollerar om filen som behandlas kommer fr\u00E5n det angivna biblioteket.",
+        "Label": "\u00C4r fr\u00E5n bibliotek",
+        "Fields": {
+          "Library": "Bibliotek",
+          "Library-Help": "Biblioteket som ska kontrolleras."
+        },
+        "Outputs": {
+          "1": "Filen kommer fr\u00E5n det angivna biblioteket.",
+          "2": "Filen kommer inte fr\u00E5n det angivna biblioteket."
+        }
+      },
+      "IsLinux": {
+        "Description": "Best\u00E4mmer om detta fl\u00F6de k\u00F6rs p\u00E5 Linux",
+        "Label": "\u00C4r Linux",
+        "Outputs": {
+          "1": "K\u00F6rs p\u00E5 Linux",
+          "2": "K\u00F6rs inte p\u00E5 Linux"
+        }
+      },
+      "IsMacOS": {
+        "Description": "Best\u00E4mmer om detta fl\u00F6de k\u00F6rs p\u00E5 MacOS",
+        "Label": "\u00C4r MacOS",
+        "Outputs": {
+          "1": "K\u00F6rs p\u00E5 MacOS",
+          "2": "K\u00F6rs inte p\u00E5 MacOS"
+        }
+      },
+      "IsProcessingOnNode": {
+        "Description": "Kontrollerar om fl\u00F6det f\u00F6r n\u00E4rvarande bearbetas p\u00E5 en angiven bearbetningsnod.",
+        "Label": "Bearbetar p\u00E5 nod",
+        "Fields": {
+          "Node": "Nod",
+          "Node-Help": "Den bearbetningsnod som ska kontrolleras."
+        },
+        "Outputs": {
+          "1": "Bearbetar p\u00E5 nod",
+          "2": "Bearbetar inte p\u00E5 nod"
+        }
+      },
+      "IsWindows": {
+        "Description": "Best\u00E4mmer om detta fl\u00F6de k\u00F6rs p\u00E5 Windows",
+        "Label": "\u00C4r Windows",
+        "Outputs": {
+          "1": "K\u00F6rs p\u00E5 Windows",
+          "2": "K\u00F6rs inte p\u00E5 Windows"
+        }
+      },
+      "ListIterator": {
+        "Description": "Itererar alla str\u00E4ngar i en given lista och utf\u00F6r dessa str\u00E4ngar mot en underfl\u00F6de.",
+        "Label": "Listiterering",
+        "Fields": {
+          "Flow": "Fl\u00F6de",
+          "Flow-Help": "Underfl\u00F6det som str\u00E4ngarna ska utf\u00F6ras mot.",
+          "List": "Lista",
+          "List-Help": "Namnet p\u00E5 en variabel som inneh\u00E5ller listan som ska itereras."
+        },
+        "Outputs": {
+          "1": "Lista itererad"
+        }
+      },
+      "Log": {
+        "Description": "Loggar ett meddelande till fl\u00F6desloggen",
+        "Label": "Logga",
+        "Fields": {
+          "LogType": "Typ",
+          "Message": "Meddelande"
+        },
+        "Outputs": {
+          "1": "Meddelande loggat"
+        }
+      },
+      "LogImage": {
+        "Description": "Loggar en bild i loggfilen",
+        "Label": "Logga Bild",
+        "Fields": {
+          "ImageFile": "Bild",
+          "ImageFile-Help": "Bildfilen som ska loggas"
+        },
+        "Outputs": {
+          "1": "Bild loggades",
+          "2": "Kunde inte logga bilden"
+        }
+      },
+      "LogVariables": {
+        "Description": "Loggar alla variabler i fl\u00F6det till loggfilen f\u00F6r fels\u00F6kning.",
+        "Label": "Logga Variabler",
+        "Fields": {
+          "Recursive": "Detaljerad Loggning",
+          "Recursive-Help": "Om aktiverat kommer komplexa variabler att inkludera alla sina inb\u00E4ddade egenskaper i loggen."
+        },
+        "Outputs": {
+          "1": "Variabler har loggats framg\u00E5ngsrikt."
+        }
+      },
+      "Matches": {
+        "Description": "J\u00E4mf\u00F6r en upps\u00E4ttning v\u00E4rden och matchar villkor f\u00F6r att se vilken utdata som ska anropas",
+        "Label": "Matcher",
+        "Fields": {
+          "MatchConditions": "",
+          "MatchConditions-Help": "Matcher som ska testas f\u00F6r att se vilken utdata som ska anropas.",
+          "MatchConditionsKey": "V\u00E4rde",
+          "MatchConditionsValue": "Uttryck"
+        }
+      },
+      "MatchesAll": {
+        "Description": "J\u00E4mf\u00F6r en upps\u00E4ttning v\u00E4rden och kontrollerar om alla villkor matchar.",
+        "Label": "Matcher alla",
+        "Fields": {
+          "MatchConditions": "",
+          "MatchConditionsHelp": "Villkoren att testa som best\u00E4mmer vilken utdata som ska anropas.",
+          "MatchConditionsKey": "V\u00E4rde",
+          "MatchConditionsValue": "Uttryck"
+        },
+        "Outputs": {
+          "1": "Alla villkor matchar",
+          "2": "Inte alla villkor matchar"
+        }
+      },
+      "MoveFile": {
+        "Description": "Flyttar en fil till destinationsmappen",
+        "Label": "Flytta fil",
+        "Fields": {
+          "AdditionalFiles": "Ytterligare Filer",
+          "AdditionalFiles-Help": "Ytterligare filer som ska flyttas fr\u00E5n katalogen till den nya katalogen.\nVarje v\u00E4rde kan inneh\u00E5lla en kombination av giltig bokstavlig s\u00F6kv\u00E4g och jokertecken (* och ?), men det st\u00F6der inte regulj\u00E4ra uttryck.",
+          "AdditionalFilesFromOriginal": "Originalkatalog",
+          "AdditionalFilesFromOriginal-Help": "Om de ytterligare filerna ska flyttas fr\u00E5n arbetskatalogen eller fr\u00E5n originalkatalogen. Sl\u00E5 p\u00E5 f\u00F6r originalkatalog.",
+          "DeleteOriginal": "Ta bort Original",
+          "DeleteOriginal-Help": "Om den ursprungliga filen ska tas bort, kommer detta endast att h\u00E4nda om arbetsfilen skiljer sig fr\u00E5n originalfilen.",
+          "DestinationFile": "M\u00E5lfil",
+          "DestinationFile-Help": "Filnamnet som filen ska flyttas till. Om tomt, kommer det ursprungliga filnamnet att anv\u00E4ndas.",
+          "DestinationPath": "M\u00E5lmapp",
+          "DestinationPath-Help": "Mappen d\u00E4r filen kommer att flyttas.",
+          "InputFile": "Fil Att Flytta",
+          "InputFile-Help": "Filen som ska flyttas; om den l\u00E4mnas tom flyttas arbetsfilen.",
+          "InputFile-Placeholder": "Arbetsfil",
+          "MoveFolder": "Kopiera Mapp",
+          "MoveFolder-Help": "Om den relativa biblioteksmappstrukturen ocks\u00E5 ska kopieras.",
+          "PreserverOriginalDates": "Bevara Datum",
+          "PreserverOriginalDates-Help": "Om den ursprungliga skapelsedatum och senaste skrivdatum f\u00F6r den ursprungliga inmatningsfilen ska bevaras."
+        },
+        "Outputs": {
+          "1": "Fil flyttad",
+          "2": "Fil flyttad, men originalfilen kunde inte tas bort"
+        }
+      },
+      "MoveFolder": {
+        "Description": "Flyttar en mapp",
+        "Label": "Flytta mapp",
+        "Fields": {
+          "CreateSubfolder": "Skapa Undermapp",
+          "CreateSubfolder-Help": "Om en undermapp med namnet p\u00E5 k\u00E4llmappen ska skapas i destinationsmappen.",
+          "DestinationPath": "Destination",
+          "DestinationPath-Help": "Den destination d\u00E4r k\u00E4llmappen ska flyttas.",
+          "SourcePath": "K\u00E4lla",
+          "SourcePath-Help": "Mappen som ska flyttas; om den l\u00E4mnas tom anv\u00E4nds arbetsfilen. Om detta inte \u00E4r en mapp, kommer fl\u00F6deselementet att misslyckas."
+        },
+        "Outputs": {
+          "1": "Mapp flyttad"
+        }
+      },
+      "OlderThan": {
+        "Description": "Kontrollerar om en mapp \u00E4r \u00E4ldre \u00E4n det angivna intervallet",
+        "Label": "\u00C4ldre \u00E4n",
+        "Fields": {
+          "Date": "Datum",
+          "Number": "Nummer",
+          "Unit": "Enhet"
+        },
+        "Outputs": {
+          "1": "Filen \u00E4r \u00E4ldre",
+          "2": "Filen \u00E4r inte \u00E4ldre"
+        }
+      },
+      "OriginalFile": {
+        "Description": "St\u00E4ller in den aktuella arbetsfilen i fl\u00F6det p\u00E5 den ursprungliga filen som startade fl\u00F6det",
+        "Label": "Ursprunglig fil",
+        "Outputs": {
+          "1": "Arbetsfil inst\u00E4lld p\u00E5 originalfil"
+        }
+      },
+      "PatternMatch": {
+        "Description": "Testar arbetsfilen och originalfilen mot ett regulj\u00E4rt uttryck.\n\nUtdata 1: Matchar uttrycket\nUtdata 2: Matchar inte",
+        "Label": "M\u00F6nstermatchning",
+        "Fields": {
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "Ett regulj\u00E4rt uttryck, som anv\u00E4nder C#-specifikationen f\u00F6r regulj\u00E4ra uttryck."
+        },
+        "Outputs": {
+          "1": "Matchar uttrycket",
+          "2": "MATCHAR INTE"
+        }
+      },
+      "PatternReplacer": {
+        "Description": "L\u00E5ter dig g\u00F6ra ers\u00E4ttningar i filnamnet. Kan anv\u00E4nda regulj\u00E4ra uttryck f\u00F6r ers\u00E4ttningar eller enkla str\u00E4ngers\u00E4ttningar.\n\nUtdata 1: Ers\u00E4ttning utf\u00F6rd\nUtdata 2: Ingen ers\u00E4ttning utf\u00F6rd",
+        "Label": "Filnamnsm\u00F6nsterers\u00E4ttare",
+        "Fields": {
+          "Replacements": "Ers\u00E4ttningar",
+          "ReplacementsKey": "M\u00F6nster",
+          "ReplacementsValue": "V\u00E4rde",
+          "UseWorkingFileName": "Anv\u00E4nd arbetsfilnamn",
+          "UseWorkingFileName-Help": "Om det aktuella arbetsfilnamnet ska anv\u00E4ndas, eller om falskt, kommer det ursprungliga filnamnet f\u00F6r den inkommande filen att anv\u00E4ndas."
+        },
+        "Outputs": {
+          "1": "Ers\u00E4ttning utf\u00F6rd",
+          "2": "Ingen ers\u00E4ttning utf\u00F6rd"
+        }
+      },
+      "PowerShellScript": {
+        "Description": "M\u00F6jligg\u00F6r att k\u00F6ra ett PowerShell (.ps1) skript i en Windows-milj\u00F6.",
+        "Label": "PowerShell-skript (.ps1)",
+        "Fields": {
+          "Code": "Kod"
+        },
+        "Outputs": {
+          "1": "Returnerade 1",
+          "10": "Returnerade 10",
+          "2": "Returnerade 2",
+          "3": "Returnerade 3",
+          "4": "Returnerade 4",
+          "5": "Returnerade 5",
+          "6": "Returnerade 6",
+          "7": "Returnerade 7",
+          "8": "Returnerade 8",
+          "9": "Returnerade 9"
+        }
+      },
+      "Random": {
+        "Description": "V\u00E4ljer en slumpm\u00E4ssig utdata",
+        "Label": "Slumptal",
+        "Fields": {
+          "Outputs": "Utdata",
+          "Outputs-Help": "Antal utdata som kan anropas."
+        }
+      },
+      "Renamer": {
+        "Description": "\u00C4ndrar namnet p\u00E5 arbetsfilen.\nVariabler kan anv\u00E4ndas genom att skriva \u0027{\u0027 i m\u00F6nstret.",
+        "Label": "Filnamn",
+        "Fields": {
+          "CsvFile": "CSV-fil",
+          "CsvFile-Help": "L\u00E4gg till det ursprungliga och det nya namnet till denna fil. Anv\u00E4ndbart om du anv\u00E4nder \u0027Endast logg\u0027 f\u00F6r att testa om namngivaren innan filerna \u00E4ndras.",
+          "DestinationPath": "Destinationmapp",
+          "DestinationPath-Help": "Om filen ska flyttas till en annan mapp.",
+          "LogOnly": "Endast logg",
+          "LogOnly-Help": "Sl\u00E5 p\u00E5 om du bara vill testa detta fl\u00F6delement utan att faktiskt \u00E4ndra filnamnet.",
+          "Pattern": "Nytt namn",
+          "Pattern-Help": "Det nya namnet p\u00E5 filen. Kan anv\u00E4nda variabler. Alla tomma () och \u0027{}\u0027 tas bort."
+        },
+        "Outputs": {
+          "1": "Filnamn \u00E4ndrat"
+        }
+      },
+      "ReplaceOriginal": {
+        "Description": "Ers\u00E4tter den ursprungliga filen med arbetsfilen.\n\nOm arbetsfilens fil\u00E4ndelse \u00E4r annorlunda kommer den ursprungliga filen att tas bort och arbetsfilen kommer att flyttas till den ursprungliga filen med den nya fil\u00E4ndelsen.\nTill exempel, fr\u00E5n File.avi till File.mkv",
+        "Label": "Ers\u00E4tt original",
+        "Fields": {
+          "PreserverOriginalDates": "Bevara Datum",
+          "PreserverOriginalDates-Help": "Om den ursprungliga skapelsedatum och senaste \u00E4ndringsdatum f\u00F6r indatafilen ska bevaras."
+        },
+        "Outputs": {
+          "1": "Ursprunglig fil ersatt"
+        }
+      },
+      "Reprocess": {
+        "Description": "Detta fl\u00F6deselement g\u00F6r det m\u00F6jligt att behandla den ursprungliga bibliotekfilen igen med en annan behandlingsnod.\n\nOm samma behandlingsnod v\u00E4ljs som f\u00F6r n\u00E4rvarande bearbetas, kommer fl\u00F6det att misslyckas.",
+        "Label": "Bearbeta igen",
+        "Fields": {
+          "HoldMinutes": "H\u00E5ll Minuter",
+          "HoldMinutes-Help": "Antalet minuter att h\u00E5lla filen innan den bearbetas igen. Anv\u00E4nd 0 f\u00F6r att bearbeta omedelbart.",
+          "Node": "Nod",
+          "Node-Help": "Behandlingsnod f\u00F6r att bearbeta denna fil."
+        }
+      },
+      "SetVariable": {
+        "Description": "S\u00E4tter en variabel i fl\u00F6det.",
+        "Label": "St\u00E4ll In Variabel",
+        "Fields": {
+          "Value": "V\u00E4rde",
+          "Value-Help": "V\u00E4rdet f\u00F6r den variabel som ska st\u00E4llas in.",
+          "Variable": "Variabel",
+          "Variable-Help": "Namnet p\u00E5 den variabel som ska st\u00E4llas in"
+        },
+        "Outputs": {
+          "1": "Variabel inst\u00E4lld"
+        }
+      },
+      "SetWorkingFile": {
+        "Description": "Uppdaterar den aktuella arbetsfilen med den angivna filen.",
+        "Label": "St\u00E4ll In Arbetsfil",
+        "Fields": {
+          "DontDeletePrevious": "Ta Inte Bort Tidigare",
+          "DontDeletePrevious-Help": "Om den tidigare *tillf\u00E4lliga* arbetsfilen *inte* ska tas bort.\nEndast tillf\u00E4lliga filer som skapats av FileFlows i den tillf\u00E4lliga mappen f\u00F6r k\u00F6rarna kommer att tas bort.",
+          "File": "Fil",
+          "File-Description": "S\u00F6kv\u00E4gen till den nya arbetsfilen eller mappen."
+        },
+        "Outputs": {
+          "1": "Arbetsfil inst\u00E4lld"
+        }
+      },
+      "SevenZip": {
+        "Description": "M\u00F6jligg\u00F6r komprimering av indata i 7zip-format.",
+        "Label": "7-Zip",
+        "Fields": {
+          "CompressionLevel": "Komprimeringsniv\u00E5",
+          "CompressionLevel-Help": "Komprimeringsniv\u00E5n som ska anv\u00E4ndas vid komprimering.",
+          "CompressionMethod": "Komprimeringsmetod",
+          "CompressionMethod-Help": "Den anv\u00E4nda komprimeringsmetoden, LZMA2 rekommenderas.",
+          "DestinationFile": "M\u00E5l Fil",
+          "DestinationFile-Help": "Namnet p\u00E5 den nya 7zip-filen. Om detta l\u00E4mnas tomt kommer namnet p\u00E5 elementet att anv\u00E4ndas som 7zip-fil.",
+          "DestinationPath": "M\u00E5l S\u00F6kv\u00E4g",
+          "DestinationPath-Help": "Mappen d\u00E4r 7zip-filen ska placeras. Om detta l\u00E4mnas tomt placeras 7zip i huvudmappen f\u00F6r biblioteket."
+        },
+        "Outputs": {
+          "1": "7zip skapat"
+        }
+      },
+      "ShellScript": {
+        "Description": "G\u00F6r att du kan k\u00F6ra ett shell (.sh) skript i en Unix-liknande milj\u00F6.",
+        "Label": "Shell Script (.sh)",
+        "Fields": {
+          "Code": "Kod"
+        },
+        "Outputs": {
+          "1": "\u00E5terv\u00E4nde 1",
+          "10": "\u00E5terv\u00E4nde 10",
+          "2": "\u00E5terv\u00E4nde 2",
+          "3": "\u00E5terv\u00E4nde 3",
+          "4": "\u00E5terv\u00E4nde 4",
+          "5": "\u00E5terv\u00E4nde 5",
+          "6": "\u00E5terv\u00E4nde 6",
+          "7": "\u00E5terv\u00E4nde 7",
+          "8": "\u00E5terv\u00E4nde 8",
+          "9": "\u00E5terv\u00E4nde 9"
+        }
+      },
+      "Sleep": {
+        "Description": "Pausar fl\u00F6det",
+        "Label": "Sov",
+        "Fields": {
+          "Milliseconds": "Millisekunder",
+          "Milliseconds-Help": "Hur l\u00E4nge fl\u00F6det ska pausa. M\u00E5ste vara mellan 1 millisekund och 1 timme."
+        },
+        "Outputs": {
+          "1": "Fl\u00F6de \u00E5terupptaget"
+        }
+      },
+      "Tag": {
+        "Description": "Taggar filen med de angivna taggarna",
+        "Label": "Tagg",
+        "Fields": {
+          "Replace": "Ers\u00E4tt",
+          "Replace-Help": "Om taggarna ska ers\u00E4ttas eller l\u00E4ggas till de befintliga taggarna.",
+          "Tags": "Taggar"
+        }
+      },
+      "Touch": {
+        "Description": "R\u00F6r vid en fil eller mapp och s\u00E4tter den sista skrivtiden till nu.",
+        "Label": "R\u00F6r vid",
+        "Fields": {
+          "FileName": "Filnamn",
+          "FileName-Help": "Fullst\u00E4ndigt filnamn f\u00F6r filen eller mappen att r\u00F6ra vid.\nOm l\u00E4mnas tomt anv\u00E4nds arbetsfilen."
+        },
+        "Outputs": {
+          "1": "Objektet ber\u00F6rdes framg\u00E5ngsrikt"
+        }
+      },
+      "Unpack": {
+        "Description": "G\u00F6r att du kan packa upp ett arkiv (zip, rar, tar, etc.)",
+        "Label": "Packa upp",
+        "Fields": {
+          "DestinationPath": "M\u00E5lmapp",
+          "DestinationPath-Help": "Den mapp d\u00E4r filen ska packas upp.",
+          "File": "Fil",
+          "File-Help": "Namnet p\u00E5 filen som ska packas upp. Kan l\u00E4mnas tomt och om s\u00E5 \u00E4r fallet kommer den aktuella arbetsfilen att anv\u00E4ndas."
+        },
+        "Outputs": {
+          "1": "Fil uppackad"
+        }
+      },
+      "VariableMatch": {
+        "Description": "Kontrollerar om ett inmatningsv\u00E4rde matchar en sparad variabel.",
+        "Label": "Variabelmatchning",
+        "Fields": {
+          "Input": "V\u00E4rde",
+          "Input-Help": "V\u00E4rdet som ska j\u00E4mf\u00F6ras med variabeln.",
+          "Variable": "Variabel",
+          "Variable-Help": "Variabeln som ska j\u00E4mf\u00F6ras",
+          "VariableName": "Variabel",
+          "VariableName-Help": "Variabeln som ska j\u00E4mf\u00F6ras"
+        },
+        "Outputs": {
+          "1": "Inmatningen matchar variabeln",
+          "2": "Inmatningen matchar inte variabeln"
+        }
+      },
+      "WebRequest": {
+        "Description": "L\u00E5ter dig skicka en webbfr\u00E5ga",
+        "Label": "Webbf\u00F6rfr\u00E5gan",
+        "Fields": {
+          "Body": "Inneh\u00E5ll",
+          "Body-Help": "Inneh\u00E5llet i den skickade f\u00F6rfr\u00E5gan. Variabler kan anv\u00E4ndas i detta f\u00E4lt.",
+          "ContentType": "Inneh\u00E5llstyp",
+          "ContentType-Help": "Inneh\u00E5llstypen f\u00F6r meddelandet som ska skickas",
+          "Headers": "Rubriker",
+          "Headers-Help": "Valfria rubriker som ska skickas med f\u00F6rfr\u00E5gan",
+          "HeadersKey": "Nyckel",
+          "HeadersValue": "V\u00E4rde",
+          "Method": "Metod",
+          "Method-Help": "Webbmetoden att anv\u00E4nda n\u00E4r denna f\u00F6rfr\u00E5gan skickas",
+          "Url": "URL",
+          "Url-Help": "URL:en f\u00F6r f\u00F6rfr\u00E5gan",
+          "ResponseVariable": "Svarvariabel",
+          "ResponseVariable-Help": "Namnet p\u00E5 variabeln d\u00E4r JSON-svaret sparas. Om svaret inte \u00E4r giltig JSON kommer denna variabel inte att s\u00E4ttas."
+        },
+        "Outputs": {
+          "1": "Framg\u00E5ngsrikt skickad",
+          "2": "F\u00F6rfr\u00E5gan returnerade en icke-framg\u00E5ngsrik statuskod"
+        }
+      },
+      "WriteText": {
+        "Description": "Skriver text till en fil",
+        "Label": "Skriv text",
+        "Fields": {
+          "File": "Fil",
+          "File-Help": "Fil d\u00E4r texten ska skrivas.",
+          "Text": "Text",
+          "Text-Help": "Text som ska skrivas i filen. Om detta l\u00E4mnas tomt skrivs den fullst\u00E4ndiga s\u00F6kv\u00E4gen till den aktuella arbetsfilen."
+        },
+        "Outputs": {
+          "1": "Text skriven till fil"
+        }
+      },
+      "Zip": {
+        "Description": "G\u00F6r det m\u00F6jligt att zippa indata",
+        "Label": "Zip",
+        "Fields": {
+          "DestinationFile": "Destinationfil",
+          "DestinationFile-Help": "Filnamnet p\u00E5 den ny skapade zip-filen. Om detta l\u00E4mnas tomt anv\u00E4nds namnet p\u00E5 objektet som zip-fil.",
+          "DestinationPath": "Destinationmapp",
+          "DestinationPath-Help": "Destinationmappen d\u00E4r zip-filen ska placeras. Om detta l\u00E4mnas tomt placeras zip-filen i rotmappen.",
+          "Path": "S\u00F6kv\u00E4g",
+          "Path-Help": "S\u00F6kv\u00E4gen till filen eller mappen som ska zippas. Om detta l\u00E4mnas tomt zippas arbetsfilen.",
+          "SetWorkingFile": "St\u00E4ll in arbetsfil",
+          "SetWorkingFile-Help": "Om den ny skapade zip-filen ska bli den nya arbetsfilen."
+        },
+        "Outputs": {
+          "1": "Zip skapad"
+        }
+      },
+      "AutoCropImage": {
+        "Description": "Automatiskt besk\u00E4r ett bild",
+        "Label": "Besk\u00E4r Bild Automatiskt",
+        "Fields": {
+          "Format": "Format",
+          "Format-Help": "Bildformatet att konvertera till",
+          "Threshold": "Tr\u00F6skel",
+          "Threshold-Help": "Tr\u00F6skel f\u00F6r entropisk t\u00E4thet, standard \u00E4r 50. M\u00E5ste vara mellan 0 och 100."
+        },
+        "Outputs": {
+          "1": "Bild beskuren, sparad i ny tillf\u00E4llig fil",
+          "2": "Bilden kunde inte besk\u00E4ras"
+        }
+      },
+      "ImageFile": {
+        "Description": "En bildfil",
+        "Label": "Bildfil",
+        "Outputs": {
+          "1": "Bildfil"
+        }
+      },
+      "ImageFlip": {
+        "Description": "V\u00E4nder en bild",
+        "Label": "V\u00E4nd Bild",
+        "Fields": {
+          "Format": "Format",
+          "Format-Help": "Bildformatet att konvertera till",
+          "Vertical": "Vertikal",
+          "Vertical-Help": "Om inst\u00E4llt kommer bilden att v\u00E4ndas vertikalt, annars horisontellt"
+        },
+        "Outputs": {
+          "1": "Bild v\u00E4nd, sparad i ny tillf\u00E4llig fil"
+        }
+      },
+      "ImageFormat": {
+        "Description": "Konverterar en bild till det angivna formatet",
+        "Label": "Konvertera Bild",
+        "Fields": {
+          "Format": "Format",
+          "Format-Help": "Bildformatet att konvertera till"
+        },
+        "Outputs": {
+          "1": "Bild konverterad, sparad i ny tillf\u00E4llig fil",
+          "2": "Bilden \u00E4r redan i m\u00E5ls\u00E4ttningsformat"
+        }
+      },
+      "ImageIsLandscape": {
+        "Description": "Testar om en bild \u00E4r liggande",
+        "Label": "Bild \u00C4r Liggande",
+        "Outputs": {
+          "1": "Bilden \u00E4r liggande",
+          "2": "Bilden \u00E4r inte liggande"
+        }
+      },
+      "ImageIsPortrait": {
+        "Description": "Testar om en bild \u00E4r portr\u00E4tt",
+        "Label": "Bild \u00C4r Portr\u00E4tt",
+        "Outputs": {
+          "1": "Bilden \u00E4r portr\u00E4tt",
+          "2": "Bilden \u00E4r inte portr\u00E4tt"
+        }
+      },
+      "ImageResizer": {
+        "Description": "\u00C4ndrar storlek p\u00E5 en bild",
+        "Label": "\u00C4ndra Bildstorlek",
+        "Fields": {
+          "Format": "Format",
+          "Format-Help": "Bildformatet att konvertera till",
+          "Height": "H\u00F6jd",
+          "Mode": "L\u00E4ge",
+          "Mode-Help": "L\u00E4get som ska anv\u00E4ndas vid \u00E4ndring av bildstorlek",
+          "Width": "Bredd"
+        },
+        "Outputs": {
+          "1": "Bild storlek \u00E4ndrad, sparad i ny tillf\u00E4llig fil"
+        }
+      },
+      "ImageRotate": {
+        "Description": "Rotera en bild",
+        "Label": "Rotera Bild",
+        "Fields": {
+          "Angle": "Vinkel",
+          "Angle-Help": "Rotationsvinkeln",
+          "Format": "Format",
+          "Format-Help": "Bildformatet att konvertera till"
+        },
+        "Outputs": {
+          "1": "Bild roterad, sparad i ny tillf\u00E4llig fil"
+        }
+      },
+      "IsImage": {
+        "Description": "Kontrollerar om en fil \u00E4r en bildfil.",
+        "Label": "\u00C4r Bild",
+        "Fields": {
+          "File": "Fil",
+          "File-Help": "Valfri s\u00F6kv\u00E4g till filen som ska kontrolleras, om l\u00E4mnas tomt kommer den aktuella arbetsfilen att kontrolleras.",
+          "File-Placeholder": "Om tomt, aktuella arbetsfil"
+        },
+        "Outputs": {
+          "1": "Filen \u00E4r en erk\u00E4nd bildfil",
+          "2": "Filen \u00E4r inte en erk\u00E4nd bildfil"
+        }
+      },
+      "PixelCheck": {
+        "Description": "Detta fl\u00F6deselement verifierar om det totala antalet pixlar i en bild \u00F6verstiger den angivna tr\u00F6skeln.",
+        "Label": "Pixelkontroll",
+        "Fields": {
+          "Pixels": "Pixlar",
+          "Pixels-Help": "Antalet pixlar en bild b\u00F6r inneh\u00E5lla. Detta ber\u00E4knas genom att multiplicera bildens bredd med dess h\u00F6jd."
+        },
+        "Outputs": {
+          "1": "Bilden har lika med eller fler pixlar \u00E4n det angivna antalet",
+          "2": "Bilden har f\u00E4rre pixlar \u00E4n det angivna antalet"
+        }
+      },
+      "AudioToVideo": {
+        "Description": "Konverterar en ljudfil till en videofil och genererar en video baserad p\u00E5 ljudet.",
+        "Label": "Ljud till Video",
+        "Fields": {
+          "Codec": "Codec",
+          "Color": "F\u00E4rg",
+          "Color-Help": "Valfri f\u00E4rgkod i formatet #RRGGBB att anv\u00E4nda f\u00F6r ljudv\u00E5gorna, m\u00E5ste vara i formatet #RRGGBB, till exempel #FF0090",
+          "Container": "Beh\u00E5llare",
+          "HardwareEncoding": "H\u00E5rdvaruavkodning",
+          "HardwareEncoding-Help": "Om den h\u00E4r kryssrutan \u00E4r markerad kommer den att testa om h\u00E5rdvaruavkodare finns p\u00E5 bearbetningsnoden, och om de finns, kommer h\u00E5rdvaruavkodning att anv\u00E4ndas; annars faller den tillbaka till CPU-avkodning.",
+          "Resolution": "Uppl\u00F6sning",
+          "Visualization": "Visualisering",
+          "Visualization-Help": "Den visualisering som ska anv\u00E4ndas i den genererade videon. Se hj\u00E4lp f\u00F6r exempel"
+        }
+      },
+      "CanUseHardwareEncoding": {
+        "Description": "Kontrollerar om den angivna h\u00E5rdvaruavkodaren f\u00F6r n\u00E4rvarande \u00E4r tillg\u00E4nglig f\u00F6r fl\u00F6det.",
+        "Label": "Kan anv\u00E4nda h\u00E5rdvaruavkodning",
+        "Fields": {
+          "Encoder": "Avkodare",
+          "Encoder-Help": "Den h\u00E5rdvaruavkodare som ska kontrolleras"
+        }
+      },
+      "ComskipRemoveAds": {
+        "Description": "Anv\u00E4nder en comskip EDL-fil och tar bort reklam med hj\u00E4lp av den filen.",
+        "Label": "Comskip: Ta bort reklam",
+        "Fields": {
+          "RunComskipIfNoEdl": "K\u00F6r Comskip",
+          "RunComskipIfNoEdl-Help": "K\u00F6r comskip mot filen om ingen comskip (EDL) fil hittas."
+        },
+        "Outputs": {
+          "1": "Reklam borttagen, sparad till tempor\u00E4r fil",
+          "2": "Ingen reklam uppt\u00E4ckt"
+        }
+      },
+      "CreateThumbnail": {
+        "Description": "Skapar en miniatyrbild fr\u00E5n en videofil.",
+        "Label": "Skapa Miniatyrbild",
+        "Fields": {
+          "Height": "H\u00F6jd",
+          "Height-Help": "Miniatyrbildens h\u00F6jd.",
+          "OutputFile": "Utdatafil",
+          "OutputFile-Help": "S\u00F6kv\u00E4gen d\u00E4r miniatyrbilden ska sparas. Om f\u00E4ltet l\u00E4mnas tomt skapas en .jpg-fil p\u00E5 samma plats som originalfilen.",
+          "ResizeMode": "L\u00E4ge",
+          "ResizeMode-Help": "L\u00E4get som anv\u00E4nds vid storleks\u00E4ndring av bilden.",
+          "SkipBlackFrames": "Hoppa \u00F6ver svarta bildrutor",
+          "SkipBlackFrames-Help": "Om markerad, kommer en annan bildruta att anv\u00E4ndas om en svart bildruta uppt\u00E4cks.",
+          "Time": "Tid",
+          "Time-Help": "Tiden i videon d\u00E4r miniatyrbilden ska tas fr\u00E5n.",
+          "Width": "Bredd",
+          "Width-Help": "Miniatyrbildens bredd."
+        },
+        "Outputs": {
+          "1": "Miniatyrbild skapad.",
+          "2": "Misslyckades med att skapa miniatyrbild."
+        }
+      },
+      "DisableAmd": {
+        "Description": "Inaktiverar AMD AMF h\u00E5rdvaruavkodare",
+        "Label": "Inaktivera AMD",
+        "Outputs": {
+          "1": "Inaktiverad"
+        }
+      },
+      "DisableIntelQsv": {
+        "Description": "Inaktiverar Intel QSV h\u00E5rdvaruavkodare",
+        "Label": "Inaktivera Intel QSV",
+        "Outputs": {
+          "1": "Inaktiverad"
+        }
+      },
+      "DisableNvidia": {
+        "Description": "Inaktiverar NVIDIA h\u00E5rdvaruavkodare",
+        "Label": "Inaktivera NVIDIA",
+        "Outputs": {
+          "1": "Inaktiverad"
+        }
+      },
+      "DisableVaapi": {
+        "Description": "Inaktiverar VAAPI h\u00E5rdvaruavkodare",
+        "Label": "Inaktivera VAAPI",
+        "Outputs": {
+          "1": "Inaktiverad"
+        }
+      },
+      "FfmpegBuilderAddInputFile": {
+        "Label": "FFMPEG Builder: L\u00E4gg till indatafil",
+        "Fields": {
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "Ett regulj\u00E4rt uttryck som anv\u00E4nds f\u00F6r att s\u00F6ka efter indatafiler",
+          "UseSourceDirectory": "Anv\u00E4nd k\u00E4llkatalog",
+          "UseSourceDirectory-Help": "Om markerad kommer den ursprungliga k\u00E4llkatalogen att s\u00F6kas, annars kommer arbetskatalogen att anv\u00E4ndas."
+        },
+        "Outputs": {
+          "1": "Fil hittad och tillagd",
+          "2": "Ingen fil hittad"
+        }
+      },
+      "FfmpegBuilderAspectRatio": {
+        "Label": "FFMPEG Builder: Bildf\u00F6rh\u00E5llande",
+        "Fields": {
+          "AdjustmentMode": "Justeringstyp",
+          "AdjustmentMode-Help": "V\u00E4lj hur bildf\u00F6rh\u00E5llandet ska uppr\u00E4tth\u00E5llas. Alternativen inkluderar att str\u00E4cka videon, l\u00E4gga till svarta kanter (letterbox) eller besk\u00E4ra videon f\u00F6r att passa bildf\u00F6rh\u00E5llandet.",
+          "AspectRatio": "Bildf\u00F6rh\u00E5llande",
+          "AspectRatio-Help": "V\u00E4lj \u00F6nskat bildf\u00F6rh\u00E5llande f\u00F6r videon. Tillg\u00E4ngliga alternativ inkluderar standard bildf\u00F6rh\u00E5llanden (16:9, 4:3, 21:9) eller ett anpassat f\u00F6rh\u00E5llande.",
+          "CustomHeight": "Anpassad h\u00F6jd",
+          "CustomHeight-Help": "Ange h\u00F6jd att anv\u00E4nda n\u00E4r alternativet f\u00F6r anpassat bildf\u00F6rh\u00E5llande v\u00E4ljs.",
+          "CustomWidth": "Anpassad bredd",
+          "CustomWidth-Help": "Ange bredd att anv\u00E4nda n\u00E4r alternativet f\u00F6r anpassat bildf\u00F6rh\u00E5llande v\u00E4ljs."
+        },
+        "Outputs": {
+          "1": "Bildf\u00F6rh\u00E5llandet \u00E4ndrades framg\u00E5ngsrikt",
+          "2": "Videon var redan i \u00F6nskat bildf\u00F6rh\u00E5llande"
+        }
+      },
+      "FfmpegBuilderAudioAddTrack": {
+        "Description": "L\u00E4gger till en ny ljudsp\u00E5r till FFMPEG Builder som kommer att l\u00E4ggas till n\u00E4r byggaren k\u00F6rs.",
+        "Label": "FFMPEG Builder: Ljud L\u00E4gg till sp\u00E5r",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitrate f\u00F6r det nya ljudsp\u00E5ret",
+          "BitratePerChannel": "Bitrate per kanal",
+          "BitratePerChannel-Help": "Om den angivna bitrate ska vara per kanal",
+          "Channels": "Kanaler",
+          "Channels-Help": "Antalet kanaler som detta nya ljudsp\u00E5r kommer att ha.\nOm du anger fler kanaler \u00E4n k\u00E4llan kommer FFMPEG automatiskt att uppblanda det.\nOm du anger f\u00E4rre kanaler \u00E4n k\u00E4llan kommer FFMPEG automatiskt att nedblanda det.",
+          "Codec": "Codec",
+          "Codec-Help": "Den codec som ska anv\u00E4ndas f\u00F6r att koda ljudet",
+          "CustomTrackSelection": "K\u00E4llsp\u00E5rval",
+          "Filter": "Filter",
+          "Filter-Help": "Anger ett anpassat filter att till\u00E4mpa p\u00E5 detta nya ljudsp\u00E5r.",
+          "Index": "Index",
+          "Index-Help": "Index d\u00E4r det nya ljudsp\u00E5ret ska infogas.  0-baserat, s\u00E5 f\u00F6r att infoga det nya ljudsp\u00E5ret som det f\u00F6rsta sp\u00E5ret, s\u00E4tt detta till 0.",
+          "Language": "Spr\u00E5k",
+          "Language-Help": "Valfri [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) spr\u00E5kkod att anv\u00E4nda. Kommer att f\u00F6rs\u00F6ka hitta ett ljudsp\u00E5r med denna spr\u00E5kkod; om inte kommer det b\u00E4sta ljudsp\u00E5ret att anv\u00E4ndas.",
+          "NewTitle": "Ny titel",
+          "NewTitle-Help": "Valfri titel f\u00F6r det ny skapade ljudsp\u00E5ret. Om den l\u00E4mnas tom kommer k\u00E4llans titel att anv\u00E4ndas.",
+          "RemoveTitle": "Ta bort titel",
+          "RemoveTitle-Help": "Om k\u00E4llans titel ska tas bort och sp\u00E5ret inte ska ha n\u00E5gon titel.",
+          "SampleRate": "Samplingsfrekvens",
+          "SampleRate-Help": "Den samplingsfrekvens som ska anv\u00E4ndas f\u00F6r det nya ljudsp\u00E5ret",
+          "TrackSelectionOptions": "Sp\u00E5rval",
+          "TrackSelectionOptionsKey": "Egenskap",
+          "TrackSelectionOptionsValue": "V\u00E4rde"
+        },
+        "Outputs": {
+          "1": "Lagt till ljudsp\u00E5r till FFMPEG Builder",
+          "2": "Inget l\u00E4mpligt k\u00E4llljudsp\u00E5r hittades f\u00F6r att skapa nytt ljudsp\u00E5r"
+        }
+      },
+      "FfmpegBuilderAudioAdjustVolume": {
+        "Description": "Justera ljudsp\u00E5rens volym i en videofil med FFMPEG",
+        "Label": "FFMPEG Builder: Justera ljudvolym",
+        "Fields": {
+          "AllAudio": "Alla ljudsp\u00E5r",
+          "AllAudio-Help": "Om alla ljudsp\u00E5r ska normaliseras eller om bara det f\u00F6rsta sp\u00E5ret ska g\u00F6ras",
+          "NotMatching": "Ej matchande",
+          "NotMatching-Help": "Om ljudsp\u00E5r som INTE matchar m\u00F6nstret ska tas bort",
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "Ett regulj\u00E4rt uttryck att matcha mot, t.ex. \u0022kommentar\u0022 f\u00F6r att ta bort kommentarsp\u00E5r",
+          "UseLanguageCode": "Anv\u00E4nd spr\u00E5k kod",
+          "UseLanguageCode-Help": "Om spr\u00E5k koden f\u00F6r ljudsp\u00E5ret ska anv\u00E4ndas ist\u00E4llet f\u00F6r titeln",
+          "VolumePercent": "Volym procent",
+          "VolumePercent-Help": "Procent av den justerade volymen.\n100 betyder ingen justering\n50 betyder halv volym\n0 betyder tyst"
+        },
+        "Outputs": {
+          "1": "Volymfilter f\u00F6r ljudsp\u00E5r har lagts till i FFMPEG Builder",
+          "2": "Inga ljudsp\u00E5r har justerats"
+        }
+      },
+      "FfmpegBuilderAudioConvert": {
+        "Description": "Till\u00E5ter dig att konvertera alla sp\u00E5r som matchar parametrarna.",
+        "Label": "FFMPEG Builder: Ljudkonvertering",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitrate f\u00F6r ljudsp\u00E5ret",
+          "BitratePerChannel": "Bitrate per kanal",
+          "BitratePerChannel-Help": "Om den angivna bitraten ska vara per kanal",
+          "Channels": "Kanaler",
+          "Channels-Help": "Antal kanaler detta nya ljudsp\u00E5r kommer att ha.\nOm du anger fler kanaler \u00E4n k\u00E4llan, kommer FFMPEG automatiskt att uppblanda den.\nOm du anger f\u00E4rre kanaler \u00E4n k\u00E4llan, kommer FFMPEG automatiskt att nedblanda den.",
+          "Codec": "Codec",
+          "Codec-Help": "Codec att anv\u00E4nda f\u00F6r att koda ljudet",
+          "CustomTrackSelection": "Konvertera",
+          "PcmFormat": "Format",
+          "PcmFormat-Help": "PCM-formatet att anv\u00E4nda f\u00F6r att koda PCM-ljud.",
+          "TrackSelectionOptions": "Matchande",
+          "TrackSelectionOptionsKey": "Egenskap",
+          "TrackSelectionOptionsValue": "V\u00E4rde"
+        },
+        "Outputs": {
+          "1": "Sp\u00E5r som ska konverteras",
+          "2": "Inga sp\u00E5r att konvertera"
+        }
+      },
+      "FfmpegBuilderAudioConverter": {
+        "Description": "Till\u00E5ter dig att konvertera alla sp\u00E5r som matchar parametrarna.",
+        "Label": "FFMPEG Builder: Ljudkonverterare",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitrate f\u00F6r ljudsp\u00E5ret",
+          "BitratePerChannel": "Bitrate per kanal",
+          "BitratePerChannel-Help": "Om den angivna bitraten ska vara per kanal",
+          "Channels": "Kanaler",
+          "Channels-Help": "Antal kanaler detta nya ljudsp\u00E5r kommer att ha.\nOm du anger fler kanaler \u00E4n k\u00E4llan, kommer FFMPEG automatiskt att uppblanda den.\nOm du anger f\u00E4rre kanaler \u00E4n k\u00E4llan, kommer FFMPEG automatiskt att nedblanda den.",
+          "Codec": "Codec",
+          "Codec-Help": "Codec att anv\u00E4nda f\u00F6r att koda ljudet",
+          "Field": "F\u00E4lt",
+          "Field-Help": "F\u00E4ltet att matcha m\u00F6nstret mot. L\u00E4mna m\u00F6nstret tomt f\u00F6r att matcha allt utan n\u00E5got v\u00E4rde.",
+          "NotMatching": "Ej matchande",
+          "NotMatching-Help": "Om ljudsp\u00E5r som INTE matchar m\u00F6nstret ska konverteras",
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "En str\u00E4ng eller regulj\u00E4rt uttryck att matcha mot, t.ex. \u0022kommentar\u0022 f\u00F6r att matcha kommentar exakt eller \u0022.*kommentar.*\u0022 f\u00F6r att matcha kommentar var som helst i str\u00E4ngen",
+          "PcmFormat": "Format",
+          "PcmFormat-Help": "PCM-formatet att anv\u00E4nda f\u00F6r att koda PCM-ljud."
+        },
+        "Outputs": {
+          "1": "Sp\u00E5r som ska konverteras",
+          "2": "Inga sp\u00E5r att konvertera"
+        }
+      },
+      "FfmpegBuilderAudioNormalization": {
+        "Description": "Normaliserar alla ljudsp\u00E5r i en videofil med FFMPEG:s loudnorm-filter",
+        "Label": "FFMPEG Builder: Ljudnormalisering",
+        "Fields": {
+          "AllAudio": "Alla ljudsp\u00E5r",
+          "AllAudio-Help": "Om alla ljudsp\u00E5r ska normaliseras eller om bara det f\u00F6rsta sp\u00E5ret ska g\u00F6ras",
+          "NotMatching": "Ej matchande",
+          "NotMatching-Help": "Om ljudsp\u00E5r som INTE matchar m\u00F6nstret ska tas bort",
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "Ett regulj\u00E4rt uttryck att matcha mot, t.ex. \u0022kommentar\u0022 f\u00F6r att ta bort kommentarsp\u00E5r",
+          "TwoPass": "Tv\u00E5 pass",
+          "TwoPass-Help": "Om ljudsp\u00E5ren ska anv\u00E4nda tv\u00E5 pass normalisering. Detta f\u00F6rb\u00E4ttrar normaliseringen men \u00F6kar bearbetningstiden.",
+          "UseLanguageCode": "Anv\u00E4nd spr\u00E5k kod",
+          "UseLanguageCode-Help": "Om spr\u00E5k koden f\u00F6r ljudsp\u00E5ret ska anv\u00E4ndas ist\u00E4llet f\u00F6r titeln"
+        },
+        "Outputs": {
+          "1": "Ljudsp\u00E5ren normaliserades och lades till i FFMPEG Builder",
+          "2": "Inga ljudsp\u00E5r hittades f\u00F6r normalisering"
+        }
+      },
+      "FfmpegBuilderAudioSetLanguage": {
+        "Description": "Till\u00E5ter dig att st\u00E4lla in spr\u00E5ket f\u00F6r eventuella sp\u00E5r som inte har n\u00E5got spr\u00E5k inst\u00E4llt. Om sp\u00E5ret har ett spr\u00E5k inst\u00E4llt, kommer det att hoppas \u00F6ver.\n\nUtdata 1: Sp\u00E5r har uppdaterats\nUtdata 2: Inga sp\u00E5r beh\u00F6vde uppdateras",
+        "Label": "FFMPEG Builder: St\u00E4ll in spr\u00E5k",
+        "Fields": {
+          "Language": "Spr\u00E5k",
+          "Language-Help": "Den [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) spr\u00E5k koden som ska anv\u00E4ndas.",
+          "StreamType": "Typ",
+          "StreamType-Help": "Typen av sp\u00E5r att st\u00E4lla in spr\u00E5ket f\u00F6r"
+        },
+        "Outputs": {
+          "1": "Sp\u00E5r uppdaterade i FFMPEG Builder",
+          "2": "Sp\u00E5r INTE uppdaterade"
+        }
+      },
+      "FfmpegBuilderAudioTrackRemover": {
+        "Description": "Till\u00E5ter dig att ta bort sp\u00E5r baserat p\u00E5 antingen deras titel eller deras spr\u00E5kkoder.\n\nEventuell titel (eller spr\u00E5kkod om inst\u00E4llt p\u00E5 \u0022Anv\u00E4nd spr\u00E5kkod\u0022) som \u00E4r tom kommer INTE att tas bort oavsett m\u00F6nster.",
+        "Label": "FFMPEG Builder: Sp\u00E5rborttagare (Obsolet)",
+        "Fields": {
+          "MatchType": "Matchar",
+          "MatchType-Help": "V\u00E4rdet som ska matchas mot.",
+          "NotMatching": "Inte matchande",
+          "NotMatching-Help": "Om ljudsp\u00E5r SOM INTE matchar m\u00F6nstret ska tas bort",
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "Ett regulj\u00E4rt uttryck att matcha mot, t.ex. \u0022kommentar\u0022 f\u00F6r att ta bort kommentarsp\u00E5r",
+          "RemoveAll": "Ta bort alla",
+          "RemoveAll-Help": "Ta bort alla aktuella sp\u00E5r fr\u00E5n utdatafilen. Du kan anv\u00E4nda L\u00E4gg till sp\u00E5r efter\u00E5t f\u00F6r att l\u00E4gga till sp\u00E5r av specifika codecs.",
+          "RemoveIndex": "Ta bort index",
+          "RemoveIndex-Help": "Startindex f\u00F6r att ta bort sp\u00E5ren fr\u00E5n. Detta g\u00F6r att du kan ta bort alla, eller alla matchande, sp\u00E5r efter startindexet.\nS\u00E4tt till noll f\u00F6r att ta bort alla som matchar parametrarna.\nS\u00E4tt till 1 f\u00F6r att beh\u00E5lla det f\u00F6rsta sp\u00E5ret och ta bort eventuella efterf\u00F6ljande som matchar parametrarna.",
+          "StreamType": "Typ",
+          "StreamType-Help": "Typen av sp\u00E5r som ska omordnas i FFMPEG Builder",
+          "UseLanguageCode": "Anv\u00E4nd spr\u00E5kkod",
+          "UseLanguageCode-Help": "Om spr\u00E5kkoden f\u00F6r sp\u00E5ret ska anv\u00E4ndas ist\u00E4llet f\u00F6r titeln"
+        },
+        "Outputs": {
+          "1": "Sp\u00E5r som ska tas bort",
+          "2": "Sp\u00E5r som INTE ska tas bort"
+        }
+      },
+      "FfmpegBuilderAudioTrackReorder": {
+        "Description": "Till\u00E5ter dig att omordna sp\u00E5r i den f\u00F6redragna ordningen.\n\nAnge spr\u00E5ken/ljudcodecs/kanalerna i den ordning du vill. Eventuella som inte listas kommer att ordnas efter de som anges i sin ursprungliga ordning.\nOm det finns flera sp\u00E5r med samma spr\u00E5k/codec/kanaler, kommer de att ordnas f\u00F6rst efter den ordning du angav, sedan i sin ursprungliga ordning.\n\nObservera att det f\u00F6rsta sp\u00E5ret efter omordningen kommer att st\u00E4llas in som standardsp\u00E5r..\n\nUtdata 1: Sp\u00E5r omordnades\nUtdata 2: Sp\u00E5r beh\u00F6vde inte omordnas",
+        "Label": "FFMPEG Builder: Sp\u00E5r omordna",
+        "Fields": {
+          "Channels": "Kanaler",
+          "Channels-Help": "Ordningen f\u00F6r ljudkanaler att sortera ljudsp\u00E5ren efter. Denna sortering g\u00F6rs f\u00F6re spr\u00E5ken.\nTill exempel \u00225.1\u0022,\u00227.1\u0022,\u00226.2\u0022,\u00222\u0022",
+          "Languages": "Spr\u00E5k",
+          "Languages-Help": "Ordningen f\u00F6r spr\u00E5k att sortera sp\u00E5ren efter. Denna sortering g\u00F6rs f\u00F6re codec.",
+          "OrderedTracks": "Ordnade Codecs",
+          "OrderedTracks-Help": "Ordningen f\u00F6r codecs till sp\u00E5ren. Detta g\u00F6rs efter spr\u00E5ken (om n\u00E5gra)",
+          "StreamType": "Typ",
+          "StreamType-Help": "Typen av sp\u00E5r som ska omordnas i FFMPEG Builder"
+        },
+        "Outputs": {
+          "1": "Sp\u00E5r omordnades i FFMPEG Builder",
+          "2": "Sp\u00E5r INTE omordnades"
+        }
+      },
+      "FfmpegBuilderAutoChapters": {
+        "Description": "Automatiskt uppt\u00E4cka scenf\u00F6r\u00E4ndringar i videon f\u00F6r att generera kapitel.",
+        "Label": "FFMPEG Builder: Automatiska kapitel",
+        "Fields": {
+          "MinimumLength": "Minimi l\u00E4ngd",
+          "MinimumLength-Help": "Den minimi l\u00E4ngden av ett kapitel i sekunder",
+          "MinimumLength-Suffix": "sekunder",
+          "Percent": "Procent",
+          "Percent-Help": "Tr\u00F6skelv\u00E4rdet i procent som ska anv\u00E4ndas f\u00F6r scenuppt\u00E4cktsf\u00F6r\u00E4ndringar. Ett bra v\u00E4rde \u00E4r 45%",
+          "Percent-Suffix": "%"
+        },
+        "Outputs": {
+          "1": "Kapitel genererade och tillagda till FFMPEG Builder",
+          "2": "Inga kapitel uppt\u00E4cktes eller videon hade redan kapitel"
+        }
+      },
+      "FfmpegBuilderComskipChapters": {
+        "Description": "Anv\u00E4nder en comskip EDL-fil och kommer att skapa kapitel givet den EDL comskip-filen.",
+        "Label": "FFMPEG Builder: Comskip Kapitel",
+        "Fields": {
+          "RunComskipIfNoEdl": "K\u00F6r Comskip",
+          "RunComskipIfNoEdl-Help": "K\u00F6r comskip mot filen om ingen comskip (EDL) fil hittas."
+        },
+        "Outputs": {
+          "1": "Reklamkapitel skapade, tillagda till FFMPEG Builder",
+          "2": "Inga reklamfilmer uppt\u00E4cktes"
+        }
+      },
+      "FfmpegBuilderCropBlackBars": {
+        "Description": "Uppdaterad FFMPEG Builder f\u00F6r att besk\u00E4ra svarta kanter om de uppt\u00E4cks",
+        "Label": "FFMPEG Builder: Besk\u00E4r svarta kanter",
+        "Fields": {
+          "CroppingThreshold": "Tr\u00F6skel",
+          "CroppingThreshold-Help": "Antalet pixlar som m\u00E5ste vara st\u00F6rre \u00E4n f\u00F6r att besk\u00E4ras. T.ex. om det endast finns 5 pixlar som uppt\u00E4ckts som svart omr\u00E5de, kan du anse att detta \u00E4r f\u00F6r litet f\u00F6r att besk\u00E4ra."
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder uppdaterad f\u00F6r att besk\u00E4ra svarta kanter",
+          "2": "Inga svarta kanter uppt\u00E4cktes, inga besk\u00E4rningar"
+        }
+      },
+      "FfmpegBuilderCustomParameters": {
+        "Description": "L\u00E5ter dig l\u00E4gga till anpassade parametrar till FFMPEG Builder f\u00F6r exekvering",
+        "Label": "FFMPEG Builder: Anpassade parametrar",
+        "Fields": {
+          "ForceEncode": "Tvinga kodning",
+          "ForceEncode-Help": "Om detta ska tvinga FFMPEG Builder Executor att alltid exekvera \u00E4ven om inga \u00E4ndringar uppt\u00E4ckts som vanligtvis skulle kr\u00E4va att exekveraren k\u00F6rs.",
+          "Parameters": "Parametrar",
+          "Parameters-Help": "Parametrarna att l\u00E4gga till till FFMPEG Builder f\u00F6r exekvering"
+        },
+        "Outputs": {
+          "1": "Parametrar tillagda"
+        }
+      },
+      "FfmpegBuilderDefaultOriginalLanguage": {
+        "Description": "Detta fl\u00F6deselement kommer att f\u00F6rs\u00F6ka st\u00E4lla in de ursprungliga spr\u00E5ksp\u00E5ren som standard. Det kommer att f\u00F6rs\u00F6ka hitta det f\u00F6rsta sp\u00E5ret som matchar det ursprungliga spr\u00E5ket, och sedan st\u00E4lla in det som standard.\n\nOm inga sp\u00E5r hittas med det ursprungliga spr\u00E5ket g\u00F6rs inga \u00E4ndringar.",
+        "Label": "FFMPEG Builder: Standardursprungsspr\u00E5k",
+        "Fields": {
+          "MakeFirst": "G\u00F6r f\u00F6rst",
+          "MakeFirst-Help": "Om det ursprungliga spr\u00E5ksp\u00E5ret ocks\u00E5 ska bli det f\u00F6rsta sp\u00E5ret.",
+          "StreamType": "Typ",
+          "StreamType-Help": "Typen av sp\u00E5r som ska uppdateras"
+        },
+        "Outputs": {
+          "1": "Sp\u00E5r har modifierats",
+          "2": "Inga sp\u00E5r har \u00E4ndrats"
+        }
+      },
+      "FfmpegBuilderDeinterlace": {
+        "Label": "FFMPEG Builder: Deinterlace",
+        "Fields": {
+          "Mode": "L\u00E4ge",
+          "Mode-Help": "Metoden f\u00F6r deinterlacing som ska anv\u00E4ndas. Se hj\u00E4lp f\u00F6r mer information."
+        },
+        "Outputs": {
+          "1": "Tillagd deinterlace-filter till videostr\u00F6m"
+        }
+      },
+      "FFmpegBuilderDurationStart": {
+        "Descriptions": "Detta fl\u00F6deselement g\u00F6r det m\u00F6jligt f\u00F6r anv\u00E4ndare att definiera startpunkten och varaktigheten f\u00F6r att extrahera ett segment fr\u00E5n en video.",
+        "Label": "FFMPEG Builder: Varaktighet/Start",
+        "Fields": {
+          "Duration": "Varaktighet",
+          "Duration-Help": "Varaktigheten f\u00F6r videofilen, om 0, justeras inte varaktigheten.",
+          "Start": "Start",
+          "Start-Help": "Starten av videofilen, om 0, justeras inte starten."
+        },
+        "Outputs": {
+          "1": "Varaktighet/Start konfigurerad",
+          "2": "Misslyckades med att st\u00E4lla in varaktighet/start"
+        }
+      },
+      "FfmpegBuilderExecutor": {
+        "Description": "Utf\u00F6r ett FFMPEG Builder-kommando som skapats av andra FFMPEG Builder-fl\u00F6deselement.",
+        "Label": "FFMPEG Builder: Exekutor",
+        "Fields": {
+          "HardwareDecoding": "H\u00E5rdvaruavkodning",
+          "HardwareDecoding-Help": "Om exekutorn ska f\u00F6rs\u00F6ka anv\u00E4nda h\u00E5rdvaruavkodning. Om inte tillg\u00E4ngligt kommer exekveringen att forts\u00E4tta utan att h\u00E5rdvaruavkodning \u00E4r aktiverad.",
+          "KeepModel": "Beh\u00E5ll Modell",
+          "KeepModel-Help": "Anger om FFmpeg Builder-modellen som anv\u00E4nds f\u00F6r att skapa FFmpeg-kommandot ska beh\u00E5llas. N\u00E4r inaktiverad kommer modellen att tas bort efter att fl\u00F6deselementet har slutf\u00F6rts framg\u00E5ngsrikt (dvs. utan fel).",
+          "Strictness": "Strikthet",
+          "Strictness-Help": "Ger dig m\u00F6jlighet att anpassa str\u00E4ngheten hos FFmpeg. Detta b\u00F6r l\u00E4mnas p\u00E5 \u0027Experimentell\u0027 f\u00F6r de flesta anv\u00E4ndare."
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder k\u00F6rdes framg\u00E5ngsrikt och skapade en ny tempor\u00E4r fil",
+          "2": "Inga f\u00F6r\u00E4ndringar uppt\u00E4cktes i FFMPEG Builder, filen skapades inte"
+        }
+      },
+      "FfmpegBuilderHdrToSdr": {
+        "Description": "Kontrollerar om en videostr\u00F6m \u00E4r HDR och om den \u00E4r det, uppdaterar FFMPEG Builder f\u00F6r att konvertera den till SDR.",
+        "Label": "FFMPEG Builder: HDR till SDR",
+        "Outputs": {
+          "1": "HDR-str\u00F6m uppt\u00E4cktes och FFMPEG Builder uppdaterades f\u00F6r att konvertera",
+          "2": "Ingen HDR-str\u00F6m hittades"
+        }
+      },
+      "FfmpegBuilderKeepOriginalLanguage": {
+        "Description": "Detta fl\u00F6deselement kommer att beh\u00E5lla endast det ursprungliga spr\u00E5ket och eventuella ytterligare spr\u00E5k som anv\u00E4ndaren definierar.\n\nAlla andra spr\u00E5kstr\u00F6mmar kommer att tas bort/m\u00E4rkas f\u00F6r borttagning.",
+        "Label": "FFMPEG Builder: Beh\u00E5ll Originalspr\u00E5k",
+        "Fields": {
+          "AdditionalLanguages": "Ytterligare Spr\u00E5k",
+          "AdditionalLanguages-Help": "En valfri lista \u00F6ver ytterligare spr\u00E5kkoder att beh\u00E5lla.\n\nDet rekommenderas att anv\u00E4nda en [ISO 639-2 spr\u00E5kkod](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).",
+          "FirstIfNone": "F\u00F6rsta Om Ingen",
+          "FirstIfNone-Help": "N\u00E4r aktiverat, s\u00E4kerst\u00E4ller detta att minst en sp\u00E5r beh\u00E5lls. Om inga sp\u00E5r som matchar det ursprungliga spr\u00E5ket och inga sp\u00E5r som matchar de ytterligare spr\u00E5ken hittas, kommer det f\u00F6rsta sp\u00E5ret att beh\u00E5llas oavsett.\n\nDetta undviker eventuella problem med att ingen ljud finns kvar p\u00E5 videon.",
+          "KeepOnlyFirst": "Beh\u00E5ll Endast F\u00F6rsta",
+          "KeepOnlyFirst-Help": "N\u00E4r aktiverat kommer endast det f\u00F6rsta sp\u00E5ret av varje spr\u00E5k att beh\u00E5llas.\n\nTill exempel, om det fanns 2 engelska sp\u00E5r, 3 spanska sp\u00E5r och 1 tyskt sp\u00E5r. Det ursprungliga spr\u00E5ket var spanska, ytterligare spr\u00E5k var inst\u00E4llt p\u00E5 \u0060eng\u0060, d\u00E5 skulle resultatet vara 1 engelskt sp\u00E5r och 1 spanskt sp\u00E5r, resten skulle tas bort.",
+          "StreamType": "Typ",
+          "StreamType-Help": "Typen av sp\u00E5r som ska uppdateras",
+          "TreatEmptyAsOriginal": "Behandla Tomt Som Original",
+          "TreatEmptyAsOriginal-Help": "N\u00E4r aktiverat kommer varje sp\u00E5r som inte har n\u00E5got spr\u00E5k inst\u00E4llt att behandlas som om det vore det ursprungliga spr\u00E5ket.\n\nTill exempel, om det ursprungliga spr\u00E5ket \u00E4r maori, och ett sp\u00E5r inte har n\u00E5got spr\u00E5k inst\u00E4llt p\u00E5 det, kommer det att behandlas som maori."
+        },
+        "Outputs": {
+          "1": "Sp\u00E5r har modifierats",
+          "2": "Inga sp\u00E5r har \u00E4ndrats"
+        }
+      },
+      "FFmpegBuilderLanguageRemover": {
+        "Description": "Grundl\u00E4ggande fl\u00F6deskomponent som tar bort o\u00F6nskade ljud- och/eller undertextsp\u00E5r fr\u00E5n en videofil baserat p\u00E5 de angivna spr\u00E5ken.",
+        "Label": "FFMPEG Builder: Spr\u00E5k Borttagning",
+        "Fields": {
+          "Languages": "Spr\u00E5k",
+          "Languages-Help": "En lista \u00F6ver spr\u00E5k som ska tas bort eller beh\u00E5llas, beroende p\u00E5 f\u00E4ltet Ej Matchande.",
+          "NotMatching": "Ej Matchande",
+          "NotMatching-Help": "Anger om ljudsp\u00E5r som INTE matchar de angivna spr\u00E5ken ska tas bort.",
+          "StreamType": "Sp\u00E5rtyp",
+          "StreamType-Help": "Anger vilken typ av sp\u00E5r (ljud eller undertexter) som ska tas bort i FFMPEG Builder."
+        },
+        "Outputs": {
+          "1": "Sp\u00E5r markerade f\u00F6r borttagning",
+          "2": "Sp\u00E5r INTE markerade f\u00F6r borttagning"
+        }
+      },
+      "FfmpegBuilderMetadataRemover": {
+        "Description": "Tar bort metadata fr\u00E5n FFMPEG Builder s\u00E5 att n\u00E4r filen behandlas kommer den valda metadatan att tas bort.\n\nObs: Endast metadatan n\u00E4r detta fl\u00F6deselement \u00E4r p\u00E5verkat, om metadata l\u00E4ggs till efter att denna nod har k\u00F6rt, kommer den inte att p\u00E5verkas.",
+        "Label": "FFMPEG Builder: Metadata Borttagare",
+        "Fields": {
+          "Audio": "Ljud",
+          "Audio-Help": "Om ljudsp\u00E5r ska ha denna metadata borttagen",
+          "RemoveAdditionalMetadata": "Ta Bort Ytterligare Metadata",
+          "RemoveAdditionalMetadata-Help": "Om ytterligare metadata ska tas bort. Ytterligare metadata \u00E4r icke-standardiserad metadata som kan ha lagts till en videofil, t.ex. av iTunes.",
+          "RemoveImages": "Ta Bort Bilder",
+          "RemoveImages-Help": "Om n\u00E5gra bilder som hittas i metadatan ska tas bort",
+          "RemoveLanguage": "Ta Bort Spr\u00E5k",
+          "RemoveLanguage-Help": "Om spr\u00E5ket ska tas bort fr\u00E5n sp\u00E5ren",
+          "RemoveTitle": "Ta Bort Titel",
+          "RemoveTitle-Help": "Om titeln ska tas bort fr\u00E5n sp\u00E5ren",
+          "Subtitle": "Undertext",
+          "Subtitle-Help": "Om undertextsp\u00E5r ska ha denna metadata borttagen",
+          "Video": "Video",
+          "Video-Help": "Om videosp\u00E5r ska ha denna metadata borttagen"
+        },
+        "Outputs": {
+          "1": "Metadata borttagen fr\u00E5n FFMPEG Builder"
+        }
+      },
+      "FfmpegBuilderPreExecute": {
+        "Description": "Detta element l\u00E5ter dig k\u00F6ra anpassad kod precis innan [FFMPEG Builder: Exekutor](https://fileflows.com/docs/plugins/video-nodes/ffmpeg-builder) k\u00F6r FFmpeg.\n\nDetta g\u00F6r att du kan \u00E4ndra de argument som skickas till FFmpeg.",
+        "Label": "FFMPEG Builder: Pre-Exekvera",
+        "Fields": {
+          "Code": "Kod"
+        },
+        "Outputs": {
+          "1": "Pre-Exekvering inst\u00E4lld"
+        }
+      },
+      "FfmpegBuilderProres": {
+        "Description": "Kodifierar videon till prores-formatet.",
+        "Label": "FFMPEG Builder: Prores",
+        "Fields": {
+          "Encoder": "Kodare",
+          "Encoder-Help": "Vilken FFmpeg prores-kodare som ska anv\u00E4ndas.",
+          "PixelFormat": "Pixel Format",
+          "Profile": "Profil",
+          "Quality": "Kvalitet",
+          "Quality-Help": "0 f\u00F6r maximal kvalitet, 32 f\u00F6r minimal kvalitet. 9 till 13 \u00E4r bra v\u00E4rden att anv\u00E4nda."
+        },
+        "Outputs": {
+          "1": "Video inst\u00E4lld att anv\u00E4nda prores"
+        }
+      },
+      "FfmpegBuilderRemoveAttachments": {
+        "Description": "Tar bort alla bilagor fr\u00E5n videon, om det finns n\u00E5gra.",
+        "Label": "FFMPEG Builder: Ta bort bilagor",
+        "Outputs": {
+          "1": "FFMPEG Builder inst\u00E4lld f\u00F6r att ta bort bilagor."
+        }
+      },
+      "FfmpegBuilderRemuxToMkv": {
+        "Description": "Remuxar en videofil till en MKV-beh\u00E5llare.",
+        "Label": "FFMPEG Builder: Remuxa till MKV",
+        "Outputs": {
+          "1": "FFMPEG Builder inst\u00E4lld f\u00F6r att remuxa till MKV"
+        }
+      },
+      "FfmpegBuilderRemuxToMov": {
+        "Description": "Remuxar en videofil till en MOV-beh\u00E5llare.",
+        "Label": "FFMPEG Builder: Remuxa till MOV",
+        "Outputs": {
+          "1": "FFMPEG Builder inst\u00E4lld f\u00F6r att remuxa till MOV"
+        }
+      },
+      "FfmpegBuilderRemuxToMP4": {
+        "Description": "Remuxar en videofil till en MP4-beh\u00E5llare.",
+        "Label": "FFMPEG Builder: Remuxa till MP4",
+        "Fields": {
+          "UseHvc1": "Anv\u00E4nd HVC1",
+          "UseHvc1-Help": "Om HVC1 ska anv\u00E4ndas ist\u00E4llet f\u00F6r standard HEV1"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder inst\u00E4lld f\u00F6r att remuxa till MP4"
+        }
+      },
+      "FfmpegBuilderRemuxToMxf": {
+        "Description": "Remuxar en videofil till en MXF-beh\u00E5llare.",
+        "Label": "FFMPEG Builder: Remuxa till MXF",
+        "Outputs": {
+          "1": "FFMPEG Builder inst\u00E4lld f\u00F6r att remuxa till MXF"
+        }
+      },
+      "FfmpegBuilderRemuxToWebm": {
+        "Description": "Remuxar en videofil till en WEBM-beh\u00E5llare.",
+        "Label": "FFMPEG Builder: Remuxa till WEBM",
+        "Outputs": {
+          "1": "FFMPEG Builder inst\u00E4lld f\u00F6r att remuxa till WEBM"
+        }
+      },
+      "FfmpegBuilderScaler": {
+        "Description": "Detta l\u00E5ter dig skala en video till angivna dimensioner. Det kommer att beh\u00E5lla bildf\u00F6rh\u00E5llandet f\u00F6r videon, s\u00E5 om videon var 1920x1000 skulle den skalas till 1280x668 om du v\u00E4ljer 720P.",
+        "Label": "FFMPEG Builder: Video Skalar",
+        "Fields": {
+          "Force": "Tvinga",
+          "Force-Help": "N\u00E4r det \u00E4r markerat kommer videon att tvingas skalas \u00E4ven om arbetsfilen redan \u00E4r i denna uppl\u00F6sning (eller n\u00E4ra denna uppl\u00F6sning).",
+          "OnlyIfLarger": "Endast om st\u00F6rre",
+          "OnlyIfLarger-Help": "Videon kommer endast att skalas till denna uppl\u00F6sning om videon f\u00F6r n\u00E4rvarande \u00E4r st\u00F6rre \u00E4n denna uppl\u00F6sning",
+          "Resolution": "Uppl\u00F6sning"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder skalfilter tillagt",
+          "2": "Videon var redan i/n\u00E4ra den skala uppl\u00F6sningen"
+        }
+      },
+      "FfmpegBuilderSetDefaultTrack": {
+        "Description": "St\u00E4ller in en sp\u00E5r som standard i FFmpeg-byggaren.",
+        "Label": "FFMPEG Builder: St\u00E4ll in standardsp\u00E5r",
+        "Fields": {
+          "Index": "Index",
+          "Index-Help": "Indexet f\u00F6r det sp\u00E5r som ska st\u00E4llas in som standard, anv\u00E4nds endast om spr\u00E5k inte anges.",
+          "Language": "Spr\u00E5k",
+          "Language-Help": "Valfritt [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) spr\u00E5kkod som ska anv\u00E4ndas.",
+          "StreamType": "Typ",
+          "StreamType-Help": "Typen av sp\u00E5r som ska st\u00E4llas in som standard i FFMPEG Builder"
+        },
+        "Outputs": {
+          "1": "Sp\u00E5ret inst\u00E4llt som standard",
+          "2": "Misslyckades med att st\u00E4lla in sp\u00E5r som standard"
+        }
+      },
+      "FfmpegBuilderSetDevice": {
+        "Description": "St\u00E4ller in enheten som ska anv\u00E4ndas f\u00F6r h\u00E5rdvarukodning/-avkodning om kodaren/avkodaren st\u00F6der det.",
+        "Label": "FFMPEG Builder: St\u00E4ll in enhet",
+        "Fields": {
+          "Device": "Enhet",
+          "Device-Help": "S\u00F6kv\u00E4gen till enheten, eller l\u00E4mna blank om ingen enhet ska anges."
+        },
+        "Outputs": {
+          "1": "Enhet inst\u00E4lld"
+        }
+      },
+      "FfmpegBuilderSetFps": {
+        "Description": "St\u00E4ll in bildrutor per sekund (FPS) i FFmpeg Builder",
+        "Label": "FFMPEG Builder: St\u00E4ll in FPS",
+        "Fields": {
+          "Fps": "FPS",
+          "Fps-Help": "Det \u00F6nskade FPS, om inmatnings-FPS och det \u00F6nskade FPS inte matchar, kommer FFMPEG att konvertera det, t.ex. (23.976, 24, 30, 60).",
+          "OnlyIfHigher": "Endast om h\u00F6gre",
+          "OnlyIfHigher-Help": "Om FPS ska justeras endast om det nuvarande FPS \u00E4r mer \u00E4n det aktuella."
+        },
+        "Outputs": {
+          "1": "FPS uppdaterad",
+          "2": "Inga f\u00F6r\u00E4ndringar var n\u00F6dv\u00E4ndiga"
+        }
+      },
+      "FfmpegBuilderSetTrackTitles": {
+        "Description": "St\u00E4ll in sp\u00E5rtitlar baserat p\u00E5 en formatterare i FFmpeg builder.",
+        "Label": "FFMPEG Builder: St\u00E4ll in sp\u00E5rtitlar",
+        "Fields": {
+          "CommentaryFormat": "Kommentarsformat",
+          "CommentaryFormat-Help": "Hur kommentarsp\u00E5r ska behandlas, du kan anv\u00E4nda samma formatterare som andra sp\u00E5r eller anv\u00E4nda en annan metod.",
+          "Format": "Format",
+          "Format-Help": "Formatteraren som ska anv\u00E4ndas, se _Hj\u00E4lp_ f\u00F6r mer information.",
+          "Separator": "Separator",
+          "Separator-Help": "Str\u00E4ngseparator som anv\u00E4nds mellan formatv\u00E4rden, detta beh\u00F6vs f\u00F6r att s\u00E4kerst\u00E4lla att inga tomma v\u00E4rden beh\u00E5lls.",
+          "StreamType": "Typ",
+          "StreamType-Help": "Typen av sp\u00E5r som ska st\u00E4llas in som standard i FFMPEG Builder"
+        },
+        "Outputs": {
+          "1": "Sp\u00E5rtitlar uppdaterade",
+          "2": "Inga sp\u00E5rtitlar p\u00E5verkades"
+        }
+      },
+      "FfmpegBuilderStart": {
+        "Description": "Skapar en instans av FFMPEG Builder som kan bygga ett FFMPEG-argument f\u00F6r att sedan exekvera med FFMPEG Executor.",
+        "Label": "FFMPEG Builder: Starta",
+        "Outputs": {
+          "1": "FFMPEG Builder skapad och redo att l\u00E4gga till FFMPEG Builder-fl\u00F6deselement"
+        }
+      },
+      "FfmpegBuilderSubtitleBurnIn": {
+        "Description": "Br\u00E4nner in undertexter i videofilen.",
+        "Label": "FFMPEG Builder: Subtitle Burn-In",
+        "Fields": {
+          "CustomTrackSelection": "Sp\u00E5rval",
+          "TrackSelectionOptions": "",
+          "TrackSelectionOptionsKey": "Egenskap",
+          "TrackSelectionOptionsValue": "V\u00E4rde"
+        },
+        "Outputs": {
+          "1": "Undertext hittades och br\u00E4ndes in i videon",
+          "2": "Ingen undertext hittades att br\u00E4nna in"
+        }
+      },
+      "FfmpegBuilderSubtitleClearDefault": {
+        "Description": "Detta fl\u00F6deselement kommer att rensa standardflaggan fr\u00E5n undertexter.",
+        "Label": "FFMPEG Builder: Rensa standardundertext",
+        "Fields": {
+          "LeaveForced": "L\u00E4mna tvingade",
+          "LeaveForced-Help": "N\u00E4r den \u00E4r markerad kommer alla tvingade undertexter inte att r\u00F6ras, de kommer att beh\u00E5lla sin ursprungliga inst\u00E4llning. Detta utf\u00F6rs f\u00F6re \u0027St\u00E4ll in tvingad standard\u0027, s\u00E5 det tar prioritet.",
+          "SetForcedDefault": "St\u00E4ll in tvingad standard",
+          "SetForcedDefault-Help": "N\u00E4r den \u00E4r markerad kommer den f\u00F6rsta undertexten som hittas med Tvingad-f\u00E4ltet inst\u00E4llt, att st\u00E4llas in som standard, alla andra kommer att f\u00E5 sin standardflagga rensad."
+        },
+        "Outputs": {
+          "1": "Undertexternas standardflaggor har \u00E4ndrats",
+          "2": "Inga f\u00F6r\u00E4ndringar gjordes i undertexterna"
+        }
+      },
+      "FfmpegBuilderSubtitleFormatRemover": {
+        "Description": "Tar bort undertexter fr\u00E5n en videofil om de finns.",
+        "Label": "FFMPEG Builder: Ta bort undertextformat",
+        "Fields": {
+          "RemoveAll": "Ta bort alla",
+          "RemoveAll-Help": "N\u00E4r den \u00E4r markerad kommer alla undertexter att tas bort fr\u00E5n filen, annars kommer endast de som valts nedan att tas bort.",
+          "SubtitlesToRemove": "Undertexter att ta bort"
+        },
+        "Outputs": {
+          "1": "Undertexter markerade f\u00F6r borttagning i FFMPEG Builder",
+          "2": "Inga undertexter att ta bort"
+        }
+      },
+      "FfmpegBuilderSubtitleTrackMerge": {
+        "Label": "FFMPEG Builder: Sammanfoga undertextsp\u00E5r",
+        "Fields": {
+          "Default": "Standard",
+          "Default-Help": "Om undertexten ska vara standardundertext",
+          "DeleteAfterwards": "Ta bort efter sammanslagning",
+          "DeleteAfterwards-Help": "Om undertextfilen ska tas bort efter att ha slagits samman",
+          "Forced": "Tvingad",
+          "Forced-Help": "Om undertexten ska vara tvingad",
+          "Language": "Spr\u00E5k",
+          "Language-Help": "Valfri [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) spr\u00E5k kod f\u00F6r den tillagda undertexten.",
+          "MatchFilename": "Matcha filnamn",
+          "MatchFilename-Help": "N\u00E4r den \u00E4r markerad kommer endast undertexter med samma filnamn som inmatningsfilen eller arbetsfilen att sl\u00E5s samman",
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "Valfritt regulj\u00E4rt uttryck f\u00F6r att matcha filer.",
+          "Subtitles": "Undertexter",
+          "Subtitles-Help": "V\u00E4lj vilka undertexter som ska s\u00F6kas efter f\u00F6r att l\u00E4gga till",
+          "Title": "Titel",
+          "Title-Help": "Titeln p\u00E5 undertexten, om den inte anges kommer spr\u00E5ket att anv\u00E4ndas som titel om det hittas.",
+          "UseSourceDirectory": "Anv\u00E4nd k\u00E4llkatalog",
+          "UseSourceDirectory-Help": "Om den \u00E4r markerad kommer den ursprungliga k\u00E4llkatalogen att s\u00F6kas, annars kommer arbetskatalogen att anv\u00E4ndas."
+        },
+        "Outputs": {
+          "1": "Undertexter hittade och tillagda",
+          "2": "Inga undertexter hittades"
+        }
+      },
+      "FfmpegBuilderSubtitleTrackRemover": {
+        "Description": "Ger dig m\u00F6jlighet att ta bort undertexter baserat p\u00E5 antingen deras titel eller deras spr\u00E5k koder.\n\nAlla spr\u00E5k (eller titel om inst\u00E4lld p\u00E5 \u0022Anv\u00E4nd titel\u0022) som \u00E4r tomma kommer INTE att tas bort oavsett m\u00F6nster.",
+        "Label": "FFMPEG Builder: Ta bort undertextsp\u00E5r",
+        "Fields": {
+          "NotMatching": "Inte matchande",
+          "NotMatching-Help": "Om undertexter SOM INTE matchar m\u00F6nstret ska tas bort",
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "Ett regulj\u00E4rt uttryck att matcha mot, t.ex. \u0022eng\u0022 f\u00F6r att ta bort engelska sp\u00E5r",
+          "UseLanguageCode": "Anv\u00E4nd spr\u00E5k kod",
+          "UseLanguageCode-Help": "Om spr\u00E5k koden f\u00F6r ljudsp\u00E5ret ska anv\u00E4ndas ist\u00E4llet f\u00F6r titeln"
+        },
+        "Outputs": {
+          "1": "Undertexter markerade f\u00F6r borttagning i FFMPEG Builder",
+          "2": "Inga undertexter att ta bort"
+        }
+      },
+      "FfmpegBuilderTrackRemover": {
+        "Description": "Ger dig m\u00F6jlighet att ta bort sp\u00E5r baserat p\u00E5 angivna villkor.",
+        "Label": "FFMPEG Builder: Ta bort sp\u00E5r",
+        "Fields": {
+          "CustomTrackSelection": "Ta bort",
+          "StreamType": "Typ",
+          "StreamType-Help": "Typen av sp\u00E5r som ska omordnas i FFMPEG Builder",
+          "TrackSelectionOptions": "",
+          "TrackSelectionOptionsKey": "Egenskap",
+          "TrackSelectionOptionsValue": "V\u00E4rde"
+        },
+        "Outputs": {
+          "1": "Sp\u00E5r inst\u00E4llda f\u00F6r borttagning",
+          "2": "Sp\u00E5r INTE inst\u00E4llda f\u00F6r borttagning"
+        }
+      },
+      "FfmpegBuilderTrackSorter": {
+        "Description": "Detta fl\u00F6deselement sorterar sp\u00E5r baserat p\u00E5 sorteringsalternativ som anges av anv\u00E4ndaren.",
+        "Label": "FFMPEG Builder: Sp\u00E5rsorterare",
+        "Fields": {
+          "SetFirstDefault": "St\u00E4ll in standard",
+          "SetFirstDefault-Help": "Om det f\u00F6rsta sp\u00E5ret ska st\u00E4llas in som standard efter sorteringen.",
+          "Sorters": "Sorteringsalternativ",
+          "Sorters-Help": "L\u00E4gg till ett eller flera sorteringsalternativ f\u00F6r att sortera sp\u00E5ren efter.",
+          "SortersKey": "F\u00E4lt",
+          "SortersValue": "V\u00E4rde",
+          "StreamType": "Typ",
+          "StreamType-Help": "Den typ av sp\u00E5r som ska uppdateras"
+        },
+        "Outputs": {
+          "1": "Sp\u00E5ren har modifierats",
+          "2": "Inga sp\u00E5r har \u00E4ndrats"
+        }
+      },
+      "FfmpegBuilderVideo10Bit": {
+        "Description": "St\u00E4ller in FFMPEG Builder f\u00F6r att koda videostr\u00F6mmar i 10 Bit",
+        "Label": "FFMPEG Builder: Video 10 Bit",
+        "Outputs": {
+          "1": "FFMPEG Builder videostr\u00F6mmar inst\u00E4llda p\u00E5 att koda i 10 Bit"
+        }
+      },
+      "FfmpegBuilderVideoBitrate": {
+        "Description": "St\u00E4ller in FFMPEG Builder f\u00F6r att koda videon givet bitrate",
+        "Label": "FFMPEG Builder: Videobitrate",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "M\u00E5ltalet f\u00F6r videon i kilobyte",
+          "Bitrate-Suffix": "KB / %",
+          "Percent": "Procent",
+          "Percent-Help": "N\u00E4r den \u00E4r vald kommer bitrate att ber\u00E4knas som en procentandel av den aktuella bitrate."
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder videostr\u00F6mmar uppdaterade"
+        }
+      },
+      "FfmpegBuilderVideoBitrateEncode": {
+        "Description": "St\u00E4ller in FFMPEG Builder f\u00F6r att koda videon med enkla f\u00F6rinst\u00E4llningar baserat p\u00E5 Bitrate",
+        "Label": "FFMPEG Builder: Bitrate Koda",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Suffix": "Kbps",
+          "Codec": "Codec",
+          "Encoder": "Encoder",
+          "Encoder-Help": "Den encoder som ska tvingas anv\u00E4nda. Om du anger en h\u00E5rdvaruencoder som inte \u00E4r tillg\u00E4nglig, kommer kodningen att misslyckas.",
+          "HardwareEncoding": "H\u00E5rdvaruencode",
+          "HardwareEncoding-Help": "N\u00E4r den \u00E4r markerad, kommer den att testa om h\u00E5rdvaruencoders finns p\u00E5 bearbetningsnoden, och om de finns, kommer den att anv\u00E4nda h\u00E5rdvarukodning, annars kommer den att falla tillbaka p\u00E5 CPU-kodning."
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder videostr\u00F6mmar inst\u00E4llda p\u00E5 att koda"
+        }
+      },
+      "FfmpegBuilderVideoCodec": {
+        "Description": "St\u00E4ller in FFMPEG Builder f\u00F6r att koda videostr\u00F6mmarna i den angivna codec",
+        "Label": "FFMPEG Builder: Videocodec",
+        "Fields": {
+          "DisableOtherVideoStreams": "Endast f\u00F6rsta",
+          "DisableOtherVideoStreams-Help": "N\u00E4r den \u00E4r markerad, om det finns flera videostr\u00F6mmar i filen, kommer detta att ta bort alla utom den f\u00F6rsta videostr\u00F6mmen fr\u00E5n filen n\u00E4r den k\u00F6rs.",
+          "Force": "Tvinga kodning",
+          "Force-Help": "Kommer att tvinga en kodning av videon \u00E4ven om den redan \u00E4r i den m\u00E5linst\u00E4llda videocodecen",
+          "VideoCodec": "Videocodec",
+          "VideoCodec-Help": "Den videocodec videon ska vara i, till exempel hevc, h264. Om den l\u00E4mnas tom kommer alla originalvideotracks att kopieras.",
+          "VideoCodecParameters": "Videocodec-parametrar",
+          "VideoCodecParameters-Help": "De parametrar som ska anv\u00E4ndas f\u00F6r att koda videon, t.ex. \u0022hevc_nvenc -preset hq -crf 23\u0022 f\u00F6r att koda till hevc med HQ-f\u00F6rinst\u00E4llningen, en konstant bitrate-faktor p\u00E5 23 och anv\u00E4nda NVIDIA-h\u00E5rdvaruaccelerering."
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder videostr\u00F6mmar inst\u00E4llda p\u00E5 att koda",
+          "2": "Video redan i m\u00E5lcodex, kommer inte att kodas om"
+        }
+      },
+      "FfmpegBuilderVideoEncode": {
+        "Description": "St\u00E4ller in FFMPEG Builder f\u00F6r att koda videon med enkla f\u00F6rinst\u00E4llningar",
+        "Label": "FFMPEG Builder: Video Koda",
+        "Fields": {
+          "Codec": "Codec",
+          "Encoder": "Encoder",
+          "Encoder-Help": "Den encoder som ska tvingas anv\u00E4nda. Om du anger en h\u00E5rdvaruencoder som inte \u00E4r tillg\u00E4nglig, kommer kodningen att misslyckas.",
+          "HardwareEncoding": "H\u00E5rdvaruencode",
+          "HardwareEncoding-Help": "N\u00E4r den \u00E4r markerad, kommer den att testa om h\u00E5rdvaruencoders finns p\u00E5 bearbetningsnoden, och om de finns, kommer den att anv\u00E4nda h\u00E5rdvarukodning, annars kommer den att falla tillbaka p\u00E5 CPU-kodning.",
+          "Quality": "Kvalitet",
+          "Quality-Help": "En logaritmisk kvalitetsniv\u00E5, s\u00E5 sm\u00E5 \u00E4ndringar i denna reglage orsakar stora f\u00F6r\u00E4ndringar i filstorlek/kvalitet. Ju l\u00E4gre nummer desto h\u00F6gre kvalitet. Se hj\u00E4lp f\u00F6r mer information.",
+          "Quality-Suffix": "(H\u00F6gre kvalitet, st\u00F6rre fil)",
+          "Speed": "Hastighet"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder videostr\u00F6mmar inst\u00E4llda p\u00E5 att koda"
+        }
+      },
+      "FfmpegBuilderVideoMaxBitrate": {
+        "Description": "St\u00E4ller in FFMPEG Builder f\u00F6r att begr\u00E4nsa bitrate f\u00F6r video",
+        "Label": "FFMPEG Builder: Video Max Bitrate",
+        "Fields": {
+          "Bitrate": "Maximal bitrate",
+          "Bitrate-Help": "Den maximala bitrate f\u00F6r videon i kilobyte",
+          "Bitrate-Suffix": "KB"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder videostr\u00F6mmar uppdaterade"
+        }
+      },
+      "FfmpegBuilderVideoTag": {
+        "Description": "S\u00E4tter en videotagg p\u00E5 filen",
+        "Label": "FFMPEG Builder: Videotagg",
+        "Fields": {
+          "Tag": "Tagg",
+          "Tag-Help": "Taggen som ska l\u00E4ggas till videofilen"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder-tagg tillagd"
+        }
+      },
+      "FFmpegBuilderWatermark": {
+        "Description": "L\u00E4gger till en vattenst\u00E4mpel p\u00E5 en videofil.",
+        "Label": "FFMPEG Builder: Vattenst\u00E4mpel",
+        "Fields": {
+          "Height": "H\u00F6jd",
+          "Height-Help": "S\u00E4tt en anpassad h\u00F6jd f\u00F6r bilden, eller s\u00E4tt till 0 f\u00F6r k\u00E4llh\u00F6jd eller skalad om bredden \u00E4r inst\u00E4lld.",
+          "Image": "Bild",
+          "Image-Help": "Bildfilen f\u00F6r vattenst\u00E4mpeln, f\u00F6r b\u00E4sta resultat anv\u00E4nd en PNG-fil.",
+          "Opacity": "Opacitet",
+          "Opacity-Help": "Justera transparensniv\u00E5n f\u00F6r \u00F6verlagringsbilden, som str\u00E4cker sig fr\u00E5n 0 (helt genomskinlig) till 100 (helt ogenomskinlig).",
+          "Position": "Position",
+          "Position-Help": "Var vattenst\u00E4mpeln ska placeras",
+          "Width": "Bredd",
+          "Width-Help": "S\u00E4tt en anpassad bredd f\u00F6r bilden, eller s\u00E4tt till 0 f\u00F6r k\u00E4llbredd eller skalad om h\u00F6jden \u00E4r inst\u00E4lld.",
+          "XPos": "X-Pos",
+          "XPos-Help": "Vattenst\u00E4mpelns position p\u00E5 x-axeln",
+          "YPos": "Y-Pos",
+          "YPos-Help": "Vattenst\u00E4mpelns position p\u00E5 y-axeln"
+        },
+        "Outputs": {
+          "1": "Vattenst\u00E4mpel tillagd"
+        }
+      },
+      "ReadVideoInfo": {
+        "Description": "L\u00E4ser videoinformation fr\u00E5n den aktuella arbetsfilen och uppdaterar vi-variablerna.",
+        "Label": "L\u00E4s videoinformation",
+        "Outputs": {
+          "1": "Fil var en videofil och information l\u00E4stes in i fl\u00F6det",
+          "2": "Fil var inte en videofil eller kunde inte l\u00E4sas"
+        }
+      },
+      "SubtitleExtractor": {
+        "Description": "Extraherar en enda undertextsp\u00E5r och sparar den till destinationen. Kan extrahera srt, ass och ssa-format.\nDetta kommer INTE att uppdatera arbetsfilen och kommer att h\u00E5lla arbetsfilen densamma som ing\u00E5ngsfilen.\n\nUtdata 1: Undertexter extraherade\nUtdata 2: Inga undertexter hittades f\u00F6r att extrahera",
+        "Label": "Undertextsextraktor",
+        "Fields": {
+          "ExtractAll": "Extrahera alla",
+          "ExtractAll-Help": "Om alla matchande undertexter ska extraheras.",
+          "ExtractAsSrtAndSup": "Extrahera som SRT/SUP",
+          "ExtractAsSrtAndSup-Help": "Tvingar att extraherade undertexter sparas som .srt f\u00F6r textbaserade undertexter och .sup f\u00F6r bildbaserade undertexter.",
+          "ForcedOnly": "Endast tv\u00E5ngsundertexter",
+          "ForcedOnly-Help": "Om endast tv\u00E5ngsundertexter ska extraheras.",
+          "Language": "Spr\u00E5k",
+          "Language-Help": "Spr\u00E5kets [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) kod att anv\u00E4nda.",
+          "OnlyTextSubtitles": "Endast textundertexter",
+          "OnlyTextSubtitles-Help": "Om endast textundertexter ska extraheras, kommer alla bildbaserade undertexter att hoppas \u00F6ver.",
+          "OutputFile": "Utdatafil",
+          "OutputFile-Help": "Var du vill spara utdatafilen, t.ex. \u0022\u0027{folder.Orig.FullName}\\{file.Orig.FileName}.srt\u0027\u0022 f\u00F6r att spara den med originalfilen som en srt-utdata.\nOm tomt, kommer en srt-undertext att skapas i samma mapp som den ursprungliga ing\u00E5ngsfilen.",
+          "SetWorkingFile": "S\u00E4tt som arbetsfil",
+          "SetWorkingFile-Help": "N\u00E4r detta \u00E4r markerat, om en undertext extraheras, kommer arbetsfilen att \u00E4ndras till denna extraherade undertext. Den ursprungliga arbetsfilen kommer INTE att raderas.",
+          "Title": "Titel",
+          "Title-Help": "Valfritt, ange en titel. Detta kan vara antingen ett regulj\u00E4rt uttryck eller en str\u00E4ng som m\u00E5ste f\u00F6rekomma i titeln f\u00F6r att matchas."
+        },
+        "Outputs": {
+          "1": "Undertexter extraherade",
+          "2": "Inga undertexter extraherade"
+        }
+      },
+      "VideoAlreadyProcessed": {
+        "Description": "Testar om en videofil redan har bearbetats av FileFlows",
+        "Label": "Video redan bearbetad",
+        "Outputs": {
+          "1": "Video har redan bearbetats",
+          "2": "Video har inte bearbetats"
+        }
+      },
+      "VideoBitCheck": {
+        "Description": "Kontrollerar om en video \u00E4r 8-Bit, 10-Bit, 12-Bit eller ok\u00E4nd.",
+        "Label": "Videobitkontroll",
+        "Outputs": {
+          "1": "Video \u00E4r 8-Bit",
+          "2": "Video \u00E4r 10-Bit",
+          "3": "Video \u00E4r 12-Bit",
+          "4": "Ok\u00E4nd"
+        }
+      },
+      "VideoBitrateGreaterThan": {
+        "Description": "Testar om en videos bitrate \u00E4r st\u00F6rre \u00E4n en given bitrate.",
+        "Label": "Videobitrate st\u00F6rre \u00E4n",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Suffix": "KBps"
+        },
+        "Outputs": {
+          "1": "Bitrate \u00E4r st\u00F6rre \u00E4n",
+          "2": "Bitrate \u00E4r inte st\u00F6rre \u00E4n"
+        }
+      },
+      "VideoDuration": {
+        "Description": "Testar om varaktigheten av videon matchar de angivna parametrarna.",
+        "Label": "Videovaraktighet",
+        "Fields": {
+          "Match": "Matcha",
+          "ValueHigh": " ",
+          "ValueLow": "Varaktighet"
+        },
+        "Outputs": {
+          "1": "Videons varaktighet matchar",
+          "2": "Videons varaktighet matchar inte"
+        }
+      },
+      "VideoDurationCompare": {
+        "Description": "J\u00E4mf\u00F6r den ursprungliga varaktigheten av en video med dess slutliga varaktighet.",
+        "Label": "J\u00E4mf\u00F6r videovaraktighet",
+        "Fields": {
+          "AllowedDifference": "Till\u00E5ten skillnad",
+          "AllowedDifference-Help": "Den till\u00E5tna tidskillnaden mellan videons ursprungliga varaktighet och den slutliga varaktigheten."
+        },
+        "Outputs": {
+          "1": "Videon \u00E4r inom den till\u00E5tna varaktighetsskillnaden",
+          "2": "Videon \u00E4r inte inom den till\u00E5tna varaktighetsskillnaden"
+        }
+      },
+      "VideoExtractAudio": {
+        "Description": "Extraherar ljud fr\u00E5n en videofil och sparar det till en fil",
+        "Label": "Video Extrahera Ljud",
+        "Fields": {
+          "Channels": "Kanaler",
+          "Channels-Help": "Antalet kanaler som k\u00E4llsp\u00E5ret m\u00E5ste ha f\u00F6r att matcha. St\u00E4ll in p\u00E5 0 f\u00F6r att hoppa \u00F6ver en kanalmatchning.",
+          "Codec": "Codec",
+          "Codec-Help": "Ett regulj\u00E4rt uttryck som anv\u00E4nds f\u00F6r att testa str\u00F6mmens codec",
+          "Language": "Spr\u00E5k",
+          "Language-Help": "Ett regulj\u00E4rt uttryck som anv\u00E4nds f\u00F6r att testa str\u00F6mmens spr\u00E5k",
+          "NotMatching": "Ej Matchande",
+          "NotMatching-Help": "Om ett ljudsp\u00E5r som INTE matchar m\u00F6nstret ska extraheras",
+          "OutputBitrate": "Utdata Bitrate",
+          "OutputBitrate-Help": "Bitraten f\u00F6r det extraherade ljudsp\u00E5ret",
+          "OutputCodec": "Utdata Codec",
+          "OutputCodec-Help": "Codec f\u00F6r att spara det extraherade ljudet",
+          "OutputFile": "Utdatafil",
+          "OutputFile-Help": "Var du vill spara utdatafilen, t.ex. \u0022\u0027{folder.Orig.FullName}\\{file.Orig.FileName}.mp3\u0027\u0022 f\u00F6r att spara den med den ursprungliga filen som en mp3-utdata.\nOm ingen fil\u00E4ndelse anges kommer utdata- codec att anv\u00E4ndas f\u00F6r att best\u00E4mma fil\u00E4ndelsen.",
+          "SetWorkingFile": "St\u00E4ll in som Arbetsfil",
+          "SetWorkingFile-Help": "N\u00E4r detta \u00E4r markerat, om en undertext extraheras, kommer arbetsfilen att \u00E4ndras till denna extraherade undertext. Den ursprungliga arbetsfilen kommer INTE att raderas.",
+          "Title": "Titel",
+          "Title-Help": "Ett regulj\u00E4rt uttryck som anv\u00E4nds f\u00F6r att testa str\u00F6mmens titel"
+        },
+        "Outputs": {
+          "1": "Ljud extraherat och sparat till en fil",
+          "2": "Kunde inte hitta ett sp\u00E5r att extrahera"
+        }
+      },
+      "VideoFile": {
+        "Description": "En inmatningsvideofil som har f\u00E5tt sin videoinformation l\u00E4st och kan bearbetas",
+        "Label": "Videofil",
+        "Fields": {
+          "AnalyzeDuration": "Analysera Varaktighet",
+          "AnalyzeDuration-Help": "Ange hur m\u00E5nga sekunder som analyseras f\u00F6r att unders\u00F6ka inmatningen",
+          "AnalyzeDuration-Suffix": "sekunder",
+          "ProbeSize": "Probstorlek",
+          "ProbeSize-Help": "Probstorleken som ska anv\u00E4ndas i FFMPEG vid k\u00F6rning.",
+          "ProbeSize-Suffix": "MB"
+        },
+        "Outputs": {
+          "1": "Videofil fr\u00E5n biblioteket"
+        }
+      },
+      "VideoHasErrors": {
+        "Description": "Testar om en videofil inneh\u00E5ller n\u00E5gra fel",
+        "Label": "Video Har Fel",
+        "Fields": {
+          "HardwareDecoding": "H\u00E5rdvaruavkodning",
+          "HardwareDecoding-Help": "Om ett f\u00F6rs\u00F6k att anv\u00E4nda h\u00E5rdvaruavkodning ska g\u00F6ras. Om den inte \u00E4r tillg\u00E4nglig kommer k\u00F6rningen att forts\u00E4tta utan att h\u00E5rdvaruavkodning \u00E4r aktiverad."
+        },
+        "Outputs": {
+          "1": "Inneh\u00E5ller ett fel",
+          "2": "Kunde inte uppt\u00E4cka n\u00E5gra fel"
+        }
+      },
+      "VideoHasStream": {
+        "Description": "Testar om en videofil inneh\u00E5ller ett sp\u00E5r",
+        "Label": "Video Har Str\u00F6m",
+        "Fields": {
+          "Channels": "Kanaler",
+          "Channels-Help": "Antalet kanaler att testa f\u00F6r. L\u00E4mna tomt f\u00F6r att ignorera denna kontroll",
+          "CheckDeleted": "Kontrollera Raderade",
+          "CheckDeleted-Help": "Om raderade sp\u00E5r ocks\u00E5 ska kontrolleras",
+          "Codec": "Codec",
+          "Codec-Help": "Ett regulj\u00E4rt uttryck som anv\u00E4nds f\u00F6r att testa str\u00F6mmens codec",
+          "Default": "Standard",
+          "Default-Help": "Om denna str\u00F6m ska vara en standardstr\u00F6m eller inte.",
+          "Forced": "Tvingad",
+          "Forced-Help": "Om denna str\u00F6m ska vara en tvingad str\u00F6m eller inte.",
+          "Invert": "Invertera",
+          "Invert-Help": "Inverterar resultatet, s\u00E5 blir effektivt \u0060Video Har Inte Str\u00F6m\u0060",
+          "Language": "Spr\u00E5k",
+          "Language-Help": "Ett regulj\u00E4rt uttryck som anv\u00E4nds f\u00F6r att testa str\u00F6mmens spr\u00E5k",
+          "Stream": "Typ",
+          "Stream-Help": "Typen av str\u00F6m att leta efter",
+          "Title": "Titel",
+          "Title-Help": "Ett regulj\u00E4rt uttryck som anv\u00E4nds f\u00F6r att testa str\u00F6mmens titel"
+        },
+        "Outputs": {
+          "1": "Inneh\u00E5ller det matchande sp\u00E5ret",
+          "2": "Inneh\u00E5ller inte det matchande sp\u00E5ret"
+        }
+      },
+      "VideoIs10Bit": {
+        "Description": "Testar om en videofil \u00E4r 10-Bit",
+        "Label": "Video \u00C4r 10-Bit",
+        "Outputs": {
+          "1": "Videon \u00E4r 10-Bit",
+          "2": "Videon \u00E4r inte 10-Bit"
+        }
+      },
+      "VideoIs12Bit": {
+        "Description": "Testar om en videofil \u00E4r 12-Bit",
+        "Label": "Video \u00C4r 12-Bit",
+        "Outputs": {
+          "1": "Videon \u00E4r 12-Bit",
+          "2": "Videon \u00E4r inte 12-Bit"
+        }
+      },
+      "VideoIs8Bit": {
+        "Description": "Testar om en videofil \u00E4r 8-Bit",
+        "Label": "Video \u00C4r 8-Bit",
+        "Outputs": {
+          "1": "Videon \u00E4r 8-Bit",
+          "2": "Videon \u00E4r inte 8-Bit"
+        }
+      },
+      "VideoIsInterlaced": {
+        "Description": "Testar om en videofil \u00E4r mellanlagrad",
+        "Label": "Video \u00C4r Mellanlagrad",
+        "Fields": {
+          "Threshold": "Tr\u00F6skel",
+          "Threshold-Help": "Den procentandel av ramar som detekteras som mellanlagrade som videon m\u00E5ste ha f\u00F6r att betraktas som mellanlagrad"
+        },
+        "Outputs": {
+          "1": "Videon \u00E4r mellanlagrad",
+          "2": "Videon \u00E4r inte mellanlagrad"
+        }
+      },
+      "VideoResolution": {
+        "Description": "Best\u00E4mmer en videos uppl\u00F6sning och ger utdata d\u00E4refter.",
+        "Label": "Video Uppl\u00F6sning",
+        "Outputs": {
+          "1": "Videon \u00C4r 4K",
+          "2": "Videon \u00E4r 1080p",
+          "3": "Videon \u00E4r 720p",
+          "4": "Videon \u00E4r SD"
+        }
+      },
+      "Downloader": {
+        "Description": "Laddar ner den angivna URL:en",
+        "Label": "Nedladdare",
+        "Fields": {
+          "Url": "URL",
+          "Url-Help": "URL:en som ska laddas ner, l\u00E4mna tomt f\u00F6r att anv\u00E4nda den aktuella arbetsfilen. Om den aktuella arbetsfilen inte \u00E4r en URL, kommer detta att misslyckas."
+        },
+        "Outputs": {
+          "1": "URL:en har laddats ner framg\u00E5ngsrikt",
+          "2": "Kunde inte ladda ner URL:en"
+        }
+      },
+      "HtmlImageParser": {
+        "Label": "HTML Bildparser",
+        "Fields": {
+          "Path": "Fil",
+          "Path-Description": "En valfri fil eller variabel att analysera f\u00F6r bilder, om ingen anges kommer arbetsfilen att analyseras.",
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "Ett valfritt skiftl\u00E4gesok\u00E4nsligt regulj\u00E4rt uttryck f\u00F6r att matcha resultaten, endast matchande resultat kommer att accepteras.",
+          "Pattern-Placeholder": "Valfritt"
+        },
+        "Outputs": {
+          "1": "Bilder hittades och lagrades i variabeln ImageUrls",
+          "2": "Inga bilder hittades"
+        }
+      },
+      "HtmlLinkParser": {
+        "Label": "HTML L\u00E4nkparser",
+        "Fields": {
+          "Path": "Fil",
+          "Path-Description": "En valfri fil eller variabel att analysera f\u00F6r l\u00E4nkar, om ingen anges kommer arbetsfilen att analyseras.",
+          "Pattern": "M\u00F6nster",
+          "Pattern-Help": "Ett valfritt skiftl\u00E4gesok\u00E4nsligt regulj\u00E4rt uttryck f\u00F6r att matcha resultaten, endast matchande resultat kommer att accepteras.",
+          "Pattern-Placeholder": "Valfritt"
+        },
+        "Outputs": {
+          "1": "L\u00E4nk hittades och lagrades i variabeln Links",
+          "2": "Inga l\u00E4nkar hittades"
+        }
+      },
+      "InputUrl": {
+        "Label": "Ange URL"
+      }
+    }
+  },
+  "Plugins": {
+    "AudioNodes": {
+      "Description": "En samling av ljudrelaterade fl\u00F6deselement f\u00F6r att hj\u00E4lpa till att bearbeta ljudfiler.",
+      "Label": "Ljud"
+    },
+    "BasicNodes": {
+      "Description": "Grundl\u00E4ggande fl\u00F6deselement f\u00F6r FileFlows. Detta plugin inneh\u00E5ller grundl\u00E4ggande och vanliga fl\u00F6deselement f\u00F6r att bearbeta filer.\nDetta plugin \u00E4r n\u00F6dv\u00E4ndigt f\u00F6r att FileFlows ska fungera.",
+      "Label": "Grundl\u00E4ggande"
+    },
+    "ImageNodes": {
+      "Description": "Fl\u00F6deselement f\u00F6r att bearbeta bildfiler. Denna plugin inneh\u00E5ller noder f\u00F6r att konvertera och manipulera bilder.",
+      "Label": "Bild"
+    },
+    "VideoNodes": {
+      "Description": "Plugin f\u00F6r bearbetning av videofiler, inklusive men inte begr\u00E4nsat till videofilkonvertering, videofilavk\u00E4nning, uppskalning, nedskalning och transkodning.",
+      "Label": "Video"
+    },
+    "Web": {
+      "Description": "Plugin som tillhandah\u00E5ller webbrelaterade fl\u00F6deselement.",
+      "Label": "Web"
+    }
+  },
+  "Enums": {
+    "LogType": {
+      "Debug": "Debugg",
+      "Error": "Fel",
+      "Info": "Information",
+      "Warning": "Varning"
+    },
+    "WatermarkPosition": {
+      "BottomLeft": "Nederst till v\u00E4nster",
+      "BottomRight": "Nederst till h\u00F6ger",
+      "Center": "Center",
+      "TopLeft": "\u00D6verst till v\u00E4nster",
+      "TopRight": "\u00D6verst till h\u00F6ger"
+    }
+  },
+  "5": {
+    "1": "5.1"
+  },
+  "7": {
+    "1": "7.1"
+  },
+  "H": {
+    "264": "H.264",
+    "265": "H.265"
+  }
+}

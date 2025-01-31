@@ -1,0 +1,50 @@
+@namespace FileFlows.Client.Pages.Reseller
+@inherits InputRegister
+
+@page "/reseller/settings"
+
+<PageView>
+
+<Head>
+    <button id="settings-save" class="btn" @onclick=@Save>
+        @if(IsSaving)
+        {
+            @lblSaving
+        }
+        else
+        {
+            @lblSave
+        }
+    </button>
+
+    <button @onclick=@OpenHelp  class="btn">
+        @lblHelp
+    </button>
+</Head>
+
+<Body>
+    <div class="settings">
+        <FlowTabs>
+            <FlowTab Title="Single Sign On">
+                <h3>Google</h3>
+                <InputText @bind-Value=@Model.GoogleClientId Label="Client ID" />
+                <InputText @bind-Value=@Model.GoogleClientSecret Label="Client Secret" />
+                
+                <hr/>
+
+                <h3>Microsoft</h3>
+                <InputText @bind-Value=@Model.MicrosoftClientId Label="Client ID" />
+                <InputText @bind-Value=@Model.MicrosoftClientSecret Label="Client Secret" />
+
+                <hr/>
+
+                <h3>Custom</h3>
+                <InputText @bind-Value=@Model.CustomProviderName Label="Name" />
+                <InputText @bind-Value=@Model.CustomProviderAuthority Label="Authority" />
+                <InputText @bind-Value=@Model.CustomProviderClientId Label="Client ID" />
+                <InputText @bind-Value=@Model.CustomProviderClientSecret Label="Client Secret" />
+            </FlowTab>
+        </FlowTabs>
+    </div>
+</Body>
+</PageView>

@@ -1,7 +1,7 @@
 ﻿// namespace FileFlows.ServerShared.Services;
 //
 // /// <summary>
-// /// A service lets you communicate with the FileFLows server
+// /// A service lets you communicate with the FileFlows server
 // /// </summary>
 // public class Service
 // {

@@ -1,0 +1,40 @@
+@namespace FileFlows.Client.Components.Common
+
+<div class="input-keyvalue-wrapper" @onblur="OnBlur">
+    <table>
+        <thead>
+            <tr>
+                <th class="number">@lblKey</th>
+                <th>@lblValue</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var kv in Value)
+        {
+            <tr class="@(kv.Label == DuplicateLabel ? "invalid" : "")">
+                <td class="label">
+                    <input type="text" @bind-value="kv.Label" @onblur="OnBlur"/>
+                </td>
+                <td class="value">
+                    <input type="text" @bind-value="kv.Value" @onblur="OnBlur"/>
+                </td>
+                <td>
+                    <i class="fas fa-trash" @onclick="() => Remove(kv)"></i>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td class="label">
+                <input type="text" @bind-value="NewLabel"/>
+            </td>
+            <td class="value">
+                <input type="text" @bind-value="NewValue" @onblur="BlurAdd" @bind-value:event="oninput" @onkeydown="OnKeyDown" />
+            </td>
+            <td>
+                <i class="fas fa-plus" @onclick="Add"></i>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -65,7 +65,7 @@ public class DataConverter : JsonConverter<FileFlowObject>
 
                 var encrypted = prop.GetCustomAttribute<EncryptedAttribute>();
                 if (encrypted != null)
-                    propValue = Helpers.Decrypter.Encrypt(propValue as string);
+                    propValue = FileFlows.Helpers.Decrypter.Encrypt(propValue as string);
 
                 writer.WritePropertyName(prop.Name);
                 JsonSerializer.Serialize(writer, propValue, prop.PropertyType, options);
@@ -129,7 +129,7 @@ public class DataConverter<T> : JsonConverter<T>
 
             var encrypted = prop.GetCustomAttribute<EncryptedAttribute>();
             if (encrypted != null)
-                propValue = Helpers.Decrypter.Encrypt(propValue as string);
+                propValue = FileFlows.Helpers.Decrypter.Encrypt(propValue as string);
 
             writer.WritePropertyName(prop.Name);
             JsonSerializer.Serialize(writer, propValue, prop.PropertyType, options);

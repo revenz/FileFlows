@@ -61,7 +61,7 @@ Logger.ILog('myString: ' + myString);
 Logger.ILog('myNumber: ' + myNumber);
 return 1;
 }";
-        var args = new NodeParameters(null, Logger, false, null, new LocalFileService())
+        var args = new NodeParameters(null, Logger, false, null, new LocalFileService(false))
         {
             Logger = Logger,
             ScriptExecutor = new ScriptExecutor(),
@@ -108,7 +108,7 @@ Logger.ILog('myString: ' + myString);
 Logger.ILog('myNumber: ' + myNumber);
 return 1;
 }";
-        var args = new NodeParameters(null, Logger, false, null, new LocalFileService())
+        var args = new NodeParameters(null, Logger, false, null, new LocalFileService(false))
         {
             Logger = Logger,
             ScriptExecutor = new ScriptExecutor(),

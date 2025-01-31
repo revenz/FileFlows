@@ -1,11 +1,11 @@
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.ServerShared.Workers;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.Server.Workers;
 
 /// <summary>
-/// Worker that run in the FileFLows Server
+/// Worker that run in the FileFlows Server
 /// </summary>
 /// <param name="schedule">the type of schedule this worker runs at</param>
 /// <param name="interval">the interval of this worker</param>

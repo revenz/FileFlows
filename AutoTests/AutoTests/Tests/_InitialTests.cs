@@ -291,7 +291,7 @@ public class InitialTests : TestBase
             Page.Locator(".nav-item.settings a").ClickAsync().Wait();
             FileFlows.WaitForBlockerToDisappear().Wait();
             Logger.ILog("Waiting for top row text: " + settingsPage);
-            Page.Locator(".top-row .title", new ()
+            Page.Locator(".nav-item.settings .text-label", new ()
             {
                 HasTextString = settingsPage
             }).WaitForAsync().Wait();

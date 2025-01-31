@@ -1,0 +1,26 @@
+@namespace FileFlows.Client.Components.Inputs
+
+
+@inherits Input<List<CustomField>>
+
+<div class="wrapper">
+    <button class="btn" @onclick="AddField">Add Field</button>
+    
+    @foreach (var field in Value ?? [])
+    {
+        <div class="field" @key="field.GetHashCode()">
+            <div class="name">
+                <input type="text" @bind-value="Value" @bind-value:event="oninput" />
+            </div>
+            <div class="value">
+            @switch (field.Type)
+            {
+                case CustomFieldType.Select:
+                {
+                }
+                    break;
+            }
+            </div>
+        </div>
+    }
+</div>

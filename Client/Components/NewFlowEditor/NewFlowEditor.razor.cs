@@ -72,9 +72,9 @@ public partial class NewFlowEditor : Editor
             {
                 InputType = FormInputType.Text,
                 Name = FIELD_NAME,
-                Validators = new List<FileFlows.Shared.Validators.Validator>
+                Validators = new List<Validator>
                 {
-                    new FileFlows.Shared.Validators.Required()
+                    new Required()
                 }
             });
 

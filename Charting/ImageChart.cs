@@ -20,11 +20,11 @@ public abstract class ImageChart
     /// <summary>
     /// The brush used for text
     /// </summary>
-    protected readonly static SolidBrush TextBrush;
+    protected readonly static SolidBrush TextBrush = null!;
     /// <summary>
     /// The pen used for text
     /// </summary>
-    protected readonly static Pen TextPen;
+    protected readonly static Pen TextPen = null!;
     /// <summary>
     /// The color used for lines on the chart
     /// </summary>
@@ -48,7 +48,7 @@ public abstract class ImageChart
     /// <summary>
     /// The font to use in the charts
     /// </summary>
-    protected static Font Font;
+    protected static Font Font = null!;
 
     /// <summary>
     /// Get the scaling of the image, so we draw larger for better quality
@@ -58,7 +58,7 @@ public abstract class ImageChart
     /// <summary>
     /// The base application directory to load the resources from
     /// </summary>
-    protected static string BaseDirectory;
+    protected static string BaseDirectory = null!;
    
     /// <summary>
     /// Static constructor for the image chart

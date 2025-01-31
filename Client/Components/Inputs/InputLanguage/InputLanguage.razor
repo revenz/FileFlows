@@ -1,0 +1,14 @@
+@namespace FileFlows.Client.Components.Inputs
+@inherits Input<string>
+
+
+<InputWrapper Input="@this">
+    <div>
+        <select id=@Uid disabled="@Disabled">
+            @foreach (var option in LanguageOptions)
+            {
+                <option selected="@(option.Value as string == Value)" value="@option.Value">@option.Key</option>
+            }
+        </select>
+    </div>
+</InputWrapper>

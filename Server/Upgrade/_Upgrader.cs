@@ -1,8 +1,7 @@
 ﻿using FileFlows.Managers.InitializationManagers;
 using FileFlows.Plugin;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.Shared.Models;
-using ILogger = FileFlows.Plugin.ILogger;
 
 namespace FileFlows.Server.Upgrade;
 

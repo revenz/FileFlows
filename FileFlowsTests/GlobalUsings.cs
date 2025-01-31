@@ -12,3 +12,5 @@ global using FileFlows.Shared;
 global using System.Threading.Tasks;
 global using FileFlows.ServerShared.Services;
 global using System.Text.RegularExpressions;
+global using FileFlows.Common;
+global using FileFlows.Helpers;

@@ -117,8 +117,8 @@ class HttpHelper
             Content = data != null ? AsJson(data) : null
         };
         
-        if(string.IsNullOrWhiteSpace(RemoteService.AccessToken) == false)
-            request.Headers.Add("x-token", RemoteService.AccessToken);
+        if(string.IsNullOrWhiteSpace(ServerGlobals.AccessToken) == false)
+            request.Headers.Add("x-token", ServerGlobals.AccessToken);
         request.Headers.Add("x-node", RemoteService.NodeUid.ToString());
 
         if (method == System.Net.Http.HttpMethod.Post && data == null)
@@ -155,7 +155,7 @@ class HttpHelper
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
-                Converters = { new FileFlows.Shared.Json.ValidatorConverter() }
+                Converters = { new Validators.ValidatorConverter() }
             };
 #pragma warning disable CS8600
             T result = string.IsNullOrEmpty(body) ? default(T) :

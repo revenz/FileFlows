@@ -172,9 +172,9 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
         {
             InputType = FormInputType.Text,
             Name = nameof(item.Name),
-            Validators = new List<FileFlows.Shared.Validators.Validator>
+            Validators = new List<Validator>
             {
-                new FileFlows.Shared.Validators.Required()
+                new Required()
             }
         });
         var efReport = new ElementField
@@ -228,8 +228,8 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
         {
             InputType = FormInputType.Int,
             Name = "DayOfMonth",
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Range() { Minimum = 1, Maximum = 31 } 
+            Validators = new List<Validator> {
+                new Validators.Range() { Minimum = 1, Maximum = 31 } 
             },
             Parameters = new()
             {
@@ -246,9 +246,9 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
         {
             InputType = FormInputType.StringArray,
             Name = nameof(item.Recipients),
-            Validators = new List<FileFlows.Shared.Validators.Validator>
+            Validators = new List<Validator>
             {
-                new FileFlows.Shared.Validators.Required()
+                new Required()
             }
         });
         fields.Add(new ElementField

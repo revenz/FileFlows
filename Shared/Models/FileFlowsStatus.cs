@@ -6,7 +6,7 @@ namespace FileFlows.Shared.Models;
 public class FileFlowsStatus
 {
     /// <summary>
-    /// Gets or sets the configuration status of FileFLows
+    /// Gets or sets the configuration status of FileFlows
     /// </summary>
     public ConfigurationStatus ConfigurationStatus { get; set; }
 

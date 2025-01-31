@@ -231,6 +231,23 @@ public partial class NavMenu : IDisposable
                 Profile.HasDockerInstances && Profile.HasRole(UserRole.DockerMods) ? new ("Pages.DockerMod.Plural", "fab fa-docker", "dockermods") : null,
             }
         });
+
+        if (Profile.LicensedFor(LicenseFlags.Reseller))
+        {
+            MenuItems.Add(new NavMenuGroup
+            {
+                Name = Translater.Instant("MenuGroups.Reseller"),
+                Icon = "fas fa-people-carry",
+                Items = new List<NavMenuItem>
+                {
+                    new ("Settings", "fas fa-people-carry", "reseller/settings"),
+                    new ("Flows", "fas fa-sitemap", "reseller/flows"),
+                    new ("Users", "fas fa-user-astronaut", "reseller/users")
+                }
+            });
+            
+        }
+        
         MenuItems.Add(new NavMenuGroup
         {
             Name = Translater.Instant("MenuGroups.System"),
@@ -252,7 +269,7 @@ public partial class NavMenu : IDisposable
                 Items = new List<NavMenuItem>
                 {
                     new ("Pages.Settings.Title", "fas fa-cogs", "settings"),
-                    Profile.LicensedFor(LicenseFlags.Reporting) ? new ("Pages.Reporting.Title", "fas fa-chart-pie", "reporting") : null, 
+                    Profile.LicensedFor(LicenseFlags.Reporting) ? new ("Pages.Reporting.Title", "fas fa-chart-pie", "reporting") : null,
                     new ("Pages.Notifications.Title", "fas fa-bullhorn", "notifications")
                 }
             });

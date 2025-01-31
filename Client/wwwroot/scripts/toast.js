@@ -116,3 +116,15 @@ class Toast {
         return '';
     }
 }
+
+window.showToast = function(logType, title, message)
+{
+    if(logType === 'success' || logType === 'info')
+        Toast.success(title, message);
+    else if(logType === 'warn' || logType === 'warning')
+        Toast.warn(title, message);
+    else if(logType === 'error')
+        Toast.error(title, message);
+    else if(logType === 'debug')
+        Toast.info(title, message);
+}

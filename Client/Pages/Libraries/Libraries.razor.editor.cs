@@ -129,16 +129,16 @@ public partial class Libraries : ListPage<Guid, Library>
         {
             InputType = FormInputType.Text,
             Name = nameof(library.Name),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required()
+            Validators = new List<Validator> {
+                new Required()
             }
         });
         fields.Add(new ElementField
         {
             InputType = FormInputType.Folder,
             Name = nameof(library.Path),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required()
+            Validators = new List<Validator> {
+                new Required()
             }
         });
         fields.Add(new ElementField
@@ -148,9 +148,9 @@ public partial class Libraries : ListPage<Guid, Library>
             Parameters = new Dictionary<string, object>{
                 { "Options", flowOptions.OrderBy(x => x.Label.ToLowerInvariant()).ToList() }
             },
-            Validators = new List<FileFlows.Shared.Validators.Validator>
+            Validators = new List<Validator>
             {
-                new FileFlows.Shared.Validators.Required()
+                new Required()
             }
         });
         fields.Add(new ElementField
@@ -298,6 +298,15 @@ public partial class Libraries : ListPage<Guid, Library>
             Conditions = new List<Condition>
             {
                 new (efFolders, library.Folders, value: false)
+            }
+        });
+        fields.Add(new ElementField
+        {
+            InputType = FormInputType.Switch,
+            Name = nameof(library.DisableFileSystemEvents),
+            Parameters = new ()
+            {
+                { nameof(InputSwitch.Inverse) , true}
             }
         });
         // var efFingerprinting = new ElementField

@@ -21,7 +21,7 @@ public class EntryPoint : Command
     public string Location { get; set; }
     
     /// <inheritdoc />
-    public override bool Run(Plugin.ILogger logger)
+    public override bool Run(ILogger logger)
     {
         if (string.IsNullOrWhiteSpace(Location) == false)
             Application.EntryPoint = Location;

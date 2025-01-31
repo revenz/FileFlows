@@ -1,5 +1,6 @@
+using FileFlows.Interfaces;
 using FileFlows.Server.Helpers;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.ServerShared.Models;
 using FileFlows.Shared.Models;
 using Logger = FileFlows.Shared.Logger;
@@ -9,7 +10,7 @@ namespace FileFlows.Server.Workers;
 /// <summary>
 /// A worker that runs FileFlows Tasks
 /// </summary>
-public class FileFlowsTasksWorker: ServerWorker
+public class FileFlowsTasksWorker: ServerWorker, ITaskService
 {
     /// <summary>
     /// Gets the instance of the tasks worker
@@ -31,17 +32,19 @@ public class FileFlowsTasksWorker: ServerWorker
     /// </summary>
     public FileFlowsTasksWorker() : base(ScheduleType.Minute, 1, quiet: true)
     {
+        ServiceLoader.AddSpecialCase<ITaskService>(this);
         Instance = this;
         Logger = new Logger();
         Logger.RegisterWriter(new FileLogger(DirectoryHelper.LoggingDirectory, "FileFlowsTasks", false));
-        
-        SystemEvents.OnLibraryFileAdd += SystemEventsOnOnLibraryFileAdd;
-        SystemEvents.OnLibraryFileProcessed += SystemEventsOnOnLibraryFileProcessed;
-        SystemEvents.OnLibraryFileProcessedFailed += SystemEventsOnOnLibraryFileProcessedFailed;
-        SystemEvents.OnLibraryFileProcessedSuceess += SystemEventsOnOnLibraryFileProcessedSuceess;
-        SystemEvents.OnLibraryFileProcessingStarted += SystemEventsOnOnLibraryFileProcessingStarted;
-        SystemEvents.OnServerUpdating += SystemEventsOnOnServerUpdating;
-        SystemEvents.OnServerUpdateAvailable += SystemEventsOnOnServerUpdateAvailable;
+
+        var service = ServiceLoader.Load<ISystemEventsService>();
+        service.OnLibraryFileAdd += SystemEventsOnOnLibraryFileAdd;
+        service.OnLibraryFileProcessed += SystemEventsOnOnLibraryFileProcessed;
+        service.OnLibraryFileProcessedFailed += SystemEventsOnOnLibraryFileProcessedFailed;
+        service.OnLibraryFileProcessedSuceess += SystemEventsOnOnLibraryFileProcessedSuceess;
+        service.OnLibraryFileProcessingStarted += SystemEventsOnOnLibraryFileProcessingStarted;
+        service.OnServerUpdating += SystemEventsOnOnServerUpdating;
+        service.OnServerUpdateAvailable += SystemEventsOnOnServerUpdateAvailable;
     }
     
     /// <summary>
@@ -57,7 +60,7 @@ public class FileFlowsTasksWorker: ServerWorker
             dict.Add(var.Name, var.Value);
         }
         
-        dict.TryAdd("FileFlows.Url", Application.ServerUrl);
+        dict.TryAdd("FileFlows.Url", Globals.ServerUrl);
         dict["FileFlows.AccessToken"] = ServiceLoader.Load<ISettingsService>().Get()?.Result?.AccessToken;
         return dict;
     }
@@ -67,7 +70,7 @@ public class FileFlowsTasksWorker: ServerWorker
     /// </summary>
     protected override void ExecuteActual(Settings settings)
     {
-        if (LicenseHelper.IsLicensed(LicenseFlags.Tasks) == false)
+        if (LicenseService.IsLicensed(LicenseFlags.Tasks) == false)
             return;
         
         int quarter = TimeHelper.GetCurrentQuarter();
@@ -94,9 +97,9 @@ public class FileFlowsTasksWorker: ServerWorker
     /// </summary>
     /// <param name="uid">The UID of the task to run</param>
     /// <returns>the result of the executed task</returns>
-    internal async Task<FileFlowsTaskRun> RunByUid(Guid uid)
+    public async Task<FileFlowsTaskRun> RunByUid(Guid uid)
     {
-        if (LicenseHelper.IsLicensed(LicenseFlags.Tasks) == false) 
+        if (LicenseService.IsLicensed(LicenseFlags.Tasks) == false) 
             return new() { Success = false, Log = "Not licensed" };
         var task = await ServiceLoader.Load<TaskService>().GetByUidAsync(uid);
         if (task == null)
@@ -169,7 +172,7 @@ public class FileFlowsTasksWorker: ServerWorker
     /// <param name="variables">the variables to pass into the task</param>
     private void TriggerTaskType(TaskType type, Dictionary<string, object> variables)
     {
-        if (LicenseHelper.IsLicensed(LicenseFlags.Tasks) == false)
+        if (LicenseService.IsLicensed(LicenseFlags.Tasks) == false)
             return;
         var tasks = ServiceLoader.Load<TaskService>().GetAllAsync().Result.Where(x => x.Type == type && x.Enabled).ToArray();
         foreach (var task in tasks)
@@ -178,9 +181,9 @@ public class FileFlowsTasksWorker: ServerWorker
         }
     }
 
-    private void UpdateEventTriggered(TaskType type, SystemEvents.UpdateEventArgs args)
+    private void UpdateEventTriggered(TaskType type, UpdateEventArgs args)
     {
-        if (LicenseHelper.IsLicensed(LicenseFlags.Tasks) == false)
+        if (LicenseService.IsLicensed(LicenseFlags.Tasks) == false)
             return;
         TriggerTaskType(type, new Dictionary<string, object>
         {
@@ -189,14 +192,14 @@ public class FileFlowsTasksWorker: ServerWorker
         });
     }
 
-    private void SystemEventsOnOnServerUpdateAvailable(SystemEvents.UpdateEventArgs args)
+    private void SystemEventsOnOnServerUpdateAvailable(UpdateEventArgs args)
         => UpdateEventTriggered(TaskType.FileFlowsServerUpdateAvailable, args);
-    private void SystemEventsOnOnServerUpdating(SystemEvents.UpdateEventArgs args)
+    private void SystemEventsOnOnServerUpdating(UpdateEventArgs args)
         => UpdateEventTriggered(TaskType.FileFlowsServerUpdating, args);
 
-    private void LibraryFileEventTriggered(TaskType type, SystemEvents.LibraryFileEventArgs args)
+    private void LibraryFileEventTriggered(TaskType type, LibraryFileEventArgs args)
     {
-        if (LicenseHelper.IsLicensed(LicenseFlags.Tasks) == false)
+        if (LicenseService.IsLicensed(LicenseFlags.Tasks) == false)
             return;
         TriggerTaskType(type, new Dictionary<string, object>
         {
@@ -206,15 +209,15 @@ public class FileFlowsTasksWorker: ServerWorker
         });
     }
 
-    private void SystemEventsOnOnLibraryFileAdd(SystemEvents.LibraryFileEventArgs args) =>
+    private void SystemEventsOnOnLibraryFileAdd(LibraryFileEventArgs args) =>
         LibraryFileEventTriggered(TaskType.FileAdded, args);
-    private void SystemEventsOnOnLibraryFileProcessingStarted(SystemEvents.LibraryFileEventArgs args)
+    private void SystemEventsOnOnLibraryFileProcessingStarted(LibraryFileEventArgs args)
         => LibraryFileEventTriggered(TaskType.FileProcessing, args);
-    private void SystemEventsOnOnLibraryFileProcessed(SystemEvents.LibraryFileEventArgs args)
+    private void SystemEventsOnOnLibraryFileProcessed(LibraryFileEventArgs args)
         => LibraryFileEventTriggered(TaskType.FileProcessed, args);
-    private void SystemEventsOnOnLibraryFileProcessedSuceess(SystemEvents.LibraryFileEventArgs args)
+    private void SystemEventsOnOnLibraryFileProcessedSuceess(LibraryFileEventArgs args)
         => LibraryFileEventTriggered(TaskType.FileProcessSuccess, args);
-    private void SystemEventsOnOnLibraryFileProcessedFailed(SystemEvents.LibraryFileEventArgs args)
+    private void SystemEventsOnOnLibraryFileProcessedFailed(LibraryFileEventArgs args)
         => LibraryFileEventTriggered(TaskType.FileProcessFailed, args);
 
 }

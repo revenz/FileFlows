@@ -83,7 +83,7 @@ internal static class CommandLine
         return commands!;
     }
 
-    internal static void PrintHelp(Plugin.ILogger logger)
+    internal static void PrintHelp(ILogger logger)
     {
         logger.ILog("FileFlows v" + Globals.Version);
         logger.ILog("");

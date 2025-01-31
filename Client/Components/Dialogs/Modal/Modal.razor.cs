@@ -1,21 +1,34 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using FileFlows.Shared;
 
-namespace FileFlows.Client.Components.Dialogs
+namespace FileFlows.Client.Components.Dialogs;
+
+/// <summary>
+/// A modal dialog
+/// </summary>
+public partial class Modal : ComponentBase
 {
-    public partial class Modal : ComponentBase
-    {
-        [Parameter] public RenderFragment Footer { get; set; }
+    /// <summary>
+    /// Gets or sets the footer content
+    /// </summary>
+    [Parameter] public RenderFragment Footer { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the body content
+    /// </summary>
+    [Parameter] public RenderFragment Body { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the title
+    /// </summary>
+    [Parameter] public string Title { get; set; }
 
-        [Parameter] public RenderFragment Body { get; set; }
-        [Parameter] public string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets optional styling
-        /// </summary>
-        [Parameter] public string Styling { get; set; }
-        [Parameter] public bool Visible { get; set; }
-
-    }
+    /// <summary>
+    /// Gets or sets optional styling
+    /// </summary>
+    [Parameter] public string Styling { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this is visible or note
+    /// </summary>
+    [Parameter] public bool Visible { get; set; }
 }

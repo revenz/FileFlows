@@ -1,0 +1,18 @@
+.radio-btn-group {
+  display: flex;
+  flex-direction: row;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  width: fit-content; }
+
+.radio-btn-group-btn {
+  background: var(--base-darker);
+  border: 0;
+  padding: 0.25rem 1rem;
+  font-size: 0.95rem;
+  font-weight: var(--bold, 600);
+  outline: none; }
+  .radio-btn-group-btn.active {
+    background: var(--input-background); }
+
+/*# sourceMappingURL=InputRadioGroup.razor.css.map */

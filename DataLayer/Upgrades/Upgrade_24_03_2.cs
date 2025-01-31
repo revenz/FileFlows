@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using NPoco;
 using Org.BouncyCastle.Pkix;
 using DatabaseType = FileFlows.Shared.Models.DatabaseType;
-using ILogger = FileFlows.Plugin.ILogger;
+using ILogger = FileFlows.Common.ILogger;
 
 namespace FileFlows.DataLayer.Upgrades;
 
@@ -136,7 +136,7 @@ public class Upgrade_24_03_2
                 db.Db.Execute(sql.ToString());
 
             db.Db.Execute(
-                "update DbObject set Name = REPLACE(Name, 'PluginsSettings_', '') , Type = 'FileFlows.ServerShared.Models.PluginSettingsModel' where Type = 'FileFlows.Server.Models.PluginSettingsModel'");
+                "update DbObject set Name = REPLACE(Name, 'PluginsSettings_', '') , Type = 'FileFlows.ServerShared.Models.PluginSettingsModel' where Type = 'FileFlows.ServerModels.PluginSettingsModel'");
 
             var upgradeStats = GetUpgradedStatistics(logger, db);
 
@@ -187,7 +187,7 @@ public class Upgrade_24_03_2
                     obj.DateModified = DateTimeHelper.LocalToUtc(obj.DateModified);
                     if (obj.Type == "FileFlows.Shared.Models.Library")
                         knownLibraries.Add(obj.Uid);
-                    if (obj.Type == "FileFlows.Server.Models.PluginSettingsModel")
+                    if (obj.Type == "FileFlows.ServerModels.PluginSettingsModel")
                         obj.Type = "FileFlows.ServerShared.Models.PluginSettingsModel";
                 }
 

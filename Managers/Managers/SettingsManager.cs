@@ -70,7 +70,7 @@ public class SettingsManager
     /// </summary>
     /// <param name="model">the settings</param>
     /// <param name="auditDetails">the audit details</param>
-    public async Task Update(Settings model, AuditDetails auditDetails)
+    public async Task Update(Settings model, AuditDetails? auditDetails)
     {
         await _semaphore.WaitAsync();
         try

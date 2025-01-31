@@ -2,7 +2,6 @@ using System.Net;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
-using FileFlows.Shared.Validators;
 
 namespace FileFlows.Client.Pages;
 
@@ -69,8 +68,8 @@ public partial class AccessControl: ListPage<Guid, AccessControlEntry>
         {
             InputType = FormInputType.Text,
             Name = nameof(item.Name),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required()
+            Validators = new List<Validator> {
+                new Required()
             }
         });
         fields.Add(new ElementField
@@ -92,8 +91,8 @@ public partial class AccessControl: ListPage<Guid, AccessControlEntry>
         {
             InputType = FormInputType.Text,
             Name = nameof(item.Start),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required(),
+            Validators = new List<Validator> {
+                new Required(),
                 new Pattern() { Expression = ipPattern }
             }
         });
@@ -101,7 +100,7 @@ public partial class AccessControl: ListPage<Guid, AccessControlEntry>
         {
             InputType = FormInputType.Text,
             Name = nameof(item.End),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
+            Validators = new List<Validator> {
                 new Pattern() { Expression = ipPattern }
             }
         });

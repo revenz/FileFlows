@@ -1,7 +1,7 @@
 
 using FileFlows.Managers.InitializationManagers;
 using FileFlows.Plugin;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 
 namespace FileFlows.Server.Upgrade;
 
@@ -17,7 +17,7 @@ public class Upgrade_24_08_1 : UpgradeBase
     /// <param name="logger">the logger</param>
     /// <param name="settingsService">the settings service</param>
     /// <param name="upgradeManager">the upgrade manager</param>
-    public Upgrade_24_08_1(FileFlows.Plugin.ILogger logger, AppSettingsService settingsService, UpgradeManager upgradeManager)
+    public Upgrade_24_08_1(ILogger logger, AppSettingsService settingsService, UpgradeManager upgradeManager)
         : base(logger, settingsService, upgradeManager)
     {
     }

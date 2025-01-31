@@ -206,4 +206,9 @@ public class Library : FileFlowObject
     /// If false, then all sub folders will also be searched
     /// </summary>
     public bool TopLevelOnly { get; set; }
+
+    /// <summary>
+    /// Gets or sets if file system events should be disabled and not run on this this library
+    /// </summary>
+    public bool DisableFileSystemEvents { get; set; }
 }

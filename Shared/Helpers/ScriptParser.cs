@@ -1,7 +1,5 @@
 using System.Text;
-using System.Text.RegularExpressions;
 using FileFlows.Plugin;
-using FileFlows.ScriptExecution;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.Shared.Helpers;
@@ -63,6 +61,7 @@ public class ScriptParser
         
         comments = comments[atIndex..];
 
+        bool inDescription = false, inHelp = false;
         foreach (var line in comments.Split('\n'))
         {
             if (ParseArgument(model, line))
@@ -71,19 +70,44 @@ public class ScriptParser
                 continue;
             if (line.StartsWith('@') == false)
             {
-                if (string.IsNullOrWhiteSpace(model.Description))
-                    model.Description = line;
-                else
-                    model.Description += "\n" + line;
+                if (inDescription)
+                {
+                    if (string.IsNullOrWhiteSpace(model.Description))
+                        model.Description = line;
+                    else
+                        model.Description += "\n" + line;
+                }
+                else if (inHelp)
+                {
+                    if (string.IsNullOrWhiteSpace(model.Help))
+                        model.Help = line;
+                    else
+                        model.Help += "\n" + line;
+                }
+
+                continue;
             }
-            else if (line.StartsWith("@name "))
+            
+
+            inDescription = false;
+            inHelp = false;
+            
+            if (line.StartsWith("@name "))
                 model.Name = line["@name ".Length..].Trim();
             else if (line.StartsWith("@uid ") && Guid.TryParse(line[5..].Trim(), out var uid))
                 model.Uid = uid;
             else if (line.StartsWith("@revision ") && int.TryParse(line["@revision ".Length..].Trim(), out var revision))
                 model.Revision = revision;
             else if (line.StartsWith("@description "))
+            {
                 model.Description = line["@description ".Length..].Trim();
+                inDescription = true;
+            }
+            else if (line.StartsWith("@help "))
+            {
+                model.Help = line["@help ".Length..].Trim();
+                inHelp = true;
+            }
             else if (line.StartsWith("@author "))
                 model.Author = line["@author ".Length..].Trim();
             else if (line.StartsWith("@minimumversion ", StringComparison.InvariantCultureIgnoreCase) &&
@@ -131,7 +155,32 @@ public class ScriptParser
                 param.Type = ScriptArgumentType.Int;
                 break;
             default:
-                throw new Exception("Invalid parameter type: " + paramMatch.Groups[2].Value);
+            {
+                // Improved regex to handle mixed quotes and escaped characters
+                var match = Regex.Match(paramMatch.Groups[2].Value, @"^\(([^)]+)\)(\[\])?$");
+                if (match.Success)
+                {
+                    string optionsString = match.Groups[1].Value; // Get the part inside parentheses
+                    bool isMultiSelect = match.Groups[2].Success; // Check if it ends with []
+
+                    // Parse individual options while supporting mixed quotes
+                    var options = Regex.Matches(optionsString, @"(['""])(.*?)(?<!\\)\1")
+                        .Cast<Match>()
+                        .Select(m => m.Groups[2].Value.Replace("\\'", "'").Replace("\\\"", "\""))
+                        .ToArray();
+
+                    param.Type = isMultiSelect
+                        ? ScriptArgumentType.SelectMultiple
+                        : ScriptArgumentType.Select;
+
+                    param.Options = options;
+                }
+                else
+                {
+                    throw new Exception("Invalid parameter type: " + paramMatch.Groups[2].Value);
+                }
+            }
+                break;
         }
 
         try
@@ -211,6 +260,7 @@ public class ScriptParser
         if(skipName == false)
             AddField("name", script.Name);
         AddField("description", script.Description);
+        AddField("help", script.Help);
         AddField("author", script.Author);
         AddField("revision", script.Revision?.ToString());
         AddField("minimumVersion", script.MinimumVersion?.ToString());
@@ -223,6 +273,8 @@ public class ScriptParser
                         {
                             ScriptArgumentType.Bool => "{bool}",
                             ScriptArgumentType.Int => "{int}",
+                            ScriptArgumentType.Select => GenerateSelectParameter(parameter),
+                            ScriptArgumentType.SelectMultiple => GenerateSelectParameter(parameter),
                             _ => "{string}",
                         }
                     ) + $" {parameter.Name} {parameter.Description}");
@@ -250,5 +302,23 @@ public class ScriptParser
                 header.AppendLine($" * @{name} {value}");
         }
 
+    }
+
+    /// <summary>
+    /// Generates the script parameter for an select
+    /// </summary>
+    /// <param name="parameter">the parameter</param>
+    /// <returns>the script parameter string</returns>
+    private static string GenerateSelectParameter(ScriptParameter parameter)
+    {
+        string str = "(" + string.Join("|", parameter.Options?.Select(x =>
+        {
+            if(x.Contains('\''))
+                return '"' + x + '"';
+            return "'" + x + "'";
+        }) ?? []) + ")";
+        if (parameter.Type == ScriptArgumentType.SelectMultiple)
+            str += "[]";
+        return "{" + str + "}";
     }
 }

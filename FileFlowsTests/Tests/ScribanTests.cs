@@ -26,7 +26,7 @@ Extension: {{Variables.ext}}
 ";
         var tempFile = GetTempFileName();
         System.IO.File.WriteAllText(tempFile, string.Join("\n", Enumerable.Range(0, 10000).Select(x => Guid.NewGuid().ToString())));
-        var args = new NodeParameters(tempFile, Logger, false, string.Empty, new LocalFileService());
+        var args = new NodeParameters(tempFile, Logger, false, string.Empty, new LocalFileService(false));
         args.InitFile(tempFile);
         var renderer = new ScribanRenderer();
         var rendered = renderer.Render(args, text);
@@ -55,7 +55,7 @@ File shrunk in size by: {{ difference | file_size }} / {{ percent }}%
         var tempFile = GetTempFileName();
         var random = new Random(DateTime.UtcNow.Millisecond);
         File.WriteAllText(tempFile, string.Join("\n", Enumerable.Range(0, random.Next(1000, 100000)).Select(x => Guid.NewGuid().ToString())));
-        var args = new NodeParameters(tempFile, Logger, false, string.Empty, new LocalFileService());
+        var args = new NodeParameters(tempFile, Logger, false, string.Empty, new LocalFileService(false));
         args.InitFile(tempFile);
         
         var tempFile2 = GetTempFileName();
@@ -80,7 +80,7 @@ Time Processing: {{ time.processing }}
         var tempFile = GetTempFileName();
         var random = new Random(DateTime.UtcNow.Millisecond);
         File.WriteAllText(tempFile, string.Join("\n", Enumerable.Range(0, random.Next(1000, 100000)).Select(x => Guid.NewGuid().ToString())));
-        var args = new NodeParameters(tempFile, Logger, false, string.Empty, new LocalFileService());
+        var args = new NodeParameters(tempFile, Logger, false, string.Empty, new LocalFileService(false));
         args.InitFile(tempFile);
         
         var tempFile2 = GetTempFileName();
@@ -104,7 +104,7 @@ Library: {{ Library.Name }}
         var tempFile = GetTempFileName();
         var random = new Random(DateTime.UtcNow.Millisecond);
         File.WriteAllText(tempFile, string.Join("\n", Enumerable.Range(0, random.Next(1000, 100000)).Select(x => Guid.NewGuid().ToString())));
-        var args = new NodeParameters(tempFile, Logger, false, string.Empty, new LocalFileService());
+        var args = new NodeParameters(tempFile, Logger, false, string.Empty, new LocalFileService(false));
         args.InitFile(tempFile);
         args.Variables["Library.Name"] = "Test Library";
         

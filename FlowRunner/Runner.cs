@@ -1,5 +1,5 @@
-﻿using FileFlows.ServerShared;
-using FileFlows.ServerShared.Helpers;
+﻿using System.Reflection;
+using FileFlows.ServerShared;
 using FileFlows.Plugin;
 using FileFlows.ServerShared.Services;
 using FileFlows.Shared.Models;
@@ -7,14 +7,12 @@ using System.Text.RegularExpressions;
 using FileFlows.FlowRunner.Helpers;
 using FileFlows.FlowRunner.RunnerFlowElements;
 using FileFlows.FlowRunner.TemplateRenders;
+using FileFlows.Plugin.Helpers;
 using FileFlows.Plugin.Services;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared.FileServices;
-using FileFlows.Shared;
-using FileFlows.Shared.Formatters;
+using FileFlows.ServerShared.Interfaces;
 using FileFlows.Shared.Helpers;
-using Humanizer;
-using Microsoft.VisualBasic;
 using FlowHelper = FileFlows.FlowRunner.Helpers.FlowHelper;
 
 namespace FileFlows.FlowRunner;
@@ -166,7 +164,7 @@ public class Runner
                 });
                 try
                 {
-                    RunActual(logger);
+                    RunActual(logger, communicator);
                 }
                 catch (Exception ex)
                 {
@@ -243,10 +241,10 @@ public class Runner
         if (nodeParameters?.Metadata != null)
             Info.LibraryFile.FinalMetadata = nodeParameters.Metadata;
         // calculates the final fingerprint
-        if (string.IsNullOrWhiteSpace(Info.LibraryFile.OutputPath) == false)
-        {
-            Info.LibraryFile.FinalFingerprint = FileHelper.CalculateFingerprint(Info.LibraryFile.OutputPath);
-        }
+        // if (string.IsNullOrWhiteSpace(Info.LibraryFile.OutputPath) == false)
+        // {
+        //     Info.LibraryFile.FinalFingerprint = Plugin.Helpers.FileHelper.CalculateFingerprint(Info.LibraryFile.OutputPath);
+        // }
 
         await Complete(log);
         OnFlowCompleted?.Invoke(this, Info.LibraryFile.Status == FileStatus.Processed);
@@ -456,9 +454,36 @@ public class Runner
     /// Starts processing a file
     /// </summary>
     /// <param name="logger">the logger used to log messages</param>
-    private void RunActual(FlowLogger logger)
+    /// <param name="communicator">The flow runner communicator</param>
+    private void RunActual(FlowLogger logger, FlowRunnerCommunicator communicator)
     {
         VariablesHelper.StartedAt = DateTime.Now;
+        
+        var cacheService = ServiceLoader.Load<IDistributedCacheService>();
+        var cacheHelper = new CacheHelper(logger, (key) =>
+        {
+            try
+            {
+                var json = cacheService.GetJsonAsync(key).Result;
+                return json ?? default;
+            }
+            catch (Exception)
+            {
+                // Ignore
+                return null;
+            }
+        }, (key, json, expiration) =>
+        {
+            try
+            {
+                cacheService.StoreJsonAsync(key, json, expiration).Wait();
+            }
+            catch (Exception)
+            {
+                // Ignore
+            }
+        });
+        
         nodeParameters = new NodeParameters(Info.LibraryFile.Name, logger,
             Info.IsDirectory, Info.LibraryPath, fileService: FileService.Instance)
         {
@@ -467,18 +492,34 @@ public class Runner
                 Name = Info.LibraryFile.Name, 
                 Type = typeof(Library).FullName
             },
-            LicenseLevel = runInstance.Config.LicenseLevel,
+            LicenseLevel = (LicenseLevel)(int) runInstance.Config.LicenseLevel,
             LibraryFileName = Info.LibraryFile.Name,
             IsRemote = Info.IsRemote,
             LogImageActual = logger.Image,
             NotificationCallback = (severity, title, message) =>
             {
                 ServiceLoader.Load<INotificationService>().Record((NotificationSeverity)severity, title, message);
-            }
+            },
+            Cache = cacheHelper
         };
         
         nodeParameters.Variables["library.Name"] = Info.Library.Name;
         nodeParameters.Variables["library.Path"] = Info.LibraryPath;
+
+        if (Info.LibraryFile.Additional?.ResellerUserUid != null &&
+            Info.LibraryFile.Additional?.ResellerUserUid != Guid.Empty)
+        {
+            var uid = Info.LibraryFile.Additional.ResellerUserUid;
+            nodeParameters.Variables["ResellerUserUid"] = uid.ToString();
+            nodeParameters.Variables["rUserUid"] = uid.ToString();
+            nodeParameters.Variables["ResellerUserOutputDir"] 
+                = Path.Combine(runInstance.Config.ManualLibraryPath, "reseller-users", uid.ToString(), "processed", Info.LibraryFile.Uid.ToString());
+            nodeParameters.Variables["ruOutput"] 
+                = Path.Combine(runInstance.Config.ManualLibraryPath, "reseller-users", uid.ToString(), "processed", Info.LibraryFile.Uid.ToString());
+        }
+
+        if(Info.LibraryFile.Additional?.ResellerFlowUid != null && Info.LibraryFile.Additional?.ResellerFlowUid != Guid.Empty)
+            nodeParameters.Variables["ResellerFlowUid"] = Info.LibraryFile.Additional.ResellerFlowUid;
 
         if (runInstance.Config.Resources?.Any() == true)
         {
@@ -541,7 +582,8 @@ public class Runner
             return task.Result.Success;
         };
         nodeParameters.SendEmail = (to, subject, body) => ServiceLoader.Load<EmailService>().Send(to, subject, body).Result;
-        
+
+
         var renderer = new ScribanRenderer();
         nodeParameters.RenderTemplate = (template) =>
             renderer.Render(nodeParameters, template);
@@ -553,6 +595,15 @@ public class Runner
         nodeParameters.IsArm = Globals.IsArm;
         nodeParameters.PathMapper = (path) => Node.Map(path);
         nodeParameters.PathUnMapper = (path) => Node.UnMap(path);
+        nodeParameters.LibraryIgnorePath = (path) =>
+        {
+            communicator.LibraryIgnorePath(path).Wait();
+        };
+        nodeParameters.MimeTypeUpdater = (mimeType) =>
+        {
+            Info.LibraryFile.Additional ??= new();
+            Info.LibraryFile.Additional.MimeType = mimeType;
+        };
         nodeParameters.ScriptExecutor = new ScriptExecutor()
         {
             SharedDirectory = Path.Combine(runInstance.ConfigDirectory, "Scripts", "Shared"),
@@ -590,7 +641,7 @@ public class Runner
         nodeParameters.TempPathName = new DirectoryInfo(WorkingDir).Name;
         nodeParameters.RelativeFile = Info.LibraryFile.RelativePath;
         nodeParameters.PartPercentageUpdate = UpdatePartPercentage;
-        Shared.Helpers.HttpHelper.Logger = nodeParameters.Logger;
+        HttpHelper.Logger = nodeParameters.Logger;
 
         nodeParameters.Result = NodeResult.Success;
         nodeParameters.GetToolPathActual = (name) =>
@@ -620,6 +671,7 @@ public class Runner
         // must be done after GetToolPathActual so we can get the tools
         nodeParameters.ArchiveHelper = new ArchiveHelper(nodeParameters);
         nodeParameters.ImageHelper = new ImageHelper(logger, nodeParameters);
+        nodeParameters.PdfHelper = new PdfHelper(nodeParameters.StringHelper);
         nodeParameters.SetTagsFunction = (tagUids, replace) =>
         {
             var allowed = tagUids.Where(runInstance.Config.Tags.ContainsKey).ToList();

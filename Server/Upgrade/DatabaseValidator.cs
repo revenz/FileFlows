@@ -1,6 +1,6 @@
 using FileFlows.Managers.InitializationManagers;
 using FileFlows.Plugin;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.Server.Upgrade;
@@ -11,7 +11,7 @@ namespace FileFlows.Server.Upgrade;
 /// <param name="logger">the logger to use</param>
 /// <param name="settingsService">the settings service</param>
 /// <param name="upgradeManager">the upgrade manager</param>
-public class DatabaseValidator(FileFlows.Plugin.ILogger logger, AppSettingsService settingsService, UpgradeManager upgradeManager)
+public class DatabaseValidator(ILogger logger, AppSettingsService settingsService, UpgradeManager upgradeManager)
     : UpgradeBase(logger, settingsService, upgradeManager)
 {
 

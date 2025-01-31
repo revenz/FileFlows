@@ -116,7 +116,7 @@ public abstract class EditorBase : InputRegister
     /// <returns>the range</returns>
     internal (int min, int max) GetRange(ElementField field)
     {
-        var range = field?.Validators?.Where(x => x is FileFlows.Shared.Validators.Range)?.FirstOrDefault() as FileFlows.Shared.Validators.Range;
+        var range = field?.Validators?.Where(x => x is Validators.Range)?.FirstOrDefault() as Validators.Range;
         return range == null ? (0, 0) : (range.Minimum, range.Maximum);
     }
 

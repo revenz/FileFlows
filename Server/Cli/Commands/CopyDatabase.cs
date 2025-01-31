@@ -36,7 +36,7 @@ public class CopyDatabase : Command
     
     
     /// <inheritdoc />
-    public override bool Run(Plugin.ILogger  logger)
+    public override bool Run(ILogger  logger)
     {
         if (File.Exists(Source) == false)
         {

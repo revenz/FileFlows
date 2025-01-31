@@ -1,4 +1,5 @@
-using FileFlows.Server.Services;
+using FileFlows.Services;
+using FileFlows.WebServer;
 
 namespace FileFlows.Server.Gui.Avalon;
 
@@ -115,7 +116,7 @@ public class MainWindow : Window
     /// </summary>
     public void Launch()
     {
-        string url = $"http://{Environment.MachineName}:{WebServer.Port}/";
+        string url = $"http://{Environment.MachineName}:{WebServerApp.Port}/";
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -187,7 +188,7 @@ public class MainWindowViewModel
     {
         AppSettingsService = ServiceLoader.Load<AppSettingsService>();
         this.Window = window;
-        this.ServerUrl = $"http://{Environment.MachineName.ToLower()}:{WebServer.Port}/";
+        this.ServerUrl = $"http://{Environment.MachineName.ToLower()}:{WebServerApp.Port}/";
         this.Version = "FileFlows Version: " + Globals.Version;
     }
 }

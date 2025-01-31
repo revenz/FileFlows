@@ -11,7 +11,7 @@ public abstract class Command
     /// Runs the command
     /// </summary>
     /// <returns>true if the command exits the application</returns>
-    public abstract bool Run(FileFlows.Plugin.ILogger logger);
+    public abstract bool Run(ILogger logger);
     /// <summary>
     /// Gets the switch for this command
     /// </summary>
@@ -31,7 +31,7 @@ public abstract class Command
     /// <param name="logger">The logger to use</param>
     /// <param name="args">the command line arguments</param>
     /// <exception cref="Exception">throws if an argument is missing</exception>
-    public virtual void ParseArguments(Plugin.ILogger logger, string[] args)
+    public virtual void ParseArguments(ILogger logger, string[] args)
     {
         var commandLineArgs = this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
             .Where(p => p.GetCustomAttribute<CommandLineArg>() != null)
@@ -111,7 +111,7 @@ public abstract class Command
     /// <summary>
     /// Prints the help for this command to the console
     /// </summary>
-    internal void PrintHelp(Plugin.ILogger logger)
+    internal void PrintHelp(ILogger logger)
     {
         logger.ILog("FileFlows");
         logger.ILog("  Command: " + GetType().Name);

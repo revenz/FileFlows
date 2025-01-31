@@ -88,6 +88,7 @@
     "Ok": "OK",
     "Open": "Abrir",
     "OperatingSystem": "Sistema Operacional",
+    "OriginalLanguage": "Idioma Original",
     "Other": "Outro",
     "Output": "Saída",
     "Paste": "Colar",
@@ -130,6 +131,7 @@
     "Search": "Pesquisar",
     "Searching": "Pesquisando",
     "Select": "Selecionar",
+    "SelectedNum": "{num, plural, one {# selecionado} other {# selecionados}}",
     "SelectOne": "Selecionar Um",
     "SetStatusProcessed": "Marcar como Processado",
     "Settings": "Configurações",
@@ -251,6 +253,372 @@
       "Title": "Importar Script",
       "Messages": {
         "NoMoreImports": "Não há mais importações disponíveis para este script"
+      }
+    },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "Taxa de bits",
+        "Bitrate-Help": "A taxa de bits do arquivo de áudio convertido.",
+        "Codec": "Codec",
+        "Codec-Help": "O codec a ser usado na conversão de áudio.",
+        "Name": "Nome",
+        "Name-Help": "O nome do fluxo. Deve ser único.",
+        "Normalize": "Normalizar",
+        "Normalize-Help": "Indica se o áudio deve ser normalizado durante o processamento."
+      },
+      "Pages": {
+        "General": "Geral",
+        "GeneralDescription": "Crie um fluxo para converter arquivos de áudio."
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "Codec",
+        "Codec-Help": "O codec para o arquivo de vídeo de saída.",
+        "Container": "Contêiner",
+        "Container-Help": "O formato do contêiner para o arquivo de vídeo.",
+        "Name": "Nome",
+        "Name-Help": "O nome do fluxo. Deve ser único.",
+        "Resolution": "Resolução",
+        "Resolution-Help": "A resolução do arquivo de vídeo de saída.",
+        "Visualization": "Visualização",
+        "Visualization-Help": "A visualização a ser exibida no vídeo."
+      },
+      "Pages": {
+        "General": "Geral",
+        "GeneralDescription": "Crie um fluxo para converter áudio em vídeo."
+      }
+    },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "Igual à fonte"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "Excluir páginas vazias",
+        "DeleteNonPageImages-Help": "Excluir as páginas vazias do novo arquivo de quadrinhos.",
+        "EnsureTopDirectory": "Garantir diretório principal",
+        "EnsureTopDirectory-Help": "Garante que todos os arquivos estejam diretamente no diretório principal do arquivo do quadrinho, sem subdiretórios.",
+        "Format": "Formato da imagem",
+        "Format-Help": "O formato da imagem para salvar cada página.",
+        "Name": "Nome",
+        "Name-Help": "O nome do fluxo. Este deve ser único.",
+        "Quality": "Qualidade",
+        "Quality-Help": "Qualidade das páginas do quadrinho, 1 para maior compressão/pior qualidade, 100 para melhor qualidade."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "Salvar o quadrinho no formato CBZ (arquivo zip).",
+        "Pdf": "PDF",
+        "PdfDescription": "Salvar o quadrinho em um arquivo PDF."
+      },
+      "Pages": {
+        "Format": "Formato",
+        "FormatDescription": "Escolha o formato para salvar os quadrinhos.",
+        "General": "Geral",
+        "GeneralDescription": "Criar um novo fluxo para processar quadrinhos."
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "Limpar Original",
+        "DeleteOld-Help": "Exclui o arquivo original e a pasta original se não restarem outros arquivos.",
+        "Description": "Descrição",
+        "Description-Help": "A descrição do fluxo recém-criado.",
+        "OutputPath": "Caminho de saída",
+        "OutputPath-Help": "O caminho onde o arquivo final será salvo.",
+        "OutputPathWindows": "Caminho de saída (Windows)",
+        "OutputPathWindows-Help": "O local de salvamento. Pode incluir um caminho de rede, por exemplo, \\\\meu-nas\\media\\saida."
+      },
+      "Messages": {
+        "NameRequired": "O nome é obrigatório.",
+        "OutputPathRequired": "O caminho de saída é obrigatório."
+      },
+      "Output": {
+        "ReplaceOriginal": "Substituir Original",
+        "ReplaceOriginalDescription": "Substitui o arquivo original pelo arquivo convertido.",
+        "ResellerMove": "Mover para revendedor",
+        "ResellerMoveDescription": "Move o arquivo para uma pasta temporária única para o usuário fazer o download. O arquivo será automaticamente excluído após um período de tempo determinado.",
+        "SaveToFolder": "Salvar na Pasta",
+        "SaveToFolderDescription": "Salva o arquivo convertido em um novo local."
+      },
+      "Pages": {
+        "Output": "Saída",
+        "OutputDescription": "Especifique onde salvar o arquivo final."
+      }
+    },
+    "NewFlowWizard": {
+      "Title": "Assistente de Novo Fluxo",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "Áudio para Vídeo",
+          "AudioToVideoDescription": "Converter um arquivo de áudio em um arquivo de vídeo.",
+          "Blank": "Áudio em Branco",
+          "BlankDescription": "Um fluxo de áudio em branco usado para criar um fluxo personalizado para processar arquivos de áudio.",
+          "Convert": "Converter Áudio",
+          "ConvertDescription": "Criar um fluxo para converter formatos de áudio."
+        },
+        "Basic": {
+          "FailureFlow": "Fluxo de Falha em Branco",
+          "FailureFlowDescription": "Fluxo básico que será executado quando um fluxo falhar por qualquer motivo.",
+          "File": "Arquivo em Branco",
+          "FileDescription": "Um fluxo baseado em arquivos em branco para criar um fluxo personalizado para processar arquivos individuais.",
+          "Folder": "Pasta em Branco",
+          "FolderDescription": "Um fluxo baseado em pasta em branco usado para criar um fluxo personalizado para processar uma pasta inteira.",
+          "SubFlow": "Subfluxo em Branco",
+          "SubFlowDescription": "Um fluxo baseado em subfluxo em branco usado para criar um subfluxo reutilizável.",
+          "Url": "URL",
+          "UrlDescription": "Um fluxo baseado em URL em branco usado para criar um fluxo para processar URLs."
+        },
+        "Book": {
+          "Comic": "Quadrinhos",
+          "ComicDescription": "Criar um fluxo para converter e manipular quadrinhos, por exemplo, converter formatos de imagem, redimensionar imagens, etc.",
+          "eBook": "eBook",
+          "eBookDescription": "Criar um fluxo para converter formatos de eBook."
+        },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "Envia uma mensagem detalhada para o Apprise quando ocorre uma falha.",
+          "Blank": "Fluxo de falha em branco",
+          "BlankDescription": "Um fluxo básico de falha que é executado quando qualquer fluxo falha.",
+          "Discord": "Discord",
+          "DiscordDescription": "Envia uma mensagem detalhada para o Discord quando ocorre uma falha.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "Envia uma mensagem detalhada para o Gotify quando ocorre uma falha.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "Envia uma mensagem detalhada para o Telegram quando ocorre uma falha."
+        },
+        "Image": {
+          "Blank": "Imagem em Branco",
+          "BlankDescription": "Um fluxo baseado em imagem em branco usado para criar um fluxo personalizado para processar imagens.",
+          "Convert": "Converter Imagem",
+          "ConvertDescription": "Criar um fluxo para converter formatos de imagem."
+        },
+        "Video": {
+          "AudioToVideo": "Áudio para Vídeo",
+          "AudioToVideoDescription": "Converter um arquivo de áudio em um arquivo de vídeo.",
+          "Blank": "Vídeo em Branco",
+          "BlankDescription": "Um fluxo baseado em vídeo em branco usado para criar um fluxo personalizado para processar arquivos de vídeo.",
+          "Convert": "Converter Vídeo",
+          "ConvertDescription": "Um assistente guiado para criar um fluxo de conversão de vídeo que permitirá manipular vídeo, áudio e legendas em um arquivo de vídeo."
+        }
+      },
+      "Pages": {
+        "Audio": "Áudio",
+        "AudioDescription": "Criar um fluxo para processar arquivos de áudio.",
+        "Basic": "Básico",
+        "BasicDescription": "Escolha um fluxo básico em branco para criar um fluxo personalizado.",
+        "Book": "Livro",
+        "BookDescription": "Criar um fluxo para processar livros.",
+        "Failure": "Falha",
+        "FailureDescription": "Crie um fluxo para executar em caso de falha",
+        "Image": "Imagem",
+        "ImageDescription": "Criar um fluxo para processar arquivos de imagem.",
+        "Users": "Usuários",
+        "UsersDescription": "Abrir um fluxo existente",
+        "Video": "Vídeo",
+        "VideoDescription": "Criar um fluxo para processar arquivos de vídeo."
+      }
+    },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "Formatos Sem Perdas",
+        "LossyFormats": "Formatos com Perdas"
+      },
+      "Fields": {
+        "Format": "Formato",
+        "Format-Help": "O formato de imagem para salvar o arquivo.",
+        "Height": "Altura",
+        "Height-Help": "A altura da imagem redimensionada.",
+        "Name": "Nome",
+        "Name-Help": "O nome do fluxo. Este deve ser único.",
+        "Quality": "Qualidade",
+        "Quality-Help": "A qualidade de 1 a 100 para usar no novo arquivo de imagem.",
+        "Resize": "Redimensionar",
+        "Resize-Help": "Se a imagem deve ser redimensionada ou não.",
+        "Width": "Largura",
+        "Width-Help": "A largura da imagem redimensionada."
+      },
+      "Pages": {
+        "General": "Geral",
+        "GeneralDescription": "Crie um novo fluxo para processar imagens.",
+        "ResizeMode": "Redimensionar",
+        "ResizeModeDescription": "Escolha o modo para redimensionar imagens."
+      },
+      "Resize": {
+        "Contain": "Conter",
+        "ContainDescription": "Redimensiona a imagem para caber na área especificada enquanto mantém a proporção.",
+        "Cover": "Cobrir",
+        "CoverDescription": "Redimensiona a imagem para cobrir a largura/altura especificada, cortando o excesso.",
+        "Fill": "Preencher",
+        "FillDescription": "Preenche a imagem na largura/altura total especificada, ignorando a proporção.",
+        "Max": "Máximo",
+        "MaxDescription": "Redimensiona a imagem para caber dentro da largura/altura especificada, mantendo a proporção, sem ser menor que nenhuma das dimensões.",
+        "Min": "Mínimo",
+        "MinDescription": "Redimensiona a imagem para caber dentro da largura/altura especificada, mantendo a proporção.",
+        "Pad": "Preencher",
+        "PadDescription": "Redimensiona a imagem para a largura/altura desejada, mantendo a proporção e preenchendo se necessário."
+      }
+    },
+    "NewLibraryWizard": {
+      "Title": "Nova Biblioteca",
+      "Labels": {
+        "FileExtensions": "Extensões",
+        "FileExtensionsDescription": "Especifique as extensões de arquivo que devem ser processadas nesta biblioteca.",
+        "FileTypes": "Tipos de Arquivo",
+        "FileTypesDescription": "Especifique os tipos de arquivo que devem ser detectados e processados nesta biblioteca.",
+        "General": "Geral",
+        "GeneralDescription": "Insira informações gerais sobre esta biblioteca.",
+        "LibraryType": "Tipo",
+        "LibraryTypeDescription": "Escolha o tipo de biblioteca que deseja criar.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "Processa arquivos encontrados em uma pasta de downloads especificada. Os arquivos são processados sempre que são detectados na pasta. Para evitar que os arquivos sejam processados novamente, mova ou exclua-os da pasta após o processamento. Se o arquivo reaparecer, será tratado como novo e será processado novamente.",
+            "Title": "Downloads"
+          },
+          "Files": {
+            "Description": "Processa todos os arquivos individuais na pasta selecionada e suas subpastas. Esta é a opção típica quando você deseja processar os arquivos um por um, como converter formatos de vídeo, áudio ou imagem. Ele irá procurar na pasta e em todas as subpastas por arquivos elegíveis para processar.",
+            "Title": "Arquivos"
+          },
+          "Folders": {
+            "Description": "Processa a pasta selecionada como um todo, sem procurar arquivos individuais. Escolha esta opção se você deseja trabalhar com a pasta em si, como compactar todos os arquivos da pasta em um arquivo zip ou realizar operações a nível de pasta.",
+            "Title": "Pastas"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "Extensões",
+        "FileExtensions-Help": "Deixe em branco para processar todos os arquivos ou especifique as extensões dos arquivos a serem processados.",
+        "Flow": "Fluxo",
+        "Flow-Help": "O fluxo usado para processar os itens nesta biblioteca.",
+        "Name": "Nome",
+        "Name-Help": "O nome da nova biblioteca, que deve ser único.",
+        "Path": "Caminho",
+        "Path-Help": "Especifique o caminho para o diretório da biblioteca.",
+        "PathWindows": "Caminho",
+        "PathWindows-Help": "Especifique o caminho do diretório da biblioteca. Para caminhos de rede, use o formato \\\\meu-nas\\media\\filmes."
+      },
+      "FileTypes": {
+        "Audio": "Áudio",
+        "Audiobook": "Audiobook",
+        "AudiobookDescription": "Processa arquivos de audiobooks como mp3, m4b e aax.",
+        "AudioDescription": "Processa arquivos de áudio como mp3, flac, wav, aac, etc.",
+        "Comic": "Quadrinhos",
+        "ComicDescription": "Processa arquivos de quadrinhos como cbz, cbr, cb7 e pdf.",
+        "Custom": "Personalizado",
+        "CustomDescription": "Especifique manualmente as extensões de arquivo a serem processadas.",
+        "eBook": "eBook",
+        "eBookDescription": "Processa arquivos de eBooks como epub, mobi, azw3 e pdf.",
+        "Image": "Imagem",
+        "ImageDescription": "Processa arquivos de imagem como jpg, png, gif, bmp e tiff.",
+        "Video": "Vídeo",
+        "VideoDescription": "Processa arquivos de vídeo como mkv, mp4, wmv, ts, mpeg, etc."
+      },
+      "Messages": {
+        "FlowRequired": "O fluxo é obrigatório.",
+        "NameRequired": "O nome da biblioteca é obrigatório.",
+        "PathRequired": "O caminho da biblioteca é obrigatório."
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Labels": {
+        "Bitrate": "Taxa de bits",
+        "BitrateDescription": "Usa uma taxa de bits fixa ao codificar o vídeo. Isso produz tamanhos de arquivos consistentes entre vídeos, mas desperdiça armazenamento ou perde qualidade se a taxa de bits não for ideal.",
+        "FileExtensions": "Extensões",
+        "FileExtensionsDescription": "Especifique as extensões para processar nesta biblioteca.",
+        "Quality": "Qualidade",
+        "QualityDescription": "Usa codificação adaptativa com base na entrada do vídeo para alcançar um nível de qualidade constante. Isso é recomendado e resulta em qualidade constante entre vídeos e também nos menores arquivos.",
+        "UseOriginal": "Usar original sem modificação",
+        "Types": {
+          "Film": "Filme",
+          "FilmDescription": "Processa filmes e pesquisa suas informações usando o plugin Meta. Isso ajudará a determinar o idioma original do filme.",
+          "TV": "TV",
+          "TVDescription": "Processa programas de TV e pesquisa suas informações usando o plugin Meta. Isso ajudará a determinar o idioma original do programa de TV.",
+          "Video": "Vídeo",
+          "VideoDescription": "Um arquivo de vídeo genérico, nenhuma pesquisa adicional de metadados será realizada."
+        }
+      },
+      "Fields": {
+        "AttemptHardwareEncode": "Codificação por Hardware",
+        "AttemptHardwareEncode-Help": "Tente usar a codificação por hardware (GPU). Se a codificação por GPU falhar, será usado a codificação por CPU.",
+        "AudioChannels": "Canais",
+        "AudioChannels-Help": "O número de canais para o áudio. Usará as faixas de áudio existentes para criar esta faixa, podendo fazer downmix, mas não upmix. Então, se você escolher um número de canais maior do que o disponível, a faixa não será adicionada.",
+        "AudioCodec": "Codec",
+        "AudioCodec-Help": "O codec a ser usado para o áudio",
+        "AudioLanguages": "Idiomas",
+        "AudioLanguages-Help": "Especifique os idiomas que deseja manter na ordem desejada.",
+        "Bitrate": "Taxa de bits",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "Converter Áudio",
+        "ConvertAudioDescription": "Converter as faixas de áudio para os formatos especificados",
+        "CopyAllAudio": "Copiar todo o áudio",
+        "CopyAllAudioDescription": "Copiar todas as faixas de áudio como estão, sem modificações.",
+        "CopyOnlyLanguages": "Copiar apenas idiomas específicos",
+        "CopyOnlyLanguagesDescription": "Copiar apenas os idiomas especificados abaixo. Todos os outros idiomas serão removidos. As faixas de áudio serão copiadas sem modificações.",
+        "CropBlackBars": "Cortar Barras Pretas",
+        "CropBlackBars-Help": "O FileFlows tentará detectar barras pretas no arquivo de vídeo e, se encontradas, as cortará para reduzir o tamanho do arquivo e permitir a alteração da proporção da imagem nos players.",
+        "DefaultLanguage": "Idioma Padrão",
+        "DefaultLanguage-Help": "Especifica o idioma a ser atribuído às faixas de áudio que atualmente não possuem idioma especificado.",
+        "KeepAllSubtitles": "Manter Todas as Legendas",
+        "KeepAllSubtitlesDescription": "Manter todas as legendas do vídeo original",
+        "KeepOnlySpecifiedSubtitles": "Manter Somente",
+        "KeepOnlySpecifiedSubtitlesDescription": "Manter somente as legendas especificadas, o restante será removido",
+        "Name": "Nome",
+        "Name-Help": "O nome do fluxo recém-criado, deve ser único.",
+        "Quality": "Qualidade",
+        "Quality-Suffix": "Maior Qualidade",
+        "ReplaceOriginal": "Substituir Original",
+        "ReplaceOriginal-Help": "Substituir o arquivo de vídeo original pelo recém-criado.",
+        "SaveToFolder": "Salvar na pasta",
+        "SaveToFolder-Help": "Salvar o arquivo recém-criado em um novo local",
+        "SubtitleLanguages": "Idiomas",
+        "SubtitleLanguages-Help": "Especifique os idiomas que deseja manter na ordem desejada.",
+        "TwoAudioVersions": "Duas Versões de Áudio",
+        "TwoAudioVersions-Help": "Se duas versões das faixas de áudio devem ser criadas. Por exemplo, se você deseja criar uma faixa surround e uma estéreo. Caso contrário, será criada apenas uma versão.",
+        "VideoCodec": "Codec de Vídeo",
+        "VideoCodec-Help": "O codec a ser usado para o vídeo",
+        "VideoContainer": "Container",
+        "VideoContainer-Help": "O container de vídeo a ser usado, é recomendado usar MKV, pois o MP4 suporta menos formatos de legenda.",
+        "QualityLevel": {
+          "Good": "Bom",
+          "High": "Alto",
+          "Ok": "OK",
+          "Recommended": "Recomendado",
+          "VeryHigh": "Muito Alto"
+        }
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "Você deve especificar pelo menos um idioma de áudio.",
+        "Audio2LanguageRequired": "Você deve especificar pelo menos um idioma de áudio adicional.",
+        "AudioMode2LanguagesRequired": "Os idiomas de áudio são obrigatórios.",
+        "SubtitleLanguageRequired": "Os idiomas das legendas são obrigatórios."
+      },
+      "Pages": {
+        "Audio": "Áudio",
+        "Audio1": "Conversão",
+        "Audio1Description": "Especifique os idiomas de áudio a serem mantidos e suas configurações de codificação.",
+        "Audio2": "Áudio Adicional",
+        "Audio2Description": "Defina as configurações de codificação para as faixas de áudio secundárias.",
+        "AudioDescription": "Especifique o que deve ser feito com as faixas de áudio.",
+        "General": "Geral",
+        "GeneralDescription": "Insira informações gerais sobre este fluxo.",
+        "Output": "Saída",
+        "OutputDescription": "Especifique onde o arquivo final deve ser salvo.",
+        "Subtitle": "Legenda",
+        "SubtitleDescription": "Selecione as legendas a serem incluídas na saída.",
+        "Type": "Tipo",
+        "TypeDescription": "Selecione o tipo de vídeos que serão processados.",
+        "Video": "Vídeo",
+        "VideoDescription": "Escolha o método de codificação usado para o fluxo de vídeo."
+      },
+      "Parts": {
+        "CpuFailOverEncode": "Codificação com fallback para CPU",
+        "CpuFailOverExecutor": "Executor de fallback para CPU",
+        "DefaultLanguage": "Idioma padrão para ''{lang}''",
+        "PrimaryAudio": "Áudio principal",
+        "RemoveUnsupportedSubtitles": "Remover legendas não suportadas",
+        "RemoveUnwantedSubtitles": "Remover idiomas de legendas indesejados",
+        "RemuxToContainer": "Remux para {container}",
+        "SecondaryAudio": "Áudio secundário"
       }
     },
     "PauseDialog": {
@@ -755,15 +1123,12 @@
         "SubFlowHelp": "Para adicionar campos de entrada a um sub flow, para que você possa passar parâmetros personalizados para este sub flow, crie-os na aba `Fields`.\n\nUm sub flow deve ter um único `Input`, que pode ser qualquer elemento de flow de entrada válido, por exemplo, `Input File`, `Video File`, etc."
       },
       "Fields": {
-        "Author": "Autor",
-        "Author-Help": "Opcionalmente, especifique o autor deste flow.",
         "Description": "Descrição.",
-        "MinimumVersion": "Versão Mínima",
+        "Icon": "Ícone",
         "Outputs": "Saídas",
         "Outputs-Help": "O número de saídas que este sub flow possui. Este é o número de saídas que estarão disponíveis ao usar este sub flow em outro flow",
         "OutputsKey": "Saída",
         "OutputsValue": "Descrição",
-        "Tags": "Tags",
         "Variables": "Variáveis",
         "VariablesKey": "Nome",
         "VariablesValue": "Valor",
@@ -901,6 +1266,8 @@
         "DetectFileSizeLower": "",
         "DetectFileSizeUpper": "",
         "DetectionDescription": "Aqui você pode configurar uma biblioteca para detectar apenas arquivos que correspondam aos padrões dados.\n\nPor exemplo, isso permite incluir apenas arquivos que são\n\t- Arquivos que foram criados há menos de 7 dias\n\t- Arquivos que foram modificados entre 3 e 7 dias atrás\n\t- O tamanho do arquivo é maior que 1 gigabyte",
+        "DisableFileSystemEvents": "Eventos do Sistema de Arquivos",
+        "DisableFileSystemEvents-Help": "Especifica se os eventos do sistema de arquivos devem ser monitorados. Se ativado, o sistema observará eventos de criação e modificação de arquivos, verificará se os arquivos correspondem às configurações da biblioteca e os adicionará para processamento.",
         "DownloadsDirectory": "Diretório de Downloads",
         "DownloadsDirectory-Help": "Um diretório especial onde, se um arquivo que foi processado com sucesso for redescoberto nesta pasta, esse arquivo será automaticamente reprocessado.\nIsso é útil se você redownload um arquivo.",
         "Enabled": "Habilitado",
@@ -1087,7 +1454,7 @@
         "Enabled": "Habilitado",
         "FlowRunners": "Flow Runners",
         "FlowRunners-Help": "O número de instâncias de flow runner disponíveis para executar um flow.",
-        "Icon": "Ícone personalizado",
+        "Icon": "Ícone",
         "InternalProcessingNodeDescription": "Este é o node de processamento integrado no FileFlows. Este node permite que você execute o FileFlows sem se preocupar em instalar outros nodes em sistemas remotos e permite que você use o FileFlows como um aplicativo autônomo. Você pode continuar usando este node interno e nodes de processamento adicionais se desejar, ou pode desativar este node e usar apenas nodes adicionais.",
         "Libraries": "Bibliotecas",
         "Libraries-Help": "Selecione quais bibliotecas este node pode processar",
@@ -1110,6 +1477,8 @@
         "ProcessFileCheckInterval-Help": "Com que frequência verificar se há um novo arquivo para processamento nos nodes de processamento. Defina como 0 para usar o valor do sistema.",
         "ProcessFileCheckInterval-Suffix": "segundos",
         "ProcessingDescription": "Isso permite que você configure o que este Node de Processamento pode processar. Por exemplo, você pode limitar este node a processar apenas certas bibliotecas ou um tamanho máximo de arquivo se este node for de menor potência.",
+        "ProcessingOrder": "Ordem de Processamento",
+        "ProcessingOrder-Help": "Especifica a ordem em que os arquivos serão processados por este Nó. Esta configuração substitui a ordem de processamento padrão da biblioteca. Defina como 'Padrão' para usar a ordem de processamento da biblioteca.",
         "Schedule": "Cronograma",
         "Schedule-Help": "Este cronograma é executado no fuso horário do node",
         "ScheduleDescription": "Isso permite que você configure quando este node estará ativo. O node não processará nenhum arquivo fora deste cronograma configurado.",
@@ -1160,6 +1529,25 @@
         "Code": "Código",
         "Description": "Descrição",
         "Revision": "Revisão"
+      }
+    },
+    "Resellers": {
+      "Flows": {
+        "Single": "Fluxo do Revendedor",
+        "Title": "Fluxos do Revendedor",
+        "Fields": {
+          "Extensions": "Extensões",
+          "Extensions-Help": "A lista de extensões permitidas que podem ser processadas por este fluxo.",
+          "Flow": "Fluxo",
+          "Icon": "Ícone",
+          "MaxFileSize": "Tamanho Máximo do Arquivo",
+          "MaxFileSize-Help": "O tamanho máximo de arquivo permitido para ser processado por este fluxo.",
+          "Tokens": "Tokens",
+          "Tokens-Help": "O número de tokens que custa para um usuário executar este fluxo."
+        }
+      },
+      "Settings": {
+        "Title": "Configurações do Revendedor"
       }
     },
     "Resources": {
@@ -1263,6 +1651,8 @@
         "DelayBetweenNextFile-Suffix": "milissegundos",
         "DockerModsOnServer": "DockerMods No Servidor",
         "DockerModsOnServer-Help": "DockerMods devem ser executados automaticamente ao iniciar o servidor ou quando especificamente ativados. Caso contrário, eles só serão executados quando um flow de trabalho for iniciado.",
+        "DontUseTempFilesWhenMovingOrCopying": "Arquivos Temporários para Mover/Copiar",
+        "DontUseTempFilesWhenMovingOrCopying-Help": "Use arquivos .fftemp para evitar detecção prematura durante mover/copiar.",
         "HideProcessingFinishedNotifications": "Notificações de Processamento Finalizado",
         "HideProcessingFinishedNotifications-Help": "Se uma notificação de toast deve ser exibida no console da web quando um arquivo terminar de processar.",
         "HideProcessingStartedNotifications": "Notificações de Processamento Iniciado",

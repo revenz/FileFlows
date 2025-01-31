@@ -8,7 +8,8 @@ namespace FileFlows.ServerShared.FileServices;
 /// <summary>
 /// Local file service
 /// </summary>
-public class LocalFileService : IFileService
+/// <param name="dontUseTemporaryFilesForMoveCopy">If temporary files should not be used for move/copy</param>
+public class LocalFileService(bool dontUseTemporaryFilesForMoveCopy) : IFileService
 {
     /// <summary>
     /// Gets or sets the path separator for the file system
@@ -398,7 +399,7 @@ public class LocalFileService : IFileService
             Logger?.ILog("LocalFileService.FileMove: Path: " + path);
             Logger?.ILog("LocalFileService.FileMove: Destination: " + destination);
             Logger?.ILog("LocalFileService.FileMove: Overwrite: " + overwrite);
-            
+
             var fileInfo = new FileInfo(path);
             if (fileInfo.Exists == false)
                 return Result<bool>.Fail("File does not exist");
@@ -406,21 +407,70 @@ public class LocalFileService : IFileService
             var destDir = new FileInfo(destination).Directory;
             Logger?.ILog("Checking destination exists: " + destDir);
             CreateDirectoryIfNotExists(destDir?.FullName!);
+            if (File.Exists(destination))
+            {
+                if (overwrite == false)
+                {
+                    Logger?.ILog("File already exists: " + destination);
+                    return false;
+                }
 
-            Logger?.ILog($"About to move file '{fileInfo.FullName}' to '{destination}'");
+                try
+                {
+                    File.Delete(destination);
+                }
+                catch (Exception)
+                {
+                    // Ignored
+                }
+            }
+
+            if (dontUseTemporaryFilesForMoveCopy)
+            {
+                if (DoMove(fileInfo.FullName, destination, overwrite) == false)
+                    return Result<bool>.Fail("Failed to move file to final file");
+            }
+            else
+            {
+                var tempDest = destination + ".fftemp";
+
+                if (DoMove(fileInfo.FullName, tempDest, true) == false)
+                    return Result<bool>.Fail("Failed to move file to temp file");
+                if (DoMove(tempDest, destination, overwrite) == false)
+                    return Result<bool>.Fail("Failed to move temp file to final file");
+            }
+
+            SetPermissions(destination);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return Result<bool>.Fail(ex.Message);
+        }
+
+        bool DoMove(string fileName, string destination, bool overwrite)
+        {
+            Logger?.ILog($"About to move file '{fileName}' to '{destination}'");
             int count = 0;
             while (count++ < 4)
             {
                 try
                 {
-                    fileInfo.MoveTo(destination, overwrite);
-                    break;
+                    File.Move(fileName, destination, overwrite);
+                    return true;
                 }
                 catch (Exception ex)
                 {
-                    if(OperatingSystem.IsMacOS() && ex.Message.Contains("Input/output error", StringComparison.InvariantCultureIgnoreCase))
+                    if (OperatingSystem.IsMacOS() && ex.Message.Contains("Input/output error",
+                            StringComparison.InvariantCultureIgnoreCase))
                     {
                         Logger?.ILog("Input/output error, retrying move");
+                        Thread.Sleep(count * 30_000);
+                    }
+                    else if (ex is IOException && ex.Message.Contains("Access to the path") &&
+                             ex.Message.Contains("is denied"))
+                    {
+                        Logger?.ILog("Access denied error, retrying move");
                         Thread.Sleep(count * 30_000);
                     }
                     else
@@ -430,15 +480,11 @@ public class LocalFileService : IFileService
                 }
             }
 
-
-            SetPermissions(destination);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            return Result<bool>.Fail(ex.Message);
+            return false;
         }
     }
+    
+
     /// <summary>
     /// Creates a directory at the specified path if it does not already exist.
     /// </summary>
@@ -507,20 +553,72 @@ public class LocalFileService : IFileService
             
             var destDir = new FileInfo(destination).Directory;
             CreateDirectoryIfNotExists(destDir?.FullName!);
+            
+            if (File.Exists(destination))
+            {
+                if (overwrite == false)
+                {
+                    Logger?.ILog("File already exists: " + destination);
+                    return false;
+                }
 
+                try
+                {
+                    File.Delete(destination);
+                }
+                catch (Exception)
+                {
+                    // Ignored
+                }
+            }
+
+            if (dontUseTemporaryFilesForMoveCopy)
+            {
+                if (DoCopy(fileInfo.FullName, destination, overwrite, move: true) == false)
+                    return Result<bool>.Fail("Failed to copy file to final file");
+            }
+            else
+            {
+
+                var tempDest = destination + ".fftemp";
+                if (DoCopy(fileInfo.FullName, tempDest, true) == false)
+                    return Result<bool>.Fail("Failed to copy file to temp file");
+                if (DoCopy(tempDest, destination, overwrite, move: true) == false)
+                    return Result<bool>.Fail("Failed to copy temp file to final file");
+            }
+
+            SetPermissions(destination);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return Result<bool>.Fail(ex.Message);
+        }
+
+        bool DoCopy(string fileName, string dest, bool replace, bool move = false)
+        {
             int count = 0;
             while (count++ < 4)
             {
                 try
                 {
-                    fileInfo.CopyTo(destination, overwrite);
-                    break;
+                    if(move)
+                        File.Move(fileName, dest, replace);
+                    else
+                        File.Copy(fileName, dest, replace);
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     if (OperatingSystem.IsMacOS() && ex.Message.Contains("Input/output error", StringComparison.InvariantCultureIgnoreCase))
                     {
                         Logger?.ILog("Input/output error, retrying move");
+                        Thread.Sleep(count * 30_000);
+                    }
+                    else if (ex is IOException && ex.Message.Contains("Access to the path") &&
+                             ex.Message.Contains("is denied"))
+                    {
+                        Logger?.ILog("Access denied error, retrying copy");
                         Thread.Sleep(count * 30_000);
                     }
                     else
@@ -530,12 +628,7 @@ public class LocalFileService : IFileService
                 }
             }
 
-            SetPermissions(destination);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            return Result<bool>.Fail(ex.Message);
+            return false;
         }
     }
     

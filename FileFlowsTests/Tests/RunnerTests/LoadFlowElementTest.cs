@@ -53,11 +53,12 @@ public class TestElement : Node
     /// <summary>
     /// Gets or sets the value of the test string value
     /// </summary>
-    public string PropString { get; set; }
+    public string PropString { get; set; } = string.Empty;
+
     /// <summary>
     /// Gets or sets the value of the test string value
     /// </summary>
-    public string PropString2 { get; set; }
+    public string PropString2 { get; set; } = string.Empty;
     /// <summary>
     /// Gets or sets the value of the test number value
     /// </summary>

@@ -39,6 +39,11 @@ public class Settings : FileFlowObject
     /// Gets or sets if temporary files from a failed flow should be kept
     /// </summary>
     public bool KeepFailedFlowTempFiles { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if temporary files should not be used when moving/copying files
+    /// </summary>
+    public bool DontUseTempFilesWhenMovingOrCopying { get; set; }
 
     /// <summary>
     /// Gets or sets if the Queue messages should be logged

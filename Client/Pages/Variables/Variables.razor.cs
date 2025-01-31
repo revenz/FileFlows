@@ -12,7 +12,7 @@ public partial class Variables : ListPage<Guid, Variable>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        lblValue = Translater.Instant("Pages.Flows.Fields.VariablesValue");
+        lblValue = Translater.Instant("Pages.Flow.Fields.VariablesValue");
     }
 
     private async Task Add()
@@ -30,8 +30,8 @@ public partial class Variables : ListPage<Guid, Variable>
             InputType = FileFlows.Plugin.FormInputType.Text,
             Name = nameof(variable.Name),
             HideLabel = true,
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required()
+            Validators = new List<Validator> {
+                new Required()
             },
             
         });
@@ -41,8 +41,8 @@ public partial class Variables : ListPage<Guid, Variable>
             FlexGrow = true,
             HideLabel = true,
             Name = nameof(variable.Value),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required()
+            Validators = new List<Validator> {
+                new Required()
             }
         });
         await Editor.Open(new () { TypeName = "Pages.Variable", Title = "Pages.Variable.Title", 

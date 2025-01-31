@@ -1,0 +1,77 @@
+@namespace FileFlows.Client.Wizards
+
+@inherits InputRegister
+
+<Editor @ref="Editor"></Editor>
+@if (Editor != null && initDone)
+{
+    <CascadingValue IsFixed="true" Value="Editor">
+        <FlowWizard @ref=Wizard Modal="true" Cancelable="true" OnCancel="@Cancel"
+                    @bind-SelectedPageIndex="SelectedCategory" OnFinish="Select"
+                    NonWizard="true" FinishButtonLabel="Labels.Select"  >
+            
+            <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Basic">
+                <FlowRadioGroup TItem="Int32" @bind-Value="FlowBasic" LabelPrefix="Dialogs.NewFlowWizard.Flow.Basic">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-file" TLabel="File" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-folder" TLabel="Folder" />
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-exclamation-circle" TLabel="FailureFlow" />
+                    <FlowRadioGroupItem TItem="Int32" Value="3" Icon="fas fa-subway" TLabel="SubFlow" />
+                </FlowRadioGroup>
+            </FlowWizardPage>
+
+            <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Video">
+                <FlowRadioGroup TItem="Int32" @bind-Value="FlowVideo" LabelPrefix="Dialogs.NewFlowWizard.Flow.Video">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-video" TLabel="Convert" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-file-video" TLabel="Blank" />
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-headphones" TLabel="AudioToVideo" />
+                </FlowRadioGroup>
+            </FlowWizardPage>
+
+            <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Audio">
+                <FlowRadioGroup TItem="Int32" @bind-Value="FlowAudio" LabelPrefix="Dialogs.NewFlowWizard.Flow.Audio">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-headphones" TLabel="Convert" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-file-audio" TLabel="Blank" />
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-video" TLabel="AudioToVideo" />
+                </FlowRadioGroup>
+            </FlowWizardPage>
+
+            <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Image">
+                <FlowRadioGroup TItem="Int32" @bind-Value="FlowImage" LabelPrefix="Dialogs.NewFlowWizard.Flow.Image">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-image" TLabel="Convert" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-file-image" TLabel="Blank" />
+                </FlowRadioGroup>
+            </FlowWizardPage>
+
+            <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Book">
+                <FlowRadioGroup TItem="Int32" @bind-Value="FlowBook" LabelPrefix="Dialogs.NewFlowWizard.Flow.Book">
+                    @* <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-book" TLabel="eBook" /> *@
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-journal-whills" TLabel="Comic" />
+                </FlowRadioGroup>
+            </FlowWizardPage>
+
+            <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Failure">
+                <FlowRadioGroup TItem="Int32" @bind-Value="FlowFailure" LabelPrefix="Dialogs.NewFlowWizard.Flow.Failure">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-exclamation-circle" TLabel="Blank" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-rocket" TLabel="Apprise" />
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fab fa-discord" TLabel="Discord" />
+                    <FlowRadioGroupItem TItem="Int32" Value="3" Icon="fas fa-flag" TLabel="Gotify" />
+                    <FlowRadioGroupItem TItem="Int32" Value="4" Icon="fab fa-telegram-plane" TLabel="Telegram" />
+                </FlowRadioGroup>
+            </FlowWizardPage>
+            
+            @if (ShowCreated && Flows.Count > 0)
+            {
+                <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Users">
+                    <FlowRadioGroup TItem="Guid" @bind-Value="FlowUid" LabelPrefix="Dialogs.NewFlowWizard.Flow.Users">
+                        @foreach (var flow in Flows)
+                        {
+                            <FlowRadioGroupItem TItem="Guid" Value="@flow.Uid" Icon="@GetFlowIcon(flow)" 
+                                                Title="@flow.Name" Description="@flow.Description" />
+                        }
+                    </FlowRadioGroup>
+                </FlowWizardPage>
+            }
+
+        </FlowWizard>
+    </CascadingValue>
+}

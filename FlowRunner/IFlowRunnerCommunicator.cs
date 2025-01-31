@@ -179,6 +179,8 @@ public class FlowRunnerCommunicator : IFlowRunnerCommunicator, IAsyncDisposable
             }
             catch (Exception ex)
             {
+                if (ex.Message.Contains("disposed object"))
+                    return;
                 runInstance.LogError($"Reconnection attempt {retryCount + 1} failed: {ex.Message}");
                 retryCount++;
                 retryDelay = TimeSpan.FromSeconds(Math.Pow(2, retryCount)); // Exponential backoff
@@ -277,4 +279,19 @@ public class FlowRunnerCommunicator : IFlowRunnerCommunicator, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Tells the server to ignore the specified path when scanning
+    /// </summary>
+    /// <param name="path">the Path to ignore</param>
+    public async Task LibraryIgnorePath(string path)
+    {
+        try
+        {
+            await connection.InvokeAsync<bool>("LibraryIgnorePath", path);
+        }
+        catch(Exception)
+        {
+            // Ignored
+        }
+    }
 }

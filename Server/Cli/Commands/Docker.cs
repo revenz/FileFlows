@@ -15,7 +15,7 @@ public class Docker : Command
     public override bool PrintToConsole => false;
 
     /// <inheritdoc />
-    public override bool Run(Plugin.ILogger logger)
+    public override bool Run(ILogger logger)
     {
         Globals.IsDocker = true;
         return false;

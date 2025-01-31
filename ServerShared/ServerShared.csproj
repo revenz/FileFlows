@@ -10,13 +10,14 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FileFlowsAdditional\Helpers\Helpers.csproj" />
     <ProjectReference Include="..\Plugin\Plugin.csproj" />
     <ProjectReference Include="..\ScriptExecution\ScriptExecution.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Jint" Version="3.1.5" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.12.0" />
     <PackageReference Include="NPoco.SqlServer" Version="5.7.1" />
     <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>

@@ -8,7 +8,6 @@ class ffFlowHistory {
     }
     
     perform(action){
-        console.log('history perform', action);
         this.ffFlow.markDirty();
         // doing new action, anything past the current point we will clear
         this.redoActions = [];
@@ -20,7 +19,6 @@ class ffFlowHistory {
         if(this.redoActions.length === 0)
             return; // nothing to redo
         let action = this.redoActions.splice(this.redoActions.length - 1, 1)[0];
-        console.log('history redo', action);
         this.history.push(action);
         action.perform(this.ffFlow);
     }
@@ -30,7 +28,6 @@ class ffFlowHistory {
             return;
         }
         let action = this.history.pop();
-        console.log('history undo', action);
         this.redoActions.push(action);
         action.undo(this.ffFlow);
     }    

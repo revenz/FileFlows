@@ -1,20 +1,37 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Wizards;
 using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
 
+/// <summary>
+/// Libraries page
+/// </summary>
 public partial class Libraries : ListPage<Guid, Library>
 {
+
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    /// <inheritdoc />
     public override string ApiUrl => "/api/library";
-
+    /// <summary>
+    /// The current item being edited
+    /// </summary>
     private Library EditingItem = null;
-
+    /// <summary>
+    /// Translation strings
+    /// </summary>
     private string lblLastScanned, lblFlow, lblSavings;
-
+    /// <summary>
+    /// If the system has libraries created
+    /// </summary>
     private bool HasCreatedLibraries = false;
-
+    
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -23,17 +40,37 @@ public partial class Libraries : ListPage<Guid, Library>
         lblSavings = Translater.Instant("Labels.Savings");
     }
 
+    /// <summary>
+    /// Adds an item
+    /// </summary>
     private async Task Add()
     {
-        await Edit(new ()
-        {  
-            Enabled = true, 
-            ScanInterval = 3 * 60 * 60, 
-            FileSizeDetectionInterval = 5,
-            // UseFingerprinting = false,
-            // UpdateMovedFiles = true,
-            Schedule = new string('1', 672)
+        // show the AddFileDialog
+        Result<Library> result = await ModalService.ShowModal<NewLibraryWizard, Library>(new NewLibraryWizardOptions()
+        {
         });
+        if(result.Success(out var library))
+            await ItemSaved(library);
+        // if (result.Success(out var uploadedFile))
+        // {
+        //     Files.Add(uploadedFile);
+        //     file = e.File;
+        // }
+        // else
+        // {
+        //     // remove the file from the InputFile
+        //     file = null;
+        // }
+        
+        // await Edit(new ()
+        // {  
+        //     Enabled = true, 
+        //     ScanInterval = 3 * 60 * 60, 
+        //     FileSizeDetectionInterval = 5,
+        //     // UseFingerprinting = false,
+        //     // UpdateMovedFiles = true,
+        //     Schedule = new string('1', 672)
+        // });
     }
 
     /// <summary>
@@ -69,6 +106,10 @@ public partial class Libraries : ListPage<Guid, Library>
         }
     }
     
+    /// <summary>
+    /// Gets the flows
+    /// </summary>
+    /// <returns>the list of flows</returns>
     private Task<RequestResult<Dictionary<Guid, string>>> GetFlows()
         => HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list?type=Standard");
 
@@ -137,20 +178,8 @@ public partial class Libraries : ListPage<Guid, Library>
                 Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return false;
             }
-            if ((Profile.ConfigurationStatus & ConfigurationStatus.Libraries) !=
-                ConfigurationStatus.Libraries)
-            {
-                // refresh the app configuration status
-                await ProfileService.Refresh();
-            }
 
-            int index = this.Data.FindIndex(x => x.Uid == saveResult.Data.Uid);
-            if (index < 0)
-                this.Data.Add(saveResult.Data);
-            else
-                this.Data[index] = saveResult.Data;
-
-            await this.Load(saveResult.Data.Uid);
+            await ItemSaved(saveResult.Data);
 
             return true;
         }
@@ -161,6 +190,28 @@ public partial class Libraries : ListPage<Guid, Library>
         }
     }
 
+
+    /// <summary>
+    /// Called after an item is saved
+    /// </summary>
+    /// <param name="library">the saved library</param>
+    private async Task ItemSaved(Library library)
+    {
+        if ((Profile.ConfigurationStatus & ConfigurationStatus.Libraries) !=
+            ConfigurationStatus.Libraries)
+        {
+            // refresh the app configuration status
+            await ProfileService.Refresh();
+        }
+
+        int index = this.Data.FindIndex(x => x.Uid == library.Uid);
+        if (index < 0)
+            this.Data.Add(library);
+        else
+            this.Data[index] = library;
+
+        await this.Load(library.Uid);
+    }
 
     private string TimeSpanToString(Library lib)
     {

@@ -147,8 +147,14 @@ public partial class AddFileDialog : VisibleEscapableComponent
     private async Task Browse(int index)
     {
         var start = index >= 0 && index <= Files.Count ? Files[index] : NewItem;
-        var result = await FileBrowser.Show(start);
-        if (string.IsNullOrEmpty(result))
+        Result<string> result = await ModalService.ShowModal<FileBrowser, string>(new FileBrowserOptions()
+        {
+            Start = start
+        });
+        if (result.Failed(out _))
+            return;
+        var path = result.Value;
+        if (string.IsNullOrWhiteSpace(path))
             return;
         
         if (index >= 0)

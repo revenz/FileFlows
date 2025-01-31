@@ -1,7 +1,7 @@
 @using Humanizer
 @namespace FileFlows.Client.Components.Common
 
-<div class="flow-wizard @(DisableChanging ? "disabled" :"")">
+<div class="flow-wizard @(DisableChanging ? "disabled" :"") @(Modal ? "modal-wizard" : "")">
 
     <div class="flow-wizard-buttons">
         @foreach(var wp in Pages)
@@ -12,6 +12,7 @@
             }
 
             var className = $"wizard-button wb-{wp.Title.Dehumanize()} {(ActivePage == wp ? "active" : "")} " +
+                            $"{(wp.Indented ? "indented " : "")}" +
                             $"{(wp.Disabled ? "disabled" : "")} {(wp.Invalid ? "invalid": "")}";
             
             <span class="@className" @onclick="() => SelectPage(wp)" disabled="@(DisableChanging && ActivePage != wp)">
@@ -41,19 +42,28 @@
         </CascadingValue>
 
         <div class="flow-wizard-navigation-buttons">
-            @if (ActivePage != Pages.FirstOrDefault(x => x.Visible))
+            @if (Cancelable)
+            {
+                <span class="cancel" @onclick="Cancel">@Translater.Instant("Labels.Cancel")</span>
+            }
+            @if (NonWizard == false && ActivePage != Pages.FirstOrDefault(x => x.Visible))
             {
                 <span class="previous" @onclick="Previous">@Translater.Instant("Labels.Previous")</span>
             }
-            @if (ActivePage != Pages.LastOrDefault(x => x.Visible))
+            @if (NonWizard)
+            {
+                <span class="finish" @onclick="Finish">@Translater.Instant(FinishButtonLabel?.EmptyAsNull() ?? "Labels.Finish")</span>
+            }
+            else if (ActivePage != Pages.LastOrDefault(x => x.Visible))
             {
                 <span class="next @(ActivePage?.NextDisabled == true ? "disabled" : "")" @onclick="Next">@Translater.Instant("Labels.Next")</span>
             }
             else
             {
-                <span class="finish" @onclick="Finish">@Translater.Instant("Labels.Finish")</span>
+                <span class="finish" @onclick="Finish">@Translater.Instant(FinishButtonLabel?.EmptyAsNull() ?? "Labels.Finish")</span>
             }
         </div>
     </div>
 
+    <Blocker @ref=Blocker />
 </div>

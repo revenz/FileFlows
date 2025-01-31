@@ -267,13 +267,14 @@ public class RunInstance
             // url
             remoteFile = true;
             if (args.IsServer)
-                _fileService = new LocalFileService();
+                _fileService = new LocalFileService(args.Config.DontUseTempFilesWhenMovingOrCopying);
             else if (args.Config.AllowRemote)
                 _fileService = new RemoteFileService(Uid, RemoteService.ServiceBaseUrl, args.WorkingDirectory,
                     Logger,
-                    libFile.Name.Contains('/') ? '/' : '\\', RemoteService.AccessToken, RemoteService.NodeUid);
+                    libFile.Name.Contains('/') ? '/' : '\\', RemoteService.AccessToken, RemoteService.NodeUid,
+                    args.Config.DontUseTempFilesWhenMovingOrCopying);
             else
-                _fileService = new MappedFileService(node, Logger);
+                _fileService = new MappedFileService(node, Logger, args.Config.DontUseTempFilesWhenMovingOrCopying);
         }
         else
         {
@@ -287,8 +288,8 @@ public class RunInstance
             if (fileExists)
             {
                 _fileService = args.IsServer
-                    ? new LocalFileService { Logger = Logger }
-                    : new MappedFileService(node, Logger);
+                    ? new LocalFileService(args.Config.DontUseTempFilesWhenMovingOrCopying) { Logger = Logger }
+                    : new MappedFileService(node, Logger, args.Config.DontUseTempFilesWhenMovingOrCopying);
             }
             else if (args.IsServer || libfileService.ExistsOnServer(libFile.Uid).Result == false)
             {
@@ -301,7 +302,7 @@ public class RunInstance
             }
             else
             {
-                _fileService = new MappedFileService(node, Logger);
+                _fileService = new MappedFileService(node, Logger, args.Config.DontUseTempFilesWhenMovingOrCopying);
                 bool exists = lib.Folders
                     ? _fileService.DirectoryExists(workingFile)
                     : _fileService.FileExists(workingFile);
@@ -337,7 +338,8 @@ public class RunInstance
                     remoteFile = true;
                     _fileService = new RemoteFileService(Uid, RemoteService.ServiceBaseUrl, args.WorkingDirectory,
                         Logger,
-                        libFile.Name.Contains('/') ? '/' : '\\', RemoteService.AccessToken, RemoteService.NodeUid);
+                        libFile.Name.Contains('/') ? '/' : '\\', RemoteService.AccessToken, RemoteService.NodeUid,
+                        args.Config.DontUseTempFilesWhenMovingOrCopying);
                 }
             }
 

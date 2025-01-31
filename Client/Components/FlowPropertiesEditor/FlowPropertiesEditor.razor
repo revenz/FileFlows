@@ -9,17 +9,19 @@
 {
     @if (Flow.Type != FlowType.SubFlow)
     {
-        <InputTextArea @bind-Value="@Flow.Properties.Description" Label="Pages.Flow.Fields.Description" OnChangedValue="(v) => MarkDirty()"/>
-        <InputText @bind-Value="@Flow.Properties.Author" Label="Pages.Flow.Fields.Author" OnChangedValue="(v) => MarkDirty()"/>
-        <InputArray @bind-Value="@Flow.Properties.Tags" Label="Pages.Flow.Fields.Tags" OnChangedValue="(v) => MarkDirty()"/>
-        <InputText @bind-Value="@Flow.Properties.MinimumVersion" Label="Pages.Flow.Fields.MinimumVersion" OnChangedValue="(v) => MarkDirty()"/>
+        <InputTextArea @bind-Value="@Flow.Description" Label="Pages.Flow.Fields.Description" OnChangedValue="(v) => MarkDirty()"/>
+        <InputIconPicker @bind-Value="@Flow.Icon" Label="Pages.Flow.Fields.Icon" OnChangedValue="(v) => MarkDirty()"/>
+        @* <InputText @bind-Value="@Flow.Properties.Author" Label="Pages.Flow.Fields.Author" OnChangedValue="(v) => MarkDirty()"/> *@
+        @* <InputArray @bind-Value="@Flow.Properties.Tags" Label="Pages.Flow.Fields.Tags" OnChangedValue="(v) => MarkDirty()"/> *@
+        @* <InputText @bind-Value="@Flow.Properties.MinimumVersion" Label="Pages.Flow.Fields.MinimumVersion" OnChangedValue="(v) => MarkDirty()"/> *@
         <InputKeyValue @bind-Value="@FlowVariables" Label="Pages.Flow.Fields.Variables" OnChangedValue="(v) => MarkDirty()"/>
     }
     else
     {
         <InputTextLabel Label=@lblSubFlowHelp Value=@lblSubFlowHelp HideLabel=@true Pre="true" Formatter="Markdown"/>
         <hr/>
-        <InputTextArea @bind-Value="@Flow.Properties.Description" Label="Pages.Flow.Fields.Description" OnChangedValue="(v) => MarkDirty()"/>
+        <InputTextArea @bind-Value="@Flow.Description" Label="Pages.Flow.Fields.Description" OnChangedValue="(v) => MarkDirty()"/>
+        <InputIconPicker @bind-Value="@Flow.Icon" Label="Pages.Flow.Fields.Icon" OnChangedValue="(v) => MarkDirty()"/>
         <InputKeyValueInt @bind-Value="@Flow.Properties.Outputs" Label="Pages.Flow.Fields.Outputs" OnChangedValue="(v) => MarkDirty()"/>
     }
 }

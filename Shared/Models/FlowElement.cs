@@ -117,7 +117,7 @@ public class FlowElement
     /// <summary>
     /// Gets or sets the model for this element
     /// </summary>
-    public ExpandoObject Model { get; set; }
+    public ExpandoObject? Model { get; set; }
 
     /// <summary>
     /// Gets or sets if this node is obsolete and should be phased out

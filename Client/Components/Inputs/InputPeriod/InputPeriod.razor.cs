@@ -32,18 +32,25 @@ public partial class InputPeriod : Input<int>
     /// </summary>
     [Parameter]
     public bool Seconds { get; set; } = true;
+
+    private const int SECONDS_SECOND = 1;
+    private const int SECONDS_MINUTE = 60;
+    private const int SECONDS_HOUR = 3600;
+    private const int SECONDS_DAY = 86400;
+    private const int SECONDS_WEEK = 604800;
     
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        this.Period = 1440;
-        var v = Value / (Seconds ? 60 : 1);
+        this.Period = SECONDS_DAY;
+        var v = Seconds ? Value : Value * 60;
 
         if (v > 0)
         {
-            var ranges = ShowWeeks ? new[] { 10080, 1440, 60, 1 } : new[] { 1440, 60, 1 };
+            var ranges = ShowWeeks ? new[] { SECONDS_WEEK, SECONDS_DAY, SECONDS_HOUR, SECONDS_MINUTE, SECONDS_SECOND } 
+                : new[] { SECONDS_DAY, SECONDS_HOUR, SECONDS_MINUTE, SECONDS_SECOND };
             foreach (int p in ranges)
             {
                 if (v % p == 0)
@@ -58,8 +65,8 @@ public partial class InputPeriod : Input<int>
         else
         {
             Number = 3;
-            Period = 1440;
-            Value = Number * Period;
+            Period = SECONDS_HOUR;
+            SetValue(3 * SECONDS_HOUR);
         }
     }
     
@@ -75,9 +82,10 @@ public partial class InputPeriod : Input<int>
         
         int max = Period switch
         {
-            1 => 100_000,
-            60 => 10_000,
-            1440 => 10_000,
+            SECONDS_SECOND => 6_000_000,
+            SECONDS_MINUTE => 100_000,
+            SECONDS_HOUR => 10_000,
+            SECONDS_DAY => 10_000,
             _ => 1_000
         };
         if (value > max)
@@ -85,7 +93,7 @@ public partial class InputPeriod : Input<int>
         else if (value < 1)
             value = 1;
         this.Number = value;
-        this.Value = this.Number * this.Period * (Seconds ? 60 : 1);
+        SetValue(this.Number * this.Period);
         this.ClearError();
     }
 
@@ -110,10 +118,20 @@ public partial class InputPeriod : Input<int>
         if (int.TryParse(args?.Value?.ToString(), out int index))
         {
             Period = index;
-            Value = Number * Period * (Seconds ? 60 : 1);
+            SetValue(this.Number * this.Period);
         }
         else
             Logger.Instance.DLog("Unable to find index of: ",  args?.Value);
     }
 
+    /// <summary>
+    /// Sets the value
+    /// </summary>
+    /// <param name="seconds">the number of seconds</param>
+    private void SetValue(int seconds)
+    {
+        if (Seconds == false)
+            seconds /= 60; // convert to minuntes
+        Value = seconds;
+    }
 }

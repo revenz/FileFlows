@@ -90,6 +90,20 @@
     Validators=@field.Validators Placeholder="@field.Placeholder" HideLabel=@hideLabel OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
             }
             break;
+        case FormInputType.LanguagesSelector:
+        {
+            var value = GetValue<List<string>>(field.Name) ?? [];
+            <InputLanguages Field=@field Label="@label" Value="@value" ReadOnly=@readOnly ValueChanged="@(x => UpdateValue(field, x))"
+                           Validators=@field.Validators Placeholder="@field.Placeholder" HideLabel=@hideLabel OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
+        }
+            break;
+        case FormInputType.LanguageSelector:
+        {
+            var value = GetValue<string>(field.Name) ?? "";
+            <InputLanguage Field=@field Label="@label" Value="@value" ReadOnly=@readOnly ValueChanged="@(x => UpdateValue(field, x))"
+                           Validators=@field.Validators Placeholder="@field.Placeholder" HideLabel=@hideLabel OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
+        }
+            break;
         case FormInputType.LogView:
             {
                 var value = GetValue<string>(field.Name) ?? "";
@@ -385,6 +399,13 @@
                            OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
         }
             break;
+        case FormInputType.CustomFields:
+        {
+            var oValue = GetValue<List<CustomField>>(field.Name);
+            var log = GetParameter<string>(field, nameof(InputExecutedNodes.Log));
+            <InputCustomFields Field=@field Label="@label" Value="@oValue" HideLabel=@hideLabel />
+        }
+        break;
         case FormInputType.ExecutedNodes:
             {
                 var oValue = GetValue<List<ExecutedNode>>(field.Name);
@@ -428,8 +449,12 @@
             break;
         case FormInputType.Label:
             {
+                var labelTranslated = Translater.TranslateIfNeeded(label);
+                if (labelTranslated.StartsWith("Flow.Parts.Script.Fields."))
+                    labelTranslated = labelTranslated[25..].Trim();
+                
                 <div class="input-label">
-                    @Translater.TranslateIfNeeded(label)
+                    @labelTranslated
                 </div>
             }
             break;

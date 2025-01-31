@@ -2,7 +2,7 @@ using FileFlows.DataLayer.DatabaseConnectors;
 using FileFlows.Plugin;
 using FileFlows.Shared.Models;
 using DatabaseType = FileFlows.Shared.Models.DatabaseType;
-using ILogger = FileFlows.Plugin.ILogger;
+using ILogger = FileFlows.Common.ILogger;
 
 namespace FileFlows.DataLayer.Upgrades;
 

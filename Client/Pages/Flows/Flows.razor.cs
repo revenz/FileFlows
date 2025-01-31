@@ -2,6 +2,7 @@ using FileFlows.Client.Components.Common;
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Wizards;
 using Microsoft.JSInterop;
 using ffFlow = FileFlows.Shared.Models.Flow;
 
@@ -13,6 +14,10 @@ public partial class Flows : ListPage<Guid, FlowListModel>
     /// Gets or sets the JavaScript runtime
     /// </summary>
     [Inject] private IJSRuntime jsRuntime { get; set; }
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
     
     private string TableIdentifier => "Flows-" + this.SelectedType;
 
@@ -42,8 +47,14 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         => typeof(ffFlow).FullName;
 
 
+    /// <summary>
+    /// Adds a new flow
+    /// </summary>
     private void Add()
-        => NavigationManager.NavigateTo("flows/" + Guid.Empty);
+    {
+        //NavigationManager.NavigateTo("flows/" + Guid.Empty);
+        _ = ModalService.ShowModal<NewFlowWizard, Flow>(new NewVideoFlowWizardOptions());
+    }
 
     public override async Task<bool> Edit(FlowListModel item)
     {

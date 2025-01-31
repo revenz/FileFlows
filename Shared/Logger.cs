@@ -1,11 +1,4 @@
-using System.Drawing;
-using System.IO;
-using System.Threading.Tasks;
-using FileFlows.Shared.Widgets;
-
 namespace FileFlows.Shared;
-
-using FileFlows.Plugin;
 
 /// <summary>
 /// A logger used to write log messages 

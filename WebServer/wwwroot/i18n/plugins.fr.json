@@ -1,0 +1,2274 @@
+{
+  "Flow": {
+    "Parts": {
+      "AudioBitrateMatches": {
+        "Description": "V\u00E9rifie si une bitrate audio correspond aux contraintes.",
+        "Label": "Correspondance de la bitrate audio",
+        "Fields": {
+          "BitrateKilobytes": "Bitrate",
+          "BitrateKilobytes-Help": "La bitrate en kilobytes pour v\u00E9rifier la correspondance.",
+          "BitrateKilobytes-Suffix": "Kilobytes",
+          "Match": "Correspondre"
+        },
+        "Outputs": {
+          "1": "Correspond",
+          "2": "Ne correspond pas"
+        }
+      },
+      "AudioFile": {
+        "Description": "Un fichier d\u0027entr\u00E9e pour l\u0027audio dont les informations audio ont \u00E9t\u00E9 lues et qui peut \u00EAtre trait\u00E9",
+        "Label": "Fichier audio",
+        "Outputs": {
+          "1": "Fichier audio de la biblioth\u00E8que"
+        }
+      },
+      "AudioFileNormalization": {
+        "Description": "Normalise un fichier audio avec deux passes du filtre loudnorm de FFMPEG",
+        "Label": "Normalisation du fichier audio",
+        "Outputs": {
+          "1": "Fichier audio normalis\u00E9, enregistr\u00E9 dans un fichier temporaire"
+        }
+      },
+      "ConvertAudio": {
+        "Description": "Convertit un fichier audio au format audio sp\u00E9cifi\u00E9",
+        "Label": "Convertir l\u0027audio",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "La bitrate pour le nouveau fichier, plus la bitrate est \u00E9lev\u00E9e, meilleure est la qualit\u00E9, mais plus le fichier est gros.",
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux que le fichier converti aura.\nSi vous sp\u00E9cifiez plus de canaux que la source, FFmpeg cr\u00E9era automatiquement un mixage montant.\nSi vous sp\u00E9cifiez moins de canaux que la source, FFmpeg cr\u00E9era automatiquement un mixage descendant.",
+          "Codec": "Codec",
+          "Codec-Help": "Le codec audio dans lequel le fichier doit \u00EAtre converti.",
+          "CustomExtension": "Extension",
+          "CustomExtension-Help": "Permet de sp\u00E9cifier une extension de fichier personnalis\u00E9e au lieu de celle d\u00E9termin\u00E9e automatiquement par le codec.",
+          "HighEfficiency": "Haute efficacit\u00E9",
+          "HighEfficiency-Help": "Utilise le mode haute efficacit\u00E9, cela change l\u0027extension en m4a et r\u00E9duit les appareils de lecture pris en charge, mais peut r\u00E9duire la taille du fichier.",
+          "Normalize": "Normaliser",
+          "Normalize-Help": "Si l\u0027audio doit \u00EAtre normalis\u00E9 avec une normalisation \u00E0 deux passes",
+          "SampleRate": "Fr\u00E9quence d\u0027\u00E9chantillonnage",
+          "SampleRate-Help": "La fr\u00E9quence d\u0027\u00E9chantillonnage \u00E0 utiliser",
+          "SkipIfCodecMatches": "Ignorer si le codec correspond",
+          "SkipIfCodecMatches-Help": "Si le codec audio existant correspond, ce fichier ne sera pas trait\u00E9, quelle que soit la bitrate. Si d\u00E9sactiv\u00E9, la bitrate doit \u00EAtre \u00E9gale ou inf\u00E9rieure pour \u00EAtre ignor\u00E9e."
+        },
+        "Outputs": {
+          "1": "Audio converti, enregistr\u00E9 dans un fichier temporaire",
+          "2": "L\u0027audio est d\u00E9j\u00E0 dans le codec, aucune conversion effectu\u00E9e"
+        }
+      },
+      "ConvertToAAC": {
+        "Description": "Convertit un fichier audio en AAC",
+        "Label": "Convertir en AAC",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "La bitrate pour le nouveau fichier AAC, plus la bitrate est \u00E9lev\u00E9e, meilleure est la qualit\u00E9, mais plus le fichier est gros. 192 Kbps est recommand\u00E9.",
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux que le fichier converti aura.\nSi vous sp\u00E9cifiez plus de canaux que la source, FFmpeg cr\u00E9era automatiquement un mixage montant.\nSi vous sp\u00E9cifiez moins de canaux que la source, FFmpeg cr\u00E9era automatiquement un mixage descendant.",
+          "CustomExtension": "Extension",
+          "CustomExtension-Help": "Permet de sp\u00E9cifier une extension de fichier personnalis\u00E9e au lieu de celle d\u00E9termin\u00E9e automatiquement par le codec.",
+          "HighEfficiency": "Haute efficacit\u00E9",
+          "HighEfficiency-Help": "Utilise le mode haute efficacit\u00E9, cela change l\u0027extension en m4a et r\u00E9duit les appareils de lecture pris en charge, mais peut r\u00E9duire la taille du fichier.",
+          "Normalize": "Normaliser",
+          "Normalize-Help": "Si l\u0027audio doit \u00EAtre normalis\u00E9 avec une normalisation \u00E0 deux passes",
+          "SampleRate": "Fr\u00E9quence d\u0027\u00E9chantillonnage",
+          "SampleRate-Help": "La fr\u00E9quence d\u0027\u00E9chantillonnage \u00E0 utiliser",
+          "SkipIfCodecMatches": "Ignorer si le codec correspond",
+          "SkipIfCodecMatches-Help": "Si le codec audio existant correspond, ce fichier ne sera pas trait\u00E9, quelle que soit la bitrate. Si d\u00E9sactiv\u00E9, la bitrate doit \u00EAtre \u00E9gale ou inf\u00E9rieure pour \u00EAtre ignor\u00E9e."
+        },
+        "Outputs": {
+          "1": "Audio converti, enregistr\u00E9 dans un fichier temporaire",
+          "2": "L\u0027audio est d\u00E9j\u00E0 dans le codec, aucune conversion effectu\u00E9e"
+        }
+      },
+      "ConvertToFLAC": {
+        "Description": "Convertit un fichier audio en FLAC",
+        "Label": "Convertir en FLAC",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "La bitrate pour le nouveau fichier FLAC, plus la bitrate est \u00E9lev\u00E9e, meilleure est la qualit\u00E9, mais plus le fichier est gros. 128 Kbps est recommand\u00E9.",
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux que le fichier converti aura.\nSi vous sp\u00E9cifiez plus de canaux que la source, FFmpeg cr\u00E9era automatiquement un mixage montant.\nSi vous sp\u00E9cifiez moins de canaux que la source, FFmpeg cr\u00E9era automatiquement un mixage descendant.",
+          "CustomExtension": "Extension",
+          "CustomExtension-Help": "Permet de sp\u00E9cifier une extension de fichier personnalis\u00E9e au lieu de celle d\u00E9termin\u00E9e automatiquement par le codec.",
+          "Normalize": "Normaliser",
+          "Normalize-Help": "Si l\u0027audio doit \u00EAtre normalis\u00E9 avec une normalisation \u00E0 deux passes",
+          "SampleRate": "Fr\u00E9quence d\u0027\u00E9chantillonnage",
+          "SampleRate-Help": "La fr\u00E9quence d\u0027\u00E9chantillonnage \u00E0 utiliser",
+          "SkipIfCodecMatches": "Ignorer si le codec correspond",
+          "SkipIfCodecMatches-Help": "Si le codec audio existant correspond, ce fichier ne sera pas trait\u00E9, quelle que soit la bitrate. Si d\u00E9sactiv\u00E9, la bitrate doit \u00EAtre \u00E9gale ou inf\u00E9rieure pour \u00EAtre ignor\u00E9e."
+        },
+        "Outputs": {
+          "1": "Audio converti, enregistr\u00E9 dans un fichier temporaire",
+          "2": "L\u0027audio est d\u00E9j\u00E0 dans le codec, aucune conversion effectu\u00E9e"
+        }
+      },
+      "ConvertToMP3": {
+        "Description": "Convertit un fichier audio en MP3",
+        "Label": "Convertir en MP3",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "La bitrate pour le nouveau fichier MP3, plus la bitrate est \u00E9lev\u00E9e, meilleure est la qualit\u00E9, mais plus le fichier est gros. 192 Kbps est recommand\u00E9.",
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux que le fichier converti aura.\nSi vous sp\u00E9cifiez plus de canaux que la source, FFmpeg cr\u00E9era automatiquement un mixage montant.\nSi vous sp\u00E9cifiez moins de canaux que la source, FFmpeg cr\u00E9era automatiquement un mixage descendant.",
+          "CustomExtension": "Extension",
+          "CustomExtension-Help": "Permet de sp\u00E9cifier une extension de fichier personnalis\u00E9e au lieu de celle d\u00E9termin\u00E9e automatiquement par le codec.",
+          "Normalize": "Normaliser",
+          "Normalize-Help": "Si l\u0027audio doit \u00EAtre normalis\u00E9 avec une normalisation \u00E0 deux passes",
+          "SampleRate": "Fr\u00E9quence d\u0027\u00E9chantillonnage",
+          "SampleRate-Help": "La fr\u00E9quence d\u0027\u00E9chantillonnage \u00E0 utiliser",
+          "SkipIfCodecMatches": "Ignorer si le codec correspond",
+          "SkipIfCodecMatches-Help": "Si le codec audio existant correspond, ce fichier ne sera pas trait\u00E9, quelle que soit la bitrate. Si d\u00E9sactiv\u00E9, la bitrate doit \u00EAtre \u00E9gale ou inf\u00E9rieure pour \u00EAtre ignor\u00E9e."
+        },
+        "Outputs": {
+          "1": "Audio converti, enregistr\u00E9 dans un fichier temporaire",
+          "2": "L\u0027audio est d\u00E9j\u00E0 dans le codec, aucune conversion effectu\u00E9e"
+        }
+      },
+      "ConvertToOGG": {
+        "Description": "Convertit un fichier audio en OGG",
+        "Label": "Convertir en OGG",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "La bitrate pour le nouveau fichier OGG, plus la bitrate est \u00E9lev\u00E9e, meilleure est la qualit\u00E9, mais plus le fichier est gros. 192 Kbps est recommand\u00E9.",
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux que le fichier converti aura.\nSi vous sp\u00E9cifiez plus de canaux que la source, FFmpeg cr\u00E9era automatiquement un mixage montant.\nSi vous sp\u00E9cifiez moins de canaux que la source, FFmpeg cr\u00E9era automatiquement un mixage descendant.",
+          "CustomExtension": "Extension",
+          "CustomExtension-Help": "Permet de sp\u00E9cifier une extension de fichier personnalis\u00E9e au lieu de celle d\u00E9termin\u00E9e automatiquement par le codec.",
+          "Normalize": "Normaliser",
+          "Normalize-Help": "Si l\u0027audio doit \u00EAtre normalis\u00E9 avec une normalisation \u00E0 deux passes",
+          "SampleRate": "Fr\u00E9quence d\u0027\u00E9chantillonnage",
+          "SampleRate-Help": "La fr\u00E9quence d\u0027\u00E9chantillonnage \u00E0 utiliser",
+          "SkipIfCodecMatches": "Ignorer si le codec correspond",
+          "SkipIfCodecMatches-Help": "Si le codec audio existant correspond, ce fichier ne sera pas trait\u00E9, quelle que soit la bitrate. Si d\u00E9sactiv\u00E9, la bitrate doit \u00EAtre \u00E9gale ou inf\u00E9rieure pour \u00EAtre ignor\u00E9e."
+        },
+        "Outputs": {
+          "1": "Audio converti, enregistr\u00E9 dans un fichier temporaire",
+          "2": "L\u0027audio est d\u00E9j\u00E0 dans le codec, aucune conversion effectu\u00E9e"
+        }
+      },
+      "ConvertToWAV": {
+        "Description": "Convertir un fichier audio en WAV",
+        "Label": "Convertir en WAV",
+        "Fields": {
+          "Bitrate": "D\u00E9bit binaire",
+          "Bitrate-Help": "Le d\u00E9bit binaire pour le nouveau fichier WAV, plus le d\u00E9bit binaire est \u00E9lev\u00E9, meilleure est la qualit\u00E9, mais plus le fichier est volumineux. 128 Kbps est le d\u00E9bit recommand\u00E9.",
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux que le fichier converti aura.\nSi vous sp\u00E9cifiez plus de canaux que la source, FFmpeg effectuera automatiquement un surmixage.\nSi vous sp\u00E9cifiez moins de canaux que la source, FFmpeg effectuera automatiquement un sous-mixage.",
+          "CustomExtension": "Extension",
+          "CustomExtension-Help": "Permet de d\u00E9finir une extension de fichier personnalis\u00E9e \u00E0 utiliser au lieu de celle automatiquement d\u00E9termin\u00E9e par le codec.",
+          "Normalize": "Normaliser",
+          "Normalize-Help": "Si l\u0027audio doit \u00EAtre normalis\u00E9 avec une normalisation audio \u00E0 deux passes",
+          "SampleRate": "Taux d\u0027\u00E9chantillonnage",
+          "SampleRate-Help": "Le taux d\u0027\u00E9chantillonnage \u00E0 utiliser",
+          "SkipIfCodecMatches": "Ignorer si le codec correspond",
+          "SkipIfCodecMatches-Help": "Si le codec audio existant correspond, ce fichier ne sera pas trait\u00E9, quel que soit le d\u00E9bit binaire. Sinon, si d\u00E9sactiv\u00E9, le d\u00E9bit binaire doit \u00EAtre inf\u00E9rieur ou \u00E9gal pour \u00EAtre ignor\u00E9."
+        },
+        "Outputs": {
+          "1": "Audio converti et enregistr\u00E9 dans un fichier temporaire",
+          "2": "Audio d\u00E9j\u00E0 dans le codec, aucune conversion effectu\u00E9e"
+        }
+      },
+      "CreateAudioBook": {
+        "Description": "Cr\u00E9e un livre audio \u00E0 partir de fichiers audio trouv\u00E9s dans le r\u00E9pertoire d\u0027entr\u00E9e",
+        "Label": "Cr\u00E9er un livre audio",
+        "Fields": {
+          "DeleteSourceFiles": "Supprimer les fichiers sources",
+          "DeleteSourceFiles-Help": "Lorsque cette option est activ\u00E9e, les fichiers sources qui composent le nouveau fichier m4b seront supprim\u00E9s, sinon ils resteront intacts.",
+          "DestinationPath": "Chemin de destination",
+          "DestinationPath-Help": "Le chemin o\u00F9 enregistrer le nouveau fichier cr\u00E9\u00E9. S\u0027il est laiss\u00E9 vide, le fichier sera cr\u00E9\u00E9 dans le r\u00E9pertoire temporaire et sera supprim\u00E9 s\u0027il n\u0027est pas d\u00E9plac\u00E9 par la suite.",
+          "UpdateWorkingFile": "Mettre \u00E0 jour le fichier de travail",
+          "UpdateWorkingFile-Help": "Lorsque cette option est activ\u00E9e, le fichier de travail sera mis \u00E0 jour vers le nouveau fichier cr\u00E9\u00E9."
+        },
+        "Outputs": {
+          "1": "Livre audio cr\u00E9\u00E9",
+          "2": "Livre audio non cr\u00E9\u00E9"
+        }
+      },
+      "EmbedArtwork": {
+        "Description": "Incorpore une \u0153uvre d\u0027art dans un fichier audio",
+        "Label": "Incorporer une \u0153uvre d\u0027art",
+        "Outputs": {
+          "1": "\u0152uvre d\u0027art trouv\u00E9e et incorpor\u00E9e dans le fichier audio",
+          "2": "Aucune \u0153uvre d\u0027art trouv\u00E9e \u00E0 incorporer"
+        }
+      },
+      "BatchScript": {
+        "Description": "Vous permet d\u0027ex\u00E9cuter un script par lots (.bat) dans un environnement Windows.",
+        "Label": "Script par lots (.bat)",
+        "Fields": {
+          "Code": "Code"
+        },
+        "Outputs": {
+          "1": "retourne 1",
+          "10": "retourne 10",
+          "2": "retourne 2",
+          "3": "retourne 3",
+          "4": "retourne 4",
+          "5": "retourne 5",
+          "6": "retourne 6",
+          "7": "retourne 7",
+          "8": "retourne 8",
+          "9": "retourne 9"
+        }
+      },
+      "CompleteFlow": {
+        "Description": "Compl\u00E8te/termine le flux comme r\u00E9ussi",
+        "Label": "Terminer le Flow"
+      },
+      "CopyFile": {
+        "Description": "Copie un fichier dans le dossier de destination",
+        "Label": "Copier le fichier",
+        "Fields": {
+          "AdditionalFiles": "Fichiers suppl\u00E9mentaires",
+          "AdditionalFiles-Help": "Fichiers suppl\u00E9mentaires \u00E0 copier du r\u00E9pertoire vers le nouveau r\u00E9pertoire.\nChaque valeur peut contenir une combinaison de chemins litt\u00E9raux valides et de caract\u00E8res g\u00E9n\u00E9riques (* et ?) mais ne prend pas en charge les expressions r\u00E9guli\u00E8res.",
+          "AdditionalFilesFromOriginal": "R\u00E9pertoire original",
+          "AdditionalFilesFromOriginal-Help": "Si les fichiers suppl\u00E9mentaires doivent \u00EAtre copi\u00E9s depuis le r\u00E9pertoire de travail ou depuis le r\u00E9pertoire original. Activez pour le r\u00E9pertoire original.",
+          "CopyFolder": "Copier le dossier",
+          "CopyFolder-Help": "Si la structure de dossier relative de la biblioth\u00E8que doit \u00E9galement \u00EAtre copi\u00E9e.",
+          "DestinationFile": "Fichier de destination",
+          "DestinationFile-Help": "Le nom du fichier vers lequel le fichier sera copi\u00E9. S\u0027il est vide, le nom de fichier original sera utilis\u00E9.",
+          "DestinationPath": "Dossier de destination",
+          "DestinationPath-Help": "Le dossier o\u00F9 le fichier sera copi\u00E9.",
+          "InputFile": "Fichier \u00E0 copier",
+          "InputFile-Help": "Le fichier \u00E0 copier. S\u0027il est laiss\u00E9 vide, le fichier de travail sera copi\u00E9.",
+          "InputFile-Placeholder": "Fichier de travail",
+          "PreserverOriginalDates": "Pr\u00E9server les dates",
+          "PreserverOriginalDates-Help": "Si l\u0027heure de cr\u00E9ation originale et l\u0027heure de derni\u00E8re \u00E9criture du fichier d\u0027entr\u00E9e original doivent \u00EAtre pr\u00E9serv\u00E9es."
+        },
+        "Outputs": {
+          "1": "Fichier copi\u00E9"
+        }
+      },
+      "CSharpScript": {
+        "Description": "Vous permet d\u0027ex\u00E9cuter un code C# \u00E0 l\u0027int\u00E9rieur du flux.",
+        "Label": "Fonction C#",
+        "Fields": {
+          "Code": "Code"
+        },
+        "Outputs": {
+          "1": "retourne 1",
+          "10": "retourne 10",
+          "2": "retourne 2",
+          "3": "retourne 3",
+          "4": "retourne 4",
+          "5": "retourne 5",
+          "6": "retourne 6",
+          "7": "retourne 7",
+          "8": "retourne 8",
+          "9": "retourne 9"
+        }
+      },
+      "Delete": {
+        "Description": "Supprime un fichier ou un dossier",
+        "Label": "Supprimer le fichier",
+        "Fields": {
+          "FileName": "Chemin",
+          "FileName-Help": "Un chemin vers un fichier ou un dossier \u00E0 supprimer.\n\nS\u0027il est laiss\u00E9 vide, le fichier de travail actuel sera supprim\u00E9."
+        },
+        "Outputs": {
+          "1": "Fichier supprim\u00E9"
+        }
+      },
+      "DeleteSourceDirectory": {
+        "Description": "Supprime le dossier source du fichier de biblioth\u00E8que original",
+        "Label": "Supprimer le dossier source",
+        "Fields": {
+          "IfEmpty": "Si vide",
+          "IfEmpty-Help": "Supprimer le dossier source uniquement s\u0027il est vide",
+          "IncludePatterns": "Inclure des motifs",
+          "IncludePatterns-Help": "Facultatif, si d\u00E9fini, seuls les fichiers correspondant \u00E0 ces motifs seront compt\u00E9s pour voir si le dossier est vide. Tous ces motifs peuvent correspondre.",
+          "TopMostOnly": "Uniquement le plus \u00E9lev\u00E9",
+          "TopMostOnly-Help": "Lorsqu\u0027il est activ\u00E9, seul le dossier contenant directement le fichier sera supprim\u00E9, laissant les dossiers de niveau sup\u00E9rieur intacts."
+        },
+        "Outputs": {
+          "1": "Dossier source supprim\u00E9",
+          "2": "Le dossier n\u0027a PAS \u00E9t\u00E9 supprim\u00E9"
+        }
+      },
+      "Executor": {
+        "Description": "Ex\u00E9cute le processus suivant sur le fichier.\nSortie 1 : Le processus a renvoy\u00E9 le code de sortie de succ\u00E8s\nSortie 2 : Le processus a renvoy\u00E9 un code de sortie non r\u00E9ussi.",
+        "Label": "Ex\u00E9cuter le processus",
+        "Fields": {
+          "Arguments": "Arguments",
+          "Arguments-Help": "Les arguments \u00E0 passer au processus \u00E0 ex\u00E9cuter",
+          "FileName": "Nom de fichier",
+          "FileName-Help": "Le nom du fichier \u00E0 ex\u00E9cuter",
+          "OutputErrorVariable": "Variable de sortie d\u0027erreur",
+          "OutputErrorVariable-Help": "Un nom de variable facultatif pour stocker la sortie d\u0027erreur du processus",
+          "OutputVariable": "Variable de sortie",
+          "OutputVariable-Help": "Un nom de variable facultatif pour stocker la sortie du processus",
+          "SuccessCode": "Code de succ\u00E8s",
+          "SuccessCode-Help": "Le code de sortie du processus indiquant que le processus a \u00E9t\u00E9 r\u00E9ussi. Cela devrait g\u00E9n\u00E9ralement \u00EAtre 0.",
+          "Timeout": "D\u00E9lai d\u0027attente",
+          "Timeout-Help": "Combien de temps le processus peut s\u0027ex\u00E9cuter avant d\u0027\u00EAtre arr\u00EAt\u00E9. Utilisez 0 pour aucun d\u00E9lai.",
+          "Timeout-Suffix": "secondes",
+          "WorkingDirectory": "Dossier de travail",
+          "WorkingDirectory-Help": "Le dossier depuis lequel le processus sera ex\u00E9cut\u00E9"
+        },
+        "Outputs": {
+          "1": "Le processus a renvoy\u00E9 le succ\u00E8s",
+          "2": "Le processus a renvoy\u00E9 un \u00E9chec"
+        }
+      },
+      "FailFlow": {
+        "Description": "\u00C9choue un flux imm\u00E9diatement, utile si vous voulez qu\u0027un certain chemin \u00E9choue simplement.",
+        "Label": "\u00C9chouer le Flow",
+        "Fields": {
+          "Reason": "Raison",
+          "Reason-Help": "Une raison optionnelle pour enregistrer pourquoi le flux a \u00E9chou\u00E9."
+        }
+      },
+      "FileDateCompare": {
+        "Description": "V\u00E9rifie si la cr\u00E9ation ou l\u0027heure de derni\u00E8re \u00E9criture du fichier correspond \u00E0 la contrainte de date sp\u00E9cifi\u00E9e.",
+        "Label": "Comparaison de date de fichier",
+        "Fields": {
+          "Date": "Date",
+          "DateComparision": "Comparaison",
+          "FileName": "Nom de fichier",
+          "FileName-Help": "Le fichier \u00E0 v\u00E9rifier. Laissez vide pour v\u00E9rifier le fichier de travail actuel."
+        },
+        "Outputs": {
+          "1": "Correspond \u00E0 la contrainte de date.",
+          "2": "Ne correspond pas \u00E0 la contrainte de date."
+        }
+      },
+      "FileExists": {
+        "Description": "V\u00E9rifie si un fichier existe\n\nSortie 1 : Le fichier existe\nSortie 2 : Le fichier n\u0027existe pas",
+        "Label": "Fichier existe",
+        "Fields": {
+          "FileName": "Nom de fichier",
+          "FileName-Help": "Le fichier \u00E0 v\u00E9rifier. Laissez vide pour v\u00E9rifier le fichier de travail actuel."
+        },
+        "Outputs": {
+          "1": "Le fichier existe",
+          "2": "Le fichier n\u0027existe pas"
+        }
+      },
+      "FileExtension": {
+        "Description": "V\u00E9rifie si le fichier a l\u0027une des extensions configur\u00E9es.\n\nSortie 1 : Correspond\nSortie 2 : Ne correspond pas",
+        "Label": "Extension de fichier",
+        "Fields": {
+          "Extensions": "Extensions",
+          "Extensions-Help": "Une liste d\u0027extensions de fichiers insensibles \u00E0 la casse qui seront compar\u00E9es.\nSortie 1 : Correspond\nSortie 2 : Ne correspond pas"
+        },
+        "Outputs": {
+          "1": "Correspondance d\u0027extension",
+          "2": "L\u0027extension ne correspond pas"
+        }
+      },
+      "FileNameMatches": {
+        "Description": "V\u00E9rifie si le nom de fichier d\u0027origine (y compris le chemin complet) correspond \u00E0 la valeur sp\u00E9cifi\u00E9e en utilisant des op\u00E9rations sur des cha\u00EEnes.",
+        "Label": "Le nom du fichier correspond",
+        "Fields": {
+          "Value": "Valeur de correspondance",
+          "Value-Help": "Sp\u00E9cifiez la valeur \u00E0 comparer. Les variables sont support\u00E9es et la correspondance se fait via des op\u00E9rations sur des cha\u00EEnes."
+        },
+        "Outputs": {
+          "1": "Correspond",
+          "2": "Ne correspond pas"
+        }
+      },
+      "FileSize": {
+        "Description": "V\u00E9rifie si la taille du fichier correspond aux param\u00E8tres configur\u00E9s. Les valeurs sont en m\u00E9gaoctets.\n\nSortie 1: Correspond\nSortie 2: Ne correspond pas",
+        "Label": "Taille de fichier",
+        "Fields": {
+          "Comparison": "Comparaison",
+          "Lower": "Plus grand que",
+          "Lower-Help": "La valeur doit \u00EAtre sup\u00E9rieure \u00E0 ce nombre de m\u00E9gaoctets",
+          "Lower-Suffix": "Mo",
+          "Upper": "Moins que",
+          "Upper-Help": "La valeur doit \u00EAtre inf\u00E9rieure \u00E0 ce nombre de m\u00E9gaoctets. Laissez \u00E0 0 pour ne pas tester la limite sup\u00E9rieure.",
+          "Upper-Suffix": "Mo"
+        },
+        "Outputs": {
+          "1": "Taille de fichier dans la plage",
+          "2": "Taille de fichier hors de la plage"
+        }
+      },
+      "FileSizeCompare": {
+        "Description": "V\u00E9rifie si la taille du fichier a chang\u00E9 par rapport au fichier original.",
+        "Label": "Comparaison de taille de fichier",
+        "Outputs": {
+          "1": "Plus petit que l\u0027original",
+          "2": "M\u00EAme taille que l\u0027original",
+          "3": "Plus grand que l\u0027original"
+        }
+      },
+      "FileSizeWithin": {
+        "Description": "V\u00E9rifie si la nouvelle taille du fichier est dans la plage autoris\u00E9e de la taille du fichier original.",
+        "Label": "Taille de fichier dans la plage",
+        "Fields": {
+          "Value": "Valeur",
+          "Value-Help": "La diff\u00E9rence autoris\u00E9e pour la taille du fichier, cette valeur peut \u00EAtre soit positive soit n\u00E9gative par rapport \u00E0 cette diff\u00E9rence."
+        },
+        "Outputs": {
+          "1": "La taille du fichier est dans la plage autoris\u00E9e",
+          "2": "La taille du fichier n\u0027est pas dans la plage autoris\u00E9e"
+        }
+      },
+      "FolderDateCompare": {
+        "Description": "V\u00E9rifie si la cr\u00E9ation ou l\u0027heure de derni\u00E8re \u00E9criture du dossier correspond \u00E0 la contrainte de date sp\u00E9cifi\u00E9e.",
+        "Label": "Comparaison de date de dossier",
+        "Fields": {
+          "Date": "Date",
+          "DateComparision": "Comparaison",
+          "Path": "Chemin",
+          "Path-Help": "Le chemin vers le dossier \u00E0 v\u00E9rifier. Laissez vide pour v\u00E9rifier le fichier de travail actuel.\nSi un fichier est sp\u00E9cifi\u00E9, le dossier contenant le fichier sera v\u00E9rifi\u00E9."
+        },
+        "Outputs": {
+          "1": "Correspond \u00E0 la contrainte de date.",
+          "2": "Ne correspond pas \u00E0 la contrainte de date."
+        }
+      },
+      "FolderIterator": {
+        "Description": "It\u00E8re tous les fichiers dans un dossier donn\u00E9 et ex\u00E9cute ces fichiers contre un sous-flux.",
+        "Label": "It\u00E9rateur de dossier",
+        "Fields": {
+          "Flow": "Flux",
+          "Flow-Help": "Le sous-flux pour ex\u00E9cuter les fichiers.",
+          "Folder": "Dossier",
+          "Folder-Help": "Le dossier dont les fichiers seront it\u00E9r\u00E9s.",
+          "Pattern": "Motif",
+          "Pattern-Help": "Tout motif optionnel pour limiter les fichiers \u00E0 it\u00E9rer, cela peut \u00EAtre un motif g\u00E9n\u00E9rique commen\u00E7ant par un \u0060*\u0060 ou une expression r\u00E9guli\u00E8re.",
+          "Recursive": "R\u00E9cursif",
+          "Recursive-Help": "Si les fichiers dans tous les sous-dossiers doivent \u00E9galement \u00EAtre it\u00E9r\u00E9s, ou si seuls les fichiers de niveau sup\u00E9rieur doivent \u00EAtre it\u00E9r\u00E9s."
+        },
+        "Outputs": {
+          "1": "Fichiers du dossier it\u00E9r\u00E9s"
+        }
+      },
+      "Function": {
+        "Label": "Fonction",
+        "Fields": {
+          "Code": "Code",
+          "Code-Help": "retourner -1 pour erreur et arr\u00EAter le flux. retourner 0 pour compl\u00E9ter le flux. retourner 1 ou plus pour que la sortie d\u00E9sir\u00E9e soit appel\u00E9e.",
+          "Outputs": "Sorties",
+          "Template": "Mod\u00E8le",
+          "Template-Help": "AVERTISSEMENT: Cela remplacera tout ce qui se trouve dans le bloc de code par le mod\u00E8le que vous s\u00E9lectionnez."
+        },
+        "Outputs": {
+          "1": "retourn\u00E9 1",
+          "10": "retourn\u00E9 10",
+          "2": "retourn\u00E9 2",
+          "3": "retourn\u00E9 3",
+          "4": "retourn\u00E9 4",
+          "5": "retourn\u00E9 5",
+          "6": "retourn\u00E9 6",
+          "7": "retourn\u00E9 7",
+          "8": "retourn\u00E9 8",
+          "9": "retourn\u00E9 9"
+        }
+      },
+      "GotoFlow": {
+        "Description": "Cela vous permet de passer \u00E0 un flux diff\u00E9rent \u00E0 traiter. Ce flux sortira et les param\u00E8tres et le fichier de travail seront pass\u00E9s dans le nouveau flux.",
+        "Label": "Aller au Flow",
+        "Fields": {
+          "Flow": "Flux",
+          "UpdateFlowUsed": "Mettre \u00E0 jour le flux",
+          "UpdateFlowUsed-Help": "Si le \u0060flux\u0060 des fichiers doit \u00EAtre mis \u00E0 jour pour faire r\u00E9f\u00E9rence \u00E0 ce nouveau flux ou le laisser comme le flux d\u0027origine."
+        }
+      },
+      "HasHardLinks": {
+        "Description": "V\u00E9rifie si un fichier a des liens durs ou non",
+        "Label": "A des liens durs",
+        "Fields": {
+          "Count": "Compter",
+          "Count-Help": "Le nombre de liens durs requis pour appeler la sortie 1.",
+          "FileName": "Nom du fichier",
+          "FileName-Help": "Le fichier \u00E0 v\u00E9rifier. Laissez vide pour v\u00E9rifier le fichier de travail actuel."
+        },
+        "Outputs": {
+          "1": "Liens durs d\u00E9tect\u00E9s",
+          "2": "Aucun lien dur d\u00E9tect\u00E9"
+        }
+      },
+      "IfBoolean": {
+        "Description": "Teste si une variable est vraie ou fausse",
+        "Label": "Si bool\u00E9en",
+        "Fields": {
+          "Variable": "Variable",
+          "Variable-Help": "Le nom de la variable \u00E0 v\u00E9rifier"
+        },
+        "Outputs": {
+          "1": "Vrai",
+          "2": "Faux"
+        }
+      },
+      "IfString": {
+        "Description": "Teste si une variable correspond \u00E0 une cha\u00EEne",
+        "Label": "Si cha\u00EEne",
+        "Fields": {
+          "Options": "Options",
+          "Options-Help": "La cha\u00EEne \u00E0 laquelle correspondre.",
+          "Outputs": "Sorties",
+          "Outputs-Help": "Cela doit correspondre au nombre d\u0027options disponibles",
+          "Variable": "Variable",
+          "Variable-Help": "Le nom de la variable \u00E0 v\u00E9rifier"
+        },
+        "Outputs": {
+          "1": "Cha\u00EEne correspondante 1",
+          "10": "Cha\u00EEne correspondante 10",
+          "2": "Cha\u00EEne correspondante 2",
+          "3": "Cha\u00EEne correspondante 3",
+          "4": "Cha\u00EEne correspondante 4",
+          "5": "Cha\u00EEne correspondante 5",
+          "6": "Cha\u00EEne correspondante 6",
+          "7": "Cha\u00EEne correspondante 7",
+          "8": "Cha\u00EEne correspondante 8",
+          "9": "Cha\u00EEne correspondante 9"
+        }
+      },
+      "InputFile": {
+        "Description": "Un \u00E9l\u00E9ment de flux d\u0027entr\u00E9e pour un fichier. Cela est requis et constitue le point de d\u00E9part d\u0027un flux. Tout \u00E9l\u00E9ment de flux d\u0027entr\u00E9e peut \u00EAtre utilis\u00E9, un seul est requis.",
+        "Label": "Fichier d\u0027entr\u00E9e",
+        "Outputs": {
+          "1": "Fichier de biblioth\u00E8que"
+        }
+      },
+      "InputFolder": {
+        "Description": "Un \u00E9l\u00E9ment de flux d\u0027entr\u00E9e pour un dossier. Cela ne fonctionnera que si la biblioth\u00E8que utilisant ce flux est configur\u00E9e pour les dossiers.",
+        "Label": "Dossier d\u0027entr\u00E9e",
+        "Outputs": {
+          "1": "Dossier de biblioth\u00E8que"
+        }
+      },
+      "IsDocker": {
+        "Description": "D\u00E9termine si ce flux s\u0027ex\u00E9cute sur Docker",
+        "Label": "Est Docker",
+        "Outputs": {
+          "1": "S\u0027ex\u00E9cute sur Docker",
+          "2": "Ne s\u0027ex\u00E9cute pas sur Docker"
+        }
+      },
+      "IsFromLibrary": {
+        "Description": "V\u00E9rifie si le fichier en cours de traitement provient de la biblioth\u00E8que sp\u00E9cifi\u00E9e.",
+        "Label": "Est de la biblioth\u00E8que",
+        "Fields": {
+          "Library": "Biblioth\u00E8que",
+          "Library-Help": "La biblioth\u00E8que \u00E0 v\u00E9rifier."
+        },
+        "Outputs": {
+          "1": "Le fichier provient de la biblioth\u00E8que sp\u00E9cifi\u00E9e.",
+          "2": "Le fichier ne provient pas de la biblioth\u00E8que sp\u00E9cifi\u00E9e."
+        }
+      },
+      "IsLinux": {
+        "Description": "D\u00E9termine si ce flux s\u0027ex\u00E9cute sur Linux",
+        "Label": "Est Linux",
+        "Outputs": {
+          "1": "S\u0027ex\u00E9cute sur Linux",
+          "2": "Ne s\u0027ex\u00E9cute pas sur Linux"
+        }
+      },
+      "IsMacOS": {
+        "Description": "D\u00E9termine si ce flux s\u0027ex\u00E9cute sur MacOS",
+        "Label": "Est MacOS",
+        "Outputs": {
+          "1": "S\u0027ex\u00E9cute sur MacOS",
+          "2": "Ne s\u0027ex\u00E9cute pas sur MacOS"
+        }
+      },
+      "IsProcessingOnNode": {
+        "Description": "V\u00E9rifie si le flux est actuellement en cours de traitement sur un n\u0153ud de traitement sp\u00E9cifi\u00E9.",
+        "Label": "Est en cours de traitement sur le n\u0153ud",
+        "Fields": {
+          "Node": "N\u0153ud",
+          "Node-Help": "Le n\u0153ud de traitement \u00E0 v\u00E9rifier."
+        },
+        "Outputs": {
+          "1": "Est en cours de traitement sur le n\u0153ud",
+          "2": "N\u0027est pas en cours de traitement sur le n\u0153ud"
+        }
+      },
+      "IsWindows": {
+        "Description": "D\u00E9termine si ce flux s\u0027ex\u00E9cute sur Windows",
+        "Label": "Est Windows",
+        "Outputs": {
+          "1": "S\u0027ex\u00E9cute sur Windows",
+          "2": "Ne s\u0027ex\u00E9cute pas sur Windows"
+        }
+      },
+      "ListIterator": {
+        "Description": "It\u00E8re toutes les cha\u00EEnes dans une liste donn\u00E9e et ex\u00E9cute ces cha\u00EEnes contre un sous-flux.",
+        "Label": "It\u00E9rateur de liste",
+        "Fields": {
+          "Flow": "Flux",
+          "Flow-Help": "Le sous-flux pour ex\u00E9cuter les cha\u00EEnes.",
+          "List": "Liste",
+          "List-Help": "Un nom de variable contenant la liste \u00E0 it\u00E9rer."
+        },
+        "Outputs": {
+          "1": "Liste it\u00E9r\u00E9e"
+        }
+      },
+      "Log": {
+        "Description": "Enregistre un message dans le journal du flux",
+        "Label": "Journal",
+        "Fields": {
+          "LogType": "Type",
+          "Message": "Message"
+        },
+        "Outputs": {
+          "1": "Message enregistr\u00E9"
+        }
+      },
+      "LogImage": {
+        "Description": "Enregistre une image dans le fichier de log",
+        "Label": "Enregistrer l\u0027image",
+        "Fields": {
+          "ImageFile": "Image",
+          "ImageFile-Help": "Le fichier image \u00E0 enregistrer"
+        },
+        "Outputs": {
+          "1": "Image enregistr\u00E9e",
+          "2": "\u00C9chec de l\u0027enregistrement de l\u0027image"
+        }
+      },
+      "LogVariables": {
+        "Description": "Enregistre toutes les variables du flux dans le fichier journal pour le d\u00E9bogage.",
+        "Label": "Enregistrer les Variables",
+        "Fields": {
+          "Recursive": "Journalisation D\u00E9taill\u00E9e",
+          "Recursive-Help": "Lorsqu\u0027elle est activ\u00E9e, les variables complexes incluront toutes leurs propri\u00E9t\u00E9s imbriqu\u00E9es dans le journal."
+        },
+        "Outputs": {
+          "1": "Les variables ont \u00E9t\u00E9 enregistr\u00E9es avec succ\u00E8s."
+        }
+      },
+      "Matches": {
+        "Description": "Compare un ensemble de valeurs et des conditions de correspondance pour voir quelle sortie doit \u00EAtre appel\u00E9e",
+        "Label": "Correspondances",
+        "Fields": {
+          "MatchConditions": "",
+          "MatchConditions-Help": "Les correspondances \u00E0 tester pour d\u00E9terminer quelle sortie doit \u00EAtre appel\u00E9e.",
+          "MatchConditionsKey": "Valeur",
+          "MatchConditionsValue": "Expression"
+        }
+      },
+      "MatchesAll": {
+        "Description": "Compare un ensemble de valeurs et v\u00E9rifie si toutes les conditions correspondent.",
+        "Label": "Correspondances Toutes",
+        "Fields": {
+          "MatchConditions": "",
+          "MatchConditionsHelp": "Les conditions \u00E0 tester, d\u00E9terminant quelle sortie doit \u00EAtre appel\u00E9e.",
+          "MatchConditionsKey": "Valeur",
+          "MatchConditionsValue": "Expression"
+        },
+        "Outputs": {
+          "1": "Toutes les conditions correspondent",
+          "2": "Toutes les conditions ne correspondent pas"
+        }
+      },
+      "MoveFile": {
+        "Description": "D\u00E9place un fichier vers le dossier de destination",
+        "Label": "D\u00E9placer le fichier",
+        "Fields": {
+          "AdditionalFiles": "Fichiers Suppl\u00E9mentaires",
+          "AdditionalFiles-Help": "Fichiers suppl\u00E9mentaires \u00E0 d\u00E9placer du r\u00E9pertoire vers le nouveau r\u00E9pertoire.\nChaque valeur peut contenir une combinaison de chemin litt\u00E9ral valide et de caract\u00E8res g\u00E9n\u00E9riques (* et ?) mais ne prend pas en charge les expressions r\u00E9guli\u00E8res.",
+          "AdditionalFilesFromOriginal": "R\u00E9pertoire Original",
+          "AdditionalFilesFromOriginal-Help": "Si les fichiers suppl\u00E9mentaires doivent \u00EAtre d\u00E9plac\u00E9s depuis le r\u00E9pertoire de travail ou depuis le r\u00E9pertoire original. Activer pour le r\u00E9pertoire original.",
+          "DeleteOriginal": "Supprimer l\u0027Original",
+          "DeleteOriginal-Help": "Si le fichier original doit \u00EAtre supprim\u00E9 ; cela ne se produira que si le fichier de travail est diff\u00E9rent du fichier original.",
+          "DestinationFile": "Fichier de Destination",
+          "DestinationFile-Help": "Le nom du fichier vers lequel le fichier sera d\u00E9plac\u00E9. S\u0027il est vide, le nom du fichier original sera utilis\u00E9.",
+          "DestinationPath": "Dossier de Destination",
+          "DestinationPath-Help": "Le dossier vers lequel le fichier sera d\u00E9plac\u00E9",
+          "InputFile": "Fichier \u00E0 D\u00E9placer",
+          "InputFile-Help": "Le fichier \u00E0 d\u00E9placer ; s\u0027il est laiss\u00E9 vide, le fichier de travail sera d\u00E9plac\u00E9.",
+          "InputFile-Placeholder": "Fichier de Travail",
+          "MoveFolder": "Copier le Dossier",
+          "MoveFolder-Help": "Si la structure de dossier relative de la biblioth\u00E8que doit \u00E9galement \u00EAtre copi\u00E9e.",
+          "PreserverOriginalDates": "Pr\u00E9server les Dates",
+          "PreserverOriginalDates-Help": "Si l\u0027heure de cr\u00E9ation originale et l\u0027heure de derni\u00E8re modification du fichier d\u0027entr\u00E9e original doivent \u00EAtre pr\u00E9serv\u00E9es."
+        },
+        "Outputs": {
+          "1": "Fichier d\u00E9plac\u00E9",
+          "2": "Fichier d\u00E9plac\u00E9, mais le fichier original n\u0027a pas pu \u00EAtre supprim\u00E9"
+        }
+      },
+      "MoveFolder": {
+        "Description": "D\u00E9place un dossier",
+        "Label": "D\u00E9placer le dossier",
+        "Fields": {
+          "CreateSubfolder": "Cr\u00E9er un Sous-dossier",
+          "CreateSubfolder-Help": "Si un sous-dossier avec le nom du dossier source doit \u00EAtre cr\u00E9\u00E9 dans le dossier de destination.",
+          "DestinationPath": "Destination",
+          "DestinationPath-Help": "Le dossier de destination vers lequel le dossier source sera d\u00E9plac\u00E9.",
+          "SourcePath": "Source",
+          "SourcePath-Help": "Le dossier \u00E0 d\u00E9placer ; s\u0027il est laiss\u00E9 vide, le Fichier de Travail sera utilis\u00E9. Si ce n\u0027est pas un dossier, l\u0027\u00E9l\u00E9ment de flux \u00E9chouera."
+        },
+        "Outputs": {
+          "1": "Dossier d\u00E9plac\u00E9"
+        }
+      },
+      "OlderThan": {
+        "Description": "V\u00E9rifie si un dossier est plus ancien que la plage sp\u00E9cifi\u00E9e",
+        "Label": "Plus ancien que",
+        "Fields": {
+          "Date": "Date",
+          "Number": "Nombre",
+          "Unit": "Unit\u00E9"
+        },
+        "Outputs": {
+          "1": "Le fichier est plus ancien",
+          "2": "Le fichier n\u0027est pas plus ancien"
+        }
+      },
+      "OriginalFile": {
+        "Description": "D\u00E9finit le fichier en cours dans le flux sur le fichier original qui a d\u00E9marr\u00E9 le flux",
+        "Label": "Fichier Original",
+        "Outputs": {
+          "1": "Fichier en cours d\u00E9fini sur le fichier original"
+        }
+      },
+      "PatternMatch": {
+        "Description": "Teste le fichier en cours et le fichier original avec une expression r\u00E9guli\u00E8re.\n\nSortie 1 : Correspond \u00E0 l\u0027expression\nSortie 2 : Ne correspond pas",
+        "Label": "Correspondance de Motif",
+        "Fields": {
+          "Pattern": "Motif",
+          "Pattern-Help": "Une expression r\u00E9guli\u00E8re, utilisant la sp\u00E9cification C# pour les expressions r\u00E9guli\u00E8res."
+        },
+        "Outputs": {
+          "1": "Correspond \u00E0 l\u0027expression",
+          "2": "Ne correspond PAS"
+        }
+      },
+      "PatternReplacer": {
+        "Description": "Vous permet de faire des remplacements dans le nom du fichier. Peut utiliser des expressions r\u00E9guli\u00E8res pour les remplacements, ou des remplacements simples de cha\u00EEnes.\n\nSortie 1 : Remplacement effectu\u00E9\nSortie 2 : Aucun remplacement effectu\u00E9",
+        "Label": "Remplacement de Motif de Nom de Fichier",
+        "Fields": {
+          "Replacements": "Remplacements",
+          "ReplacementsKey": "Motif",
+          "ReplacementsValue": "Valeur",
+          "UseWorkingFileName": "Utiliser le Nom du Fichier en Cours",
+          "UseWorkingFileName-Help": "Si le nom du fichier en cours doit \u00EAtre utilis\u00E9, ou si faux, le nom de fichier original du fichier entrant sera utilis\u00E9."
+        },
+        "Outputs": {
+          "1": "Remplacement effectu\u00E9",
+          "2": "Aucun remplacement effectu\u00E9"
+        }
+      },
+      "PowerShellScript": {
+        "Description": "Vous permet d\u0027ex\u00E9cuter un script PowerShell (.ps1) dans un environnement Windows.",
+        "Label": "Script PowerShell (.ps1)",
+        "Fields": {
+          "Code": "Code"
+        },
+        "Outputs": {
+          "1": "retourne 1",
+          "10": "retourne 10",
+          "2": "retourne 2",
+          "3": "retourne 3",
+          "4": "retourne 4",
+          "5": "retourne 5",
+          "6": "retourne 6",
+          "7": "retourne 7",
+          "8": "retourne 8",
+          "9": "retourne 9"
+        }
+      },
+      "Random": {
+        "Description": "Choisit une sortie al\u00E9atoire",
+        "Label": "Al\u00E9atoire",
+        "Fields": {
+          "Outputs": "Sorties",
+          "Outputs-Help": "Le nombre de sorties qui pourraient \u00EAtre appel\u00E9es."
+        }
+      },
+      "Renamer": {
+        "Description": "Renomme le fichier en cours.\nDes variables peuvent \u00EAtre utilis\u00E9es en entrant la cl\u00E9 \u0027{\u0027 dans le champ Motif.",
+        "Label": "Renommer le fichier",
+        "Fields": {
+          "CsvFile": "Fichier CSV",
+          "CsvFile-Help": "Ajoute \u00E0 ce fichier le nom original et le fichier renomm\u00E9. Utile lors de l\u0027utilisation de \u0027\u0027Journaliser Seulement\u0027\u0027 pour tester le renommage avant de modifier les fichiers.",
+          "DestinationPath": "Dossier de Destination",
+          "DestinationPath-Help": "Si le fichier doit \u00EAtre d\u00E9plac\u00E9 vers un autre dossier.",
+          "LogOnly": "Journaliser Seulement",
+          "LogOnly-Help": "Activer si vous voulez juste tester cet \u00E9l\u00E9ment de flux sans r\u00E9ellement renommer le fichier",
+          "Pattern": "Nouveau Nom",
+          "Pattern-Help": "Le nouveau nom du fichier. Peut utiliser des variables. Tout () et \u0027{}\u0027 vide sera supprim\u00E9."
+        },
+        "Outputs": {
+          "1": "Fichier renomm\u00E9"
+        }
+      },
+      "ReplaceOriginal": {
+        "Description": "Remplace le fichier original par le fichier en cours.\n\nSi l\u0027extension est diff\u00E9rente sur le fichier en cours, le fichier original sera supprim\u00E9 et le fichier en cours sera d\u00E9plac\u00E9 vers l\u0027original avec la nouvelle extension.\nPar exemple de Fichier.avi \u00E0 Fichier.mkv",
+        "Label": "Remplacer l\u0027Original",
+        "Fields": {
+          "PreserverOriginalDates": "Pr\u00E9server les Dates",
+          "PreserverOriginalDates-Help": "Si la date de cr\u00E9ation et la derni\u00E8re date de modification du fichier original doivent \u00EAtre pr\u00E9serv\u00E9es."
+        },
+        "Outputs": {
+          "1": "Fichier original remplac\u00E9"
+        }
+      },
+      "Reprocess": {
+        "Description": "L\u0027\u00E9l\u00E9ment de flux vous permet de reproceser le fichier de biblioth\u00E8que original avec un n\u0153ud de traitement diff\u00E9rent.\n\n Si le m\u00EAme n\u0153ud de traitement est s\u00E9lectionn\u00E9 que celui qui traite actuellement le fichier, le flux \u00E9chouera.",
+        "Label": "Reprocesser",
+        "Fields": {
+          "HoldMinutes": "Minutes de R\u00E9serve",
+          "HoldMinutes-Help": "Le nombre de minutes \u00E0 attendre avant de traiter \u00E0 nouveau le fichier. Utilisez 0 pour traiter imm\u00E9diatement.",
+          "Node": "N\u0153ud",
+          "Node-Help": "Le n\u0153ud de traitement pour traiter ce fichier."
+        }
+      },
+      "SetVariable": {
+        "Description": "D\u00E9finit une variable dans le flux.",
+        "Label": "D\u00E9finir une Variable",
+        "Fields": {
+          "Value": "Valeur",
+          "Value-Help": "La valeur de la variable \u00E0 d\u00E9finir.",
+          "Variable": "Variable",
+          "Variable-Help": "Le nom de la variable \u00E0 d\u00E9finir"
+        },
+        "Outputs": {
+          "1": "Variable d\u00E9finie"
+        }
+      },
+      "SetWorkingFile": {
+        "Description": "Met \u00E0 jour le fichier en cours avec celui sp\u00E9cifi\u00E9.",
+        "Label": "D\u00E9finir le Fichier en Cours",
+        "Fields": {
+          "DontDeletePrevious": "Ne Pas Supprimer le Pr\u00E9c\u00E9dent",
+          "DontDeletePrevious-Help": "Si le pr\u00E9c\u00E9dent fichier *temporaire* en cours ne doit *pas* \u00EAtre supprim\u00E9.\nSeuls les fichiers temporaires seront supprim\u00E9s, les fichiers cr\u00E9\u00E9s par FileFlows dans le r\u00E9pertoire temporaire du coureur.",
+          "File": "Fichier",
+          "File-Description": "Le chemin vers le nouveau fichier ou dossier en cours."
+        },
+        "Outputs": {
+          "1": "Fichier en Cours D\u00E9fini"
+        }
+      },
+      "SevenZip": {
+        "Description": "Permet de compresser l\u0027entr\u00E9e en 7zip",
+        "Label": "7-Zip",
+        "Fields": {
+          "CompressionLevel": "Niveau de Compression",
+          "CompressionLevel-Help": "Le niveau de compression \u00E0 utiliser lors de la compression.",
+          "CompressionMethod": "M\u00E9thode de Compression",
+          "CompressionMethod-Help": "La m\u00E9thode de compression utilis\u00E9e pour la compression, LZMA2 est recommand\u00E9e.",
+          "DestinationFile": "Fichier de Destination",
+          "DestinationFile-Help": "Le nom du fichier du 7zip nouvellement cr\u00E9\u00E9. Si vide, le nom de l\u0027\u00E9l\u00E9ment sera utilis\u00E9 comme fichier 7zip.",
+          "DestinationPath": "Dossier de Destination",
+          "DestinationPath-Help": "Le dossier de destination o\u00F9 mettre le fichier 7zip. Si vide, le 7zip sera plac\u00E9 \u00E0 la racine de la biblioth\u00E8que."
+        },
+        "Outputs": {
+          "1": "7zip cr\u00E9\u00E9"
+        }
+      },
+      "ShellScript": {
+        "Description": "Vous permet d\u0027ex\u00E9cuter un script shell (.sh) dans un environnement de type Unix.",
+        "Label": "Script Shell (.sh)",
+        "Fields": {
+          "Code": "Code"
+        },
+        "Outputs": {
+          "1": "retourne 1",
+          "10": "retourne 10",
+          "2": "retourne 2",
+          "3": "retourne 3",
+          "4": "retourne 4",
+          "5": "retourne 5",
+          "6": "retourne 6",
+          "7": "retourne 7",
+          "8": "retourne 8",
+          "9": "retourne 9"
+        }
+      },
+      "Sleep": {
+        "Description": "Met en pause le flux",
+        "Label": "Dormir",
+        "Fields": {
+          "Milliseconds": "Millisecondes",
+          "Milliseconds-Help": "Dur\u00E9e pendant laquelle le flux doit \u00EAtre mis en veille. Doit \u00EAtre comprise entre 1 milliseconde et 1 heure"
+        },
+        "Outputs": {
+          "1": "Flux repris"
+        }
+      },
+      "Tag": {
+        "Description": "Tague le fichier avec les balises sp\u00E9cifi\u00E9es",
+        "Label": "Tag",
+        "Fields": {
+          "Replace": "Remplacer",
+          "Replace-Help": "Si les balises doivent \u00EAtre remplac\u00E9es ou ajout\u00E9es aux balises existantes.",
+          "Tags": "Balises"
+        }
+      },
+      "Touch": {
+        "Description": "Modifie un fichier ou un dossier et met \u00E0 jour la date de derni\u00E8re modification \u00E0 maintenant.",
+        "Label": "Toucher",
+        "Fields": {
+          "FileName": "Nom du Fichier",
+          "FileName-Help": "Nom complet du fichier ou du dossier \u00E0 modifier.\nSi laiss\u00E9 vide, le fichier en cours sera utilis\u00E9."
+        },
+        "Outputs": {
+          "1": "\u00C9l\u00E9ment modifi\u00E9 avec succ\u00E8s"
+        }
+      },
+      "Unpack": {
+        "Description": "Permet de d\u00E9compresser une archive (zip, rar, tar, etc.)",
+        "Label": "D\u00E9compresser",
+        "Fields": {
+          "DestinationPath": "Dossier de Destination",
+          "DestinationPath-Help": "Le dossier de destination o\u00F9 d\u00E9compresser le fichier.",
+          "File": "Fichier",
+          "File-Help": "Le nom du fichier \u00E0 d\u00E9compresser. Peut \u00EAtre laiss\u00E9 vide, auquel cas le fichier de travail actuel sera utilis\u00E9."
+        },
+        "Outputs": {
+          "1": "Fichier d\u00E9compress\u00E9"
+        }
+      },
+      "VariableMatch": {
+        "Description": "Teste si une entr\u00E9e correspond \u00E0 une Variable stock\u00E9e",
+        "Label": "Correspondance de Variable",
+        "Fields": {
+          "Input": "Valeur",
+          "Input-Help": "La valeur \u00E0 comparer avec la variable.",
+          "Variable": "Variable",
+          "Variable-Help": "La variable \u00E0 v\u00E9rifier",
+          "VariableName": "Variable",
+          "VariableName-Help": "La variable \u00E0 v\u00E9rifier"
+        },
+        "Outputs": {
+          "1": "Entr\u00E9e correspondant \u00E0 la variable",
+          "2": "Entr\u00E9e ne correspondant pas \u00E0 la variable"
+        }
+      },
+      "WebRequest": {
+        "Description": "Vous permet d\u0027envoyer une requ\u00EAte web",
+        "Label": "Requ\u00EAte Web",
+        "Fields": {
+          "Body": "Corps",
+          "Body-Help": "Le corps de la requ\u00EAte envoy\u00E9e. Des variables peuvent \u00EAtre utilis\u00E9es dans ce champ.",
+          "ContentType": "Type de contenu",
+          "ContentType-Help": "Le Content-Type du message \u00E0 envoyer",
+          "Headers": "En-t\u00EAtes",
+          "Headers-Help": "En-t\u00EAtes optionnels \u00E0 envoyer avec la requ\u00EAte",
+          "HeadersKey": "Cl\u00E9",
+          "HeadersValue": "Valeur",
+          "Method": "M\u00E9thode",
+          "Method-Help": "La m\u00E9thode web \u00E0 utiliser lors de l\u0027envoi de cette requ\u00EAte",
+          "Url": "URL",
+          "Url-Help": "L\u0027URL de la requ\u00EAte",
+          "ResponseVariable": "Variable de r\u00E9ponse",
+          "ResponseVariable-Help": "Le nom de la variable o\u00F9 sera enregistr\u00E9e la r\u00E9ponse JSON. Si la r\u00E9ponse n\u0027est pas un JSON valide, cette variable ne sera pas d\u00E9finie."
+        },
+        "Outputs": {
+          "1": "Envoy\u00E9 avec succ\u00E8s",
+          "2": "La requ\u00EAte a renvoy\u00E9 un code de statut non r\u00E9ussi"
+        }
+      },
+      "WriteText": {
+        "Description": "\u00C9crit du texte dans un fichier",
+        "Label": "\u00C9crire le texte",
+        "Fields": {
+          "File": "Fichier",
+          "File-Help": "Le fichier dans lequel \u00E9crire le texte.",
+          "Text": "Texte",
+          "Text-Help": "Le texte \u00E0 \u00E9crire dans le fichier. S\u0027il est laiss\u00E9 vide, le chemin complet du fichier de travail actuel sera \u00E9crit."
+        },
+        "Outputs": {
+          "1": "Texte \u00E9crit dans le fichier"
+        }
+      },
+      "Zip": {
+        "Description": "Permet de compresser l\u0027entr\u00E9e",
+        "Label": "Zip",
+        "Fields": {
+          "DestinationFile": "Fichier de Destination",
+          "DestinationFile-Help": "Le nom du fichier du zip nouvellement cr\u00E9\u00E9. Si vide, le nom de l\u0027\u00E9l\u00E9ment sera utilis\u00E9 comme fichier zip.",
+          "DestinationPath": "Dossier de Destination",
+          "DestinationPath-Help": "Le dossier de destination o\u00F9 mettre le fichier zip. Si vide, le zip sera plac\u00E9 \u00E0 la racine de la biblioth\u00E8que.",
+          "Path": "Chemin",
+          "Path-Help": "Le chemin vers le fichier ou le dossier \u00E0 compresser. Si vide, le fichier de travail sera compress\u00E9.",
+          "SetWorkingFile": "D\u00E9finir Fichier de Travail",
+          "SetWorkingFile-Help": "Si le zip nouvellement cr\u00E9\u00E9 doit devenir le nouveau fichier de travail."
+        },
+        "Outputs": {
+          "1": "Zip cr\u00E9\u00E9"
+        }
+      },
+      "AutoCropImage": {
+        "Description": "Recadre automatiquement une image",
+        "Label": "Rogner l\u0027Image Automatiquement",
+        "Fields": {
+          "Format": "Format",
+          "Format-Help": "Le format d\u0027image dans lequel convertir",
+          "Threshold": "Seuil",
+          "Threshold-Help": "Seuil pour la densit\u00E9 d\u0027entropie, la valeur par d\u00E9faut est 50. Doit \u00EAtre entre 0 et 100."
+        },
+        "Outputs": {
+          "1": "Image recadr\u00E9e, enregistr\u00E9e dans un nouveau fichier temporaire",
+          "2": "L\u0027image n\u0027a pas \u00E9t\u00E9 recadr\u00E9e"
+        }
+      },
+      "ImageFile": {
+        "Description": "Un fichier image",
+        "Label": "Fichier Image",
+        "Outputs": {
+          "1": "Fichier image"
+        }
+      },
+      "ImageFlip": {
+        "Description": "Retourne une image",
+        "Label": "Retourner l\u0027Image",
+        "Fields": {
+          "Format": "Format",
+          "Format-Help": "Le format d\u0027image dans lequel convertir",
+          "Vertical": "Vertical",
+          "Vertical-Help": "Si activ\u00E9, l\u0027image sera retourn\u00E9e verticalement, sinon horizontalement"
+        },
+        "Outputs": {
+          "1": "Image retourn\u00E9e, enregistr\u00E9e dans un nouveau fichier temporaire"
+        }
+      },
+      "ImageFormat": {
+        "Description": "Convertit une image au format sp\u00E9cifi\u00E9",
+        "Label": "Convertir l\u0027Image",
+        "Fields": {
+          "Format": "Format",
+          "Format-Help": "Le format d\u0027image dans lequel convertir"
+        },
+        "Outputs": {
+          "1": "Image convertie, enregistr\u00E9e dans un nouveau fichier temporaire",
+          "2": "L\u0027image est d\u00E9j\u00E0 au format cible"
+        }
+      },
+      "ImageIsLandscape": {
+        "Description": "Teste si une image est en paysage",
+        "Label": "Image en Paysage",
+        "Outputs": {
+          "1": "L\u0027image est en paysage",
+          "2": "L\u0027image n\u0027est pas en paysage"
+        }
+      },
+      "ImageIsPortrait": {
+        "Description": "Teste si une image est en portrait",
+        "Label": "Image en Portrait",
+        "Outputs": {
+          "1": "L\u0027image est en portrait",
+          "2": "L\u0027image n\u0027est pas en portrait"
+        }
+      },
+      "ImageResizer": {
+        "Description": "Redimensionne une image",
+        "Label": "Redimensionner l\u0027Image",
+        "Fields": {
+          "Format": "Format",
+          "Format-Help": "Le format d\u0027image dans lequel convertir",
+          "Height": "Hauteur",
+          "Mode": "Mode",
+          "Mode-Help": "Le mode \u00E0 utiliser lors du redimensionnement de l\u0027image",
+          "Width": "Largeur"
+        },
+        "Outputs": {
+          "1": "Image redimensionn\u00E9e, enregistr\u00E9e dans un nouveau fichier temporaire"
+        }
+      },
+      "ImageRotate": {
+        "Description": "Tourne une image",
+        "Label": "Tourner l\u0027Image",
+        "Fields": {
+          "Angle": "Angle",
+          "Angle-Help": "L\u0027angle de rotation",
+          "Format": "Format",
+          "Format-Help": "Le format d\u0027image dans lequel convertir"
+        },
+        "Outputs": {
+          "1": "Image tourn\u00E9e, enregistr\u00E9e dans un nouveau fichier temporaire"
+        }
+      },
+      "IsImage": {
+        "Description": "Teste si un fichier est un fichier image.",
+        "Label": "Est une Image",
+        "Fields": {
+          "File": "Fichier",
+          "File-Help": "Chemin optionnel vers le fichier \u00E0 v\u00E9rifier ; s\u0027il est laiss\u00E9 vide, le fichier de travail actuel sera v\u00E9rifi\u00E9.",
+          "File-Placeholder": "Si vide, fichier de travail actuel"
+        },
+        "Outputs": {
+          "1": "Le fichier est un fichier image reconnu",
+          "2": "Le fichier n\u0027est pas un fichier image reconnu"
+        }
+      },
+      "PixelCheck": {
+        "Description": "Cet \u00E9l\u00E9ment de flux v\u00E9rifie si le nombre total de pixels d\u0027une image d\u00E9passe le seuil sp\u00E9cifi\u00E9.",
+        "Label": "V\u00E9rification des Pixels",
+        "Fields": {
+          "Pixels": "Pixels",
+          "Pixels-Help": "Le nombre de pixels qu\u0027une image doit contenir. Cela est calcul\u00E9 en multipliant la largeur de l\u0027image par sa hauteur."
+        },
+        "Outputs": {
+          "1": "L\u0027image a autant ou plus de pixels que sp\u00E9cifi\u00E9",
+          "2": "L\u0027image a moins de pixels que requis"
+        }
+      },
+      "AudioToVideo": {
+        "Description": "Convertit un fichier audio en un fichier vid\u00E9o et g\u00E9n\u00E8re une vid\u00E9o bas\u00E9e sur l\u0027audio",
+        "Label": "Audio vers Vid\u00E9o",
+        "Fields": {
+          "Codec": "Codec",
+          "Color": "Couleur",
+          "Color-Help": "Code couleur #RRGGBB optionnel \u00E0 utiliser pour les ondes sonores, doit \u00EAtre au format #RRGGBB, par exemple #FF0090",
+          "Container": "Conteneur",
+          "HardwareEncoding": "Encodage mat\u00E9riel",
+          "HardwareEncoding-Help": "Lorsque cette case est coch\u00E9e, elle testera si des encodeurs mat\u00E9riels sont trouv\u00E9s sur le n\u0153ud de traitement, et si c\u0027est le cas, elle utilisera l\u0027encodage mat\u00E9riel, sinon elle retombera sur l\u0027encodage CPU.",
+          "Resolution": "R\u00E9solution",
+          "Visualization": "Visualisation",
+          "Visualization-Help": "La visualisation \u00E0 utiliser dans la vid\u00E9o g\u00E9n\u00E9r\u00E9e. Voir l\u0027aide pour des exemples"
+        }
+      },
+      "CanUseHardwareEncoding": {
+        "Description": "V\u00E9rifie si l\u0027encodeur mat\u00E9riel sp\u00E9cifi\u00E9 est actuellement disponible pour le flux.",
+        "Label": "Peut Utiliser l\u0027Encodage Mat\u00E9riel",
+        "Fields": {
+          "Encoder": "Encodeur",
+          "Encoder-Help": "L\u0027encodeur mat\u00E9riel \u00E0 v\u00E9rifier"
+        }
+      },
+      "ComskipRemoveAds": {
+        "Description": "Utilise un fichier EDL comskip et supprimera les publicit\u00E9s en utilisant ce fichier.",
+        "Label": "Comskip: Supprimer les Publicit\u00E9s",
+        "Fields": {
+          "RunComskipIfNoEdl": "Ex\u00E9cuter Comskip",
+          "RunComskipIfNoEdl-Help": "Ex\u00E9cuter comskip contre le fichier si aucun fichier comskip (EDL) n\u0027est trouv\u00E9."
+        },
+        "Outputs": {
+          "1": "Publicit\u00E9s supprim\u00E9es, enregistr\u00E9es dans un fichier temporaire",
+          "2": "Aucune publicit\u00E9 d\u00E9tect\u00E9e"
+        }
+      },
+      "CreateThumbnail": {
+        "Description": "Cr\u00E9e une image miniature \u00E0 partir d\u0027un fichier vid\u00E9o.",
+        "Label": "Cr\u00E9er une miniature",
+        "Fields": {
+          "Height": "Hauteur",
+          "Height-Help": "La hauteur de l\u0027image miniature.",
+          "OutputFile": "Fichier de sortie",
+          "OutputFile-Help": "Le chemin du fichier o\u00F9 l\u0027image miniature sera enregistr\u00E9e. Si ce champ est laiss\u00E9 vide, un fichier .jpg sera cr\u00E9\u00E9 dans le m\u00EAme emplacement que le fichier d\u0027origine.",
+          "ResizeMode": "Mode",
+          "ResizeMode-Help": "Le mode utilis\u00E9 pour redimensionner l\u0027image.",
+          "SkipBlackFrames": "Ignorer les images noires",
+          "SkipBlackFrames-Help": "Si activ\u00E9, les images noires seront ignor\u00E9es et une autre image sera utilis\u00E9e.",
+          "Time": "Temps",
+          "Time-Help": "Le moment de la vid\u00E9o o\u00F9 capturer la miniature.",
+          "Width": "Largeur",
+          "Width-Help": "La largeur de l\u0027image miniature."
+        },
+        "Outputs": {
+          "1": "Miniature cr\u00E9\u00E9e.",
+          "2": "\u00C9chec de la cr\u00E9ation de la miniature."
+        }
+      },
+      "DisableAmd": {
+        "Description": "D\u00E9sactive l\u0027encodeur mat\u00E9riel AMD AMF",
+        "Label": "D\u00E9sactiver AMD",
+        "Outputs": {
+          "1": "D\u00E9sactiv\u00E9"
+        }
+      },
+      "DisableIntelQsv": {
+        "Description": "D\u00E9sactive l\u0027encodeur mat\u00E9riel Intel QSV",
+        "Label": "D\u00E9sactiver Intel QSV",
+        "Outputs": {
+          "1": "D\u00E9sactiv\u00E9"
+        }
+      },
+      "DisableNvidia": {
+        "Description": "D\u00E9sactive l\u0027encodeur mat\u00E9riel NVIDIA",
+        "Label": "D\u00E9sactiver NVIDIA",
+        "Outputs": {
+          "1": "D\u00E9sactiv\u00E9"
+        }
+      },
+      "DisableVaapi": {
+        "Description": "D\u00E9sactive l\u0027encodeur mat\u00E9riel VAAPI",
+        "Label": "D\u00E9sactiver VAAPI",
+        "Outputs": {
+          "1": "D\u00E9sactiv\u00E9"
+        }
+      },
+      "FfmpegBuilderAddInputFile": {
+        "Label": "FFMPEG Builder: Ajouter Fichier d\u0027Entr\u00E9e",
+        "Fields": {
+          "Pattern": "Mod\u00E8le",
+          "Pattern-Help": "Une expression r\u00E9guli\u00E8re utilis\u00E9e pour rechercher des fichiers d\u0027entr\u00E9e",
+          "UseSourceDirectory": "Utiliser le R\u00E9pertoire Source",
+          "UseSourceDirectory-Help": "S\u0027il est coch\u00E9, il recherchera dans le r\u00E9pertoire source original; sinon, il utilisera le r\u00E9pertoire de travail."
+        },
+        "Outputs": {
+          "1": "Fichier trouv\u00E9 et ajout\u00E9",
+          "2": "Fichier non trouv\u00E9"
+        }
+      },
+      "FfmpegBuilderAspectRatio": {
+        "Label": "FFMPEG Builder: Rapport d\u0027Aspect",
+        "Fields": {
+          "AdjustmentMode": "Mode d\u0027Ajustement",
+          "AdjustmentMode-Help": "Choisissez comment le rapport d\u0027aspect doit \u00EAtre respect\u00E9. Les options incluent l\u0027\u00E9tirement de la vid\u00E9o, l\u0027ajout de barres noires (letterbox) ou le rognage de la vid\u00E9o pour s\u0027adapter au rapport d\u0027aspect.",
+          "AspectRatio": "Rapport d\u0027Aspect",
+          "AspectRatio-Help": "S\u00E9lectionnez le rapport d\u0027aspect souhait\u00E9 pour la vid\u00E9o. Les options disponibles incluent des rapports d\u0027aspect standard (16:9, 4:3, 21:9) ou un rapport personnalis\u00E9.",
+          "CustomHeight": "Hauteur Personnalis\u00E9e",
+          "CustomHeight-Help": "Sp\u00E9cifiez la hauteur \u00E0 utiliser lors de la s\u00E9lection de l\u0027option de rapport d\u0027aspect personnalis\u00E9.",
+          "CustomWidth": "Largeur Personnalis\u00E9e",
+          "CustomWidth-Help": "Sp\u00E9cifiez la largeur \u00E0 utiliser lors de la s\u00E9lection de l\u0027option de rapport d\u0027aspect personnalis\u00E9."
+        },
+        "Outputs": {
+          "1": "Le rapport d\u0027aspect a \u00E9t\u00E9 chang\u00E9 avec succ\u00E8s",
+          "2": "La vid\u00E9o \u00E9tait d\u00E9j\u00E0 au rapport d\u0027aspect souhait\u00E9"
+        }
+      },
+      "FfmpegBuilderAudioAddTrack": {
+        "Description": "Ajoute une nouvelle piste audio au FFMPEG Builder qui sera ajout\u00E9e une fois que le constructeur sera ex\u00E9cut\u00E9.",
+        "Label": "FFMPEG Builder: Ajouter Piste Audio",
+        "Fields": {
+          "Bitrate": "D\u00E9bit",
+          "Bitrate-Help": "D\u00E9bit de la nouvelle piste audio",
+          "BitratePerChannel": "D\u00E9bit Par Canal",
+          "BitratePerChannel-Help": "Si le d\u00E9bit sp\u00E9cifi\u00E9 doit \u00EAtre par canal",
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux que cette nouvelle piste audio aura.\nSi vous sp\u00E9cifiez plus de canaux que l\u0027original, FFmpeg les m\u00E9langera automatiquement vers le haut.\nSi vous sp\u00E9cifiez moins de canaux que l\u0027original, FFmpeg les m\u00E9langera automatiquement vers le bas.",
+          "Codec": "Codec",
+          "Codec-Help": "Le codec \u00E0 utiliser pour encoder l\u0027audio",
+          "CustomTrackSelection": "S\u00E9lection de Piste Source",
+          "Filter": "Filtre",
+          "Filter-Help": "Sp\u00E9cifie un filtre personnalis\u00E9 \u00E0 appliquer \u00E0 cette nouvelle piste audio.",
+          "Index": "Index",
+          "Index-Help": "L\u0027index o\u00F9 ins\u00E9rer la nouvelle piste audio. Bas\u00E9 sur 0, donc pour ins\u00E9rer la nouvelle piste audio comme la premi\u00E8re piste, r\u00E9glez ceci sur 0.",
+          "Language": "Langue",
+          "Language-Help": "Code de langue optionnel [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) \u00E0 utiliser. Tentera de trouver une piste audio avec ce code de langue; sinon, la meilleure piste audio sera utilis\u00E9e.",
+          "NewTitle": "Nouveau Titre",
+          "NewTitle-Help": "Titre optionnel pour la piste audio nouvellement cr\u00E9\u00E9e. S\u0027il est laiss\u00E9 vide, le titre d\u0027origine sera utilis\u00E9",
+          "RemoveTitle": "Supprimer le Titre",
+          "RemoveTitle-Help": "Si le titre d\u0027origine doit \u00EAtre supprim\u00E9 et que la piste ne doit pas avoir de titre",
+          "SampleRate": "Taux d\u0027\u00C9chantillonnage",
+          "SampleRate-Help": "Le taux d\u0027\u00E9chantillonnage \u00E0 utiliser pour la nouvelle piste audio",
+          "TrackSelectionOptions": "S\u00E9lection de Piste",
+          "TrackSelectionOptionsKey": "Propri\u00E9t\u00E9",
+          "TrackSelectionOptionsValue": "Valeur"
+        },
+        "Outputs": {
+          "1": "Piste audio ajout\u00E9e au FFMPEG Builder",
+          "2": "Aucune piste audio source appropri\u00E9e trouv\u00E9e pour cr\u00E9er une nouvelle piste audio"
+        }
+      },
+      "FfmpegBuilderAudioAdjustVolume": {
+        "Description": "Ajuste le volume des pistes audio dans un fichier vid\u00E9o \u00E0 l\u0027aide de FFMPEG",
+        "Label": "FFMPEG Builder: Ajuster le Volume Audio",
+        "Fields": {
+          "AllAudio": "Toutes les Pistes Audio",
+          "AllAudio-Help": "Si toutes les pistes audio doivent \u00EAtre normalis\u00E9es ou si seule la premi\u00E8re piste doit l\u0027\u00EAtre",
+          "NotMatching": "Pas Correspondant",
+          "NotMatching-Help": "Si les pistes audio qui NE correspondent pas au patron doivent \u00EAtre supprim\u00E9es",
+          "Pattern": "Patron",
+          "Pattern-Help": "Une expression r\u00E9guli\u00E8re pour faire correspondre, par exemple \u0022commentaires\u0022 pour supprimer les pistes de commentaires",
+          "UseLanguageCode": "Utiliser le Code de Langue",
+          "UseLanguageCode-Help": "Si le code de langue de la piste audio doit \u00EAtre utilis\u00E9 \u00E0 la place du titre",
+          "VolumePercent": "Pourcentage de Volume",
+          "VolumePercent-Help": "Le pourcentage du volume ajust\u00E9.\n100 signifie sans ajustement\n50 signifie volume r\u00E9duit\n0 signifie coup\u00E9"
+        },
+        "Outputs": {
+          "1": "Filtre de volume de pistes audio ajout\u00E9 au FFMPEG Builder",
+          "2": "Les pistes audio n\u0027ont pas \u00E9t\u00E9 ajust\u00E9es"
+        }
+      },
+      "FfmpegBuilderAudioConvert": {
+        "Description": "Vous permet de convertir toutes les pistes correspondant aux param\u00E8tres \u00E0 convertir.",
+        "Label": "FFMPEG Builder: Convertir l\u0027Audio",
+        "Fields": {
+          "Bitrate": "D\u00E9bit Binaire",
+          "Bitrate-Help": "D\u00E9bit binaire de la piste audio",
+          "BitratePerChannel": "D\u00E9bit Binaire Par Canal",
+          "BitratePerChannel-Help": "Si le d\u00E9bit binaire sp\u00E9cifi\u00E9 doit \u00EAtre par canal",
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux que cette nouvelle piste audio aura.\nSi vous sp\u00E9cifiez plus de canaux que la source, FFMPEG le m\u00E9langera automatiquement.\nSi vous sp\u00E9cifiez moins de canaux que la source, FFMPEG le m\u00E9langera automatiquement.",
+          "Codec": "Codec",
+          "Codec-Help": "Le codec \u00E0 utiliser pour encoder l\u0027audio",
+          "CustomTrackSelection": "Convertir",
+          "PcmFormat": "Format",
+          "PcmFormat-Help": "Le format PCM \u00E0 utiliser pour encoder l\u0027audio PCM.",
+          "TrackSelectionOptions": "Correspondance",
+          "TrackSelectionOptionsKey": "Propri\u00E9t\u00E9",
+          "TrackSelectionOptionsValue": "Valeur"
+        },
+        "Outputs": {
+          "1": "Pistes \u00E0 convertir",
+          "2": "Aucune piste \u00E0 convertir"
+        }
+      },
+      "FfmpegBuilderAudioConverter": {
+        "Description": "Vous permet de convertir toutes les pistes correspondant aux param\u00E8tres \u00E0 convertir.",
+        "Label": "FFMPEG Builder: Convertisseur Audio",
+        "Fields": {
+          "Bitrate": "D\u00E9bit Binaire",
+          "Bitrate-Help": "D\u00E9bit binaire de la piste audio",
+          "BitratePerChannel": "D\u00E9bit Binaire Par Canal",
+          "BitratePerChannel-Help": "Si le d\u00E9bit binaire sp\u00E9cifi\u00E9 doit \u00EAtre par canal",
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux que cette nouvelle piste audio aura.\nSi vous sp\u00E9cifiez plus de canaux que la source, FFMPEG le m\u00E9langera automatiquement.\nSi vous sp\u00E9cifiez moins de canaux que la source, FFMPEG le m\u00E9langera automatiquement.",
+          "Codec": "Codec",
+          "Codec-Help": "Le codec \u00E0 utiliser pour encoder l\u0027audio",
+          "Field": "Champ",
+          "Field-Help": "Le champ \u00E0 faire correspondre avec le patron. Laissez le patron vide pour faire correspondre n\u0027importe quoi sans valeur \u00E9tablie.",
+          "NotMatching": "Pas Correspondant",
+          "NotMatching-Help": "Si les pistes audio qui NE correspondent pas au patron doivent \u00EAtre converties",
+          "Pattern": "Patron",
+          "Pattern-Help": "Une cha\u00EEne ou une expression r\u00E9guli\u00E8re pour faire correspondre, par exemple \u0022commentaires\u0022 pour faire correspondre exactement des commentaires ou \u0022.*commentaires.*\u0022 pour faire correspondre des commentaires n\u0027importe o\u00F9 dans la cha\u00EEne",
+          "PcmFormat": "Format",
+          "PcmFormat-Help": "Le format PCM \u00E0 utiliser pour encoder l\u0027audio PCM."
+        },
+        "Outputs": {
+          "1": "Pistes \u00E0 convertir",
+          "2": "Aucune piste \u00E0 convertir"
+        }
+      },
+      "FfmpegBuilderAudioNormalization": {
+        "Description": "Normalise toutes les pistes audio d\u0027un fichier vid\u00E9o \u00E0 l\u0027aide du filtre loudnorm de FFMPEG",
+        "Label": "FFMPEG Builder: Normalisation Audio",
+        "Fields": {
+          "AllAudio": "Toutes les Pistes Audio",
+          "AllAudio-Help": "Si toutes les pistes audio doivent \u00EAtre normalis\u00E9es ou si seule la premi\u00E8re piste doit l\u0027\u00EAtre",
+          "NotMatching": "Pas Correspondant",
+          "NotMatching-Help": "Si les pistes audio qui NE correspondent pas au patron doivent \u00EAtre supprim\u00E9es",
+          "Pattern": "Patron",
+          "Pattern-Help": "Une expression r\u00E9guli\u00E8re pour faire correspondre, par exemple \u0022commentaires\u0022 pour supprimer les pistes de commentaires",
+          "TwoPass": "Deux Passes",
+          "TwoPass-Help": "Si les pistes audio doivent utiliser la normalisation en deux passes. Cela am\u00E9liore la normalisation mais augmente le temps de traitement.",
+          "UseLanguageCode": "Utiliser le Code de Langue",
+          "UseLanguageCode-Help": "Si le code de langue de la piste audio doit \u00EAtre utilis\u00E9 \u00E0 la place du titre"
+        },
+        "Outputs": {
+          "1": "Les pistes audio ont \u00E9t\u00E9 normalis\u00E9es et ajout\u00E9es au FFMPEG Builder",
+          "2": "Aucune piste audio trouv\u00E9e \u00E0 normaliser"
+        }
+      },
+      "FfmpegBuilderAudioSetLanguage": {
+        "Description": "Permet de d\u00E9finir la langue pour toute piste qui n\u0027a pas de langue d\u00E9finie. Si la piste a d\u00E9j\u00E0 une langue d\u00E9finie, elle sera ignor\u00E9e.\n\nSortie 1 : Les pistes ont \u00E9t\u00E9 mises \u00E0 jour\nSortie 2 : Il n\u0027y avait pas de pistes n\u00E9cessitant une mise \u00E0 jour",
+        "Label": "FFMPEG Builder : D\u00E9finir la Langue",
+        "Fields": {
+          "Language": "Langue",
+          "Language-Help": "Le code de langue [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) \u00E0 utiliser.",
+          "StreamType": "Type",
+          "StreamType-Help": "Le type de piste pour d\u00E9finir la langue"
+        },
+        "Outputs": {
+          "1": "Pistes mises \u00E0 jour dans le FFMPEG Builder",
+          "2": "Pistes NON mises \u00E0 jour"
+        }
+      },
+      "FfmpegBuilderAudioTrackRemover": {
+        "Description": "Vous permet de supprimer des pistes bas\u00E9es sur leur titre ou leurs codes de langue.\n\nTout titre (ou code de langue si d\u00E9fini sur \u0022Utiliser le Code de Langue\u0022) qui est vide ne sera PAS supprim\u00E9 ind\u00E9pendamment du patron.",
+        "Label": "FFMPEG Builder: Supprimer les Pistes (Obsol\u00E8te)",
+        "Fields": {
+          "MatchType": "Correspondances",
+          "MatchType-Help": "La valeur \u00E0 faire correspondre.",
+          "NotMatching": "Pas Correspondant",
+          "NotMatching-Help": "Si les pistes audio qui NE correspondent pas au patron doivent \u00EAtre supprim\u00E9es",
+          "Pattern": "Patron",
+          "Pattern-Help": "Une expression r\u00E9guli\u00E8re pour faire correspondre, par exemple \u0022commentaires\u0022 pour supprimer les pistes de commentaires",
+          "RemoveAll": "Tout Supprimer",
+          "RemoveAll-Help": "Supprime toutes les pistes actuelles du fichier de sortie. Vous pouvez utiliser Ajouter Piste apr\u00E8s pour ajouter des pistes de codecs sp\u00E9cifiques",
+          "RemoveIndex": "Supprimer l\u0027Index",
+          "RemoveIndex-Help": "L\u0027index de d\u00E9part \u00E0 partir duquel supprimer les pistes. Cela vous permet de supprimer toutes les pistes qui correspondent apr\u00E8s l\u0027index de d\u00E9part.\nD\u00E9finir \u00E0 z\u00E9ro pour supprimer toutes celles qui correspondent aux param\u00E8tres.\nD\u00E9finir \u00E0 1 pour conserver la premi\u00E8re piste et supprimer toute autre apr\u00E8s la premi\u00E8re qui correspond aux param\u00E8tres",
+          "StreamType": "Type",
+          "StreamType-Help": "Le type de pistes \u00E0 r\u00E9organiser dans le FFMPEG Builder",
+          "UseLanguageCode": "Utiliser le Code de Langue",
+          "UseLanguageCode-Help": "Si le code de langue de la piste doit \u00EAtre utilis\u00E9 \u00E0 la place du titre"
+        },
+        "Outputs": {
+          "1": "Pistes \u00E9tablies pour \u00EAtre supprim\u00E9es",
+          "2": "Pistes NON \u00E9tablies pour \u00EAtre supprim\u00E9es"
+        }
+      },
+      "FfmpegBuilderAudioTrackReorder": {
+        "Description": "Permet de r\u00E9ordonner les pistes dans l\u0027ordre souhait\u00E9.\n\nEntrez les langues / codecs audio / canaux dans l\u0027ordre souhait\u00E9. Toute piste non r\u00E9pertori\u00E9e sera plac\u00E9e apr\u00E8s celles qui ont \u00E9t\u00E9 entr\u00E9es dans leur ordre d\u0027origine.\nS\u0027il y a plusieurs pistes avec la m\u00EAme langue / codec / canaux, elles seront d\u0027abord tri\u00E9es par l\u0027ordre dans lequel vous les avez saisies, puis selon leur ordre d\u0027origine.\n\nRemarque : la premi\u00E8re piste apr\u00E8s r\u00E9ordonnement sera d\u00E9finie comme la piste par d\u00E9faut..\n\nSortie 1 : Les pistes ont \u00E9t\u00E9 r\u00E9ordonn\u00E9es\nSortie 2 : Les pistes n\u0027avaient pas besoin d\u0027\u00EAtre r\u00E9ordonn\u00E9es",
+        "Label": "FFMPEG Builder : R\u00E9ordonner les Pistes",
+        "Fields": {
+          "Channels": "Canaux",
+          "Channels-Help": "L\u0027ordre des canaux audio par lequel trier les pistes audio. Ce tri se fait avant les langues.\nPar exemple \u00225.1\u0022,\u00227.1\u0022,\u00226.2\u0022,\u00222\u0022",
+          "Languages": "Langues",
+          "Languages-Help": "L\u0027ordre des langues par lequel trier les pistes. Ce tri se fait avant le codec.",
+          "OrderedTracks": "Pistes Ordonn\u00E9es",
+          "OrderedTracks-Help": "L\u0027ordre des codecs pour les pistes. Cela se fait apr\u00E8s les langues (s\u0027il y en a)",
+          "StreamType": "Type",
+          "StreamType-Help": "Le type de pistes \u00E0 r\u00E9ordonner dans le FFMPEG Builder"
+        },
+        "Outputs": {
+          "1": "Pistes r\u00E9ordonn\u00E9es dans le FFMPEG Builder",
+          "2": "Pistes NON r\u00E9ordonn\u00E9es"
+        }
+      },
+      "FfmpegBuilderAutoChapters": {
+        "Description": "D\u00E9tecte automatiquement les changements de sc\u00E8ne dans la vid\u00E9o pour g\u00E9n\u00E9rer des chapitres.",
+        "Label": "FFMPEG Builder : Chapitres Automatiques",
+        "Fields": {
+          "MinimumLength": "Longueur Minimale",
+          "MinimumLength-Help": "La longueur minimale d\u0027un chapitre en secondes",
+          "MinimumLength-Suffix": "secondes",
+          "Percent": "Pourcentage",
+          "Percent-Help": "La valeur de seuil en pourcentage \u00E0 utiliser pour la d\u00E9tection des changements de sc\u00E8ne. Une bonne valeur est 45%",
+          "Percent-Suffix": "%"
+        },
+        "Outputs": {
+          "1": "Chapitres g\u00E9n\u00E9r\u00E9s et ajout\u00E9s au FFMPEG Builder",
+          "2": "Aucun chapitre d\u00E9tect\u00E9 ou la vid\u00E9o avait d\u00E9j\u00E0 des chapitres"
+        }
+      },
+      "FfmpegBuilderComskipChapters": {
+        "Description": "Utilise un fichier EDL de comskip et cr\u00E9era des chapitres \u00E0 partir de ce fichier EDL de comskip.",
+        "Label": "FFMPEG Builder : Chapitres Comskip",
+        "Fields": {
+          "RunComskipIfNoEdl": "Ex\u00E9cuter Comskip",
+          "RunComskipIfNoEdl-Help": "Ex\u00E9cuter comskip sur le fichier si aucun fichier comskip (EDL) n\u0027est trouv\u00E9."
+        },
+        "Outputs": {
+          "1": "Chapitres commerciaux cr\u00E9\u00E9s, ajout\u00E9s au FFMPEG Builder",
+          "2": "Aucun commercial d\u00E9tect\u00E9"
+        }
+      },
+      "FfmpegBuilderCropBlackBars": {
+        "Description": "Mise \u00E0 jour de FFMPEG Builder pour rogner les barres noires si d\u00E9tect\u00E9es.",
+        "Label": "FFMPEG Builder : Rogner les Barres Noires",
+        "Fields": {
+          "CroppingThreshold": "Seuil",
+          "CroppingThreshold-Help": "Le nombre de pixels qui doivent \u00EAtre sup\u00E9rieurs pour rogner. Par exemple, s\u0027il n\u0027y a que 5 pixels d\u00E9tect\u00E9s comme espace noir, vous pouvez consid\u00E9rer cela comme trop petit pour rogner."
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder mis \u00E0 jour pour rogner les barres noires",
+          "2": "Aucune barre noire d\u00E9tect\u00E9e, pas de rognage"
+        }
+      },
+      "FfmpegBuilderCustomParameters": {
+        "Description": "Vous permet d\u0027ajouter des param\u00E8tres personnalis\u00E9s au FFMPEG Builder pour son ex\u00E9cution",
+        "Label": "FFMPEG Builder : Param\u00E8tres Personnalis\u00E9s",
+        "Fields": {
+          "ForceEncode": "Forcer l\u0027Encodage",
+          "ForceEncode-Help": "Si cela devrait forcer l\u0027Ex\u00E9cuteur du FFMPEG Builder \u00E0 s\u0027ex\u00E9cuter toujours, m\u00EAme s\u0027il n\u0027y a pas de changements d\u00E9tect\u00E9s qui n\u00E9cessiteraient normalement l\u0027ex\u00E9cution de l\u0027ex\u00E9cuteur.",
+          "Parameters": "Param\u00E8tres",
+          "Parameters-Help": "Les param\u00E8tres \u00E0 ajouter au FFMPEG Builder pour son ex\u00E9cution"
+        },
+        "Outputs": {
+          "1": "Param\u00E8tres ajout\u00E9s"
+        }
+      },
+      "FfmpegBuilderDefaultOriginalLanguage": {
+        "Description": "Cet \u00E9l\u00E9ment de flux tentera de d\u00E9finir les pistes de langue originale comme d\u00E9faut. Il essaiera de trouver la premi\u00E8re piste correspondant \u00E0 la langue originale, puis de la d\u00E9finir comme d\u00E9faut.\n\nSi aucune piste n\u0027est trouv\u00E9e avec la langue originale, aucun changement n\u0027est effectu\u00E9.",
+        "Label": "FFMPEG Builder : Langue Originale par D\u00E9faut",
+        "Fields": {
+          "MakeFirst": "Faire Premier",
+          "MakeFirst-Help": "Si la piste de langue originale doit \u00E9galement devenir la premi\u00E8re piste.",
+          "StreamType": "Type",
+          "StreamType-Help": "Le type de pistes qui doivent \u00EAtre mises \u00E0 jour"
+        },
+        "Outputs": {
+          "1": "Les pistes ont \u00E9t\u00E9 modifi\u00E9es",
+          "2": "Aucune piste n\u0027a \u00E9t\u00E9 chang\u00E9e"
+        }
+      },
+      "FfmpegBuilderDeinterlace": {
+        "Label": "FFMPEG Builder: D\u00E9sentrelacer",
+        "Fields": {
+          "Mode": "Mode",
+          "Mode-Help": "La m\u00E9thode de d\u00E9sentrelacement \u00E0 utiliser. Voir l\u0027aide pour plus d\u0027informations."
+        },
+        "Outputs": {
+          "1": "Filtre de d\u00E9sentrelacement ajout\u00E9 au flux vid\u00E9o"
+        }
+      },
+      "FFmpegBuilderDurationStart": {
+        "Descriptions": "Cet \u00E9l\u00E9ment de flux permet aux utilisateurs de d\u00E9finir le point de d\u00E9part et la dur\u00E9e pour extraire un segment d\u0027une vid\u00E9o.",
+        "Label": "FFMPEG Builder : Dur\u00E9e/D\u00E9but",
+        "Fields": {
+          "Duration": "Dur\u00E9e",
+          "Duration-Help": "La dur\u00E9e du fichier vid\u00E9o, si c\u0027est 0, elle ne modifiera pas la dur\u00E9e.",
+          "Start": "D\u00E9but",
+          "Start-Help": "Le d\u00E9but du fichier vid\u00E9o, si c\u0027est 0, il ne modifiera pas le d\u00E9but."
+        },
+        "Outputs": {
+          "1": "Dur\u00E9e/D\u00E9but configur\u00E9s",
+          "2": "\u00C9chec de l\u0027\u00E9tablissement de la dur\u00E9e/d\u00E9but"
+        }
+      },
+      "FfmpegBuilderExecutor": {
+        "Description": "Ex\u00E9cute une commande du FFMPEG Builder cr\u00E9\u00E9e par d\u0027autres \u00E9l\u00E9ments de flux de FFMPEG Builder.",
+        "Label": "FFMPEG Builder: Ex\u00E9cuteur",
+        "Fields": {
+          "HardwareDecoding": "D\u00E9codage Mat\u00E9riel",
+          "HardwareDecoding-Help": "Si l\u0027ex\u00E9cuteur doit essayer d\u0027utiliser le d\u00E9codage mat\u00E9riel. Si non disponible, l\u0027ex\u00E9cution se poursuivra sans le d\u00E9codage mat\u00E9riel activ\u00E9.",
+          "KeepModel": "Conserver le mod\u00E8le",
+          "KeepModel-Help": "D\u00E9termine si le mod\u00E8le FFmpeg Builder utilis\u00E9 pour construire la commande FFmpeg doit \u00EAtre conserv\u00E9. Si d\u00E9sactiv\u00E9, le mod\u00E8le sera supprim\u00E9 apr\u00E8s l\u0027ex\u00E9cution r\u00E9ussie de l\u0027\u00E9l\u00E9ment de flux (c.-\u00E0-d., sans \u00E9chec).",
+          "Strictness": "Rigueur",
+          "Strictness-Help": "Vous permet de personnaliser la rigueur de FFmpeg. Cela doit \u00EAtre laiss\u00E9 sur \u0027Exp\u00E9rimental\u0027 pour la plupart des utilisateurs."
+        },
+        "Outputs": {
+          "1": "Le FFMPEG Builder a \u00E9t\u00E9 ex\u00E9cut\u00E9 avec succ\u00E8s et a cr\u00E9\u00E9 un nouveau fichier temporaire",
+          "2": "Aucun changement d\u00E9tect\u00E9 dans le FFMPEG Builder, fichier non cr\u00E9\u00E9"
+        }
+      },
+      "FfmpegBuilderHdrToSdr": {
+        "Description": "V\u00E9rifie si un flux vid\u00E9o est HDR et si c\u0027est le cas, met \u00E0 jour le FFMPEG Builder pour le convertir en SDR.",
+        "Label": "FFMPEG Builder : HDR vers SDR",
+        "Outputs": {
+          "1": "Flux HDR d\u00E9tect\u00E9 et FFMPEG Builder mis \u00E0 jour pour conversion",
+          "2": "Aucun flux HDR trouv\u00E9"
+        }
+      },
+      "FfmpegBuilderKeepOriginalLanguage": {
+        "Description": "Cet \u00E9l\u00E9ment de flux gardera uniquement la langue d\u0027origine et toute langue suppl\u00E9mentaire que l\u0027utilisateur d\u00E9finit.\n\nToutes les autres pistes linguistiques seront supprim\u00E9es/marc\u00E9es pour suppression.",
+        "Label": "FFMPEG Builder : Garder la Langue Originale",
+        "Fields": {
+          "AdditionalLanguages": "Langues Suppl\u00E9mentaires",
+          "AdditionalLanguages-Help": "Une liste facultative de codes de langues suppl\u00E9mentaires \u00E0 garder.\n\nIl est recommand\u00E9 d\u0027utiliser un [code de langue ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes).",
+          "FirstIfNone": "Premier Si Aucun",
+          "FirstIfNone-Help": "Lorsque cela est activ\u00E9, cela garantit qu\u0027au moins une piste est conserv\u00E9e. Si aucune piste ne correspond \u00E0 la langue d\u0027origine et qu\u0027aucune piste ne correspond aux langues suppl\u00E9mentaires, la premi\u00E8re piste sera conserv\u00E9e, peu importe.\n\nCela \u00E9vite les probl\u00E8mes de manque de son dans la vid\u00E9o.",
+          "KeepOnlyFirst": "Garder Seulement le Premier",
+          "KeepOnlyFirst-Help": "Lorsque cela est activ\u00E9, seule la premi\u00E8re piste de chaque langue sera conserv\u00E9e.\n\nPar exemple, s\u0027il y a 2 pistes en anglais, 3 pistes en espagnol et 1 piste en allemand. La langue originale \u00E9tait l\u0027espagnol, les langues suppl\u00E9mentaires sont d\u00E9finies sur \u0060eng\u0060, alors le r\u00E9sultat serait 1 piste en anglais et 1 piste en espagnol, le reste serait supprim\u00E9.",
+          "StreamType": "Type",
+          "StreamType-Help": "Le type de pistes qui doivent \u00EAtre mises \u00E0 jour",
+          "TreatEmptyAsOriginal": "Traiter Vide Comme Original",
+          "TreatEmptyAsOriginal-Help": "Lorsque cela est activ\u00E9, toute piste sans langue d\u00E9finie sera trait\u00E9e comme si c\u0027\u00E9tait la langue originale.\n\nPar exemple, si la langue originale est le maori et qu\u0027une piste n\u0027a pas de langue d\u00E9finie, elle sera trait\u00E9e comme maori."
+        },
+        "Outputs": {
+          "1": "Les pistes ont \u00E9t\u00E9 modifi\u00E9es",
+          "2": "Aucune piste n\u0027a \u00E9t\u00E9 chang\u00E9e"
+        }
+      },
+      "FFmpegBuilderLanguageRemover": {
+        "Description": "Un \u00E9l\u00E9ment de flux de base qui supprime les pistes audio et/ou les sous-titres ind\u00E9sirables d\u0027un fichier vid\u00E9o en fonction des langues sp\u00E9cifi\u00E9es.",
+        "Label": "FFMPEG Builder: Suppression de Langue",
+        "Fields": {
+          "Languages": "Langues",
+          "Languages-Help": "Une liste de langues \u00E0 supprimer ou \u00E0 conserver, selon l\u0027option Non Correspondant.",
+          "NotMatching": "Non Correspondant",
+          "NotMatching-Help": "Indique si les pistes audio qui NE correspondent PAS aux langues sp\u00E9cifi\u00E9es doivent \u00EAtre supprim\u00E9es.",
+          "StreamType": "Type de Piste",
+          "StreamType-Help": "Sp\u00E9cifie le type de pistes (audio ou sous-titres) \u00E0 supprimer dans le FFMPEG Builder."
+        },
+        "Outputs": {
+          "1": "Pistes marqu\u00E9es pour suppression",
+          "2": "Pistes NON marqu\u00E9es pour suppression"
+        }
+      },
+      "FfmpegBuilderMetadataRemover": {
+        "Description": "Supprime les m\u00E9tadonn\u00E9es du FFMPEG Builder afin que, lorsque le fichier est trait\u00E9, les m\u00E9tadonn\u00E9es s\u00E9lectionn\u00E9es soient supprim\u00E9es.\n\nRemarque : Seules les m\u00E9tadonn\u00E9es lorsque cet \u00E9l\u00E9ment de flux est affect\u00E9 ; si des m\u00E9tadonn\u00E9es sont ajout\u00E9es apr\u00E8s l\u0027ex\u00E9cution de ce n\u0153ud, cela ne sera pas affect\u00E9.",
+        "Label": "FFMPEG Builder : Supprimeur de M\u00E9tadonn\u00E9es",
+        "Fields": {
+          "Audio": "Audio",
+          "Audio-Help": "Si les pistes audio doivent avoir ces m\u00E9tadonn\u00E9es supprim\u00E9es",
+          "RemoveAdditionalMetadata": "Supprimer les M\u00E9tadonn\u00E9es Suppl\u00E9mentaires",
+          "RemoveAdditionalMetadata-Help": "Si des m\u00E9tadonn\u00E9es suppl\u00E9mentaires doivent \u00EAtre supprim\u00E9es. Les m\u00E9tadonn\u00E9es suppl\u00E9mentaires sont des m\u00E9tadonn\u00E9es non standard qui peuvent avoir \u00E9t\u00E9 ajout\u00E9es \u00E0 un fichier vid\u00E9o, par exemple par iTunes.",
+          "RemoveImages": "Supprimer les Images",
+          "RemoveImages-Help": "Si toutes les images trouv\u00E9es dans les m\u00E9tadonn\u00E9es doivent \u00EAtre supprim\u00E9es",
+          "RemoveLanguage": "Supprimer la Langue",
+          "RemoveLanguage-Help": "Si la langue doit \u00EAtre supprim\u00E9e des pistes",
+          "RemoveTitle": "Supprimer le Titre",
+          "RemoveTitle-Help": "Si le titre doit \u00EAtre supprim\u00E9 des pistes",
+          "Subtitle": "Sous-titre",
+          "Subtitle-Help": "Si les pistes de sous-titres doivent avoir ces m\u00E9tadonn\u00E9es supprim\u00E9es",
+          "Video": "Vid\u00E9o",
+          "Video-Help": "Si les pistes vid\u00E9o doivent avoir ces m\u00E9tadonn\u00E9es supprim\u00E9es"
+        },
+        "Outputs": {
+          "1": "M\u00E9tadonn\u00E9es supprim\u00E9es du FFMPEG Builder"
+        }
+      },
+      "FfmpegBuilderPreExecute": {
+        "Description": "Cet \u00E9l\u00E9ment vous permet d\u0027ex\u00E9cuter du code personnalis\u00E9 juste avant que le [FFmpeg Builder: Executor](https://fileflows.com/docs/plugins/video-nodes/ffmpeg-builder) ex\u00E9cute FFmpeg.\n\nCela vous permet de modifier les arguments pass\u00E9s \u00E0 FFmpeg.",
+        "Label": "FFMPEG Builder: Pr\u00E9-Ex\u00E9cuter",
+        "Fields": {
+          "Code": "Code"
+        },
+        "Outputs": {
+          "1": "Pr\u00E9-Ex\u00E9cuter configur\u00E9"
+        }
+      },
+      "FfmpegBuilderProres": {
+        "Description": "Code le vid\u00E9o au format prores.",
+        "Label": "FFMPEG Builder: Prores",
+        "Fields": {
+          "Encoder": "Encodeur",
+          "Encoder-Help": "Quel encodeur prores de FFmpeg utiliser.",
+          "PixelFormat": "Format de Pixel",
+          "Profile": "Profil",
+          "Quality": "Qualit\u00E9",
+          "Quality-Help": "0 pour une qualit\u00E9 maximale, 32 pour une qualit\u00E9 minimale.  9 \u00E0 13 sont de bonnes valeurs \u00E0 utiliser."
+        },
+        "Outputs": {
+          "1": "Vid\u00E9o configur\u00E9e pour utiliser prores"
+        }
+      },
+      "FfmpegBuilderRemoveAttachments": {
+        "Description": "Supprime toutes les pi\u00E8ces jointes de la vid\u00E9o, s\u0027il y en a.",
+        "Label": "FFMPEG Builder: Supprimer les Pi\u00E8ces Jointes",
+        "Outputs": {
+          "1": "FFMPEG Builder configur\u00E9 pour supprimer les pi\u00E8ces jointes."
+        }
+      },
+      "FfmpegBuilderRemuxToMkv": {
+        "Description": "Remux une vid\u00E9o dans un conteneur MKV.",
+        "Label": "FFMPEG Builder: Remuxer vers MKV",
+        "Outputs": {
+          "1": "FFMPEG Builder configur\u00E9 pour remuxer vers MKV"
+        }
+      },
+      "FfmpegBuilderRemuxToMov": {
+        "Description": "Remux une vid\u00E9o dans un conteneur MOV.",
+        "Label": "FFMPEG Builder: Remuxer vers MOV",
+        "Outputs": {
+          "1": "FFMPEG Builder configur\u00E9 pour remuxer vers MOV"
+        }
+      },
+      "FfmpegBuilderRemuxToMP4": {
+        "Description": "Remux une vid\u00E9o dans un conteneur MP4.",
+        "Label": "FFMPEG Builder: Remuxer vers MP4",
+        "Fields": {
+          "UseHvc1": "Utiliser HVC1",
+          "UseHvc1-Help": "Si HVC1 doit \u00EAtre utilis\u00E9 au lieu du HEV1 par d\u00E9faut"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder configur\u00E9 pour remuxer vers MP4"
+        }
+      },
+      "FfmpegBuilderRemuxToMxf": {
+        "Description": "Remux une vid\u00E9o dans un conteneur MXF.",
+        "Label": "FFMPEG Builder: Remuxer vers MXF",
+        "Outputs": {
+          "1": "FFMPEG Builder configur\u00E9 pour remuxer vers MXF"
+        }
+      },
+      "FfmpegBuilderRemuxToWebm": {
+        "Description": "Remux une vid\u00E9o dans un conteneur WEBM.",
+        "Label": "FFMPEG Builder: Remuxer vers WEBM",
+        "Outputs": {
+          "1": "FFMPEG Builder configur\u00E9 pour remuxer vers WEBM"
+        }
+      },
+      "FfmpegBuilderScaler": {
+        "Description": "Cela vous permet d\u0027\u00E9chelonner une vid\u00E9o aux dimensions sp\u00E9cifi\u00E9es. Il conservera le rapport hauteur/largeur de la vid\u00E9o, donc si la vid\u00E9o \u00E9tait de 1920x1000, elle sera mise \u00E0 l\u0027\u00E9chelle \u00E0 1280x668 si vous s\u00E9lectionnez 720P.",
+        "Label": "FFMPEG Builder: \u00C9chelle de Vid\u00E9o",
+        "Fields": {
+          "Force": "Forcer",
+          "Force-Help": "Lorsque coch\u00E9, la vid\u00E9o sera forc\u00E9e \u00E0 l\u0027\u00E9chelle m\u00EAme si le fichier de travail est d\u00E9j\u00E0 \u00E0 cette r\u00E9solution (ou pr\u00E8s de cette r\u00E9solution).",
+          "OnlyIfLarger": "Seulement Si Plus Grand",
+          "OnlyIfLarger-Help": "La vid\u00E9o ne sera mise \u00E0 l\u0027\u00E9chelle \u00E0 cette r\u00E9solution que si la vid\u00E9o est actuellement plus grande que cette r\u00E9solution",
+          "Resolution": "R\u00E9solution"
+        },
+        "Outputs": {
+          "1": "Filtre d\u0027\u00E9chelle de FFMPEG Builder ajout\u00E9",
+          "2": "La vid\u00E9o \u00E9tait d\u00E9j\u00E0 \u00E0/proche de la r\u00E9solution mise \u00E0 l\u0027\u00E9chelle"
+        }
+      },
+      "FfmpegBuilderSetDefaultTrack": {
+        "Description": "D\u00E9finir une piste comme par d\u00E9faut dans le FFMPEG Builder.",
+        "Label": "FFMPEG Builder : D\u00E9finir la Piste par D\u00E9faut",
+        "Fields": {
+          "Index": "Index",
+          "Index-Help": "L\u0027index de la piste \u00E0 d\u00E9finir comme par d\u00E9faut, utilis\u00E9 uniquement si la langue n\u0027est pas sp\u00E9cifi\u00E9e.",
+          "Language": "Langue",
+          "Language-Help": "Code de langue optionnel [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) \u00E0 utiliser.",
+          "StreamType": "Type",
+          "StreamType-Help": "Le type de piste \u00E0 d\u00E9finir comme par d\u00E9faut dans le FFMPEG Builder"
+        },
+        "Outputs": {
+          "1": "Piste d\u00E9finie comme par d\u00E9faut",
+          "2": "\u00C9chec de la d\u00E9finition de la piste comme par d\u00E9faut"
+        }
+      },
+      "FfmpegBuilderSetDevice": {
+        "Description": "D\u00E9finit l\u0027appareil \u00E0 utiliser pour l\u0027encodage/d\u00E9codage mat\u00E9riel si l\u0027encodeur/d\u00E9codeur le prend en charge.",
+        "Label": "FFMPEG Builder : D\u00E9finir l\u0027Appareil",
+        "Fields": {
+          "Device": "Appareil",
+          "Device-Help": "Le chemin vers l\u0027appareil, ou laisser vide si aucun appareil ne doit \u00EAtre sp\u00E9cifi\u00E9."
+        },
+        "Outputs": {
+          "1": "Appareil d\u00E9fini"
+        }
+      },
+      "FfmpegBuilderSetFps": {
+        "Description": "D\u00E9finir les images par seconde (FPS) dans le FFMPEG Builder",
+        "Label": "FFMPEG Builder : D\u00E9finir le FPS",
+        "Fields": {
+          "Fps": "FPS",
+          "Fps-Help": "Le FPS d\u00E9sir\u00E9, si le FPS d\u0027entr\u00E9e et le FPS d\u00E9sir\u00E9 ne correspondent pas, FFMPEG le convertira, par exemple (23.976, 24, 30, 60).",
+          "OnlyIfHigher": "Uniquement si Sup\u00E9rieur",
+          "OnlyIfHigher-Help": "Si le FPS doit \u00EAtre ajust\u00E9 uniquement si le FPS actuel est sup\u00E9rieur \u00E0 l\u0027actuel."
+        },
+        "Outputs": {
+          "1": "FPS mis \u00E0 jour",
+          "2": "Aucun changement n\u0027\u00E9tait n\u00E9cessaire"
+        }
+      },
+      "FfmpegBuilderSetTrackTitles": {
+        "Description": "D\u00E9finir les titres de piste bas\u00E9s sur un formateur dans le FFMPEG Builder.",
+        "Label": "FFMPEG Builder : D\u00E9finir les Titres de Piste",
+        "Fields": {
+          "CommentaryFormat": "Commentaire",
+          "CommentaryFormat-Help": "Comment les pistes de commentaire doivent \u00EAtre trait\u00E9es, vous pouvez utiliser le m\u00EAme formateur que d\u0027autres pistes ou utiliser une m\u00E9thode diff\u00E9rente.",
+          "Format": "Format",
+          "Format-Help": "Le formateur \u00E0 utiliser, voir _Aide_ pour plus d\u0027informations.",
+          "Separator": "S\u00E9parateur",
+          "Separator-Help": "Le s\u00E9parateur de cha\u00EEne utilis\u00E9 entre les valeurs de format, cela est n\u00E9cessaire pour s\u0027assurer qu\u0027aucune valeur vide n\u0027est conserv\u00E9e.",
+          "StreamType": "Type",
+          "StreamType-Help": "Le type de piste \u00E0 d\u00E9finir comme par d\u00E9faut dans le FFMPEG Builder"
+        },
+        "Outputs": {
+          "1": "Titres de piste mis \u00E0 jour",
+          "2": "Aucun titre de piste n\u0027a \u00E9t\u00E9 affect\u00E9"
+        }
+      },
+      "FfmpegBuilderStart": {
+        "Description": "Cr\u00E9e une instance du FFMPEG Builder qui peut construire un argument FFMPEG pour ensuite s\u0027ex\u00E9cuter avec l\u0027ex\u00E9cuteur FFMPEG.",
+        "Label": "FFMPEG Builder: D\u00E9marrer",
+        "Outputs": {
+          "1": "FFMPEG Builder cr\u00E9\u00E9 et pr\u00EAt \u00E0 ajouter des \u00E9l\u00E9ments de flux de FFMPEG Builder"
+        }
+      },
+      "FfmpegBuilderSubtitleBurnIn": {
+        "Description": "Incruste les sous-titres dans le fichier vid\u00E9o.",
+        "Label": "FFMPEG Builder: Subtitle Burn-In",
+        "Fields": {
+          "CustomTrackSelection": "S\u00E9lection de piste",
+          "TrackSelectionOptions": "",
+          "TrackSelectionOptionsKey": "Propri\u00E9t\u00E9",
+          "TrackSelectionOptionsValue": "Valeur"
+        },
+        "Outputs": {
+          "1": "Sous-titre trouv\u00E9 et incrust\u00E9 dans la vid\u00E9o",
+          "2": "Aucun sous-titre trouv\u00E9 \u00E0 incruster"
+        }
+      },
+      "FfmpegBuilderSubtitleClearDefault": {
+        "Description": "Cet \u00E9l\u00E9ment de flux effacera le drapeau par d\u00E9faut des sous-titres.",
+        "Label": "FFMPEG Builder : Effacer le D\u00E9faut des Sous-titres",
+        "Fields": {
+          "LeaveForced": "Laisser Forc\u00E9",
+          "LeaveForced-Help": "Lorsqu\u0027il est coch\u00E9, tous les sous-titres forc\u00E9s ne seront pas touch\u00E9s, ils conserveront leur r\u00E9glage d\u0027origine. Cela s\u0027ex\u00E9cute avant \u0027D\u00E9finir par D\u00E9faut Forc\u00E9\u0027, donc cela prend la priorit\u00E9.",
+          "SetForcedDefault": "D\u00E9finir par D\u00E9faut Forc\u00E9",
+          "SetForcedDefault-Help": "Lorsqu\u0027il est coch\u00E9, le premier sous-titre trouv\u00E9 avec le champ Forc\u00E9 d\u00E9fini sera d\u00E9fini comme d\u00E9faut, tous les autres auront leur drapeau par d\u00E9faut effac\u00E9."
+        },
+        "Outputs": {
+          "1": "Les drapeaux par d\u00E9faut des sous-titres ont \u00E9t\u00E9 modifi\u00E9s",
+          "2": "Aucun changement n\u0027a \u00E9t\u00E9 effectu\u00E9 sur les sous-titres"
+        }
+      },
+      "FfmpegBuilderSubtitleFormatRemover": {
+        "Description": "Supprime les sous-titres d\u0027un fichier vid\u00E9o s\u0027ils sont trouv\u00E9s.",
+        "Label": "FFMPEG Builder : Supprimeur de Format de Sous-titres",
+        "Fields": {
+          "RemoveAll": "Tout Supprimer",
+          "RemoveAll-Help": "Lorsque coch\u00E9, tous les sous-titres seront supprim\u00E9s du fichier, sinon seuls ceux s\u00E9lectionn\u00E9s ci-dessous seront.",
+          "SubtitlesToRemove": "Sous-titres \u00E0 Supprimer"
+        },
+        "Outputs": {
+          "1": "Sous-titres marqu\u00E9s pour suppression dans FFMPEG Builder",
+          "2": "Aucun sous-titre \u00E0 supprimer"
+        }
+      },
+      "FfmpegBuilderSubtitleTrackMerge": {
+        "Label": "FFMPEG Builder : Fusion de Piste de Sous-titres",
+        "Fields": {
+          "Default": "Par D\u00E9faut",
+          "Default-Help": "Si le sous-titre doit \u00EAtre le sous-titre par d\u00E9faut",
+          "DeleteAfterwards": "Supprimer Apr\u00E8s Fusion",
+          "DeleteAfterwards-Help": "Si le fichier de sous-titres doit \u00EAtre supprim\u00E9 apr\u00E8s avoir \u00E9t\u00E9 fusionn\u00E9",
+          "Forced": "Forc\u00E9",
+          "Forced-Help": "Si le sous-titre doit \u00EAtre forc\u00E9",
+          "Language": "Langue",
+          "Language-Help": "Code de langue optionnel [ISO 639-2](https://fr.wikipedia.org/wiki/ISO_639-2) pour le sous-titre ajout\u00E9.",
+          "MatchFilename": "Correspondre au Nom de Fichier",
+          "MatchFilename-Help": "Lorsque coch\u00E9, seuls les sous-titres ayant le m\u00EAme nom de fichier que le fichier d\u0027entr\u00E9e ou le fichier de travail seront fusionn\u00E9s.",
+          "Pattern": "Mod\u00E8le",
+          "Pattern-Help": "Expression r\u00E9guli\u00E8re facultative pour faire correspondre les fichiers.",
+          "Subtitles": "Sous-titres",
+          "Subtitles-Help": "S\u00E9lectionnez quels sous-titres rechercher pour ajouter",
+          "Title": "Titre",
+          "Title-Help": "Le titre du sous-titre, s\u0027il n\u0027est pas d\u00E9fini, la langue sera utilis\u00E9e comme titre si trouv\u00E9e.",
+          "UseSourceDirectory": "Utiliser le R\u00E9pertoire Source",
+          "UseSourceDirectory-Help": "Si coch\u00E9, le r\u00E9pertoire source d\u0027origine sera recherch\u00E9, sinon le r\u00E9pertoire de travail sera utilis\u00E9."
+        },
+        "Outputs": {
+          "1": "Sous-titres trouv\u00E9s et ajout\u00E9s",
+          "2": "Aucun sous-titre trouv\u00E9"
+        }
+      },
+      "FfmpegBuilderSubtitleTrackRemover": {
+        "Description": "Vous permet de supprimer des sous-titres en fonction de leur titre ou de leurs codes de langue.\n\nToute langue (ou titre si d\u00E9fini sur \u0022Utiliser le Titre\u0022) qui est vide NE sera PAS supprim\u00E9e, quel que soit le mod\u00E8le.",
+        "Label": "FFMPEG Builder : Supprimeur de Piste de Sous-titres",
+        "Fields": {
+          "NotMatching": "Pas Correspondant",
+          "NotMatching-Help": "Si les sous-titres NE correspondant PAS au mod\u00E8le doivent \u00EAtre supprim\u00E9s",
+          "Pattern": "Mod\u00E8le",
+          "Pattern-Help": "Une expression r\u00E9guli\u00E8re \u00E0 faire correspondre, par exemple \u0022eng\u0022 pour supprimer les pistes en anglais",
+          "UseLanguageCode": "Utiliser le Code de Langue",
+          "UseLanguageCode-Help": "Si le code de langue de la piste audio doit \u00EAtre utilis\u00E9 au lieu du titre"
+        },
+        "Outputs": {
+          "1": "Sous-titres marqu\u00E9s pour suppression dans FFMPEG Builder",
+          "2": "Aucun sous-titre \u00E0 supprimer"
+        }
+      },
+      "FfmpegBuilderTrackRemover": {
+        "Description": "Vous permet de supprimer des pistes bas\u00E9es sur des conditions sp\u00E9cifi\u00E9es.",
+        "Label": "FFMPEG Builder: Supprimer les Pistes",
+        "Fields": {
+          "CustomTrackSelection": "Supprimer",
+          "StreamType": "Type",
+          "StreamType-Help": "Le type de pistes \u00E0 r\u00E9organiser dans le FFMPEG Builder",
+          "TrackSelectionOptions": "",
+          "TrackSelectionOptionsKey": "Propri\u00E9t\u00E9",
+          "TrackSelectionOptionsValue": "Valeur"
+        },
+        "Outputs": {
+          "1": "Pistes \u00E9tablies pour \u00EAtre supprim\u00E9es",
+          "2": "Pistes NON \u00E9tablies pour \u00EAtre supprim\u00E9es"
+        }
+      },
+      "FfmpegBuilderTrackSorter": {
+        "Description": "Cet \u00E9l\u00E9ment de flux trie les pistes en fonction des options de tri d\u00E9finies par l\u0027utilisateur.",
+        "Label": "FFMPEG Builder : Trieur de Pistes",
+        "Fields": {
+          "SetFirstDefault": "D\u00E9finir par D\u00E9faut",
+          "SetFirstDefault-Help": "Si la premi\u00E8re piste doit \u00EAtre d\u00E9finie comme d\u00E9faut apr\u00E8s le tri.",
+          "Sorters": "Trier",
+          "Sorters-Help": "Ajouter une ou plusieurs options de tri pour trier les pistes.",
+          "SortersKey": "Champ",
+          "SortersValue": "Valeur",
+          "StreamType": "Type",
+          "StreamType-Help": "Le type de pistes qui doivent \u00EAtre mises \u00E0 jour"
+        },
+        "Outputs": {
+          "1": "Les pistes ont \u00E9t\u00E9 modifi\u00E9es",
+          "2": "Aucune piste n\u0027a \u00E9t\u00E9 chang\u00E9e"
+        }
+      },
+      "FfmpegBuilderVideo10Bit": {
+        "Description": "D\u00E9finit le FFMPEG Builder pour encoder les flux vid\u00E9o en 10 Bits",
+        "Label": "FFMPEG Builder : Vid\u00E9o 10 Bits",
+        "Outputs": {
+          "1": "Flux vid\u00E9o du FFMPEG Builder d\u00E9finis pour encoder en 10 Bits"
+        }
+      },
+      "FfmpegBuilderVideoBitrate": {
+        "Description": "Configure le FFMPEG Builder pour encoder la vid\u00E9o en fonction du d\u00E9bit",
+        "Label": "FFMPEG Builder: D\u00E9bit Vid\u00E9o",
+        "Fields": {
+          "Bitrate": "D\u00E9bit",
+          "Bitrate-Help": "Le d\u00E9bit cible de la vid\u00E9o en kilooctets",
+          "Bitrate-Suffix": "KO / %",
+          "Percent": "Pourcentage",
+          "Percent-Help": "Lorsqu\u0027il est s\u00E9lectionn\u00E9, le d\u00E9bit sera calcul\u00E9 en pourcentage du d\u00E9bit actuel."
+        },
+        "Outputs": {
+          "1": "Flux vid\u00E9o du FFMPEG Builder mis \u00E0 jour"
+        }
+      },
+      "FfmpegBuilderVideoBitrateEncode": {
+        "Description": "Configure le FFMPEG Builder pour encoder la vid\u00E9o avec des pr\u00E9r\u00E9glages faciles \u00E0 utiliser bas\u00E9s sur le d\u00E9bit",
+        "Label": "FFMPEG Builder: Encodage de D\u00E9bit",
+        "Fields": {
+          "Bitrate": "D\u00E9bit",
+          "Bitrate-Suffix": "Kbps",
+          "Codec": "Codec",
+          "Encoder": "Encodeur",
+          "Encoder-Help": "L\u0027encodeur \u00E0 forcer \u00E0 utiliser. Si vous sp\u00E9cifiez un encodeur mat\u00E9riel qui n\u0027est pas disponible, l\u0027encodage \u00E9chouera.",
+          "HardwareEncoding": "Encodage Mat\u00E9riel",
+          "HardwareEncoding-Help": "Lorsqu\u0027il est coch\u00E9, testera si des encodeurs mat\u00E9riels sont trouv\u00E9s sur le N\u0153ud de Traitement, et s\u0027ils sont trouv\u00E9s, utilisera l\u0027encodage mat\u00E9riel, sinon, reviendra \u00E0 l\u0027encodage par CPU."
+        },
+        "Outputs": {
+          "1": "Flux vid\u00E9o du FFMPEG Builder configur\u00E9s pour encoder"
+        }
+      },
+      "FfmpegBuilderVideoCodec": {
+        "Description": "Configure le FFMPEG Builder pour encoder les flux vid\u00E9o dans le codec sp\u00E9cifi\u00E9",
+        "Label": "FFMPEG Builder: Codec Vid\u00E9o",
+        "Fields": {
+          "DisableOtherVideoStreams": "Seulement le Premier",
+          "DisableOtherVideoStreams-Help": "Lorsqu\u0027il est coch\u00E9, s\u0027il y a plusieurs flux vid\u00E9o dans le fichier, cela supprimera tous sauf le premier flux vid\u00E9o du fichier une fois ex\u00E9cut\u00E9.",
+          "Force": "Forcer l\u0027Encodage",
+          "Force-Help": "Forcera l\u0027encodage de la vid\u00E9o m\u00EAme si elle est d\u00E9j\u00E0 dans le Codec Vid\u00E9o cible",
+          "VideoCodec": "Codec Vid\u00E9o",
+          "VideoCodec-Help": "Le codec vid\u00E9o dans lequel la vid\u00E9o doit \u00EAtre, par exemple hevc, h264.\nSi laiss\u00E9 vide, toutes les pistes vid\u00E9o originales seront copi\u00E9es.",
+          "VideoCodecParameters": "Param\u00E8tres du Codec Vid\u00E9o",
+          "VideoCodecParameters-Help": "Les param\u00E8tres \u00E0 utiliser pour encoder la vid\u00E9o, par exemple, \u0022hevc_nvenc -preset hq -crf 23\u0022 pour encoder en hevc en utilisant le preset HQ avec un facteur de taux constant de 23 et en utilisant l\u0027acc\u00E9l\u00E9ration mat\u00E9rielle NVIDIA."
+        },
+        "Outputs": {
+          "1": "Flux vid\u00E9o du FFMPEG Builder configur\u00E9s pour encoder",
+          "2": "Vid\u00E9o d\u00E9j\u00E0 dans le codec cible, ne sera pas r\u00E9encod\u00E9e"
+        }
+      },
+      "FfmpegBuilderVideoEncode": {
+        "Description": "Configure le FFMPEG Builder pour encoder la vid\u00E9o avec des pr\u00E9r\u00E9glages faciles \u00E0 utiliser",
+        "Label": "FFMPEG Builder: Encodage Vid\u00E9o",
+        "Fields": {
+          "Codec": "Codec",
+          "Encoder": "Encodeur",
+          "Encoder-Help": "L\u0027encodeur \u00E0 forcer \u00E0 utiliser. Si vous sp\u00E9cifiez un encodeur mat\u00E9riel qui n\u0027est pas disponible, l\u0027encodage \u00E9chouera.",
+          "HardwareEncoding": "Encodage Mat\u00E9riel",
+          "HardwareEncoding-Help": "Lorsqu\u0027il est coch\u00E9, testera si des encodeurs mat\u00E9riels sont trouv\u00E9s sur le N\u0153ud de Traitement, et s\u0027ils sont trouv\u00E9s, utilisera l\u0027encodage mat\u00E9riel, sinon, reviendra \u00E0 l\u0027encodage par CPU.",
+          "Quality": "Qualit\u00E9",
+          "Quality-Help": "Une \u00E9chelle de qualit\u00E9 logarithmique, de sorte que de petits changements dans ce curseur provoquent de grands changements dans la taille/la qualit\u00E9 du fichier.\nPlus le nombre est bas, plus la qualit\u00E9 est \u00E9lev\u00E9e.\nVoir l\u0027Aide pour plus d\u0027informations",
+          "Quality-Suffix": "(Meilleure Qualit\u00E9, fichier plus grand)",
+          "Speed": "Vitesse"
+        },
+        "Outputs": {
+          "1": "Flux vid\u00E9o du FFMPEG Builder configur\u00E9s pour encoder"
+        }
+      },
+      "FfmpegBuilderVideoMaxBitrate": {
+        "Description": "Configure le FFMPEG Builder pour limiter le d\u00E9bit de la vid\u00E9o",
+        "Label": "FFMPEG Builder: D\u00E9bit Max Vid\u00E9o",
+        "Fields": {
+          "Bitrate": "D\u00E9bit Maximal",
+          "Bitrate-Help": "Le d\u00E9bit maximal de la vid\u00E9o en kilooctets",
+          "Bitrate-Suffix": "KO"
+        },
+        "Outputs": {
+          "1": "Flux vid\u00E9o du FFMPEG Builder mis \u00E0 jour"
+        }
+      },
+      "FfmpegBuilderVideoTag": {
+        "Description": "D\u00E9finit une \u00E9tiquette vid\u00E9o sur le fichier",
+        "Label": "FFMPEG Builder: \u00C9tiquette Vid\u00E9o",
+        "Fields": {
+          "Tag": "\u00C9tiquette",
+          "Tag-Help": "L\u0027\u00E9tiquette \u00E0 ajouter au fichier vid\u00E9o"
+        },
+        "Outputs": {
+          "1": "\u00C9tiquette FFMPEG Builder ajout\u00E9e"
+        }
+      },
+      "FFmpegBuilderWatermark": {
+        "Description": "Ajoute un filigrane \u00E0 un fichier vid\u00E9o.",
+        "Label": "FFMPEG Builder: Filigrane",
+        "Fields": {
+          "Height": "Hauteur",
+          "Height-Help": "D\u00E9finissez une hauteur personnalis\u00E9e de l\u0027image, ou d\u00E9finissez sur 0 pour la hauteur d\u0027origine ou mise \u00E0 l\u0027\u00E9chelle si la largeur est d\u00E9finie.",
+          "Image": "Image",
+          "Image-Help": "Le fichier image pour le filigrane, pour de meilleurs r\u00E9sultats, utilisez un fichier PNG.",
+          "Opacity": "Opacit\u00E9",
+          "Opacity-Help": "Ajuste le niveau de transparence de l\u0027image superpos\u00E9e, allant de 0 (totalement transparent) \u00E0 100 (totalement opaque).",
+          "Position": "Position",
+          "Position-Help": "O\u00F9 placer le filigrane",
+          "Width": "Largeur",
+          "Width-Help": "D\u00E9finissez une largeur personnalis\u00E9e de l\u0027image, ou d\u00E9finissez sur 0 pour la largeur d\u0027origine ou mise \u00E0 l\u0027\u00E9chelle si la hauteur est d\u00E9finie.",
+          "XPos": "Position X",
+          "XPos-Help": "La position du filigrane sur l\u0027axe x",
+          "YPos": "Position Y",
+          "YPos-Help": "La position du filigrane sur l\u0027axe y"
+        },
+        "Outputs": {
+          "1": "Filigrane ajout\u00E9"
+        }
+      },
+      "ReadVideoInfo": {
+        "Description": "Lit les informations vid\u00E9o du fichier de travail actuel et met \u00E0 jour les variables vi.",
+        "Label": "Lire les Informations Vid\u00E9o",
+        "Outputs": {
+          "1": "Le fichier \u00E9tait un fichier vid\u00E9o et les informations ont \u00E9t\u00E9 lues dans le flux",
+          "2": "Le fichier n\u0027\u00E9tait pas un fichier vid\u00E9o ou n\u0027a pas pu \u00EAtre lu"
+        }
+      },
+      "SubtitleExtractor": {
+        "Description": "Extrait une seule piste de sous-titres et la sauvegarde \u00E0 la destination. Peut extraire les formats srt, ass et ssa.\nCela NE metTRA PAS \u00E0 jour le fichier de travail et gardera le fichier de travail identique au fichier d\u0027entr\u00E9e.\n\nSortie 1: Sous-titres extraits\nSortie 2: Aucun sous-titre trouv\u00E9 \u00E0 extraire",
+        "Label": "Extracteur de Sous-titres",
+        "Fields": {
+          "ExtractAll": "Extraire Tout",
+          "ExtractAll-Help": "Si tous les sous-titres correspondants doivent \u00EAtre extraits.",
+          "ExtractAsSrtAndSup": "Extraire en SRT/SUP",
+          "ExtractAsSrtAndSup-Help": "Force les sous-titres extraits \u00E0 \u00EAtre enregistr\u00E9s en .srt pour les sous-titres textuels et en .sup pour les sous-titres d\u0027image.",
+          "ForcedOnly": "Uniquement Forc\u00E9s",
+          "ForcedOnly-Help": "Si seuls les sous-titres forc\u00E9s doivent \u00EAtre extraits.",
+          "Language": "Langue",
+          "Language-Help": "Le code de langue [ISO 639-2](https://fr.wikipedia.org/wiki/ISO_639-2) \u00E0 utiliser.",
+          "OnlyTextSubtitles": "Uniquement Sous-titres Textuels",
+          "OnlyTextSubtitles-Help": "Si seuls les sous-titres textuels doivent \u00EAtre extraits, tous les sous-titres bas\u00E9s sur des images seront ignor\u00E9s.",
+          "OutputFile": "Fichier de Sortie",
+          "OutputFile-Help": "O\u00F9 sauvegarder le fichier de sortie, par exemple, \u0022\u0027{folder.Orig.FullName}\\{file.Orig.FileName}.srt\u0027\u0022 pour le sauvegarder avec le fichier original en sortie srt.\nSi laiss\u00E9 vide, un sous-titre srt sera cr\u00E9\u00E9 dans le m\u00EAme dossier que le fichier d\u0027entr\u00E9e original.",
+          "SetWorkingFile": "D\u00E9finir comme Fichier de Travail",
+          "SetWorkingFile-Help": "Lorsque cela est coch\u00E9, si un sous-titre est extrait, le fichier de travail sera chang\u00E9 pour ce sous-titre extrait. Le fichier de travail original NE sera PAS supprim\u00E9.",
+          "Title": "Titre",
+          "Title-Help": "Facultativement, entrez un titre. Cela peut \u00EAtre soit une expression r\u00E9guli\u00E8re, soit une cha\u00EEne qui doit appara\u00EEtre dans le titre pour \u00EAtre correspondante."
+        },
+        "Outputs": {
+          "1": "Sous-titres extraits",
+          "2": "Aucun sous-titre extrait"
+        }
+      },
+      "VideoAlreadyProcessed": {
+        "Description": "Teste si un fichier vid\u00E9o a d\u00E9j\u00E0 \u00E9t\u00E9 trait\u00E9 par FileFlows",
+        "Label": "Vid\u00E9o D\u00E9j\u00E0 Trait\u00E9",
+        "Outputs": {
+          "1": "La vid\u00E9o a d\u00E9j\u00E0 \u00E9t\u00E9 trait\u00E9e",
+          "2": "La vid\u00E9o n\u0027a pas \u00E9t\u00E9 trait\u00E9e"
+        }
+      },
+      "VideoBitCheck": {
+        "Description": "V\u00E9rifie si une vid\u00E9o est de 8-Bit, 10-Bit, 12-Bit ou inconnue.",
+        "Label": "V\u00E9rification des Bits Vid\u00E9o",
+        "Outputs": {
+          "1": "La vid\u00E9o est de 8-Bit",
+          "2": "La vid\u00E9o est de 10-Bit",
+          "3": "La vid\u00E9o est de 12-Bit",
+          "4": "Inconnu"
+        }
+      },
+      "VideoBitrateGreaterThan": {
+        "Description": "Teste si le d\u00E9bit d\u0027un vid\u00E9o est sup\u00E9rieur \u00E0 un d\u00E9bit donn\u00E9.",
+        "Label": "D\u00E9bit Vid\u00E9o Sup\u00E9rieur \u00C0",
+        "Fields": {
+          "Bitrate": "D\u00E9bit",
+          "Bitrate-Suffix": "KBps"
+        },
+        "Outputs": {
+          "1": "Le d\u00E9bit est sup\u00E9rieur \u00E0",
+          "2": "Le d\u00E9bit n\u0027est pas sup\u00E9rieur \u00E0"
+        }
+      },
+      "VideoDuration": {
+        "Description": "V\u00E9rifie si la dur\u00E9e de la vid\u00E9o correspond aux param\u00E8tres donn\u00E9s.",
+        "Label": "Dur\u00E9e de la Vid\u00E9o",
+        "Fields": {
+          "Match": "Correspondance",
+          "ValueHigh": " ",
+          "ValueLow": "Dur\u00E9e"
+        },
+        "Outputs": {
+          "1": "La dur\u00E9e de la vid\u00E9o correspond",
+          "2": "La dur\u00E9e de la vid\u00E9o ne correspond pas"
+        }
+      },
+      "VideoDurationCompare": {
+        "Description": "Compare la dur\u00E9e originale d\u0027une vid\u00E9o avec sa dur\u00E9e finale.",
+        "Label": "Comparer la Dur\u00E9e de la Vid\u00E9o",
+        "Fields": {
+          "AllowedDifference": "Diff\u00E9rence Autoris\u00E9e",
+          "AllowedDifference-Help": "La diff\u00E9rence de temps autoris\u00E9e entre la dur\u00E9e originale de la vid\u00E9o et la dur\u00E9e finale."
+        },
+        "Outputs": {
+          "1": "La vid\u00E9o est dans la diff\u00E9rence de dur\u00E9e autoris\u00E9e",
+          "2": "La vid\u00E9o n\u0027est pas dans la diff\u00E9rence de dur\u00E9e autoris\u00E9e"
+        }
+      },
+      "VideoExtractAudio": {
+        "Description": "Extrait l\u0027audio d\u0027un fichier vid\u00E9o et l\u0027enregistre dans un fichier",
+        "Label": "Extraire l\u0027Audio de la Vid\u00E9o",
+        "Fields": {
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux que la piste source doit avoir pour correspondre. Mettre \u00E0 0 pour ignorer la correspondance des canaux.",
+          "Codec": "Codec",
+          "Codec-Help": "Une expression r\u00E9guli\u00E8re utilis\u00E9e pour tester le codec de la piste",
+          "Language": "Langue",
+          "Language-Help": "Une expression r\u00E9guli\u00E8re utilis\u00E9e pour tester la langue de la piste",
+          "NotMatching": "Non Correspondant",
+          "NotMatching-Help": "Si une piste audio NE correspondant PAS au motif doit \u00EAtre extraite",
+          "OutputBitrate": "D\u00E9bit de Sortie",
+          "OutputBitrate-Help": "Le d\u00E9bit de la piste audio extraite",
+          "OutputCodec": "Codec de Sortie",
+          "OutputCodec-Help": "Le codec pour enregistrer l\u0027audio extrait",
+          "OutputFile": "Fichier de Sortie",
+          "OutputFile-Help": "O\u00F9 enregistrer le fichier de sortie, par exemple, \u0022\u0027{folder.Orig.FullName}\\{file.Orig.FileName}.mp3\u0027\u0022 pour l\u0027enregistrer avec le fichier original en sortie mp3.\nSi aucune extension n\u0027est d\u00E9finie, le codec de sortie sera utilis\u00E9 pour d\u00E9terminer l\u0027extension.",
+          "SetWorkingFile": "D\u00E9finir comme Fichier de Travail",
+          "SetWorkingFile-Help": "Lorsque cela est coch\u00E9, si un sous-titre est extrait, le fichier de travail sera chang\u00E9 pour ce sous-titre extrait. Le fichier de travail original ne sera PAS supprim\u00E9.",
+          "Title": "Titre",
+          "Title-Help": "Une expression r\u00E9guli\u00E8re utilis\u00E9e pour tester le titre de la piste"
+        },
+        "Outputs": {
+          "1": "Audio extrait et enregistr\u00E9 dans un fichier",
+          "2": "Impossible de trouver une piste \u00E0 extraire"
+        }
+      },
+      "VideoFile": {
+        "Description": "Un fichier vid\u00E9o d\u0027entr\u00E9e dont les informations vid\u00E9o ont \u00E9t\u00E9 lues et qui peut \u00EAtre trait\u00E9",
+        "Label": "Fichier Vid\u00E9o",
+        "Fields": {
+          "AnalyzeDuration": "Dur\u00E9e d\u0027analyse",
+          "AnalyzeDuration-Help": "Sp\u00E9cifiez combien de secondes sont analys\u00E9es pour sonder l\u0027entr\u00E9e",
+          "AnalyzeDuration-Suffix": "secondes",
+          "ProbeSize": "Taille de l\u0027\u00E9chantillon",
+          "ProbeSize-Help": "La taille de l\u0027\u00E9chantillon \u00E0 utiliser dans FFMPEG lors de l\u0027ex\u00E9cution.",
+          "ProbeSize-Suffix": "Mo"
+        },
+        "Outputs": {
+          "1": "Fichier vid\u00E9o de la biblioth\u00E8que"
+        }
+      },
+      "VideoHasErrors": {
+        "Description": "Teste si un fichier vid\u00E9o contient des erreurs",
+        "Label": "La vid\u00E9o a des erreurs",
+        "Fields": {
+          "HardwareDecoding": "D\u00E9codage mat\u00E9riel",
+          "HardwareDecoding-Help": "Si une tentative d\u0027utilisation du d\u00E9codage mat\u00E9riel doit \u00EAtre faite. S\u0027il n\u0027est pas disponible, l\u0027ex\u00E9cution se poursuivra sans d\u00E9codage mat\u00E9riel activ\u00E9."
+        },
+        "Outputs": {
+          "1": "Contient une erreur",
+          "2": "Aucune erreur d\u00E9tect\u00E9e"
+        }
+      },
+      "VideoHasStream": {
+        "Description": "Teste si un fichier vid\u00E9o contient une piste",
+        "Label": "La vid\u00E9o a un flux",
+        "Fields": {
+          "Channels": "Canaux",
+          "Channels-Help": "Le nombre de canaux \u00E0 tester. Laissez vide pour ignorer cette v\u00E9rification",
+          "CheckDeleted": "V\u00E9rifier les supprim\u00E9s",
+          "CheckDeleted-Help": "Si les pistes supprim\u00E9es doivent \u00E9galement \u00EAtre v\u00E9rifi\u00E9es",
+          "Codec": "Codec",
+          "Codec-Help": "Une expression r\u00E9guli\u00E8re utilis\u00E9e pour tester le codec du flux",
+          "Default": "Par d\u00E9faut",
+          "Default-Help": "Si ce flux doit \u00EAtre un flux par d\u00E9faut ou non.",
+          "Forced": "Forc\u00E9",
+          "Forced-Help": "Si ce flux doit \u00EAtre un flux forc\u00E9 ou non.",
+          "Invert": "Inverser",
+          "Invert-Help": "Inverse le r\u00E9sultat, devenant ainsi \u0060La vid\u00E9o n\u0027a pas de flux\u0060",
+          "Language": "Langue",
+          "Language-Help": "Une expression r\u00E9guli\u00E8re utilis\u00E9e pour tester la langue du flux",
+          "Stream": "Type",
+          "Stream-Help": "Le type de flux \u00E0 rechercher",
+          "Title": "Titre",
+          "Title-Help": "Une expression r\u00E9guli\u00E8re utilis\u00E9e pour tester le titre du flux"
+        },
+        "Outputs": {
+          "1": "Contient la piste correspondante",
+          "2": "Ne contient pas la piste correspondante"
+        }
+      },
+      "VideoIs10Bit": {
+        "Description": "Teste si un fichier vid\u00E9o est de 10-Bit",
+        "Label": "La Vid\u00E9o Est de 10-Bit",
+        "Outputs": {
+          "1": "La vid\u00E9o est de 10-Bit",
+          "2": "La vid\u00E9o n\u0027est pas de 10-Bit"
+        }
+      },
+      "VideoIs12Bit": {
+        "Description": "Teste si un fichier vid\u00E9o est de 12-Bit",
+        "Label": "La Vid\u00E9o Est de 12-Bit",
+        "Outputs": {
+          "1": "La vid\u00E9o est de 12-Bit",
+          "2": "La vid\u00E9o n\u0027est pas de 12-Bit"
+        }
+      },
+      "VideoIs8Bit": {
+        "Description": "Teste si un fichier vid\u00E9o est de 8-Bit",
+        "Label": "La Vid\u00E9o Est de 8-Bit",
+        "Outputs": {
+          "1": "La vid\u00E9o est de 8-Bit",
+          "2": "La vid\u00E9o n\u0027est pas de 8-Bit"
+        }
+      },
+      "VideoIsInterlaced": {
+        "Description": "Teste si un fichier vid\u00E9o est entrelac\u00E9",
+        "Label": "La vid\u00E9o est entrelac\u00E9e",
+        "Fields": {
+          "Threshold": "Seuil",
+          "Threshold-Help": "Le pourcentage de frames d\u00E9tect\u00E9es comme entrelac\u00E9es que la vid\u00E9o doit avoir pour \u00EAtre consid\u00E9r\u00E9e comme entrelac\u00E9e"
+        },
+        "Outputs": {
+          "1": "La vid\u00E9o est entrelac\u00E9e",
+          "2": "La vid\u00E9o n\u0027est pas entrelac\u00E9e"
+        }
+      },
+      "VideoResolution": {
+        "Description": "D\u00E9termine la r\u00E9solution d\u0027une vid\u00E9o et produit la sortie en cons\u00E9quence.",
+        "Label": "R\u00E9solution Vid\u00E9o",
+        "Outputs": {
+          "1": "La vid\u00E9o est 4K",
+          "2": "La vid\u00E9o est 1080p",
+          "3": "La vid\u00E9o est 720p",
+          "4": "La vid\u00E9o est SD"
+        }
+      },
+      "Downloader": {
+        "Description": "T\u00E9l\u00E9charge l\u0027URL sp\u00E9cifi\u00E9e",
+        "Label": "T\u00E9l\u00E9chargeur",
+        "Fields": {
+          "Url": "URL",
+          "Url-Help": "L\u0027URL \u00E0 t\u00E9l\u00E9charger, laisser vide pour utiliser le fichier de travail actuel. Si le fichier de travail actuel n\u0027est pas une URL, cela \u00E9chouera."
+        },
+        "Outputs": {
+          "1": "URL t\u00E9l\u00E9charg\u00E9e avec succ\u00E8s",
+          "2": "\u00C9chec du t\u00E9l\u00E9chargement de l\u0027URL"
+        }
+      },
+      "HtmlImageParser": {
+        "Label": "Analyseur d\u0027images HTML",
+        "Fields": {
+          "Path": "Fichier",
+          "Path-Description": "Un fichier ou une variable optionnelle \u00E0 analyser pour les images. Si non donn\u00E9, le fichier de travail sera analys\u00E9.",
+          "Pattern": "Mod\u00E8le",
+          "Pattern-Help": "Une expression r\u00E9guli\u00E8re optionnelle, sans distinction entre majuscules et minuscules, pour comparer avec les r\u00E9sultats. Seuls les r\u00E9sultats correspondant \u00E0 cela seront accept\u00E9s.",
+          "Pattern-Placeholder": "Optionnel"
+        },
+        "Outputs": {
+          "1": "Images trouv\u00E9es et stock\u00E9es dans la variable ImageUrls",
+          "2": "Aucune image trouv\u00E9e"
+        }
+      },
+      "HtmlLinkParser": {
+        "Label": "Analyseur de liens HTML",
+        "Fields": {
+          "Path": "Fichier",
+          "Path-Description": "Un fichier ou une variable optionnelle \u00E0 analyser pour les liens. Si non donn\u00E9, le fichier de travail sera analys\u00E9.",
+          "Pattern": "Mod\u00E8le",
+          "Pattern-Help": "Une expression r\u00E9guli\u00E8re optionnelle, sans distinction entre majuscules et minuscules, pour comparer avec les r\u00E9sultats. Seuls les r\u00E9sultats correspondant \u00E0 cela seront accept\u00E9s.",
+          "Pattern-Placeholder": "Optionnel"
+        },
+        "Outputs": {
+          "1": "Lien trouv\u00E9 et stock\u00E9 dans la variable Links",
+          "2": "Aucun lien trouv\u00E9"
+        }
+      },
+      "InputUrl": {
+        "Label": "URL d\u0027entr\u00E9e"
+      }
+    }
+  },
+  "Plugins": {
+    "AudioNodes": {
+      "Description": "Une collection d\u0027\u00E9l\u00E9ments de flux li\u00E9s \u00E0 l\u0027audio pour aider \u00E0 traiter les fichiers audio.",
+      "Label": "Audio"
+    },
+    "BasicNodes": {
+      "Description": "\u00C9l\u00E9ments de flux basiques pour FileFlows. Ce plugin contient des \u00E9l\u00E9ments de flux basiques et communs pour traiter les fichiers.\nCe plugin est requis pour que FileFlows fonctionne.",
+      "Label": "Basique"
+    },
+    "ImageNodes": {
+      "Description": "\u00C9l\u00E9ments de flux pour traiter les fichiers image. Ce plugin contient des n\u0153uds pour convertir et manipuler des images.",
+      "Label": "Image"
+    },
+    "VideoNodes": {
+      "Description": "Plugin pour le traitement des fichiers vid\u00E9o, y compris, mais sans s\u0027y limiter, la conversion de fichiers vid\u00E9o, la d\u00E9tection de fichiers vid\u00E9o, l\u0027upscaling, le downscaling et la transcodage.",
+      "Label": "Vid\u00E9o"
+    },
+    "Web": {
+      "Description": "Plugin qui fournit des \u00E9l\u00E9ments de flux li\u00E9s au Web.",
+      "Label": "Web"
+    }
+  },
+  "Enums": {
+    "LogType": {
+      "Debug": "D\u00E9bogage",
+      "Error": "Erreur",
+      "Info": "Information",
+      "Warning": "Avertissement"
+    },
+    "WatermarkPosition": {
+      "BottomLeft": "Bas Gauche",
+      "BottomRight": "Bas Droit",
+      "Center": "Centre",
+      "TopLeft": "Haut Gauche",
+      "TopRight": "Haut Droit"
+    }
+  },
+  "5": {
+    "1": "5.1"
+  },
+  "7": {
+    "1": "7.1"
+  },
+  "H": {
+    "264": "H.264",
+    "265": "H.265"
+  }
+}

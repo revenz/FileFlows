@@ -1,0 +1,85 @@
+@namespace FileFlows.Client.Wizards
+
+@using InputText = FileFlows.Client.Components.Inputs.InputText
+@inherits FlowWizardBase
+
+<Editor @ref="Editor"></Editor>
+@if (Editor != null && initDone)
+{
+    <CascadingValue IsFixed="true" Value="Editor">
+        <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
+            
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
+                <InputText @bind-Value="@FlowName" Label="Dialogs.NewVideoFlowWizard.Fields.Name" Validators=@RequiredValidator />
+                <InputText @bind-Value="@Description" Label="Dialogs.NewFlowCommon.Fields.Description"  />
+
+                <InputSelect @bind-Value="@BoundVideoContainer" AllowClear="false" Options=@VideoContainers Label="Dialogs.NewVideoFlowWizard.Fields.VideoContainer" />
+                <InputSelect @bind-Value="@BoundVideoCodec" AllowClear="false" Options=@VideoCodecs Label="Dialogs.NewVideoFlowWizard.Fields.VideoCodec" />
+                
+                @if (string.IsNullOrWhiteSpace(VideoCodec) == false)
+                {
+                    <InputSwitch @bind-Value="@AttemptHardwareEncode" Label="Dialogs.NewVideoFlowWizard.Fields.AttemptHardwareEncode"/>
+                    <InputSwitch @bind-Value="@CropBlackBars" Label="Dialogs.NewVideoFlowWizard.Fields.CropBlackBars"/>
+                }
+            </FlowWizardPage>
+
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Type" >
+                <FlowRadioGroup TItem="Int32" @bind-Value="SelectedType" LabelPrefix="Dialogs.NewVideoFlowWizard.Labels.Types">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-film" TLabel="Film" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-tv" TLabel="TV" />
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-video" TLabel="Video" />
+                </FlowRadioGroup>
+            </FlowWizardPage>
+            
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Video" Visible="@(VideoCodec != string.Empty)">
+                <FlowRadioGroup TItem="Int32" @bind-Value="SelectedVideoEncodingType" LabelPrefix="Dialogs.NewVideoFlowWizard.Labels">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-trophy" TLabel="Quality">
+                        <InputRadioGroup @bind-Value="Quality" TItem="Int32" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.Quality" Options="QualityOptions" />
+                    </FlowRadioGroupItem>
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-compact-disc" TLabel="Bitrate">
+                        <InputNumber TItem="int" HideLabel="true" Min="0" Max="1000000000" @bind-Value="Bitrate" Label="Dialogs.NewVideoFlowWizard.Fields.Bitrate"></InputNumber>
+                    </FlowRadioGroupItem>
+                </FlowRadioGroup>
+            </FlowWizardPage>
+
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio">
+
+                <FlowRadioGroup TItem="Int32" @bind-Value="AudioMode" LabelPrefix="Dialogs.NewVideoFlowWizard.Fields">
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-copy" TLabel="CopyAllAudio" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-copy" TLabel="CopyOnlyLanguages">
+                        <InputSelect @bind-Value="@BoundDefaultLanguage" AllowClear="false" Options=@LanguageOptions Label="Dialogs.NewVideoFlowWizard.Fields.DefaultLanguage" />
+                        <InputLanguages @bind-Value="@AudioMode1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator"  OriginalLanguage="true" />
+                    </FlowRadioGroupItem>
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-volume-up" TLabel="ConvertAudio">
+                        <InputSelect @bind-Value="@BoundDefaultLanguage" AllowClear="false" Options=@LanguageOptions Label="Dialogs.NewVideoFlowWizard.Fields.DefaultLanguage" />
+                        <InputSwitch @bind-Value="TwoAudioVersions" Label="Dialogs.NewVideoFlowWizard.Fields.TwoAudioVersions" />
+                    </FlowRadioGroupItem>
+                </FlowRadioGroup>
+            </FlowWizardPage>
+            
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio1" Indented="true" Visible="@(AudioMode == 2)"  OnPageAdvanced="OnAudio1PageAdvanced" >
+                <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator"  OriginalLanguage="true" />
+                <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec" />
+                <InputSelect @bind-Value="@BoundAudio1Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
+            </FlowWizardPage>
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio2" Indented="true" Visible="@(AudioMode == 2 && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
+                <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" OriginalLanguage="true" />
+                <InputSelect @bind-Value="@BoundAudio2Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
+                <InputSelect @bind-Value="@BoundAudio2Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
+            </FlowWizardPage>
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Subtitle">
+
+                <FlowRadioGroup TItem="Boolean" @bind-Value="SubtitleKeepOnly" LabelPrefix="Dialogs.NewVideoFlowWizard.Fields">
+                    <FlowRadioGroupItem TItem="Boolean" Value="false" Icon="fas fa-copy" TLabel="KeepAllSubtitles" />
+                    <FlowRadioGroupItem TItem="Boolean" Value="true" Icon="fas fa-comment-dots" TLabel="KeepOnlySpecifiedSubtitles">
+                        <InputLanguages @bind-Value="@SubtitleLanguages" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.SubtitleLanguages" Validators="RequiredValidator" OriginalLanguage="true" />
+                    </FlowRadioGroupItem>
+                </FlowRadioGroup>
+            </FlowWizardPage>
+
+            <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">
+                <WizardOutput @ref="Output" />
+            </FlowWizardPage>
+        </FlowWizard>
+    </CascadingValue>
+}

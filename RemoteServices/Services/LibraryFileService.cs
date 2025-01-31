@@ -15,6 +15,7 @@ public class LibraryFileService : RemoteService, ILibraryFileService
         }
         catch (Exception)
         {
+            // Ignored
         }
     }
 
@@ -90,7 +91,7 @@ public class LibraryFileService : RemoteService, ILibraryFileService
                 NodeName = nodeName,
                 NodeUid = nodeUid,
                 WorkerUid = workerUid,
-                NodeVersion = ServerShared.Globals.Version.ToString()
+                NodeVersion = Globals.Version
             });
             if (result.Success == false)
                 return null; 

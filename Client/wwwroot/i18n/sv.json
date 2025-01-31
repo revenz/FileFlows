@@ -88,6 +88,7 @@
     "Ok": "OK",
     "Open": "Öppna",
     "OperatingSystem": "Operativsystem",
+    "OriginalLanguage": "Originalspråk",
     "Other": "Annat",
     "Output": "Utdata",
     "Paste": "Klistra in",
@@ -130,6 +131,7 @@
     "Search": "Sök",
     "Searching": "Söker",
     "Select": "Välj",
+    "SelectedNum": "{num} vald",
     "SelectOne": "Välj en",
     "SetStatusProcessed": "Markera som bearbetad",
     "Settings": "Inställningar",
@@ -251,6 +253,372 @@
       "Title": "Importera skript",
       "Messages": {
         "NoMoreImports": "Det finns inga fler importer tillgängliga för detta skript"
+      }
+    },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "Bitrate",
+        "Bitrate-Help": "Bitraten för den konverterade ljudfilen.",
+        "Codec": "Codec",
+        "Codec-Help": "Codecen som används för ljudkonverteringen.",
+        "Name": "Namn",
+        "Name-Help": "Flödets namn. Det måste vara unikt.",
+        "Normalize": "Normalisera",
+        "Normalize-Help": "Anger om ljudet ska normaliseras under bearbetning."
+      },
+      "Pages": {
+        "General": "Allmänt",
+        "GeneralDescription": "Skapa ett flöde för att konvertera ljudfiler."
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "Codec",
+        "Codec-Help": "Codecen för videoutfilen.",
+        "Container": "Container",
+        "Container-Help": "Behållarformatet för videofilen.",
+        "Name": "Namn",
+        "Name-Help": "Flödets namn. Det måste vara unikt.",
+        "Resolution": "Upplösning",
+        "Resolution-Help": "Upplösningen för videoutfilen.",
+        "Visualization": "Visualisering",
+        "Visualization-Help": "Visualiseringen som ska visas i videon."
+      },
+      "Pages": {
+        "General": "Allmänt",
+        "GeneralDescription": "Skapa ett flöde för att konvertera ljud till video."
+      }
+    },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "Igual à fonte"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "Excluir páginas vazias",
+        "DeleteNonPageImages-Help": "Excluir as páginas vazias do novo arquivo de quadrinhos.",
+        "EnsureTopDirectory": "Garantir diretório principal",
+        "EnsureTopDirectory-Help": "Garante que todos os arquivos estejam diretamente no diretório principal do arquivo do quadrinho, sem subdiretórios.",
+        "Format": "Formato da imagem",
+        "Format-Help": "O formato da imagem para salvar cada página.",
+        "Name": "Nome",
+        "Name-Help": "O nome do fluxo. Este deve ser único.",
+        "Quality": "Qualidade",
+        "Quality-Help": "Qualidade das páginas do quadrinho, 1 para maior compressão/pior qualidade, 100 para melhor qualidade."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "Salvar o quadrinho no formato CBZ (arquivo zip).",
+        "Pdf": "PDF",
+        "PdfDescription": "Salvar o quadrinho em um arquivo PDF."
+      },
+      "Pages": {
+        "Format": "Formato",
+        "FormatDescription": "Escolha o formato para salvar os quadrinhos.",
+        "General": "Geral",
+        "GeneralDescription": "Criar um novo fluxo para processar quadrinhos."
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "Rensa original",
+        "DeleteOld-Help": "Tar bort originalfilen och originalmappen om inga andra filer finns kvar.",
+        "Description": "Beskrivning",
+        "Description-Help": "Beskrivningen av det nyss skapade flödet.",
+        "OutputPath": "Utmatningssökväg",
+        "OutputPath-Help": "Sökvägen där den slutliga filen sparas.",
+        "OutputPathWindows": "Utmatningssökväg (Windows)",
+        "OutputPathWindows-Help": "Sparplatsen. Kan inkludera en nätverkssökväg, till exempel \\\\min-nas\\media\\output."
+      },
+      "Messages": {
+        "NameRequired": "Namn är obligatoriskt.",
+        "OutputPathRequired": "Utmatningsväg är obligatorisk."
+      },
+      "Output": {
+        "ReplaceOriginal": "Ersätt original",
+        "ReplaceOriginalDescription": "Ersätt originalfilen med den konverterade filen.",
+        "ResellerMove": "Återförsäljare Flytta",
+        "ResellerMoveDescription": "Flyttar filen till en temporär mapp som är unik för användaren för nedladdning. Filen tas automatiskt bort efter en angiven tidsperiod.",
+        "SaveToFolder": "Spara i mapp",
+        "SaveToFolderDescription": "Spara den konverterade filen på en ny plats."
+      },
+      "Pages": {
+        "Output": "Utmatning",
+        "OutputDescription": "Ange var den slutliga filen ska sparas."
+      }
+    },
+    "NewFlowWizard": {
+      "Title": "Ny Flöde Wizard",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "Audio till Video",
+          "AudioToVideoDescription": "Konvertera en ljudfil till en videofil.",
+          "Blank": "Tom Audio",
+          "BlankDescription": "En tom ljudbaserad flöde som används för att skapa ett anpassat flöde för att bearbeta ljudfiler.",
+          "Convert": "Konvertera Audio",
+          "ConvertDescription": "Skapa ett flöde för att konvertera ljudformat."
+        },
+        "Basic": {
+          "FailureFlow": "Tom Fel Flöde",
+          "FailureFlowDescription": "Grundläggande flöde som körs när ett flöde misslyckas av någon anledning.",
+          "File": "Tom Fil",
+          "FileDescription": "Ett tomt filbaserat flöde för att skapa ett anpassat flöde för att bearbeta enskilda filer.",
+          "Folder": "Tom Mapp",
+          "FolderDescription": "Ett tomt mappbaserat flöde som används för att skapa ett anpassat flöde för att bearbeta en hel mapp.",
+          "SubFlow": "Tom SubFlow",
+          "SubFlowDescription": "Ett tomt subflow-baserat flöde som används för att skapa ett återanvändbart subflow.",
+          "Url": "URL",
+          "UrlDescription": "Ett tomt URL-baserat flöde som används för att skapa ett flöde för att bearbeta URL:er."
+        },
+        "Book": {
+          "Comic": "Serietidning",
+          "ComicDescription": "Skapa ett flöde för att konvertera och manipulera serier, till exempel konvertera bildformat, ändra storlek på bilder, etc.",
+          "eBook": "eBook",
+          "eBookDescription": "Skapa ett flöde för att konvertera eBook-format."
+        },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "Skickar ett detaljerat meddelande till Apprise när ett fel uppstår.",
+          "Blank": "Tom felflöde",
+          "BlankDescription": "Ett grundläggande felflöde som körs när ett flöde misslyckas.",
+          "Discord": "Discord",
+          "DiscordDescription": "Skickar ett detaljerat meddelande till Discord när ett fel uppstår.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "Skickar ett detaljerat meddelande till Gotify när ett fel uppstår.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "Skickar ett detaljerat meddelande till Telegram när ett fel uppstår."
+        },
+        "Image": {
+          "Blank": "Tom Bild",
+          "BlankDescription": "Ett tomt bildbaserat flöde som används för att skapa ett anpassat flöde för att bearbeta bilder.",
+          "Convert": "Konvertera Bild",
+          "ConvertDescription": "Skapa ett flöde för att konvertera bildformat."
+        },
+        "Video": {
+          "AudioToVideo": "Audio till Video",
+          "AudioToVideoDescription": "Konvertera en ljudfil till en videofil.",
+          "Blank": "Tom Video",
+          "BlankDescription": "Ett tomt videobaserat flöde som används för att skapa ett anpassat flöde för att bearbeta videofiler.",
+          "Convert": "Konvertera Video",
+          "ConvertDescription": "En guidad assistent för att skapa ett videokonverteringsflöde som gör det möjligt att manipulera video, ljud och undertexter i en videofil."
+        }
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "AudioDescription": "Skapa ett flöde för att bearbeta ljudfiler.",
+        "Basic": "Grundläggande",
+        "BasicDescription": "Välj ett grundläggande tomt flöde för att skapa ett anpassat flöde.",
+        "Book": "Bok",
+        "BookDescription": "Skapa ett flöde för att bearbeta böcker.",
+        "Failure": "Misslyckande",
+        "FailureDescription": "Skapa ett flöde som körs vid misslyckande",
+        "Image": "Bild",
+        "ImageDescription": "Skapa ett flöde för att bearbeta bildfiler.",
+        "Users": "Användare",
+        "UsersDescription": "Öppna ett befintligt flöde",
+        "Video": "Video",
+        "VideoDescription": "Skapa ett flöde för att bearbeta videofiler."
+      }
+    },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "Förlustfria Format",
+        "LossyFormats": "Förlustformat"
+      },
+      "Fields": {
+        "Format": "Format",
+        "Format-Help": "Bildformatet som filen sparas i.",
+        "Height": "Höjd",
+        "Height-Help": "Höjden på den omstorlekade bilden.",
+        "Name": "Namn",
+        "Name-Help": "Namnet på flödet. Det måste vara unikt.",
+        "Quality": "Kvalitet",
+        "Quality-Help": "Kvaliteten mellan 1 och 100 för den nya bildfilen.",
+        "Resize": "Ändra storlek",
+        "Resize-Help": "Om bilden ska ändra storlek.",
+        "Width": "Bredd",
+        "Width-Help": "Bredden på den omstorlekade bilden."
+      },
+      "Pages": {
+        "General": "Allmänt",
+        "GeneralDescription": "Skapa ett nytt flöde för att bearbeta bilder.",
+        "ResizeMode": "Ändra storlek",
+        "ResizeModeDescription": "Välj hur bilden ska ändra storlek."
+      },
+      "Resize": {
+        "Contain": "Innehåll",
+        "ContainDescription": "Ändrar storlek på bilden för att passa inom den angivna ytan med bibehållna proportioner.",
+        "Cover": "Täcka",
+        "CoverDescription": "Ändrar storlek på bilden för att täcka hela bredden/höjden och beskär överskottet.",
+        "Fill": "Fyll",
+        "FillDescription": "Fyller hela angiven bredd/höjd utan att ta hänsyn till proportioner.",
+        "Max": "Maximal",
+        "MaxDescription": "Ändrar storlek på bilden för att hålla sig inom angivna dimensioner med bibehållna proportioner.",
+        "Min": "Minsta",
+        "MinDescription": "Ändrar storlek så att bilden passar inom angiven bredd/höjd med bibehållna proportioner.",
+        "Pad": "Fyll ut",
+        "PadDescription": "Ändrar storlek på bilden till angiven bredd/höjd, bibehåller proportioner och lägger till utfyllnad vid behov."
+      }
+    },
+    "NewLibraryWizard": {
+      "Title": "Ny Bibliotek",
+      "Labels": {
+        "FileExtensions": "Filändelser",
+        "FileExtensionsDescription": "Ange filändelser som ska behandlas i det här biblioteket.",
+        "FileTypes": "Filtyper",
+        "FileTypesDescription": "Ange vilka filtyper som ska detekteras och behandlas i det här biblioteket.",
+        "General": "Allmänt",
+        "GeneralDescription": "Fyll i allmän information om det här biblioteket.",
+        "LibraryType": "Typ",
+        "LibraryTypeDescription": "Välj typ av bibliotek som du vill skapa.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "Behandlar filer som finns i en angiven nedladdningsmapp. Filerna behandlas varje gång de upptäcks i mappen. För att undvika att filer behandlas igen, flytta eller ta bort dem från mappen efter behandling. Om en fil återkommer behandlas den som ny och behandlas på nytt.",
+            "Title": "Nedladdningar"
+          },
+          "Files": {
+            "Description": "Behandlar alla individuella filer i den valda mappen och dess undermappar. Detta är det vanliga valet när du vill hantera filer en i taget, som att konvertera video-, ljud- eller bildformat. Den kommer att söka i mappen och alla undermappar efter lämpliga filer att bearbeta.",
+            "Title": "Filer"
+          },
+          "Folders": {
+            "Description": "Behandlar den valda mappen som en helhet utan att söka efter individuella filer. Välj det här alternativet om du vill arbeta med själva mappen, som att komprimera alla filer i mappen till en zip-fil eller utföra mapprelaterade operationer.",
+            "Title": "Mappar"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "Filändelser",
+        "FileExtensions-Help": "Lämna tomt för att behandla alla filer eller specificera filändelserna för de filer som ska behandlas.",
+        "Flow": "Arbetsflöde",
+        "Flow-Help": "Arbetsflödet som används för att behandla poster i detta bibliotek.",
+        "Name": "Namn",
+        "Name-Help": "Namnet på det nya biblioteket, som måste vara unikt.",
+        "Path": "Sökväg",
+        "Path-Help": "Ange sökvägen till bibliotekets katalog.",
+        "PathWindows": "Sökväg",
+        "PathWindows-Help": "Ange sökvägen till bibliotekets katalog. För nätverksvägar, använd formatet \\\\min-nas\\media\\filmer."
+      },
+      "FileTypes": {
+        "Audio": "Ljud",
+        "Audiobook": "Ljudbok",
+        "AudiobookDescription": "Behandlar ljudboksfiler som mp3, m4b och aax.",
+        "AudioDescription": "Behandlar ljudfiler som mp3, flac, wav, aac och mer.",
+        "Comic": "Serier",
+        "ComicDescription": "Behandlar seriekomiksfiler som cbz, cbr, cb7 och pdf.",
+        "Custom": "Anpassad",
+        "CustomDescription": "Specifikera filändelser manuellt för behandling.",
+        "eBook": "E-bok",
+        "eBookDescription": "Behandlar e-boksfiler som epub, mobi, azw3 och pdf.",
+        "Image": "Bild",
+        "ImageDescription": "Behandlar bildfiler som jpg, png, gif, bmp och tiff.",
+        "Video": "Video",
+        "VideoDescription": "Behandlar videofiler som mkv, mp4, wmv, ts, mpeg och mer."
+      },
+      "Messages": {
+        "FlowRequired": "Arbetsflöde är obligatoriskt.",
+        "NameRequired": "Bibliotekets namn är obligatoriskt.",
+        "PathRequired": "Bibliotekets sökväg är obligatorisk."
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Labels": {
+        "Bitrate": "Bitrate",
+        "BitrateDescription": "Använder en fast bitrate när videon kodas. Detta ger konsekventa filstorlekar över videor, men slösar lagring eller förlorar kvalitet om bitraten inte är optimal.",
+        "FileExtensions": "Filändelser",
+        "FileExtensionsDescription": "Ange filändelser för att behandla i detta bibliotek.",
+        "Quality": "Kvalitet",
+        "QualityDescription": "Använder adaptiv kodning baserat på videons ingång för att uppnå ett konstant kvalitetsnivå. Detta rekommenderas och ger en konstant kvalitet över videor och producerar också de minsta filerna.",
+        "UseOriginal": "Använd original utan modifiering",
+        "Types": {
+          "Film": "Film",
+          "FilmDescription": "Bearbeta filmer och hämta deras information med Meta-pluginet. Detta hjälper till att bestämma filmens originalspråk.",
+          "TV": "TV",
+          "TVDescription": "Bearbeta TV-serier och hämta deras information med Meta-pluginet. Detta hjälper till att bestämma TV-seriens originalspråk.",
+          "Video": "Video",
+          "VideoDescription": "En generell videofil, ingen ytterligare metadatainhämtning sker."
+        }
+      },
+      "Fields": {
+        "AttemptHardwareEncode": "Hårdvarukodning",
+        "AttemptHardwareEncode-Help": "Försök att använda hårdvarukodning (GPU). Om GPU-kodning misslyckas, kommer den att återgå till CPU-kodning.",
+        "AudioChannels": "Kanaler",
+        "AudioChannels-Help": "Antalet kanaler för ljudet. Använder befintliga ljudspår för att skapa detta spår och kan nedmixas vid behov men kommer inte att uppmixas, så om du väljer ett kanalantal som är högre än vad som finns tillgängligt, kommer detta spår inte att läggas till.",
+        "AudioCodec": "Codec",
+        "AudioCodec-Help": "Codec att använda för ljudet",
+        "AudioLanguages": "Språk",
+        "AudioLanguages-Help": "Ange språken som du vill behålla i den ordning du vill ha dem.",
+        "Bitrate": "Bitrate",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "Konvertera ljud",
+        "ConvertAudioDescription": "Konvertera ljudspåren till de angivna formaten",
+        "CopyAllAudio": "Kopiera all ljud",
+        "CopyAllAudioDescription": "Kopiera alla ljudspår precis som de är, utan ändringar.",
+        "CopyOnlyLanguages": "Kopiera endast specifika språk",
+        "CopyOnlyLanguagesDescription": "Kopiera endast de språk som anges nedan. Alla andra språk kommer att tas bort. Ljudspåren kopieras utan ändringar.",
+        "CropBlackBars": "Beskär svarta kanter",
+        "CropBlackBars-Help": "FileFlows kommer att försöka upptäcka svarta kanter i videofilen och om de hittas kommer de att beskäras för att minska filstorleken och för att möjliggöra ändring av bildförhållandet i spelare.",
+        "DefaultLanguage": "Standardspråk",
+        "DefaultLanguage-Help": "Anger språket som ska tilldelas ljudspår som inte har något språk specificerat.",
+        "KeepAllSubtitles": "Bevara alla undertexter",
+        "KeepAllSubtitlesDescription": "Bevara alla undertexter från originalvideon",
+        "KeepOnlySpecifiedSubtitles": "Bevara endast",
+        "KeepOnlySpecifiedSubtitlesDescription": "Bevara endast de specificerade undertexterna, resten tas bort",
+        "Name": "Namn",
+        "Name-Help": "Namnet på den nya flödet, detta måste vara unikt.",
+        "Quality": "Kvalitet",
+        "Quality-Suffix": "Högre kvalitet",
+        "ReplaceOriginal": "Ersätt originalet",
+        "ReplaceOriginal-Help": "Ersätt originalvideofilen med den nyligen skapade.",
+        "SaveToFolder": "Spara till mapp",
+        "SaveToFolder-Help": "Spara den nyligen skapade filen till en ny plats",
+        "SubtitleLanguages": "Språk för undertexter",
+        "SubtitleLanguages-Help": "Ange språken som du vill behålla i den ordning du vill ha dem.",
+        "TwoAudioVersions": "Två ljudversioner",
+        "TwoAudioVersions-Help": "Om två versioner av ljudspår ska skapas. Till exempel om du vill skapa surround- och stereo-spår. Annars skapas bara en version.",
+        "VideoCodec": "Video Codec",
+        "VideoCodec-Help": "Codec att använda för videon",
+        "VideoContainer": "Container",
+        "VideoContainer-Help": "Videokontainern att använda, det rekommenderas att använda MKV eftersom MP4 stöder färre undertextformat.",
+        "QualityLevel": {
+          "Good": "Bra",
+          "High": "Hög",
+          "Ok": "OK",
+          "Recommended": "Rekommenderad",
+          "VeryHigh": "Mycket Hög"
+        }
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "Du måste specificera minst ett ljudspråk.",
+        "Audio2LanguageRequired": "Du måste specificera minst ett ytterligare ljudspråk.",
+        "AudioMode2LanguagesRequired": "Ljudspråk krävs.",
+        "SubtitleLanguageRequired": "Undertextspråk krävs."
+      },
+      "Pages": {
+        "Audio": "Ljud",
+        "Audio1": "Konvertering",
+        "Audio1Description": "Ange vilka ljudspråk som ska behållas och deras kodningsinställningar.",
+        "Audio2": "Ytterligare Ljud",
+        "Audio2Description": "Definiera kodningsinställningarna för de sekundära ljudspåren.",
+        "AudioDescription": "Specificera vad som ska göras med ljudspåren.",
+        "General": "Allmänt",
+        "GeneralDescription": "Ange allmän information om detta flöde.",
+        "Output": "Utdata",
+        "OutputDescription": "Ange var den slutliga filen ska sparas.",
+        "Subtitle": "Undertext",
+        "SubtitleDescription": "Välj vilka undertexter som ska inkluderas i utdatafilen.",
+        "Type": "Typ",
+        "TypeDescription": "Välj vilken typ av videor du vill bearbeta.",
+        "Video": "Video",
+        "VideoDescription": "Välj kodningsmetoden som används för videoströmmen."
+      },
+      "Parts": {
+        "CpuFailOverEncode": "Резервная кодировка на CPU",
+        "CpuFailOverExecutor": "Исполнитель резервной кодировки на CPU",
+        "DefaultLanguage": "Язык по умолчанию ''{lang}''",
+        "PrimaryAudio": "Основной аудиотрек",
+        "RemoveUnsupportedSubtitles": "Удалить неподдерживаемые субтитры",
+        "RemoveUnwantedSubtitles": "Удалить нежелательные языки субтитров",
+        "RemuxToContainer": "Перемонтировать в {container}",
+        "SecondaryAudio": "Вторичный аудиотрек"
       }
     },
     "PauseDialog": {
@@ -755,15 +1123,12 @@
         "SubFlowHelp": "För att lägga till indatafält till ett underskript så att du kan skicka in anpassade parametrar till detta underskript, skapa dessa på fliken `Fält`.\n\nEtt underskript måste ha en enda `Indata`, vilket kan vara valfria giltiga indataflödeselement, t.ex. `Indatafil`, `Videofil` osv."
       },
       "Fields": {
-        "Author": "Författare",
-        "Author-Help": "Valfritt ange författaren till detta flöde.",
         "Description": "Beskrivning.",
-        "MinimumVersion": "Minimi version",
+        "Icon": "Ikon",
         "Outputs": "Utgångar",
         "Outputs-Help": "Antalet utgångar detta underskript har. Detta är antalet utgångar som kommer att vara tillgängliga när detta underskript används i ett annat flöde.",
         "OutputsKey": "Utgång",
         "OutputsValue": "Beskrivning",
-        "Tags": "Taggar",
         "Variables": "Variabler",
         "VariablesKey": "Namn",
         "VariablesValue": "Värde",
@@ -901,6 +1266,8 @@
         "DetectFileSizeLower": "",
         "DetectFileSizeUpper": "",
         "DetectionDescription": "Här kan du konfigurera ett bibliotek för att endast upptäcka filer som matchar de angivna mönstren.\n\nTill exempel gör detta att du endast kan inkludera filer som är\n\t- Filer som skapades för mindre än 7 dagar sedan\n\t- Filer som senast skrevs till mellan 3 och 7 dagar sedan\n\t- Filstorleken är större än 1 gigabyte",
+        "DisableFileSystemEvents": "Filsystemhändelser",
+        "DisableFileSystemEvents-Help": "Anger om filsystemhändelser ska övervakas. Om aktiverat kommer systemet att övervaka händelser för skapande och ändring av filer, kontrollera om filerna matchar bibliotekets inställningar och lägga till dem för bearbetning.",
         "DownloadsDirectory": "Nedladdningsmapp",
         "DownloadsDirectory-Help": "En särskild mapp där om en fil som har bearbetats framgångsrikt återupptäckts i denna mapp, kommer den filen automatiskt att bearbetas igen.\nDetta är användbart om du laddar ner en fil igen.",
         "Enabled": "Aktiverad",
@@ -1087,7 +1454,7 @@
         "Enabled": "Aktiverad",
         "FlowRunners": "Flödeskörningar",
         "FlowRunners-Help": "Antalet flödeskörningsinstanser som är tillgängliga för att köra ett flöde.",
-        "Icon": "Anpassad ikon",
+        "Icon": "Ikon",
         "InternalProcessingNodeDescription": "Detta är den inbyggda behandlingsnoden i FileFlows.\n\nDenna nod låter dig köra FileFlows utan att behöva installera några andra noder på fjärrsystem och låter dig använda FileFlows som en fristående applikation.\n\nDu kan fortsätta använda denna interna nod och ytterligare behandlingsnoder om du vill, eller så kan du inaktivera denna nod och bara använda ytterligare noder.",
         "Libraries": "Bibliotek",
         "Libraries-Help": "Välj vilka bibliotek denna nod kan bearbeta",
@@ -1110,6 +1477,8 @@
         "ProcessFileCheckInterval-Help": "Hur ofta kontrollera om en ny fil ska bearbetas i behandlingsnoder.\nStäll in på 0 för att använda systemvärdet.",
         "ProcessFileCheckInterval-Suffix": "sekunder",
         "ProcessingDescription": "Detta låter dig konfigurera vad denna behandlingsnod kan bearbeta.\n\nTill exempel, du kan begränsa denna nod till att bara bearbeta vissa bibliotek eller en maximal filstorlek om denna nod är en lågpresterande nod.",
+        "ProcessingOrder": "处理顺序",
+        "ProcessingOrder-Help": "指定此节点处理文件的顺序。此设置将覆盖库的默认处理顺序。设置为“默认”以使用库的处理顺序。",
         "Schedule": "Schema",
         "Schedule-Help": "Detta schema körs i nodens tidszon",
         "ScheduleDescription": "Detta låter dig konfigurera när denna nod kommer att vara aktiv.\n\nNoden kommer inte att bearbeta några filer utanför detta konfigurerade schema.\n",
@@ -1160,6 +1529,25 @@
         "Code": "Kod",
         "Description": "Beskrivning",
         "Revision": "Revision"
+      }
+    },
+    "Resellers": {
+      "Flows": {
+        "Single": "Återförsäljarflöde",
+        "Title": "Återförsäljarflöden",
+        "Fields": {
+          "Extensions": "Tillägg",
+          "Extensions-Help": "Listan över tillåtna tillägg som kan behandlas av detta flöde.",
+          "Flow": "Flöde",
+          "Icon": "Ikon",
+          "MaxFileSize": "Maximal Filstorlek",
+          "MaxFileSize-Help": "Den maximala filstorleken som får behandlas av detta flöde.",
+          "Tokens": "Tokens",
+          "Tokens-Help": "Antalet tokens det kostar för en användare att köra detta flöde."
+        }
+      },
+      "Settings": {
+        "Title": "Återförsäljarinställningar"
       }
     },
     "Resources": {
@@ -1263,6 +1651,8 @@
         "DelayBetweenNextFile-Suffix": "millisekunder",
         "DockerModsOnServer": "DockerMods på server",
         "DockerModsOnServer-Help": "DockerMods ska köras automatiskt vid serverstart eller när de specifikt aktiveras. Annars kommer de endast att köras när ett arbetsflöde initieras.",
+        "DontUseTempFilesWhenMovingOrCopying": "Tempfiler för Flytt/Kopiering",
+        "DontUseTempFilesWhenMovingOrCopying-Help": "Använd .fftemp-filer för att undvika tidig upptäckt vid flytt/kopiering.",
         "HideProcessingFinishedNotifications": "Meddelanden om avslutad bearbetning",
         "HideProcessingFinishedNotifications-Help": "Om en toast-notifikation ska visas i webbkonsolen när en fil har avslutat bearbetningen",
         "HideProcessingStartedNotifications": "Meddelanden om påbörjad bearbetning",

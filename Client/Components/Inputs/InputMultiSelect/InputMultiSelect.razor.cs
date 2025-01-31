@@ -188,7 +188,23 @@ public partial class InputMultiSelect: Input<List<object>>
             Value.Remove(null);
             Value.Add(optionValue);
         }
+
         ValueUpdated();
+    }
+
+    private bool updating = false;
+
+    /// <inheriddoc />
+    protected override void ValueUpdated()
+    {
+        if (updating)
+            return;
+        updating = true;
+        // ensures the value is updated
+        ValueUpdated();
+        ValueChanged.InvokeAsync(Value);
+        Field?.InvokeValueChanged(this.Editor, Value);
+        updating = false;
     }
 
     /// <summary>
@@ -198,14 +214,17 @@ public partial class InputMultiSelect: Input<List<object>>
     private string SelectedLabel()
     {
         if (Value == null || Value.Count == 0)
-            return "Select...";
+            return Translater.Instant("Labels.Select") + "...";
         if (Value is [null])
             return lblAny;
         if (Value.Count == Options.Count)
             return lblAll;
         if (Value.Count == 1)
-            return Options.First(o => o.Value == Value.First()).Label;
+        {
+            var firstValue = Value.First();
+            return Options.First(o => o.Value == firstValue || firstValue.Equals(o.Value)).Label;
+        }
 
-        return $"{Value.Count} selected";
+        return Translater.Instant("Labels.SelectedNum", new { num = Value.Count });
     }
 }

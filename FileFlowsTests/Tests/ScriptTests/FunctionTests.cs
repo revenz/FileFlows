@@ -197,7 +197,7 @@ return 1";
     public void Function_Flow_GetDirectorySize()
     {
         Function pm = new Function();
-        var args = new FileFlows.Plugin.NodeParameters(TempFile, Logger, false, string.Empty, new LocalFileService());
+        var args = new FileFlows.Plugin.NodeParameters(TempFile, Logger, false, string.Empty, new LocalFileService(false));
         args.ScriptExecutor = new ScriptExecutor();
         pm.Code = $"return Flow.GetDirectorySize('{TempPath}');";
         var result = pm.Execute(args);
@@ -364,7 +364,7 @@ return 2; // it isn't so call output 2";
         Function pm = new Function();
         var newFile = System.IO.Path.Combine(TempPath, "movie h264.mkv");
         System.IO.File.Move(TempFile, newFile);
-        var args = new FileFlows.Plugin.NodeParameters(newFile, Logger, false, string.Empty, new LocalFileService());
+        var args = new FileFlows.Plugin.NodeParameters(newFile, Logger, false, string.Empty, new LocalFileService(false));
         args.InitFile(newFile);
         args.ScriptExecutor = new ScriptExecutor();
         pm.Code = @"

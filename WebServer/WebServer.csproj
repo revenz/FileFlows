@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <UseAppHost>True</UseAppHost>
+        <AssemblyName>FileFlows.WebServer</AssemblyName>
+        <RootNamespace>FileFlows.WebServer</RootNamespace>
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <OutputType>Library</OutputType>
+        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+        <PackageReference Include="Humanizer" Version="2.14.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.6.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Views\Authorize\Login.cshtml" />
+      <AdditionalFiles Include="Views\Home\Loading.cshtml" />
+      <AdditionalFiles Include="Views\Shared\Error.cshtml" />
+      <AdditionalFiles Include="Views\Shared\Loading.razor" />
+      <AdditionalFiles Include="Views\Shared\_Imports.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\SwaggerIndex.html" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\FileFlowsAdditional\Services\Services.csproj" />
+      <ProjectReference Include="..\Plugin\Plugin.csproj" />
+      <ProjectReference Include="..\ServerShared\ServerShared.csproj" />
+      <ProjectReference Include="..\Shared\Shared.csproj" />
+    </ItemGroup>
+</Project>

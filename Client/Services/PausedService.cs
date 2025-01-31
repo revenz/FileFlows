@@ -89,7 +89,7 @@ public class PausedService : IPausedService, IDisposable
         bkgTask.Start();
         SystemInfo = new SystemInfo()
         {
-            IsPaused = clientService.IsPaused
+            IsPaused = clientService.IsPaused == true
         };
         clientService.SystemInfoUpdated += OnSystemInfoUpdated;
         

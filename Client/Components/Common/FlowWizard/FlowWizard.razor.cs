@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Common;
@@ -22,9 +23,46 @@ public partial class FlowWizard : ComponentBase
     [Parameter] public EventCallback<int> OnPageChanged { get; set; }
     
     /// <summary>
+    /// Gets or sets if this wizard is a modal popup
+    /// </summary>
+    [Parameter] public bool Modal { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this can be cancled, and if the Cancel button should be shown
+    /// </summary>
+    [Parameter] public bool Cancelable { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this wizard isnt a next/previous/finish wizard, but a list of wizard pages
+    /// where each page is effectively a selected group and next submits that selected group
+    /// </summary>
+    [Parameter] public bool NonWizard { get; set; }
+    /// <summary>
+    /// Gets or sets the selected page index
+    /// </summary>
+    [Parameter]
+    public int SelectedPageIndex { get; set; }
+
+    /// <summary>
+    /// Event called when the selected page index changes
+    /// </summary>
+    [Parameter] 
+    public EventCallback<int> SelectedPageIndexChanged { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the finish button label
+    /// </summary>
+    [Parameter] public string FinishButtonLabel { get; set; }
+    
+    /// <summary>
     /// Gets or sets an event when a finish is clicked
     /// </summary>
     [Parameter] public EventCallback OnFinish { get; set; }
+    
+    /// <summary>
+    /// Gets or sets an event when a cancel is clicked
+    /// </summary>
+    [Parameter] public EventCallback OnCancel { get; set; }
     
     /// <summary>
     /// Gets or sets if the pages cannot be changed
@@ -35,6 +73,11 @@ public partial class FlowWizard : ComponentBase
     /// Gets or sets if the finish button is disabled
     /// </summary>
     [Parameter] public bool FinishDisabled { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the wizards blocker
+    /// </summary>
+    private Blocker Blocker { get; set; }
 
     /// <summary>
     /// Represents a collection of pages.
@@ -67,7 +110,9 @@ public partial class FlowWizard : ComponentBase
             return;
         
         ActivePage = page;
-        await OnPageChanged.InvokeAsync(Pages.IndexOf(page));
+        SelectedPageIndex = Pages.IndexOf(page);
+        await SelectedPageIndexChanged.InvokeAsync(SelectedPageIndex);
+        await OnPageChanged.InvokeAsync(SelectedPageIndex);
         StateHasChanged();
     }
  
@@ -159,14 +204,31 @@ public partial class FlowWizard : ComponentBase
     /// <summary>
     /// Completes the wizard
     /// </summary>
-    private void Finish()
-    {
-        OnFinish.InvokeAsync();
-    }
+    public void Finish()
+        => OnFinish.InvokeAsync();
+    
+    /// <summary>
+    /// Cancels the wizard
+    /// </summary>
+    private void Cancel()
+        => OnCancel.InvokeAsync();
 
     /// <summary>
     /// Triggers a state has change event
     /// </summary>
     public void TriggerStateHasChanged()
         => StateHasChanged();
+
+    /// <summary>
+    /// Shows the wizards blocker
+    /// </summary>
+    /// <param name="message">Optional message to show in the blocker</param>
+    public void ShowBlocker(string message = "")
+        => Blocker.Show(message);
+
+    /// <summary>
+    /// Hides the wizards blocker
+    /// </summary>
+    public void HideBlocker()
+        => Blocker.Hide();
 }

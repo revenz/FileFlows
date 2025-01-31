@@ -45,6 +45,11 @@ public class Script: FileFlowObject, IInUse
     public string? Description { get; set; }
     
     /// <summary>
+    /// Gets or sets the help of the script which is displayed at the top of a script when added to the flow
+    /// </summary>
+    public string? Help { get; set; }
+    
+    /// <summary>
     /// Gets or sets the minimum version of FileFlows required
     /// </summary>
     public Version? MinimumVersion { get; set; }
@@ -101,6 +106,7 @@ public class Script: FileFlowObject, IInUse
             Code = scriptModel.Code,
             Revision = scriptModel.Revision,
             Description = scriptModel.Description,
+            Help = scriptModel.Help,
             Author = scriptModel.Author,
             Outputs = scriptModel.Outputs,
             Parameters = scriptModel.Parameters,
@@ -124,6 +130,7 @@ public class Script: FileFlowObject, IInUse
             this.Name = scriptModel.Name;
         this.Code = scriptModel.Code;
         this.Revision = scriptModel.Revision;
+        this.Help = scriptModel.Help;
         this.Description = scriptModel.Description;
         this.Author = scriptModel.Author;
         this.Outputs = scriptModel.Outputs;
@@ -165,6 +172,11 @@ public class ScriptParameter
     public string Description { get; set; } = string.Empty;
     
     /// <summary>
+    /// Gets or sets options for the parameter
+    /// </summary>
+    public string[]? Options { get; set; } 
+    
+    /// <summary>
     /// Gets or sets the type of script argument
     /// </summary>
     public ScriptArgumentType Type {get; set; }
@@ -186,5 +198,13 @@ public enum ScriptArgumentType
     /// <summary>
     /// Boolean parameter
     /// </summary>
-    Bool
+    Bool,
+    /// <summary>
+    /// Select for a single value
+    /// </summary>
+    Select,
+    /// <summary>
+    /// Select for an array of values
+    /// </summary>
+    SelectMultiple
 }

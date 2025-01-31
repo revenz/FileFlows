@@ -1,6 +1,5 @@
 @namespace FileFlows.Client.Pages
 @using Humanizer
-@using Globals = FileFlows.ServerShared.Globals
 @inherits InputRegister
 
 @page "/settings"
@@ -39,6 +38,7 @@
                         }
                         <InputNumber @bind-Value="@Model.ProcessFileCheckInterval" Label="Pages.Settings.Fields.ProcessFileCheckInterval" Min=5 Max=86400/>
                         <InputSwitch @bind-Value="@Model.KeepFailedFlowTempFiles" Label="Pages.Settings.Fields.KeepFailedFlowTempFiles"/>
+                        <InputSwitch @bind-Value="@Model.DontUseTempFilesWhenMovingOrCopying" Label="Pages.Settings.Fields.DontUseTempFilesWhenMovingOrCopying" Inverse="true"/>
                         @if (Profile.ServerOS is OperatingSystemType.Docker)
                         {
                             <InputSwitch @bind-Value="@Model.DockerModsOnServer" Label="Pages.Settings.Fields.DockerModsOnServer"/>
@@ -75,8 +75,8 @@
                         <InputSwitch @bind-Value="@Model.FileServerDisabled" Inverse="true" Label="Pages.Settings.Fields.FileServer.Enabled"/>
                         @if (Profile.ServerOS is OperatingSystemType.Linux or OperatingSystemType.Docker)
                         {
-                            <InputNumber @bind-Value="@Model.FileServerFilePermissions" Label="Pages.Settings.Fields.FileServer.FilePermissions" Disabled="Model.FileServerDisabled" Max="777" ZeroAsEmpty="true" Placeholder="@Globals.DefaultPermissionsFile.ToString("D3")"/>
-                            <InputNumber @bind-Value="@Model.FileServerFolderPermissions" Label="Pages.Settings.Fields.FileServer.FolderPermissions" Disabled="Model.FileServerDisabled" Max="777" ZeroAsEmpty="true" Placeholder="@Globals.DefaultPermissionsFolder.ToString("D3")"/>
+                            <InputNumber @bind-Value="@Model.FileServerFilePermissions" Label="Pages.Settings.Fields.FileServer.FilePermissions" Disabled="Model.FileServerDisabled" Max="777" ZeroAsEmpty="true" Placeholder="@FileFlows.Common.Globals.DefaultPermissionsFile.ToString("D3")"/>
+                            <InputNumber @bind-Value="@Model.FileServerFolderPermissions" Label="Pages.Settings.Fields.FileServer.FolderPermissions" Disabled="Model.FileServerDisabled" Max="777" ZeroAsEmpty="true" Placeholder="@FileFlows.Common.Globals.DefaultPermissionsFolder.ToString("D3")"/>
                             <InputText @bind-Value="@Model.FileServerOwnerGroup" Label="Pages.Settings.Fields.FileServer.OwnerGroup" Disabled="Model.FileServerDisabled"/>
                         }
                         <InputTextArea @bind-Value="@Model.FileServerAllowedPathsString" Label="Pages.Settings.Fields.FileServer.AllowList" Disabled="Model.FileServerDisabled"/>

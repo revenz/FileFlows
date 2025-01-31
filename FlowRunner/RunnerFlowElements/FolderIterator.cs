@@ -95,7 +95,7 @@ public class FolderIterator : Node
         foreach (var file in files)
         {
             args.Logger?.ILog("Starting new file: " + file);
-            args.RecordAdditionalInfo("File", FileHelper.GetShortFileName(file), 1, null);
+            args.RecordAdditionalInfo("File", Plugin.Helpers.FileHelper.GetShortFileName(file), 1, null);
             
             var result = RunFlow(args, file, ++current);
 

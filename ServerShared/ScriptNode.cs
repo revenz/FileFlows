@@ -113,7 +113,7 @@ public class ScriptNode:Node
             AdditionalArguments = new (),
             NotificationCallback = (severity, title, message) =>
             {
-                var service = ServiceLoader.Load<INotificationService>();
+                var service = ServerShared.Services.ServiceLoader.Load<INotificationService>();
                 _ = service.Record((NotificationSeverity)severity, title, message);
             }
         };

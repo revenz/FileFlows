@@ -1,0 +1,2274 @@
+{
+  "Flow": {
+    "Parts": {
+      "AudioBitrateMatches": {
+        "Description": "Controleer of een audiobitrate voldoet aan de beperkingen.",
+        "Label": "Audiobitrate komt overeen",
+        "Fields": {
+          "BitrateKilobytes": "Bitrate",
+          "BitrateKilobytes-Help": "De bitrate in kilobytes om de overeenkomst mee te controleren.",
+          "BitrateKilobytes-Suffix": "Kilobytes",
+          "Match": "Overeenkomst"
+        },
+        "Outputs": {
+          "1": "Komt overeen",
+          "2": "Komt niet overeen"
+        }
+      },
+      "AudioFile": {
+        "Description": "Een invoer audiobestand waarvan de audio-informatie is gelezen en dat kan worden verwerkt.",
+        "Label": "Audiobestand",
+        "Outputs": {
+          "1": "Audiobestand uit bibliotheek"
+        }
+      },
+      "AudioFileNormalization": {
+        "Description": "Normaliseert een audiobestand met behulp van twee passes van de loudnorm-filter van FFMPEG.",
+        "Label": "Audiobestand normaliseren",
+        "Outputs": {
+          "1": "Audiobestand genormaliseerd en opgeslagen in tijdelijk bestand"
+        }
+      },
+      "ConvertAudio": {
+        "Description": "Converteer een audiobestand naar de opgegeven audio-codec",
+        "Label": "Converteer audio",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "De bitrate voor het nieuwe bestand; hoe hoger de bitrate, hoe beter de kwaliteit, maar groter het bestand.",
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen dat het geconverteerde bestand zal hebben.\nAls je meer kanalen specificeert dan de bron, zal FFmpeg het automatisch upmixen.\nAls je minder kanalen specificeert dan de bron, zal FFmpeg het automatisch downmixen.",
+          "Codec": "Codec",
+          "Codec-Help": "De audio-codec waarnaar het bestand moet worden geconverteerd.",
+          "CustomExtension": "Extensie",
+          "CustomExtension-Help": "Stelt je in staat om een aangepaste bestandsextensie in te stellen in plaats van de automatische die door de codec is bepaald.",
+          "HighEfficiency": "Hoge effici\u00EBntie",
+          "HighEfficiency-Help": "Zal de modus voor hoge effici\u00EBntie gebruiken; dit zal de extensie wijzigen in m4a en het aantal ondersteunde afspeelapparaten verminderen, maar kan de bestandsgrootte verkleinen.",
+          "Normalize": "Normaliseren",
+          "Normalize-Help": "Of de audio genormaliseerd moet worden met twee-pass audio-normalisatie.",
+          "SampleRate": "Monstersnelheid",
+          "SampleRate-Help": "De te gebruiken monstersnelheid",
+          "SkipIfCodecMatches": "Overslaan als codec overeenkomt",
+          "SkipIfCodecMatches-Help": "Als de bestaande audio-codec overeenkomt, zal dit bestand niet worden verwerkt, ongeacht de bitrate. Als het uit staat, moet de bitrate kleiner dan of gelijk zijn om over te slaan."
+        },
+        "Outputs": {
+          "1": "Audio geconverteerd en opgeslagen in tijdelijk bestand",
+          "2": "Audio al in codec, geen conversie uitgevoerd"
+        }
+      },
+      "ConvertToAAC": {
+        "Description": "Converteer een audiobestand naar AAC",
+        "Label": "Converteer naar AAC",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "De bitrate voor het nieuwe AAC-bestand; hoe hoger de bitrate, hoe beter de kwaliteit, maar groter het bestand.  192 Kbps is de aanbevolen waarde.",
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen dat het geconverteerde bestand zal hebben.\nAls je meer kanalen specificeert dan de bron, zal FFmpeg het automatisch upmixen.\nAls je minder kanalen specificeert dan de bron, zal FFmpeg het automatisch downmixen.",
+          "CustomExtension": "Extensie",
+          "CustomExtension-Help": "Stelt je in staat om een aangepaste bestandsextensie in te stellen in plaats van de automatische die door de codec is bepaald.",
+          "HighEfficiency": "Hoge effici\u00EBntie",
+          "HighEfficiency-Help": "Zal de modus voor hoge effici\u00EBntie gebruiken; dit zal de extensie wijzigen in m4a en het aantal ondersteunde afspeelapparaten verminderen, maar kan de bestandsgrootte verkleinen.",
+          "Normalize": "Normaliseren",
+          "Normalize-Help": "Of de audio genormaliseerd moet worden met twee-pass audio-normalisatie.",
+          "SampleRate": "Monstersnelheid",
+          "SampleRate-Help": "De te gebruiken monstersnelheid",
+          "SkipIfCodecMatches": "Overslaan als codec overeenkomt",
+          "SkipIfCodecMatches-Help": "Als de bestaande audio-codec overeenkomt, zal dit bestand niet worden verwerkt, ongeacht de bitrate. Als het uit staat, moet de bitrate kleiner dan of gelijk zijn om over te slaan."
+        },
+        "Outputs": {
+          "1": "Audio geconverteerd en opgeslagen in tijdelijk bestand",
+          "2": "Audio al in codec, geen conversie uitgevoerd"
+        }
+      },
+      "ConvertToFLAC": {
+        "Description": "Converteer een audiobestand naar FLAC",
+        "Label": "Converteer naar FLAC",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "De bitrate voor het nieuwe FLAC-bestand, hoe hoger de bitrate, hoe beter de kwaliteit maar ook groter het bestand. 128 Kbps is de aanbevolen waarde.",
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen dat het geconverteerde bestand zal hebben.\nAls je meer kanalen opgeeft dan de bron, zal FFmpeg het automatisch upmixen.\nAls je minder kanalen opgeeft dan de bron, zal FFmpeg het automatisch downmixen.",
+          "CustomExtension": "Extensie",
+          "CustomExtension-Help": "Stelt je in staat om een aangepaste bestands extensie in te stellen in plaats van de automatische die door de codec wordt bepaald.",
+          "Normalize": "Normaliseren",
+          "Normalize-Help": "Als de audio genormaliseerd moet worden met twee-pass audio normalisatie.",
+          "SampleRate": "Monsterfrequentie",
+          "SampleRate-Help": "De monsterfrequentie die gebruikt moet worden.",
+          "SkipIfCodecMatches": "Overslaan als Codec Overeenkomt",
+          "SkipIfCodecMatches-Help": "Als de bestaande audiocodec overeenkomt, zal dit bestand niet worden verwerkt ongeacht de bitrate. Anders, als het uit staat, moet de bitrate kleiner dan of gelijk aan zijn om over te slaan."
+        },
+        "Outputs": {
+          "1": "Audio geconverteerd en opgeslagen in tijdelijk bestand",
+          "2": "Audio al in codec, geen conversie uitgevoerd"
+        }
+      },
+      "ConvertToMP3": {
+        "Description": "Converteer een audiobestand naar MP3",
+        "Label": "Converteer naar MP3",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "De bitrate voor het nieuwe MP3-bestand, hoe hoger de bitrate, hoe beter de kwaliteit maar ook groter het bestand. 192 Kbps is de aanbevolen waarde.",
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen dat het geconverteerde bestand zal hebben.\nAls je meer kanalen opgeeft dan de bron, zal FFmpeg het automatisch upmixen.\nAls je minder kanalen opgeeft dan de bron, zal FFmpeg het automatisch downmixen.",
+          "CustomExtension": "Extensie",
+          "CustomExtension-Help": "Stelt je in staat om een aangepaste bestands extensie in te stellen in plaats van de automatische die door de codec wordt bepaald.",
+          "Normalize": "Normaliseren",
+          "Normalize-Help": "Als de audio genormaliseerd moet worden met twee-pass audio normalisatie.",
+          "SampleRate": "Monsterfrequentie",
+          "SampleRate-Help": "De monsterfrequentie die gebruikt moet worden.",
+          "SkipIfCodecMatches": "Overslaan als Codec Overeenkomt",
+          "SkipIfCodecMatches-Help": "Als de bestaande audiocodec overeenkomt, zal dit bestand niet worden verwerkt ongeacht de bitrate. Anders, als het uit staat, moet de bitrate kleiner dan of gelijk aan zijn om over te slaan."
+        },
+        "Outputs": {
+          "1": "Audio geconverteerd en opgeslagen in tijdelijk bestand",
+          "2": "Audio al in codec, geen conversie uitgevoerd"
+        }
+      },
+      "ConvertToOGG": {
+        "Description": "Converteer een audiobestand naar OGG",
+        "Label": "Converteer naar OGG",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "De bitrate voor het nieuwe OGG-bestand, hoe hoger de bitrate, hoe beter de kwaliteit maar ook groter het bestand. 128 Kbps is de aanbevolen waarde.",
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen dat het geconverteerde bestand zal hebben.\nAls je meer kanalen opgeeft dan de bron, zal FFmpeg het automatisch upmixen.\nAls je minder kanalen opgeeft dan de bron, zal FFmpeg het automatisch downmixen.",
+          "CustomExtension": "Extensie",
+          "CustomExtension-Help": "Stelt je in staat om een aangepaste bestands extensie in te stellen in plaats van de automatische die door de codec wordt bepaald.",
+          "Normalize": "Normaliseren",
+          "Normalize-Help": "Als de audio genormaliseerd moet worden met twee-pass audio normalisatie.",
+          "SampleRate": "Monsterfrequentie",
+          "SampleRate-Help": "De monsterfrequentie die gebruikt moet worden.",
+          "SkipIfCodecMatches": "Overslaan als Codec Overeenkomt",
+          "SkipIfCodecMatches-Help": "Als de bestaande audiocodec overeenkomt, zal dit bestand niet worden verwerkt ongeacht de bitrate. Anders, als het uit staat, moet de bitrate kleiner dan of gelijk aan zijn om over te slaan."
+        },
+        "Outputs": {
+          "1": "Audio geconverteerd en opgeslagen in tijdelijk bestand",
+          "2": "Audio al in codec, geen conversie uitgevoerd"
+        }
+      },
+      "ConvertToWAV": {
+        "Description": "Converteer een audiobestand naar WAV",
+        "Label": "Converteer naar WAV",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "De bitrate voor het nieuwe WAV-bestand, hoe hoger de bitrate, hoe beter de kwaliteit maar ook groter het bestand. 128 Kbps is de aanbevolen waarde.",
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen dat het geconverteerde bestand zal hebben.\nAls je meer kanalen opgeeft dan de bron, zal FFmpeg het automatisch upmixen.\nAls je minder kanalen opgeeft dan de bron, zal FFmpeg het automatisch downmixen.",
+          "CustomExtension": "Extensie",
+          "CustomExtension-Help": "Stelt je in staat om een aangepaste bestands extensie in te stellen in plaats van de automatische die door de codec wordt bepaald.",
+          "Normalize": "Normaliseren",
+          "Normalize-Help": "Als de audio genormaliseerd moet worden met twee-pass audio normalisatie.",
+          "SampleRate": "Monsterfrequentie",
+          "SampleRate-Help": "De monsterfrequentie die gebruikt moet worden.",
+          "SkipIfCodecMatches": "Overslaan als Codec Overeenkomt",
+          "SkipIfCodecMatches-Help": "Als de bestaande audiocodec overeenkomt, zal dit bestand niet worden verwerkt ongeacht de bitrate. Anders, als het uit staat, moet de bitrate kleiner dan of gelijk aan zijn om over te slaan."
+        },
+        "Outputs": {
+          "1": "Audio geconverteerd en opgeslagen in tijdelijk bestand",
+          "2": "Audio al in codec, geen conversie uitgevoerd"
+        }
+      },
+      "CreateAudioBook": {
+        "Description": "Maakt een audioboek van audiobestanden die in de invoermap zijn gevonden",
+        "Label": "Audioboek maken",
+        "Fields": {
+          "DeleteSourceFiles": "Bronbestanden Verwijderen",
+          "DeleteSourceFiles-Help": "Wanneer ingeschakeld, worden de bronbestanden die het nieuw gemaakte m4b-bestand vormen, verwijderd; anders blijven ze intact.",
+          "DestinationPath": "Bestemmingspad",
+          "DestinationPath-Help": "De bestemming waar het nieuw gemaakte bestand moet worden opgeslagen. Als leeg gelaten, wordt het bestand gemaakt in de tijdelijke map en zal het worden verwijderd als het niet daarna wordt verplaatst.",
+          "UpdateWorkingFile": "Werkbestand Bijwerken",
+          "UpdateWorkingFile-Help": "Wanneer ingeschakeld, wordt het werkbestand bijgewerkt naar het nieuw gemaakte bestand."
+        },
+        "Outputs": {
+          "1": "Audioboek gemaakt",
+          "2": "Audioboek niet gemaakt"
+        }
+      },
+      "EmbedArtwork": {
+        "Description": "Voegt artwork toe aan een audiobestand",
+        "Label": "Artwork insluiten",
+        "Outputs": {
+          "1": "Artwork gevonden en toegevoegd aan het audiobestand",
+          "2": "Geen artwork gevonden om toe te voegen"
+        }
+      },
+      "BatchScript": {
+        "Description": "Staat je toe om een batch (.bat) script uit te voeren in een Windows omgeving.",
+        "Label": "Batch Script (.bat)",
+        "Fields": {
+          "Code": "Code"
+        },
+        "Outputs": {
+          "1": "teruggegeven 1",
+          "10": "teruggegeven 10",
+          "2": "teruggegeven 2",
+          "3": "teruggegeven 3",
+          "4": "teruggegeven 4",
+          "5": "teruggegeven 5",
+          "6": "teruggegeven 6",
+          "7": "teruggegeven 7",
+          "8": "teruggegeven 8",
+          "9": "teruggegeven 9"
+        }
+      },
+      "CompleteFlow": {
+        "Description": "Voltooit/eindigt de flow als succesvol",
+        "Label": "Voltooi Flow"
+      },
+      "CopyFile": {
+        "Description": "Kopieert een bestand naar de bestemmingsmap",
+        "Label": "Kopieer Bestand",
+        "Fields": {
+          "AdditionalFiles": "Extra Bestanden",
+          "AdditionalFiles-Help": "Extra bestanden om van de directory naar de nieuwe directory te kopi\u00EBren.\nElke waarde kan een combinatie van geldige letterlijke paden en jokertekens (* en ?) bevatten, maar ondersteunt geen reguliere expressies.",
+          "AdditionalFilesFromOriginal": "Originele Directory",
+          "AdditionalFilesFromOriginal-Help": "Als de extra bestanden vanuit de werkdirectory of de originele directory moeten worden gekopieerd. Zet aan voor de originele directory.",
+          "CopyFolder": "Kopieer Map",
+          "CopyFolder-Help": "Als de relatieve mappenstructuur ook gekopieerd moet worden",
+          "DestinationFile": "Bestand naar Bestemming",
+          "DestinationFile-Help": "De bestandsnaam om het bestand naartoe te kopi\u00EBren. Als leeg, wordt de originele bestandsnaam gebruikt.",
+          "DestinationPath": "Bestemmingsmap",
+          "DestinationPath-Help": "De map waar het bestand naartoe wordt gekopieerd",
+          "InputFile": "Te Kopi\u00EBren Bestand",
+          "InputFile-Help": "Het bestand dat gekopieerd moet worden; als leeg gelaten, wordt het werkbestand gekopieerd.",
+          "InputFile-Placeholder": "Werkbestand",
+          "PreserverOriginalDates": "Behouden Data",
+          "PreserverOriginalDates-Help": "Als de originele creatietijd en de laatste schrijftijd van het originele invoerbestand behouden moeten blijven."
+        },
+        "Outputs": {
+          "1": "Bestand gekopieerd"
+        }
+      },
+      "CSharpScript": {
+        "Description": "Stelt je in staat om C#-code binnen de Flow uit te voeren.",
+        "Label": "C# Functie",
+        "Fields": {
+          "Code": "Code"
+        },
+        "Outputs": {
+          "1": "teruggegeven 1",
+          "10": "teruggegeven 10",
+          "2": "teruggegeven 2",
+          "3": "teruggegeven 3",
+          "4": "teruggegeven 4",
+          "5": "teruggegeven 5",
+          "6": "teruggegeven 6",
+          "7": "teruggegeven 7",
+          "8": "teruggegeven 8",
+          "9": "teruggegeven 9"
+        }
+      },
+      "Delete": {
+        "Description": "Verwijdert een bestand of map",
+        "Label": "Verwijder",
+        "Fields": {
+          "FileName": "Pad",
+          "FileName-Help": "Een pad naar een bestand of map om te verwijderen.\n\nAls het leeg is, wordt het huidige werkbestand verwijderd."
+        },
+        "Outputs": {
+          "1": "Bestand verwijderd"
+        }
+      },
+      "DeleteSourceDirectory": {
+        "Description": "Verwijdert de bronmap van het originele bibliotheekbestand",
+        "Label": "Verwijder bronmap",
+        "Fields": {
+          "IfEmpty": "Als leeg",
+          "IfEmpty-Help": "Verwijder de bronmap alleen als deze leeg is",
+          "IncludePatterns": "Inbegrepen patronen",
+          "IncludePatterns-Help": "Optioneel, als ingesteld, worden alleen bestanden die overeenkomen met deze patronen geteld om te zien of de map leeg is. Elk van deze patronen kan overeenkomen.",
+          "TopMostOnly": "Alleen de bovenste",
+          "TopMostOnly-Help": "Wanneer ingeschakeld, wordt alleen de map die het bestand direct bevat, verwijderd, terwijl bovenliggende mappen intact blijven."
+        },
+        "Outputs": {
+          "1": "Bronmap verwijderd",
+          "2": "Map is NIET verwijderd"
+        }
+      },
+      "Executor": {
+        "Description": "Voert het volgende proces uit tegen het bestand.\nOutput 1: Het proces heeft de succesvolle exitcode geretourneerd\nOutput 2: Het proces heeft een niet-succesvolle exitcode geretourneerd.",
+        "Label": "Uitvoerder",
+        "Fields": {
+          "Arguments": "Argumenten",
+          "Arguments-Help": "De argumenten die aan het uit te voeren proces moeten worden doorgegeven",
+          "FileName": "Bestandsnaam",
+          "FileName-Help": "De naam van het uit te voeren bestand",
+          "OutputErrorVariable": "Outputfoutvariabele",
+          "OutputErrorVariable-Help": "Een optionele variabelenaam om de foutoutput van het proces op te slaan",
+          "OutputVariable": "Outputvariabele",
+          "OutputVariable-Help": "Een optionele variabelenaam om de output van het proces op te slaan",
+          "SuccessCode": "Succescode",
+          "SuccessCode-Help": "De exitcode van het proces die aangeeft dat het proces succesvol was. Dit moet meestal 0 zijn.",
+          "Timeout": "Time-out",
+          "Timeout-Help": "Hoe lang het proces kan draaien voordat het wordt be\u00EBindigd. Gebruik 0 voor geen time-out.",
+          "Timeout-Suffix": "seconden",
+          "WorkingDirectory": "Werkmap",
+          "WorkingDirectory-Help": "De map waarin het proces wordt uitgevoerd"
+        },
+        "Outputs": {
+          "1": "Proces retourneerde succes",
+          "2": "Proces retourneerde falen"
+        }
+      },
+      "FailFlow": {
+        "Description": "Laat een flow onmiddellijk falen, nuttig als je wilt dat een bepaald pad gewoon faalt.",
+        "Label": "Flow falen",
+        "Fields": {
+          "Reason": "Reden",
+          "Reason-Help": "Een optionele reden om te registreren waarom de flow is mislukt."
+        }
+      },
+      "FileDateCompare": {
+        "Description": "Controleert of de creatiedatum of de laatste schrijftijd van het bestand overeenkomt met de gespecificeerde datumrestrictie.",
+        "Label": "Bestandsdatumvergelijking",
+        "Fields": {
+          "Date": "Datum",
+          "DateComparision": "Vergelijking",
+          "FileName": "Bestandsnaam",
+          "FileName-Help": "Het bestand dat moet worden gecontroleerd. Laat leeg om het huidige werkbestand te controleren."
+        },
+        "Outputs": {
+          "1": "Komt overeen met de datumrestrictie.",
+          "2": "Komt niet overeen met de datumrestrictie."
+        }
+      },
+      "FileExists": {
+        "Description": "Controleert of een bestand bestaat\n\nOutput 1: Bestand bestaat\nOutput 2: Bestand bestaat niet",
+        "Label": "Bestand bestaat",
+        "Fields": {
+          "FileName": "Bestandsnaam",
+          "FileName-Help": "Het bestand dat gecontroleerd moet worden. Laat leeg om het huidige werkbestand te controleren."
+        },
+        "Outputs": {
+          "1": "Bestand bestaat",
+          "2": "Bestand bestaat niet"
+        }
+      },
+      "FileExtension": {
+        "Description": "Controleert of het bestand een van de geconfigureerde extensies heeft.\n\nOutput 1: Komt overeen\nOutput 2: Komt niet overeen",
+        "Label": "Bestandsextensie",
+        "Fields": {
+          "Extensions": "Extensies",
+          "Extensions-Help": "Een lijst van ongevoelige bestandsextensies die tegen elkaar worden vergeleken.\nOutput 1: Komt overeen\nOutput 2: Komt niet overeen"
+        },
+        "Outputs": {
+          "1": "Extensie komt overeen",
+          "2": "Extensie komt niet overeen"
+        }
+      },
+      "FileNameMatches": {
+        "Description": "Controleert of de oorspronkelijke bestandsnaam (inclusief het volledige pad) overeenkomt met de opgegeven waarde door middel van stringbewerkingen.",
+        "Label": "Bestandsnaam komt overeen",
+        "Fields": {
+          "Value": "Overeenstemmingswaarde",
+          "Value-Help": "Geef de waarde op waarmee vergeleken moet worden. Variabelen worden ondersteund en de vergelijking gebeurt via stringbewerkingen."
+        },
+        "Outputs": {
+          "1": "Komt overeen",
+          "2": "Komt niet overeen"
+        }
+      },
+      "FileSize": {
+        "Description": "Controleert of de bestandsgrootte overeenkomt met de geconfigureerde parameters. De waarden zijn in megabytes.\n\nOutput 1: Komt overeen\nOutput 2: Komt niet overeen",
+        "Label": "Bestandsgrootte",
+        "Fields": {
+          "Comparison": "Vergelijking",
+          "Lower": "Groter dan",
+          "Lower-Help": "De waarde moet groter zijn dan dit aantal megabytes",
+          "Lower-Suffix": "MB",
+          "Upper": "Kleiner dan",
+          "Upper-Help": "De waarde moet kleiner zijn dan dit aantal megabytes. Laat 0 om de bovengrens niet te testen.",
+          "Upper-Suffix": "MB"
+        },
+        "Outputs": {
+          "1": "Bestandsgrootte binnen bereik",
+          "2": "Bestandsgrootte niet binnen bereik"
+        }
+      },
+      "FileSizeCompare": {
+        "Description": "Controleert of de bestandsgrootte is veranderd ten opzichte van het originele bestand.",
+        "Label": "Bestandsgroottevergelijking",
+        "Outputs": {
+          "1": "Kleiner dan origineel",
+          "2": "Zelfde grootte als origineel",
+          "3": "Groter dan origineel"
+        }
+      },
+      "FileSizeWithin": {
+        "Description": "Controleert of de nieuwe bestandsgrootte binnen het toegestane bereik van de originele bestandsgrootte valt.",
+        "Label": "Bestandsgrootte binnen",
+        "Fields": {
+          "Value": "Waarde",
+          "Value-Help": "Het toegestane verschil voor de bestandsgrootte; deze waarde kan zowel plus als min dit verschil zijn."
+        },
+        "Outputs": {
+          "1": "Bestandsgrootte valt binnen het toegestane bereik",
+          "2": "Bestandsgrootte valt niet binnen het toegestane bereik"
+        }
+      },
+      "FolderDateCompare": {
+        "Description": "Controleert of de aanmaakdatum of de laatste schrijfdatum van de map overeenkomt met de gespecificeerde datumbeperkingen.",
+        "Label": "Mapdatumvergelijking",
+        "Fields": {
+          "Date": "Datum",
+          "DateComparision": "Vergelijking",
+          "Path": "Pad",
+          "Path-Help": "Het pad naar de map om te controleren. Laat leeg om het huidige werkbestand te controleren.\nAls een bestand is opgegeven, wordt de map die het bestand bevat gecontroleerd."
+        },
+        "Outputs": {
+          "1": "Komt overeen met de datumbeperkingen.",
+          "2": "Komt niet overeen met de datumbeperkingen."
+        }
+      },
+      "FolderIterator": {
+        "Description": "Itereert over alle bestanden in een opgegeven map en voert die bestanden uit tegen een subflow.",
+        "Label": "Map Iterator",
+        "Fields": {
+          "Flow": "Flow",
+          "Flow-Help": "De subflow waarop de bestanden worden uitgevoerd.",
+          "Folder": "Map",
+          "Folder-Help": "De map waarvan de bestanden worden ge\u00EFtereerd.",
+          "Pattern": "Patroon",
+          "Pattern-Help": "Een optioneel patroon om de bestanden voor iteratie te beperken; dit kan een wildcard-patroon zijn dat begint met \u0060*\u0060 of een reguliere expressie.",
+          "Recursive": "Recursief",
+          "Recursive-Help": "Of bestanden in alle submappen ook moeten worden ge\u00EFtereerd, of dat alleen de bovenste niveaubestanden moeten worden ge\u00EFtereerd."
+        },
+        "Outputs": {
+          "1": "Bestanden van de map zijn ge\u00EFtereerd"
+        }
+      },
+      "Function": {
+        "Label": "Functie",
+        "Fields": {
+          "Code": "Code",
+          "Code-Help": "geef -1 terug voor een fout en stop de flow. geef 0 terug om de flow te voltooien. geef 1 of meer terug om de gewenste uitvoer aan te roepen.",
+          "Outputs": "Uitvoeren",
+          "Template": "Sjabloon",
+          "Template-Help": "WAARSCHUWING: Dit vervangt alles in het codeblok door de sjabloon die je selecteert."
+        },
+        "Outputs": {
+          "1": "teruggegeven 1",
+          "10": "teruggegeven 10",
+          "2": "teruggegeven 2",
+          "3": "teruggegeven 3",
+          "4": "teruggegeven 4",
+          "5": "teruggegeven 5",
+          "6": "teruggegeven 6",
+          "7": "teruggegeven 7",
+          "8": "teruggegeven 8",
+          "9": "teruggegeven 9"
+        }
+      },
+      "GotoFlow": {
+        "Description": "Dit stelt je in staat om over te schakelen naar een andere flow om te verwerken. Deze flow zal afsluiten en de parameters en het werkbestand worden doorgegeven aan de nieuwe Flow.",
+        "Label": "Ga naar Flow",
+        "Fields": {
+          "Flow": "Flow",
+          "UpdateFlowUsed": "Update Flow",
+          "UpdateFlowUsed-Help": "Als het bestand \u0060Flow\u0060 moet worden bijgewerkt om naar deze nieuwe Flow te verwijzen of laat het als de oorspronkelijke Flow."
+        }
+      },
+      "HasHardLinks": {
+        "Description": "Controleert of een bestand harde koppelingen heeft of niet",
+        "Label": "Heeft harde koppelingen",
+        "Fields": {
+          "Count": "Aantal",
+          "Count-Help": "Het aantal harde koppelingen dat nodig is om output 1 aan te roepen.",
+          "FileName": "Bestandsnaam",
+          "FileName-Help": "Het bestand dat moet worden gecontroleerd. Laat het leeg om het huidige werkbestand te controleren."
+        },
+        "Outputs": {
+          "1": "Harde koppelingen gedetecteerd",
+          "2": "Geen harde koppelingen gedetecteerd"
+        }
+      },
+      "IfBoolean": {
+        "Description": "Test of een variabele waar of niet waar is",
+        "Label": "Als Booleaans",
+        "Fields": {
+          "Variable": "Variabele",
+          "Variable-Help": "De naam van de variabele om te controleren"
+        },
+        "Outputs": {
+          "1": "Waar",
+          "2": "Niet waar"
+        }
+      },
+      "IfString": {
+        "Description": "Test of een variabele overeenkomt met een string",
+        "Label": "Als String",
+        "Fields": {
+          "Options": "Opties",
+          "Options-Help": "De string om mee te vergelijken.",
+          "Outputs": "Uitgangen",
+          "Outputs-Help": "Dit moet overeenkomen met het aantal beschikbare opties",
+          "Variable": "Variabele",
+          "Variable-Help": "De naam van de te controleren variabele"
+        },
+        "Outputs": {
+          "1": "Overeenkomende string 1",
+          "10": "Overeenkomende string 10",
+          "2": "Overeenkomende string 2",
+          "3": "Overeenkomende string 3",
+          "4": "Overeenkomende string 4",
+          "5": "Overeenkomende string 5",
+          "6": "Overeenkomende string 6",
+          "7": "Overeenkomende string 7",
+          "8": "Overeenkomende string 8",
+          "9": "Overeenkomende string 9"
+        }
+      },
+      "InputFile": {
+        "Description": "Een invoerflow-element voor een bestand. Dit is verplicht en is het startpunt van een flow. Elk invoerflow-element kan worden gebruikt, maar er is er minstens \u00E9\u00E9n nodig.",
+        "Label": "Invoerbestand",
+        "Outputs": {
+          "1": "Bibliotheekbestand"
+        }
+      },
+      "InputFolder": {
+        "Description": "Een invoerflow-element voor een map. Dit werkt alleen als de bibliotheek die deze flow gebruikt, is geconfigureerd voor mappen.",
+        "Label": "Invoermap",
+        "Outputs": {
+          "1": "Bibliotheekmap"
+        }
+      },
+      "IsDocker": {
+        "Description": "Bepaalt of deze flow op Docker draait",
+        "Label": "Is Docker",
+        "Outputs": {
+          "1": "Draait op Docker",
+          "2": "Draait niet op Docker"
+        }
+      },
+      "IsFromLibrary": {
+        "Description": "Controleert of het bestand dat wordt verwerkt uit de opgegeven bibliotheek komt.",
+        "Label": "Is van bibliotheek",
+        "Fields": {
+          "Library": "Bibliotheek",
+          "Library-Help": "De bibliotheek die gecontroleerd moet worden."
+        },
+        "Outputs": {
+          "1": "Bestand komt uit de opgegeven bibliotheek.",
+          "2": "Bestand komt niet uit de opgegeven bibliotheek."
+        }
+      },
+      "IsLinux": {
+        "Description": "Bepaalt of deze flow op Linux draait",
+        "Label": "Is Linux",
+        "Outputs": {
+          "1": "Draait op Linux",
+          "2": "Draait niet op Linux"
+        }
+      },
+      "IsMacOS": {
+        "Description": "Bepaalt of deze flow op MacOS draait",
+        "Label": "Is MacOS",
+        "Outputs": {
+          "1": "Draait op MacOS",
+          "2": "Draait niet op MacOS"
+        }
+      },
+      "IsProcessingOnNode": {
+        "Description": "Controleert of de flow momenteel op een opgegeven verwerkingsnode aan het verwerken is.",
+        "Label": "Is aan het verwerken op node",
+        "Fields": {
+          "Node": "Node",
+          "Node-Help": "De verwerkingsnode om te controleren."
+        },
+        "Outputs": {
+          "1": "Is aan het verwerken op node",
+          "2": "Is niet aan het verwerken op node"
+        }
+      },
+      "IsWindows": {
+        "Description": "Bepaalt of deze flow op Windows draait",
+        "Label": "Is Windows",
+        "Outputs": {
+          "1": "Draait op Windows",
+          "2": "Draait niet op Windows"
+        }
+      },
+      "ListIterator": {
+        "Description": "Itereert door alle strings in een gegeven lijst en voert die strings uit tegen een subflow.",
+        "Label": "Lijst Iterator",
+        "Fields": {
+          "Flow": "Flow",
+          "Flow-Help": "De subflow waartegen de strings moeten worden uitgevoerd.",
+          "List": "Lijst",
+          "List-Help": "Een naam van een variabele die de te itereren lijst bevat."
+        },
+        "Outputs": {
+          "1": "Lijst ge\u00FCpdatet"
+        }
+      },
+      "Log": {
+        "Description": "Logt een bericht naar het flow-logboek",
+        "Label": "Log",
+        "Fields": {
+          "LogType": "Type",
+          "Message": "Bericht"
+        },
+        "Outputs": {
+          "1": "Bericht gelogd"
+        }
+      },
+      "LogImage": {
+        "Description": "Logt een afbeelding in het logbestand",
+        "Label": "Log Afbeelding",
+        "Fields": {
+          "ImageFile": "Afbeelding",
+          "ImageFile-Help": "Het afbeeldingsbestand om te loggen"
+        },
+        "Outputs": {
+          "1": "Afbeelding is gelogd",
+          "2": "Afbeelding kon niet worden gelogd"
+        }
+      },
+      "LogVariables": {
+        "Description": "Logt alle variabelen in de flow naar het logbestand voor foutopsporing.",
+        "Label": "Log Variabelen",
+        "Fields": {
+          "Recursive": "Gedetailleerd Loggen",
+          "Recursive-Help": "Als ingeschakeld, worden complexe variabelen met al hun geneste eigenschappen in het logbestand opgenomen."
+        },
+        "Outputs": {
+          "1": "Variabelen zijn succesvol gelogd."
+        }
+      },
+      "Matches": {
+        "Description": "Vergelijkt een set waarden en matcht voorwaarden om te zien welke output moet worden aangeroepen",
+        "Label": "Matches",
+        "Fields": {
+          "MatchConditions": "",
+          "MatchConditions-Help": "De overeenkomsten om te testen welke output moet worden aangeroepen.",
+          "MatchConditionsKey": "Waarde",
+          "MatchConditionsValue": "Expressie"
+        }
+      },
+      "MatchesAll": {
+        "Description": "Vergelijkt een set waarden en controleert of aan alle voorwaarden is voldaan.",
+        "Label": "Matches All",
+        "Fields": {
+          "MatchConditions": "",
+          "MatchConditionsHelp": "De voorwaarden om te testen, waarmee wordt bepaald welke output moet worden aangeroepen.",
+          "MatchConditionsKey": "Waarde",
+          "MatchConditionsValue": "Expressie"
+        },
+        "Outputs": {
+          "1": "Alle voorwaarden komen overeen",
+          "2": "Niet alle voorwaarden komen overeen"
+        }
+      },
+      "MoveFile": {
+        "Description": "Verplaatst een bestand naar de bestemmingsmap",
+        "Label": "Verplaats bestand",
+        "Fields": {
+          "AdditionalFiles": "Aanvullende Bestanden",
+          "AdditionalFiles-Help": "Aanvullende bestanden die van de directory naar de nieuwe directory moeten worden verplaatst.\nElk waarde kan een combinatie van een geldig letterlijk pad en wildcard (* en ?) bevatten, maar ondersteunt geen reguliere expressies.",
+          "AdditionalFilesFromOriginal": "Oorspronkelijke Directory",
+          "AdditionalFilesFromOriginal-Help": "Of de aanvullende bestanden vanuit de werkdirectory of de oorspronkelijke directory moeten worden verplaatst. Zet aan voor de oorspronkelijke directory.",
+          "DeleteOriginal": "Verwijder Origineel",
+          "DeleteOriginal-Help": "Als het oorspronkelijke bestand moet worden verwijderd, gebeurt dit alleen als het werkbestand anders is dan het oorspronkelijke bestand.",
+          "DestinationFile": "Bestemming Bestand",
+          "DestinationFile-Help": "De bestandsnaam waar het bestand naartoe moet worden verplaatst. Als leeg, wordt de originele bestandsnaam gebruikt.",
+          "DestinationPath": "Bestemmingsmap",
+          "DestinationPath-Help": "De map waar het bestand naartoe zal worden verplaatst.",
+          "InputFile": "Te Verplaatsen Bestand",
+          "InputFile-Help": "Het bestand dat verplaatst moet worden; als dit leeg is, wordt het werkbestand verplaatst.",
+          "InputFile-Placeholder": "Werkbestand",
+          "MoveFolder": "Kopieer Map",
+          "MoveFolder-Help": "Of de relatieve bibliotheekmapstructuur ook gekopieerd moet worden.",
+          "PreserverOriginalDates": "Bewaar Datums",
+          "PreserverOriginalDates-Help": "Of de oorspronkelijke aanmaaktijd en laatste schrijftijd van het originele invoerbestand moeten worden bewaard."
+        },
+        "Outputs": {
+          "1": "Bestand verplaatst",
+          "2": "Bestand verplaatst, maar het oorspronkelijke bestand kon niet worden verwijderd"
+        }
+      },
+      "MoveFolder": {
+        "Description": "Verplaatst een map",
+        "Label": "Verplaats map",
+        "Fields": {
+          "CreateSubfolder": "Maak Submap",
+          "CreateSubfolder-Help": "Of er een submap met de naam van de bronmap in de bestemmingsmap moet worden gemaakt.",
+          "DestinationPath": "Bestemming",
+          "DestinationPath-Help": "De bestemmingsmap waar de bronmap naartoe moet worden verplaatst.",
+          "SourcePath": "Bron",
+          "SourcePath-Help": "De map die verplaatst moet worden; als leeg gelaten, wordt het werkbestand gebruikt. Als dit geen map is, zal het flow-element falen."
+        },
+        "Outputs": {
+          "1": "Map verplaatst"
+        }
+      },
+      "OlderThan": {
+        "Description": "Controleert of een map ouder is dan het opgegeven bereik",
+        "Label": "Ouder dan",
+        "Fields": {
+          "Date": "Datum",
+          "Number": "Nummer",
+          "Unit": "Eenheid"
+        },
+        "Outputs": {
+          "1": "Bestand is ouder",
+          "2": "Bestand is niet ouder"
+        }
+      },
+      "OriginalFile": {
+        "Description": "Stelt het huidige werkbestand in de flow in op het oorspronkelijke bestand dat de flow heeft gestart",
+        "Label": "Origineel bestand",
+        "Outputs": {
+          "1": "Werkbestand ingesteld op origineel bestand"
+        }
+      },
+      "PatternMatch": {
+        "Description": "Test het werkbestand en het oorspronkelijke bestand tegen een reguliere expressie.\n\nOutput 1: Komt overeen met de expressie\nOutput 2: Komt niet overeen",
+        "Label": "Patroonmatch",
+        "Fields": {
+          "Pattern": "Patroon",
+          "Pattern-Help": "Een reguliere expressie, volgens de C# specificatie voor reguliere expressies."
+        },
+        "Outputs": {
+          "1": "Komt overeen met de expressie",
+          "2": "Komt NIET overeen"
+        }
+      },
+      "PatternReplacer": {
+        "Description": "Stelt je in staat om vervangingen in de bestandsnaam te maken. Kan reguliere expressies gebruiken voor vervangingen, of eenvoudige stringvervangingen.\n\nOutput 1: Vervangingen voltooid\nOutput 2: Geen vervangingen gedaan",
+        "Label": "Bestandsnaam Patroon Vervanger",
+        "Fields": {
+          "Replacements": "Vervangingen",
+          "ReplacementsKey": "Patroon",
+          "ReplacementsValue": "Waarde",
+          "UseWorkingFileName": "Gebruik Werkbestandsnaam",
+          "UseWorkingFileName-Help": "Of de huidige werkbestandsnaam moet worden gebruikt, of als dit onwaar is, de originele bestandsnaam van het binnenkomende bestand zal worden gebruikt."
+        },
+        "Outputs": {
+          "1": "Vervangingen voltooid",
+          "2": "Geen vervangingen gedaan"
+        }
+      },
+      "PowerShellScript": {
+        "Description": "Stelt je in staat om een PowerShell (.ps1) script uit te voeren in een Windows-omgeving.",
+        "Label": "PowerShell Script (.ps1)",
+        "Fields": {
+          "Code": "Code"
+        },
+        "Outputs": {
+          "1": "Teruggegeven 1",
+          "10": "Teruggegeven 10",
+          "2": "Teruggegeven 2",
+          "3": "Teruggegeven 3",
+          "4": "Teruggegeven 4",
+          "5": "Teruggegeven 5",
+          "6": "Teruggegeven 6",
+          "7": "Teruggegeven 7",
+          "8": "Teruggegeven 8",
+          "9": "Teruggegeven 9"
+        }
+      },
+      "Random": {
+        "Description": "Kies een willekeurige output",
+        "Label": "Willekeurig",
+        "Fields": {
+          "Outputs": "Outputs",
+          "Outputs-Help": "Het aantal outputs dat kan worden aangeroepen."
+        }
+      },
+      "Renamer": {
+        "Description": "Hernoemt het werkbestand.\nVariabelen kunnen worden gebruikt door \u0027{\u0027 in het patroonveld in te voeren.",
+        "Label": "Hernoemer",
+        "Fields": {
+          "CsvFile": "CSV-bestand",
+          "CsvFile-Help": "Voegt de originele naam en de hernoemde naam aan dit bestand toe. Handig als je \u0027Log Only\u0027 gebruikt om de hernoemer te testen voordat je de bestanden wijzigt.",
+          "DestinationPath": "Bestemmingmap",
+          "DestinationPath-Help": "Of het bestand naar een andere map moet worden verplaatst.",
+          "LogOnly": "Alleen Log",
+          "LogOnly-Help": "Zet aan als je alleen dit flow-element wilt testen zonder het bestand daadwerkelijk te hernoemen",
+          "Pattern": "Nieuwe Naam",
+          "Pattern-Help": "De nieuwe naam van het bestand. Kan variabelen gebruiken. Alle lege () en \u0027{}\u0027 worden verwijderd."
+        },
+        "Outputs": {
+          "1": "Bestand hernoemd"
+        }
+      },
+      "ReplaceOriginal": {
+        "Description": "Vervangt het originele bestand met het werkbestand.\n\nAls de bestandsextensie van het werkbestand anders is, wordt het originele bestand verwijderd en wordt het werkbestand verplaatst naar het originele bestand met de nieuwe extensie.\nBijvoorbeeld, van File.avi naar File.mkv",
+        "Label": "Vervang origineel",
+        "Fields": {
+          "PreserverOriginalDates": "Bewaar Data",
+          "PreserverOriginalDates-Help": "Of de originele aanmaakdatum en de laatste wijzigingsdatum van het invoerbestand behouden moeten blijven."
+        },
+        "Outputs": {
+          "1": "Origineel bestand vervangen"
+        }
+      },
+      "Reprocess": {
+        "Description": "Dit stroomelement maakt het mogelijk om het originele bibliotheekbestand opnieuw te verwerken met een andere verwerkingsnode.\n\nAls dezelfde verwerkingsnode wordt geselecteerd als die momenteel in verwerking is, zal de stroom mislukken.",
+        "Label": "Herproces",
+        "Fields": {
+          "HoldMinutes": "Vasthoud Minuten",
+          "HoldMinutes-Help": "Het aantal minuten om het bestand vast te houden voordat het opnieuw wordt verwerkt. Gebruik 0 om onmiddellijk te verwerken.",
+          "Node": "Node",
+          "Node-Help": "De verwerkingsnode voor het verwerken van dit bestand."
+        }
+      },
+      "SetVariable": {
+        "Description": "Stelt een variabele in binnen de stroom.",
+        "Label": "Stel Variabele In",
+        "Fields": {
+          "Value": "Waarde",
+          "Value-Help": "De waarde van de in te stellen variabele.",
+          "Variable": "Variabele",
+          "Variable-Help": "De naam van de in te stellen variabele"
+        },
+        "Outputs": {
+          "1": "Variabele ingesteld"
+        }
+      },
+      "SetWorkingFile": {
+        "Description": "Werk het huidige werkbestand bij met het opgegeven bestand.",
+        "Label": "Stel Werkbestand In",
+        "Fields": {
+          "DontDeletePrevious": "Verwijder Vorige Niet",
+          "DontDeletePrevious-Help": "Als het vorige *tijdelijke* werkbestand *niet* verwijderd moet worden.\nAlleen tijdelijke bestanden zullen worden verwijderd, bestanden die door FileFlows zijn gemaakt in de tijdelijke map van de uitvoerders.",
+          "File": "Bestand",
+          "File-Description": "Het pad naar het nieuwe werkbestand of map."
+        },
+        "Outputs": {
+          "1": "Werkbestand ingesteld"
+        }
+      },
+      "SevenZip": {
+        "Description": "Maakt het mogelijk om de invoer te comprimeren in 7zip-indeling.",
+        "Label": "7-Zip",
+        "Fields": {
+          "CompressionLevel": "Compressieniveau",
+          "CompressionLevel-Help": "Het compressieniveau dat moet worden gebruikt tijdens het comprimeren.",
+          "CompressionMethod": "Compressiemethode",
+          "CompressionMethod-Help": "De gebruikte compressiemethode; LZMA2 wordt aanbevolen.",
+          "DestinationFile": "Bestemming Bestand",
+          "DestinationFile-Help": "De naam van het nieuwe 7zip-bestand. Als dit leeg wordt gelaten, wordt de naam van het element gebruikt als 7zip-bestand.",
+          "DestinationPath": "Bestemming Pad",
+          "DestinationPath-Help": "De bestemmingsmap waarin het 7zip-bestand moet worden geplaatst. Als dit leeg is, wordt de 7zip in de hoofdmap van de bibliotheek geplaatst."
+        },
+        "Outputs": {
+          "1": "7zip aangemaakt"
+        }
+      },
+      "ShellScript": {
+        "Description": "Staat je toe om een shell (.sh) script uit te voeren in een Unix-achtige omgeving.",
+        "Label": "Shell Script (.sh)",
+        "Fields": {
+          "Code": "Code"
+        },
+        "Outputs": {
+          "1": "teruggegeven 1",
+          "10": "teruggegeven 10",
+          "2": "teruggegeven 2",
+          "3": "teruggegeven 3",
+          "4": "teruggegeven 4",
+          "5": "teruggegeven 5",
+          "6": "teruggegeven 6",
+          "7": "teruggegeven 7",
+          "8": "teruggegeven 8",
+          "9": "teruggegeven 9"
+        }
+      },
+      "Sleep": {
+        "Description": "Pauzeert de stroom",
+        "Label": "Slaap",
+        "Fields": {
+          "Milliseconds": "Milliseconden",
+          "Milliseconds-Help": "Hoe lang de stroom moet pauzeren. Moet tussen 1 milliseconde en 1 uur liggen."
+        },
+        "Outputs": {
+          "1": "Stroom hervat"
+        }
+      },
+      "Tag": {
+        "Description": "Tagt het bestand met de opgegeven tags",
+        "Label": "Tag",
+        "Fields": {
+          "Replace": "Vervangen",
+          "Replace-Help": "Of de tags vervangen of toegevoegd moeten worden aan de bestaande tags.",
+          "Tags": "Tags"
+        }
+      },
+      "Touch": {
+        "Description": "Raakt een bestand of map aan en stelt de laatste schrijftijd in op nu.",
+        "Label": "Aanraken",
+        "Fields": {
+          "FileName": "Bestandsnaam",
+          "FileName-Help": "Volledige bestandsnaam van het bestand of de map om aan te raken.\nAls leeg gelaten, wordt het werkbestand gebruikt."
+        },
+        "Outputs": {
+          "1": "Item met succes aangeraakt"
+        }
+      },
+      "Unpack": {
+        "Description": "Staat je toe om een archief (zip, rar, tar, enz.) uit te pakken.",
+        "Label": "Uitpakken",
+        "Fields": {
+          "DestinationPath": "Bestemmingsmap",
+          "DestinationPath-Help": "De bestemmingsmap waar het bestand moet worden uitgepakt.",
+          "File": "Bestand",
+          "File-Help": "De naam van het bestand dat moet worden uitgepakt. Kan leeg gelaten worden en in dat geval wordt het huidige werkbestand gebruikt."
+        },
+        "Outputs": {
+          "1": "Bestand uitgepakt"
+        }
+      },
+      "VariableMatch": {
+        "Description": "Test of een invoer overeenkomt met een opgeslagen Variabele.",
+        "Label": "Variabele Match",
+        "Fields": {
+          "Input": "Waarde",
+          "Input-Help": "De waarde waarmee de variabele moet worden vergeleken.",
+          "Variable": "Variabele",
+          "Variable-Help": "De variabele waarmee moet worden vergeleken",
+          "VariableName": "Variabele",
+          "VariableName-Help": "De variabele waarmee moet worden vergeleken"
+        },
+        "Outputs": {
+          "1": "Invoer komt overeen met variabele",
+          "2": "Invoer komt niet overeen met variabele"
+        }
+      },
+      "WebRequest": {
+        "Description": "Staat u toe een webverzoek te verzenden",
+        "Label": "Webverzoek",
+        "Fields": {
+          "Body": "Inhoud",
+          "Body-Help": "De inhoud van het verzoek dat wordt verzonden. Variabelen kunnen in dit veld worden gebruikt.",
+          "ContentType": "Content Type",
+          "ContentType-Help": "Het content-type van het bericht om te verzenden",
+          "Headers": "Headers",
+          "Headers-Help": "Optionele headers om mee te sturen met het verzoek",
+          "HeadersKey": "Sleutel",
+          "HeadersValue": "Waarde",
+          "Method": "Methode",
+          "Method-Help": "De webmethode die gebruikt wordt voor het verzenden van dit verzoek",
+          "Url": "URL",
+          "Url-Help": "De URL van het verzoek",
+          "ResponseVariable": "Antwoordvariabele",
+          "ResponseVariable-Help": "De naam van de variabele waarin de JSON-antwoorden worden opgeslagen. Als de reactie geen geldig JSON is, wordt deze variabele niet ingesteld."
+        },
+        "Outputs": {
+          "1": "Succesvol verzonden",
+          "2": "Verzoek retourneerde een niet-succesvolle statuscode"
+        }
+      },
+      "WriteText": {
+        "Description": "Schrijft tekst naar een bestand",
+        "Label": "Schrijf tekst",
+        "Fields": {
+          "File": "Bestand",
+          "File-Help": "Het bestand waar de tekst naartoe moet worden geschreven.",
+          "Text": "Tekst",
+          "Text-Help": "De tekst die in het bestand moet worden geschreven. Als dit leeg wordt gelaten, wordt het volledige pad van het huidige werkbestand geschreven."
+        },
+        "Outputs": {
+          "1": "Tekst naar bestand geschreven"
+        }
+      },
+      "Zip": {
+        "Description": "Stelt je in staat om de invoer te zippen",
+        "Label": "Zip",
+        "Fields": {
+          "DestinationFile": "Bestand van bestemming",
+          "DestinationFile-Help": "De bestandsnaam van de nieuw aangemaakte zip. Als dit leeg is, wordt de naam van het item als zip-bestand gebruikt.",
+          "DestinationPath": "Bestemmingsmap",
+          "DestinationPath-Help": "De bestemmingsmap waar het zip-bestand moet worden geplaatst. Als dit leeg is, wordt de zip in de hoofdmap geplaatst.",
+          "Path": "Pad",
+          "Path-Help": "Het pad naar het bestand of de map om te zippen. Als dit leeg is, wordt het werkbestand gecomprimeerd.",
+          "SetWorkingFile": "Stel werkbestand in",
+          "SetWorkingFile-Help": "Of de nieuw aangemaakte zip het nieuwe werkbestand moet worden."
+        },
+        "Outputs": {
+          "1": "Zip aangemaakt"
+        }
+      },
+      "AutoCropImage": {
+        "Description": "Snijdt automatisch een afbeelding bij",
+        "Label": "Automatisch bijsnijden van afbeelding",
+        "Fields": {
+          "Format": "Formaat",
+          "Format-Help": "Het afbeeldingsformaat om naar te converteren",
+          "Threshold": "Drempel",
+          "Threshold-Help": "Drempel voor entropische dichtheid, standaard is 50. Moet tussen 0 en 100 liggen."
+        },
+        "Outputs": {
+          "1": "Afbeelding bijgesneden, opgeslagen in een nieuw tijdelijk bestand",
+          "2": "Afbeelding is niet bijgesneden"
+        }
+      },
+      "ImageFile": {
+        "Description": "Een afbeeldingsbestand",
+        "Label": "Afbeeldingsbestand",
+        "Outputs": {
+          "1": "Afbeeldingsbestand"
+        }
+      },
+      "ImageFlip": {
+        "Description": "Draait een afbeelding om",
+        "Label": "Afbeelding omdraaien",
+        "Fields": {
+          "Format": "Formaat",
+          "Format-Help": "Het afbeeldingsformaat om naar te converteren",
+          "Vertical": "Verticaal",
+          "Vertical-Help": "Als ingesteld, wordt de afbeelding verticaal omgedraaid, anders horizontaal"
+        },
+        "Outputs": {
+          "1": "Afbeelding omgedraaid, opgeslagen in een nieuw tijdelijk bestand"
+        }
+      },
+      "ImageFormat": {
+        "Description": "Converteert een afbeelding naar het opgegeven formaat",
+        "Label": "Afbeelding converteren",
+        "Fields": {
+          "Format": "Formaat",
+          "Format-Help": "Het afbeeldingsformaat om naar te converteren"
+        },
+        "Outputs": {
+          "1": "Afbeelding geconverteerd, opgeslagen in een nieuw tijdelijk bestand",
+          "2": "Afbeelding is al in het doelformaat"
+        }
+      },
+      "ImageIsLandscape": {
+        "Description": "Test of een afbeelding liggend is",
+        "Label": "Afbeelding is liggend",
+        "Outputs": {
+          "1": "Afbeelding is liggend",
+          "2": "Afbeelding is niet liggend"
+        }
+      },
+      "ImageIsPortrait": {
+        "Description": "Test of een afbeelding staand is",
+        "Label": "Afbeelding is staand",
+        "Outputs": {
+          "1": "Afbeelding is staand",
+          "2": "Afbeelding is niet staand"
+        }
+      },
+      "ImageResizer": {
+        "Description": "Wijzigt de grootte van een afbeelding",
+        "Label": "Afbeelding resizen",
+        "Fields": {
+          "Format": "Formaat",
+          "Format-Help": "Het afbeeldingsformaat om naar te converteren",
+          "Height": "Hoogte",
+          "Mode": "Modus",
+          "Mode-Help": "De modus die gebruikt moet worden bij het wijzigen van de afbeelding",
+          "Width": "Breedte"
+        },
+        "Outputs": {
+          "1": "Afbeelding aangepast, opgeslagen in een nieuw tijdelijk bestand"
+        }
+      },
+      "ImageRotate": {
+        "Description": "Draait een afbeelding",
+        "Label": "Afbeelding draaien",
+        "Fields": {
+          "Angle": "Hoek",
+          "Angle-Help": "De rotatiehoek",
+          "Format": "Formaat",
+          "Format-Help": "Het afbeeldingsformaat om naar te converteren"
+        },
+        "Outputs": {
+          "1": "Afbeelding gedraaid, opgeslagen in een nieuw tijdelijk bestand"
+        }
+      },
+      "IsImage": {
+        "Description": "Test of een bestand een afbeeldingsbestand is.",
+        "Label": "Is afbeelding",
+        "Fields": {
+          "File": "Bestand",
+          "File-Help": "Optioneel pad naar het bestand om te controleren, als het leeg is, wordt het huidige werkbestand gecontroleerd.",
+          "File-Placeholder": "Als leeg, huidig werkbestand"
+        },
+        "Outputs": {
+          "1": "Bestand is een erkend afbeeldingsbestand",
+          "2": "Bestand is geen erkend afbeeldingsbestand"
+        }
+      },
+      "PixelCheck": {
+        "Description": "Dit stroomelement controleert of het totale aantal pixels van een afbeelding de opgegeven drempel overschrijdt.",
+        "Label": "Pixelcontrole",
+        "Fields": {
+          "Pixels": "Pixels",
+          "Pixels-Help": "Het aantal pixels dat een afbeelding moet bevatten. Dit wordt berekend door de breedte van de afbeelding te vermenigvuldigen met de hoogte."
+        },
+        "Outputs": {
+          "1": "Afbeelding heeft groter of gelijk aan het aantal gespecificeerde pixels",
+          "2": "Afbeelding heeft minder pixels dan het vereiste aantal gespecificeerde pixels"
+        }
+      },
+      "AudioToVideo": {
+        "Description": "Converteert een audiobestand naar een videobestand en genereert een video op basis van de audio.",
+        "Label": "Audio naar Video",
+        "Fields": {
+          "Codec": "Codec",
+          "Color": "Kleur",
+          "Color-Help": "Optionele kleurcode #RRGGBB voor het gebruik van de geluidsgolven, moet in het formaat #RRGGBB zijn, bijvoorbeeld #FF0090",
+          "Container": "Container",
+          "HardwareEncoding": "Hardware Codering",
+          "HardwareEncoding-Help": "Wanneer aangevinkt, wordt getest of hardware-encoders zijn gevonden op de Verwerkingsnode, en als ze zijn gevonden, wordt hardwarecodering gebruikt; anders valt het terug op CPU-codering.",
+          "Resolution": "Resolutie",
+          "Visualization": "Visualisatie",
+          "Visualization-Help": "De visualisatie die moet worden gebruikt in de gegenereerde video. Zie Help voor voorbeelden."
+        }
+      },
+      "CanUseHardwareEncoding": {
+        "Description": "Controleert of de opgegeven hardware-encoder momenteel beschikbaar is voor de Flow.",
+        "Label": "Kan Hardware Codering Gebruiken",
+        "Fields": {
+          "Encoder": "Encoder",
+          "Encoder-Help": "De hardware-decoder om te controleren."
+        }
+      },
+      "ComskipRemoveAds": {
+        "Description": "Gebruik een comskip EDL-bestand en verwijdert reclames met dat bestand.",
+        "Label": "Comskip: Verwijder Reclames",
+        "Fields": {
+          "RunComskipIfNoEdl": "Voer Comskip uit",
+          "RunComskipIfNoEdl-Help": "Voer comskip uit tegen het bestand als er geen comskip (EDL) bestand wordt gevonden."
+        },
+        "Outputs": {
+          "1": "Reclames verwijderd, opgeslagen in tijdelijk bestand",
+          "2": "Geen reclames gedetecteerd"
+        }
+      },
+      "CreateThumbnail": {
+        "Description": "Maakt een miniatuurafbeelding van een videobestand.",
+        "Label": "Miniatuur maken",
+        "Fields": {
+          "Height": "Hoogte",
+          "Height-Help": "De hoogte van de miniatuurafbeelding.",
+          "OutputFile": "Uitvoerbestand",
+          "OutputFile-Help": "Het pad waar de miniatuurafbeelding wordt opgeslagen. Als dit veld leeg is, wordt er een .jpg-bestand gemaakt in dezelfde locatie als het originele bestand.",
+          "ResizeMode": "Modus",
+          "ResizeMode-Help": "De modus die gebruikt wordt bij het schalen van de afbeelding.",
+          "SkipBlackFrames": "Zwarte frames overslaan",
+          "SkipBlackFrames-Help": "Indien aangevinkt, wordt een ander frame gebruikt wanneer een zwart frame wordt gedetecteerd.",
+          "Time": "Tijd",
+          "Time-Help": "De tijd in de video waar de miniatuur van wordt gemaakt.",
+          "Width": "Breedte",
+          "Width-Help": "De breedte van de miniatuurafbeelding."
+        },
+        "Outputs": {
+          "1": "Miniatuur gemaakt.",
+          "2": "Mislukt om miniatuur te maken."
+        }
+      },
+      "DisableAmd": {
+        "Description": "Deactiveert de AMD AMF hardware-encoder",
+        "Label": "Deactiveer AMD",
+        "Outputs": {
+          "1": "Deactiveren"
+        }
+      },
+      "DisableIntelQsv": {
+        "Description": "Deactiveert de Intel QSV hardware-encoder",
+        "Label": "Deactiveer Intel QSV",
+        "Outputs": {
+          "1": "Deactiveren"
+        }
+      },
+      "DisableNvidia": {
+        "Description": "Deactiveert de NVIDIA hardware-encoder",
+        "Label": "Deactiveer NVIDIA",
+        "Outputs": {
+          "1": "Deactiveren"
+        }
+      },
+      "DisableVaapi": {
+        "Description": "Deactiveert de VAAPI hardware-encoder",
+        "Label": "Deactiveer VAAPI",
+        "Outputs": {
+          "1": "Deactiveren"
+        }
+      },
+      "FfmpegBuilderAddInputFile": {
+        "Label": "FFMPEG Builder: Voeg Invoerbestand Toe",
+        "Fields": {
+          "Pattern": "Patroon",
+          "Pattern-Help": "Een reguliere expressie die wordt gebruikt om invoerbestanden te zoeken",
+          "UseSourceDirectory": "Gebruik Brondirectory",
+          "UseSourceDirectory-Help": "Als aangevinkt, wordt de originele brondirectory doorzocht, anders wordt de werkdirectory gebruikt."
+        },
+        "Outputs": {
+          "1": "Bestand gevonden en toegevoegd",
+          "2": "Geen bestand gevonden"
+        }
+      },
+      "FfmpegBuilderAspectRatio": {
+        "Label": "FFMPEG Builder: Beeldverhouding",
+        "Fields": {
+          "AdjustmentMode": "Aanpassingsmodus",
+          "AdjustmentMode-Help": "Kies hoe de beeldverhouding moet worden afgedwongen. Opties zijn onder andere het uitrekken van de video, het toevoegen van zwarte balken (letterbox) of het bijsnijden van de video om in de beeldverhouding te passen.",
+          "AspectRatio": "Beeldverhouding",
+          "AspectRatio-Help": "Selecteer de gewenste beeldverhouding voor de video. Beschikbare opties zijn standaardbeeldverhoudingen (16:9, 4:3, 21:9) of een aangepaste verhouding.",
+          "CustomHeight": "Aangepaste Hoogte",
+          "CustomHeight-Help": "Specificeer de hoogte die moet worden gebruikt bij het selecteren van de optie voor aangepaste beeldverhouding.",
+          "CustomWidth": "Aangepaste Breedte",
+          "CustomWidth-Help": "Specificeer de breedte die moet worden gebruikt bij het selecteren van de optie voor aangepaste beeldverhouding."
+        },
+        "Outputs": {
+          "1": "Beeldverhouding is succesvol gewijzigd",
+          "2": "Video was al in de gewenste beeldverhouding"
+        }
+      },
+      "FfmpegBuilderAudioAddTrack": {
+        "Description": "Voegt een nieuwe audiotrack toe aan FFMPEG Builder die zal worden toegevoegd zodra de builder wordt uitgevoerd.",
+        "Label": "FFMPEG Builder: Audio Voeg Track Toe",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitrate van de nieuwe audiotrack",
+          "BitratePerChannel": "Bitrate Per Kanaal",
+          "BitratePerChannel-Help": "Als de opgegeven bitrate per kanaal moet zijn",
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen dat deze nieuwe audiotrack zal hebben.\nAls u meer kanalen specificeert dan de bron, zal FFMPEG het automatisch upmixen.\nAls u minder kanalen specificeert dan de bron, zal FFMPEG het automatisch downmixen.",
+          "Codec": "Codec",
+          "Codec-Help": "De codec die moet worden gebruikt om de audio te coderen",
+          "CustomTrackSelection": "Bron Track Selectie",
+          "Filter": "Filter",
+          "Filter-Help": "Geeft een aangepast filter op om toe te passen op dit nieuwe audiotrack.",
+          "Index": "Index",
+          "Index-Help": "De index waar de nieuwe audiotrack moet worden ingevoegd. 0-gebaseerd, dus om de nieuwe audiotrack als de eerste track in te voegen, stelt u dit in op 0.",
+          "Language": "Taal",
+          "Language-Help": "Optionele [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) taalcodes die moeten worden gebruikt. Probeer een audiotrack met deze taalcodes te vinden; als dat niet lukt, wordt de beste audiotrack gebruikt.",
+          "NewTitle": "Nieuwe Titel",
+          "NewTitle-Help": "Optionele titel voor de nieuw gemaakte audiotrack. Als deze leeg wordt gelaten, wordt de bron titel gebruikt.",
+          "RemoveTitle": "Verwijder Titel",
+          "RemoveTitle-Help": "Als de bron titel moet worden verwijderd en de track geen titel moet hebben.",
+          "SampleRate": "Monstersnelheid",
+          "SampleRate-Help": "De monstersnelheid die moet worden gebruikt voor de nieuwe audiotrack.",
+          "TrackSelectionOptions": "Track Selectie",
+          "TrackSelectionOptionsKey": "Eigenschap",
+          "TrackSelectionOptionsValue": "Waarde"
+        },
+        "Outputs": {
+          "1": "Audiotrack toegevoegd aan FFMPEG Builder",
+          "2": "Geen geschikte bron audiotrack gevonden om een nieuwe audiotrack van te maken"
+        }
+      },
+      "FfmpegBuilderAudioAdjustVolume": {
+        "Description": "Past het volume van audiotracks in een videobestand aan met behulp van FFMPEG",
+        "Label": "FFMPEG Builder: Audio Volume Aanpassen",
+        "Fields": {
+          "AllAudio": "Alle Audiotracks",
+          "AllAudio-Help": "Als alle audiotracks genormaliseerd moeten worden of alleen de eerste track",
+          "NotMatching": "Niet Overeenkomend",
+          "NotMatching-Help": "Als audiotracks die NIET overeenkomen met het patroon verwijderd moeten worden",
+          "Pattern": "Patroon",
+          "Pattern-Help": "Een reguliere expressie om tegen te matchen, bijvoorbeeld \u0022commentaar\u0022 om commentaartracks te verwijderen",
+          "UseLanguageCode": "Gebruik Taalcode",
+          "UseLanguageCode-Help": "Als de taalcode van de audiotrack in plaats van de titel gebruikt moet worden",
+          "VolumePercent": "Volume Percentage",
+          "VolumePercent-Help": "Het percentage van het aangepaste volume.\n100 betekent geen aanpassing\n50 betekent halve volume\n0 betekent gedempt"
+        },
+        "Outputs": {
+          "1": "Volume filter voor audiotracks toegevoegd aan FFMPEG Builder",
+          "2": "Audiotracks zijn niet aangepast"
+        }
+      },
+      "FfmpegBuilderAudioConvert": {
+        "Description": "Stelt u in staat om alle tracks die aan de parameters voldoen te converteren.",
+        "Label": "FFMPEG Builder: Audio Converteren",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitrate van de audiotrack",
+          "BitratePerChannel": "Bitrate Per Kanaal",
+          "BitratePerChannel-Help": "Als de opgegeven bitrate per kanaal moet zijn",
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen dat deze nieuwe audiotrack zal hebben.\nAls u meer kanalen opgeeft dan de bron, zal FFMPEG dit automatisch upmixen.\nAls u minder kanalen opgeeft dan de bron, zal FFMPEG dit automatisch downmixen.",
+          "Codec": "Codec",
+          "Codec-Help": "De codec die gebruikt moet worden om de audio te coderen",
+          "CustomTrackSelection": "Converteren",
+          "PcmFormat": "Formaat",
+          "PcmFormat-Help": "Het PCM-formaat dat gebruikt moet worden voor het coderen van PCM-audio.",
+          "TrackSelectionOptions": "Overeenkomend",
+          "TrackSelectionOptionsKey": "Eigenschap",
+          "TrackSelectionOptionsValue": "Waarde"
+        },
+        "Outputs": {
+          "1": "Tracks die geconverteerd moeten worden",
+          "2": "Geen tracks om te converteren"
+        }
+      },
+      "FfmpegBuilderAudioConverter": {
+        "Description": "Stelt u in staat om alle tracks die aan de parameters voldoen te converteren.",
+        "Label": "FFMPEG Builder: Audio Converter",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "Bitrate van de audiotrack",
+          "BitratePerChannel": "Bitrate Per Kanaal",
+          "BitratePerChannel-Help": "Als de opgegeven bitrate per kanaal moet zijn",
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen dat deze nieuwe audiotrack zal hebben.\nAls u meer kanalen opgeeft dan de bron, zal FFMPEG dit automatisch upmixen.\nAls u minder kanalen opgeeft dan de bron, zal FFMPEG dit automatisch downmixen.",
+          "Codec": "Codec",
+          "Codec-Help": "De codec die gebruikt moet worden om de audio te coderen",
+          "Field": "Veld",
+          "Field-Help": "Het veld om het patroon tegen te matchen. Laat het patroon leeg om alles te matchen zonder waarde.",
+          "NotMatching": "Niet Overeenkomend",
+          "NotMatching-Help": "Als audiotracks die NIET overeenkomen met het patroon moeten worden geconverteerd",
+          "Pattern": "Patroon",
+          "Pattern-Help": "Een tekenreeks of reguliere expressie om tegen te matchen, bijvoorbeeld \u0022commentaar\u0022 om exact commentaar te matchen of \u0022.*commentaar.*\u0022 om commentaar ergens in de tekenreeks te matchen",
+          "PcmFormat": "Formaat",
+          "PcmFormat-Help": "Het PCM-formaat dat gebruikt moet worden voor het coderen van PCM-audio."
+        },
+        "Outputs": {
+          "1": "Tracks die geconverteerd moeten worden",
+          "2": "Geen tracks om te converteren"
+        }
+      },
+      "FfmpegBuilderAudioNormalization": {
+        "Description": "Normaliseert alle audiotracks in een videobestand met behulp van FFMPEG\u0027s loudnorm-filter",
+        "Label": "FFMPEG Builder: Audio Normalisatie",
+        "Fields": {
+          "AllAudio": "Alle Audiotracks",
+          "AllAudio-Help": "Als alle audiotracks genormaliseerd moeten worden of alleen de eerste track",
+          "NotMatching": "Niet Overeenkomend",
+          "NotMatching-Help": "Als audiotracks die NIET overeenkomen met het patroon verwijderd moeten worden",
+          "Pattern": "Patroon",
+          "Pattern-Help": "Een reguliere expressie om tegen te matchen, bijvoorbeeld \u0022commentaar\u0022 om commentaartracks te verwijderen",
+          "TwoPass": "Twee Pass",
+          "TwoPass-Help": "Als de audiotracks twee keer moeten worden genormaliseerd. Dit verbetert de normalisatie maar verhoogt de verwerkingstijd.",
+          "UseLanguageCode": "Gebruik Taalcode",
+          "UseLanguageCode-Help": "Als de taalcode van de audiotrack in plaats van de titel gebruikt moet worden"
+        },
+        "Outputs": {
+          "1": "Audiotracks zijn genormaliseerd en toegevoegd aan FFMPEG Builder",
+          "2": "Geen audiotracks gevonden om te normaliseren"
+        }
+      },
+      "FfmpegBuilderAudioSetLanguage": {
+        "Description": "Stelt u in staat om de taal in te stellen voor alle tracks die geen taal hebben ingesteld. Als de track wel een taal heeft ingesteld, wordt deze overgeslagen.\n\nOutput 1: Tracks zijn bijgewerkt\nOutput 2: Geen tracks hoefden te worden bijgewerkt",
+        "Label": "FFMPEG Builder: Taal Instellen",
+        "Fields": {
+          "Language": "Taal",
+          "Language-Help": "De [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) taalcode die gebruikt moet worden.",
+          "StreamType": "Type",
+          "StreamType-Help": "Het type track waarvoor de taal moet worden ingesteld"
+        },
+        "Outputs": {
+          "1": "Tracks bijgewerkt in FFMPEG Builder",
+          "2": "Tracks NIET bijgewerkt"
+        }
+      },
+      "FfmpegBuilderAudioTrackRemover": {
+        "Description": "Stelt je in staat om tracks te verwijderen op basis van hun titel of taalcodes.\n\nElke titel (of taalcode als ingesteld op \u0022Gebruik Taalcode\u0022) die leeg is, zal NIET worden verwijderd, ongeacht het patroon.",
+        "Label": "FFMPEG Bouwer: Track Verwijderaar (Obsoleet)",
+        "Fields": {
+          "MatchType": "Overeenkomsten",
+          "MatchType-Help": "De waarde om tegen te matchen.",
+          "NotMatching": "Niet Overeenkomend",
+          "NotMatching-Help": "Als audiotracks die NIET overeenkomen met het patroon moeten worden verwijderd",
+          "Pattern": "Patroon",
+          "Pattern-Help": "Een reguliere expressie om tegen te matchen, bijv. \u0022commentaar\u0022 om commentaartracks te verwijderen",
+          "RemoveAll": "Verwijder Alles",
+          "RemoveAll-Help": "Verwijder alle huidige tracks uit het uitvoerbestand. Je kunt daarna \u0027Track Toevoegen\u0027 gebruiken om tracks van specifieke codecs toe te voegen",
+          "RemoveIndex": "Verwijder Index",
+          "RemoveIndex-Help": "De startindex waar de tracks van verwijderd moeten worden. Dit stelt je in staat om alle, of alle overeenkomende, tracks na de startindex te verwijderen.\nStel in op nul om alle overeenkomende parameters te verwijderen.\nStel in op 1 om de eerste track te behouden en alle na de eerste die overeenkomen met de parameters te verwijderen.",
+          "StreamType": "Type",
+          "StreamType-Help": "Het type tracks dat moet worden herschikt in de FFMPEG Bouwer",
+          "UseLanguageCode": "Gebruik Taalcode",
+          "UseLanguageCode-Help": "Of de taalcode van de track moet worden gebruikt in plaats van de titel"
+        },
+        "Outputs": {
+          "1": "Tracks ingesteld om te verwijderen",
+          "2": "Tracks NIET ingesteld om te verwijderen"
+        }
+      },
+      "FfmpegBuilderAudioTrackReorder": {
+        "Description": "Stelt je in staat om tracks in de gewenste volgorde te herschikken.\n\nVoer de talen/audiocodecs/kanalen in de volgorde in die je wilt. Alle niet vermelde zullen na de ingevoerde in hun oorspronkelijke volgorde worden geordend.\nAls er meerdere tracks zijn met dezelfde taal/codec/kanalen, worden ze eerst geordend op de volgorde waarin je ze hebt ingevoerd, daarna in hun oorspronkelijke volgorde.\n\nLet op dat de eerste track na het herschikken als de standaard track zal worden ingesteld..\n\nOutput 1: Tracks zijn herschikt\nOutput 2: Tracks hoefden niet herschikt te worden",
+        "Label": "FFMPEG Bouwer: Track Herschikking",
+        "Fields": {
+          "Channels": "Kanalen",
+          "Channels-Help": "De volgorde van audiokanalen om de audiotracks op te sorteren. Deze sortering vindt plaats voor talen.\nBijvoorbeeld \u00225.1\u0022,\u00227.1\u0022,\u00226.2\u0022,\u00222\u0022",
+          "Languages": "Talen",
+          "Languages-Help": "De volgorde van talen om de tracks op te sorteren. Deze sortering vindt plaats v\u00F3\u00F3r de codec.",
+          "OrderedTracks": "Geordende Codecs",
+          "OrderedTracks-Help": "De volgorde van codecs voor de tracks. Dit gebeurt na de talen (indien aanwezig)",
+          "StreamType": "Type",
+          "StreamType-Help": "Het type tracks dat moet worden herschikt in de FFMPEG Bouwer"
+        },
+        "Outputs": {
+          "1": "Tracks herschikt in FFMPEG Bouwer",
+          "2": "Tracks NIET herschikt"
+        }
+      },
+      "FfmpegBuilderAutoChapters": {
+        "Description": "Detecteer automatisch sc\u00E8neveranderingen in de video om hoofdstukken te genereren.",
+        "Label": "FFMPEG Bouwer: Auto Hoofdstukken",
+        "Fields": {
+          "MinimumLength": "Minimale Lengte",
+          "MinimumLength-Help": "De minimale lengte van een hoofdstuk in seconden",
+          "MinimumLength-Suffix": "seconden",
+          "Percent": "Percentage",
+          "Percent-Help": "De drempelpercentagewaarde die moet worden gebruikt voor sc\u00E8ne detectieveranderingen. Een goede waarde is 45%",
+          "Percent-Suffix": "%"
+        },
+        "Outputs": {
+          "1": "Hoofdstukken gegenereerd en toegevoegd aan FFMPEG Bouwer",
+          "2": "Geen hoofdstukken gedetecteerd of video had al hoofdstukken"
+        }
+      },
+      "FfmpegBuilderComskipChapters": {
+        "Description": "Gebruikt een comskip EDL-bestand en zal hoofdstukken cre\u00EBren op basis van dat EDL comskip-bestand.",
+        "Label": "FFMPEG Bouwer: Comskip Hoofdstukken",
+        "Fields": {
+          "RunComskipIfNoEdl": "Voer Comskip Uit",
+          "RunComskipIfNoEdl-Help": "Voer comskip uit op het bestand als er geen comskip (EDL) bestand wordt gevonden."
+        },
+        "Outputs": {
+          "1": "Commercials hoofdstukken aangemaakt, toegevoegd aan FFMPEG Bouwer",
+          "2": "Geen commercials gedetecteerd"
+        }
+      },
+      "FfmpegBuilderCropBlackBars": {
+        "Description": "FFMPEG Bouwer bijgewerkt om zwarte balken te snijden als ze worden gedetecteerd",
+        "Label": "FFMPEG Bouwer: Snijd Zwarte Balken",
+        "Fields": {
+          "CroppingThreshold": "Drempel",
+          "CroppingThreshold-Help": "Het aantal pixels dat groter moet zijn om te kunnen snijden. Bijvoorbeeld, als er slechts 5 pixels worden gedetecteerd als zwarte ruimte, beschouw je dit misschien als te klein om te snijden."
+        },
+        "Outputs": {
+          "1": "FFMPEG Bouwer bijgewerkt om zwarte balken te snijden",
+          "2": "Geen zwarte balken gedetecteerd, niet gesneden"
+        }
+      },
+      "FfmpegBuilderCustomParameters": {
+        "Description": "Stelt je in staat om aangepaste parameters toe te voegen aan de FFMPEG Bouwer voor uitvoering",
+        "Label": "FFMPEG Bouwer: Aangepaste Parameters",
+        "Fields": {
+          "ForceEncode": "Forceer Coderen",
+          "ForceEncode-Help": "Als dit de FFMPEG Bouwer Executor moet dwingen om altijd uit te voeren, zelfs als er geen wijzigingen worden gedetecteerd die normaal gesproken de executor zouden vereisen om te draaien.",
+          "Parameters": "Parameters",
+          "Parameters-Help": "De parameters die moeten worden toegevoegd aan de FFMPEG Bouwer voor uitvoering"
+        },
+        "Outputs": {
+          "1": "Parameters toegevoegd"
+        }
+      },
+      "FfmpegBuilderDefaultOriginalLanguage": {
+        "Description": "Dit flow-element zal proberen de originele taaltracks als standaard in te stellen. Het zal proberen de eerste track te vinden die overeenkomt met de oorspronkelijke taal, en die als standaard instellen.\n\nAls er geen tracks worden gevonden met de originele taal, dan worden er geen wijzigingen aangebracht.",
+        "Label": "FFMPEG Bouwer: Standaard Originele Taal",
+        "Fields": {
+          "MakeFirst": "Maak Eerste",
+          "MakeFirst-Help": "Als de originele taaltrack ook de eerste track moet worden.",
+          "StreamType": "Type",
+          "StreamType-Help": "Het type tracks dat moet worden bijgewerkt"
+        },
+        "Outputs": {
+          "1": "Tracks zijn gewijzigd",
+          "2": "Geen tracks zijn gewijzigd"
+        }
+      },
+      "FfmpegBuilderDeinterlace": {
+        "Label": "FFMPEG Bouwer: Deinterlacen",
+        "Fields": {
+          "Mode": "Modus",
+          "Mode-Help": "De deinterlacing-methode die moet worden gebruikt. Zie hulp voor meer informatie."
+        },
+        "Outputs": {
+          "1": "Deinterlace-filter toegevoegd aan videostream"
+        }
+      },
+      "FFmpegBuilderDurationStart": {
+        "Descriptions": "Dit flow-element stelt gebruikers in staat om het startpunt en de duur voor het extraheren van een segment uit een video te defini\u00EBren.",
+        "Label": "FFMPEG Bouwer: Duur/Start",
+        "Fields": {
+          "Duration": "Duur",
+          "Duration-Help": "De duur van het videobestand, als 0, zal de duur niet aanpassen.",
+          "Start": "Start",
+          "Start-Help": "Het begin van het videobestand, als 0, zal de start niet aanpassen."
+        },
+        "Outputs": {
+          "1": "Duur/Start geconfigureerd",
+          "2": "Instellen van duur/start mislukt"
+        }
+      },
+      "FfmpegBuilderExecutor": {
+        "Description": "Voert een FFMPEG Builder-opdracht uit die is gemaakt door andere FFMPEG Builder-flowelementen.",
+        "Label": "FFMPEG Builder: Executor",
+        "Fields": {
+          "HardwareDecoding": "Hardware Decoding",
+          "HardwareDecoding-Help": "Of de executor moet proberen hardwaredecodering te gebruiken. Als deze niet beschikbaar is, gaat de uitvoering gewoon door zonder hardwaredecodering ingeschakeld.",
+          "KeepModel": "Model behouden",
+          "KeepModel-Help": "Bepaalt of het FFmpeg Builder-model dat wordt gebruikt om het FFmpeg-commando op te bouwen, behouden moet blijven. Als deze optie is uitgeschakeld, wordt het model verwijderd nadat het flow-element met succes is voltooid (dwz geen fouten).",
+          "Strictness": "Striktheid",
+          "Strictness-Help": "Stelt u in staat de striktheid van FFmpeg aan te passen. Dit moet voor de meeste gebruikers op \u0027Experimenteel\u0027 blijven staan."
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder is succesvol uitgevoerd en heeft een nieuw tijdelijk bestand aangemaakt",
+          "2": "Geen wijzigingen gedetecteerd in FFMPEG Builder, bestand niet aangemaakt"
+        }
+      },
+      "FfmpegBuilderHdrToSdr": {
+        "Description": "Controleert of een videostream HDR is en als dat zo is, wordt de FFMPEG Builder bijgewerkt om deze naar SDR te converteren.",
+        "Label": "FFMPEG Builder: HDR naar SDR",
+        "Outputs": {
+          "1": "HDR-stream gedetecteerd en FFMPEG Builder bijgewerkt om te converteren",
+          "2": "Geen HDR-stream gevonden"
+        }
+      },
+      "FfmpegBuilderKeepOriginalLanguage": {
+        "Description": "Dit flowelement houdt alleen de originele taal en eventuele extra talen die de gebruiker definieert.\n\nAlle andere taalsstromen worden verwijderd/gemarkeerd voor verwijdering.",
+        "Label": "FFMPEG Builder: Behoud Originele Taal",
+        "Fields": {
+          "AdditionalLanguages": "Extra Talen",
+          "AdditionalLanguages-Help": "Een optionele lijst van extra taalcodes die behouden moeten blijven.\n\nHet wordt aanbevolen om een [ISO 639-2 taalcodes](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) te gebruiken.",
+          "FirstIfNone": "Eerste Als Geen",
+          "FirstIfNone-Help": "Wanneer ingeschakeld, zorgt dit ervoor dat er ten minste \u00E9\u00E9n spoor wordt bewaard. Als er geen sporen zijn die overeenkomen met de originele taal en geen sporen die overeenkomen met de extra talen worden gevonden, wordt het eerste spoor ongeacht bewaard.\n\nDit voorkomt problemen met geen audio meer op de video.",
+          "KeepOnlyFirst": "Behoud Alleen Eerste",
+          "KeepOnlyFirst-Help": "Wanneer ingeschakeld, wordt alleen het eerste spoor van elke taal bewaard.\n\nBijvoorbeeld, als er 2 Engelse sporen, 3 Spaanse sporen en 1 Duits spoor waren. De originele taal was Spaans, extra talen waren ingesteld op \u0060eng\u0060, dan zou het resultaat 1 Engels spoor en 1 Spaans spoor zijn, de rest zou worden verwijderd.",
+          "StreamType": "Type",
+          "StreamType-Help": "Het type sporen dat moet worden bijgewerkt",
+          "TreatEmptyAsOriginal": "Behandel Leeg Als Origineel",
+          "TreatEmptyAsOriginal-Help": "Wanneer ingeschakeld, wordt elk spoor dat geen taal heeft ingesteld, behandeld alsof het de originele taal was.\n\nBijvoorbeeld, de originele taal is Maori, en een spoor heeft geen taal ingesteld, het zal worden behandeld als Maori."
+        },
+        "Outputs": {
+          "1": "Sporen zijn gewijzigd",
+          "2": "Geen sporen zijn gewijzigd"
+        }
+      },
+      "FFmpegBuilderLanguageRemover": {
+        "Description": "Een basis flowelement dat ongewenste audio- en/of ondertitels uit een videobestand verwijdert op basis van de opgegeven talen.",
+        "Label": "FFMPEG Builder: Taalverwijderaar",
+        "Fields": {
+          "Languages": "Talen",
+          "Languages-Help": "Een lijst met talen om te verwijderen of te behouden, afhankelijk van de optie Niet Overeenkomend.",
+          "NotMatching": "Niet Overeenkomend",
+          "NotMatching-Help": "Geeft aan of audiotracks die NIET overeenkomen met de opgegeven talen, moeten worden verwijderd.",
+          "StreamType": "Type Track",
+          "StreamType-Help": "Specificeert het type tracks (audio of ondertitels) dat in de FFMPEG Builder moet worden verwijderd."
+        },
+        "Outputs": {
+          "1": "Tracks gemarkeerd voor verwijdering",
+          "2": "Tracks NIET gemarkeerd voor verwijdering"
+        }
+      },
+      "FfmpegBuilderMetadataRemover": {
+        "Description": "Verwijdert metadata uit de FFMPEG Builder, zodat de geselecteerde metadata wordt verwijderd wanneer het bestand wordt verwerkt.\n\nOpmerking: Alleen de metadata wanneer dit flowelement wordt uitgevoerd, als metadata wordt toegevoegd nadat deze knooppunt is uitgevoerd, wordt dit niet be\u00EFnvloed.",
+        "Label": "FFMPEG Builder: Metadata Verwijderaar",
+        "Fields": {
+          "Audio": "Audio",
+          "Audio-Help": "Of audiotracks deze metadata moeten verwijderen",
+          "RemoveAdditionalMetadata": "Verwijder Extra Metadata",
+          "RemoveAdditionalMetadata-Help": "Of extra metadata moet worden verwijderd. Extra metadata is niet-standaardmetadata die aan een videobestand kan zijn toegevoegd, bijvoorbeeld door iTunes.",
+          "RemoveImages": "Verwijder Afbeeldingen",
+          "RemoveImages-Help": "Of afbeeldingen die in de metadata zijn gevonden moeten worden verwijderd",
+          "RemoveLanguage": "Verwijder Taal",
+          "RemoveLanguage-Help": "Of de taal uit de sporen moet worden verwijderd",
+          "RemoveTitle": "Verwijder Titel",
+          "RemoveTitle-Help": "Of de titel uit de sporen moet worden verwijderd",
+          "Subtitle": "Ondertitel",
+          "Subtitle-Help": "Of ondertitelsporen deze metadata moeten verwijderen",
+          "Video": "Video",
+          "Video-Help": "Of videosporen deze metadata moeten verwijderen"
+        },
+        "Outputs": {
+          "1": "Metadata verwijderd uit FFMPEG Builder"
+        }
+      },
+      "FfmpegBuilderPreExecute": {
+        "Description": "Dit element stelt u in staat om aangepaste code uit te voeren net voordat de [FFmpeg Builder: Executor](https://fileflows.com/docs/plugins/video-nodes/ffmpeg-builder) FFmpeg uitvoert.\n\nDit stelt u in staat om de argumenten die aan FFmpeg worden doorgegeven te wijzigen.",
+        "Label": "FFMPEG Builder: Pre-Execute",
+        "Fields": {
+          "Code": "Code"
+        },
+        "Outputs": {
+          "1": "Pre-Execute ingesteld"
+        }
+      },
+      "FfmpegBuilderProres": {
+        "Description": "Codeert de video naar het prores-formaat.",
+        "Label": "FFMPEG Builder: Prores",
+        "Fields": {
+          "Encoder": "Encoder",
+          "Encoder-Help": "Welke FFmpeg prores-encoder moet worden gebruikt.",
+          "PixelFormat": "Pixel Formaat",
+          "Profile": "Profiel",
+          "Quality": "Kwaliteit",
+          "Quality-Help": "0 voor maximale kwaliteit, 32 voor minimale kwaliteit. 9 tot 13 zijn goede waarden om te gebruiken."
+        },
+        "Outputs": {
+          "1": "Video ingesteld om prores te gebruiken"
+        }
+      },
+      "FfmpegBuilderRemoveAttachments": {
+        "Description": "Verwijdert eventuele bijlagen uit de video, als die er zijn.",
+        "Label": "FFMPEG Builder: Verwijder Bijlagen",
+        "Outputs": {
+          "1": "FFMPEG Builder ingesteld om bijlagen te verwijderen."
+        }
+      },
+      "FfmpegBuilderRemuxToMkv": {
+        "Description": "Remuxes een videobestand in een MKV-container.",
+        "Label": "FFMPEG Builder: Remux naar MKV",
+        "Outputs": {
+          "1": "FFMPEG Builder ingesteld om te remuxen naar MKV"
+        }
+      },
+      "FfmpegBuilderRemuxToMov": {
+        "Description": "Remuxes een videobestand in een MOV-container.",
+        "Label": "FFMPEG Builder: Remux naar MOV",
+        "Outputs": {
+          "1": "FFMPEG Builder ingesteld om te remuxen naar MOV"
+        }
+      },
+      "FfmpegBuilderRemuxToMP4": {
+        "Description": "Remuxes een videobestand in een MP4-container.",
+        "Label": "FFMPEG Builder: Remux naar MP4",
+        "Fields": {
+          "UseHvc1": "Gebruik HVC1",
+          "UseHvc1-Help": "Of HVC1 moet worden gebruikt in plaats van de standaard HEV1"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder ingesteld om te remuxen naar MP4"
+        }
+      },
+      "FfmpegBuilderRemuxToMxf": {
+        "Description": "Remuxes een videobestand naar een MXF-container.",
+        "Label": "FFMPEG Builder: Remux naar MXF",
+        "Outputs": {
+          "1": "FFMPEG Builder ingesteld om te remuxen naar MXF"
+        }
+      },
+      "FfmpegBuilderRemuxToWebm": {
+        "Description": "Remuxes een videobestand naar een WEBM-container.",
+        "Label": "FFMPEG Builder: Remux naar WEBM",
+        "Outputs": {
+          "1": "FFMPEG Builder ingesteld om te remuxen naar WEBM"
+        }
+      },
+      "FfmpegBuilderScaler": {
+        "Description": "Dit stelt je in staat om een video te schalen naar de opgegeven afmetingen. Het behoudt de aspectverhouding van de video, dus als de video 1920x1000 was, zou deze schalen naar 1280x668 als je 720P selecteert.",
+        "Label": "FFMPEG Builder: Video Schaler",
+        "Fields": {
+          "Force": "Dwingen",
+          "Force-Help": "Wanneer aangevinkt, wordt de video gedwongen geschaald, zelfs als het werkbestand al in deze resolutie (of dichtbij deze resolutie) is.",
+          "OnlyIfLarger": "Alleen als Groter",
+          "OnlyIfLarger-Help": "De video wordt alleen naar deze resolutie geschaald als de video momenteel groter is dan deze resolutie.",
+          "Resolution": "Resolutie"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder schaalfilter toegevoegd",
+          "2": "Video was al in/bij de geschaalde resolutie"
+        }
+      },
+      "FfmpegBuilderSetDefaultTrack": {
+        "Description": "Stel een track in als standaard in de FFmpeg builder.",
+        "Label": "FFMPEG Builder: Stel Standaard Track In",
+        "Fields": {
+          "Index": "Index",
+          "Index-Help": "De index van de track die als standaard moet worden ingesteld, alleen gebruikt als de taal niet is gespecificeerd.",
+          "Language": "Taal",
+          "Language-Help": "Optionele [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) taalcodering.",
+          "StreamType": "Type",
+          "StreamType-Help": "Het type track dat als standaard moet worden ingesteld in de FFMPEG Builder"
+        },
+        "Outputs": {
+          "1": "Track is als standaard ingesteld",
+          "2": "Kon track niet als standaard instellen"
+        }
+      },
+      "FfmpegBuilderSetDevice": {
+        "Description": "Stelt het apparaat in dat moet worden gebruikt voor hardwarecodering/decodering als de encoder/decoder dit ondersteunt.",
+        "Label": "FFMPEG Builder: Stel Apparaat In",
+        "Fields": {
+          "Device": "Apparaat",
+          "Device-Help": "Het pad naar het apparaat, of laat leeg als er geen apparaat moet worden gespecificeerd."
+        },
+        "Outputs": {
+          "1": "Apparaat ingesteld"
+        }
+      },
+      "FfmpegBuilderSetFps": {
+        "Description": "Stel de frames per seconde (FPS) in de FFmpeg Builder",
+        "Label": "FFMPEG Builder: Stel FPS In",
+        "Fields": {
+          "Fps": "FPS",
+          "Fps-Help": "De gewenste FPS, als de input FPS en de gewenste FPS niet overeenkomen, zal FFMPEG dit omzetten, bijv. (23.976, 24, 30, 60).",
+          "OnlyIfHigher": "Alleen Als Hoger",
+          "OnlyIfHigher-Help": "Als de FPS alleen moet worden aangepast als de huidige FPS hoger is dan de huidige."
+        },
+        "Outputs": {
+          "1": "FPS bijgewerkt",
+          "2": "Geen wijzigingen nodig"
+        }
+      },
+      "FfmpegBuilderSetTrackTitles": {
+        "Description": "Stel tracktitels in op basis van een formatter in de FFmpeg builder.",
+        "Label": "FFMPEG Builder: Stel Tracktitels In",
+        "Fields": {
+          "CommentaryFormat": "Commentaar",
+          "CommentaryFormat-Help": "Hoe commentaartracks moeten worden behandeld, je kunt dezelfde formatter gebruiken als andere tracks of een andere methode gebruiken.",
+          "Format": "Indeling",
+          "Format-Help": "De formatter om te gebruiken, zie _Help_ voor meer informatie.",
+          "Separator": "Scheidingsteken",
+          "Separator-Help": "De string scheidingsteken die wordt gebruikt tussen indelingswaarden, dit is nodig om ervoor te zorgen dat er geen lege waarden worden behouden.",
+          "StreamType": "Type",
+          "StreamType-Help": "Het type track dat als standaard moet worden ingesteld in de FFMPEG Builder"
+        },
+        "Outputs": {
+          "1": "Tracktitels bijgewerkt",
+          "2": "Geen tracktitels zijn gewijzigd"
+        }
+      },
+      "FfmpegBuilderStart": {
+        "Description": "Maakt een instantie van de FFMPEG Builder die een FFMPEG-argument kan bouwen om vervolgens uit te voeren met de FFMPEG Executor.",
+        "Label": "FFMPEG Builder: Start",
+        "Outputs": {
+          "1": "FFMPEG Builder gemaakt en klaar om FFMPEG Builder flow-elementen toe te voegen"
+        }
+      },
+      "FfmpegBuilderSubtitleBurnIn": {
+        "Description": "Brandt ondertitels in het videobestand.",
+        "Label": "FFMPEG Builder: Subtitle Burn-In",
+        "Fields": {
+          "CustomTrackSelection": "Trackselectie",
+          "TrackSelectionOptions": "",
+          "TrackSelectionOptionsKey": "Eigenschap",
+          "TrackSelectionOptionsValue": "Waarde"
+        },
+        "Outputs": {
+          "1": "Ondertitel gevonden en in de video gebrand",
+          "2": "Geen ondertitel gevonden om in te branden"
+        }
+      },
+      "FfmpegBuilderSubtitleClearDefault": {
+        "Description": "Dit flow-element verwijdert de standaardvlag van ondertitels.",
+        "Label": "FFMPEG Builder: Ondertitel Verwijder Standaard",
+        "Fields": {
+          "LeaveForced": "Dwing Gedwongen",
+          "LeaveForced-Help": "Wanneer aangevinkt, zullen alle gedwongen ondertitels niet worden aangetast, ze behouden hun oorspronkelijke instelling. Dit wordt uitgevoerd voordat \u0027Stel Gedwongen Standaard\u0027 wordt uitgevoerd, dus heeft het voorrang.",
+          "SetForcedDefault": "Stel Gedwongen Standaard In",
+          "SetForcedDefault-Help": "Wanneer aangevinkt, zal de eerste ondertitel die wordt gevonden met het gedwongen veld ingesteld, als standaard worden ingesteld, alle anderen zullen hun standaardvlag worden gewist."
+        },
+        "Outputs": {
+          "1": "De standaardvlaggen van ondertitels zijn gewijzigd",
+          "2": "Aan ondertitels zijn geen wijzigingen aangebracht"
+        }
+      },
+      "FfmpegBuilderSubtitleFormatRemover": {
+        "Description": "Verwijdert ondertitels uit een videobestand indien gevonden.",
+        "Label": "FFMPEG Builder: Ondertitel Indelingsverwijderaar",
+        "Fields": {
+          "RemoveAll": "Verwijder Alle",
+          "RemoveAll-Help": "Wanneer aangevinkt, zullen alle ondertitels uit het bestand worden verwijderd, anders alleen de geselecteerde hieronder.",
+          "SubtitlesToRemove": "Te Verwijderen Ondertitels"
+        },
+        "Outputs": {
+          "1": "Ondertitels gemarkeerd voor verwijdering in FFMPEG Builder",
+          "2": "Geen ondertitels om te verwijderen"
+        }
+      },
+      "FfmpegBuilderSubtitleTrackMerge": {
+        "Label": "FFMPEG Builder: Ondertitel Track Samenvoegen",
+        "Fields": {
+          "Default": "Standaard",
+          "Default-Help": "Als de ondertitel de standaard ondertitel moet zijn",
+          "DeleteAfterwards": "Verwijder Na Samenvoegen",
+          "DeleteAfterwards-Help": "Als het ondertitelbestand moet worden verwijderd na het samenvoegen",
+          "Forced": "Gedwongen",
+          "Forced-Help": "Als de ondertitel gedwongen moet worden",
+          "Language": "Taal",
+          "Language-Help": "Optionele [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) taalcodes voor de toegevoegde ondertitel.",
+          "MatchFilename": "Bestandsnaam Matchen",
+          "MatchFilename-Help": "Wanneer aangevinkt, worden alleen ondertitels met dezelfde bestandsnaam als het invoerbestand of het werkbestand samengevoegd",
+          "Pattern": "Patroon",
+          "Pattern-Help": "Optionele reguliere expressie om bestanden mee te matchen.",
+          "Subtitles": "Ondertitels",
+          "Subtitles-Help": "Selecteer welke ondertitels moeten worden toegevoegd",
+          "Title": "Titel",
+          "Title-Help": "De titel van de ondertitel, als deze niet is ingesteld, wordt de taal als titel gebruikt indien gevonden.",
+          "UseSourceDirectory": "Gebruik Brondirectory",
+          "UseSourceDirectory-Help": "Als aangevinkt, wordt de originele brondirectory doorzocht, anders wordt de werkdirectory gebruikt."
+        },
+        "Outputs": {
+          "1": "Ondertitels gevonden en toegevoegd",
+          "2": "Geen ondertitels gevonden"
+        }
+      },
+      "FfmpegBuilderSubtitleTrackRemover": {
+        "Description": "Stelt je in staat om ondertitels te verwijderen op basis van hun titel of hun taalcodes.\n\nElke taal (of titel als ingesteld op \u0027Gebruik Titel\u0027) die leeg is, zal NIET worden verwijderd, ongeacht het patroon.",
+        "Label": "FFMPEG Builder: Ondertitel Track Verwijderaar",
+        "Fields": {
+          "NotMatching": "Niet Overeenkomend",
+          "NotMatching-Help": "Als ondertitels die NIET overeenkomen met het patroon moeten worden verwijderd",
+          "Pattern": "Patroon",
+          "Pattern-Help": "Een reguliere expressie om tegen te matchen, bijvoorbeeld \u0027eng\u0027 om Engelse tracks te verwijderen",
+          "UseLanguageCode": "Gebruik Taalcode",
+          "UseLanguageCode-Help": "Als de taalcode van de audiotrack in plaats van de titel moet worden gebruikt"
+        },
+        "Outputs": {
+          "1": "Ondertitels gemarkeerd voor verwijdering in FFMPEG Builder",
+          "2": "Geen ondertitels om te verwijderen"
+        }
+      },
+      "FfmpegBuilderTrackRemover": {
+        "Description": "Stelt je in staat om tracks te verwijderen op basis van opgegeven voorwaarden.",
+        "Label": "FFMPEG Builder: Track Verwijderaar",
+        "Fields": {
+          "CustomTrackSelection": "Verwijderen",
+          "StreamType": "Type",
+          "StreamType-Help": "Het type tracks dat moet worden herordend in de FFMPEG Builder",
+          "TrackSelectionOptions": "",
+          "TrackSelectionOptionsKey": "Eigenschap",
+          "TrackSelectionOptionsValue": "Waarde"
+        },
+        "Outputs": {
+          "1": "Tracks ingesteld om te verwijderen",
+          "2": "Tracks zijn NIET ingesteld om te verwijderen"
+        }
+      },
+      "FfmpegBuilderTrackSorter": {
+        "Description": "Dit flow-element sorteert tracks op basis van sorteeropties die door de gebruiker zijn ingesteld.",
+        "Label": "FFMPEG Builder: Track Sorteerder",
+        "Fields": {
+          "SetFirstDefault": "Stel Standaard In",
+          "SetFirstDefault-Help": "Als de eerste track als standaard moet worden ingesteld na de sortering.",
+          "Sorters": "Sorteerders",
+          "Sorters-Help": "Voeg een of meer sorteeropties toe om de tracks op te sorteren.",
+          "SortersKey": "Veld",
+          "SortersValue": "Waarde",
+          "StreamType": "Type",
+          "StreamType-Help": "Het type tracks dat moet worden bijgewerkt"
+        },
+        "Outputs": {
+          "1": "Tracks zijn gewijzigd",
+          "2": "Geen tracks zijn gewijzigd"
+        }
+      },
+      "FfmpegBuilderVideo10Bit": {
+        "Description": "Stelt FFMPEG Builder in om de videostreams in 10 Bit te coderen",
+        "Label": "FFMPEG Builder: Video 10 Bit",
+        "Outputs": {
+          "1": "FFMPEG Builder videostreams ingesteld om in 10 Bit te coderen"
+        }
+      },
+      "FfmpegBuilderVideoBitrate": {
+        "Description": "Stelt FFMPEG Builder in om de video te coderen met de gegeven bitrate",
+        "Label": "FFMPEG Builder: Video Bitrate",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Help": "De doelbitrate van de video in kilobytes",
+          "Bitrate-Suffix": "KB / %",
+          "Percent": "Procent",
+          "Percent-Help": "Wanneer geselecteerd, wordt de bitrate berekend als een percentage van de huidige bitrate."
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder videostreams bijgewerkt"
+        }
+      },
+      "FfmpegBuilderVideoBitrateEncode": {
+        "Description": "Stelt de FFMPEG Builder in om de video te coderen met eenvoudig te gebruiken presets op basis van Bitrate",
+        "Label": "FFMPEG Builder: Bitrate Coderen",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Suffix": "Kbps",
+          "Codec": "Codec",
+          "Encoder": "Encoder",
+          "Encoder-Help": "De encoder die gedwongen moet worden gebruikt. Als je een hardware-encoder opgeeft die niet beschikbaar is, zal de codering mislukken.",
+          "HardwareEncoding": "Hardware Coderen",
+          "HardwareEncoding-Help": "Wanneer aangevinkt, wordt getest of hardware-encoders worden gevonden op de Verwerkingsknoop, en als ze worden gevonden, zal hardwarecodering worden gebruikt, anders valt het terug op CPU-codering."
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder videostreams ingesteld om te coderen"
+        }
+      },
+      "FfmpegBuilderVideoCodec": {
+        "Description": "Stelt FFMPEG Builder in om de videostreams in de opgegeven codec te coderen",
+        "Label": "FFMPEG Builder: Video Codec",
+        "Fields": {
+          "DisableOtherVideoStreams": "Alleen Eerste",
+          "DisableOtherVideoStreams-Help": "Wanneer aangevinkt, als er meerdere videostreams in het bestand zijn, zal dit alle behalve de eerste videostream uit het bestand verwijderen zodra het is uitgevoerd.",
+          "Force": "Forceer Coderen",
+          "Force-Help": "Zal dwingen tot codering van de video, zelfs als deze al in de doel Video Codec staat",
+          "VideoCodec": "Video Codec",
+          "VideoCodec-Help": "De video codec waarin de video moet zijn, bijvoorbeeld hevc, h264.\nAls leeggelaten worden alle originele videotracks gekopieerd.",
+          "VideoCodecParameters": "Video Codec Parameters",
+          "VideoCodecParameters-Help": "De parameters die moeten worden gebruikt om de video te coderen, bijv. \u0027hevc_nvenc -preset hq -crf 23\u0027 om te coderen in hevc met de HQ preset, een constante bitrate van 23 en met behulp van NVIDIA-hardwareversnelling."
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder videostreams ingesteld om te coderen",
+          "2": "Video al in doelcodec, zal niet opnieuw coderen"
+        }
+      },
+      "FfmpegBuilderVideoEncode": {
+        "Description": "Stelt de FFMPEG Builder in om de video te coderen met eenvoudig te gebruiken presets",
+        "Label": "FFMPEG Builder: Video Coderen",
+        "Fields": {
+          "Codec": "Codec",
+          "Encoder": "Encoder",
+          "Encoder-Help": "De encoder die moet worden geforceerd. Als u een hardware-encoder opgeeft die niet beschikbaar is, zal de codering mislukken.",
+          "HardwareEncoding": "Hardware Coderen",
+          "HardwareEncoding-Help": "Wanneer aangevinkt, zal worden getest of hardware-encoders op de verwerkingsnode zijn gevonden, en als ze zijn gevonden, wordt hardwarecodering gebruikt, anders wordt teruggevallen op CPU-codering.",
+          "Quality": "Kwaliteit",
+          "Quality-Help": "Een logaritmische kwaliteitschaal, zodat kleine wijzigingen in deze schuifregelaar grote veranderingen in bestandsgrootte/kwaliteit veroorzaken.\nHoe lager het getal, hoe hoger de kwaliteit.\nZie Help voor meer informatie.",
+          "Quality-Suffix": "(Hogere Kwaliteit, groter bestand)",
+          "Speed": "Snelheid"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder video streams ingesteld om te coderen"
+        }
+      },
+      "FfmpegBuilderVideoMaxBitrate": {
+        "Description": "Stelt FFMPEG Builder in om de bitrate van video te beperken",
+        "Label": "FFMPEG Builder: Video Max Bitrate",
+        "Fields": {
+          "Bitrate": "Maximale Bitrate",
+          "Bitrate-Help": "De maximale bitrate van de video in kilobytes",
+          "Bitrate-Suffix": "KB"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder video streams bijgewerkt"
+        }
+      },
+      "FfmpegBuilderVideoTag": {
+        "Description": "Voegt een videotag aan het bestand toe",
+        "Label": "FFMPEG Builder: Video Tag",
+        "Fields": {
+          "Tag": "Tag",
+          "Tag-Help": "De tag die aan het videobestand moet worden toegevoegd"
+        },
+        "Outputs": {
+          "1": "FFMPEG Builder tag toegevoegd"
+        }
+      },
+      "FFmpegBuilderWatermark": {
+        "Description": "Voegt een watermerk toe aan een videobestand.",
+        "Label": "FFMPEG Builder: Watermerk",
+        "Fields": {
+          "Height": "Hoogte",
+          "Height-Help": "Stel een aangepaste hoogte van de afbeelding in, of stel in op 0 voor bronhoogte of geschaald als de breedte is ingesteld.",
+          "Image": "Afbeelding",
+          "Image-Help": "Het afbeeldingsbestand voor het watermerk, voor de beste resultaten een PNG-bestand gebruiken.",
+          "Opacity": "Ondoorzichtigheid",
+          "Opacity-Help": "Past het transparantieniveau van de overlay-afbeelding aan, vari\u00EBrend van 0 (volledig transparant) tot 100 (volledig ondoorzichtig).",
+          "Position": "Positie",
+          "Position-Help": "Waar het watermerk geplaatst moet worden",
+          "Width": "Breedte",
+          "Width-Help": "Stel een aangepaste breedte van de afbeelding in, of stel in op 0 voor bronbreedte of geschaald als de hoogte is ingesteld.",
+          "XPos": "X-Pos",
+          "XPos-Help": "De positie van het watermerk op de x-as",
+          "YPos": "Y-Pos",
+          "YPos-Help": "De positie van het watermerk op de y-as"
+        },
+        "Outputs": {
+          "1": "Watermerk toegevoegd"
+        }
+      },
+      "ReadVideoInfo": {
+        "Description": "Leest de video-informatie van het huidige werkbestand en werkt de vi-variabelen bij.",
+        "Label": "Lees Video Informatie",
+        "Outputs": {
+          "1": "Bestand was een videobestand en informatie is in de flow gelezen",
+          "2": "Bestand was geen videobestand of kon niet worden gelezen"
+        }
+      },
+      "SubtitleExtractor": {
+        "Description": "Extraheert een enkele ondertiteltrack en slaat deze op de bestemming op. Kan srt-, ass- en ssa-indeling extraheren.\nDit zal het werkbestand NIET bijwerken en zal het werkbestand hetzelfde houden als het invoerbestand.\n\nOutput 1: Ondertitels zijn ge\u00EBxtraheerd\nOutput 2: Geen ondertitels gevonden om te extraheren",
+        "Label": "Ondertitel Extractor",
+        "Fields": {
+          "ExtractAll": "Alle Extraheren",
+          "ExtractAll-Help": "Als alle overeenkomende ondertitels moeten worden ge\u00EBxtraheerd.",
+          "ExtractAsSrtAndSup": "Extraheer als SRT/SUP",
+          "ExtractAsSrtAndSup-Help": "Dwingt de ge\u00EBxtraheerde ondertitels op te slaan als .srt voor tekstondertitels en .sup voor afbeeldingsondertitels.",
+          "ForcedOnly": "Alleen Geforceerd",
+          "ForcedOnly-Help": "Als alleen geforceerde ondertitels moeten worden ge\u00EBxtraheerd.",
+          "Language": "Taal",
+          "Language-Help": "De [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) taalcodes die moeten worden gebruikt.",
+          "OnlyTextSubtitles": "Alleen Tekst Ondertitels",
+          "OnlyTextSubtitles-Help": "Als alleen tekstondertitels moeten worden ge\u00EBxtraheerd, worden alle op afbeeldingen gebaseerde ondertitels overgeslagen.",
+          "OutputFile": "Uitvoerbestand",
+          "OutputFile-Help": "Waar het uitvoerbestand moet worden opgeslagen, bijv. \u0022\u0027{folder.Orig.FullName}\\{file.Orig.FileName}.srt\u0027\u0022 om het met het originele bestand op te slaan als een srt-uitvoer.\nAls dit leeg wordt gelaten, wordt een srt-ondertitel gemaakt in dezelfde map als het originele invoerbestand.",
+          "SetWorkingFile": "Instellen als Werkbestand",
+          "SetWorkingFile-Help": "Wanneer dit is aangevinkt, als een ondertitel wordt ge\u00EBxtraheerd, wordt het werkbestand gewijzigd in deze ge\u00EBxtraheerde ondertitel. Het originele werkbestand zal NIET worden verwijderd.",
+          "Title": "Titel",
+          "Title-Help": "Optioneel, voer een titel in. Dit kan een reguliere expressie of een tekenreeks zijn die in de titel moet voorkomen om overeen te komen."
+        },
+        "Outputs": {
+          "1": "Ondertitels ge\u00EBxtraheerd",
+          "2": "Geen ondertitels ge\u00EBxtraheerd"
+        }
+      },
+      "VideoAlreadyProcessed": {
+        "Description": "Test of een videobestand al is verwerkt door FileFlows",
+        "Label": "Video Al Verwerkt",
+        "Outputs": {
+          "1": "Video is al verwerkt",
+          "2": "Video is niet verwerkt"
+        }
+      },
+      "VideoBitCheck": {
+        "Description": "Controleert of een video 8-Bit, 10-Bit, 12-Bit of onbekend is.",
+        "Label": "Video Bit Controle",
+        "Outputs": {
+          "1": "Video is 8-Bit",
+          "2": "Video is 10-Bit",
+          "3": "Video is 12-Bit",
+          "4": "Onbekend"
+        }
+      },
+      "VideoBitrateGreaterThan": {
+        "Description": "Test of de bitrate van een video groter is dan een gegeven bitrate.",
+        "Label": "Video Bitrate Groter Dan",
+        "Fields": {
+          "Bitrate": "Bitrate",
+          "Bitrate-Suffix": "KBps"
+        },
+        "Outputs": {
+          "1": "Bitrate is groter dan",
+          "2": "Bitrate is niet groter dan"
+        }
+      },
+      "VideoDuration": {
+        "Description": "Test of de duur van de video overeenkomt met de gegeven parameters.",
+        "Label": "Video Duur",
+        "Fields": {
+          "Match": "Overeenkomen",
+          "ValueHigh": " ",
+          "ValueLow": "Duur"
+        },
+        "Outputs": {
+          "1": "Videoduur komt overeen",
+          "2": "Videoduur komt niet overeen"
+        }
+      },
+      "VideoDurationCompare": {
+        "Description": "Vergelijkt de oorspronkelijke duur van een video met de uiteindelijke duur.",
+        "Label": "Video Duur Vergelijking",
+        "Fields": {
+          "AllowedDifference": "Toegestane Verschil",
+          "AllowedDifference-Help": "Het toegestane tijdsverschil tussen de oorspronkelijke duur van de video en de uiteindelijke duur."
+        },
+        "Outputs": {
+          "1": "Video is binnen het toegestane duurverschil",
+          "2": "Video is niet binnen het toegestane duurverschil"
+        }
+      },
+      "VideoExtractAudio": {
+        "Description": "Extraheert audio uit een videobestand en slaat het op in een bestand",
+        "Label": "Video Extract Audio",
+        "Fields": {
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen waar de brontrack aan moet voldoen om overeen te komen. Stel in op 0 om de kanaalovereenkomst over te slaan.",
+          "Codec": "Codec",
+          "Codec-Help": "Een reguliere expressie die wordt gebruikt om de streamcodec te testen",
+          "Language": "Taal",
+          "Language-Help": "Een reguliere expressie die wordt gebruikt om de streamtaal te testen",
+          "NotMatching": "Niet Overeenkomend",
+          "NotMatching-Help": "Als een audiotrack die NIET overeenkomt met het patroon moet worden ge\u00EBxtraheerd",
+          "OutputBitrate": "Uitvoer Bitrate",
+          "OutputBitrate-Help": "De bitrate van de ge\u00EBxtraheerde audiotrack",
+          "OutputCodec": "Uitvoer Codec",
+          "OutputCodec-Help": "De codec om de ge\u00EBxtraheerde audio in op te slaan",
+          "OutputFile": "Uitvoerbestand",
+          "OutputFile-Help": "Waar het uitvoerbestand moet worden opgeslagen, bijv. \u0022\u0027{folder.Orig.FullName}\\{file.Orig.FileName}.mp3\u0027\u0022 om het met het originele bestand op te slaan als een mp3-uitvoer.\nAls er geen extensie is ingesteld, wordt de uitvoercodec gebruikt om de extensie te bepalen.",
+          "SetWorkingFile": "Instellen als Werkbestand",
+          "SetWorkingFile-Help": "Wanneer dit is aangevinkt, zal als een ondertitel wordt ge\u00EBxtraheerd, het werkbestand worden gewijzigd in deze ge\u00EBxtraheerde ondertitel. Het originele werkbestand wordt NIET verwijderd.",
+          "Title": "Titel",
+          "Title-Help": "Een reguliere expressie die wordt gebruikt om de streamtitel te testen"
+        },
+        "Outputs": {
+          "1": "Audio ge\u00EBxtraheerd en opgeslagen in een bestand",
+          "2": "Kon geen track vinden om te extraheren"
+        }
+      },
+      "VideoFile": {
+        "Description": "Een invoervideobestand waarvan de videoinformatie is gelezen en dat kan worden verwerkt",
+        "Label": "Videobestand",
+        "Fields": {
+          "AnalyzeDuration": "Analyse Duur",
+          "AnalyzeDuration-Help": "Geef op hoeveel seconden worden geanalyseerd om de invoer te onderzoeken",
+          "AnalyzeDuration-Suffix": "seconden",
+          "ProbeSize": "Probe Grootte",
+          "ProbeSize-Help": "De probegrootte die moet worden gebruikt in FFMPEG bij uitvoering.",
+          "ProbeSize-Suffix": "MB"
+        },
+        "Outputs": {
+          "1": "Videobestand uit bibliotheek"
+        }
+      },
+      "VideoHasErrors": {
+        "Description": "Test of een videobestand fouten bevat",
+        "Label": "Video Heeft Fouten",
+        "Fields": {
+          "HardwareDecoding": "Hardware Decodering",
+          "HardwareDecoding-Help": "Of er een poging moet worden gedaan om hardware decodering te gebruiken. Als het niet beschikbaar is, wordt de uitvoering voortgezet zonder hardware decodering ingeschakeld."
+        },
+        "Outputs": {
+          "1": "Bevat een fout",
+          "2": "Geen fouten gedetecteerd"
+        }
+      },
+      "VideoHasStream": {
+        "Description": "Test of een videobestand een track bevat",
+        "Label": "Video Heeft Stream",
+        "Fields": {
+          "Channels": "Kanalen",
+          "Channels-Help": "Het aantal kanalen om op te testen. Laat leeg om deze controle te negeren",
+          "CheckDeleted": "Controleer Verwijderde",
+          "CheckDeleted-Help": "Of verwijderde tracks ook moeten worden gecontroleerd",
+          "Codec": "Codec",
+          "Codec-Help": "Een reguliere expressie die wordt gebruikt om de streamcodec te testen",
+          "Default": "Standaard",
+          "Default-Help": "Of deze stream een standaardstream moet zijn of niet.",
+          "Forced": "Verplicht",
+          "Forced-Help": "Of deze stream een verplichte stream moet zijn of niet.",
+          "Invert": "Inverteer",
+          "Invert-Help": "Invert de uitkomst, zodat het effectief wordt \u0027Video Heeft Geen Stream\u0027",
+          "Language": "Taal",
+          "Language-Help": "Een reguliere expressie die wordt gebruikt om de streamtaal te testen",
+          "Stream": "Type",
+          "Stream-Help": "Het type stream waarnaar moet worden gezocht",
+          "Title": "Titel",
+          "Title-Help": "Een reguliere expressie die wordt gebruikt om de streamtitel te testen"
+        },
+        "Outputs": {
+          "1": "Bevat de overeenkomstige track",
+          "2": "Bevat de overeenkomstige track niet"
+        }
+      },
+      "VideoIs10Bit": {
+        "Description": "Test of een videobestand 10-Bit is",
+        "Label": "Video Is 10-Bit",
+        "Outputs": {
+          "1": "Video is 10-Bit",
+          "2": "Video is geen 10-Bit"
+        }
+      },
+      "VideoIs12Bit": {
+        "Description": "Test of een videobestand 12-Bit is",
+        "Label": "Video Is 12-Bit",
+        "Outputs": {
+          "1": "Video is 12-Bit",
+          "2": "Video is geen 12-Bit"
+        }
+      },
+      "VideoIs8Bit": {
+        "Description": "Test of een videobestand 8-Bit is",
+        "Label": "Video Is 8-Bit",
+        "Outputs": {
+          "1": "Video is 8-Bit",
+          "2": "Video is geen 8-Bit"
+        }
+      },
+      "VideoIsInterlaced": {
+        "Description": "Test of een videobestand interlaced is",
+        "Label": "Video Is Interlaced",
+        "Fields": {
+          "Threshold": "Drempel",
+          "Threshold-Help": "Het percentage van frames dat als interlaced is gedetecteerd, dat de video moet hebben om als interlaced te worden beschouwd"
+        },
+        "Outputs": {
+          "1": "Video is interlaced",
+          "2": "Video is niet interlaced"
+        }
+      },
+      "VideoResolution": {
+        "Description": "Bepaalt de resolutie van een video en geeft dienovereenkomstig output.",
+        "Label": "Video Resolutie",
+        "Outputs": {
+          "1": "Video Is 4K",
+          "2": "Video is 1080p",
+          "3": "Video is 720p",
+          "4": "Video is SD"
+        }
+      },
+      "Downloader": {
+        "Description": "Downloadt de opgegeven URL",
+        "Label": "Downloader",
+        "Fields": {
+          "Url": "URL",
+          "Url-Help": "De URL om te downloaden, laat leeg om het huidige werkbestand te gebruiken. Als het huidige werkbestand geen URL is, zal dit mislukken."
+        },
+        "Outputs": {
+          "1": "URL succesvol gedownload",
+          "2": "Download van URL mislukt"
+        }
+      },
+      "HtmlImageParser": {
+        "Label": "HTML Afbeelding Parser",
+        "Fields": {
+          "Path": "Bestand",
+          "Path-Description": "Een optioneel bestand of variabele om te parseren voor afbeeldingen, indien niet opgegeven wordt het werkbestand geparseerd.",
+          "Pattern": "Patroon",
+          "Pattern-Help": "Een optionele niet-hoofdlettergevoelige reguliere expressie om de resultaten mee te matchen. Alleen resultaten die overeenkomen worden geaccepteerd.",
+          "Pattern-Placeholder": "Optioneel"
+        },
+        "Outputs": {
+          "1": "Afbeeldingen gevonden en opgeslagen in ImageUrls variabele",
+          "2": "Geen afbeeldingen gevonden"
+        }
+      },
+      "HtmlLinkParser": {
+        "Label": "HTML Link Parser",
+        "Fields": {
+          "Path": "Bestand",
+          "Path-Description": "Een optioneel bestand of variabele om te parseren voor links, indien niet opgegeven wordt het werkbestand geparseerd.",
+          "Pattern": "Patroon",
+          "Pattern-Help": "Een optionele niet-hoofdlettergevoelige reguliere expressie om de resultaten mee te matchen. Alleen resultaten die overeenkomen worden geaccepteerd.",
+          "Pattern-Placeholder": "Optioneel"
+        },
+        "Outputs": {
+          "1": "Link gevonden en opgeslagen in Links variabele",
+          "2": "Geen links gevonden"
+        }
+      },
+      "InputUrl": {
+        "Label": "Invoer URL"
+      }
+    }
+  },
+  "Plugins": {
+    "AudioNodes": {
+      "Description": "Een verzameling van audio-gerelateerde stroomelementen om te helpen bij het verwerken van audiobestanden.",
+      "Label": "Audio"
+    },
+    "BasicNodes": {
+      "Description": "Basisstroomelementen voor FileFlows. Deze plugin bevat basis- en algemene stroomelementen voor het verwerken van bestanden.\nDeze plugin is vereist om FileFlows te laten werken.",
+      "Label": "Basis"
+    },
+    "ImageNodes": {
+      "Description": "Stroomelementen voor het verwerken van afbeeldingsbestanden. Deze plugin bevat knooppunten om afbeeldingen te converteren en te manipuleren.",
+      "Label": "Afbeelding"
+    },
+    "VideoNodes": {
+      "Description": "Plugin voor het verwerken van videobestanden, inclusief maar niet beperkt tot videobestandconversie, videobestandsdetectie, opschaling, afschaling en transcodering.",
+      "Label": "Video"
+    },
+    "Web": {
+      "Description": "Plugin die webgerelateerde stromen biedt.",
+      "Label": "Web"
+    }
+  },
+  "Enums": {
+    "LogType": {
+      "Debug": "Debug",
+      "Error": "Fout",
+      "Info": "Informatie",
+      "Warning": "Waarschuwing"
+    },
+    "WatermarkPosition": {
+      "BottomLeft": "Linksonder",
+      "BottomRight": "Rechtsonder",
+      "Center": "Midden",
+      "TopLeft": "Linksboven",
+      "TopRight": "Rechtsboven"
+    }
+  },
+  "5": {
+    "1": "5.1"
+  },
+  "7": {
+    "1": "7.1"
+  },
+  "H": {
+    "264": "H.264",
+    "265": "H.265"
+  }
+}

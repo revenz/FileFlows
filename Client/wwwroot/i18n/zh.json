@@ -88,6 +88,7 @@
     "Ok": "确定",
     "Open": "打开",
     "OperatingSystem": "操作系统",
+    "OriginalLanguage": "原始语言",
     "Other": "其他",
     "Output": "输出",
     "Paste": "粘贴",
@@ -130,6 +131,7 @@
     "Search": "搜索",
     "Searching": "正在搜索",
     "Select": "选择",
+    "SelectedNum": "{num} 已选择",
     "SelectOne": "选择一个",
     "SetStatusProcessed": "标记为已处理",
     "Settings": "设置",
@@ -251,6 +253,372 @@
       "Title": "导入脚本",
       "Messages": {
         "NoMoreImports": "该脚本没有其他可用的导入"
+      }
+    },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "比特率",
+        "Bitrate-Help": "转换后音频文件的比特率。",
+        "Codec": "编解码器",
+        "Codec-Help": "用于音频转换的编解码器。",
+        "Name": "名称",
+        "Name-Help": "流程的名称，必须是唯一的。",
+        "Normalize": "标准化",
+        "Normalize-Help": "指定在处理期间是否需要标准化音频。"
+      },
+      "Pages": {
+        "General": "常规",
+        "GeneralDescription": "创建一个流程以转换音频文件。"
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "编解码器",
+        "Codec-Help": "输出视频文件的编解码器。",
+        "Container": "容器",
+        "Container-Help": "视频文件的容器格式。",
+        "Name": "名称",
+        "Name-Help": "流程的名称，必须是唯一的。",
+        "Resolution": "分辨率",
+        "Resolution-Help": "输出视频文件的分辨率。",
+        "Visualization": "可视化效果",
+        "Visualization-Help": "要在视频中显示的可视化效果。"
+      },
+      "Pages": {
+        "General": "常规",
+        "GeneralDescription": "创建一个流程以将音频转换为视频。"
+      }
+    },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "与源相同"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "删除空白页面",
+        "DeleteNonPageImages-Help": "从新漫画文件中删除空白页面。",
+        "EnsureTopDirectory": "确保顶级目录",
+        "EnsureTopDirectory-Help": "确保所有文件都直接位于漫画文件的顶级目录中，没有子目录。",
+        "Format": "图片格式",
+        "Format-Help": "保存每一页的图片格式。",
+        "Name": "名称",
+        "Name-Help": "流程的名称。必须唯一。",
+        "Quality": "质量",
+        "Quality-Help": "漫画页面的质量，1为最高压缩/最差质量，100为最佳质量。"
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "将漫画保存为CBZ（zip格式）文件。",
+        "Pdf": "PDF",
+        "PdfDescription": "将漫画保存为PDF文件。"
+      },
+      "Pages": {
+        "Format": "格式",
+        "FormatDescription": "选择保存漫画的格式。",
+        "General": "常规",
+        "GeneralDescription": "创建一个新的流程来处理漫画。"
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "清理原文件",
+        "DeleteOld-Help": "删除原文件和原文件夹（如果没有其他文件）。",
+        "Description": "描述",
+        "Description-Help": "新创建的流程的描述。",
+        "OutputPath": "输出路径",
+        "OutputPath-Help": "最终文件保存的路径。",
+        "OutputPathWindows": "输出路径（Windows）",
+        "OutputPathWindows-Help": "保存位置。可以包含网络路径，例如 \\\\我的-nas\\媒体\\输出。"
+      },
+      "Messages": {
+        "NameRequired": "名称是必需的。",
+        "OutputPathRequired": "输出路径是必需的。"
+      },
+      "Output": {
+        "ReplaceOriginal": "替换原文件",
+        "ReplaceOriginalDescription": "用转换后的文件替换原文件。",
+        "ResellerMove": "经销商移动",
+        "ResellerMoveDescription": "将文件移动到用户专用的临时文件夹以供下载。文件将在设定的时间后自动删除。",
+        "SaveToFolder": "保存到文件夹",
+        "SaveToFolderDescription": "将转换后的文件保存到新位置。"
+      },
+      "Pages": {
+        "Output": "输出",
+        "OutputDescription": "指定最终文件的保存位置。"
+      }
+    },
+    "NewFlowWizard": {
+      "Title": "新建流程向导",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "音频转视频",
+          "AudioToVideoDescription": "将音频文件转换为视频文件。",
+          "Blank": "空音频",
+          "BlankDescription": "基于音频的空流程，用于创建自定义流程以处理音频文件。",
+          "Convert": "转换音频",
+          "ConvertDescription": "创建转换音频格式的流程。"
+        },
+        "Basic": {
+          "FailureFlow": "空失败流程",
+          "FailureFlowDescription": "当流程因某种原因失败时执行的基本流程。",
+          "File": "空文件",
+          "FileDescription": "基于文件的空流程，用于创建自定义流程以处理单个文件。",
+          "Folder": "空文件夹",
+          "FolderDescription": "基于文件夹的空流程，用于创建自定义流程以处理整个文件夹。",
+          "SubFlow": "空子流程",
+          "SubFlowDescription": "基于子流程的空流程，用于创建可重用的子流程。",
+          "Url": "URL",
+          "UrlDescription": "基于URL的空流程，用于创建处理URL的流程。"
+        },
+        "Book": {
+          "Comic": "漫画",
+          "ComicDescription": "创建用于转换和操作漫画的流程，例如转换图像格式，调整图像大小等。",
+          "eBook": "电子书",
+          "eBookDescription": "创建用于转换电子书格式的流程。"
+        },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "当发生失败时，向Apprise发送详细消息。",
+          "Blank": "空白失败流程",
+          "BlankDescription": "当任何流程失败时执行的基本失败流程。",
+          "Discord": "Discord",
+          "DiscordDescription": "当发生失败时，向Discord发送详细消息。",
+          "Gotify": "Gotify",
+          "GotifyDescription": "当发生失败时，向Gotify发送详细消息。",
+          "Telegram": "Telegram",
+          "TelegramDescription": "当发生失败时，向Telegram发送详细消息。"
+        },
+        "Image": {
+          "Blank": "空图像",
+          "BlankDescription": "基于图像的空流程，用于创建自定义流程以处理图像。",
+          "Convert": "转换图像",
+          "ConvertDescription": "创建转换图像格式的流程。"
+        },
+        "Video": {
+          "AudioToVideo": "音频转视频",
+          "AudioToVideoDescription": "将音频文件转换为视频文件。",
+          "Blank": "空视频",
+          "BlankDescription": "基于视频的空流程，用于创建自定义流程以处理视频文件。",
+          "Convert": "转换视频",
+          "ConvertDescription": "一个引导向导，用于创建视频转换流程，允许操作视频、音频和字幕。"
+        }
+      },
+      "Pages": {
+        "Audio": "音频",
+        "AudioDescription": "创建处理音频文件的流程。",
+        "Basic": "基础",
+        "BasicDescription": "选择一个基础空流程来创建自定义流程。",
+        "Book": "书籍",
+        "BookDescription": "创建处理书籍的流程。",
+        "Failure": "失败",
+        "FailureDescription": "创建一个在失败时执行的流程",
+        "Image": "图像",
+        "ImageDescription": "创建处理图像文件的流程。",
+        "Users": "用户",
+        "UsersDescription": "打开现有的流",
+        "Video": "视频",
+        "VideoDescription": "创建处理视频文件的流程。"
+      }
+    },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "无损格式",
+        "LossyFormats": "有损格式"
+      },
+      "Fields": {
+        "Format": "格式",
+        "Format-Help": "保存文件的图片格式。",
+        "Height": "高度",
+        "Height-Help": "调整大小后的图片高度。",
+        "Name": "名称",
+        "Name-Help": "流程的名称。必须是唯一的。",
+        "Quality": "质量",
+        "Quality-Help": "新图片文件的质量，范围为1到100。",
+        "Resize": "调整大小",
+        "Resize-Help": "是否调整图片大小。",
+        "Width": "宽度",
+        "Width-Help": "调整大小后的图片宽度。"
+      },
+      "Pages": {
+        "General": "通用",
+        "GeneralDescription": "创建一个用于处理图片的新流程。",
+        "ResizeMode": "调整模式",
+        "ResizeModeDescription": "选择调整图片大小的模式。"
+      },
+      "Resize": {
+        "Contain": "包含",
+        "ContainDescription": "调整图片以适应指定区域，同时保持宽高比。",
+        "Cover": "覆盖",
+        "CoverDescription": "调整图片以覆盖指定的宽度/高度，裁剪多余部分。",
+        "Fill": "填充",
+        "FillDescription": "调整图片以填满指定的宽度/高度，忽略宽高比。",
+        "Max": "最大",
+        "MaxDescription": "调整图片以保持在指定的宽度/高度内，同时保持宽高比。",
+        "Min": "最小",
+        "MinDescription": "调整图片以适应指定的宽度/高度，同时保持宽高比。",
+        "Pad": "填充边距",
+        "PadDescription": "调整图片大小以匹配指定的宽度/高度，同时保持宽高比并在必要时添加边距。"
+      }
+    },
+    "NewLibraryWizard": {
+      "Title": "新库",
+      "Labels": {
+        "FileExtensions": "文件扩展名",
+        "FileExtensionsDescription": "指定在此库中要处理的文件扩展名。",
+        "FileTypes": "文件类型",
+        "FileTypesDescription": "指定要在此库中检测并处理的文件类型。",
+        "General": "常规",
+        "GeneralDescription": "输入有关此库的一般信息。",
+        "LibraryType": "类型",
+        "LibraryTypeDescription": "选择您要创建的库类型。",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "处理在指定的下载文件夹中找到的文件。每当文件在文件夹中被检测到时，就会处理这些文件。为了避免文件再次被处理，请在处理后将其移动或删除。如果文件重新出现，它将被视为新文件并重新处理。",
+            "Title": "下载"
+          },
+          "Files": {
+            "Description": "处理选定文件夹及其子文件夹中的所有单个文件。当您希望逐个处理文件（如转换视频、音频或图像格式）时，这是通常的选择。它将搜索文件夹及其所有子文件夹中的可处理文件。",
+            "Title": "文件"
+          },
+          "Folders": {
+            "Description": "处理选定文件夹的整个内容，而不查找单个文件。如果您希望处理整个文件夹（例如将文件夹中的所有文件压缩成 zip 文件或执行文件夹级操作），请选择此选项。",
+            "Title": "文件夹"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "文件扩展名",
+        "FileExtensions-Help": "为空则处理所有文件，或指定要处理的文件扩展名。",
+        "Flow": "流程",
+        "Flow-Help": "用于处理此库中项目的流程。",
+        "Name": "名称",
+        "Name-Help": "新库的名称，必须唯一。",
+        "Path": "路径",
+        "Path-Help": "指定库目录的路径。",
+        "PathWindows": "路径",
+        "PathWindows-Help": "指定库目录的路径。对于网络路径，请使用格式 \\\\我的-nas\\媒体\\电影。"
+      },
+      "FileTypes": {
+        "Audio": "音频",
+        "Audiobook": "有声书",
+        "AudiobookDescription": "处理有声书文件，如 mp3、m4b 和 aax。",
+        "AudioDescription": "处理音频文件，如 mp3、flac、wav、aac 等。",
+        "Comic": "漫画",
+        "ComicDescription": "处理漫画文件，如 cbz、cbr、cb7 和 pdf。",
+        "Custom": "自定义",
+        "CustomDescription": "手动指定要处理的文件扩展名。",
+        "eBook": "电子书",
+        "eBookDescription": "处理电子书文件，如 epub、mobi、azw3 和 pdf。",
+        "Image": "图像",
+        "ImageDescription": "处理图像文件，如 jpg、png、gif、bmp 和 tiff。",
+        "Video": "视频",
+        "VideoDescription": "处理视频文件，如 mkv、mp4、wmv、ts、mpeg 等。"
+      },
+      "Messages": {
+        "FlowRequired": "流程是必需的。",
+        "NameRequired": "库名称是必需的。",
+        "PathRequired": "库路径是必需的。"
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Labels": {
+        "Bitrate": "比特率",
+        "BitrateDescription": "使用固定的比特率对视频进行编码。这会使视频的文件大小保持一致，但如果比特率不理想，则会浪费存储空间或降低质量。",
+        "FileExtensions": "文件扩展名",
+        "FileExtensionsDescription": "指定在此库中处理的文件扩展名。",
+        "Quality": "质量",
+        "QualityDescription": "基于视频的输入使用自适应编码来实现恒定的质量水平。推荐使用此方法，它能确保视频质量一致，并且产生最小的文件。",
+        "UseOriginal": "使用未修改的原始文件",
+        "Types": {
+          "Film": "电影",
+          "FilmDescription": "处理电影并使用Meta插件查找其信息。这将有助于确定电影的原始语言。",
+          "TV": "电视",
+          "TVDescription": "处理电视节目并使用Meta插件查找其信息。这将有助于确定电视节目的原始语言。",
+          "Video": "视频",
+          "VideoDescription": "一个通用的视频文件，不会进行任何附加的元数据查找。"
+        }
+      },
+      "Fields": {
+        "AttemptHardwareEncode": "硬件编码",
+        "AttemptHardwareEncode-Help": "尝试使用硬件编码（GPU）。如果GPU编码失败，则会回退到CPU编码。",
+        "AudioChannels": "音频通道",
+        "AudioChannels-Help": "音频的通道数。将使用现有音轨来创建此音轨，并且可以进行降混，但无法升混，因此如果选择的通道数高于现有的音轨数量，则该音轨将不会被添加。",
+        "AudioCodec": "音频编解码器",
+        "AudioCodec-Help": "用于音频的编解码器",
+        "AudioLanguages": "音频语言",
+        "AudioLanguages-Help": "指定要保留的语言，并按所需顺序排列。",
+        "Bitrate": "比特率",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "转换音频",
+        "ConvertAudioDescription": "将音轨转换为指定的格式",
+        "CopyAllAudio": "复制所有音频",
+        "CopyAllAudioDescription": "按原样复制所有音频轨道，不做任何修改。",
+        "CopyOnlyLanguages": "仅复制指定语言",
+        "CopyOnlyLanguagesDescription": "仅复制以下指定的语言，所有其他语言将被移除。音频轨道将按原样复制，不做任何修改。",
+        "CropBlackBars": "裁剪黑边",
+        "CropBlackBars-Help": "FileFlows将尝试检测视频文件中的黑边，如果找到，它会裁剪这些黑边以减少文件大小，并允许播放器更改纵横比。",
+        "DefaultLanguage": "默认语言",
+        "DefaultLanguage-Help": "指定要分配给当前没有指定语言的音轨的语言。",
+        "KeepAllSubtitles": "保留所有字幕",
+        "KeepAllSubtitlesDescription": "保留原始视频中的所有字幕",
+        "KeepOnlySpecifiedSubtitles": "仅保留指定字幕",
+        "KeepOnlySpecifiedSubtitlesDescription": "仅保留指定的字幕，其余的将被删除",
+        "Name": "名称",
+        "Name-Help": "新创建的流程的名称，必须是唯一的。",
+        "Quality": "质量",
+        "Quality-Suffix": "更高质量",
+        "ReplaceOriginal": "替换原始文件",
+        "ReplaceOriginal-Help": "用新创建的视频文件替换原始视频文件。",
+        "SaveToFolder": "保存到文件夹",
+        "SaveToFolder-Help": "将新创建的文件保存到新位置",
+        "SubtitleLanguages": "字幕语言",
+        "SubtitleLanguages-Help": "指定要保留的语言，并按所需顺序排列。",
+        "TwoAudioVersions": "两个音频版本",
+        "TwoAudioVersions-Help": "如果应该创建两个版本的音频轨道。例如，如果您希望创建环绕声和立体声轨道。否则，只会创建一个版本。",
+        "VideoCodec": "视频编解码器",
+        "VideoCodec-Help": "用于视频的编解码器",
+        "VideoContainer": "视频容器",
+        "VideoContainer-Help": "使用的视频容器，建议使用MKV，因为MP4支持的字幕格式较少。",
+        "QualityLevel": {
+          "Good": "良好",
+          "High": "高",
+          "Ok": "可以",
+          "Recommended": "推荐",
+          "VeryHigh": "非常高"
+        }
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "您必须指定至少一种音频语言。",
+        "Audio2LanguageRequired": "您必须指定至少第二种音频语言。",
+        "AudioMode2LanguagesRequired": "需要音频语言。",
+        "SubtitleLanguageRequired": "需要字幕语言。"
+      },
+      "Pages": {
+        "Audio": "音频",
+        "Audio1": "转换",
+        "Audio1Description": "指定要保留的音频语言及其编码设置。",
+        "Audio2": "附加音频",
+        "Audio2Description": "定义次要音频轨道的编码设置。",
+        "AudioDescription": "指定音频轨道的处理方式。",
+        "General": "通用",
+        "GeneralDescription": "输入关于此流程的一般信息。",
+        "Output": "输出",
+        "OutputDescription": "指定保存最终文件的位置。",
+        "Subtitle": "字幕",
+        "SubtitleDescription": "选择要包含的字幕。",
+        "Type": "类型",
+        "TypeDescription": "选择将要处理的视频类型。",
+        "Video": "视频",
+        "VideoDescription": "选择用于视频流的编码方法。"
+      },
+      "Parts": {
+        "CpuFailOverEncode": "Резервная кодировка на CPU",
+        "CpuFailOverExecutor": "Исполнитель резервной кодировки на CPU",
+        "DefaultLanguage": "Язык по умолчанию ''{lang}''",
+        "PrimaryAudio": "Основной аудиотрек",
+        "RemoveUnsupportedSubtitles": "Удалить неподдерживаемые субтитры",
+        "RemoveUnwantedSubtitles": "Удалить нежелательные языки субтитров",
+        "RemuxToContainer": "Перемонтировать в {container}",
+        "SecondaryAudio": "Вторичный аудиотрек"
       }
     },
     "PauseDialog": {
@@ -755,15 +1123,12 @@
         "SubFlowHelp": "要向子流程添加输入字段以便传递自定义参数，请在 `字段` 选项卡中创建这些字段。\n\n子流程必须有一个 `输入`，可以是任何有效的输入流程元素，例如 `输入文件`、`视频文件`等。"
       },
       "Fields": {
-        "Author": "作者",
-        "Author-Help": "可选地指定此流程的作者。",
         "Description": "描述。",
-        "MinimumVersion": "最低版本",
+        "Icon": "图标",
         "Outputs": "输出",
         "Outputs-Help": "此子流程具有的输出数量。当在其他流程中使用此子流程时，这就是可用的输出数量",
         "OutputsKey": "输出",
         "OutputsValue": "描述",
-        "Tags": "标签",
         "Variables": "变量",
         "VariablesKey": "名称",
         "VariablesValue": "值",
@@ -901,6 +1266,8 @@
         "DetectFileSizeLower": "",
         "DetectFileSizeUpper": "",
         "DetectionDescription": "在这里，您可以配置一个库，以仅检测与给定模式匹配的文件。\n\n例如，这允许您仅包含以下文件\n\t- 在 7 天内创建的文件\n\t- 在 3 到 7 天之间最后写入的文件\n\t- 文件大小大于 1 GB",
+        "DisableFileSystemEvents": "文件系统事件",
+        "DisableFileSystemEvents-Help": "指定是否监控文件系统事件。如果启用，系统将监控文件创建和修改事件，检查文件是否符合库设置，并将其添加到库中进行处理。",
         "DownloadsDirectory": "下载目录",
         "DownloadsDirectory-Help": "一个特殊目录，如果在此文件夹中重新发现一个已经成功处理的文件，该文件将自动重新处理。\n这在您重新下载文件时非常有用。",
         "Enabled": "启用",
@@ -1087,7 +1454,7 @@
         "Enabled": "启用",
         "FlowRunners": "流程运行程序",
         "FlowRunners-Help": "可用于执行流程的流程运行程序实例的数量。",
-        "Icon": "自定义图标",
+        "Icon": "图标",
         "InternalProcessingNodeDescription": "这是FileFlows中的内置处理节点。\n\n此节点允许您运行FileFlows，而无需担心在远程系统上安装任何其他节点，并允许您将FileFlows用作自包含的应用程序。\n\n如果愿意，您可以继续使用此内部节点和附加处理节点，或者您可以禁用此节点，仅使用附加节点。",
         "Libraries": "库",
         "Libraries-Help": "选择此节点可以处理哪些库",
@@ -1110,6 +1477,8 @@
         "ProcessFileCheckInterval-Help": "处理节点中检查新文件的频率。\n设置为0以使用系统值。",
         "ProcessFileCheckInterval-Suffix": "秒",
         "ProcessingDescription": "这允许您配置此处理节点可以处理的内容。\n\n例如，如果此节点是低功耗节点，您可以限制此节点仅处理某些库或最大文件大小。",
+        "ProcessingOrder": "处理顺序",
+        "ProcessingOrder-Help": "指定此节点处理文件的顺序。此设置将覆盖库的默认处理顺序。设置为“默认”以使用库的处理顺序。",
         "Schedule": "计划",
         "Schedule-Help": "此计划在节点的时区运行",
         "ScheduleDescription": "这允许您配置此节点的活动时间。\n\n节点在此配置的计划之外将不会处理任何文件。\n",
@@ -1160,6 +1529,25 @@
         "Code": "代码",
         "Description": "描述",
         "Revision": "修订版"
+      }
+    },
+    "Resellers": {
+      "Flows": {
+        "Single": "代理商流程",
+        "Title": "代理商流程",
+        "Fields": {
+          "Extensions": "扩展名",
+          "Extensions-Help": "此流程允许处理的扩展名列表。",
+          "Flow": "流程",
+          "Icon": "图标",
+          "MaxFileSize": "最大文件大小",
+          "MaxFileSize-Help": "此流程允许处理的最大文件大小。",
+          "Tokens": "令牌",
+          "Tokens-Help": "用户运行此流程所需的令牌数量。"
+        }
+      },
+      "Settings": {
+        "Title": "代理商设置"
       }
     },
     "Resources": {
@@ -1263,6 +1651,8 @@
         "DelayBetweenNextFile-Suffix": "毫秒",
         "DockerModsOnServer": "服务器上的 DockerMods",
         "DockerModsOnServer-Help": "DockerMods 应在服务器启动时或特定启用时自动运行。否则，它们只会在工作流启动时执行。",
+        "DontUseTempFilesWhenMovingOrCopying": "用于移动/复制的临时文件",
+        "DontUseTempFilesWhenMovingOrCopying-Help": "使用 .fftemp 文件以避免移动/复制时被过早检测到。",
         "HideProcessingFinishedNotifications": "处理完成通知",
         "HideProcessingFinishedNotifications-Help": "当文件处理完成时，是否应该在 Web 控制台中显示通知。",
         "HideProcessingStartedNotifications": "处理开始通知",

@@ -17,6 +17,11 @@ public partial class FlowWizardPage : ComponentBase
     /// Gets or sets the icon associated with the page.
     /// </summary>
     [Parameter] public string Icon { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this is indented/a child page
+    /// </summary>
+    [Parameter] public bool Indented { get; set; }
 
     /// <summary>
     /// Gets or sets the content of the page.
@@ -60,6 +65,20 @@ public partial class FlowWizardPage : ComponentBase
         set { _Title = Translater.TranslateIfNeeded(value); }
     }
 
+    /// <summary>
+    /// Gets or sets the title of the page.
+    /// </summary>
+    [Parameter] public string TLabel
+    {
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value) == false)
+            {
+                _Title = Translater.TranslateIfNeeded(value);
+                _Description = Translater.TranslateIfNeeded(value + "Description");
+            }
+        }
+    }
     
     private string _Description;
 

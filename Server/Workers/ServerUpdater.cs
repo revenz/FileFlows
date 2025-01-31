@@ -1,17 +1,14 @@
 ﻿using System.Diagnostics;
-using FileFlows.Server.Helpers;
 using FileFlows.Shared.Formatters;
-using FileFlows.Server.Controllers;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.ServerShared.Workers;
-using FileFlows.Shared.Helpers;
 
 namespace FileFlows.Server.Workers;
 
 /// <summary>
 /// A worker that automatically updates FileFlows
 /// </summary>
-public class ServerUpdater : UpdaterWorker
+public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
 {
     private static string UpdateUrl = Globals.FileFlowsDotComUrl + "/auto-update";
 
@@ -25,6 +22,7 @@ public class ServerUpdater : UpdaterWorker
     public ServerUpdater() : base("server-upgrade", ScheduleType.Daily, 4) 
     {
         Instance = this;
+        ServiceLoader.AddSpecialCase<IOnlineUpdateService>(this);
     }
 
     /// <inheritdoc />
@@ -40,7 +38,7 @@ public class ServerUpdater : UpdaterWorker
     /// Pre-check to run before executing
     /// </summary>
     /// <returns>if false, no update will be checked for</returns>
-    protected override bool PreCheck() => LicenseHelper.IsLicensed(LicenseFlags.AutoUpdates);
+    protected override bool PreCheck() => LicenseService.IsLicensed(LicenseFlags.AutoUpdates);
 
     /// <inheritdoc />
     protected override void PreUpgradeArgumentsAdd(ProcessStartInfo startInfo)
@@ -111,7 +109,8 @@ public class ServerUpdater : UpdaterWorker
     /// <returns>if an update can run now</returns>
     protected override bool CanUpdate()
     {
-        var workers = new WorkerController(null).GetAll().Result;
+        var service = ServiceLoader.Load<FlowRunnerService>();
+        var workers = service.GetExecutors()?.Result;
         return workers?.Any() != true;
     }
 
@@ -129,8 +128,11 @@ public class ServerUpdater : UpdaterWorker
     /// <param name="updateScript">a script to run</param>
     protected override void PreRunUpdateScript(string updateScript)
     {
-        if(DownloadedVersion != null)
-            SystemEvents.TriggerServerUpdating(DownloadedVersion.ToString());
+        if (DownloadedVersion != null)
+        {
+            var service = ServiceLoader.Load<ISystemEventsService>();
+            service.TriggerServerUpdating(DownloadedVersion.ToString());
+        }
     }
 
     /// <summary>
@@ -144,7 +146,8 @@ public class ServerUpdater : UpdaterWorker
         {
             if (NotifiedUpdateVersion != result.onlineVersion)
             {
-                SystemEvents.TriggerServerUpdateAvailable(result.onlineVersion.ToString());
+                var service = ServiceLoader.Load<ISystemEventsService>();
+                service.TriggerServerUpdateAvailable(result.onlineVersion.ToString());
                 NotifiedUpdateVersion = result.onlineVersion;
             }
         }

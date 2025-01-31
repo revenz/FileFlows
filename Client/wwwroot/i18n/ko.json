@@ -88,6 +88,7 @@
     "Ok": "확인",
     "Open": "열기",
     "OperatingSystem": "운영 체제",
+    "OriginalLanguage": "원본 언어",
     "Other": "기타",
     "Output": "출력",
     "Paste": "붙여넣기",
@@ -130,6 +131,7 @@
     "Search": "검색",
     "Searching": "검색 중",
     "Select": "선택",
+    "SelectedNum": "{num} 선택됨",
     "SelectOne": "하나 선택",
     "SetStatusProcessed": "처리됨으로 표시",
     "Settings": "설정",
@@ -251,6 +253,372 @@
       "Title": "스크립트 가져오기",
       "Messages": {
         "NoMoreImports": "이 스크립트에는 더 이상 가져올 항목이 없습니다"
+      }
+    },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "비트레이트",
+        "Bitrate-Help": "변환된 오디오 파일의 비트레이트입니다.",
+        "Codec": "코덱",
+        "Codec-Help": "오디오 변환에 사용할 코덱입니다.",
+        "Name": "이름",
+        "Name-Help": "플로우의 이름입니다. 고유해야 합니다.",
+        "Normalize": "정규화",
+        "Normalize-Help": "처리 중 오디오를 정규화할지 여부를 나타냅니다."
+      },
+      "Pages": {
+        "General": "일반",
+        "GeneralDescription": "오디오 파일을 변환하는 플로우를 생성합니다."
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "코덱",
+        "Codec-Help": "출력 비디오 파일의 코덱입니다.",
+        "Container": "컨테이너",
+        "Container-Help": "비디오 파일의 컨테이너 형식입니다.",
+        "Name": "이름",
+        "Name-Help": "플로우의 이름입니다. 고유해야 합니다.",
+        "Resolution": "해상도",
+        "Resolution-Help": "출력 비디오 파일의 해상도입니다.",
+        "Visualization": "시각화",
+        "Visualization-Help": "비디오에 표시될 시각화입니다."
+      },
+      "Pages": {
+        "General": "일반",
+        "GeneralDescription": "오디오를 비디오로 변환하는 플로우를 생성합니다."
+      }
+    },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "원본과 동일"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "빈 페이지 삭제",
+        "DeleteNonPageImages-Help": "새 만화 파일에서 빈 페이지를 제거합니다.",
+        "EnsureTopDirectory": "최상위 디렉토리 보장",
+        "EnsureTopDirectory-Help": "모든 파일이 만화 파일의 최상위 디렉토리에 직접 위치하도록 보장하며 하위 디렉토리가 없습니다.",
+        "Format": "이미지 형식",
+        "Format-Help": "각 페이지를 저장할 이미지 형식입니다.",
+        "Name": "이름",
+        "Name-Help": "플로우의 이름입니다. 고유해야 합니다.",
+        "Quality": "품질",
+        "Quality-Help": "만화 페이지의 품질. 1은 최대 압축/최저 품질, 100은 최고 품질입니다."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "만화를 CBZ (ZIP 압축 형식)로 저장합니다.",
+        "Pdf": "PDF",
+        "PdfDescription": "만화를 PDF 파일로 저장합니다."
+      },
+      "Pages": {
+        "Format": "형식",
+        "FormatDescription": "만화를 저장할 형식을 선택하세요.",
+        "General": "일반",
+        "GeneralDescription": "만화를 처리할 새로운 플로우를 생성합니다."
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "원본 정리",
+        "DeleteOld-Help": "원본 파일을 삭제하고, 다른 파일이 없으면 원본 폴더를 제거합니다.",
+        "Description": "설명",
+        "Description-Help": "새로 생성된 플로우에 대한 설명입니다.",
+        "OutputPath": "출력 경로",
+        "OutputPath-Help": "최종 파일을 저장할 경로입니다.",
+        "OutputPathWindows": "출력 경로 (Windows)",
+        "OutputPathWindows-Help": "저장 위치입니다. 네트워크 경로를 포함할 수 있습니다(예: \\\\my-nas\\media\\output)."
+      },
+      "Messages": {
+        "NameRequired": "이름은 필수입니다.",
+        "OutputPathRequired": "출력 경로는 필수입니다."
+      },
+      "Output": {
+        "ReplaceOriginal": "원본 교체",
+        "ReplaceOriginalDescription": "원본 파일을 변환된 파일로 교체합니다.",
+        "ResellerMove": "리셀러 이동",
+        "ResellerMoveDescription": "사용자가 다운로드할 수 있도록 사용자 고유의 임시 폴더로 파일을 이동합니다. 파일은 설정된 시간이 지나면 자동으로 삭제됩니다.",
+        "SaveToFolder": "폴더에 저장",
+        "SaveToFolderDescription": "변환된 파일을 새로운 위치에 저장합니다."
+      },
+      "Pages": {
+        "Output": "출력",
+        "OutputDescription": "최종 파일을 저장할 위치를 지정합니다."
+      }
+    },
+    "NewFlowWizard": {
+      "Title": "새로운 흐름 마법사",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "오디오에서 비디오로",
+          "AudioToVideoDescription": "오디오 파일을 비디오 파일로 변환합니다.",
+          "Blank": "빈 오디오",
+          "BlankDescription": "오디오 파일을 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 오디오 기반 흐름입니다.",
+          "Convert": "오디오 변환",
+          "ConvertDescription": "오디오 포맷 변환을 위한 흐름을 생성합니다."
+        },
+        "Basic": {
+          "FailureFlow": "빈 실패 흐름",
+          "FailureFlowDescription": "흐름이 실패했을 때 실행되는 기본 실패 흐름입니다.",
+          "File": "빈 파일",
+          "FileDescription": "개별 파일을 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 파일 기반 흐름입니다.",
+          "Folder": "빈 폴더",
+          "FolderDescription": "전체 폴더를 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 폴더 기반 흐름입니다.",
+          "SubFlow": "빈 서브 흐름",
+          "SubFlowDescription": "재사용 가능한 서브 흐름을 만들 때 사용하는 빈 서브 흐름입니다.",
+          "Url": "URL",
+          "UrlDescription": "URL을 처리하기 위한 흐름을 만들 때 사용하는 빈 URL 기반 흐름입니다."
+        },
+        "Book": {
+          "Comic": "만화",
+          "ComicDescription": "만화책을 변환하고 다루는 흐름을 생성합니다. 예를 들어, 이미지 포맷 변환, 이미지 크기 조정 등.",
+          "eBook": "전자책",
+          "eBookDescription": "전자책 포맷 변환을 위한 흐름을 생성합니다."
+        },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "실패가 발생했을 때 Apprise에 자세한 메시지를 보냅니다.",
+          "Blank": "빈 실패 흐름",
+          "BlankDescription": "어떤 흐름이 실패할 때 실행되는 기본 실패 흐름입니다.",
+          "Discord": "Discord",
+          "DiscordDescription": "실패가 발생했을 때 Discord에 자세한 메시지를 보냅니다.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "실패가 발생했을 때 Gotify에 자세한 메시지를 보냅니다.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "실패가 발생했을 때 Telegram에 자세한 메시지를 보냅니다."
+        },
+        "Image": {
+          "Blank": "빈 이미지",
+          "BlankDescription": "이미지 파일을 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 이미지 기반 흐름입니다.",
+          "Convert": "이미지 변환",
+          "ConvertDescription": "이미지 포맷 변환을 위한 흐름을 생성합니다."
+        },
+        "Video": {
+          "AudioToVideo": "오디오에서 비디오로",
+          "AudioToVideoDescription": "오디오 파일을 비디오 파일로 변환합니다.",
+          "Blank": "빈 비디오",
+          "BlankDescription": "비디오 파일을 처리하기 위해 사용자 정의 흐름을 만들 때 사용하는 빈 비디오 기반 흐름입니다.",
+          "Convert": "비디오 변환",
+          "ConvertDescription": "비디오 파일에서 비디오, 오디오, 자막을 다룰 수 있도록 비디오 변환 흐름을 만드는 마법사입니다."
+        }
+      },
+      "Pages": {
+        "Audio": "오디오",
+        "AudioDescription": "오디오 파일을 처리하는 흐름을 생성합니다.",
+        "Basic": "기본",
+        "BasicDescription": "사용자 정의 흐름을 만들기 위한 기본 빈 흐름을 선택합니다.",
+        "Book": "책",
+        "BookDescription": "책을 처리하는 흐름을 생성합니다.",
+        "Failure": "실패",
+        "FailureDescription": "실패 시 실행할 플로우를 생성",
+        "Image": "이미지",
+        "ImageDescription": "이미지 파일을 처리하는 흐름을 생성합니다.",
+        "Users": "사용자",
+        "UsersDescription": "기존 플로우 열기",
+        "Video": "비디오",
+        "VideoDescription": "비디오 파일을 처리하는 흐름을 생성합니다."
+      }
+    },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "무손실 형식",
+        "LossyFormats": "손실 형식"
+      },
+      "Fields": {
+        "Format": "형식",
+        "Format-Help": "파일을 저장할 이미지 형식.",
+        "Height": "높이",
+        "Height-Help": "크기 조정된 이미지의 높이.",
+        "Name": "이름",
+        "Name-Help": "플로우의 이름입니다. 고유해야 합니다.",
+        "Quality": "품질",
+        "Quality-Help": "새 이미지 파일에 사용할 1에서 100까지의 품질.",
+        "Resize": "크기 조정",
+        "Resize-Help": "이미지를 크기 조정할지 여부.",
+        "Width": "너비",
+        "Width-Help": "크기 조정된 이미지의 너비."
+      },
+      "Pages": {
+        "General": "일반",
+        "GeneralDescription": "이미지를 처리하기 위한 새 플로우를 만듭니다.",
+        "ResizeMode": "크기 조정",
+        "ResizeModeDescription": "이미지를 크기 조정하는 방법을 선택하세요."
+      },
+      "Resize": {
+        "Contain": "맞추기",
+        "ContainDescription": "지정된 영역 내에 맞도록 종횡비를 유지하면서 이미지를 크기 조정합니다.",
+        "Cover": "덮기",
+        "CoverDescription": "지정된 너비/높이를 덮도록 이미지를 크기 조정하며 초과된 부분을 자릅니다.",
+        "Fill": "채우기",
+        "FillDescription": "지정된 너비/높이 전체를 채우도록 이미지를 크기 조정하며, 종횡비는 무시합니다.",
+        "Max": "최대",
+        "MaxDescription": "지정된 너비/높이에 맞게 종횡비를 유지하며, 어느 차원도 지정된 값 이하로 축소되지 않도록 이미지를 크기 조정합니다.",
+        "Min": "최소",
+        "MinDescription": "지정된 너비/높이에 맞도록 종횡비를 유지하며 이미지를 크기 조정합니다.",
+        "Pad": "패드",
+        "PadDescription": "지정된 너비/높이에 맞도록 이미지를 크기 조정하며, 필요 시 패딩을 추가하여 종횡비를 유지합니다."
+      }
+    },
+    "NewLibraryWizard": {
+      "Title": "새 라이브러리",
+      "Labels": {
+        "FileExtensions": "확장자",
+        "FileExtensionsDescription": "이 라이브러리에서 처리할 확장자를 지정하세요.",
+        "FileTypes": "파일 유형",
+        "FileTypesDescription": "이 라이브러리에서 감지 및 처리할 파일 유형을 지정하세요.",
+        "General": "일반",
+        "GeneralDescription": "이 라이브러리에 대한 일반 정보를 입력하세요.",
+        "LibraryType": "유형",
+        "LibraryTypeDescription": "생성하려는 라이브러리 유형을 선택하세요.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "지정된 다운로드 폴더에서 발견된 파일을 처리합니다. 파일은 해당 폴더에서 감지될 때마다 처리됩니다. 동일한 파일이 다시 처리되지 않도록 처리 후 폴더에서 파일을 이동하거나 삭제하세요. 파일이 다시 나타나면 새 파일로 간주되어 다시 처리됩니다.",
+            "Title": "다운로드"
+          },
+          "Files": {
+            "Description": "선택한 폴더와 그 하위 폴더의 모든 개별 파일을 처리합니다. 비디오, 오디오 또는 이미지 형식 변환과 같이 파일을 하나씩 처리하려는 경우 일반적으로 선택되는 옵션입니다. 폴더와 모든 하위 폴더를 검색하여 처리할 파일을 찾습니다.",
+            "Title": "파일"
+          },
+          "Folders": {
+            "Description": "선택한 폴더를 전체적으로 처리합니다. 개별 파일을 찾지 않습니다. 이 옵션을 선택하는 경우 폴더 자체를 작업하려는 경우, 예를 들어 폴더 내의 모든 파일을 ZIP 파일로 압축하거나 폴더 수준에서 작업을 수행하려는 경우입니다.",
+            "Title": "폴더"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "확장자",
+        "FileExtensions-Help": "모든 파일을 처리하려면 비워 두거나, 이 라이브러리에서 처리할 파일 확장자를 지정하세요.",
+        "Flow": "흐름",
+        "Flow-Help": "이 라이브러리에서 항목을 처리하는 데 사용되는 흐름입니다.",
+        "Name": "이름",
+        "Name-Help": "새 라이브러리의 이름으로 고유해야 합니다.",
+        "Path": "경로",
+        "Path-Help": "라이브러리의 디렉토리 경로를 지정하세요.",
+        "PathWindows": "경로",
+        "PathWindows-Help": "라이브러리의 디렉토리 경로를 지정하세요. 네트워크 경로의 경우 \\\\my-nas\\media\\movies 형식을 사용하세요."
+      },
+      "FileTypes": {
+        "Audio": "오디오",
+        "Audiobook": "오디오북",
+        "AudiobookDescription": "mp3, m4b, aax와 같은 오디오북 파일을 처리합니다.",
+        "AudioDescription": "mp3, flac, wav, aac 등과 같은 오디오 파일을 처리합니다.",
+        "Comic": "만화",
+        "ComicDescription": "cbz, cbr, cb7, pdf와 같은 만화 파일을 처리합니다.",
+        "Custom": "사용자 지정",
+        "CustomDescription": "처리할 파일의 확장자를 수동으로 지정합니다.",
+        "eBook": "전자책",
+        "eBookDescription": "epub, mobi, azw3, pdf와 같은 전자책 파일을 처리합니다.",
+        "Image": "이미지",
+        "ImageDescription": "jpg, png, gif, bmp, tiff와 같은 이미지 파일을 처리합니다.",
+        "Video": "비디오",
+        "VideoDescription": "mkv, mp4, wmv, ts, mpeg 등의 비디오 파일을 처리합니다."
+      },
+      "Messages": {
+        "FlowRequired": "흐름은 필수입니다.",
+        "NameRequired": "라이브러리 이름은 필수입니다.",
+        "PathRequired": "라이브러리 경로는 필수입니다."
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Labels": {
+        "Bitrate": "비트레이트",
+        "BitrateDescription": "비디오 인코딩 시 고정 비트레이트를 사용합니다. 이렇게 하면 비디오 간에 파일 크기가 일정하게 유지되지만 비트레이트가 최적이 아닐 경우 저장 공간을 낭비하거나 품질이 손실될 수 있습니다.",
+        "FileExtensions": "확장자",
+        "FileExtensionsDescription": "이 라이브러리에서 처리할 확장자를 지정합니다.",
+        "Quality": "품질",
+        "QualityDescription": "입력 비디오에 따라 적응형 인코딩을 사용하여 일정한 품질 수준을 달성합니다. 이는 권장되며 비디오 간 일정한 품질을 제공하고 가장 작은 파일을 생성합니다.",
+        "UseOriginal": "수정 없이 원본 사용",
+        "Types": {
+          "Film": "영화",
+          "FilmDescription": "영화를 처리하고 Meta 플러그인을 사용하여 정보를 조회합니다. 이를 통해 영화의 원래 언어를 파악할 수 있습니다.",
+          "TV": "TV",
+          "TVDescription": "TV 프로그램을 처리하고 Meta 플러그인을 사용하여 정보를 조회합니다. 이를 통해 TV 프로그램의 원래 언어를 파악할 수 있습니다.",
+          "Video": "비디오",
+          "VideoDescription": "일반적인 비디오 파일로 추가적인 메타 조회는 수행되지 않습니다."
+        }
+      },
+      "Fields": {
+        "AttemptHardwareEncode": "하드웨어 인코딩",
+        "AttemptHardwareEncode-Help": "하드웨어 인코딩(GPU)을 시도합니다. GPU 인코딩이 실패하면 CPU 인코딩으로 전환됩니다.",
+        "AudioChannels": "채널",
+        "AudioChannels-Help": "오디오 채널 수입니다. 기존 오디오 트랙을 사용하여 이 트랙을 만들며, 필요에 따라 다운믹스를 할 수 있지만 업믹스는 하지 않으며, 채널 수가 부족하면 해당 트랙은 추가되지 않습니다.",
+        "AudioCodec": "코덱",
+        "AudioCodec-Help": "오디오에 사용할 코덱",
+        "AudioLanguages": "언어",
+        "AudioLanguages-Help": "유지할 언어를 원하는 순서대로 지정합니다.",
+        "Bitrate": "비트레이트",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "오디오 변환",
+        "ConvertAudioDescription": "지정된 형식으로 오디오 트랙을 변환합니다.",
+        "CopyAllAudio": "모든 오디오 복사",
+        "CopyAllAudioDescription": "모든 오디오 트랙을 그대로 수정 없이 복사합니다.",
+        "CopyOnlyLanguages": "지정된 언어만 복사",
+        "CopyOnlyLanguagesDescription": "아래에 지정된 언어만 복사합니다. 나머지 언어는 모두 제거됩니다. 오디오 트랙은 수정 없이 복사됩니다.",
+        "CropBlackBars": "검은 띠 자르기",
+        "CropBlackBars-Help": "FileFlows는 비디오 파일에서 검은 띠를 감지하고, 찾을 경우 이를 잘라 파일 크기를 줄이며, 플레이어에서 비율 변경을 허용합니다.",
+        "DefaultLanguage": "기본 언어",
+        "DefaultLanguage-Help": "현재 언어가 지정되지 않은 오디오 트랙에 할당할 언어를 지정합니다.",
+        "KeepAllSubtitles": "모든 자막 유지",
+        "KeepAllSubtitlesDescription": "원본 비디오에서 모든 자막을 유지합니다.",
+        "KeepOnlySpecifiedSubtitles": "지정된 자막만 유지",
+        "KeepOnlySpecifiedSubtitlesDescription": "지정된 자막만 유지하고 나머지는 제거됩니다.",
+        "Name": "이름",
+        "Name-Help": "새로 생성된 흐름의 이름으로, 고유해야 합니다.",
+        "Quality": "품질",
+        "Quality-Suffix": "고품질",
+        "ReplaceOriginal": "원본 교체",
+        "ReplaceOriginal-Help": "새로 생성된 비디오 파일로 원본 비디오 파일을 교체합니다.",
+        "SaveToFolder": "폴더에 저장",
+        "SaveToFolder-Help": "새로 생성된 파일을 새 위치에 저장합니다.",
+        "SubtitleLanguages": "언어",
+        "SubtitleLanguages-Help": "유지할 언어를 원하는 순서대로 지정합니다.",
+        "TwoAudioVersions": "두 개의 오디오 버전",
+        "TwoAudioVersions-Help": "두 개의 오디오 트랙 버전을 생성해야 하는 경우입니다. 예를 들어, 서라운드와 스테레오 트랙을 생성하는 경우입니다. 그렇지 않으면 한 개의 버전만 생성됩니다.",
+        "VideoCodec": "비디오 코덱",
+        "VideoCodec-Help": "비디오에 사용할 코덱",
+        "VideoContainer": "컨테이너",
+        "VideoContainer-Help": "사용할 비디오 컨테이너입니다. MP4는 자막 형식이 적기 때문에 MKV를 사용하는 것이 좋습니다.",
+        "QualityLevel": {
+          "Good": "좋음",
+          "High": "높음",
+          "Ok": "보통",
+          "Recommended": "추천",
+          "VeryHigh": "매우 높음"
+        }
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "최소한 하나의 오디오 언어를 지정해야 합니다.",
+        "Audio2LanguageRequired": "추가 오디오 언어를 최소한 하나 지정해야 합니다.",
+        "AudioMode2LanguagesRequired": "오디오 언어가 필요합니다.",
+        "SubtitleLanguageRequired": "자막 언어가 필요합니다."
+      },
+      "Pages": {
+        "Audio": "オーディオ",
+        "Audio1": "変換",
+        "Audio1Description": "保持するオーディオ言語とそのエンコーディング設定を指定します。",
+        "Audio2": "追加オーディオ",
+        "Audio2Description": "セカンダリオーディオトラックのエンコーディング設定を定義します。",
+        "AudioDescription": "オーディオトラックに適用するアクションを指定します。",
+        "General": "一般",
+        "GeneralDescription": "このフローに関する一般情報を入力してください。",
+        "Output": "出力",
+        "OutputDescription": "最終ファイルを保存する場所を指定します。",
+        "Subtitle": "字幕",
+        "SubtitleDescription": "出力に含める字幕を選択します。",
+        "Type": "種類",
+        "TypeDescription": "処理する動画の種類を選択します。",
+        "Video": "ビデオ",
+        "VideoDescription": "ビデオストリームのエンコード方法を選択します。"
+      },
+      "Parts": {
+        "CpuFailOverEncode": "CPU 장애 복구 인코딩",
+        "CpuFailOverExecutor": "CPU 장애 복구 실행기",
+        "DefaultLanguage": "기본 언어를 ''{lang}''로 설정",
+        "PrimaryAudio": "주 오디오",
+        "RemoveUnsupportedSubtitles": "지원되지 않는 자막 제거",
+        "RemoveUnwantedSubtitles": "원하지 않는 자막 언어 제거",
+        "RemuxToContainer": "{container}로 리멕스",
+        "SecondaryAudio": "보조 오디오"
       }
     },
     "PauseDialog": {
@@ -755,15 +1123,12 @@
         "SubFlowHelp": "서브 흐름에 입력 필드를 추가하여 이 서브 흐름에 사용자 지정 매개변수를 전달할 수 있습니다. `Fields` 탭에서 이를 생성하십시오.\n\n서브 흐름은 단일 `Input`이 있어야 하며, 이는 유효한 입력 흐름 요소일 수 있습니다. 예: `입력 파일`, `비디오 파일` 등."
       },
       "Fields": {
-        "Author": "작성자",
-        "Author-Help": "이 흐름의 작성자를 선택적으로 지정하십시오.",
         "Description": "설명.",
-        "MinimumVersion": "최소 버전",
+        "Icon": "아이콘",
         "Outputs": "출력",
         "Outputs-Help": "이 서브 흐름의 출력 수입니다. 이 서브 흐름을 다른 흐름에서 사용할 때 사용 가능한 출력 수입니다.",
         "OutputsKey": "출력",
         "OutputsValue": "설명",
-        "Tags": "태그",
         "Variables": "변수",
         "VariablesKey": "이름",
         "VariablesValue": "값",
@@ -901,6 +1266,8 @@
         "DetectFileSizeLower": "",
         "DetectFileSizeUpper": "",
         "DetectionDescription": "여기에서 주어진 패턴과 일치하는 파일만 감지하도록 라이브러리를 구성할 수 있습니다.\n\n예를 들어, 다음과 같은 파일만 포함할 수 있습니다.\n\t- 생성된 지 7일이 되지 않은 파일\n\t- 마지막으로 작성된 지 3일에서 7일 사이인 파일\n\t- 파일 크기가 1기가바이트를 초과하는 파일",
+        "DisableFileSystemEvents": "파일 시스템 이벤트",
+        "DisableFileSystemEvents-Help": "파일 시스템 이벤트를 모니터링할지 여부를 지정합니다. 활성화되면 시스템은 파일 생성 및 수정 이벤트를 감시하고 파일이 라이브러리 설정과 일치하는지 확인하여 처리할 라이브러리에 추가합니다.",
         "DownloadsDirectory": "다운로드 디렉토리",
         "DownloadsDirectory-Help": "성공적으로 처리된 파일이 이 폴더에서 재발견되면 해당 파일이 자동으로 재처리됩니다.\n파일을 다시 다운로드할 경우 유용합니다.",
         "Enabled": "활성화",
@@ -1087,7 +1454,7 @@
         "Enabled": "활성화",
         "FlowRunners": "흐름 러너",
         "FlowRunners-Help": "흐름을 실행할 수 있는 흐름 러너 인스턴스의 수.",
-        "Icon": "맞춤 아이콘",
+        "Icon": "아이콘",
         "InternalProcessingNodeDescription": "이것은 FileFlows의 내장 처리 노드입니다.\n\n이 노드는 다른 원격 시스템에 추가 노드를 설치하지 않고도 FileFlows를 실행할 수 있도록 하며, FileFlows를 독립 실행형 애플리케이션으로 사용할 수 있게 해줍니다.\n\n원하는 경우 이 내부 노드와 추가 처리 노드를 계속 사용할 수 있으며, 이 노드를 비활성화하고 추가 노드만 사용할 수 있습니다.",
         "Libraries": "라이브러리",
         "Libraries-Help": "이 노드에서 처리할 수 있는 라이브러리를 선택합니다.",
@@ -1110,6 +1477,8 @@
         "ProcessFileCheckInterval-Help": "처리 노드에서 새 파일을 확인하는 빈도입니다.\n0으로 설정하면 시스템 값을 사용합니다.",
         "ProcessFileCheckInterval-Suffix": "초",
         "ProcessingDescription": "이것은 이 처리 노드가 처리할 수 있는 내용을 구성할 수 있게 해줍니다.\n\n예를 들어, 이 노드의 처리 용량이 낮은 경우 특정 라이브러리 또는 최대 파일 크기만 처리하도록 제한할 수 있습니다.",
+        "ProcessingOrder": "처리 순서",
+        "ProcessingOrder-Help": "이 노드가 파일을 처리하는 순서를 지정합니다. 이 설정은 라이브러리의 기본 처리 순서를 덮어씁니다. '기본값'으로 설정하면 라이브러리의 처리 순서를 사용합니다.",
         "Schedule": "일정",
         "Schedule-Help": "이 일정은 노드의 시간대에서 실행됩니다.",
         "ScheduleDescription": "이것은 이 노드가 활성화될 때를 구성할 수 있게 해줍니다.\n\n노드는 이 구성된 일정 외부에서 파일을 처리하지 않습니다.",
@@ -1160,6 +1529,25 @@
         "Code": "코드",
         "Description": "설명",
         "Revision": "개정"
+      }
+    },
+    "Resellers": {
+      "Flows": {
+        "Single": "리셀러 플로우",
+        "Title": "리셀러 플로우",
+        "Fields": {
+          "Extensions": "확장자",
+          "Extensions-Help": "이 플로우에서 처리할 수 있는 허용된 확장자의 목록입니다.",
+          "Flow": "플로우",
+          "Icon": "아이콘",
+          "MaxFileSize": "최대 파일 크기",
+          "MaxFileSize-Help": "이 플로우에서 처리할 수 있는 최대 파일 크기입니다.",
+          "Tokens": "토큰",
+          "Tokens-Help": "사용자가 이 플로우를 실행하는 데 필요한 토큰 수입니다."
+        }
+      },
+      "Settings": {
+        "Title": "리셀러 설정"
       }
     },
     "Resources": {
@@ -1263,6 +1651,8 @@
         "DelayBetweenNextFile-Suffix": "밀리초",
         "DockerModsOnServer": "서버의 DockerMods",
         "DockerModsOnServer-Help": "DockerMods는 서버 시작 시 자동으로 실행되거나 특정하게 활성화될 때 실행되어야 합니다. 그렇지 않으면 워크플로가 시작될 때만 실행됩니다.",
+        "DontUseTempFilesWhenMovingOrCopying": "이동/복사용 임시 파일",
+        "DontUseTempFilesWhenMovingOrCopying-Help": ".fftemp 파일을 사용하여 이동/복사 중 조기 감지를 방지합니다.",
         "HideProcessingFinishedNotifications": "처리 완료 알림",
         "HideProcessingFinishedNotifications-Help": "파일 처리가 완료될 때 웹 콘솔에 토스트 알림을 표시해야 하는지 여부입니다.",
         "HideProcessingStartedNotifications": "처리 시작 알림",

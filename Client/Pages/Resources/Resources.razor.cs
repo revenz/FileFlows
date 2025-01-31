@@ -51,19 +51,19 @@ public partial class Resources : ListPage<Guid, Resource>
             {
                 InputType = FormInputType.Text,
                 Name = nameof(item.Name),
-                Validators = new List<FileFlows.Shared.Validators.Validator>
+                Validators = new List<Validator>
                 {
-                    new FileFlows.Shared.Validators.Required(),
-                    new FileFlows.Shared.Validators.SafeName()
+                    new Required(),
+                    new SafeName()
                 }
             });
             fields.Add(new ElementField
             {
                 InputType = FormInputType.Binary,
                 Name = "FileData",
-                Validators = new List<FileFlows.Shared.Validators.Validator>
+                Validators = new List<Validator>
                 {
-                    new FileFlows.Shared.Validators.Required()
+                    new Required()
                 }
             });
         }

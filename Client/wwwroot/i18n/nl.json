@@ -88,6 +88,7 @@
     "Ok": "OK",
     "Open": "Openen",
     "OperatingSystem": "Besturingssysteem",
+    "OriginalLanguage": "Oorspronkelijke taal",
     "Other": "Overig",
     "Output": "Uitvoer",
     "Paste": "Plakken",
@@ -130,6 +131,7 @@
     "Search": "Zoeken",
     "Searching": "Zoeken",
     "Select": "Selecteren",
+    "SelectedNum": "{num} geselecteerd",
     "SelectOne": "Selecteer Eén",
     "SetStatusProcessed": "Markeren als Verwerkt",
     "Settings": "Instellingen",
@@ -251,6 +253,372 @@
       "Title": "Script Importeren",
       "Messages": {
         "NoMoreImports": "Er zijn geen extra importen beschikbaar voor dit script"
+      }
+    },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "Bitrate",
+        "Bitrate-Help": "De bitrate van het geconverteerde audiobestand.",
+        "Codec": "Codec",
+        "Codec-Help": "De codec die wordt gebruikt voor de audioconversie.",
+        "Name": "Naam",
+        "Name-Help": "De naam van de stroom. Deze moet uniek zijn.",
+        "Normalize": "Normaliseren",
+        "Normalize-Help": "Geeft aan of audio moet worden genormaliseerd tijdens verwerking."
+      },
+      "Pages": {
+        "General": "Algemeen",
+        "GeneralDescription": "Maak een stroom om audiobestanden te converteren."
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "Codec",
+        "Codec-Help": "De codec voor het uitvoervideobestand.",
+        "Container": "Container",
+        "Container-Help": "Het containerformaat voor het videobestand.",
+        "Name": "Naam",
+        "Name-Help": "De naam van de stroom. Deze moet uniek zijn.",
+        "Resolution": "Resolutie",
+        "Resolution-Help": "De resolutie van het uitvoervideobestand.",
+        "Visualization": "Visualisatie",
+        "Visualization-Help": "De visualisatie die in de video wordt weergegeven."
+      },
+      "Pages": {
+        "General": "Algemeen",
+        "GeneralDescription": "Maak een stroom om audio naar video te converteren."
+      }
+    },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "Zelfde als bron"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "Verwijder lege pagina's",
+        "DeleteNonPageImages-Help": "Verwijder lege pagina's uit het nieuwe stripboekbestand.",
+        "EnsureTopDirectory": "Zorg voor bovenste map",
+        "EnsureTopDirectory-Help": "Zorgt ervoor dat alle bestanden zich direct in de bovenste map van het stripboekbestand bevinden, zonder submappen.",
+        "Format": "Afbeeldingsformaat",
+        "Format-Help": "Het afbeeldingsformaat om elke pagina op te slaan.",
+        "Name": "Naam",
+        "Name-Help": "De naam van de flow. Dit moet uniek zijn.",
+        "Quality": "Kwaliteit",
+        "Quality-Help": "Kwaliteit van de stripboekpagina's, 1 voor meeste compressie/slechtste kwaliteit, 100 voor beste kwaliteit."
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "Sla de strip op als een CBZ (zip) archiefbestand.",
+        "Pdf": "PDF",
+        "PdfDescription": "Sla de strip op als een PDF-bestand."
+      },
+      "Pages": {
+        "Format": "Formaat",
+        "FormatDescription": "Kies het formaat om de strips op te slaan.",
+        "General": "Algemeen",
+        "GeneralDescription": "Maak een nieuwe flow om strips te verwerken."
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "Opruimen Origineel",
+        "DeleteOld-Help": "Verwijder het originele bestand en de originele map als er geen andere bestanden meer zijn.",
+        "Description": "Beschrijving",
+        "Description-Help": "De beschrijving van de nieuw aangemaakte flow.",
+        "OutputPath": "Uitvoerpad",
+        "OutputPath-Help": "Het pad waar het uiteindelijke bestand wordt opgeslagen.",
+        "OutputPathWindows": "Uitvoerpad (Windows)",
+        "OutputPathWindows-Help": "De opslaglocatie. Dit kan een netwerkpad bevatten, bijvoorbeeld \\\\mijn-nas\\media\\output."
+      },
+      "Messages": {
+        "NameRequired": "De naam is vereist.",
+        "OutputPathRequired": "Het uitvoerpad is vereist."
+      },
+      "Output": {
+        "ReplaceOriginal": "Vervang Origineel",
+        "ReplaceOriginalDescription": "Vervang het originele bestand door het geconverteerde bestand.",
+        "ResellerMove": "Reseller Verplaatsen",
+        "ResellerMoveDescription": "Verplaatst het bestand naar een tijdelijke map die uniek is voor de gebruiker om te downloaden. Het bestand wordt automatisch verwijderd na een bepaalde tijd.",
+        "SaveToFolder": "Opslaan in map",
+        "SaveToFolderDescription": "Sla het geconverteerde bestand op op een nieuwe locatie."
+      },
+      "Pages": {
+        "Output": "Uitvoer",
+        "OutputDescription": "Specificeer waar het uiteindelijke bestand moet worden opgeslagen."
+      }
+    },
+    "NewFlowWizard": {
+      "Title": "Nieuwe Flow Wizard",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "Audio naar Video",
+          "AudioToVideoDescription": "Zet een audio bestand om naar een video bestand.",
+          "Blank": "Lege Audio",
+          "BlankDescription": "Een lege audio-gebaseerde flow om een aangepaste flow te maken voor het verwerken van audio bestanden.",
+          "Convert": "Converteer Audio",
+          "ConvertDescription": "Maak een flow voor het converteren van audioformaten."
+        },
+        "Basic": {
+          "FailureFlow": "Lege Fout Flow",
+          "FailureFlowDescription": "Basisfout flow die wordt uitgevoerd wanneer een flow om welke reden dan ook faalt.",
+          "File": "Lege Bestanden",
+          "FileDescription": "Een lege bestand-gebaseerde flow voor het maken van een aangepaste flow om individuele bestanden te verwerken.",
+          "Folder": "Lege Map",
+          "FolderDescription": "Een lege map-gebaseerde flow die wordt gebruikt om een aangepaste flow te maken voor het verwerken van een gehele map.",
+          "SubFlow": "Lege Subflow",
+          "SubFlowDescription": "Een lege subflow-gebaseerde flow die wordt gebruikt om een herbruikbare subflow te maken.",
+          "Url": "URL",
+          "UrlDescription": "Een lege URL-gebaseerde flow die wordt gebruikt om een flow te maken voor het verwerken van URL's."
+        },
+        "Book": {
+          "Comic": "Stripboek",
+          "ComicDescription": "Maak een flow voor het converteren van stripboeken en het manipuleren ervan, bijvoorbeeld het converteren van afbeeldingsformaten, het aanpassen van de grootte van afbeeldingen, enz.",
+          "eBook": "eBook",
+          "eBookDescription": "Maak een flow voor het converteren van eBookformaten."
+        },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "Verstuurt een gedetailleerd bericht naar Apprise wanneer er een fout optreedt.",
+          "Blank": "Lege Foutstroom",
+          "BlankDescription": "Een basisfoutstroom die wordt uitgevoerd wanneer een stroom mislukt.",
+          "Discord": "Discord",
+          "DiscordDescription": "Verstuurt een gedetailleerd bericht naar Discord wanneer er een fout optreedt.",
+          "Gotify": "Gotify",
+          "GotifyDescription": "Verstuurt een gedetailleerd bericht naar Gotify wanneer er een fout optreedt.",
+          "Telegram": "Telegram",
+          "TelegramDescription": "Verstuurt een gedetailleerd bericht naar Telegram wanneer er een fout optreedt."
+        },
+        "Image": {
+          "Blank": "Lege Afbeelding",
+          "BlankDescription": "Een lege afbeelding-gebaseerde flow die wordt gebruikt om een aangepaste flow te maken voor het verwerken van afbeeldingen.",
+          "Convert": "Converteer Afbeelding",
+          "ConvertDescription": "Maak een flow voor het converteren van afbeeldingsformaten."
+        },
+        "Video": {
+          "AudioToVideo": "Audio naar Video",
+          "AudioToVideoDescription": "Zet een audio bestand om naar een video bestand.",
+          "Blank": "Lege Video",
+          "BlankDescription": "Een lege video-gebaseerde flow die wordt gebruikt om een aangepaste flow te maken voor het verwerken van videobestanden.",
+          "Convert": "Converteer Video",
+          "ConvertDescription": "Een begeleide wizard om een video-conversieflow te maken die het mogelijk maakt om video, audio en ondertitels in een videobestand te manipuleren."
+        }
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "AudioDescription": "Maak een flow voor het verwerken van audio bestanden.",
+        "Basic": "Basis",
+        "BasicDescription": "Kies een basis lege flow om een aangepaste flow te maken.",
+        "Book": "Boek",
+        "BookDescription": "Maak een flow voor het verwerken van boeken.",
+        "Failure": "Fout",
+        "FailureDescription": "Maak een flow die wordt uitgevoerd bij een fout",
+        "Image": "Afbeelding",
+        "ImageDescription": "Maak een flow voor het verwerken van afbeeldingsbestanden.",
+        "Users": "Gebruikers",
+        "UsersDescription": "Een bestaande flow openen",
+        "Video": "Video",
+        "VideoDescription": "Maak een flow voor het verwerken van videobestanden."
+      }
+    },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "Verliesloze Formaten",
+        "LossyFormats": "Verlieslatende Formaten"
+      },
+      "Fields": {
+        "Format": "Formaat",
+        "Format-Help": "Het afbeeldingsformaat waarin het bestand wordt opgeslagen.",
+        "Height": "Hoogte",
+        "Height-Help": "De hoogte van de aangepaste afbeelding.",
+        "Name": "Naam",
+        "Name-Help": "De naam van de flow. Dit moet uniek zijn.",
+        "Quality": "Kwaliteit",
+        "Quality-Help": "De kwaliteit van 1 tot 100 voor het nieuwe afbeeldingsbestand.",
+        "Resize": "Formaat aanpassen",
+        "Resize-Help": "Of de afbeelding moet worden aangepast of niet.",
+        "Width": "Breedte",
+        "Width-Help": "De breedte van de aangepaste afbeelding."
+      },
+      "Pages": {
+        "General": "Algemeen",
+        "GeneralDescription": "Maak een nieuwe flow om afbeeldingen te verwerken.",
+        "ResizeMode": "Formaat aanpassen",
+        "ResizeModeDescription": "Kies de modus om afbeeldingen aan te passen."
+      },
+      "Resize": {
+        "Contain": "Behouden",
+        "ContainDescription": "Past de afbeelding aan zodat deze binnen het opgegeven gebied past, met behoud van de beeldverhouding.",
+        "Cover": "Bedekken",
+        "CoverDescription": "Past de afbeelding aan zodat deze het opgegeven gebied bedekt en snijdt overtollige delen af.",
+        "Fill": "Opvullen",
+        "FillDescription": "Vult de afbeelding in de volledige breedte/hoogte zoals opgegeven, zonder rekening te houden met de beeldverhouding.",
+        "Max": "Max",
+        "MaxDescription": "Past de afbeelding aan zodat deze binnen de opgegeven breedte/hoogte past, met behoud van de beeldverhouding, maar niet kleiner dan de opgegeven afmetingen.",
+        "Min": "Min",
+        "MinDescription": "Past de afbeelding aan zodat deze binnen de opgegeven breedte/hoogte past, met behoud van de beeldverhouding.",
+        "Pad": "Opmaken",
+        "PadDescription": "Past de afbeelding aan naar de gewenste breedte/hoogte, behoudt de beeldverhouding en voegt indien nodig opvulling toe."
+      }
+    },
+    "NewLibraryWizard": {
+      "Title": "Nieuwe Bibliotheek",
+      "Labels": {
+        "FileExtensions": "Extensies",
+        "FileExtensionsDescription": "Specificeer de extensies die in deze bibliotheek verwerkt moeten worden.",
+        "FileTypes": "Bestandstypen",
+        "FileTypesDescription": "Specificeer welke bestandstypen moeten worden gedetecteerd en verwerkt in deze bibliotheek.",
+        "General": "Algemeen",
+        "GeneralDescription": "Voer algemene informatie in over deze bibliotheek.",
+        "LibraryType": "Type",
+        "LibraryTypeDescription": "Kies het type bibliotheek dat u wilt maken.",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "Verwerkt bestanden die worden gevonden in een aangewezen downloadmap. Bestanden worden verwerkt telkens wanneer ze in de map worden gedetecteerd. Om te voorkomen dat bestanden opnieuw worden verwerkt, verplaatst of verwijdert u ze na verwerking. Als een bestand opnieuw verschijnt, wordt het als nieuw beschouwd en opnieuw verwerkt.",
+            "Title": "Downloads"
+          },
+          "Files": {
+            "Description": "Verwerkt alle individuele bestanden in de geselecteerde map en de submappen. Dit is de gebruikelijke keuze wanneer je bestanden één voor één wilt verwerken, zoals het converteren van video-, audio- of afbeeldingsformaten. Het doorzoekt de map en alle submappen naar geschikte bestanden om te verwerken.",
+            "Title": "Bestanden"
+          },
+          "Folders": {
+            "Description": "Verwerkt de geselecteerde map als geheel, zonder naar individuele bestanden te zoeken. Kies deze optie als je met de map zelf wilt werken, bijvoorbeeld door alle bestanden in de map naar een zipbestand te comprimeren of mapgerelateerde bewerkingen uit te voeren.",
+            "Title": "Mappen"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "Extensies",
+        "FileExtensions-Help": "Laat leeg om alle bestanden te verwerken of specificeer de extensies van de bestanden die verwerkt moeten worden.",
+        "Flow": "Stroom",
+        "Flow-Help": "De stroom die wordt gebruikt om items in deze bibliotheek te verwerken.",
+        "Name": "Naam",
+        "Name-Help": "De naam van de nieuwe bibliotheek, die uniek moet zijn.",
+        "Path": "Pad",
+        "Path-Help": "Specificeer het pad van de directory voor de bibliotheek.",
+        "PathWindows": "Pad",
+        "PathWindows-Help": "Specificeer het pad van de directory voor de bibliotheek. Voor netwerklocaties gebruikt u het formaat \\\\mijn-nas\\media\\films."
+      },
+      "FileTypes": {
+        "Audio": "Audio",
+        "Audiobook": "Luisterboek",
+        "AudiobookDescription": "Verwerkt luisterboekbestanden zoals mp3, m4b en aax.",
+        "AudioDescription": "Verwerkt audiobestanden zoals mp3, flac, wav, aac, enz.",
+        "Comic": "Stripboek",
+        "ComicDescription": "Verwerkt stripboekbestanden zoals cbz, cbr, cb7 en pdf.",
+        "Custom": "Aangepast",
+        "CustomDescription": "Specificeer handmatig de bestandsextensies die verwerkt moeten worden.",
+        "eBook": "eBook",
+        "eBookDescription": "Verwerkt eBook-bestanden zoals epub, mobi, azw3 en pdf.",
+        "Image": "Afbeelding",
+        "ImageDescription": "Verwerkt afbeeldingsbestanden zoals jpg, png, gif, bmp en tiff.",
+        "Video": "Video",
+        "VideoDescription": "Verwerkt videobestanden zoals mkv, mp4, wmv, ts, mpeg, enz."
+      },
+      "Messages": {
+        "FlowRequired": "De stroom is verplicht.",
+        "NameRequired": "De bibliotheeknaam is verplicht.",
+        "PathRequired": "Het bibliotheekpad is verplicht."
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Labels": {
+        "Bitrate": "Bitrate",
+        "BitrateDescription": "Gebruik een vaste bitrate bij het coderen van de video. Dit zorgt voor consistente bestandsgroottes tussen video's, maar verspilt opslagruimte of verliest kwaliteit als de bitrate niet optimaal is.",
+        "FileExtensions": "Extensies",
+        "FileExtensionsDescription": "Geef de extensies op die in deze bibliotheek verwerkt moeten worden.",
+        "Quality": "Kwaliteit",
+        "QualityDescription": "Gebruik adaptieve codering op basis van de invoer van de video om een constant kwaliteitsniveau te bereiken. Dit wordt aanbevolen en zorgt voor een constante kwaliteit tussen video's en ook voor de kleinste bestanden.",
+        "UseOriginal": "Gebruik origineel zonder wijziging",
+        "Types": {
+          "Film": "Film",
+          "FilmDescription": "Verwerk films en zoek hun informatie op met de Meta-plug-in. Dit helpt de oorspronkelijke taal van de film te bepalen.",
+          "TV": "TV",
+          "TVDescription": "Verwerk tv-shows en zoek hun informatie op met de Meta-plug-in. Dit helpt de oorspronkelijke taal van de tv-show te bepalen.",
+          "Video": "Video",
+          "VideoDescription": "Een generiek videobestand, er wordt geen aanvullende metadata opgezocht."
+        }
+      },
+      "Fields": {
+        "AttemptHardwareEncode": "Hardware Encoding",
+        "AttemptHardwareEncode-Help": "Probeer hardware encoding (GPU) te gebruiken. Als GPU-encoding mislukt, wordt overgeschakeld naar CPU-encoding.",
+        "AudioChannels": "Kanalen",
+        "AudioChannels-Help": "Het aantal kanalen voor het audio. Bestaande audiotracks worden gebruikt om deze track te maken en kunnen zo nodig worden afgemengd, maar zullen niet worden opgevoerd. Als je een hoger aantal kanalen kiest dan beschikbaar is, wordt de track niet toegevoegd.",
+        "AudioCodec": "Codec",
+        "AudioCodec-Help": "De codec die voor het audio gebruikt moet worden",
+        "AudioLanguages": "Talen",
+        "AudioLanguages-Help": "Geef de talen op die je wilt behouden in de volgorde waarin je ze wilt.",
+        "Bitrate": "Bitrate",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "Audio converteren",
+        "ConvertAudioDescription": "Converteer de audiotracks naar de opgegeven formaten",
+        "CopyAllAudio": "Alle audio kopiëren",
+        "CopyAllAudioDescription": "Kopieer alle audiotracks zoals ze zijn, zonder aanpassingen.",
+        "CopyOnlyLanguages": "Alleen specifieke talen kopiëren",
+        "CopyOnlyLanguagesDescription": "Kopieer alleen de hieronder gespecificeerde talen. Alle andere talen worden verwijderd. De audiotracks worden zonder aanpassingen gekopieerd.",
+        "CropBlackBars": "Snijd zwarte balken",
+        "CropBlackBars-Help": "FileFlows probeert zwarte balken in het videobestand te detecteren en snijdt deze af als ze gevonden worden om de bestandsgrootte te verkleinen en de beeldverhouding in de mediaspelers aan te passen.",
+        "DefaultLanguage": "Standaardtaal",
+        "DefaultLanguage-Help": "Geef de taal op die toegewezen moet worden aan audiotracks die momenteel geen taal hebben.",
+        "KeepAllSubtitles": "Behoud alle ondertitels",
+        "KeepAllSubtitlesDescription": "Behoud alle ondertitels van het originele bestand",
+        "KeepOnlySpecifiedSubtitles": "Behoud alleen opgegeven ondertitels",
+        "KeepOnlySpecifiedSubtitlesDescription": "Behoud alleen de opgegeven ondertitels, de rest wordt verwijderd",
+        "Name": "Naam",
+        "Name-Help": "De naam van de nieuw aangemaakte flow, deze moet uniek zijn.",
+        "Quality": "Kwaliteit",
+        "Quality-Suffix": "Hogere Kwaliteit",
+        "ReplaceOriginal": "Vervang origineel",
+        "ReplaceOriginal-Help": "Vervang het originele videobestand door het nieuw aangemaakte bestand.",
+        "SaveToFolder": "Opslaan in map",
+        "SaveToFolder-Help": "Sla het nieuw aangemaakte bestand op in een nieuwe locatie",
+        "SubtitleLanguages": "Talen",
+        "SubtitleLanguages-Help": "Geef de talen op die je wilt behouden in de volgorde waarin je ze wilt.",
+        "TwoAudioVersions": "Twee audio versies",
+        "TwoAudioVersions-Help": "Als er twee versies van audiotracks aangemaakt moeten worden. Bijvoorbeeld, als je een surround- en een stereotrack wilt maken. Anders wordt er maar één versie aangemaakt.",
+        "VideoCodec": "Video Codec",
+        "VideoCodec-Help": "De codec die voor de video gebruikt moet worden",
+        "VideoContainer": "Container",
+        "VideoContainer-Help": "De videobestandscontainer die gebruikt moet worden, het wordt aanbevolen om MKV te gebruiken omdat MP4 minder ondertitelingsformaten ondersteunt.",
+        "QualityLevel": {
+          "Good": "Goed",
+          "High": "Hoog",
+          "Ok": "OK",
+          "Recommended": "Aanbevolen",
+          "VeryHigh": "Zeer Hoog"
+        }
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "Je moet minstens één audiotaal opgeven.",
+        "Audio2LanguageRequired": "Je moet minstens één extra audiotaal opgeven.",
+        "AudioMode2LanguagesRequired": "Audiotalen zijn vereist.",
+        "SubtitleLanguageRequired": "Ondertiteltalen zijn vereist."
+      },
+      "Pages": {
+        "Audio": "Audio",
+        "Audio1": "Conversie",
+        "Audio1Description": "Specificeer de audiotalen die behouden moeten blijven en hun coderingsinstellingen.",
+        "Audio2": "Extra Audio",
+        "Audio2Description": "Definieer de coderingsinstellingen voor de secundaire audiotracks.",
+        "AudioDescription": "Specificeer wat er met de audiotracks moet gebeuren.",
+        "General": "Algemeen",
+        "GeneralDescription": "Voer algemene informatie over deze flow in.",
+        "Output": "Uitvoer",
+        "OutputDescription": "Specificeer waar het eindbestand moet worden opgeslagen.",
+        "Subtitle": "Ondertiteling",
+        "SubtitleDescription": "Selecteer de ondertitels die in de uitvoer moeten worden opgenomen.",
+        "Type": "Type",
+        "TypeDescription": "Selecteer het type video's dat u wilt verwerken.",
+        "Video": "Video",
+        "VideoDescription": "Kies de coderingsmethode voor de videostream."
+      },
+      "Parts": {
+        "CpuFailOverEncode": "CPU failover codering",
+        "CpuFailOverExecutor": "CPU failover uitvoerder",
+        "DefaultLanguage": "Standaardtaal naar ''{lang}''",
+        "PrimaryAudio": "Primaire audio",
+        "RemoveUnsupportedSubtitles": "Verwijder niet-ondersteunde ondertitels",
+        "RemoveUnwantedSubtitles": "Verwijder ongewenste ondertitel talen",
+        "RemuxToContainer": "Remux naar {container}",
+        "SecondaryAudio": "Secundaire audio"
       }
     },
     "PauseDialog": {
@@ -755,15 +1123,12 @@
         "SubFlowHelp": "Om invoervelden aan een substroom toe te voegen zodat je aangepaste parameters naar deze substroom kunt doorgeven, maak deze op het tabblad `Velden`.\n\nEen substroom moet een enkele `Invoer` hebben, die elk geldig invoerstroomelement kan zijn, bijv. `Invoerbestand`, `Videobestand`, enz."
       },
       "Fields": {
-        "Author": "Auteur",
-        "Author-Help": "Optioneel de auteur van deze stroom opgeven.",
         "Description": "Beschrijving.",
-        "MinimumVersion": "Minimale versie",
+        "Icon": "Icoon",
         "Outputs": "Uitgangen",
         "Outputs-Help": "Het aantal uitgangen dat deze substroom heeft. Dit is het aantal uitgangen dat beschikbaar zal zijn bij het gebruik van deze substroom in een andere stroom.",
         "OutputsKey": "Uitgang",
         "OutputsValue": "Beschrijving",
-        "Tags": "Tags",
         "Variables": "Variabelen",
         "VariablesKey": "Naam",
         "VariablesValue": "Waarde",
@@ -901,6 +1266,8 @@
         "DetectFileSizeLower": "",
         "DetectFileSizeUpper": "",
         "DetectionDescription": "Hier kunt u een bibliotheek configureren om alleen bestanden te detecteren die aan de gegeven patronen voldoen.\n\nBijvoorbeeld, hiermee kunt u alleen bestanden opnemen die\n\t- Bestanden zijn die minder dan 7 dagen geleden zijn aangemaakt\n\t- Bestanden die tussen 3 en 7 dagen geleden zijn geschreven\n\t- Bestandsgrootte groter dan 1 gigabyte",
+        "DisableFileSystemEvents": "Bestandssysteemevenementen",
+        "DisableFileSystemEvents-Help": "Geeft aan of bestandssysteemevenementen moeten worden gecontroleerd. Als dit is ingeschakeld, controleert het systeem op bestandaanmaak- en wijzigingsevenementen, controleert het of de bestanden overeenkomen met de bibliotheekinstellingen en voegt ze toe voor verwerking.",
         "DownloadsDirectory": "Downloadmap",
         "DownloadsDirectory-Help": "Een speciale map waarin als een bestand dat succesvol is verwerkt opnieuw wordt ontdekt in deze map, dat bestand automatisch opnieuw zal worden verwerkt.\nDit is handig als u een bestand opnieuw downloadt.",
         "Enabled": "Ingeschakeld",
@@ -1087,7 +1454,7 @@
         "Enabled": "Ingeschakeld",
         "FlowRunners": "Flow Runners",
         "FlowRunners-Help": "Het aantal beschikbare flow runner-instanties om een flow uit te voeren.",
-        "Icon": "Aangepast pictogram",
+        "Icon": "Icoon",
         "InternalProcessingNodeDescription": "Dit is het ingebouwde verwerkingsknooppunt in FileFlows.\n\nDit knooppunt stelt je in staat om FileFlows uit te voeren zonder je zorgen te maken over het installeren van andere knooppunten op externe systemen en stelt je in staat om FileFlows als een zelfstandige applicatie te gebruiken.\n\nJe kunt dit interne knooppunt blijven gebruiken en extra verwerkingsknooppunten toevoegen als je dat wilt, of je kunt dit knooppunt uitschakelen en alleen gebruik maken van extra knooppunten.",
         "Libraries": "Bibliotheken",
         "Libraries-Help": "Selecteer welke bibliotheken dit knooppunt kan verwerken",
@@ -1110,6 +1477,8 @@
         "ProcessFileCheckInterval-Help": "Hoe vaak er gecontroleerd moet worden op een nieuw bestand om te verwerken in de verwerkingsknooppunten.\nStel in op 0 om de systeewaarde te gebruiken.",
         "ProcessFileCheckInterval-Suffix": "seconden",
         "ProcessingDescription": "Dit stelt je in staat om te configureren wat dit Verwerkingsknooppunt kan verwerken.\n\nBijvoorbeeld, je kunt dit knooppunt beperken tot alleen bepaalde bibliotheken of een maximale bestandsgrootte als dit knooppunt een minder krachtige knooppunt is.",
+        "ProcessingOrder": "Verwerkingsvolgorde",
+        "ProcessingOrder-Help": "Geeft de volgorde aan waarin bestanden door deze Node worden verwerkt. Deze instelling overschrijft de standaardverwerkingsvolgorde van de bibliotheek. Stel in op 'Standaard' om de verwerkingsvolgorde van de bibliotheek te gebruiken.",
         "Schedule": "Schema",
         "Schedule-Help": "Dit schema draait in de tijdzone van het knooppunt",
         "ScheduleDescription": "Dit stelt je in staat om te configureren wanneer dit knooppunt actief zal zijn.\n\nHet knooppunt verwerkt geen bestanden buiten dit geconfigureerde schema.",
@@ -1160,6 +1529,25 @@
         "Code": "Code",
         "Description": "Beschrijving",
         "Revision": "Herziening"
+      }
+    },
+    "Resellers": {
+      "Flows": {
+        "Single": "Reseller Flow",
+        "Title": "Reseller Flows",
+        "Fields": {
+          "Extensions": "Extensies",
+          "Extensions-Help": "De lijst met toegestane extensies die door deze flow kunnen worden verwerkt.",
+          "Flow": "Flow",
+          "Icon": "Icoon",
+          "MaxFileSize": "Maximale Bestandsgrootte",
+          "MaxFileSize-Help": "De maximale bestandsgrootte die door deze flow mag worden verwerkt.",
+          "Tokens": "Tokens",
+          "Tokens-Help": "Het aantal tokens dat een gebruiker nodig heeft om deze flow uit te voeren."
+        }
+      },
+      "Settings": {
+        "Title": "Reseller Instellingen"
       }
     },
     "Resources": {
@@ -1263,6 +1651,8 @@
         "DelayBetweenNextFile-Suffix": "milliseconden",
         "DockerModsOnServer": "DockerMods Op Server",
         "DockerModsOnServer-Help": "DockerMods moeten automatisch draaien bij het opstarten van de server of wanneer specifiek ingeschakeld. Anders worden ze alleen uitgevoerd wanneer een workflow wordt geïnitieerd.",
+        "DontUseTempFilesWhenMovingOrCopying": "Tijdelijke bestanden voor Verplaatsen/Kopiëren",
+        "DontUseTempFilesWhenMovingOrCopying-Help": "Gebruik .fftemp-bestanden om vroege detectie bij verplaatsen/kopiëren te voorkomen.",
         "HideProcessingFinishedNotifications": "Verwerken Voltooid Meldingen",
         "HideProcessingFinishedNotifications-Help": "Als er een toastmelding moet worden weergegeven in de webconsole wanneer een bestand is voltooid met verwerken.",
         "HideProcessingStartedNotifications": "Verwerken Gestart Meldingen",

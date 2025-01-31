@@ -37,11 +37,12 @@ public class MappedFileService : IFileService
     /// </summary>
     /// <param name="node">The processing node used for mapping file operations.</param>
     /// <param name="logger">the logger</param>
-    public MappedFileService(ProcessingNode node, ILogger logger)
+    /// <param name="dontUseTemporaryFilesForMoveCopy">If temporary files should not be used for move/copy</param>
+    public MappedFileService(ProcessingNode node, ILogger logger, bool dontUseTemporaryFilesForMoveCopy)
     {
         Logger = logger;
         int permissions = node.PermissionsFiles ?? Globals.DefaultPermissionsFile;
-        _localFileService = new LocalFileService()
+        _localFileService = new LocalFileService(dontUseTemporaryFilesForMoveCopy)
         {
             Logger = logger,
             PermissionsFile = permissions,

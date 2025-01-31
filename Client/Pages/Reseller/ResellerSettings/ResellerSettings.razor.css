@@ -1,0 +1,47 @@
+.settings {
+  height: 100%; }
+  .settings h3 {
+    font-size: 1.25rem;
+    font-weight: var(--bold, 600);
+    margin-bottom: 1.25rem; }
+  .settings ::deep .content {
+    margin: auto 1rem; }
+  .settings ::deep .btn-test {
+    margin: 2rem 0 0 14rem; }
+    .settings ::deep .btn-test .btn {
+      width: auto;
+      min-width: 9rem; }
+      .settings ::deep .btn-test .btn + .btn {
+        margin-left: 1rem; }
+  .settings ::deep .input-label {
+    width: 18rem !important;
+    min-width: 18rem !important; }
+  .settings ::deep .row + .row {
+    margin-top: 1rem; }
+  .settings ::deep .flow-tabs {
+    height: 100%; }
+    .settings ::deep .flow-tabs .row {
+      margin-right: 0;
+      margin-left: 0; }
+    .settings ::deep .flow-tabs .flow-tabs-content {
+      position: relative;
+      height: 100%; }
+    .settings ::deep .flow-tabs .flow-tab.active {
+      position: absolute;
+      top: 0.25rem;
+      bottom: 0;
+      right: 1rem;
+      left: 1rem;
+      overflow: auto;
+      padding-right: 1rem; }
+    .settings ::deep .flow-tabs hr {
+      margin: 2rem 4rem 2rem 0; }
+
+@media (max-width: 577.9999px) {
+  .settings ::deep .btn-test {
+    text-align: center;
+    margin: 2rem 0 0; }
+    .settings ::deep .btn-test .btn {
+      width: 100%; } }
+
+/*# sourceMappingURL=ResellerSettings.razor.css.map */

@@ -203,7 +203,19 @@ public enum FormInputType
     /// <summary>
     /// Input for selecting tag(s)
     /// </summary>
-    TagSelection = 46
+    TagSelection = 46,
+    /// <summary>
+    /// Custom fields
+    /// </summary>
+    CustomFields = 47,
+    /// <summary>
+    /// Language selector
+    /// </summary>
+    LanguageSelector = 48,
+    /// <summary>
+    /// Languages selector
+    /// </summary>
+    LanguagesSelector = 49
 }
 
 
@@ -263,36 +275,4 @@ public enum ScriptLanguage
     /// CSharp Language
     /// </summary>
     CSharp = 4
-}
-
-
-/// <summary>
-/// License levels
-/// </summary>
-public enum LicenseLevel
-{
-    /// <summary>
-    /// Free
-    /// </summary>
-    Free = 0,
-    /// <summary>
-    /// Basic
-    /// </summary>
-    Basic = 5,
-    /// <summary>
-    /// Standard
-    /// </summary>
-    Standard = 10,
-    /// <summary>
-    /// Premium
-    /// </summary>
-    Premium = 20,
-    /// <summary>
-    /// Professional
-    /// </summary>
-    Professional = 50,
-    /// <summary>
-    /// Enterprise
-    /// </summary>
-    Enterprise = 100
 }

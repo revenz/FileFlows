@@ -66,6 +66,11 @@ public class ProcessingNode: FileFlowObject
     /// Gets or sets the number of flow runners this node can run simultaneously 
     /// </summary>
     public int FlowRunners { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the processing order this node will use
+    /// </summary>
+    public ProcessingOrder? ProcessingOrder { get; set; }
 
     /// <summary>
     /// Gets or sets the SignalrUrl this node uses

@@ -1,7 +1,6 @@
-﻿using FileFlows.Server.Helpers;
-using FileFlows.Server.Controllers;
-using FileFlows.Server.Services;
-using FileFlows.ServerShared.Workers;
+﻿using FileFlows.Helpers;
+using FileFlows.Server.Helpers;
+using FileFlows.Services;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.Server.Workers;
@@ -29,14 +28,14 @@ public class PluginUpdaterWorker : ServerWorker
             return;
 
         Logger.Instance?.ILog("Plugin Updater started");
-        var controller = new PluginController(null);
-        var plugins = controller.GetAll().Result;
+        var service = ServiceLoader.Load<PluginService>();
+        var plugins = service.GetAllAsync().Result;
         var latestPackagesResult = ServiceLoader.Load<PluginService>().GetPluginPackagesActual().Result;
         var latestPackages = latestPackagesResult.IsFailed ? new () 
             : latestPackagesResult.Value;
 
         var pluginDownloader = new PluginDownloader();
-        
+        var pluginScanner = ServiceLoader.Load<IPluginScanner>();
         foreach(var plugin in plugins)
         {
             try
@@ -51,14 +50,16 @@ public class PluginUpdaterWorker : ServerWorker
                     continue;
                 }
 
-                var dlResult = pluginDownloader.Download(Version.Parse(package.Version), package.Package).Result;
+                var dlResult = pluginDownloader.Download(Version.Parse(package.Version), 
+                    package.Package, PluginService.GetXCode()
+                    ).Result;
 
                 if (dlResult.Success == false)
                 {
                     Logger.Instance.WLog($"Failed to download package '{plugin.PackageName}' update");
                     continue;
                 }
-                PluginScanner.UpdatePlugin(package.Package, dlResult.Data);
+                pluginScanner.UpdatePlugin(package.Package, dlResult.Data);
             }
             catch(Exception ex)
             {

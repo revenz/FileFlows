@@ -337,6 +337,26 @@ public class LibraryFileAdditional
     /// Gets or sets the version of FileFlows this file was processed on
     /// </summary>
     public string? Version { get; set; } = null;
+    
+    /// <summary>
+    /// Gets or sets a UID of a reseller user who this file belongs to
+    /// </summary>
+    public Guid? ResellerUserUid { get; set; }
+    
+    /// <summary>
+    /// Gets or sets a UID of a reseller flow who this file belongs to
+    /// </summary>
+    public Guid? ResellerFlowUid { get; set; }
+    /// <summary>
+    /// Gets or sets the original short name of a file.
+    /// This is only used for reseller files to display to reseller users.
+    /// </summary>
+    public string? ShortName { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the mime/type
+    /// </summary>
+    public string? MimeType { get; set; }
 }
 
 /// <summary>

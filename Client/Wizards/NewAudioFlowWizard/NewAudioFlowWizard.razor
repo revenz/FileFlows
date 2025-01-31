@@ -1,0 +1,27 @@
+@namespace FileFlows.Client.Wizards
+
+@using InputText = FileFlows.Client.Components.Inputs.InputText
+@inherits FlowWizardBase
+
+<Editor @ref="Editor"></Editor>
+@if (Editor != null && initDone)
+{
+    <CascadingValue IsFixed="true" Value="Editor">
+        <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
+
+            <FlowWizardPage TLabel="Dialogs.NewAudioFlowWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
+                <InputText @bind-Value="@FlowName" Label="Dialogs.NewAudioFlowWizard.Fields.Name" Validators=@RequiredValidator />
+                <InputText @bind-Value="@Description" Label="Dialogs.NewFlowCommon.Fields.Description" />
+
+                <InputSelect @bind-Value="@BoundCodec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewAudioFlowWizard.Fields.Codec" />
+                <InputSelect @bind-Value="@BoundBitrate" AllowClear="false" Options=@AudioBitrates Label="Dialogs.NewAudioFlowWizard.Fields.Bitrate" />
+                <InputSwitch @bind-Value="@Normalize" Label="Dialogs.NewAudioFlowWizard.Fields.Normalize" />
+            </FlowWizardPage>
+
+
+            <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">
+                <WizardOutput @ref="Output" />
+            </FlowWizardPage>
+        </FlowWizard>
+    </CascadingValue>
+}

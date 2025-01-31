@@ -1,4 +1,4 @@
-// using FileFlows.Server.Controllers;
+// using FileFlows.WebServer.Controllers;
 // using MySqlConnector;
 //
 // namespace FileFlowsTests.Tests.CacheControllers;
@@ -28,7 +28,7 @@
 //                 Type = 0,
 //             }
 //         };
-//         return new FileFlows.Server.Services.FlowService().Update(flow, null).Result;
+//         return new FileFlows.Services.FlowService().Update(flow, null).Result;
 //     }
 //     
 //     // /// <summary>

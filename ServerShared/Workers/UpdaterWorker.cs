@@ -295,7 +295,7 @@ public abstract class UpdaterWorker : Worker
 
             Logger.ILog($"{UpdaterName}: Update script found: " + updateFile);
 
-            if (Globals.IsLinux && FileHelper.MakeExecutable(updateFile) == false)
+            if (Globals.IsLinux && ServerShared.Helpers.FileHelper.MakeExecutable(updateFile) == false)
             {
                 Logger.WLog($"{UpdaterName}: Failed to make update script executable");
                 return string.Empty;

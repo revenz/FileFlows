@@ -20,7 +20,7 @@ public class EnvironmentalVariables: Command
     public string Variables { get; set; }
     
     /// <inheritdoc />
-    public override bool Run(Plugin.ILogger logger)
+    public override bool Run(ILogger logger)
     {
         if (string.IsNullOrWhiteSpace(Variables))
             return true;

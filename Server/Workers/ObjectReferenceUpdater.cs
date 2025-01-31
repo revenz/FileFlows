@@ -1,18 +1,15 @@
-using FileFlows.Server.Controllers;
-using FileFlows.Server.Services;
-using FileFlows.ServerShared.Services;
-using FileFlows.ServerShared.Workers;
+using FileFlows.Services;
 using FileFlows.Shared.Models;
-using FlowService = FileFlows.Server.Services.FlowService;
-using LibraryFileService = FileFlows.Server.Services.LibraryFileService;
-using LibraryService = FileFlows.Server.Services.LibraryService;
+using FlowService = FileFlows.Services.FlowService;
+using LibraryFileService = FileFlows.Services.LibraryFileService;
+using LibraryService = FileFlows.Services.LibraryService;
 
 namespace FileFlows.Server.Workers;
 
 /// <summary>
 /// Worker that will update all object references if names change
 /// </summary>
-public class ObjectReferenceUpdater:ServerWorker
+public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
 {
     private static bool IsRunning = false;
     /// <summary>
@@ -20,6 +17,7 @@ public class ObjectReferenceUpdater:ServerWorker
     /// </summary>
     public ObjectReferenceUpdater() : base(ScheduleType.Daily, 1)
     {
+        ServiceLoader.AddSpecialCase<IObjectReferenceUpdater>(this);
     }
 
     /// <inheritdoc />
@@ -27,6 +25,10 @@ public class ObjectReferenceUpdater:ServerWorker
     {
         Run();
     }
+
+    /// <inheritdoc />
+    public async Task RunUpdate()
+        => await RunAsync();
 
     /// <summary>
     /// Runs the updater asynchronously 

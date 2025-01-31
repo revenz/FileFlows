@@ -88,6 +88,7 @@
     "Ok": "OK",
     "Open": "開く",
     "OperatingSystem": "オペレーティングシステム",
+    "OriginalLanguage": "元の言語",
     "Other": "その他",
     "Output": "出力",
     "Paste": "貼り付け",
@@ -130,6 +131,7 @@
     "Search": "検索",
     "Searching": "検索中",
     "Select": "選択",
+    "SelectedNum": "{num} 選択済み",
     "SelectOne": "1つを選択",
     "SetStatusProcessed": "処理済みとしてマーク",
     "Settings": "設定",
@@ -251,6 +253,372 @@
       "Title": "スクリプトをインポート",
       "Messages": {
         "NoMoreImports": "このスクリプトには追加のインポートはありません"
+      }
+    },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "ビットレート",
+        "Bitrate-Help": "変換されたオーディオファイルのビットレート。",
+        "Codec": "コーデック",
+        "Codec-Help": "オーディオ変換に使用するコーデック。",
+        "Name": "名前",
+        "Name-Help": "フローの名前。これが一意である必要があります。",
+        "Normalize": "正規化",
+        "Normalize-Help": "処理中にオーディオを正規化するかどうかを示します。"
+      },
+      "Pages": {
+        "General": "一般",
+        "GeneralDescription": "オーディオファイルを変換するフローを作成します。"
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "コーデック",
+        "Codec-Help": "出力ビデオファイル用のコーデック。",
+        "Container": "コンテナ",
+        "Container-Help": "ビデオファイルのコンテナ形式。",
+        "Name": "名前",
+        "Name-Help": "フローの名前。これが一意である必要があります。",
+        "Resolution": "解像度",
+        "Resolution-Help": "出力ビデオファイルの解像度。",
+        "Visualization": "ビジュアライゼーション",
+        "Visualization-Help": "ビデオに表示されるビジュアライゼーション。"
+      },
+      "Pages": {
+        "General": "一般",
+        "GeneralDescription": "オーディオをビデオに変換するフローを作成します。"
+      }
+    },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "ソースと同じ"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "空白ページを削除",
+        "DeleteNonPageImages-Help": "新しいコミックファイルから空白ページを削除します。",
+        "EnsureTopDirectory": "トップディレクトリを確保",
+        "EnsureTopDirectory-Help": "すべてのファイルがサブディレクトリなしでコミックファイルのトップディレクトリ内に直接配置されていることを保証します。",
+        "Format": "画像フォーマット",
+        "Format-Help": "各ページを保存する画像フォーマット。",
+        "Name": "名前",
+        "Name-Help": "フローの名前です。一意である必要があります。",
+        "Quality": "品質",
+        "Quality-Help": "コミックページの品質。1は最も圧縮される/最悪の品質、100は最高の品質。"
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "コミックをCBZ（ZIPアーカイブフォーマット）として保存します。",
+        "Pdf": "PDF",
+        "PdfDescription": "コミックをPDFファイルとして保存します。"
+      },
+      "Pages": {
+        "Format": "フォーマット",
+        "FormatDescription": "コミックを保存するフォーマットを選択します。",
+        "General": "一般",
+        "GeneralDescription": "コミックを処理する新しいフローを作成します。"
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "元を削除",
+        "DeleteOld-Help": "元のファイルと、他のファイルがない場合は元のフォルダーを削除します。",
+        "Description": "説明",
+        "Description-Help": "新しく作成されたフローの説明です。",
+        "OutputPath": "出力パス",
+        "OutputPath-Help": "最終ファイルを保存するパス。",
+        "OutputPathWindows": "出力パス (Windows)",
+        "OutputPathWindows-Help": "保存先。ネットワークパスを含めることができます（例：\\\\my-nas\\media\\output）。"
+      },
+      "Messages": {
+        "NameRequired": "名前は必須です。",
+        "OutputPathRequired": "出力パスは必須です。"
+      },
+      "Output": {
+        "ReplaceOriginal": "元を置き換える",
+        "ReplaceOriginalDescription": "元のファイルを変換後のファイルで置き換えます。",
+        "ResellerMove": "リセラームーブ",
+        "ResellerMoveDescription": "ユーザー専用の一時フォルダにファイルを移動し、ダウンロードできるようにします。ファイルは設定された期間が経過した後に自動的に削除されます。",
+        "SaveToFolder": "フォルダーに保存",
+        "SaveToFolderDescription": "変換されたファイルを新しい場所に保存します。"
+      },
+      "Pages": {
+        "Output": "出力",
+        "OutputDescription": "最終ファイルの保存先を指定します。"
+      }
+    },
+    "NewFlowWizard": {
+      "Title": "新しいフローウィザード",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "オーディオからビデオへ",
+          "AudioToVideoDescription": "オーディオファイルをビデオファイルに変換します。",
+          "Blank": "空のオーディオ",
+          "BlankDescription": "オーディオファイルを処理するカスタムフローを作成するための空のオーディオベースのフロー。",
+          "Convert": "オーディオを変換",
+          "ConvertDescription": "オーディオフォーマットを変換するフローを作成します。"
+        },
+        "Basic": {
+          "FailureFlow": "空の失敗フロー",
+          "FailureFlowDescription": "フローが何らかの理由で失敗したときに実行される基本的な失敗フロー。",
+          "File": "空のファイル",
+          "FileDescription": "個別のファイルを処理するカスタムフローを作成するための空のファイルベースのフロー。",
+          "Folder": "空のフォルダ",
+          "FolderDescription": "フォルダ全体を処理するカスタムフローを作成するための空のフォルダベースのフロー。",
+          "SubFlow": "空のサブフロー",
+          "SubFlowDescription": "再利用可能なサブフローを作成するための空のサブフローベースのフロー。",
+          "Url": "URL",
+          "UrlDescription": "URLを処理するフローを作成するための空のURLベースのフロー。"
+        },
+        "Book": {
+          "Comic": "コミック",
+          "ComicDescription": "コミックを変換し、操作するためのフローを作成します。たとえば、画像フォーマットを変換したり、画像をリサイズしたりします。",
+          "eBook": "eBook",
+          "eBookDescription": "eBookフォーマットを変換するためのフローを作成します。"
+        },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "失敗が発生したときにAppriseに詳細なメッセージを送信します。",
+          "Blank": "空の失敗フロー",
+          "BlankDescription": "フローが失敗したときに実行される基本的な失敗フロー。",
+          "Discord": "Discord",
+          "DiscordDescription": "失敗が発生したときにDiscordに詳細なメッセージを送信します。",
+          "Gotify": "Gotify",
+          "GotifyDescription": "失敗が発生したときにGotifyに詳細なメッセージを送信します。",
+          "Telegram": "Telegram",
+          "TelegramDescription": "失敗が発生したときにTelegramに詳細なメッセージを送信します。"
+        },
+        "Image": {
+          "Blank": "空の画像",
+          "BlankDescription": "画像を処理するカスタムフローを作成するための空の画像ベースのフロー。",
+          "Convert": "画像を変換",
+          "ConvertDescription": "画像フォーマットを変換するフローを作成します。"
+        },
+        "Video": {
+          "AudioToVideo": "オーディオからビデオへ",
+          "AudioToVideoDescription": "オーディオファイルをビデオファイルに変換します。",
+          "Blank": "空のビデオ",
+          "BlankDescription": "ビデオファイルを処理するカスタムフローを作成するための空のビデオベースのフロー。",
+          "Convert": "ビデオを変換",
+          "ConvertDescription": "ビデオ、オーディオ、字幕を操作できるビデオ変換フローを作成するためのガイド付きウィザード。"
+        }
+      },
+      "Pages": {
+        "Audio": "オーディオ",
+        "AudioDescription": "オーディオファイルを処理するフローを作成します。",
+        "Basic": "基本",
+        "BasicDescription": "カスタムフローを作成するための基本的な空のフローを選択します。",
+        "Book": "本",
+        "BookDescription": "本を処理するフローを作成します。",
+        "Failure": "失敗",
+        "FailureDescription": "失敗時に実行されるフローを作成",
+        "Image": "画像",
+        "ImageDescription": "画像ファイルを処理するフローを作成します。",
+        "Users": "ユーザー",
+        "UsersDescription": "既存のフローを開く",
+        "Video": "ビデオ",
+        "VideoDescription": "ビデオファイルを処理するフローを作成します。"
+      }
+    },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "ロスレス形式",
+        "LossyFormats": "ロッシー形式"
+      },
+      "Fields": {
+        "Format": "形式",
+        "Format-Help": "ファイルを保存する画像形式。",
+        "Height": "高さ",
+        "Height-Help": "リサイズ後の画像の高さ。",
+        "Name": "名前",
+        "Name-Help": "フローの名前です。これが一意である必要があります。",
+        "Quality": "品質",
+        "Quality-Help": "新しい画像ファイルに使用する品質 (1～100)。",
+        "Resize": "リサイズ",
+        "Resize-Help": "画像をリサイズするかどうか。",
+        "Width": "幅",
+        "Width-Help": "リサイズ後の画像の幅。"
+      },
+      "Pages": {
+        "General": "一般",
+        "GeneralDescription": "画像を処理する新しいフローを作成します。",
+        "ResizeMode": "リサイズ",
+        "ResizeModeDescription": "画像をリサイズする方法を選択します。"
+      },
+      "Resize": {
+        "Contain": "コンテイン",
+        "ContainDescription": "指定された領域内に収まるようにアスペクト比を保持して画像をリサイズします。",
+        "Cover": "カバー",
+        "CoverDescription": "指定された幅/高さをカバーするように画像をリサイズし、余分な部分を切り取ります。",
+        "Fill": "フィル",
+        "FillDescription": "指定された幅/高さ全体に画像を埋め込み、アスペクト比を無視します。",
+        "Max": "最大",
+        "MaxDescription": "指定された幅/高さ内に収まり、アスペクト比を維持しながら画像をリサイズしますが、いずれの寸法も下回りません。",
+        "Min": "最小",
+        "MinDescription": "指定された幅/高さ内に収まるようにアスペクト比を維持しながら画像をリサイズします。",
+        "Pad": "パッド",
+        "PadDescription": "指定された幅/高さにリサイズし、必要に応じてパディングしてアスペクト比を保持します。"
+      }
+    },
+    "NewLibraryWizard": {
+      "Title": "新しいライブラリ",
+      "Labels": {
+        "FileExtensions": "拡張子",
+        "FileExtensionsDescription": "このライブラリで処理する拡張子を指定します。",
+        "FileTypes": "ファイルタイプ",
+        "FileTypesDescription": "このライブラリで検出および処理するファイルタイプを指定します。",
+        "General": "一般",
+        "GeneralDescription": "このライブラリに関する一般的な情報を入力してください。",
+        "LibraryType": "タイプ",
+        "LibraryTypeDescription": "作成するライブラリの種類を選択してください。",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "指定されたダウンロードフォルダ内で見つかったファイルを処理します。ファイルはフォルダ内で検出されるたびに処理されます。同じファイルを再処理しないように、処理後にそのフォルダからファイルを移動または削除してください。ファイルが再び出現すると、新しいものとして扱われ、再処理されます。",
+            "Title": "ダウンロード"
+          },
+          "Files": {
+            "Description": "選択したフォルダとそのサブフォルダ内のすべての個別ファイルを処理します。これは、ビデオ、オーディオ、または画像フォーマットの変換など、ファイルを1つずつ処理したい場合に一般的に選ばれるオプションです。フォルダとそのサブフォルダを検索し、処理する対象のファイルを探します。",
+            "Title": "ファイル"
+          },
+          "Folders": {
+            "Description": "選択したフォルダを全体として処理します。個別のファイルを検索することはありません。このオプションを選択するのは、フォルダ自体を操作したい場合、例えばフォルダ内のすべてのファイルをZIPファイルに圧縮する場合や、フォルダレベルでの操作を実行する場合です。",
+            "Title": "フォルダ"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "拡張子",
+        "FileExtensions-Help": "すべてのファイルを処理するには空白のままにするか、このライブラリで処理するファイルの拡張子を指定してください。",
+        "Flow": "フロー",
+        "Flow-Help": "このライブラリ内の項目を処理するために使用するフロー。",
+        "Name": "名前",
+        "Name-Help": "新しいライブラリの名前。ユニークである必要があります。",
+        "Path": "パス",
+        "Path-Help": "ライブラリ用のディレクトリパスを指定してください。",
+        "PathWindows": "パス",
+        "PathWindows-Help": "ライブラリ用のディレクトリパスを指定してください。ネットワークパスの場合は、\\\\my-nas\\media\\movies の形式を使用してください。"
+      },
+      "FileTypes": {
+        "Audio": "オーディオ",
+        "Audiobook": "オーディオブック",
+        "AudiobookDescription": "mp3、m4b、aaxなどのオーディオブックファイルを処理します。",
+        "AudioDescription": "mp3、flac、wav、aacなどのオーディオファイルを処理します。",
+        "Comic": "コミック",
+        "ComicDescription": "cbz、cbr、cb7、pdfなどのコミックファイルを処理します。",
+        "Custom": "カスタム",
+        "CustomDescription": "処理するファイルの拡張子を手動で指定します。",
+        "eBook": "電子書籍",
+        "eBookDescription": "epub、mobi、azw3、pdfなどの電子書籍ファイルを処理します。",
+        "Image": "画像",
+        "ImageDescription": "jpg、png、gif、bmp、tiffなどの画像ファイルを処理します。",
+        "Video": "ビデオ",
+        "VideoDescription": "mkv、mp4、wmv、ts、mpegなどのビデオファイルを処理します。"
+      },
+      "Messages": {
+        "FlowRequired": "フローは必須です。",
+        "NameRequired": "ライブラリ名は必須です。",
+        "PathRequired": "ライブラリパスは必須です。"
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Labels": {
+        "Bitrate": "ビットレート",
+        "BitrateDescription": "ビデオのエンコード時に固定ビットレートを使用します。これにより、ビデオ間でファイルサイズが一定になりますが、ビットレートが最適でない場合、ストレージを無駄にしたり品質を失ったりする可能性があります。",
+        "FileExtensions": "拡張子",
+        "FileExtensionsDescription": "このライブラリで処理する拡張子を指定します。",
+        "Quality": "品質",
+        "QualityDescription": "ビデオの入力に基づいて適応的なエンコードを使用し、一定の品質レベルを達成します。これは推奨され、ビデオ間で一定の品質を維持し、最小のファイルサイズを生成します。",
+        "UseOriginal": "変更せずにオリジナルを使用",
+        "Types": {
+          "Film": "映画",
+          "FilmDescription": "映画を処理し、Metaプラグインを使用してその情報を検索します。これにより、映画の元の言語を特定できます。",
+          "TV": "テレビ",
+          "TVDescription": "テレビ番組を処理し、Metaプラグインを使用してその情報を検索します。これにより、テレビ番組の元の言語を特定できます。",
+          "Video": "ビデオ",
+          "VideoDescription": "一般的なビデオファイルで、追加のメタデータ検索は行われません。"
+        }
+      },
+      "Fields": {
+        "AttemptHardwareEncode": "ハードウェアエンコード",
+        "AttemptHardwareEncode-Help": "ハードウェアエンコード（GPU）を使用してみてください。GPUエンコードが失敗した場合、CPUエンコードに切り替わります。",
+        "AudioChannels": "チャンネル",
+        "AudioChannels-Help": "オーディオのチャンネル数。既存のオーディオトラックを使用してこのトラックを作成し、必要に応じてダウンミックスできますが、アップミックスは行いません。そのため、利用可能なチャンネル数より多くを選択した場合、そのトラックは追加されません。",
+        "AudioCodec": "コーデック",
+        "AudioCodec-Help": "オーディオに使用するコーデック",
+        "AudioLanguages": "言語",
+        "AudioLanguages-Help": "保持したい言語を順番に指定します。",
+        "Bitrate": "ビットレート",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "オーディオを変換",
+        "ConvertAudioDescription": "指定された形式にオーディオトラックを変換します。",
+        "CopyAllAudio": "すべてのオーディオをコピー",
+        "CopyAllAudioDescription": "すべてのオーディオトラックをそのまま変更せずにコピーします。",
+        "CopyOnlyLanguages": "指定された言語のみコピー",
+        "CopyOnlyLanguagesDescription": "以下で指定された言語のみをコピーします。他のすべての言語は削除されます。オーディオトラックは変更せずにコピーされます。",
+        "CropBlackBars": "黒帯をトリミング",
+        "CropBlackBars-Help": "FileFlowsはビデオファイル内の黒帯を検出し、見つかった場合はファイルサイズを縮小し、プレーヤーでのアスペクト比変更を可能にするためにトリミングします。",
+        "DefaultLanguage": "デフォルト言語",
+        "DefaultLanguage-Help": "現在言語が指定されていないオーディオトラックに割り当てる言語を指定します。",
+        "KeepAllSubtitles": "すべての字幕を保持",
+        "KeepAllSubtitlesDescription": "オリジナルビデオからすべての字幕を保持します。",
+        "KeepOnlySpecifiedSubtitles": "指定した字幕のみ保持",
+        "KeepOnlySpecifiedSubtitlesDescription": "指定した字幕のみ保持し、それ以外は削除されます。",
+        "Name": "名前",
+        "Name-Help": "新しく作成されたフローの名前で、ユニークである必要があります。",
+        "Quality": "品質",
+        "Quality-Suffix": "高品質",
+        "ReplaceOriginal": "オリジナルを置き換える",
+        "ReplaceOriginal-Help": "オリジナルのビデオファイルを新しく作成したものと置き換えます。",
+        "SaveToFolder": "フォルダーに保存",
+        "SaveToFolder-Help": "新しく作成されたファイルを新しい場所に保存します。",
+        "SubtitleLanguages": "言語",
+        "SubtitleLanguages-Help": "保持したい言語を順番に指定します。",
+        "TwoAudioVersions": "2つのオーディオバージョン",
+        "TwoAudioVersions-Help": "2つのオーディオトラックバージョンを作成する必要がある場合。例えば、サラウンドとステレオのトラックを作成する場合です。それ以外は、1つのバージョンだけが作成されます。",
+        "VideoCodec": "ビデオコーデック",
+        "VideoCodec-Help": "ビデオに使用するコーデック",
+        "VideoContainer": "コンテナ",
+        "VideoContainer-Help": "使用するビデオコンテナ。MP4は字幕フォーマットが少ないため、MKVの使用をお勧めします。",
+        "QualityLevel": {
+          "Good": "良い",
+          "High": "高い",
+          "Ok": "普通",
+          "Recommended": "推奨",
+          "VeryHigh": "非常に高い"
+        }
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "少なくとも1つのオーディオ言語を指定する必要があります。",
+        "Audio2LanguageRequired": "少なくとも1つの追加のオーディオ言語を指定する必要があります。",
+        "AudioMode2LanguagesRequired": "音声言語が必要です。",
+        "SubtitleLanguageRequired": "字幕言語が必要です。"
+      },
+      "Pages": {
+        "Audio": "オーディオ",
+        "Audio1": "変換",
+        "Audio1Description": "保持するオーディオ言語とそのエンコーディング設定を指定します。",
+        "Audio2": "追加オーディオ",
+        "Audio2Description": "セカンダリオーディオトラックのエンコーディング設定を定義します。",
+        "AudioDescription": "オーディオトラックに適用するアクションを指定します。",
+        "General": "一般",
+        "GeneralDescription": "このフローに関する一般情報を入力してください。",
+        "Output": "出力",
+        "OutputDescription": "最終ファイルを保存する場所を指定します。",
+        "Subtitle": "字幕",
+        "SubtitleDescription": "出力に含める字幕を選択します。",
+        "Type": "種類",
+        "TypeDescription": "処理する動画の種類を選択します。",
+        "Video": "ビデオ",
+        "VideoDescription": "ビデオストリームのエンコード方法を選択します。"
+      },
+      "Parts": {
+        "CpuFailOverEncode": "CPU フェイルオーバーエンコード",
+        "CpuFailOverExecutor": "CPU フェイルオーバー実行者",
+        "DefaultLanguage": "デフォルト言語を ''{lang}'' に設定",
+        "PrimaryAudio": "主要オーディオ",
+        "RemoveUnsupportedSubtitles": "サポートされていない字幕を削除",
+        "RemoveUnwantedSubtitles": "不要な字幕言語を削除",
+        "RemuxToContainer": "{container} にリマックス",
+        "SecondaryAudio": "副次オーディオ"
       }
     },
     "PauseDialog": {
@@ -755,15 +1123,12 @@
         "SubFlowHelp": "サブフローにカスタムパラメータを渡すための入力フィールドを追加するには、`Fields` タブで作成します。\n\nサブフローには、任意の有効な入力フロー要素（例: `Input File`, `Video File` など）の単一の `Input` が必要です。"
       },
       "Fields": {
-        "Author": "作成者",
-        "Author-Help": "このフローの作成者を指定することができます。",
         "Description": "説明",
-        "MinimumVersion": "最小バージョン",
+        "Icon": "アイコン",
         "Outputs": "出力",
         "Outputs-Help": "このサブフローの出力の数です。このサブフローを他のフローで使用する際に利用可能な出力の数です。",
         "OutputsKey": "出力",
         "OutputsValue": "説明",
-        "Tags": "タグ",
         "Variables": "変数",
         "VariablesKey": "名前",
         "VariablesValue": "値",
@@ -901,6 +1266,8 @@
         "DetectFileSizeLower": "",
         "DetectFileSizeUpper": "",
         "DetectionDescription": "ここで、与えられたパターンに一致するファイルのみを検出するライブラリを構成できます。\n\nたとえば、次のようなファイルのみを含めることができます。\n\t- 7日以内に作成されたファイル\n\t- 3日から7日間の間に最終書き込みが行われたファイル\n\t- サイズが1ギガバイトを超えるファイル",
+        "DisableFileSystemEvents": "ファイルシステムイベント",
+        "DisableFileSystemEvents-Help": "ファイルシステムイベントを監視するかどうかを指定します。有効にすると、システムはファイルの作成および変更イベントを監視し、それらがライブラリ設定に一致するかを確認して、処理のためにライブラリに追加します。",
         "DownloadsDirectory": "ダウンロードディレクトリ",
         "DownloadsDirectory-Help": "処理が成功したファイルがこのフォルダで再発見されると、そのファイルは自動的に再処理されます。\n再ダウンロードしたファイルに便利です。",
         "Enabled": "有効",
@@ -1087,7 +1454,7 @@
         "Enabled": "有効",
         "FlowRunners": "フローロンナー",
         "FlowRunners-Help": "フローを実行するために使用できるフローロンナーインスタンスの数。",
-        "Icon": "カスタムアイコン",
+        "Icon": "アイコン",
         "InternalProcessingNodeDescription": "これはFileFlows内蔵の処理ノードです。\n\nこのノードを使用すると、リモートシステムに他のノードをインストールすることを心配せずにFileFlowsを実行でき、FileFlowsを自己完結型アプリケーションとして使用できます。\n\nこの内部ノードと追加の処理ノードを引き続き使用することもできますし、このノードを無効にして追加のノードのみを使用することもできます。",
         "Libraries": "ライブラリ",
         "Libraries-Help": "このノードが処理できるライブラリを選択",
@@ -1110,6 +1477,8 @@
         "ProcessFileCheckInterval-Help": "処理ノードで新しいファイルを処理するためにどのくらいの頻度でチェックするか。\n0に設定すると、システム値を使用します。",
         "ProcessFileCheckInterval-Suffix": "秒",
         "ProcessingDescription": "これにより、この処理ノードが何を処理できるかを設定できます。\n\n例えば、このノードが低パワーノードである場合、特定のライブラリや最大ファイルサイズのみを処理するように制限できます。",
+        "ProcessingOrder": "処理順序",
+        "ProcessingOrder-Help": "このノードがファイルを処理する順序を指定します。この設定はライブラリのデフォルトの処理順序を上書きします。「デフォルト」に設定すると、ライブラリの処理順序を使用します。",
         "Schedule": "スケジュール",
         "Schedule-Help": "このスケジュールはノードのタイムゾーンで実行されます",
         "ScheduleDescription": "これにより、このノードがアクティブになる時間を設定できます。\n\nこの設定されたスケジュール外でノードはファイルを処理しません。\n",
@@ -1160,6 +1529,25 @@
         "Code": "コード",
         "Description": "説明",
         "Revision": "改訂"
+      }
+    },
+    "Resellers": {
+      "Flows": {
+        "Single": "リセラーフロー",
+        "Title": "リセラーフロー",
+        "Fields": {
+          "Extensions": "拡張子",
+          "Extensions-Help": "このフローで処理可能な許可された拡張子のリスト。",
+          "Flow": "フロー",
+          "Icon": "アイコン",
+          "MaxFileSize": "最大ファイルサイズ",
+          "MaxFileSize-Help": "このフローで処理可能な最大ファイルサイズ。",
+          "Tokens": "トークン",
+          "Tokens-Help": "ユーザーがこのフローを実行するのに必要なトークン数。"
+        }
+      },
+      "Settings": {
+        "Title": "リセラー設定"
       }
     },
     "Resources": {
@@ -1263,6 +1651,8 @@
         "DelayBetweenNextFile-Suffix": "ミリ秒",
         "DockerModsOnServer": "サーバー上のDockerMods",
         "DockerModsOnServer-Help": "DockerModsは、サーバーの起動時または特に有効にされたときに自動的に実行される必要があります。それ以外の場合は、ワークフローが開始されたときにのみ実行されます。",
+        "DontUseTempFilesWhenMovingOrCopying": "移動/コピー用一時ファイル",
+        "DontUseTempFilesWhenMovingOrCopying-Help": ".fftemp ファイルを使用して、移動やコピー中の早期検出を回避します。",
         "HideProcessingFinishedNotifications": "処理終了通知を隠す",
         "HideProcessingFinishedNotifications-Help": "ファイルの処理が完了したときにWebコンソールにトースト通知を表示する必要があるかどうか。",
         "HideProcessingStartedNotifications": "処理開始通知を隠す",

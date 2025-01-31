@@ -17,7 +17,7 @@ public class Converter
     /// <param name="value">The object to convert</param>
     /// <param name="logger">Optional logger to use for logging</param>
     /// <returns>The converted object</returns>
-    public static object ConvertObject(Type type, object? value, Plugin.ILogger? logger = null)
+    public static object ConvertObject(Type type, object? value, ILogger? logger = null)
     {
         if (value == null)
             return Activator.CreateInstance(type)!;

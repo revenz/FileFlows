@@ -57,6 +57,11 @@ public class LibraryFileFilter
     public Guid? NodeUid { get; set; }
     
     /// <summary>
+    /// Gets or sets an optional override for node processing order
+    /// </summary>
+    public ProcessingOrder? NodeProcessingOrder { get; set; }
+    
+    /// <summary>
     /// Gets or sets a Node UID of the processing node requesting this file
     /// </summary>
     public Guid? ProcessingNodeUid { get; set; }
@@ -85,6 +90,16 @@ public class LibraryFileFilter
     /// Gets or sets the system info
     /// </summary>
     public LibraryFilterSystemInfo SysInfo { get; set; } = new();
+    
+    /// <summary>
+    /// Gets or sets a UID of a reseller user who this file belongs to
+    /// </summary>
+    public Guid? ResellerUserUid { get; set; }
+    
+    /// <summary>
+    /// Gets or sets a UID of a reseller flow who this file belongs to
+    /// </summary>
+    public Guid? ResellerFlowUid { get; set; }
 
     /// <summary>
     /// Tests if a file matches the filter
@@ -127,8 +142,15 @@ public class LibraryFileFilter
                 // need to check that it isn't actually disabled
                 if (file.IsForcedProcessing)
                     return true; // its forced to process
-                if (file.LibraryUid != null && SysInfo.AllLibraries.TryGetValue(file.LibraryUid.Value, out var lib) && lib?.Enabled == false)
-                    return false; // its actually disabled
+                if (file.LibraryUid != null && SysInfo.AllLibraries.TryGetValue(file.LibraryUid.Value, out var lib))
+                {
+                    if (lib.Enabled == false)
+                        return false; // its actually disabled
+                    if (string.IsNullOrWhiteSpace(lib.Schedule) == false &&
+                        TimeHelper.InSchedule(lib.Schedule) == false)
+                        return false; // not in schedule
+                }
+
                 if(file.HoldUntil > DateTime.UtcNow)
                     return false; // its on hold
             }
@@ -156,6 +178,10 @@ public class LibraryFileFilter
         if (FlowUid != null && file.FlowUid != FlowUid)
             return false;
         if (TagUid != null && file.Tags?.Contains(TagUid.Value) != true)
+            return false;
+        if (ResellerUserUid != null && file.Additional?.ResellerUserUid != ResellerUserUid)
+            return false;
+        if (ResellerFlowUid != null && file.Additional?.ResellerFlowUid != ResellerFlowUid)
             return false;
 
         return true;

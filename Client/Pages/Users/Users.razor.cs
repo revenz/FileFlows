@@ -66,16 +66,16 @@ public partial class Users: ListPage<Guid, User>
         {
             InputType = FormInputType.Text,
             Name = nameof(item.Name),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required()
+            Validators = new List<Validator> {
+                new Required()
             }
         });
         fields.Add(new ElementField
         {
             InputType = FormInputType.Text,
             Name = nameof(item.Email),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required()
+            Validators = new List<Validator> {
+                new Required()
             }
         });
 
@@ -85,8 +85,8 @@ public partial class Users: ListPage<Guid, User>
             {
                 InputType = FormInputType.Password,
                 Name = nameof(item.Password),
-                Validators = new List<FileFlows.Shared.Validators.Validator> {
-                    new FileFlows.Shared.Validators.Required()
+                Validators = new List<Validator> {
+                    new Required()
                 }
             });
         }

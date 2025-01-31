@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 using FileFlows.Plugin;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.Shared.Models;
 using MailKit.Net.Smtp;
 using MimeKit;

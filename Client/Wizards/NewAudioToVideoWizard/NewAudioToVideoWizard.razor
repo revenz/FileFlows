@@ -1,0 +1,27 @@
+@namespace FileFlows.Client.Wizards
+
+@using InputText = FileFlows.Client.Components.Inputs.InputText
+@inherits FlowWizardBase
+
+<Editor @ref="Editor"></Editor>
+@if (Editor != null && initDone)
+{
+    <CascadingValue IsFixed="true" Value="Editor">
+        <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
+
+            <FlowWizardPage TLabel="Dialogs.NewAudioToVideoWizard.Pages.General" OnPageAdvanced="OnGeneralPageAdvanced">
+                <InputText @bind-Value="@FlowName" Label="Dialogs.NewAudioToVideoWizard.Fields.Name" Validators=@RequiredValidator />
+                <InputText @bind-Value="@Description" Label="Dialogs.NewFlowCommon.Fields.Description" />
+
+                <InputSelect @bind-Value="@BoundVisualization" AllowClear="false" Options=@Visualizations Label="Dialogs.NewAudioToVideoWizard.Fields.Visualization" />
+                <InputSelect @bind-Value="@BoundContainer" AllowClear="false" Options=@VideoContainers Label="Dialogs.NewAudioToVideoWizard.Fields.Container" />
+                <InputSelect @bind-Value="@BoundResolution" AllowClear="false" Options=@VideoResolutions Label="Dialogs.NewAudioToVideoWizard.Fields.Resolution" />
+                <InputSelect @bind-Value="@BoundCodec" AllowClear="false" Options=@VideoCodecs Label="Dialogs.NewAudioToVideoWizard.Fields.Codec" />
+            </FlowWizardPage>
+
+            <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">
+                <WizardOutput @ref="Output" />
+            </FlowWizardPage>
+        </FlowWizard>
+    </CascadingValue>
+}

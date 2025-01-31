@@ -1,5 +1,5 @@
 ﻿using System.IO.Compression;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.ServerShared.Models;
 using FileFlows.Shared.Models;
 
@@ -8,24 +8,24 @@ namespace FileFlows.Server.Helpers;
 /// <summary>
 /// Helper class for plugins which allows scanning, updating etc
 /// </summary>
-public class PluginScanner
+public class PluginScanner : IPluginScanner
 {
     /// <summary>
     /// Gets the directory where the plugins are stored
     /// </summary>
     /// <returns>the directory where plugins are stored</returns>
-    public static string GetPluginDirectory() => DirectoryHelper.PluginsDirectory;
+    public string GetPluginDirectory() => DirectoryHelper.PluginsDirectory;
 
     /// <summary>
     /// Scans the disk for plugins
     /// </summary>
-    public static void Scan()
+    public void Scan()
     {
         Logger.Instance.DLog("Scanning for plugins");
         var pluginDir = GetPluginDirectory();
         Logger.Instance.DLog("Plugin path:" + pluginDir);
 
-        if (Application.Docker)
+        if (FileFlows.Common.Globals.IsDocker)
             EnsureDefaultsExist(pluginDir);
 
         var service = new PluginService();
@@ -34,7 +34,7 @@ public class PluginScanner
         List<string> installed = new List<string>();
         var options = new JsonSerializerOptions
         {
-            Converters = { new Shared.Json.ValidatorConverter() }
+            Converters = { new Validators.ValidatorConverter() }
         };
 
         // dictionary of languages index by their language code
@@ -301,7 +301,7 @@ public class PluginScanner
     {
         Logger.Instance.ILog("PluginScanner: Ensuring default plugins exist: " + pluginDir);
         DirectoryInfo di = new DirectoryInfo(pluginDir);
-        FileHelper.CreateDirectoryIfNotExists(di.FullName);
+        FileFlows.Helpers.FileHelper.CreateDirectoryIfNotExists(di.FullName);
 
         var rootPlugins = new DirectoryInfo(Path.Combine(DirectoryHelper.BaseDirectory, "Server/Plugins"));
 
@@ -363,7 +363,7 @@ public class PluginScanner
             }
             var options = new JsonSerializerOptions
             {
-                Converters = { new Shared.Json.ValidatorConverter() }
+                Converters = { new Validators.ValidatorConverter() }
             };
 
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
@@ -385,7 +385,7 @@ public class PluginScanner
     /// <param name="packageName">the plugin package name</param>
     /// <param name="data">the binary data of the plugin (ffplugin byte[] data)</param>
     /// <returns>true if successful</returns>
-    internal static bool UpdatePlugin(string packageName, byte[] data)
+    public bool UpdatePlugin(string packageName, byte[] data)
     {
         if (string.IsNullOrEmpty(packageName))
             throw new InvalidDataException("PackageName is required");
@@ -415,7 +415,7 @@ public class PluginScanner
     /// Deletes a plugin package from disk
     /// </summary>
     /// <param name="packageName">the name of the plugin package to delete (without the .ffplugin extension)</param>
-    internal static void Delete(string packageName)
+    public void Delete(string packageName)
     {
         string file = Path.Combine(GetPluginDirectory(), packageName + ".ffplugin");
         if(File.Exists(file))

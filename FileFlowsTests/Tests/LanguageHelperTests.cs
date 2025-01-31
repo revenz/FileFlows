@@ -26,6 +26,10 @@ public class LanguageHelperTests: TestBase
     [TestMethod]
     public void Matches_Aliases()
     {
+        Assert.IsTrue(LanguageHelper.Matches(args, "chi", "chi"));
+        Assert.IsTrue(LanguageHelper.Matches(args, "zh", "zh"));
+        Assert.IsTrue(LanguageHelper.Matches(args, "zho", "Chinese"));
+        
         Assert.IsTrue(LanguageHelper.Matches(args, "eng", "eng"));
         Assert.IsTrue(LanguageHelper.Matches(args, "eng", "en"));
         Assert.IsTrue(LanguageHelper.Matches(args, "eng", "English"));

@@ -102,11 +102,50 @@ window.ff = {
         document.body.appendChild(tag);
     },
     downloadFile: function (url, filename) {
-        const anchorElement = document.createElement('a');
-        anchorElement.href = url;
-        anchorElement.download = filename ? filename : 'File';
-        anchorElement.click();
-        anchorElement.remove();
+        let authToken = ff.getAccessToken();
+        if(authToken)
+        {            
+            // Make a fetch request to the server, including the Authorization header
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`, // Add your Authorization token here
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch file');
+                }
+                return response.blob(); // Convert response to Blob (binary data)
+            })
+            .then(blob => {
+                // Create a temporary URL for the Blob
+                const url = window.URL.createObjectURL(blob);
+
+                // Create a hidden <a> element to trigger the download
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename || 'download';  // Set the filename for the download
+                document.body.appendChild(link); // Append the link to the body (required for Firefox)
+
+                // Trigger a click event on the link to start the download
+                link.click();
+
+                // Cleanup: remove the link and revoke the object URL
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Download failed:', error);
+            });
+        }
+        else {
+            const anchorElement = document.createElement('a');
+            anchorElement.href = url;
+            anchorElement.download = filename ? filename : 'File';
+            anchorElement.click();
+            anchorElement.remove();
+        }
     },
     saveTextAsFile: function (fileName, textContent) {
         // Create a Blob with the file contents

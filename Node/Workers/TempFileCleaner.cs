@@ -43,6 +43,9 @@ public class TempFileCleaner : Worker
         Logger.Instance?.ILog("About to clean temporary directory: " + tempDir.FullName);
         foreach (var dir in tempDir.GetDirectories())
         {
+            if (dir.Name.StartsWith("Runner-", StringComparison.InvariantCultureIgnoreCase) == false)
+                continue;
+            
             if (executors.Contains(dir.Name))
             {
                 Logger.Instance?.ILog($"Skipping directory '{dir.Name}' as it still executing");

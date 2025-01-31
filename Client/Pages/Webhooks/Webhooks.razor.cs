@@ -81,18 +81,18 @@ public partial class Webhooks : ListPage<Guid, Webhook>
         {
             InputType = FormInputType.Text,
             Name = nameof(Webhook.Name),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required()
+            Validators = new List<Validator> {
+                new Required()
             },
         });
         fields.Add(new ElementField
         {
             InputType = FormInputType.Text,
             Name = nameof(Webhook.Route),
-            Validators = new List<FileFlows.Shared.Validators.Validator>
+            Validators = new List<Validator>
             {
-                new FileFlows.Shared.Validators.Required(),
-                new FileFlows.Shared.Validators.Pattern() { Expression = @"^[a-zA-Z0-9\-._+]+$" }
+                new Required(),
+                new Pattern() { Expression = @"^[a-zA-Z0-9\-._+]+$" }
             },
         });
         fields.Add(new ElementField

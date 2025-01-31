@@ -73,6 +73,8 @@ public class Program
             {
                 if (args.Name.StartsWith("FileFlows.Plugin"))
                     return typeof(Plugin.IPlugin).Assembly;
+                if (args.Name.StartsWith("FileFlows.Common"))
+                    return typeof(FileFlows.Common.ILogger).Assembly;
                 return null;
             };
         }

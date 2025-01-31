@@ -1,13 +1,14 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using FileFlows.Server.Helpers;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.ServerShared.Workers;
 using FileFlows.Shared.Helpers;
 using FileFlows.Shared.Models;
-using FlowService = FileFlows.Server.Services.FlowService;
-using LibraryFileService = FileFlows.Server.Services.LibraryFileService;
-using LibraryService = FileFlows.Server.Services.LibraryService;
-using NodeService = FileFlows.Server.Services.NodeService;
+using FlowService = FileFlows.Services.FlowService;
+using LibraryFileService = FileFlows.Services.LibraryFileService;
+using LibraryService = FileFlows.Services.LibraryService;
+using NodeService = FileFlows.Services.NodeService;
 
 namespace FileFlows.Server.Workers;
 
@@ -18,6 +19,75 @@ public class TelemetryReporter : ServerWorker
         Trigger();
     }
 
+    private string GetHostOs()
+    {
+        if (Application.Docker == false)
+        {
+            return OperatingSystem.IsMacOS() ? "MacOS" :
+                OperatingSystem.IsLinux() ? "Linux" :
+                OperatingSystem.IsFreeBSD() ? "FreeBSD" :
+                OperatingSystem.IsWindows() ? "Windows" :
+                RuntimeInformation.OSDescription;
+        }
+
+        // unRAID adds this
+        var hostOs = Environment.GetEnvironmentVariable("HOST_OS");
+        if(string.IsNullOrWhiteSpace(hostOs) == false)
+            return "Docker: " + hostOs.Trim();
+
+        var dockerHostOs = GetDockerHostOs();
+        if (string.IsNullOrWhiteSpace(dockerHostOs) == false)
+            return "Docker:" + dockerHostOs.Trim();
+
+        return "Docker";
+
+    }
+    /// <summary>
+    /// Gets the host operating system by running the Docker command.
+    /// </summary>
+    /// <returns>
+    /// A string representing the host operating system, or an empty string if the OS cannot be determined.
+    /// </returns>
+    public static string GetDockerHostOs()
+    {
+        try
+        {
+            // Create a new process to run the Docker CLI command
+            var processStartInfo = new ProcessStartInfo
+            {
+                FileName = "docker",
+                ArgumentList = { "info", "--format", "'{{json .OperatingSystem}}'" },
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            using var process = Process.Start(processStartInfo);
+
+            process.Start();
+
+            // Read the output from the Docker command
+            string output = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+
+            if (output.Contains("daemon"))
+                return string.Empty; // likely `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`
+
+            // Check the exit code to ensure the command succeeded
+            if (process.ExitCode == 0)
+            {
+                // Trim and clean the output, removing any extra quotes
+                return output.Replace("'", "").Replace("\"", "").Replace("\\n", "").Trim();
+            }
+        }
+        catch (Exception)
+        {
+            // Ignored
+        }
+
+        return string.Empty;
+    }
+
     /// <inheritdoc />
     protected override void ExecuteActual(Settings settings)
     {
@@ -26,10 +96,8 @@ public class TelemetryReporter : ServerWorker
 // #if (DEBUG && false)
 //             return;
 // #else
-            if (settings.DisableTelemetry == true && LicenseHelper.IsLicensed())
+            if (settings.DisableTelemetry == true && LicenseService.IsLicensed())
                 return; // they have turned it off, dont report anything
-
-            bool isDocker = Application.Docker;
 
             TelemetryData data = new TelemetryData();
             data.ClientUid = settings.Uid;
@@ -49,12 +117,7 @@ public class TelemetryReporter : ServerWorker
                 HardwareInfo = x.Uid == CommonVariables.InternalNodeUid ? hardwareInfo : x.HardwareInfo
             }).ToList();
             data.Architecture = RuntimeInformation.ProcessArchitecture.ToString();
-            data.OS = isDocker ? "Docker" :
-                OperatingSystem.IsMacOS() ? "MacOS" :
-                OperatingSystem.IsLinux() ? "Linux" :
-                OperatingSystem.IsFreeBSD() ? "FreeBSD" :
-                OperatingSystem.IsWindows() ? "Windows" :
-                RuntimeInformation.OSDescription;
+            data.OS = GetHostOs();
 
             var lfService = ServiceLoader.Load<LibraryFileService>();
             var libFileStatus = lfService.GetStatus().Result;

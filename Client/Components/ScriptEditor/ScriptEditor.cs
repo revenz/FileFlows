@@ -2,7 +2,6 @@ using System.Text.RegularExpressions;
 using FileFlows.Client.Components.Inputs;
 using FileFlows.Plugin;
 using FileFlows.ScriptExecution;
-using FileFlows.Shared.Validators;
 using Logger = FileFlows.Shared.Logger;
 
 namespace FileFlows.Client.Components.ScriptEditor;
@@ -255,7 +254,7 @@ return 1;
             },
             Validators = item.Type == ScriptType.Flow ? new List<Validator>
             {
-                new ScriptValidator()
+                //new ScriptValidator()
             } : new List<Validator>()
         });
 

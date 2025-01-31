@@ -36,8 +36,8 @@ public partial class Tags : ListPage<Guid, Tag>
         {
             InputType = FormInputType.Text,
             Name = nameof(item.Name),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required()
+            Validators = new List<Validator> {
+                new Required()
             }
         });
         fields.Add(new ElementField

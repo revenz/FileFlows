@@ -25,7 +25,7 @@ public class SettingsService : RemoteService, ISettingsService
     }
 
     /// <inheritdoc />
-    public async Task<Settings?> Get()
+    public async Task<Settings> Get()
     {
         try
         {
@@ -37,7 +37,7 @@ public class SettingsService : RemoteService, ISettingsService
         catch (Exception ex)
         {
             Logger.Instance?.WLog("Failed to get server version: " + ex.Message);
-            return null;
+            return null!;
         }
     }
 

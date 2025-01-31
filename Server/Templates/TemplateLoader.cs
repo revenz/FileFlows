@@ -1,31 +1,32 @@
 using System.Reflection;
+using FileFlows.Services;
 
 namespace FileFlows.Server.DefaultTemplates;
 
 /// <summary>
 /// A loader that loads default templates if github cannot be reached
 /// </summary>
-public static class TemplateLoader
+public class TemplateLoader : ITemplateService
 {
     /// <summary>
     /// Gets a list of library templates
     /// </summary>
     /// <returns>a list of library templates</returns>
-    public static string[] GetLibraryTemplates()
+    public string[] GetLibraryTemplates()
         => GetEmbeddedResources("Library");
 
     /// <summary>
     /// Gets a list of flow templates
     /// </summary>
     /// <returns>a list of flow templates</returns>
-    public static string[] GetFlowTemplates()
+    public string[] GetFlowTemplates()
         => GetEmbeddedResources("Flow");
 
     /// <summary>
     /// Gets a list of flow templates
     /// </summary>
     /// <returns>a list of flow templates</returns>
-    public static string GetFlowsJson()
+    public string GetFlowsJson()
     {
         var assembly = Assembly.GetExecutingAssembly();
         var resource = $"{assembly.GetName().Name}.Templates.DefaultTemplates.flows.json";
@@ -37,7 +38,7 @@ public static class TemplateLoader
     /// </summary>
     /// <param name="templateName">the full name of the embedded template</param>
     /// <param name="destinationPath">the destination path</param>
-    public static void ExtractTo(string templateName, string destinationPath)
+    public void ExtractTo(string templateName, string destinationPath)
     {
         
         // Load the assembly containing the embedded resources
@@ -63,7 +64,7 @@ public static class TemplateLoader
     /// </summary>
     /// <param name="folderName">The dot-separated folder name.</param>
     /// <returns>An array of embedded resource paths within the specified folder.</returns>
-    static string[] GetEmbeddedResources(string folderName)
+    private string[] GetEmbeddedResources(string folderName)
     {
         // Load the assembly containing the embedded resources
         var assembly = Assembly.GetExecutingAssembly();
@@ -83,7 +84,7 @@ public static class TemplateLoader
     /// </summary>
     /// <param name="resourceName">The name of the embedded resource file.</param>
     /// <returns>The contents of the embedded resource file.</returns>
-    static string GetEmbeddedResourceContent(string resourceName)
+    private string GetEmbeddedResourceContent(string resourceName)
     {
         // Load the assembly containing the embedded resources
         var assembly = Assembly.GetExecutingAssembly();

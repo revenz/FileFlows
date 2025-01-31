@@ -170,7 +170,7 @@ public partial class ArchiveHelper : IArchiveHelper
             {
                 using FileStream fs = new FileStream(output, FileMode.Create);
                 using ZipArchive arch = new ZipArchive(fs, ZipArchiveMode.Create);
-                arch.CreateEntryFromFile(path, FileHelper.GetShortFileName(path), CompressionLevel.SmallestSize);
+                arch.CreateEntryFromFile(path, Plugin.Helpers.FileHelper.GetShortFileName(path), CompressionLevel.SmallestSize);
             }
             catch (Exception ex)
             {

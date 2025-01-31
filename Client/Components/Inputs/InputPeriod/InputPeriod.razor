@@ -9,12 +9,16 @@
         </div>
         <div class="period-period">
             <select @onchange="PeriodSelectionChanged">
-                <option selected="@(Period == 1)" value="1">Minutes</option>
-                <option selected="@(Period == 60)" value="60">Hours</option>
-                <option selected="@(Period == 1440)" value="1440">Days</option>
+                @if (Seconds)
+                {
+                    <option selected="@(Period == SECONDS_SECOND)" value="@SECONDS_SECOND">Seconds</option>
+                }
+                <option selected="@(Period == SECONDS_MINUTE)" value="@SECONDS_MINUTE">Minutes</option>
+                <option selected="@(Period == SECONDS_HOUR)" value="@SECONDS_HOUR">Hours</option>
+                <option selected="@(Period == SECONDS_DAY)" value="@SECONDS_DAY">Days</option>
                 @if (ShowWeeks)
                 {
-                    <option selected="@(Period == 10080)" value="10080">Weeks</option>
+                    <option selected="@(Period == SECONDS_WEEK)" value="@SECONDS_WEEK">Weeks</option>
                 }
             </select>
         </div>

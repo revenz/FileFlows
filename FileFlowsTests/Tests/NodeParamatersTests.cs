@@ -16,7 +16,7 @@ public class NodeParamatersTests: TestBase
         var original = Path.Combine(TempPath, "original.mkv");
         File.WriteAllText(original, "test");
         
-        var nodeParameters = new NodeParameters(original, Logger, false, @"C:\media", new LocalFileService());
+        var nodeParameters = new NodeParameters(original, Logger, false, @"C:\media", new LocalFileService(false));
 
         var file = Path.Combine(TempPath, "somefile.mp4");
         File.WriteAllText(file, "test");
@@ -41,7 +41,7 @@ public class NodeParamatersTests: TestBase
         var original = Path.Combine(TempPath, "original.mkv");
         File.WriteAllText(original, "test");
         
-        var nodeParameters = new NodeParameters(original, Logger, false, @"C:\media", new LocalFileService());
+        var nodeParameters = new NodeParameters(original, Logger, false, @"C:\media", new LocalFileService(false));
 
         var file = Path.Combine(TempPath, "somefile.mp4");
         File.WriteAllText(file, "test");

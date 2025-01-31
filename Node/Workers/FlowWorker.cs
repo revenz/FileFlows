@@ -422,7 +422,7 @@ public class FlowWorker : Worker
 
         var library = CurrentConfig?.Libraries?.FirstOrDefault(x => x.Uid == libFile.LibraryUid);
         
-        if (CurrentConfig?.LicenseLevel != LicenseLevel.Basic && library is { MaxRunners: > 0 })
+        if (CurrentConfig?.LicenseLevel != FileFlows.Common.LicenseLevel.Basic && library is { MaxRunners: > 0 })
             return false; // cant process instantly or this could ignore the library limit
 
         return true;
@@ -674,8 +674,8 @@ public class FlowWorker : Worker
                 return false;
             }
 
-
-            if (revision == CurrentConfig?.Revision)
+            string dir = GetConfigurationDirectory(revision);
+            if (revision == CurrentConfig?.Revision && Directory.Exists(dir))
                 return true;
 
             var config = service.GetCurrentConfiguration().Result;
@@ -685,7 +685,6 @@ public class FlowWorker : Worker
                 return false;
             }
 
-            string dir = GetConfigurationDirectory(revision);
             try
             {
                 if (Directory.Exists(dir))
@@ -775,7 +774,9 @@ public class FlowWorker : Worker
                 config.AllowRemote,
                 config.Tags,
                 config.Resources,
+                config.DontUseTempFilesWhenMovingOrCopying,
                 Variables = variables,
+                config.ManualLibraryPath,
                 config.Libraries,
                 config.PluginNames,
                 config.PluginSettings,

@@ -2,10 +2,6 @@ using FileFlows.Client.Components;
 using FileFlows.Client.Components.Inputs;
 using FileFlows.Client.Components.ScriptEditor;
 using FileFlows.Plugin;
-using FileFlows.Shared.Validators;
-using Jint.Native.Json;
-using NPoco.fastJSON;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace FileFlows.Client.Pages;
 
@@ -51,13 +47,14 @@ public partial class Scripts
         destination.Name = source.Name;
         destination.Description = source.Description;
         destination.Code = source.Code;
+        destination.Help = source.Help;
         destination.Author = source.Author;
         destination.Type = source.Type;
         destination.Language = source.Language;
         //destination.Outputs =  source.Outputs?.Select(x => new ScriptOutput() { Description = x.Description, Index = x.Index })?.ToList() ?? [];
         destination.Outputs =  source.Outputs?.Select(x => new KeyValuePair<int, string>(x.Key, x.Value))?.ToList() ?? [];
         destination.Parameters = source.Parameters?.Select(x => new ScriptParameter()
-            { Name = x.Name, Type = x.Type, Description = x.Description })?.ToList() ?? [];
+            { Name = x.Name, Type = x.Type, Description = x.Description, Options = x.Options})?.ToList() ?? [];
         destination.Path = source.Path;
         destination.Repository = source.Repository;
         destination.Revision = source.Revision;

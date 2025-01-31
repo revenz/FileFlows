@@ -166,6 +166,11 @@ public class NodeParameters
     public Func<string[], bool, int> SetTagsByNameFunction { get; set; }
     
     /// <summary>
+    /// Gets or sets the function responsible for telling the library to ignore a specific path
+    /// </summary>
+    public Action<string>? LibraryIgnorePath { get; set; }
+    
+    /// <summary>
     /// Gets or sets the function responsible for mapping a path
     /// </summary>
     public Func<string, string>? PathMapper { get; set; }
@@ -174,6 +179,11 @@ public class NodeParameters
     /// Gets or sets the function responsible for unmapping a path
     /// </summary>
     public Func<string, string>? PathUnMapper { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the action responsible for setting the mime type
+    /// </summary>
+    public Action<string>? MimeTypeUpdater { get; set; }
     
     /// <summary>
     /// Gets or sets the function responsible for uploading a file
@@ -189,6 +199,11 @@ public class NodeParameters
     /// Gets or sets the function responsible for deleting a remote directory
     /// </summary>
     public Func<string[], string, string, Result<bool>>? SendEmail { get; set; }
+    
+    /// <summary>
+    /// Gets the cache helper
+    /// </summary>
+    public CacheHelper Cache { get; init; }
 
     /// <summary>
     /// Gets or sets a goto flow 
@@ -313,6 +328,16 @@ public class NodeParameters
         else
             Metadata = metadata;
     }
+
+
+    /// <summary>
+    /// Sets the mime/type of the current file
+    /// </summary>
+    /// <param name="mimeType">the mime type</param>
+    public void SetMimeType(string mimeType)
+    {
+        MimeTypeUpdater?.Invoke(mimeType);
+    }
     
     /// <summary>
     /// Gets or sets the file service to use
@@ -420,6 +445,19 @@ public class NodeParameters
             return path;
         return PathUnMapper(path);
     }
+
+    /// <summary>
+    /// Fails a flow
+    /// </summary>
+    /// <param name="reason">the reason for failing</param>
+    /// <returns>the return code</returns>
+    public int Fail(string reason)
+    {
+        FailureReason = reason;
+        if(Logger != null)
+            Logger.ELog(reason);
+        return -1;
+    }
     
     /// <summary>
     /// Checks if a plugin is available
@@ -443,6 +481,11 @@ public class NodeParameters
     /// Gets the archive helper
     /// </summary>
     public IImageHelper ImageHelper { get; set; }
+    
+    /// <summary>
+    /// Gets the PDF helper
+    /// </summary>
+    public IPdfHelper PdfHelper { get; set; }
     
     /// <summary>
     /// Gets the archive  helper
@@ -745,6 +788,9 @@ public class NodeParameters
         Logger?.ILog("MoveFile: " + WorkingFile);
         Logger?.ILog("Destination: " + destination);
 
+        // Ignore it before the move
+        LibraryIgnorePath(MapPath(destination));
+
         var result = FileService.FileMove(WorkingFile, destination, true);
         if (result.Failed(out var error))
             return Result<bool>.Fail(error);
@@ -779,6 +825,9 @@ public class NodeParameters
         if (string.IsNullOrWhiteSpace(destination))
             return Result<bool>.Fail("CopyFile.Destination was not supplied");
 
+        // Ignore it before the copy
+        LibraryIgnorePath(MapPath(destination));
+        
         var result = FileService.FileCopy(source, destination, true);
         if (result.Failed(out var error))
             return Result<bool>.Fail(error);

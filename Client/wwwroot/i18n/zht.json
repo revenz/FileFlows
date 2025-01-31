@@ -88,6 +88,7 @@
     "Ok": "確定",
     "Open": "打開",
     "OperatingSystem": "作業系統",
+    "OriginalLanguage": "原始語言",
     "Other": "其他",
     "Output": "輸出",
     "Paste": "貼上",
@@ -130,6 +131,7 @@
     "Search": "搜尋",
     "Searching": "搜尋中",
     "Select": "選擇",
+    "SelectedNum": "{num} 已選擇",
     "SelectOne": "選擇一個",
     "SetStatusProcessed": "標記為已處理",
     "Settings": "設定",
@@ -251,6 +253,372 @@
       "Title": "導入腳本",
       "Messages": {
         "NoMoreImports": "此腳本沒有其他可用的導入"
+      }
+    },
+    "NewAudioFlowWizard": {
+      "Fields": {
+        "Bitrate": "比特率",
+        "Bitrate-Help": "轉換後音訊檔案的比特率。",
+        "Codec": "編解碼器",
+        "Codec-Help": "用於音訊轉換的編解碼器。",
+        "Name": "名稱",
+        "Name-Help": "流程的名稱，必須唯一。",
+        "Normalize": "標準化",
+        "Normalize-Help": "指定在處理期間是否需要標準化音訊。"
+      },
+      "Pages": {
+        "General": "一般",
+        "GeneralDescription": "建立一個流程來轉換音訊檔案。"
+      }
+    },
+    "NewAudioToVideoWizard": {
+      "Fields": {
+        "Codec": "編解碼器",
+        "Codec-Help": "輸出視訊檔案的編解碼器。",
+        "Container": "容器",
+        "Container-Help": "視訊檔案的容器格式。",
+        "Name": "名稱",
+        "Name-Help": "流程的名稱，必須唯一。",
+        "Resolution": "解析度",
+        "Resolution-Help": "輸出視訊檔案的解析度。",
+        "Visualization": "視覺化效果",
+        "Visualization-Help": "在視訊中顯示的視覺化效果。"
+      },
+      "Pages": {
+        "General": "一般",
+        "GeneralDescription": "建立一個流程來將音訊轉換為視訊。"
+      }
+    },
+    "NewComicFlowWizard": {
+      "Labels": {
+        "SameAsSource": "與來源相同"
+      },
+      "Fields": {
+        "DeleteNonPageImages": "刪除空白頁面",
+        "DeleteNonPageImages-Help": "從新漫畫文件中刪除空白頁面。",
+        "EnsureTopDirectory": "確保頂級目錄",
+        "EnsureTopDirectory-Help": "確保所有檔案直接位於漫畫文件的頂級目錄中，沒有子目錄。",
+        "Format": "圖片格式",
+        "Format-Help": "儲存每頁的圖片格式。",
+        "Name": "名稱",
+        "Name-Help": "流程的名稱。必須唯一。",
+        "Quality": "品質",
+        "Quality-Help": "漫畫頁面的品質，1為最高壓縮/最差品質，100為最佳品質。"
+      },
+      "Format": {
+        "Cbz": "CBZ",
+        "CbzDescription": "將漫畫儲存為CBZ（zip格式）檔案。",
+        "Pdf": "PDF",
+        "PdfDescription": "將漫畫儲存為PDF檔案。"
+      },
+      "Pages": {
+        "Format": "格式",
+        "FormatDescription": "選擇保存漫畫的格式。",
+        "General": "一般",
+        "GeneralDescription": "創建一個新的流程來處理漫畫。"
+      }
+    },
+    "NewFlowCommon": {
+      "Fields": {
+        "DeleteOld": "清理原始檔案",
+        "DeleteOld-Help": "刪除原始檔案及原始資料夾（如果沒有其他檔案）。",
+        "Description": "描述",
+        "Description-Help": "新建立流程的描述。",
+        "OutputPath": "輸出路徑",
+        "OutputPath-Help": "最終檔案保存的路徑。",
+        "OutputPathWindows": "輸出路徑（Windows）",
+        "OutputPathWindows-Help": "保存位置。可以包含網路路徑，例如 \\\\我的-nas\\媒體\\輸出。"
+      },
+      "Messages": {
+        "NameRequired": "名稱是必需的。",
+        "OutputPathRequired": "輸出路徑是必需的。"
+      },
+      "Output": {
+        "ReplaceOriginal": "替換原始檔案",
+        "ReplaceOriginalDescription": "用轉換後的檔案替換原始檔案。",
+        "ResellerMove": "經銷商移動",
+        "ResellerMoveDescription": "將文件移動到用戶專用的臨時文件夾以供下載。文件將在設定的時間後自動刪除。",
+        "SaveToFolder": "保存到資料夾",
+        "SaveToFolderDescription": "將轉換後的檔案保存到新位置。"
+      },
+      "Pages": {
+        "Output": "輸出",
+        "OutputDescription": "指定最終檔案的保存位置。"
+      }
+    },
+    "NewFlowWizard": {
+      "Title": "新增流程向導",
+      "Flow": {
+        "Audio": {
+          "AudioToVideo": "音頻轉影片",
+          "AudioToVideoDescription": "將音頻檔案轉換為影片檔案。",
+          "Blank": "空白音頻",
+          "BlankDescription": "基於音頻的空白流程，用於創建自定義流程以處理音頻檔案。",
+          "Convert": "轉換音頻",
+          "ConvertDescription": "創建轉換音頻格式的流程。"
+        },
+        "Basic": {
+          "FailureFlow": "空白失敗流程",
+          "FailureFlowDescription": "當流程因某些原因失敗時執行的基本流程。",
+          "File": "空白檔案",
+          "FileDescription": "基於檔案的空白流程，用於創建自定義流程以處理單個檔案。",
+          "Folder": "空白資料夾",
+          "FolderDescription": "基於資料夾的空白流程，用於創建自定義流程以處理整個資料夾。",
+          "SubFlow": "空白子流程",
+          "SubFlowDescription": "基於子流程的空白流程，用於創建可重複使用的子流程。",
+          "Url": "URL",
+          "UrlDescription": "基於URL的空白流程，用於創建處理URL的流程。"
+        },
+        "Book": {
+          "Comic": "漫畫",
+          "ComicDescription": "創建用於轉換和處理漫畫的流程，例如轉換圖片格式、調整圖片大小等。",
+          "eBook": "電子書",
+          "eBookDescription": "創建用於轉換電子書格式的流程。"
+        },
+        "Failure": {
+          "Apprise": "Apprise",
+          "AppriseDescription": "當發生失敗時，向Apprise發送詳細消息。",
+          "Blank": "空白失敗流程",
+          "BlankDescription": "當任何流程失敗時執行的基本失敗流程。",
+          "Discord": "Discord",
+          "DiscordDescription": "當發生失敗時，向Discord發送詳細消息。",
+          "Gotify": "Gotify",
+          "GotifyDescription": "當發生失敗時，向Gotify發送詳細消息。",
+          "Telegram": "Telegram",
+          "TelegramDescription": "當發生失敗時，向Telegram發送詳細消息。"
+        },
+        "Image": {
+          "Blank": "空白圖像",
+          "BlankDescription": "基於圖像的空白流程，用於創建自定義流程以處理圖像。",
+          "Convert": "轉換圖像",
+          "ConvertDescription": "創建轉換圖像格式的流程。"
+        },
+        "Video": {
+          "AudioToVideo": "音頻轉影片",
+          "AudioToVideoDescription": "將音頻檔案轉換為影片檔案。",
+          "Blank": "空白影片",
+          "BlankDescription": "基於影片的空白流程，用於創建自定義流程以處理影片檔案。",
+          "Convert": "轉換影片",
+          "ConvertDescription": "一個引導式工具，用於創建影片轉換流程，允許操作影片、音頻和字幕。"
+        }
+      },
+      "Pages": {
+        "Audio": "音頻",
+        "AudioDescription": "創建處理音頻檔案的流程。",
+        "Basic": "基礎",
+        "BasicDescription": "選擇一個基礎空白流程來創建自定義流程。",
+        "Book": "書籍",
+        "BookDescription": "創建處理書籍的流程。",
+        "Failure": "失敗",
+        "FailureDescription": "創建一個在失敗時執行的流程",
+        "Image": "圖像",
+        "ImageDescription": "創建處理圖像檔案的流程。",
+        "Users": "使用者",
+        "UsersDescription": "打開現有的流",
+        "Video": "影片",
+        "VideoDescription": "創建處理影片檔案的流程。"
+      }
+    },
+    "NewImageFlowWizard": {
+      "Labels": {
+        "LosslessFormats": "無損格式",
+        "LossyFormats": "有損格式"
+      },
+      "Fields": {
+        "Format": "格式",
+        "Format-Help": "儲存檔案的圖片格式。",
+        "Height": "高度",
+        "Height-Help": "調整大小後的圖片高度。",
+        "Name": "名稱",
+        "Name-Help": "流程的名稱。必須是唯一的。",
+        "Quality": "品質",
+        "Quality-Help": "新圖片檔案的品質，範圍為1到100。",
+        "Resize": "調整大小",
+        "Resize-Help": "是否調整圖片大小。",
+        "Width": "寬度",
+        "Width-Help": "調整大小後的圖片寬度。"
+      },
+      "Pages": {
+        "General": "一般",
+        "GeneralDescription": "建立一個用於處理圖片的新流程。",
+        "ResizeMode": "調整模式",
+        "ResizeModeDescription": "選擇調整圖片大小的模式。"
+      },
+      "Resize": {
+        "Contain": "包含",
+        "ContainDescription": "將圖片調整以適應指定區域，同時保持比例。",
+        "Cover": "覆蓋",
+        "CoverDescription": "將圖片調整以覆蓋指定的寬度/高度，裁剪多餘部分。",
+        "Fill": "填滿",
+        "FillDescription": "將圖片調整以填滿指定的寬度/高度，忽略比例。",
+        "Max": "最大",
+        "MaxDescription": "將圖片調整以保持在指定的寬度/高度內，同時保持比例。",
+        "Min": "最小",
+        "MinDescription": "將圖片調整以適應指定的寬度/高度，同時保持比例。",
+        "Pad": "填充邊距",
+        "PadDescription": "將圖片調整至指定的寬度/高度，保持比例並在必要時填充邊距。"
+      }
+    },
+    "NewLibraryWizard": {
+      "Title": "新庫",
+      "Labels": {
+        "FileExtensions": "檔案副檔名",
+        "FileExtensionsDescription": "指定在此庫中要處理的檔案副檔名。",
+        "FileTypes": "檔案類型",
+        "FileTypesDescription": "指定要在此庫中檢測並處理的檔案類型。",
+        "General": "常規",
+        "GeneralDescription": "輸入有關此庫的一般資訊。",
+        "LibraryType": "類型",
+        "LibraryTypeDescription": "選擇您要創建的庫類型。",
+        "LibraryTypes": {
+          "Downloads": {
+            "Description": "處理在指定的下載資料夾中找到的檔案。每當檔案在資料夾中被檢測到時，就會處理這些檔案。為了避免檔案再次被處理，請在處理後將其移動或刪除。如果檔案重新出現，它將被視為新檔案並重新處理。",
+            "Title": "下載"
+          },
+          "Files": {
+            "Description": "處理選定資料夾及其子資料夾中的所有單個檔案。當您希望逐個處理檔案（例如轉換影片、音訊或圖片格式）時，這是通常的選擇。它將搜尋資料夾及其所有子資料夾中的可處理檔案。",
+            "Title": "檔案"
+          },
+          "Folders": {
+            "Description": "處理選定資料夾的整體內容，而不查找單個檔案。如果您希望處理整個資料夾（例如將資料夾中的所有檔案壓縮成 zip 檔案或執行資料夾層級操作），請選擇此選項。",
+            "Title": "資料夾"
+          }
+        }
+      },
+      "Fields": {
+        "FileExtensions": "檔案副檔名",
+        "FileExtensions-Help": "為空則處理所有檔案，或指定要處理的檔案副檔名。",
+        "Flow": "流程",
+        "Flow-Help": "用來處理此庫中項目的流程。",
+        "Name": "名稱",
+        "Name-Help": "新庫的名稱，必須是唯一的。",
+        "Path": "路徑",
+        "Path-Help": "指定庫資料夾的路徑。",
+        "PathWindows": "路徑",
+        "PathWindows-Help": "指定庫資料夾的路徑。對於網路路徑，請使用格式 \\\\我的-nas\\媒體\\電影。"
+      },
+      "FileTypes": {
+        "Audio": "音訊",
+        "Audiobook": "有聲書",
+        "AudiobookDescription": "處理有聲書檔案，如 mp3、m4b 和 aax。",
+        "AudioDescription": "處理音訊檔案，如 mp3、flac、wav、aac 等。",
+        "Comic": "漫畫",
+        "ComicDescription": "處理漫畫檔案，如 cbz、cbr、cb7 和 pdf。",
+        "Custom": "自定義",
+        "CustomDescription": "手動指定要處理的檔案副檔名。",
+        "eBook": "電子書",
+        "eBookDescription": "處理電子書檔案，如 epub、mobi、azw3 和 pdf。",
+        "Image": "影像",
+        "ImageDescription": "處理影像檔案，如 jpg、png、gif、bmp 和 tiff。",
+        "Video": "影片",
+        "VideoDescription": "處理影片檔案，如 mkv、mp4、wmv、ts、mpeg 等。"
+      },
+      "Messages": {
+        "FlowRequired": "流程是必需的。",
+        "NameRequired": "庫名稱是必需的。",
+        "PathRequired": "庫路徑是必需的。"
+      }
+    },
+    "NewVideoFlowWizard": {
+      "Labels": {
+        "Bitrate": "位元速率",
+        "BitrateDescription": "使用固定的位元速率編碼影片。這將使影片的檔案大小保持一致，但如果位元速率不理想，則會浪費儲存空間或降低品質。",
+        "FileExtensions": "檔案副檔名",
+        "FileExtensionsDescription": "指定在此庫中處理的檔案副檔名。",
+        "Quality": "品質",
+        "QualityDescription": "根據影片的輸入使用自適應編碼來達到固定的品質水準。這是推薦的方式，可以確保影片品質一致，並且生成最小的檔案。",
+        "UseOriginal": "使用未修改的原始檔案",
+        "Types": {
+          "Film": "電影",
+          "FilmDescription": "處理電影並使用Meta插件查找其資訊。這將有助於確定電影的原始語言。",
+          "TV": "電視",
+          "TVDescription": "處理電視節目並使用Meta插件查找其資訊。這將有助於確定電視節目的原始語言。",
+          "Video": "影片",
+          "VideoDescription": "一個通用的影片檔案，不會進行任何附加的元資料查找。"
+        }
+      },
+      "Fields": {
+        "AttemptHardwareEncode": "硬體編碼",
+        "AttemptHardwareEncode-Help": "嘗試使用硬體編碼（GPU）。如果GPU編碼失敗，將回退到CPU編碼。",
+        "AudioChannels": "音訊通道",
+        "AudioChannels-Help": "音訊的通道數量。將使用現有的音軌來創建此音軌，並且可以進行降混，但無法升混，因此如果選擇的通道數高於現有的音軌數量，則該音軌將不會被添加。",
+        "AudioCodec": "音訊編解碼器",
+        "AudioCodec-Help": "用於音訊的編解碼器",
+        "AudioLanguages": "音訊語言",
+        "AudioLanguages-Help": "指定要保留的語言，並按所需順序排列。",
+        "Bitrate": "位元速率",
+        "Bitrate-Suffix": "KB",
+        "ConvertAudio": "轉換音訊",
+        "ConvertAudioDescription": "將音軌轉換為指定的格式",
+        "CopyAllAudio": "複製所有音訊",
+        "CopyAllAudioDescription": "按原樣複製所有音訊軌道，不做任何修改。",
+        "CopyOnlyLanguages": "僅複製指定語言",
+        "CopyOnlyLanguagesDescription": "僅複製以下指定的語言，所有其他語言將被移除。音訊軌道將按原樣複製，不做任何修改。",
+        "CropBlackBars": "裁剪黑邊",
+        "CropBlackBars-Help": "FileFlows將嘗試檢測影片檔案中的黑邊，若找到，將裁剪這些黑邊以減少檔案大小並允許播放器更改縱橫比。",
+        "DefaultLanguage": "預設語言",
+        "DefaultLanguage-Help": "指定要分配給當前未指定語言的音軌的語言。",
+        "KeepAllSubtitles": "保留所有字幕",
+        "KeepAllSubtitlesDescription": "保留原始影片中的所有字幕",
+        "KeepOnlySpecifiedSubtitles": "僅保留指定字幕",
+        "KeepOnlySpecifiedSubtitlesDescription": "僅保留指定的字幕，其他的將被刪除",
+        "Name": "名稱",
+        "Name-Help": "新建流程的名稱，必須是唯一的。",
+        "Quality": "品質",
+        "Quality-Suffix": "更高品質",
+        "ReplaceOriginal": "替換原始檔案",
+        "ReplaceOriginal-Help": "用新創建的影片檔案替換原始影片檔案。",
+        "SaveToFolder": "保存到資料夾",
+        "SaveToFolder-Help": "將新創建的檔案保存到新位置",
+        "SubtitleLanguages": "字幕語言",
+        "SubtitleLanguages-Help": "指定要保留的語言，並按所需順序排列。",
+        "TwoAudioVersions": "兩個音訊版本",
+        "TwoAudioVersions-Help": "如果應該創建兩個版本的音軌。例如，如果您希望創建環繞聲和立體聲音軌。否則，只會創建一個版本。",
+        "VideoCodec": "影片編解碼器",
+        "VideoCodec-Help": "用於影片的編解碼器",
+        "VideoContainer": "影片容器",
+        "VideoContainer-Help": "使用的影片容器，建議使用MKV，因為MP4支持的字幕格式較少。",
+        "QualityLevel": {
+          "Good": "良好",
+          "High": "高",
+          "Ok": "可以",
+          "Recommended": "推薦",
+          "VeryHigh": "非常高"
+        }
+      },
+      "Messages": {
+        "Audio1LanguageRequired": "您必須指定至少一種音訊語言。",
+        "Audio2LanguageRequired": "您必須指定至少第二種音訊語言。",
+        "AudioMode2LanguagesRequired": "需要音訊語言。",
+        "SubtitleLanguageRequired": "需要字幕語言。"
+      },
+      "Pages": {
+        "Audio": "音頻",
+        "Audio1": "轉換",
+        "Audio1Description": "指定要保留的音頻語言及其編碼設定。",
+        "Audio2": "附加音頻",
+        "Audio2Description": "定義次要音頻軌道的編碼設定。",
+        "AudioDescription": "指定音頻軌道的處理方式。",
+        "General": "通用",
+        "GeneralDescription": "輸入關於此流程的一般信息。",
+        "Output": "輸出",
+        "OutputDescription": "指定保存最終文件的位置。",
+        "Subtitle": "字幕",
+        "SubtitleDescription": "選擇要包含的字幕。",
+        "Type": "類型",
+        "TypeDescription": "選擇將要處理的視頻類型。",
+        "Video": "視頻",
+        "VideoDescription": "選擇用於視頻流的編碼方法。"
+      },
+      "Parts": {
+        "CpuFailOverEncode": "Резервная кодировка на CPU",
+        "CpuFailOverExecutor": "Исполнитель резервной кодировки на CPU",
+        "DefaultLanguage": "Язык по умолчанию ''{lang}''",
+        "PrimaryAudio": "Основной аудиотрек",
+        "RemoveUnsupportedSubtitles": "Удалить неподдерживаемые субтитры",
+        "RemoveUnwantedSubtitles": "Удалить нежелательные языки субтитров",
+        "RemuxToContainer": "Перемонтировать в {container}",
+        "SecondaryAudio": "Вторичный аудиотрек"
       }
     },
     "PauseDialog": {
@@ -755,15 +1123,12 @@
         "SubFlowHelp": "要向子流程添加輸入字段以便傳遞自定義參數，請在 `Fields` 標籤中創建這些字段。\n\n子流程必須有一個 `輸入`，它可以是任何有效的輸入流程元素，例如 `輸入文件`，`視頻文件` 等。"
       },
       "Fields": {
-        "Author": "作者",
-        "Author-Help": "可選的，指定此流程的作者。",
         "Description": "描述。",
-        "MinimumVersion": "最低版本",
+        "Icon": "圖標",
         "Outputs": "輸出",
         "Outputs-Help": "此子流程有多少個輸出。當在另一個流程中使用此子流程時，將提供這些輸出。",
         "OutputsKey": "輸出",
         "OutputsValue": "描述",
-        "Tags": "標籤",
         "Variables": "變量",
         "VariablesKey": "名稱",
         "VariablesValue": "值",
@@ -901,6 +1266,8 @@
         "DetectFileSizeLower": "",
         "DetectFileSizeUpper": "",
         "DetectionDescription": "在此您可以設定資料庫只檢測符合指定模式的檔案。\n\n例如，這允許您只包含以下檔案：\n\t- 建立於 7 天內的檔案\n\t- 最後寫入於 3 到 7 天前的檔案\n\t- 大小超過 1GB 的檔案",
+        "DisableFileSystemEvents": "檔案系統事件",
+        "DisableFileSystemEvents-Help": "指定是否監控檔案系統事件。如果啟用，系統將監控檔案創建和修改事件，檢查檔案是否符合庫設定，並將其添加到庫中進行處理。",
         "DownloadsDirectory": "下載目錄",
         "DownloadsDirectory-Help": "一個特殊目錄，若成功處理的檔案在此目錄中被重新發現，該檔案將自動重新處理。\n這對於重新下載檔案很有幫助。",
         "Enabled": "啟用",
@@ -1087,7 +1454,7 @@
         "Enabled": "啟用",
         "FlowRunners": "流程執行者",
         "FlowRunners-Help": "可用於執行流程的流程執行者實例數量。",
-        "Icon": "自訂圖標",
+        "Icon": "圖標",
         "InternalProcessingNodeDescription": "這是FileFlows內建的處理節點。\n\n此節點允許您在不需要在遠程系統上安裝任何其他節點的情況下運行FileFlows，並將FileFlows作為自包含的應用程式使用。\n\n您可以繼續使用此內部節點以及額外的處理節點，或者您可以禁用此節點並僅使用其他節點。",
         "Libraries": "資料庫",
         "Libraries-Help": "選擇此節點可以處理的資料庫",
@@ -1110,6 +1477,8 @@
         "ProcessFileCheckInterval-Help": "多久檢查一次處理節點中的新檔案。\n設置為0以使用系統值。",
         "ProcessFileCheckInterval-Suffix": "秒",
         "ProcessingDescription": "這允許您配置該處理節點可以處理的內容。\n\n例如，如果這是一個較低功率的節點，您可以將其限制為僅處理某些資料庫或最大檔案大小。",
+        "ProcessingOrder": "處理順序",
+        "ProcessingOrder-Help": "指定此節點處理文件的順序。此設置將覆蓋庫的默認處理順序。設置為“默認”以使用庫的處理順序。",
         "Schedule": "排程",
         "Schedule-Help": "此排程在節點的時區內運行",
         "ScheduleDescription": "這允許您配置該節點何時啟用。\n\n節點將在此配置的排程之外不處理任何檔案。",
@@ -1160,6 +1529,25 @@
         "Code": "代碼",
         "Description": "描述",
         "Revision": "修訂"
+      }
+    },
+    "Resellers": {
+      "Flows": {
+        "Single": "代理商流程",
+        "Title": "代理商流程",
+        "Fields": {
+          "Extensions": "擴展名",
+          "Extensions-Help": "此流程允許處理的擴展名列表。",
+          "Flow": "流程",
+          "Icon": "圖標",
+          "MaxFileSize": "最大文件大小",
+          "MaxFileSize-Help": "此流程允許處理的最大文件大小。",
+          "Tokens": "代幣",
+          "Tokens-Help": "用戶運行此流程所需的代幣數量。"
+        }
+      },
+      "Settings": {
+        "Title": "代理商設置"
       }
     },
     "Resources": {
@@ -1263,6 +1651,8 @@
         "DelayBetweenNextFile-Suffix": "毫秒",
         "DockerModsOnServer": "伺服器上的 DockerMods",
         "DockerModsOnServer-Help": "DockerMods 應在伺服器啟動時自動運行或在特別啟用時運行。否則，它們將僅在啟動工作流時執行。",
+        "DontUseTempFilesWhenMovingOrCopying": "用於移動/複製的臨時文件",
+        "DontUseTempFilesWhenMovingOrCopying-Help": "使用 .fftemp 文件以避免移動/複製時被過早檢測到。",
         "HideProcessingFinishedNotifications": "處理完成通知",
         "HideProcessingFinishedNotifications-Help": "在文件處理完成時是否應在網頁控制台顯示 toast 通知",
         "HideProcessingStartedNotifications": "處理開始通知",

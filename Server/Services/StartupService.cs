@@ -1,13 +1,13 @@
 using FileFlows.Managers.InitializationManagers;
 using FileFlows.Node.Workers;
-using FileFlows.Plugin;
-using FileFlows.RemoteServices;
-using FileFlows.Server.DefaultTemplates;
 using FileFlows.Server.Helpers;
 using FileFlows.Server.Workers;
-using FileFlows.ServerShared.Services;
 using FileFlows.ServerShared.Workers;
+using FileFlows.Services;
+using FileFlows.Services.ResellerServices;
 using FileFlows.Shared.Models;
+using FileFlows.WebServer;
+using LibraryFileService = FileFlows.RemoteServices.LibraryFileService;
 
 namespace FileFlows.Server.Services;
 
@@ -16,15 +16,8 @@ namespace FileFlows.Server.Services;
 /// All startup code, db initialization, migrations, upgrades should be done here,
 /// so the UI apps can be shown with a status of what is happening
 /// </summary>
-public class StartupService
+public class StartupService : IStartupService
 {
-    /// <summary>
-    /// A delegate that is used when there is a status update
-    /// </summary>
-    /// <param name="status">the status</param>
-    /// <param name="subStatus">the sub status</param>
-    /// <param name="details">any extra details for this statue, ie a log</param>
-    public delegate void StartupStatusEvent(string status, string subStatus, string details);
     
     /// <summary>
     /// An event that is called when there is status update
@@ -34,7 +27,7 @@ public class StartupService
     /// <summary>
     /// Gets the current status
     /// </summary>
-    public string CurrentStatus { get; private set; }
+    public string CurrentStatus { get; set; }
 
 
     private AppSettingsService appSettingsService;
@@ -48,6 +41,8 @@ public class StartupService
         try
         {
             appSettingsService = ServiceLoader.Load<AppSettingsService>();
+            
+            FileFlows.Helpers.Decrypter.EncryptionKey = ServiceLoader.Load<AppSettingsService>().Settings.EncryptionKey;
 
             string error;
 
@@ -93,6 +88,12 @@ public class StartupService
                 UpdateStatus(error);
                 return Result<bool>.Fail(error);
             }
+
+            if (CheckVersion().Failed(out error))
+            {
+                UpdateStatus(error);
+                return Result<bool>.Fail(error);
+            }
         
             UpdateStatus("Updating Templates...");
             UpdateTemplates();
@@ -107,8 +108,7 @@ public class StartupService
             ScanForPlugins();
 
             ServiceLoader.Load<LanguageService>().Initialize().Wait();
-
-            new LibraryFileService().ResetProcessingStatus(CommonVariables.InternalNodeUid).Wait();
+            ServiceLoader.Load<FileFlows.Services.LibraryFileService>().ResetProcessingStatus(CommonVariables.InternalNodeUid).Wait();
 
             DataLayerDelegates.Setup();
             
@@ -116,8 +116,10 @@ public class StartupService
 
             // Start workers right at the end, so the ServerUrl is set in case the worker needs BaseServerUrl
             StartupWorkers();
+
+            StartResellerServer();
             
-            WebServer.FullyStarted = true;
+            WebServerApp.FullyStarted = true;
             return true;
         }
         catch (Exception ex)
@@ -132,6 +134,19 @@ public class StartupService
         }
     }
 
+    private void StartResellerServer()
+    {
+#if(!DEBUG)
+        if (LicenseService.IsLicensed(LicenseFlags.Reseller) == false)
+            return;
+#endif
+        var service = new FileFlows.ResellerApp.ResellerWebService();
+        ServiceLoader.AddSpecialCase<IResellerWebServerService>(service);
+        Logger.Instance?.ILog("Starting Reseller App...");
+        
+        service.Start();
+    }
+
     /// <summary>
     /// Final startup code
     /// </summary>
@@ -141,16 +156,16 @@ public class StartupService
     {
         string protocol = serverUrl[..serverUrl.IndexOf(":", StringComparison.Ordinal)];
 
-        Application.ServerUrl = $"{protocol}://localhost:{WebServer.Port}";
+        Globals.ServerUrl = $"{protocol}://localhost:{WebServerApp.Port}";
         // update the client with the proper ServiceBaseUrl
-        Shared.Helpers.HttpHelper.Client =
-            Shared.Helpers.HttpHelper.GetDefaultHttpClient(Application.ServerUrl);
+        FileFlows.Helpers.HttpHelper.Client =
+            FileFlows.Helpers.HttpHelper.GetDefaultHttpClient(Globals.ServerUrl);
 
-        RemoteService.ServiceBaseUrl = Application.ServerUrl;
-        RemoteService.AccessToken = settings.AccessToken;
-        RemoteService.NodeUid = Application.RunningUid;
+        FileFlows.RemoteServices.RemoteService.ServiceBaseUrl = Globals.ServerUrl;
+        FileFlows.RemoteServices.RemoteService.AccessToken = settings.AccessToken;
+        FileFlows.RemoteServices.RemoteService.NodeUid = Application.RunningUid;
 
-        WebServer.FullyStarted = true;
+        WebServerApp.FullyStarted = true;
     }
 
     /// <summary>
@@ -159,8 +174,9 @@ public class StartupService
     private void ScanForPlugins()
     {
         UpdateStatus("Scanning for Plugins");
+        var service = ServiceLoader.Load<IPluginScanner>();
         // need to scan for plugins before initing the translater as that depends on the plugins directory
-        PluginScanner.Scan();
+        service.Scan();
     }
 
     /// <summary>
@@ -189,7 +205,9 @@ public class StartupService
             new RepositoryUpdaterWorker(),
             new ScheduledReportWorker(),
             new StatisticSyncer(),
-            new UpdateWorker()
+            new UpdateWorker(),
+            new ResellerWorker(),
+            new DistributedCacheCleanerWorker()
             //new LibraryFileServiceUpdater()
         );
 
@@ -284,7 +302,8 @@ public class StartupService
     /// </summary>
     void CheckLicense()
     {
-        LicenseHelper.Update().Wait();
+        var service = ServiceLoader.Load<LicenseService>();
+        service.Update().Wait();
     }
     
     /// <summary>
@@ -294,7 +313,7 @@ public class StartupService
     {
         UpdateStatus("Cleaning temporary directory");
         
-        string tempDir = Application.Docker
+        string tempDir = Globals.IsDocker
             ? Path.Combine(DirectoryHelper.DataDirectory, "temp") // legacy reasons docker uses lowercase temp
             : Path.Combine(DirectoryHelper.BaseDirectory, "Temp");
         DirectoryHelper.CleanDirectory(tempDir);
@@ -339,14 +358,15 @@ public class StartupService
     /// </summary>
     private void UpdateTemplates()
     {
-        var libraryTemplates = TemplateLoader.GetLibraryTemplates();
+        var service = ServiceLoader.Load<ITemplateService>();
+        var libraryTemplates = service.GetLibraryTemplates();
         if (libraryTemplates?.Any() == true)
         {
             Logger.Instance.ILog("Extracting Library Templates");
             foreach (var template in libraryTemplates)
             {
                 Logger.Instance.ILog("Embedded Library Template: " + GetShortName(template));
-                TemplateLoader.ExtractTo(template, DirectoryHelper.TemplateDirectoryLibrary);
+                service.ExtractTo(template, DirectoryHelper.TemplateDirectoryLibrary);
             }
         }
         else
@@ -359,14 +379,14 @@ public class StartupService
         foreach(var file in oldFlowTemplates)
              File.Delete(file);
         
-        var flowTemplates = TemplateLoader.GetFlowTemplates();
+        var flowTemplates = service.GetFlowTemplates();
         if (flowTemplates?.Any() == true)
         {
             Logger.Instance.ILog("Extracting Flow Templates");
             foreach (var template in flowTemplates)
             {
                 Logger.Instance.ILog("Embedded Flow Template: " + GetShortName(template));
-                TemplateLoader.ExtractTo(template, DirectoryHelper.TemplateDirectoryFlow);
+                service.ExtractTo(template, DirectoryHelper.TemplateDirectoryFlow);
             }
         }
         else
@@ -425,4 +445,27 @@ public class StartupService
         }
     }
 
+    /// <summary>
+    /// Gets the version
+    /// </summary>
+    /// <returns>true if successful</returns>
+    private Result<bool> CheckVersion()
+    {
+        try
+        {
+            var versionParts = Globals.Version.Split(".");
+            int year = int.Parse("20" + versionParts[0]);
+            int month = int.Parse(versionParts[1]);
+            var date = new DateTime(year, month, 1);
+
+            if (date < DateTime.UtcNow.AddMonths(-4))
+                return Result<bool>.Fail("Version is out of date, please upgrade to continue.");
+            
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return Result<bool>.Fail(ex.Message);
+        }
+    }
 }

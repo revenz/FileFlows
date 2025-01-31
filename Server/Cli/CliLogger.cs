@@ -5,7 +5,7 @@ namespace FileFlows.Server.Cli;
 /// <summary>
 /// Logger for the command line
 /// </summary>
-public class CliLogger : Plugin.ILogger
+public class CliLogger : ILogger
 {
     /// <inheritdoc />
     public void ILog(params object[] args)

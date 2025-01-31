@@ -121,7 +121,7 @@ public class FlowEditor : IDisposable
                 return null;
         }
 
-        if (element.LicenseLevel > Profile.LicenseLevel)
+        if ((int)element.LicenseLevel > (int)Profile.LicenseLevel)
         {
             await MessageBox.Show(
                 Translater.Instant("Labels.Unlicensed"), 

@@ -1,0 +1,164 @@
+@page
+@using FileFlows.WebServer.Views.Shared
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base href="~/">
+    <title>FileFlows</title>
+    <link rel="icon" href="favicon.svg?v=@Globals.Version#">
+    <style>
+        html, body {
+            font-size: 14px;
+        }
+        @@font-face {
+            font-family: 'Montserrat';
+            src: url("webfonts/Montserrat-VariableFont_wght.ttf") format("truetype-variations");
+        }
+
+        body {
+            --base-darker: rgb(14, 14, 14);
+            --base-darkest: rgb(7, 7, 7);
+            --base: rgb(21, 21, 21);
+            --base-lighter: rgb(28, 28, 28);
+            --input-background:rgb(49, 49, 49);
+            --color: rgb(240, 240, 240);
+            --accent: rgb(255, 0, 144);
+            --accent-rgb: 255, 0, 144;
+            --success: #19622a;
+            --info: #17a2b8;
+            --warning: #91741d;
+            --error: #ff4d76;
+            --font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-family: var(--font-family);
+            font-weight: 400;
+            color: var(--color) !important;
+            background: var(--base-darker) !important;
+            line-height: 2.2;
+            padding: 0;
+            margin: 0;
+        }
+        .loading-page {
+            display: flex;
+            place-content: center;
+            height: 100vh;
+            align-items: center;
+        }
+
+        .loading-inner {
+            min-width: 20rem;
+            max-width: 80vw;
+            padding: 2rem;
+            background: #1b1b1b;
+            border-radius: 1rem;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .logo img {
+            width: 12rem;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        .details-wrapper.expanded {
+            border: solid 1px var(--input-background);
+            padding: 1rem;
+            position: relative;
+        }
+        .expander {
+            cursor:pointer;
+            text-decoration: underline;
+        }
+        .details-wrapper.collapsed .details {
+            display: none;
+        }            
+        .details
+        {
+            white-space: pre;
+            max-height: 32vh;
+            overflow: auto;
+            font-size: 0.8rem;
+            text-align: left;
+            padding: 0;
+        }
+        #components-reconnect-modal {
+            background: rgb(0 0 0 / 80%) !important;
+            color: white !important;
+            display: flex !important;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
+        ::-webkit-scrollbar{
+            width: 6px;
+            height: 10px;
+            border-radius: 6px;
+            --scrollbar-track-color: #333;
+            background-color: var(--scrollbar-track-color);
+
+        }
+        ::-webkit-scrollbar-track{
+            background: var(--base) !important;
+            border-radius: 0px;
+        }
+        ::-webkit-scrollbar-thumb {
+            border-radius: 6px !important;
+            --scrollbar-thumb-color: #444;
+            background-color: var(--scrollbar-thumb-color);
+        }
+
+        ::-webkit-scrollbar-corner {background-color: var(--base) !important;}
+    </style>
+</head>
+<body>
+
+<div>
+
+    <div class="loading-page">
+        <div class="loading-inner">
+            <div class="logo">
+                <img src="/logo-color-full.svg" />
+            </div>
+            <div class="content">
+                <component type="typeof(Loading)" render-mode="Server" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    setInterval(function() {
+        const controller = new AbortController();
+        const signal = controller.signal;
+
+        setTimeout(() => controller.abort(), 800);
+
+        fetch('/frasier', { signal })
+            .then(response => {
+                if (response.ok) {
+                    response.text().then(text => {
+                        if (text.includes("listening")) {
+                            window.location = '/';
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+            });
+    }, 2000);  // Adjust the interval as needed (in milliseconds)
+</script>
+<script defer="defer" src="_framework/blazor.server.js"></script>
+</body>
+</html>

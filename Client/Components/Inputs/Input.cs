@@ -41,7 +41,9 @@ public abstract class Input<T> : ComponentBase, IInput, IDisposable
     /// Gets or sets the JavaScript runtime
     /// </summary>
     [Inject] protected IJSRuntime jsRuntime { get; set; }
-    protected string Uid = System.Guid.NewGuid().ToString();
+
+    private Guid UidasGuid = Guid.NewGuid();
+    protected string Uid => UidasGuid.ToString();
     private string _Label;
     private string _LabelOriginal;
     private string _Help;
@@ -167,7 +169,7 @@ public abstract class Input<T> : ComponentBase, IInput, IDisposable
     /// <summary>
     /// Gets or sets the validators text
     /// </summary>
-    [Parameter] public List<FileFlows.Shared.Validators.Validator> Validators { get; set; }
+    [Parameter] public List<Validator> Validators { get; set; }
 
     /// <summary>
     /// Gets or sets the error message
@@ -275,6 +277,8 @@ public abstract class Input<T> : ComponentBase, IInput, IDisposable
         base.OnInitialized();
         if(this.Field != null)
             InputRegister.RegisterInput(this.Field.Uid, this);
+        else if (InputRegister != null)
+            InputRegister.RegisterInput(this.UidasGuid, this);
         this.Visible = true;
 
         if (this.Field != null)

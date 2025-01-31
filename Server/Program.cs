@@ -1,5 +1,5 @@
 using FileFlows.Server.Cli;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.Shared.Helpers;
 
 namespace FileFlows.Server;
@@ -9,10 +9,10 @@ namespace FileFlows.Server;
 /// </summary>
 public class Program
 {
-    /// <summary>
-    /// General cache used by the server
-    /// </summary>
-    internal static CacheStore GeneralCache = new ();
+    // /// <summary>
+    // /// General cache used by the server
+    // /// </summary>
+    // internal static CacheStore GeneralCache = new ();
 
     [STAThread] // need for Photino.net on windows
     public static void Main(string[] args)
@@ -31,8 +31,8 @@ public class Program
         
         if (CommandLine.Process(args))
             return;
-        
-        Application app = ServiceLoader.Provider.GetRequiredService<Application>();
+
+        Application app = new Application();
         ServerShared.Services.SharedServiceLoader.Loader = type => ServiceLoader.Provider.GetRequiredService(type);
         app.Run(args);
     }
@@ -43,6 +43,7 @@ public class Program
     {
         if (Directory.Exists(directory) == false)
             return;
+        FileFlows.Services.ServiceHelpers.TranslationFileHelper.SyncWithEnglish(directory);
         var jsonFiles = Directory.GetFiles(directory, "*.json");
 
         foreach (var jsonFile in jsonFiles)

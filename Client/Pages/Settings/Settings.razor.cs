@@ -1,19 +1,12 @@
 using System.Text;
 using FileFlows.Client.Models;
-
-namespace FileFlows.Client.Pages;
-
 using FileFlows.Client.Components.Dialogs;
-using FileFlows.Client.Helpers;
-using FileFlows.Shared.Helpers;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using FileFlows.Shared;
 using FileFlows.Client.Components;
-using System.Collections.Generic;
-using FileFlows.Shared.Validators;
 using Microsoft.JSInterop;
 using FileFlows.Plugin;
+
+namespace FileFlows.Client.Pages;
 
 /// <summary>
 /// Page for system settings
@@ -24,6 +17,7 @@ public partial class Settings : InputRegister
     /// Gets or sets blocker instance
     /// </summary>
     [CascadingParameter] Blocker Blocker { get; set; }
+    
     /// <summary>
     /// Gets or sets the javascript runtime used
     /// </summary>
@@ -64,6 +58,9 @@ public partial class Settings : InputRegister
     // indicates if the page has rendered or not
     private DateTime firstRenderedAt = DateTime.MaxValue;
 
+    /// <summary>
+    /// Required validator
+    /// </summary>
     private readonly List<Validator> RequiredValidator = new()
     {
         new Required()
@@ -268,7 +265,10 @@ public partial class Settings : InputRegister
         base.OnAfterRender(firstRender);
     }
 
-    
+    /// <summary>
+    /// Loads the settings
+    /// </summary>
+    /// <param name="blocker">if the blocker should be shown or not</param>
     private async Task Refresh(bool blocker = true)
     {
         if(blocker)
@@ -352,10 +352,11 @@ public partial class Settings : InputRegister
         }
     }
 
+    /// <summary>
+    /// Opens the help page
+    /// </summary>
     private void OpenHelp()
-    {
-        _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/admin/settings");
-    }
+        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/admin/settings");
 
     private async Task TestDbConnection()
     {

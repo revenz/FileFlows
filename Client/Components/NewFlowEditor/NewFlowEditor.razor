@@ -35,7 +35,7 @@
                 <Body>
                     <CascadingValue IsFixed="true" Value="this">
                         <div class="fields">
-                            <div class="description">@(CurrentTemplate?.Flow?.Properties?.Description?.EmptyAsNull() ?? lblDescription)</div>
+                            <div class="description">@(CurrentTemplate?.Flow?.Description?.EmptyAsNull() ?? lblDescription)</div>
                             @if (Fields?.Any() == true)
                             {
                                 @foreach (var field in Fields)

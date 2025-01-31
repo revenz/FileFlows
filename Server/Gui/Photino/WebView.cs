@@ -1,3 +1,4 @@
+using FileFlows.WebServer;
 using PhotinoNET;
 
 namespace FileFlows.Server.Gui.Photino;
@@ -22,7 +23,7 @@ public class WebView
     /// </summary>
     public WebView()
     {
-        WebServer.OnStatusUpdate += WebServer_StatusUpdate;
+        WebServerApp.OnStatusUpdate += WebServer_StatusUpdate;
     }
 
     /// <summary>

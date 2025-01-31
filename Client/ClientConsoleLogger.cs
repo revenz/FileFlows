@@ -1,8 +1,4 @@
-using System;
-using FileFlows.Plugin;
 using Microsoft.JSInterop;
-using Microsoft.Extensions.Logging;
-using ILogger = FileFlows.Plugin.ILogger;
 
 namespace FileFlows.Client;
 

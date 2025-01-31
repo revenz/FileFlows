@@ -1,5 +1,6 @@
 ﻿
 using BlazorMonaco;
+using FileFlows.Client.Wizards;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,10 @@ public partial class FlowTemplatePicker : VisibleEscapableComponent
     /// Gets or sets the blocker to use
     /// </summary>
     [CascadingParameter] public Blocker Blocker { get; set; }
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
     private string lblTitle, lblFilter, lblNext, lblCancel, lblOpen;
     private string lblMissingDependencies, lblMissingDependenciesMessage;
     private string FilterText = string.Empty;
@@ -106,6 +111,21 @@ public partial class FlowTemplatePicker : VisibleEscapableComponent
 
     async Task New()
     {
+        if (Selected?.Path == "wizard:video")
+        {
+            Visible = false;
+            var result = await ModalService.ShowModal<NewVideoFlowWizard, Flow>(new NewVideoFlowWizardOptions());
+            if (result.Success(out var newFlow))
+            {
+                ShowTask.SetResult(new()
+                {
+                    Result = FlowTemplatePickerResult.ResultCode.Open,
+                    Uid = newFlow.Uid
+                });
+            }
+            return;
+        }
+        
         Blocker.Show();
         
         StateHasChanged();
@@ -220,6 +240,19 @@ public partial class FlowTemplatePicker : VisibleEscapableComponent
             string translatedDescription = Translater.Instant(key + "Description", suppressWarnings: true);
             if (string.IsNullOrWhiteSpace(translatedDescription) == false && translatedDescription != "Description")
                 template.Description = translatedDescription;
+        }
+
+        if (type == FlowType.Standard || (int)type == -1)
+        {
+            results.Add(new ()
+            {
+                Author = "FileFlows",
+                Path = "wizard:video",
+                Name = "Video Wizard",
+                Description = "A guided wizard to creating a video conversion flow",
+                Plugins = ["Video Nodes", "Meta Nodes"],
+                Tags = ["Basic", "Video", "Wizard"],
+            });
         }
 
         return results;

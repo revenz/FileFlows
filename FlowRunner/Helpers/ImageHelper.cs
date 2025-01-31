@@ -28,8 +28,15 @@ public class ImageHelper : IImageHelper
     /// The logger to use
     /// </summary>
     private readonly ILogger Logger;
+    /// <summary>
+    /// The node parameters
+    /// </summary>
     private readonly NodeParameters NodeParameters;
+    /// <summary>
+    /// The ImageMagickHelper instance
+    /// </summary>
     private readonly ImageMagickHelper ImageMagick;
+    
     /// <summary>
     /// Initialises a new instance of the image helper
     /// </summary>
@@ -69,7 +76,7 @@ public class ImageHelper : IImageHelper
 
             var dateTakenResult = GetDateTaken(imagePath);
 
-            var format = FileHelper.GetExtension(imagePath)?.TrimStart('.');
+            var format = Plugin.Helpers.FileHelper.GetExtension(imagePath)?.TrimStart('.');
             ImageType? type = null;
             if (Enum.TryParse<ImageType>(format ?? string.Empty, out ImageType typeResult))
                 type = typeResult;
@@ -256,6 +263,7 @@ public class ImageHelper : IImageHelper
         {
             if (ImageMagick.CanUseImageMagick())
             {
+                Logger.ILog($"Converting using ImageMagick to {type}");
                 var result = ImageMagick.ConvertImage(imagePath, destination, new ImageOptions()
                 {
                     Quality = quality

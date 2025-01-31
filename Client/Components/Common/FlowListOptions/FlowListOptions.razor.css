@@ -1,0 +1,31 @@
+.input-keyvalue-wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; }
+
+table {
+  width: 100%; }
+
+td:last-child {
+  width: 2rem;
+  text-align: center; }
+
+input {
+  outline: unset !important;
+  display: inline;
+  width: 100%;
+  flex-grow: 1;
+  height: var(--input-height, 2.1875rem);
+  border-color: transparent !important;
+  line-height: 1.5;
+  font-size: 1rem;
+  padding: 0.1875rem 0.625rem; }
+
+th {
+  font-weight: unset;
+  color: rgba(var(--color-rgb), 0.7); }
+
+td.label {
+  width: 10rem; }
+
+/*# sourceMappingURL=FlowListOptions.razor.css.map */

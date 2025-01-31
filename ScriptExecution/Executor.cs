@@ -187,7 +187,7 @@ public class Executor
             .SetValue("Variables", Variables)
             .SetValue("Sleep", (int milliseconds) => Thread.Sleep(milliseconds))
             .SetValue("http", HttpClient)
-            .SetValue("CacheStore", CacheStore.Instance)
+            //.SetValue("CacheStore", CacheStore.Instance)
             .SetValue("LanguageHelper", languageHelperWrapper)
             .SetValue("StringContent", (string content) => new StringContent(content))
             .SetValue("JsonContent", (object content) =>
@@ -235,6 +235,20 @@ public class Executor
                             continue;
                         case JsonValueKind.String:
                             engine.SetValue(arg.Key, je.GetString());
+                            continue;
+                        case JsonValueKind.Array:
+                            // Convert JsonElement array to a .NET array
+                            var array = je.EnumerateArray()
+                                .Select(item => item.ValueKind switch
+                                {
+                                    JsonValueKind.False => (object)false,
+                                    JsonValueKind.True => true,
+                                    JsonValueKind.Number => item.GetDouble(),
+                                    JsonValueKind.String => item.GetString(),
+                                    _ => null // Handle unsupported value kinds, if needed
+                                })
+                                .ToArray();
+                            engine.SetValue(arg.Key, array);
                             continue;
                     }   
                 }

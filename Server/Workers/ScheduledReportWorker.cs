@@ -1,7 +1,7 @@
 using FileFlows.DataLayer.Reports;
 using FileFlows.Managers;
 using FileFlows.Server.Helpers;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.Server.Workers;
@@ -22,7 +22,7 @@ public class ScheduledReportWorker:ServerWorker
     /// <inheritdoc />
     protected override void ExecuteActual(Settings settings)
     {
-        if (LicenseHelper.IsLicensed(LicenseFlags.Reporting) == false)
+        if (LicenseService.IsLicensed(LicenseFlags.Reporting) == false)
             return; // not licensed
         
         var service = ServiceLoader.Load<ScheduledReportService>();

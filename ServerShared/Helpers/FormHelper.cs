@@ -44,7 +44,7 @@ public class FormHelper
                 InputType = attribute.InputType,
                 Type = prop.PropertyType.FullName ?? string.Empty,
                 Parameters = new Dictionary<string, object>(),
-                Validators = new List<Shared.Validators.Validator>(),
+                Validators = new List<Validators.Validator>(),
                 ChangeValues = new ()
             };
 
@@ -153,11 +153,11 @@ public class FormHelper
 
 
             if (prop.GetCustomAttributes(typeof(RequiredAttribute), false).FirstOrDefault() != null)
-                ef.Validators.Add(new Shared.Validators.Required());
+                ef.Validators.Add(new Validators.Required());
             if (prop.GetCustomAttributes(typeof(RangeAttribute), false).FirstOrDefault() is RangeAttribute range)
-                ef.Validators.Add(new Shared.Validators.Range { Minimum = (int)range.Minimum, Maximum = (int)range.Maximum });
+                ef.Validators.Add(new Validators.Range { Minimum = (int)range.Minimum, Maximum = (int)range.Maximum });
             if (prop.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.RegularExpressionAttribute), false).FirstOrDefault() is System.ComponentModel.DataAnnotations.RegularExpressionAttribute exp)
-                ef.Validators.Add(new Shared.Validators.Pattern { Expression = exp.Pattern });
+                ef.Validators.Add(new Validators.Pattern { Expression = exp.Pattern });
 
             var conditionEquals = prop.GetCustomAttributes(typeof(ConditionEqualsAttribute), false).FirstOrDefault() as ConditionEqualsAttribute;
             if (conditionEquals != null)

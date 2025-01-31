@@ -18,7 +18,7 @@ public interface ISettingsService
     /// Getst he settings
     /// </summary>
     /// <returns>the settings</returns>
-    Task<Settings?> Get();
+    Task<Settings> Get();
     
     /// <summary>
     /// Gets the current configuration revision number

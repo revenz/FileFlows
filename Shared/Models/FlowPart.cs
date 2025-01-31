@@ -72,7 +72,7 @@ public class FlowPart
     /// Gets or sets an optional custom color for the flow part
     /// </summary>
     [DbIgnore]
-    public string CustomColor { get; set; }
+    public string? CustomColor { get; set; }
 
     /// <summary>
     /// Gets or sets the output connections of this flow part

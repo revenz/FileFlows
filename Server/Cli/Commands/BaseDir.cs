@@ -1,5 +1,3 @@
-using ILogger = FileFlows.Plugin.ILogger;
-
 namespace FileFlows.Server.Cli.Commands;
 
 /// <summary>

@@ -1,0 +1,35 @@
+ul.library-type {
+  list-style: none;
+  padding: 0;
+  --border-radius:0.75rem; }
+  ul.library-type li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    border: solid 1px transparent;
+    border-left-width: var(--border-radius); }
+    ul.library-type li + li {
+      margin-top: 1rem; }
+    ul.library-type li .info {
+      display: flex;
+      flex-direction: column; }
+    ul.library-type li i {
+      font-size: 2.5rem;
+      width: 5rem;
+      min-width: 5rem;
+      text-align: center; }
+    ul.library-type li span {
+      font-weight: bold; }
+    ul.library-type li p {
+      margin: 0;
+      font-size: 1rem;
+      color: gray; }
+    ul.library-type li.clickable-radio:hover {
+      background-color: var(--base); }
+    ul.library-type li.active {
+      border-color: var(--accent); }
+
+/*# sourceMappingURL=NewLibraryWizard.razor.css.map */

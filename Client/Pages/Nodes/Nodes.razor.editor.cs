@@ -17,6 +17,8 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
         bool isServerProcessingNode = node.Address == FileFlowsServer;
         node.Mappings ??= new();
         this.EditingItem = node;
+        if (node.ProcessingOrder == null)
+            node.ProcessingOrder = (ProcessingOrder)1000;
 
         Dictionary<Guid, string> scripts;
         var tabs = new Dictionary<string, List<IFlowField>>();
@@ -65,16 +67,16 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
             {
                 InputType = FormInputType.Text,
                 Name = nameof(node.Name),
-                Validators = new List<FileFlows.Shared.Validators.Validator> {
-                    new FileFlows.Shared.Validators.Required()
+                Validators = new List<Validator> {
+                    new Required()
                 }
             });
             fields.Add(new ElementField
             {
                 InputType = FormInputType.Text,
                 Name = nameof(node.Address),
-                Validators = new List<FileFlows.Shared.Validators.Validator> {
-                    new FileFlows.Shared.Validators.Required()
+                Validators = new List<Validator> {
+                    new Required()
                 }
             });
         }
@@ -88,8 +90,8 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
         {
             InputType = FormInputType.Int,
             Name = nameof(node.FlowRunners),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Range() { Minimum = 0, Maximum = 100 } // 100 is insane but meh, let them be insane 
+            Validators = new List<Validator> {
+                new FileFlows.Validators.Range() { Minimum = 0, Maximum = 100 } // 100 is insane but meh, let them be insane 
             },
             Parameters = new()
             {
@@ -101,8 +103,8 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
         {
             InputType = FormInputType.Int,
             Name = nameof(node.Priority),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Range() { Minimum = 0, Maximum = 100 }
+            Validators = new List<Validator> {
+                new FileFlows.Validators.Range() { Minimum = 0, Maximum = 100 }
             },
             Parameters = new()
             {
@@ -114,8 +116,8 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
         {
             InputType = isServerProcessingNode ? FormInputType.Folder : FormInputType.Text,
             Name = nameof(node.TempPath),
-            Validators = new List<FileFlows.Shared.Validators.Validator> {
-                new FileFlows.Shared.Validators.Required()
+            Validators = new List<Validator> {
+                new Required()
             }
         });
 
@@ -297,6 +299,28 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
             InputType = FormInputType.Int,
             Name = nameof(node.ProcessFileCheckInterval)
         });
+
+        if(Profile.LicensedFor(LicenseFlags.ProcessingOrder))
+        {
+            fields.Add(new ElementField
+            {
+                InputType = FormInputType.Select,
+                Name = nameof(ProcessingNode.ProcessingOrder),
+                Parameters = new Dictionary<string, object>{
+                    { "Options", new List<ListOption> {
+                        new () { Value = (ProcessingOrder)1000, Label = $"Labels.Default" },
+                        new () { Value = ProcessingOrder.AsFound, Label = $"Enums.{nameof(ProcessingOrder)}.{nameof(ProcessingOrder.AsFound)}" },
+                        new () { Value = ProcessingOrder.Alphabetical, Label = $"Enums.{nameof(ProcessingOrder)}.{nameof(ProcessingOrder.Alphabetical)}" },
+                        new () { Value = ProcessingOrder.SmallestFirst, Label = $"Enums.{nameof(ProcessingOrder)}.{nameof(ProcessingOrder.SmallestFirst)}" },
+                        new () { Value = ProcessingOrder.LargestFirst, Label = $"Enums.{nameof(ProcessingOrder)}.{nameof(ProcessingOrder.LargestFirst)}" },
+                        new () { Value = ProcessingOrder.NewestFirst, Label = $"Enums.{nameof(ProcessingOrder)}.{nameof(ProcessingOrder.NewestFirst)}" },
+                        new () { Value = ProcessingOrder.OldestFirst, Label = $"Enums.{nameof(ProcessingOrder)}.{nameof(ProcessingOrder.OldestFirst)}" },
+                        new () { Value = ProcessingOrder.Random, Label = $"Enums.{nameof(ProcessingOrder)}.{nameof(ProcessingOrder.Random)}" },
+                    } }
+                }
+            });
+        }
+        
         return fields;
     }
 
@@ -331,7 +355,7 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
             {
                 new (efDontSetPermissions,node.DontSetPermissions, value: false)
             },
-            Placeholder = ServerShared.Globals.DefaultPermissionsFile.ToString("D3"),
+            Placeholder = FileFlows.Common.Globals.DefaultPermissionsFile.ToString("D3"),
             Parameters = new ()
             {
                 { nameof(InputNumber<int>.Max), 777 },
@@ -346,7 +370,7 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
             {
                 new (efDontSetPermissions,node.DontSetPermissions, value: false)
             },
-            Placeholder = ServerShared.Globals.DefaultPermissionsFolder.ToString("D3"),
+            Placeholder = FileFlows.Common.Globals.DefaultPermissionsFolder.ToString("D3"),
             Parameters = new ()
             {
                 { nameof(InputNumber<int>.Max), 777 },

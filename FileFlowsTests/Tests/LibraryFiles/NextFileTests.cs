@@ -6,7 +6,7 @@
 //     [TestMethod]
 //     public void Basic()
 //     {
-//         var service = new FileFlows.Server.Services.LibraryFileService();
+//         var service = new FileFlows.Services.LibraryFileService();
 //         var nextResult = service.GetNext(CommonVariables.InternalNodeName, 
 //             CommonVariables.InternalNodeUid, Globals.Version.ToString(), Guid.NewGuid()).Result;
 //         Assert.IsNotNull(nextResult);
@@ -24,7 +24,7 @@
 //         };
 //         InternalNode.AllLibraries = ProcessingLibraries.Only;
 //         
-//         var service = new FileFlows.Server.Services.LibraryFileService();
+//         var service = new FileFlows.Services.LibraryFileService();
 //         var nextResult = service.GetNext(CommonVariables.InternalNodeName, 
 //             CommonVariables.InternalNodeUid, Globals.Version.ToString(), Guid.NewGuid()).Result;
 //         Assert.IsNotNull(nextResult);
@@ -44,7 +44,7 @@
 //         ).ToList();
 //         InternalNode.AllLibraries = ProcessingLibraries.AllExcept;
 //         
-//         var service = new FileFlows.Server.Services.LibraryFileService();
+//         var service = new FileFlows.Services.LibraryFileService();
 //         var nextResult = service.GetNext(CommonVariables.InternalNodeName, 
 //             CommonVariables.InternalNodeUid, Globals.Version.ToString(), Guid.NewGuid()).Result;
 //         Assert.IsNotNull(nextResult);
@@ -238,7 +238,7 @@
 //     
 //     private NextLibraryFileResult GetNextFile()
 //     {
-//         var service = new FileFlows.Server.Services.LibraryFileService();
+//         var service = new FileFlows.Services.LibraryFileService();
 //         var nextResult = service.GetNext(CommonVariables.InternalNodeName, 
 //             CommonVariables.InternalNodeUid, Globals.Version.ToString(), Guid.NewGuid()).Result;
 //         return nextResult;

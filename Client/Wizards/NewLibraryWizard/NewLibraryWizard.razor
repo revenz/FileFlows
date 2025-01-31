@@ -1,0 +1,80 @@
+@namespace FileFlows.Client.Wizards
+
+@using InputFile = FileFlows.Client.Components.Inputs.InputFile
+@using InputText = FileFlows.Client.Components.Inputs.InputText
+@inherits InputRegister
+
+<Editor @ref="Editor"></Editor>
+@if (Editor != null && initDone)
+{
+    <CascadingValue IsFixed="true" Value="Editor">
+        <FlowWizard @ref=Wizard OnFinish="@Save" Modal="true" Cancelable="true" OnCancel="@Cancel">
+            <FlowWizardPage Title="@lblLibraryType" Description="@lblLibraryTypeDescription">
+
+                <ul class="library-type">
+                    @foreach (var option in libraryTypeOptions)
+                    {
+                        if (option.Value == 1 && FlowsFolders.Count == 0)
+                        {
+                            continue;
+                        }
+                        <li @onclick="() => SelectedLibraryType = option.Value" class="clickable-radio @(SelectedLibraryType == option.Value ? "active" : "")">
+                            <i class="@option.Icon"></i>
+                            <div class="info">
+                                <span>@option.Title</span>
+                                <p>@option.Description</p>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </FlowWizardPage>
+
+            <FlowWizardPage Title="@lblGeneral" Description="@lblGeneralDescription">
+                <InputText @bind-Value="@LibraryName" Label="Dialogs.NewLibraryWizard.Fields.Name" Validators=@RequiredValidator />
+                @if (IsWindows)
+                {
+                    <InputFile @bind-Value="@LibraryPath" Label="Dialogs.NewLibraryWizard.Fields.PathWindows" Validators=@RequiredValidator Directory=@true/>
+                }
+                else
+                {
+                    <InputFile @bind-Value="@LibraryPath" Label="Dialogs.NewLibraryWizard.Fields.Path" Validators=@RequiredValidator Directory=@true/>
+                }
+
+                @if (SelectedLibraryType == 1)
+                {
+                    <InputSelect @bind-Value="@BoundFlowUidFolder" AllowClear="false" Options=@FlowOptionsFolders Label="Dialogs.NewLibraryWizard.Fields.Flow" Validators=@RequiredValidator />
+                    
+                }
+                else
+                {
+                    <InputSelect @bind-Value="@BoundFlowUid" AllowClear="false" Options=@FlowOptions Label="Dialogs.NewLibraryWizard.Fields.Flow" Validators=@RequiredValidator />
+                }
+
+            </FlowWizardPage>
+            
+            <FlowWizardPage Title="@lblFileTypes" Description="@lblFileTypesDescription" Visible="@(SelectedLibraryType != 1)">
+
+                <ul class="library-type">
+                    @foreach (var option in fileTypeOptions)
+                    {
+                        <li @onclick="() => SelectedFileType = option.Value" class="clickable-radio @(SelectedFileType == option.Value ? "active" : "")">
+                            <i class="@option.Icon"></i>
+                            <div class="info">
+                                <span>@option.Title</span>
+                                <p>@option.Description</p>
+                            </div>
+                        </li>
+                    }
+                </ul>
+
+            </FlowWizardPage>
+            
+            <FlowWizardPage Title="@lblFileExtensions" Description="@lblFileExtensionsDescription" Visible="@(SelectedLibraryType != 1 && SelectedFileType == CustomFileTypes)">
+                
+                <InputArray @bind-Value="@Extensions" Label="Dialogs.NewLibraryWizard.Fields.FileExtensions" EnterOnSpace="true" />
+
+
+            </FlowWizardPage>
+        </FlowWizard>
+    </CascadingValue>
+}

@@ -17,7 +17,7 @@ public class PluginHelper
     {
         string dir = new DirectoryInfo(".").FullName;
         dir = dir.Substring(0, dir.LastIndexOf("FileFlows") - 1).Replace("\\", "/");
-        if (dir.EndsWith("FileFLows/FileFlows") == false)
+        if (dir.EndsWith("FileFlows/FileFlows") == false)
             dir += "/FileFlows";
         dir += "/Server/Plugins";
         return dir;

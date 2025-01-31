@@ -27,7 +27,7 @@
 //     private void MoqSettingsService()
 //     {
 //         var moq = new Moq.Mock<ISettingsService>();
-//         FileFlows.Server.Services.SettingsService.Loader = () => moq.Object;
+//         FileFlows.Services.SettingsService.Loader = () => moq.Object;
 //         Settings = new();
 //         moq.Setup(x => x.Get())
 //             .Returns(() => Task.FromResult(Settings));
@@ -36,7 +36,7 @@
 //     private void MoqNodeService()
 //     {
 //         // var moq = new Moq.Mock<INodeService>();
-//         // FileFlows.Server.Services.NodeService.Loader = () => moq.Object;
+//         // FileFlows.Services.NodeService.Loader = () => moq.Object;
 //         Node = new()
 //         {
 //             Uid = Guid.NewGuid(),
@@ -54,7 +54,7 @@
 //             AllLibraries = ProcessingLibraries.All
 //         };
 //
-//         FileFlows.Server.Services.NodeService.SetData(new List<ProcessingNode>()
+//         FileFlows.Services.NodeService.SetData(new List<ProcessingNode>()
 //         {
 //             InternalNode, Node
 //         });
@@ -67,7 +67,7 @@
 //     private void MoqLibraryService()
 //     {
 //         // var moq = new Moq.Mock<ILibraryService>();
-//         // FileFlows.Server.Services.LibraryService.Loader = () => moq.Object;
+//         // FileFlows.Services.LibraryService.Loader = () => moq.Object;
 //
 //         Libraries = new List<Library>();
 //         var orders = new[]
@@ -87,7 +87,7 @@
 //             Libraries.Add(lib);
 //         }
 //
-//         FileFlows.Server.Services.LibraryService.SetData(Libraries);
+//         FileFlows.Services.LibraryService.SetData(Libraries);
 //         // moq.Setup(x => x.GetByUidAsync(It.IsAny<Guid>()))
 //         //     .Returns((Guid uid) =>
 //         //         Task.FromResult(Libraries.FirstOrDefault(x => x.Uid == uid))!
@@ -115,7 +115,7 @@
 //
 //         Files = dict;
 //         
-//         new FileFlows.Server.Services.LibraryFileService().SetData(dict);
+//         new FileFlows.Services.LibraryFileService().SetData(dict);
 //     }
 //
 //     /// <summary>

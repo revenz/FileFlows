@@ -58,13 +58,16 @@ public partial class FileUploadDialog : IModal
     }
 
     /// <summary>
-    /// Closes the file upload dialog.
+    /// Closes the dialog
     /// </summary>
     public void Close()
     {
         TaskCompletionSource.TrySetCanceled(); // Set result when closing
     }
 
+    /// <summary>
+    /// Cancels the dialog
+    /// </summary>
     public void Cancel()
     {
         TaskCompletionSource.TrySetCanceled(); // Indicate cancellation

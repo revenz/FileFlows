@@ -9,7 +9,11 @@ namespace FileFlows.Client.Pages;
 /// </summary>
 public partial class DockerMods
 {
-    
+    /// <summary>
+    /// Opens the editor
+    /// </summary>
+    /// <param name="item">the item being edited</param>
+    /// <returns>true if successful, otherwise false</returns>
     private async Task<bool> OpenEditor(DockerMod item)
     {
         var fields = new List<IFlowField>();
@@ -65,6 +69,11 @@ public partial class DockerMods
         return true;
     }
 
+    /// <summary>
+    /// Saves the edited item
+    /// </summary>
+    /// <param name="model">the model</param>
+    /// <returns>true if successfully saved, otherwise false</returns>
     async Task<bool> Save(ExpandoObject model)
     {
         Blocker.Show();

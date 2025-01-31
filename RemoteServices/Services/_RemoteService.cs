@@ -27,7 +27,11 @@ public abstract class RemoteService
     /// <summary>
     /// Gets or sets the Access Token
     /// </summary>
-    public static string AccessToken { get; set; } = string.Empty;
+    public static string AccessToken
+    {
+        get => ServerGlobals.AccessToken ?? string.Empty; 
+        set => ServerGlobals.AccessToken = value;
+    } 
 
     /// <summary>
     /// Gets or sets the Node UID whose making these requests

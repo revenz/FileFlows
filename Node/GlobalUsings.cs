@@ -8,3 +8,5 @@ global using System.Runtime.InteropServices;
 global using System.ComponentModel;
 global using System.Diagnostics;
 global using FileFlows.Shared;
+global using FileFlows.Common;
+global using FileFlows.Helpers;

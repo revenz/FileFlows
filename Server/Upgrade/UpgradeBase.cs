@@ -1,5 +1,5 @@
 using FileFlows.Managers.InitializationManagers;
-using FileFlows.Server.Services;
+using FileFlows.Services;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.Server.Upgrade;
@@ -13,7 +13,7 @@ public abstract class UpgradeBase
     /// <summary>
     /// the logger
     /// </summary>
-    protected FileFlows.Plugin.ILogger Logger { get; private set; }
+    protected ILogger Logger { get; private set; }
     /// <summary>
     /// The upgrade manager
     /// </summary>
@@ -38,7 +38,7 @@ public abstract class UpgradeBase
     /// <param name="logger">the logger</param>
     /// <param name="settingsService">the settings service</param>
     /// <param name="upgradeManager">the upgrade manager</param>
-    public UpgradeBase(FileFlows.Plugin.ILogger logger, AppSettingsService settingsService, UpgradeManager upgradeManager)
+    public UpgradeBase(ILogger logger, AppSettingsService settingsService, UpgradeManager upgradeManager)
     {
         Logger = logger;
         SettingsService = settingsService;
