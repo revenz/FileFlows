@@ -1,4 +1,87 @@
 #!/bin/bash
+
+# Function to handle errors
+function handle_error {
+    echo "An error occurred. Exiting..."
+    exit 1
+}
+
+function uninstall_image_magick() {
+    export PKG_CONFIG_PATH=/usr/src:/usr/src/libheif:/usr/src/libde265:/usr/src/libpng-1.6.46
+
+    cd /usr/src/ImageMagick-7*
+    make uninstall
+
+    cd /usr/src/libheif/
+    make uninstall
+
+    cd /usr/src/libde265/
+    make uninstall
+
+    cd /usr/src/libpng-1.6.46/
+    make uninstall
+
+    apt-get remove -y jq
+
+    apt-get remove -y \
+      build-essential \
+      autotools-dev \
+      autoconf \
+      automake \
+      libtool \
+      cmake \
+      git \
+      libx265-dev \
+      libnuma-dev \
+      libdjvulibre-dev \
+      libfftw3-dev \
+      libghc-bzlib-dev \
+      libgoogle-perftools-dev \
+      libgraphviz-dev \
+      libgs-dev \
+      libjbig-dev \
+      libjemalloc-dev \
+      libjpeg-dev \
+      liblcms2-dev \
+      liblqr-1-0-dev \
+      liblzma-dev \
+      libopenexr-dev \
+      libopenjp2-7-dev \
+      libpango1.0-dev \
+      libraqm-dev \
+      libraw-dev \
+      librsvg2-dev \
+      libtiff-dev \
+      libwebp-dev \
+      libwmf-dev \
+      libxml2-dev \
+      libzip-dev \
+      libzstd-dev
+
+      rm -rf /usr/src/libpng-1.6.46/
+      rm -rf /usr/src/libde265/
+      rm -rf /usr/src/libheif/
+      rm -rf /usr/src/ImageMagick-7*
+}
+
+# Check if the --uninstall option is provided
+if [ "$1" == "--uninstall" ]; then
+    echo "Uninstalling ImageMagick..."
+    if uninstall_image_magick; then
+        echo "ImageMagick successfully uninstalled."
+        exit 0
+    else
+        handle_error
+    fi
+fi
+
+
+# Check if ImageMagick is installed
+if command -v magick &>/dev/null; then
+    echo "ImageMagick is already installed."
+    exit 0
+fi
+
 cd /usr/src/
 
 #jq
@@ -117,3 +200,8 @@ make
 make install
 ldconfig /usr/local/lib
 identify --version
+
+#cleanup
+cd /usr/src/
+rm -rf ImageMagick.tar.gz
+rm -rf libpng-1.6.46.tar.gz
