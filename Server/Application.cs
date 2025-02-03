@@ -2,11 +2,9 @@ using System.Collections;
 using System.Net;
 using Avalonia;
 using FileFlows.Charting;
-using FileFlows.Server.DefaultTemplates;
 using FileFlows.Server.Helpers;
 using FileFlows.Server.Services;
 using FileFlows.Services;
-using FileFlows.Shared.Helpers;
 using FileFlows.WebServer;
 
 namespace FileFlows.Server;
@@ -203,7 +201,6 @@ public class Application
     {
         FileFlows.Services.ServiceLoader.AddSpecialCase<IStartupService>(new StartupService());
         FileFlows.Services.ServiceLoader.AddSpecialCase<IPluginScanner>(new PluginScanner());
-        FileFlows.Services.ServiceLoader.AddSpecialCase<ITemplateService>(new TemplateLoader());
         FileFlows.Services.ServiceLoader.AddSpecialCase<ISystemEventsService>(new SystemEvents());
     }
 

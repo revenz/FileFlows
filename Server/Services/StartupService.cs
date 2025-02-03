@@ -95,12 +95,9 @@ public class StartupService : IStartupService
                 return Result<bool>.Fail(error);
             }
         
-            UpdateStatus("Updating Templates...");
-            UpdateTemplates();
             // do this so the settings object is loaded
             var settings = ServiceLoader.Load<ISettingsService>().Get().Result;
             var appSettings = ServiceLoader.Load<AppSettingsService>().Settings;
-
 
             if (Globals.IsDocker && appSettings.DockerModsOnServer)
                 RunnerDockerMods();
@@ -353,53 +350,6 @@ public class StartupService : IStartupService
         return true;
     }
 
-    /// <summary>
-    /// Updates the templates
-    /// </summary>
-    private void UpdateTemplates()
-    {
-        var service = ServiceLoader.Load<ITemplateService>();
-        var libraryTemplates = service.GetLibraryTemplates();
-        if (libraryTemplates?.Any() == true)
-        {
-            Logger.Instance.ILog("Extracting Library Templates");
-            foreach (var template in libraryTemplates)
-            {
-                Logger.Instance.ILog("Embedded Library Template: " + GetShortName(template));
-                service.ExtractTo(template, DirectoryHelper.TemplateDirectoryLibrary);
-            }
-        }
-        else
-        {
-            Logger.Instance.WLog("No embedded library templates found");
-        }
-
-        // delete the old flow template files
-        var oldFlowTemplates = Directory.GetFiles(DirectoryHelper.TemplateDirectoryFlow, "Templates_*.json");
-        foreach(var file in oldFlowTemplates)
-             File.Delete(file);
-        
-        var flowTemplates = service.GetFlowTemplates();
-        if (flowTemplates?.Any() == true)
-        {
-            Logger.Instance.ILog("Extracting Flow Templates");
-            foreach (var template in flowTemplates)
-            {
-                Logger.Instance.ILog("Embedded Flow Template: " + GetShortName(template));
-                service.ExtractTo(template, DirectoryHelper.TemplateDirectoryFlow);
-            }
-        }
-        else
-        {
-            Logger.Instance.WLog("No embedded flow templates found");
-        }
-
-        string GetShortName(string path)
-        {
-            int index = path.IndexOf("DefaultTemplates.");
-            return path[(index + "DefaultTemplates.".Length)..];
-        }
-    }
 
     /// <summary>
     /// Prepares the database
