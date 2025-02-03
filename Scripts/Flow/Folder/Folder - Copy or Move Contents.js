@@ -16,6 +16,8 @@ function Script(SourceDirectory, DestinationDirectory, MediaFileName, MoveFiles)
      let src = Flow.ReplaceVariables(SourceDirectory);
      let dest = System.IO.Path.Combine(Flow.ReplaceVariables(DestinationDirectory), System.IO.Path.GetFileName(src));
 
+      Logger.ILog(`Source Directory: ${src}`);
+      Logger.ILog(`Target Directory: ${dest}`);
 
      // Create filter of provided file basename, w/o extension, or * if none provided
      let filter = System.IO.Path.GetFileNameWithoutExtension(Flow.ReplaceVariables(MediaFileName || "*")) + ".*";
@@ -31,8 +33,10 @@ function Script(SourceDirectory, DestinationDirectory, MediaFileName, MoveFiles)
          let dstFile = System.IO.Path.Combine(dest, System.IO.Path.GetFileName(srcFile));
 
          if (MoveFiles) {
+             Logger.ILog(`Move File: ${srcFile} to: ${dstFile}`);
              System.IO.File.Move(srcFile, dstFile, true);
          } else {
+             Logger.ILog(`Copy File: ${srcFile} to: ${dstFile}`);
              System.IO.File.Copy(srcFile, dstFile, true);
          }
      }
@@ -53,11 +57,13 @@ function cleanDirectory(directory)
     {
         if (System.IO.Directory.GetFiles(subdir).Length == 0 && System.IO.Directory.GetDirectories(subdir).Length == 0)
         {
-            Directory.Delete(direcsubdirtory, false);
+            Logger.ILog(`Remove empty directory: ${subdir}`);
+            Directory.Delete(subdir, false);
         }
     }
     if (System.IO.Directory.GetFiles(directory).Length == 0 && System.IO.Directory.GetDirectories(directory).Length == 0)
     {
+        Logger.ILog(`Remove empty directory: ${directory}`);
         Directory.Delete(directory, false);
     }
 }
