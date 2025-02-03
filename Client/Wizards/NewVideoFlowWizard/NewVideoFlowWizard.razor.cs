@@ -201,7 +201,7 @@ public partial class NewVideoFlowWizard
         ];
         AudioCodecs =
         [
-            new () { Label = lblUseOriginal, Value = ""},
+            //new () { Label = lblUseOriginal, Value = ""},
             new() { Label = "AAC", Value = "aac" },
             new() { Label = "AC3", Value = "ac3" },
             // new() { Label = "DTS", Value = "dts" },
