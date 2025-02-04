@@ -57,6 +57,8 @@ public partial class InputCustomFields : Input<List<CustomField>>
         item.Type = updated.Type;
         item.Description = updated.Description;
         item.Variable = updated.Variable;
+        item.ConditionField = updated.ConditionField;
+        item.ConditionValue = updated.ConditionValue;
         StateHasChanged();
     }
 
@@ -131,6 +133,22 @@ public partial class InputCustomFields : Input<List<CustomField>>
         
         fields.Add(new ElementField()
         {
+            Name = nameof(CustomField.ConditionField),
+            InputType = FormInputType.Text
+        });
+        fields.Add(new ElementField()
+        {
+            Name = nameof(CustomField.ConditionValue),
+            InputType = FormInputType.Text
+        });
+        fields.Add(new ElementField()
+        {
+            InputType = FormInputType.HorizontalRule
+        });
+
+        
+        fields.Add(new ElementField()
+        {
             Name = "Minimum",
             InputType = FormInputType.Int,
             Conditions = [
@@ -199,6 +217,8 @@ public partial class InputCustomFields : Input<List<CustomField>>
         editingModel.Variable = editingItem?.Variable ?? string.Empty;
         editingModel.Description = editingItem?.Description ?? string.Empty;
         editingModel.Name = editingItem?.Name ?? string.Empty;
+        editingModel.ConditionField = editingItem?.ConditionField ?? string.Empty;
+        editingModel.ConditionValue = editingItem?.ConditionValue ?? string.Empty;
         if (editingItem != null && editingItem.Data?.Any() == true)
         {
             switch (editingItem.Type)
@@ -255,7 +275,13 @@ public partial class InputCustomFields : Input<List<CustomField>>
                 cf.Description = desc?.ToString()?.Trim() ?? string.Empty;
             if(dict.TryGetValue(nameof(cf.Variable), out var variable))
                 cf.Variable = variable?.ToString()?.Trim() ?? string.Empty;
-            
+            if (dict.TryGetValue(nameof(cf.ConditionField), out var conditionField))
+            {
+                cf.ConditionField = conditionField?.ToString()?.Trim() ?? string.Empty;
+                if (dict.TryGetValue(nameof(cf.ConditionValue), out var conditionValue))
+                    cf.ConditionValue = conditionValue?.ToString()?.Trim() ?? string.Empty;
+            }
+
             if(dict.TryGetValue(nameof(cf.Type), out var type) && type is CustomFieldType cft)
                 cf.Type = cft;
 

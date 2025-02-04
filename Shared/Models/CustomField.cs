@@ -21,6 +21,15 @@ public class CustomField
     /// Gets or sets a description for this field
     /// </summary>
     public string Description { get; set; }
+    
+    /// <summary>
+    /// Gets or sets a condition field that needs to be equal to the value to show this field
+    /// </summary>
+    public string ConditionField { get; set; }
+    /// <summary>
+    /// Gets or sets a value for the condition field
+    /// </summary>
+    public string ConditionValue { get; set; }
 
     /// <summary>
     /// Gets or sets the field type
