@@ -9,8 +9,8 @@ import { Radarr } from 'Shared/Radarr';
  * @output Item refreshed successfully
  * @output Item not found
  */
-//Orignally authored by Shaun Agius and Anthony Clerici as the Radarr - Rename Script modifed to just refresh instead.
 function Script(URI, ApiKey) {
+    //Orignally authored by Shaun Agius and Anthony Clerici as the Radarr - Rename Script modifed to just refresh instead.
     // Remove trailing / from URI
     URI = URI.replace(/\/$/, '');
     let radarr = new Radarr(URI, ApiKey);
