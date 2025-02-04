@@ -25,10 +25,7 @@ public partial class InputCustomFields : Input<List<CustomField>>
     /// </summary>
     private async Task AddField()
     {
-        var added = await EditField(new()
-        {
-
-        });
+        var added = await EditField();
         if (added != null)
         {
             this.Value = (Value ?? []).Union([added]).ToList();
@@ -52,14 +49,7 @@ public partial class InputCustomFields : Input<List<CustomField>>
         if (item == null)
             return;
         
-        var updated = await EditField(new ()
-        {
-            Name = item.Name,
-            Data = item.Data.ToDictionary(x => x.Key, x => x.Value),
-            Type = item.Type,
-            Description = item.Description,
-            Variable = item.Variable
-        }, item);
+        var updated = await EditField(item);
         if (updated == null)
             return; // didnt change
         item.Name = updated.Name;
@@ -95,51 +85,99 @@ public partial class InputCustomFields : Input<List<CustomField>>
     /// <summary>
     /// Edits a field
     /// </summary>
-    /// <param name="field">the field to edit</param>
     /// <param name="editingItem">Optional item being edited</param>
     /// <returns>the updated field, or null if canceled</returns>
-    private async Task<CustomField> EditField(CustomField field, CustomField? editingItem = null)
+    private async Task<CustomField> EditField(CustomField? editingItem = null)
     {
         var fields = new List<IFlowField>();
         fields.Add(new ElementField()
         {
-            Name = nameof(field.Name),
+            Name = nameof(CustomField.Name),
             InputType = FormInputType.Text
         });
         fields.Add(new ElementField()
         {
-            Name = nameof(field.Variable),
+            Name = nameof(CustomField.Variable),
             InputType = FormInputType.Text
         });
         fields.Add(new ElementField()
         {
-            Name = nameof(field.Description),
+            Name = nameof(CustomField.Description),
             InputType = FormInputType.Text
         });
-        fields.Add(new ElementField()
+        var efType = new ElementField()
         {
-            Name = nameof(field.Type),
+            Name = nameof(CustomField.Type),
             InputType = FormInputType.Select,
-            Parameters = new Dictionary<string, object>{
+            Parameters = new Dictionary<string, object>
+            {
                 { "AllowClear", false },
-                { "Options", Enum.GetValues(typeof(CustomFieldType))
-                    .Cast<CustomFieldType>()
-                    .Select(e => new ListOption
-                    {
-                        Value = e,
-                        Label = $"Enums.{nameof(CustomFieldType)}.{e}"
-                    }).ToList()
+                {
+                    "Options", Enum.GetValues(typeof(CustomFieldType))
+                        .Cast<CustomFieldType>()
+                        .Select(e => new ListOption
+                        {
+                            Value = e,
+                            Label = $"Enums.{nameof(CustomFieldType)}.{e}"
+                        }).ToList()
                 }
             }
-        });
+        };
+        fields.Add(efType);
         fields.Add(new ElementField()
         {
             InputType = FormInputType.HorizontalRule
         });
         
+        fields.Add(new ElementField()
+        {
+            Name = "Minimum",
+            InputType = FormInputType.Int,
+            Conditions = [
+                new AnyCondition(efType, editingItem?.Type ?? CustomFieldType.Text, new []
+                {
+                    CustomFieldType.Integer, CustomFieldType.Slider
+                })
+            ]
+        });
+        fields.Add(new ElementField()
+        {
+            Name = "Maximum",
+            InputType = FormInputType.Int,
+            Conditions = [
+                new AnyCondition(efType, editingItem?.Type ?? CustomFieldType.Text, new []
+                {
+                    CustomFieldType.Integer, CustomFieldType.Slider
+                })
+            ]
+        });
+        fields.Add(new ElementField()
+        {
+            Name = "DefaultNumber",
+            InputType = FormInputType.Int,
+            Conditions = [
+                new AnyCondition(efType, editingItem?.Type ?? CustomFieldType.Text, new []
+                {
+                    CustomFieldType.Integer, CustomFieldType.Slider
+                })
+            ]
+        });
+        fields.Add(new ElementField()
+        {
+            Name = "Options",
+            InputType = FormInputType.KeyValue,
+            Conditions = [
+                new AnyCondition(efType, editingItem?.Type ?? CustomFieldType.Text, new []
+                {
+                    CustomFieldType.OptionGroup, CustomFieldType.Select
+                })
+            ]
+        });
+        
+        
         var result = await CustomFieldEditor.Open(new()
         {
-            TypeName = "Pages.Resellers.Flows", Title = "Pages.Resellers.Flows.Single", Model = field,
+            TypeName = "Pages.Resellers.Flows", Title = "Pages.Resellers.Flows.Single", Model = GetEditingModel(editingItem),
             Fields = fields, SaveCallback = (ExpandoObject model) =>
             {
                 var saving = ExpandoToCustomField(model);
@@ -154,15 +192,92 @@ public partial class InputCustomFields : Input<List<CustomField>>
         return ExpandoToCustomField(result.Model);
     }
 
+    private object GetEditingModel(CustomField? editingItem)
+    {
+        dynamic editingModel = new ExpandoObject();
+        editingModel.Type = editingItem?.Type ?? CustomFieldType.Text;
+        editingModel.Variable = editingItem?.Variable ?? string.Empty;
+        editingModel.Description = editingItem?.Description ?? string.Empty;
+        editingModel.Name = editingItem?.Name ?? string.Empty;
+        if (editingItem != null && editingItem.Data?.Any() == true)
+        {
+            switch (editingItem.Type)
+            {
+                case CustomFieldType.Integer:
+                case CustomFieldType.Slider:
+                    if (editingItem.Data.TryGetValue("Minimum", out var minimum) && int.TryParse(minimum.ToString(), out var minimumNumber))
+                        editingModel.Minimum = minimumNumber;
+                    if (editingItem.Data.TryGetValue("Maximum", out var maximum) && int.TryParse(maximum.ToString(), out var maximumNumber))
+                        editingModel.Maximum = maximumNumber;
+                    if (editingItem.Data.TryGetValue("Default", out var defaultObj) && int.TryParse(defaultObj.ToString(), out var defaultNumber))
+                        editingModel.DefaultNumber = defaultNumber;
+                        break;
+                case CustomFieldType.Select:
+                case CustomFieldType.OptionGroup:
+                    if (editingItem.Data.TryGetValue("Options", out var options))
+                    {   
+                        if(options is List<KeyValuePair<string, string>> kvp)
+                            editingModel.Options = kvp;
+                        else if (options is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.Array)
+                        {
+                            try
+                            {
+                                var list = jsonElement.EnumerateArray()
+                                    .Select(e => new KeyValuePair<string, string>(
+                                        e.GetProperty("Key").GetString() ?? string.Empty, 
+                                        e.GetProperty("Value").GetString() ?? string.Empty))
+                                    .ToList();
+
+                                editingModel.Options = list;
+                            }
+                            catch (Exception)
+                            {
+                                // Handle error (log it, rethrow, etc.)
+                            }
+                        }
+                        
+                    }
+                    break;
+            }
+        }
+        return editingModel;
+    }
+
     private CustomField ExpandoToCustomField(ExpandoObject expandoObject)
     {
         try
         {
-            string json = JsonSerializer.Serialize(expandoObject);
-            var cf = JsonSerializer.Deserialize<CustomField>(json);
-            cf.Name = cf.Name?.Trim() ?? string.Empty;
-            cf.Variable = cf.Variable?.Trim() ?? string.Empty;
-            cf.Description = cf.Description?.Trim() ?? string.Empty;
+            var dict = expandoObject as IDictionary<string, object>;
+            var cf = new CustomField();
+            if(dict.TryGetValue(nameof(cf.Name), out var name))
+                cf.Name = name?.ToString()?.Trim() ?? string.Empty;
+            if(dict.TryGetValue(nameof(cf.Description), out var desc))
+                cf.Description = desc?.ToString()?.Trim() ?? string.Empty;
+            if(dict.TryGetValue(nameof(cf.Variable), out var variable))
+                cf.Variable = variable?.ToString()?.Trim() ?? string.Empty;
+            
+            if(dict.TryGetValue(nameof(cf.Type), out var type) && type is CustomFieldType cft)
+                cf.Type = cft;
+
+            if (cf.Type is CustomFieldType.Integer or CustomFieldType.Slider)
+            {
+                if(dict.TryGetValue("Minimum", out var min) && int.TryParse(min?.ToString(), out var minInt))
+                    cf.Data["Minimum"] = minInt;
+                if(dict.TryGetValue("Maximum", out var max) && int.TryParse(max?.ToString(), out var maxInt))
+                    cf.Data["Maximum"] = maxInt;
+                if (dict.TryGetValue("DefaultNumber", out var defaultNumber) &&
+                    int.TryParse(defaultNumber?.ToString(), out var defaultInt))
+                    cf.Data["Default"] = defaultInt;
+            }
+            else if (cf.Type is CustomFieldType.Select or CustomFieldType.OptionGroup)
+            {
+                if (dict.TryGetValue("Options", out var options) &&
+                    options is List<KeyValuePair<string, string>> listOptions)
+                {
+                    cf.Data["Options"] = listOptions;
+                }
+            }
+            
             return cf;
         }
         catch (Exception ex)
