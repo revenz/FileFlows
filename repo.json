@@ -349,7 +349,7 @@
       "Path": "Scripts/Flow/Folder/Folder - Copy or Move Contents.js",
       "Name": "Folder - Copy or Move Contents",
       "Description": "Copies or Movies a subset of files from a folder based on supplied filename\n/",
-      "Revision": 1,
+      "Revision": 2,
       "Uid": "e35d65b5-1486-42b9-8a0c-651804adea88"
     },
     {
