@@ -3,7 +3,7 @@ import { Radarr } from 'Shared/Radarr';
 /**
  * @description This script will send a rename command to Radarr
  * @author Shaun Agius, Anthony Clerici
- * @revision 13
+ * @revision 14
  * @uid d9b988c1-b219-4c1b-b98f-2eb99ead716a
  * @param {string} URI Radarr root URI and port (e.g. http://radarr:7878)
  * @param {string} ApiKey API Key
@@ -83,7 +83,7 @@ function Script(URI, ApiKey) {
         // Construct new filepath
         Logger.ILog(`New path: ${newFileName}`);
         newFilePath = System.IO.Path.Combine(basePath, newFileName);
-        Logger.ILog(`Found it, renaming file ${newEpisodeFileId} to ${newFilePath}`);
+        Logger.ILog(`Found it, renaming file ${currentFileName} to ${newFileName}`);
 
         if (newFileName === null) {
             Logger.WLog('No matching movie found to rename.');
