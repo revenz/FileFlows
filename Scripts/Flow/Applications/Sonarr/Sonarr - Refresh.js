@@ -9,8 +9,8 @@ import { Sonarr } from 'Shared/Sonarr';
  * @output Item refreshed successfully
  * @output Item not found
  */
-//Orignally authored by Shaun Agius and Anthony Clerici as the Sonarr - Rename Script modifed to just refresh instead.
 function Script(URI, ApiKey) {
+    //Orignally authored by Shaun Agius and Anthony Clerici as the Sonarr - Rename Script modifed to just refresh instead.
     // Remove trailing / from URI
     URI = URI.replace(/\/$/, '');
     let sonarr = new Sonarr(URI, ApiKey);
