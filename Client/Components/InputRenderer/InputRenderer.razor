@@ -403,7 +403,9 @@
         {
             var oValue = GetValue<List<CustomField>>(field.Name);
             var log = GetParameter<string>(field, nameof(InputExecutedNodes.Log));
-            <InputCustomFields Field=@field Label="@label" Value="@oValue" HideLabel=@hideLabel />
+            <InputCustomFields Field=@field Label="@label" Value="@oValue" ReadOnly=@readOnly
+                               ValueChanged="@(x => UpdateValue(field, x))"
+                               HideLabel=@hideLabel />
         }
         break;
         case FormInputType.ExecutedNodes:

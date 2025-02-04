@@ -107,21 +107,22 @@ public partial class ResellerFlows : ListPage<Guid, ResellerFlow>
                 new Required()
             }
         });
-        fields.Add(new ElementField()
-        {
-            InputType = FormInputType.HorizontalRule
-        });
-        fields.Add(new ElementField()
-        {
-            InputType = FormInputType.CustomFields,
-            Name = nameof(item.Fields)
-        });
+        
+        var tabs = new Dictionary<string, List<IFlowField>>();
+        tabs.Add("General", fields);
+        tabs.Add("Fields", [
+            new ElementField()
+            {
+                InputType = FormInputType.CustomFields,
+                Name = nameof(item.Fields)
+            }
+        ]);
 
         
         await Editor.Open(new()
         {
             TypeName = "Pages.Resellers.Flows", Title = "Pages.Resellers.Flows.Single", Model = item,
-            SaveCallback = Save, Fields = fields,
+            SaveCallback = Save, Tabs = tabs,Large = true,
             HelpUrl = "https://fileflows.com/docs/webconsole/reseller/flows"
         });
         return true;
