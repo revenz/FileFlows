@@ -377,8 +377,15 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Rename.js",
       "Name": "Radarr - Rename",
       "Description": "This script will send a rename command to Radarr\n/",
-      "Revision": 13,
+      "Revision": 14,
       "Uid": "d9b988c1-b219-4c1b-b98f-2eb99ead716a"
+    },
+    {
+      "Path": "Scripts/Flow/Applications/Radarr/Radarr - Refresh.js",
+      "Name": "Radarr - Refresh",
+      "Description": "This script will send a refresh command to Radarr for processing libraries in place.\n/",
+      "Revision": 1,
+      "Uid": "78578502-07eb-44f5-99a9-76387c90d7f4"
     },
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Get Original Language.js",
@@ -442,6 +449,13 @@
       "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it\n/",
       "Revision": 9,
       "Uid": "51cf3c4f-f4a3-45e2-a083-6629397aab90"
+    },
+    {
+      "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Refresh.js",
+      "Name": "Sonarr - Refresh",
+      "Description": "This script will refresh the file through Sonarr for processing libraries in place\n/",
+      "Revision": 1,
+      "Uid": "01d7fc57-2613-4e14-92bc-29b2ba259f86"
     },
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - TV Show Lookup.js",
