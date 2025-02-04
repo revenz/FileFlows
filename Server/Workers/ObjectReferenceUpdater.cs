@@ -1,4 +1,5 @@
 using FileFlows.Services;
+using FileFlows.Services.ResellerServices;
 using FileFlows.Shared.Models;
 using FlowService = FileFlows.Services.FlowService;
 using LibraryFileService = FileFlows.Services.LibraryFileService;
@@ -52,6 +53,7 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
             DateTime start = DateTime.UtcNow;
             var lfService = ServiceLoader.Load<LibraryFileService>();
             var libService = ServiceLoader.Load<LibraryService>();
+            var rfService = ServiceLoader.Load<ResellerFlowService>();
             //var libFiles = lfService.GetAll(null).Result;
             var libraries = libService.GetAllAsync().Result;
             var flows = ServiceLoader.Load<FlowService>().GetAllAsync().Result;
@@ -96,6 +98,8 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
             {
                 libService.UpdateFlowName(flow.Uid, flow.Name).Wait();
                 lfService.UpdateFlowName(flow.Uid, flow.Name).Wait();
+                rfService.UpdateFlowName(flow.Uid, flow.Name).Wait();
+                
             }
             Logger.Instance.ILog("Time Taken to complete for ObjectReference rename: "+ DateTime.UtcNow.Subtract(start));
         }
