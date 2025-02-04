@@ -1,7 +1,9 @@
+using System.Xml.Schema;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Models;
+using Humanizer;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
@@ -54,26 +56,14 @@ public partial class InitialConfig : ComponentBase
     /// Gets or sets a list of available plugins
     /// </summary>
     private List<PluginPackageInfo> AvailablePlugins { get; set; }
-    /// <summary>
-    /// The plugins that are forced checked and cannot be unchecked
-    /// These are plugins that are already installed
-    /// </summary>
-    private List<PluginPackageInfo> ForcedPlugins;
+    
+    private List<FlowChecklistItem> Plugins { get; set; }
+    private List<FlowChecklistItem> DockerMods { get; set; }
 
     /// <summary>
     /// Gets or sets a list of available DockerMods
     /// </summary>
     private List<RepositoryObject> AvailableDockerMods { get; set; }
-
-    /// <summary>
-    /// The Plugin flow table
-    /// </summary>
-    private FlowTable<PluginPackageInfo> PluginTable;
-
-    /// <summary>
-    /// The DockerMod flow table
-    /// </summary>
-    private FlowTable<RepositoryObject> DockerModTable;
     /// <summary>
     /// If this component is fully loaded or not.
     /// Is false until the plugins have been loaded which may take a second or two
@@ -172,7 +162,25 @@ public partial class InitialConfig : ComponentBase
 
         AvailablePlugins = request.Data.OrderBy(x => x.Installed ? 0 : 1)
             .ThenBy(x => x.Name.ToLowerInvariant()).ToList();
-        ForcedPlugins = AvailablePlugins.Where(x => x.Installed).ToList();
+        Plugins = AvailablePlugins.Select(x =>
+        {
+            var item = new FlowChecklistItem();
+            item.Name = Translater.TranslateIfHasTranslation($"Plugins.{x.Package.Replace(".", "")}.Label", x.Name);
+            item.Description =
+                Translater.TranslateIfHasTranslation($"Plugins.{x.Package.Replace(".", "")}.Description",
+                    x.Description);
+            item.Icon = x.Icon;
+            item.ReadOnly = x.Installed;
+            item.Checked = x.Installed || 
+                           x.Package.Contains("Basic", StringComparison.InvariantCultureIgnoreCase) || 
+                           x.Package.Contains("Video", StringComparison.InvariantCultureIgnoreCase) ||
+                           x.Package.Contains("Audio", StringComparison.InvariantCultureIgnoreCase) || 
+                           x.Package.Contains("Image", StringComparison.InvariantCultureIgnoreCase) || 
+                           x.Package.Contains("Meta", StringComparison.InvariantCultureIgnoreCase) || 
+                           x.Package.Contains("Web", StringComparison.InvariantCultureIgnoreCase);
+            item.Value = x;
+            return item;
+        }).OrderBy(x => x.Checked ? 0 : 1).ThenBy(x => x.Name.ToLowerInvariant()).ToList();
     }
 
     /// <summary>
@@ -192,6 +200,20 @@ public partial class InitialConfig : ComponentBase
             .OrderBy(x => x.Default == true ? 0 : 1)
             .ThenBy(x => x.Name.ToLowerInvariant()?.StartsWith("ffmpeg") == true ? 0 : 1)
             .ThenBy(x => x.Name.ToLowerInvariant()).ToList();
+
+        DockerMods = AvailableDockerMods.Select(x =>
+        {
+            var item = new FlowChecklistItem();
+            string key = x.Name.Replace(".", "").Replace("-", "").Dehumanize();
+            item.Name = Translater.TranslateIfHasTranslation($"DockerMods.{key}.Label", x.Name);
+            item.Description = Translater.TranslateIfHasTranslation($"DockerMods.{key}.Description", x.Description);
+            item.Checked = key.Equals("FFmpeg6", StringComparison.OrdinalIgnoreCase) ||
+                           key.Equals("rar", StringComparison.OrdinalIgnoreCase) ||
+                           key.Equals("ImageMagick", StringComparison.OrdinalIgnoreCase);
+            item.Icon = x.Icon;
+            item.Value = x;
+            return item;
+        }).OrderBy(x => x.Checked ? 0 : 1).ThenBy(x => x.Name.ToLowerInvariant()).ToList();
         
         Logger.Instance.ILog("Got DockerMods 2: " + AvailableDockerMods.Count);
     }
@@ -207,8 +229,8 @@ public partial class InitialConfig : ComponentBase
             return;
         }
 
-        var plugins = onlyEula ? null : PluginTable?.GetSelected()?.ToList();
-        var dockerMods = onlyEula ? null : DockerModTable?.GetSelected()?.ToList();
+        var plugins = onlyEula ? null : Plugins.Where(x => x.Checked).Select(x => x.Value).ToList();
+        var dockerMods = onlyEula ? null : DockerMods.Where(x => x.Checked).Select(x => x.Value).ToList();
         
         Blocker.Show("Labels.Saving");
         try
@@ -253,12 +275,7 @@ public partial class InitialConfig : ComponentBase
     {
         EulaAccepted = !EulaAccepted;
         if (InitDone == false)
-        {
             InitDone = true;
-            
-            PluginTable.SetSelected(AvailablePlugins.Where(x => x.Name is "Basic" or "Audio" or "Video" or "Image" or "Web").ToArray());
-            DockerModTable.SetSelected(AvailableDockerMods.Where(x => x.Default == true).ToArray());
-        }
     }
     
     // labels used for translations
@@ -308,8 +325,8 @@ public partial class InitialConfig : ComponentBase
     /// <returns>true if can advance, otherwise false</returns>
     private async Task<bool> OnDockerModPageAdvanced()
     {
-        var mods = DockerModTable?.GetSelected()?.ToList() ?? [];
-        if (mods.Count < 9)
+        var modCount = DockerMods.Count(x => x.Checked);
+        if (modCount < 9)
             return true; // they didnt go overboard
         
         await MessageBox.Show(

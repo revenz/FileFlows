@@ -45,39 +45,8 @@ else
                 {
                     <FlowWizardPage Title="@lblPlugins" Disabled="@(EulaAccepted == false)"
                                     Description="@lblPluginsDescription">
-                        <FlowTable @ref="PluginTable" Data="AvailablePlugins" TItem="PluginPackageInfo"
-                                   HideHead="true" HideToolbar="true" Selection="SelectionMode.Multiple"
-                                   TableIdentifier="InitialConfigPlugins" DontClearOnClick="true" ForcedSelection="ForcedPlugins">
-                            <Columns>
-                                <FlowTableColumn TItem="PluginPackageInfo" NoHeight="true">
-                                    <Header>
-                                        @Globals.lblName
-                                    </Header>
-                                    <Cell Context="item">
-                                        @{
-                                            string label = Translater.TranslateIfHasTranslation($"Plugins.{item.Package.Replace(".", "")}.Label", item.Name);
-                                            string description = Translater.TranslateIfHasTranslation($"Plugins.{item.Package.Replace(".", "")}.Description", item.Description);
-                                        }
-                                        <div class="table-item">
-                                            <TableItemIcon Icon="@item.Icon" DefaultIcon="fas fa-puzzle-piece"/>
-                                            <div class="center">
-                                                <span class="name"><span class="name-actual">@label</span></span>
-                                                <span class="description"><span>@description</span></span>
-                                            </div>
-                                            @if (item.Installed)
-                                            {
-                                                <div class="right">
-                                                    <span class="top-right">
-                                                        @lblInstalled
-                                                    </span>
-                                                </div>
-                                            }
-                                        </div>
-
-                                    </Cell>
-                                </FlowTableColumn>
-                            </Columns>
-                        </FlowTable>
+                        
+                        <FlowChecklist Items="Plugins" DefaultIcon="fas fa-puzzle-piece" />
                     </FlowWizardPage>
                 }
 
@@ -85,32 +54,7 @@ else
                 {
                     <FlowWizardPage Title="@lblDockerMods" Disabled="@(EulaAccepted == false)"
                                     Description="@lblDockerModsDescription" OnPageAdvanced="OnDockerModPageAdvanced">
-                        <FlowTable @ref="DockerModTable" Data="AvailableDockerMods" TItem="RepositoryObject"
-                                   HideHead="true" HideToolbar="true" Selection="SelectionMode.Multiple"
-                                   TableIdentifier="InitialConfigDockerMods" DontClearOnClick="true">
-                            <Columns>
-                                <FlowTableColumn TItem="RepositoryObject" NoHeight="true">
-                                    <Header>
-                                        @Globals.lblName
-                                    </Header>
-                                    <Cell Context="item">
-                                        @{
-                                            string key = item.Name.Replace(".", "").Replace("-", "").Dehumanize();
-                                            string label = Translater.TranslateIfHasTranslation($"DockerMods.{key}.Label", item.Name);
-                                            string description = Translater.TranslateIfHasTranslation($"DockerMods.{key}.Description", item.Description);
-                                        }
-                                        <div class="table-item">
-                                            <TableItemIcon Icon="@item.Icon" DefaultIcon="fab fa-docker"/>
-                                            <div class="center">
-                                                <span class="name"><span class="name-actual">@label</span></span>
-                                                <span class="description"><span>@description</span></span>
-                                            </div>
-                                        </div>
-
-                                    </Cell>
-                                </FlowTableColumn>
-                            </Columns>
-                        </FlowTable>
+                        <FlowChecklist Items="DockerMods" DefaultIcon="fab fa-docker" />
                     </FlowWizardPage>
                 }
 
