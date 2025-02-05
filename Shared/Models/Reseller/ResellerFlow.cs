@@ -66,4 +66,8 @@ public enum ResellerPreviewMode
     /// Image list
     /// </summary>
     Images = 1,
+    /// <summary>
+    /// Shows thumnails
+    /// </summary>
+    Thumbnails = 2,
 }

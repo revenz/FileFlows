@@ -99,6 +99,7 @@ public partial class ResellerFlows : ListPage<Guid, ResellerFlow>
                     {
                         new () { Label = "List", Value = ResellerPreviewMode.List },
                         new () { Label = "Images", Value = ResellerPreviewMode.Images },   
+                        new () { Label = "Thumbnails", Value = ResellerPreviewMode.Thumbnails },   
                     }
                 }
             },
