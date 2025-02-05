@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.RegularExpressions;
 using FileFlows.Plugin.Models;
 using System.Runtime.InteropServices;
@@ -129,6 +130,11 @@ public class NodeParameters
     /// Gets or sets the function responsible for rendering a template
     /// </summary>
     public Func<string, string>? RenderTemplate { get; set; }
+    
+    /// <summary>
+    /// Gets or sets a method used for setting the files thumbnail
+    /// </summary>
+    public Action<byte[]>? SetThumbnailActual { get; set; }
     
     /// <summary>
     /// Gets or sets the action that records running totals statistics
@@ -476,7 +482,50 @@ public class NodeParameters
     /// <param name="path">the path to the image</param>
     public void LogImage(string path)
         => LogImageActual?.Invoke(path);
-    
+
+    /// <summary>
+    /// Sets the files thumbnail
+    /// </summary>
+    /// <param name="file">the thumbnail file</param>
+    public void SetThumbnail(string file)
+    {
+        var actual = ReplaceVariables(file?.EmptyAsNull() ?? WorkingFile, stripMissing: true);
+        var local = FileService.GetLocalPath(actual);
+        if(local.Failed(out var error))
+            Logger?.ILog("Failed creating thumbnail: " + error);
+        
+        Logger?.ILog("Attempting to create thumbnail from: " + actual);
+        var tempFile = Path.Combine(TempPath, Guid.NewGuid() + ".webp");
+        var result = ImageHelper.ConvertToWebp(local.Value, tempFile, new ()
+            {
+                MaxWidth = 100,
+                MaxHeight = 100,
+                Mode = ResizeMode.Contain,
+                Quality = 70
+            });
+        if (result.Failed(out error))
+        {
+            Logger?.ILog("Failed creating thumbnail: " + error);
+            return;
+        }
+
+        if (result.Value == false)
+        {
+            Logger?.ILog("Failed creating thumbnail");
+            return;
+        }
+
+        try
+        {
+            var data = File.ReadAllBytes(tempFile);
+            SetThumbnailActual(data);
+        }
+        catch(Exception ex)
+        {
+            Logger?.ILog("Failed creating thumbnail: " + ex.Message);
+        }
+    }
+
     /// <summary>
     /// Gets the archive helper
     /// </summary>

@@ -47,5 +47,15 @@ public class WorkController : Controller
     [HttpPost("clear/{nodeUid}")]
     public Task Clear([FromRoute] Guid nodeUid)
         => ServiceLoader.Load<FlowRunnerService>().Clear(nodeUid);
+
+    /// <summary>
+    /// Sets the thumbnail for a library file
+    /// </summary>
+    /// <param name="libraryFileUid">The UID of the library file</param>
+    /// <param name="data">The binary data</param>
+    /// <returns>an awaited task</returns>
+    [HttpPost("set-thumbnail/{libraryFileUid}")]
+    public Task SetThumbnail([FromRoute] Guid libraryFileUid, [FromBody] byte[] data)
+        => ServiceLoader.Load<LibraryFileService>().SetThumbnail(libraryFileUid, data);
     
 }

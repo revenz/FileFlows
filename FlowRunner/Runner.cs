@@ -500,7 +500,12 @@ public class Runner
             {
                 ServiceLoader.Load<INotificationService>().Record((NotificationSeverity)severity, title, message);
             },
-            Cache = cacheHelper
+            Cache = cacheHelper,
+            SetThumbnailActual = (binaryData) =>
+            {
+                var service = ServiceLoader.Load<IFlowRunnerService>();
+                service.SetThumbnail(Info.LibraryFile.Uid, binaryData).Wait();
+            }
         };
         
         nodeParameters.Variables["library.Name"] = Info.Library.Name;

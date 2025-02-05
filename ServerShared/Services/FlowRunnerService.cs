@@ -37,4 +37,12 @@ public interface IFlowRunnerService
     /// <param name="info">The information about the flow execution</param>
     /// <returns>a completed task</returns>
     Task Update(FlowExecutorInfo info);
+
+    /// <summary>
+    /// Sets a thumbnail for a file
+    /// </summary>
+    /// <param name="libraryFileUid">the UID of the library file</param>
+    /// <param name="binaryData">the binary data for the thumbnail</param>
+    /// <returns>a completed task</returns>
+    Task SetThumbnail(Guid libraryFileUid, byte[] binaryData);
 }
