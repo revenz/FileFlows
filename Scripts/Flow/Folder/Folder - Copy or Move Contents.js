@@ -14,7 +14,7 @@ function Script(SourceDirectory, DestinationDirectory, MediaFileName, MoveFiles)
  {
      MoveFiles = MoveFiles || false;
      let src = Flow.ReplaceVariables(SourceDirectory);
-     let dest = System.IO.Path.Combine(Flow.ReplaceVariables(DestinationDirectory), System.IO.Path.GetFileName(src));
+     let dest = Flow.ReplaceVariables(DestinationDirectory);
 
       Logger.ILog(`Source Directors: ${src}`);
       Logger.ILog(`Target Directory: ${dest}`);
