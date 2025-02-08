@@ -483,6 +483,15 @@ public class NodeParameters
     public void LogImage(string path)
         => LogImageActual?.Invoke(path);
 
+    private bool _thumbnailSet = false;
+
+    /// <summary>
+    /// Gets if a thumbnail has been set
+    /// </summary>
+    /// <returns>true if has been set, otherwise false</returns>
+    public bool HasThumbnailBeenSet()
+        => _thumbnailSet;
+
     /// <summary>
     /// Sets the files thumbnail
     /// </summary>
@@ -519,6 +528,7 @@ public class NodeParameters
         {
             var data = File.ReadAllBytes(tempFile);
             SetThumbnailActual(data);
+            _thumbnailSet = true;
         }
         catch(Exception ex)
         {
