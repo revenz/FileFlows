@@ -5,9 +5,10 @@
  * @author apwelsh
  * @revision 5
  * @param {string} SourceDirectory The directory to copy (typically the folder being processed ex: {folder.FullName})
- * @param {string} DestinationDirectory The directory location to copy to (typically the location your servarr app is looking to for completed downloads)
- * @param {string} MediaFileName The file basename to copy all matching files of. The paths, and extension coponents will be ignored.  (typically {file.Name})
- * @param {bool} MoveFiles Set true to move, or false to copy
+ * @param {string} DestinationDirectory The directory location to copy to (typically a subdirectoy in the location your servarr app is looking to for completed downloads)
+ * @param {string} MediaFileName The file basename to copy all matching files of. The paths, and extension components will be ignored.  (typically {file.Name})
+ * @param {bool} MoveFiles Set true to move, or false to copy. When true, files matching the ignore list will be deleted from SourceDirector.
+ * @param {string} IgnoreExtensions (optional) Pipe ('|') delimited list of file extensions that will not be copied/moved.
  * @output Directory copied
  */
 function Script(SourceDirectory, DestinationDirectory, MediaFileName, MoveFiles, IgnoreExtensions)
@@ -32,6 +33,13 @@ function Script(SourceDirectory, DestinationDirectory, MediaFileName, MoveFiles,
         System.IO.Directory.CreateDirectory(dest);
     } else {
         Logger.ILog(`Reusing existing target directory: ${dest}`);
+
+        // Determine if the destination directory exists or needs to be created
+    if (System.IO.Directory.Exists(dest)) {
+        Logger.ILog(`Reusing existing target directory: ${dest}`);
+    } else {
+        Logger.ILog(`Creating target directory: ${dest}`);
+        System.IO.Directory.CreateDirectory(dest);
     }
 
     // Create filter of provided file basename, w/o extension, or * if none provided
