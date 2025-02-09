@@ -3,7 +3,7 @@
  * @uid e35d65b5-1486-42b9-8a0c-651804adea88
  * @description Copies or Movies a subset of files from a folder based on supplied filename
  * @author apwelsh
- * @revision 4
+ * @revision 5
  * @param {string} SourceDirectory The directory to copy (typically the folder being processed ex: {folder.FullName})
  * @param {string} DestinationDirectory The directory location to copy to (typically a subdirectoy in the location your servarr app is looking to for completed downloads)
  * @param {string} MediaFileName The file basename to copy all matching files of. The paths, and extension components will be ignored.  (typically {file.Name})
@@ -27,13 +27,14 @@ function Script(SourceDirectory, DestinationDirectory, MediaFileName, MoveFiles,
         throw new Error(`Source directory does not exist: ${src}`);
     }
 
-    // Validate destination's parent directory
-    let destParent = System.IO.Path.GetDirectoryName(dest);
-    if (!System.IO.Directory.Exists(destParent)) {
-        throw new Error(`Target directory's parent directory does not exist: ${destParent}`);
-    }
+    // Ensure all directories in the destination path exist
+    if (!System.IO.Directory.Exists(dest)) {
+        Logger.ILog(`Creating target directory and any missing parent directories: ${dest}`);
+        System.IO.Directory.CreateDirectory(dest);
+    } else {
+        Logger.ILog(`Reusing existing target directory: ${dest}`);
 
-    // Determine if the destination directory exists or needs to be created
+        // Determine if the destination directory exists or needs to be created
     if (System.IO.Directory.Exists(dest)) {
         Logger.ILog(`Reusing existing target directory: ${dest}`);
     } else {
