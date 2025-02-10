@@ -163,7 +163,7 @@ public class LibraryFileController : Controller
         {
             var date = x.ProcessingEnded.Year > 2000 ? x.ProcessingEnded : x.ProcessingStarted;
             var when = date.ToLocalTime().Humanize(false, DateTime.UtcNow);
-            var displayName = x.DisplayName;
+            var displayName = x.Additional?.DisplayName;
             if (string.IsNullOrWhiteSpace(displayName))
             {
                 displayName =

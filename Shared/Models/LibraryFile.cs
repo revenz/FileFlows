@@ -13,10 +13,6 @@ using System.Collections.Generic;
 [TableName(nameof(LibraryFile))]
 public class LibraryFile : FileFlowObject
 {
-    /// <summary>
-    /// Gets or sets the display name for this library file
-    /// </summary>
-    public string DisplayName { get; set; }
 
     /// <summary>
     /// Gets or sets the relative path of the library file.
@@ -331,6 +327,11 @@ public class LibraryFile : FileFlowObject
 /// </summary>
 public class LibraryFileAdditional
 {
+    /// <summary>
+    /// Gets or sets the display name for this library file
+    /// </summary>
+    public string DisplayName { get; set; }
+    
     /// <summary>
     /// Gets or sets the version of FileFlows this file was processed on
     /// </summary>

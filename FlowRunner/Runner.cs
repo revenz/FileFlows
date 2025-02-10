@@ -509,7 +509,8 @@ public class Runner
             SetDisplayNameActual = (displayName) =>
             {
                 logger.ILog("Updating display name to : " + (displayName ?? "null"));
-                Info.LibraryFile.DisplayName = displayName;
+                Info.LibraryFile.Additional ??= new();
+                Info.LibraryFile.Additional.DisplayName = displayName;
             }
         };
         
