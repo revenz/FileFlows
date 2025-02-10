@@ -135,7 +135,12 @@ public class NodeParameters
     /// Gets or sets a method used for setting the files thumbnail
     /// </summary>
     public Action<byte[]>? SetThumbnailActual { get; set; }
-    
+
+    /// <summary>
+    /// Gets or sets the method to set the display name of the file which is shown in the UI/webconsole.
+    /// </summary>
+    public Action<string> SetDisplayNameActual { get; set; }
+
     /// <summary>
     /// Gets or sets the action that records running totals statistics
     /// </summary>
@@ -535,6 +540,14 @@ public class NodeParameters
             Logger?.ILog("Failed creating thumbnail: " + ex.Message);
         }
     }
+
+    /// <summary>
+    /// Sets the display name of the file which is shown in the UI/webconsole.
+    /// Set to empty or null to clear it
+    /// </summary>
+    /// <param name="displayName">the display name</param>
+    public void SetDisplayName(string displayName)
+        => SetDisplayNameActual(displayName);
 
     /// <summary>
     /// Gets the archive helper

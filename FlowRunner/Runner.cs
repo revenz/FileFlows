@@ -505,6 +505,10 @@ public class Runner
             {
                 var service = ServiceLoader.Load<IFlowRunnerService>();
                 service.SetThumbnail(Info.LibraryFile.Uid, binaryData).Wait();
+            },
+            SetDisplayNameActual = (displayName) =>
+            {
+                Info.LibraryFile.DisplayName = displayName;
             }
         };
         

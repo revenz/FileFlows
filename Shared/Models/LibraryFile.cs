@@ -16,8 +16,6 @@ public class LibraryFile : FileFlowObject
     /// <summary>
     /// Gets or sets the display name for this library file
     /// </summary>
-    [DbIgnore] // ignores serialization for models, if we removes this it can be kept in unwanted serializations
-    [NPoco.Ignore] // ignores the insert from PetaPoco, if we remove this, migration fails.  we have both to prevent dependency of NPoco outside of server
     public string DisplayName { get; set; }
 
     /// <summary>

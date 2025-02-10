@@ -163,13 +163,21 @@ public class LibraryFileController : Controller
         {
             var date = x.ProcessingEnded.Year > 2000 ? x.ProcessingEnded : x.ProcessingStarted;
             var when = date.ToLocalTime().Humanize(false, DateTime.UtcNow);
+            var displayName = x.DisplayName;
+            if (string.IsNullOrWhiteSpace(displayName))
+            {
+                displayName =
+                    Regex.IsMatch(x.OutputPath, @"^[\w\d]{2,}:")
+                        ? x.OutputPath
+                        : // special case for uploaded files e.g. nc: for next cloud
+                        ServiceLoader.Load<FileDisplayNameService>()
+                            .GetDisplayName(x.Name, x.RelativePath, x.LibraryName)?.EmptyAsNull() ??
+                        x.RelativePath?.EmptyAsNull() ?? x.Name;
+            }
             return new
             {
                 x.Uid,
-                DisplayName = 
-                    Regex.IsMatch(x.OutputPath, @"^[\w\d]{2,}:") ? x.OutputPath : // special case for uploaded files e.g. nc: for next cloud
-                    ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x.Name, x.RelativePath, x.LibraryName)?.EmptyAsNull() ?? 
-                              x.RelativePath?.EmptyAsNull() ?? x.Name,
+                DisplayName = displayName,
                 x.RelativePath,
                 x.ProcessingEnded,
                 When = when,
