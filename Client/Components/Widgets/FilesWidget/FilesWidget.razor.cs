@@ -1,4 +1,5 @@
 using System.IO;
+using FileFlows.Client.Helpers;
 using FileFlows.Shared.Formatters;
 using Microsoft.AspNetCore.Components;
 
@@ -221,18 +222,11 @@ public partial class FilesWidget : ComponentBase, IDisposable
     }
 
     /// <summary>
-    /// Gest the thumbnail url
+    /// Gets the thumbnail url
     /// </summary>
     /// <param name="file">the file</param>
     /// <returns>the thumbnail url</returns>
     private string GetThumbUrl(DashboardFile file)
-    {
-        string extension = Path.GetExtension(file.RelativePath?.EmptyAsNull() ?? file.DisplayName?.EmptyAsNull() ?? file.Name ?? "a.unknown");
-        extension = extension.StartsWith('.') ? extension[1..] : string.Empty;
-#if(DEBUG)
-        return $"http://localhost:6868/api/thumbnail/{file.Uid}?extension={extension}";
-#else
-        return $"/api/thumbnail/{file.Uid}?extension={extension}";
-#endif
-    }
+        => IconHelper.GetThumbnail(file.Uid,
+            file.Name?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.DisplayName);
 }

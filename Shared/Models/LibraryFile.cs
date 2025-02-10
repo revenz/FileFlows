@@ -19,7 +19,7 @@ public class LibraryFile : FileFlowObject
     /// This is the path relative to the library
     /// </summary>
     public string RelativePath { get; set; }
-
+    
     /// <summary>
     /// Gets or sets the path of the final output file
     /// </summary>

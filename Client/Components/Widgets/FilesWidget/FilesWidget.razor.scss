@@ -58,21 +58,21 @@
       
     }
     .size {
-      position: relative;
+      position: absolute;
       top:0;
       right:0;
       padding:0.5rem;
       background:var(--base);
-      border-bottom-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.5rem;
     }
     .time {
-      position: relative;
+      position: absolute;
       top:0;
       right:0;
       padding:0.5rem;
-      background:var(--base);
-      border-bottom-left-radius: 0.25rem;
-      
+      background:var(--base);  
+      border-top-left-radius: 0.5rem;
+      width: fit-content;      
     }
   }
   .center {
@@ -103,6 +103,7 @@
 }
 .traits {
   display: flex;
+  margin-top:0.5rem;
   .trait {
     border: solid 1px var(--info);
     font-size: 0.8rem;

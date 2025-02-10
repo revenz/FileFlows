@@ -18,7 +18,14 @@
                 <i class="fas fa-times-circle" @onclick="() => Cancel(runner)"></i>
             </div>
             <span class="icon">
-                <img class="icon" src="@IconHelper.GetExtensionImage(runner.LibraryFileName?.ToLowerInvariant())"/>
+                @if (runner.HasThumbnail)
+                {
+                    <img class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.LibraryFileUid, runner.LibraryFileName)"/>
+                }
+                else
+                {
+                    <img class="icon" src="@IconHelper.GetExtensionImage(runner.LibraryFileName?.ToLowerInvariant())"/>
+                }
             </span>
             <div class="center">
                 <span class="name path">

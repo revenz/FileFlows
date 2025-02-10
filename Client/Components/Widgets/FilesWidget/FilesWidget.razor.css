@@ -29,19 +29,20 @@
   .file-table-row.fm-0 .path {
     font-weight: 600; }
   .file-table-row.fm-0 .size {
-    position: relative;
+    position: absolute;
     top: 0;
     right: 0;
     padding: 0.5rem;
     background: var(--base);
-    border-bottom-left-radius: 0.25rem; }
+    border-bottom-left-radius: 0.5rem; }
   .file-table-row.fm-0 .time {
-    position: relative;
+    position: absolute;
     top: 0;
     right: 0;
     padding: 0.5rem;
     background: var(--base);
-    border-bottom-left-radius: 0.25rem; }
+    border-top-left-radius: 0.5rem;
+    width: fit-content; }
   .file-table-row .center {
     display: flex;
     align-content: center;
@@ -66,7 +67,8 @@
     position: relative; }
 
 .traits {
-  display: flex; }
+  display: flex;
+  margin-top: 0.5rem; }
   .traits .trait {
     border: solid 1px var(--info);
     font-size: 0.8rem;

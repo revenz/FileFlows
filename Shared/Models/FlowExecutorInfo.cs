@@ -207,6 +207,11 @@ public class FlowExecutorInfoMinified
     /// Gets or sets any additional info to pass to the runner
     /// </summary>
     public object[][] Additional { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if the file has a thumbnail
+    /// </summary>
+    public bool HasThumbnail { get; set; }
 }
 
 /// <summary>
