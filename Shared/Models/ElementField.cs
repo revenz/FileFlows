@@ -25,6 +25,11 @@ public class ElementField : IFlowField
     public string CopyValue { get; set; }
     
     /// <summary>
+    /// Gets or sets if this input allows for custom field binding
+    /// </summary>
+    public Action CustomFieldAction { get; set; }
+    
+    /// <summary>
     /// A unique identifier for this field
     /// </summary>
     public readonly Guid Uid = Guid.NewGuid(); 

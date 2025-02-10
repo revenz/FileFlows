@@ -1,6 +1,7 @@
 @namespace FileFlows.Client.Pages
 
 @page "/flows/{uid:guid}"
+@using FileFlows.Client.Helpers
 @using FileFlows.Plugin
 @{
     bool fieldsOnTop = FieldsTabOpened && EditorOpen;
@@ -227,3 +228,4 @@
 
 <RepositoryBrowser @ref="ScriptBrowser" Type="Script:Flow" Icons="true" Icon="fas fa-scroll" />
 <SubFlowBrowser @ref="SubFlowBrowser" />
+<Editor @ref="CustomFieldEditor" />

@@ -70,4 +70,9 @@ public class Flow : FileFlowObject
         get => _Properties;
         set => _Properties = value ?? new();
     }
+
+    /// <summary>
+    /// Gets or sets the fields on a flow
+    /// </summary>
+    public List<CustomField> Fields { get; set; }
 }

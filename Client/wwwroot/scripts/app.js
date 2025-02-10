@@ -23,6 +23,9 @@ window.ff = {
             return ACCESS_TOKEN = token;
         }
     },
+    clearAcessTokenCookie: function() {
+        document.cookie = "AccessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    },
     doFetch: function(url) {
         let token = ff.getAccessToken();
         if(!token)

@@ -23,6 +23,10 @@
             {
                 <label>
                 @Input.Label
+                @if (Input?.Field?.CustomFieldAction != null)
+                {
+                    <i @onclick="Input.Field.CustomFieldAction" class="fas fa-link" title="@lblCustomField"></i>
+                }
                 @if(string.IsNullOrEmpty(Input?.Field?.CopyValue) == false)
                 {
                  <i @onclick="CopyToClipboard" class="far fa-clipboard" title="@lblTooltip"></i>

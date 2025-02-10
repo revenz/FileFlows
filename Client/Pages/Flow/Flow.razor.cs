@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using BlazorContextMenu;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Helpers;
 using FileFlows.Client.Wizards;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -18,7 +19,14 @@ namespace FileFlows.Client.Pages;
 
 public partial class Flow : ComponentBase, IDisposable
 {
+    /// <summary>
+    /// Editor for flow elements/parts
+    /// </summary>
     public Editor Editor { get; set; }
+    /// <summary>
+    /// Editor for custom fields
+    /// </summary>
+    public Editor CustomFieldEditor { get; set; }
     /// <summary>
     /// Gets or sets the UID of the flow to edit
     /// </summary>
@@ -501,6 +509,11 @@ public partial class Flow : ComponentBase, IDisposable
             {
                 // if (FieldsTabOpened)
                 x.CopyValue = $"{part.Uid}.{x.Name}";
+                if (editor.Flow.Type is FlowType.Reseller)
+                {
+                    x.CustomFieldAction = async void () => await EditCustomVariable(editor, x, part);
+                }
+
                 return x;
             }).ToList();
         // add the name to the fields, so a node can be renamed
@@ -775,6 +788,84 @@ public partial class Flow : ComponentBase, IDisposable
 
         ActiveFlow?.MarkDirty();
         return new { outputs, model = newModel };
+    }
+
+    private async Task EditCustomVariable(FlowEditor editor, ElementField eleField, FlowPart part)
+    {
+        var customFlowEditor = new CustomFieldEditor(CustomFieldEditor, editor.Flow);
+        string efVariable = $"{part.Uid}.{eleField.Name}";
+        Logger.Instance.ILog("EFVariable: " + efVariable);
+        var field = editor.Flow?.Fields?.FirstOrDefault(x => x.Variable == efVariable);
+        bool isNew = field == null;
+        if (isNew)
+        {
+            // create a best option for this part
+            if (eleField.InputType is FormInputType.Switch)
+            {
+                field = new()
+                {
+                    Type = CustomFieldType.Boolean
+                };
+            }
+            else if (eleField.InputType is FormInputType.Select && eleField.Parameters.TryGetValue("Options", out var options))
+            {
+                if (options is JsonElement je && je.ValueKind != JsonValueKind.Null)
+                {
+                    var kvpOptions  = (je.Deserialize<List<ListOption>>() ?? new List<ListOption>()).Select(x =>
+                        new KeyValuePair<string, string>(x.Label, x.Value?.ToString())).ToList();
+                    if (kvpOptions.Count > 0 && kvpOptions.Count <= 5)
+                    {
+                        field = new()
+                        {
+                            Type = CustomFieldType.OptionGroup,
+                            Data = new()
+                            {
+                                { "Options", kvpOptions }
+                            }
+                        };
+                    }
+                    else if(kvpOptions.Count > 0)
+                    {
+                        field = new()
+                        {
+                            Type = CustomFieldType.Select,
+                            Data = new()
+                            {
+                                { "Options", kvpOptions }
+                            }
+                        };
+                        
+                    }
+                }
+            }
+            
+            field ??= new()
+            {
+                Type = CustomFieldType.Text
+            };
+            field.Name = eleField.Name;
+            field.Description = eleField.Description;
+        }
+        var result = await customFlowEditor.EditField(field, canChangeVariable: false);
+        if (result == null)
+            return;
+        result.Variable = efVariable;
+        if (isNew)
+        {
+            // new
+            editor.Flow.Fields ??= new ();
+            editor.Flow.Fields.Add(result);
+        }
+        else
+        {
+            // updated
+            field.Name = result.Name;
+            field.Description = result.Description;
+            field.Data = result.Data;
+            field.Type = result.Type;
+            field.ConditionField = result.ConditionField;
+            field.ConditionValue = result.ConditionValue;
+        }
     }
 
     private void ShowElementsOnClick()

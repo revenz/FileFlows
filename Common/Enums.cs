@@ -74,7 +74,11 @@ public enum FlowType
     /// <summary>
     /// A special flow can be used with-in other flows but cannot be executed by itself
     /// </summary>
-    SubFlow = 2
+    SubFlow = 2,
+    /// <summary>
+    /// A reseller flow
+    /// </summary>
+    Reseller
 }
 
 

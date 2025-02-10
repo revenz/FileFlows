@@ -60,7 +60,15 @@
                             <div class="savings" style="width: @percentage%"></div>
                         }
                         <span class="icon">
-                            <img class="icon" src="icons/filetypes/video/mkv.svg" @onclick="() => OpenFile(file)"/>
+                            @if (FileMode == 0)
+                            {
+                                <img id="thumb-@file.Uid" class="icon thumbnail" src="@GetThumbUrl(file)" @onclick="() => OpenFile(file)" 
+                                     alt="@file.Name" />
+                            }
+                            else
+                            {
+                                <img class="icon" src="icons/filetypes/video/mkv.svg" @onclick="() => OpenFile(file)"/>
+                            }
                         </span>
                         <div class="center">
                             <span class="path">

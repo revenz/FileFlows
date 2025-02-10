@@ -22,6 +22,10 @@ public partial class NewVideoFlowWizard
     private int Quality, Bitrate = 5000;
     private bool CropBlackBars, AttemptHardwareEncode = true;
     private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
+    /// <summary>
+    /// If the user is adding a reseller flow
+    /// </summary>
+    private bool ResellerFlow;
     
 
     /// <summary>
@@ -144,6 +148,9 @@ public partial class NewVideoFlowWizard
         var profile = await ProfileService.Get(); 
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
 
+        if (Options is NewVideoFlowWizardOptions options)
+            ResellerFlow = options.ResellerFlow;
+
         if (profile.UseGerman)
         {
             Audio1Languages = ["eng", "deu", "orig"];
@@ -166,7 +173,6 @@ public partial class NewVideoFlowWizard
         lblUseOriginal = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.UseOriginal");
         
         lblCopyOnlyLanguages = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyOnlyLanguages");
-   
         
         LanguageOptions = LanguageHelper.Languages.DistinctBy(x => x.Iso2).Select(x =>
         {
@@ -339,6 +345,8 @@ public partial class NewVideoFlowWizard
             var flow = builder.Flow;
             flow.Description = Description;
             flow.Icon = "fas fa-video";
+            if (ResellerFlow)
+                flow.Type = FlowType.Reseller;
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
@@ -746,4 +754,8 @@ public partial class NewVideoFlowWizard
 /// </summary>
 public class NewVideoFlowWizardOptions : IModalOptions
 {
+    /// <summary>
+    /// Gets or sets if the user is adding a reseller flow
+    /// </summary>
+    public bool ResellerFlow { get; set; }
 }

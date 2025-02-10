@@ -80,10 +80,16 @@ public partial class NewAudioToVideoWizard
                 Visualization = v;
         }
     }
+    /// <summary>
+    /// If the user is adding a reseller flow
+    /// </summary>
+    private bool ResellerFlow;
     
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        if (Options is NewImageFlowWizardOptions options)
+            ResellerFlow = options.ResellerFlow;
         VideoCodecs =
         [
             new() { Label = "H264", Value = "h264" },
@@ -141,6 +147,8 @@ public partial class NewAudioToVideoWizard
             var flow = builder.Flow;
             flow.Description = Description;
             flow.Icon = "fas fa-headphones";
+            if (ResellerFlow)
+                flow.Type = FlowType.Reseller;
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
@@ -220,4 +228,9 @@ public partial class NewAudioToVideoWizard
 /// </summary>
 public class NewAudioToVideoWizardOptions : IModalOptions
 {
+    
+    /// <summary>
+    /// Gets or sets if the user is adding a reseller flow
+    /// </summary>
+    public bool ResellerFlow { get; set; }
 }

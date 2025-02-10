@@ -1,3 +1,4 @@
+using System.IO;
 using FileFlows.Shared.Formatters;
 using Microsoft.AspNetCore.Components;
 
@@ -65,6 +66,10 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// Gets the profile
     /// </summary>
     protected Profile Profile { get; private set; }
+    /// <summary>
+    /// If this component needs rendering
+    /// </summary>
+    private bool _needsRendering = false;
 
 
     private List<DashboardFile> UpcomingFiles, RecentlyFinished, FailedFiles;
@@ -150,9 +155,30 @@ public partial class FilesWidget : ComponentBase, IDisposable
             initialized = true;
         }
         StateHasChanged();
+        await WaitForRender();
         OptionButtons?.TriggerStateHasChanged();
     }
 
+    /// <summary>
+    /// Waits for a render to occur
+    /// </summary>
+    async Task WaitForRender()
+    {
+        _needsRendering = true;
+        StateHasChanged();
+        while (_needsRendering)
+        {
+            await Task.Delay(50);
+        }
+    }
+    
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _needsRendering = false;
+    }
+
+    
     /// <summary>
     /// Loads the data from the server
     /// </summary>
@@ -191,5 +217,21 @@ public partial class FilesWidget : ComponentBase, IDisposable
     public void Dispose()
     {
         ClientService.FileStatusUpdated -= OnFileStatusUpdated;
+    }
+
+    /// <summary>
+    /// Gest the thumbnail url
+    /// </summary>
+    /// <param name="file">the file</param>
+    /// <returns>the thumbnail url</returns>
+    private string GetThumbUrl(DashboardFile file)
+    {
+        string extension = Path.GetExtension(file.RelativePath?.EmptyAsNull() ?? file.DisplayName?.EmptyAsNull() ?? file.Name ?? "a.unknown");
+        extension = extension.StartsWith('.') ? extension[1..] : string.Empty;
+#if(DEBUG)
+        return $"http://localhost:6868/api/thumbnail/{file.Uid}?extension={extension}";
+#else
+        return $"/api/thumbnail/{file.Uid}?extension={extension}";
+#endif
     }
 }

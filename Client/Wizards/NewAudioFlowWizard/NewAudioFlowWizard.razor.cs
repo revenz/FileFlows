@@ -29,6 +29,10 @@ public partial class NewAudioFlowWizard
     /// Gets or sets the flow wizard
     /// </summary>
     private FlowWizard Wizard { get; set; }
+    /// <summary>
+    /// If the user is adding a reseller flow
+    /// </summary>
+    private bool ResellerFlow;
 
     // if the initialization has been done
     private bool initDone;
@@ -62,6 +66,9 @@ public partial class NewAudioFlowWizard
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
+        if (Options is NewAudioFlowWizardOptions options)
+            ResellerFlow = options.ResellerFlow;
+        
         var profile = await ProfileService.Get(); 
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
 
@@ -189,4 +196,8 @@ public partial class NewAudioFlowWizard
 /// </summary>
 public class NewAudioFlowWizardOptions : IModalOptions
 {
+    /// <summary>
+    /// Gets or sets if the user is adding a reseller flow
+    /// </summary>
+    public bool ResellerFlow { get; set; }
 }

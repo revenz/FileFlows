@@ -40,6 +40,9 @@ public partial class Audit : ComponentBase
     /// The data shown
     /// </summary>
     List<AuditEntry> Data = new List<AuditEntry>();
+    /// <summary>
+    /// If this component needs rendering
+    /// </summary>
     private bool _needsRendering = false;
 
     /// <summary>

@@ -44,6 +44,10 @@ public partial class NewImageFlowWizard
 
     // if the initialization has been done
     private bool initDone;
+    /// <summary>
+    /// If the user is adding a reseller flow
+    /// </summary>
+    private bool ResellerFlow;
     
     /// <summary>
     /// Gets or sets bound Format
@@ -61,6 +65,9 @@ public partial class NewImageFlowWizard
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        if (Options is NewImageFlowWizardOptions options)
+            ResellerFlow = options.ResellerFlow;
+        
         ImageFormats =
         [
             new () { Value = "###GROUP###", Label = Translater.Instant("Dialogs.NewImageFlowWizard.Labels.LosslessFormats") },
@@ -107,6 +114,8 @@ public partial class NewImageFlowWizard
             var flow = builder.Flow;
             flow.Description = Description;
             flow.Icon = "fas fa-image";
+            if (ResellerFlow)
+                flow.Type = FlowType.Reseller;
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
@@ -204,4 +213,9 @@ public partial class NewImageFlowWizard
 /// </summary>
 public class NewImageFlowWizardOptions : IModalOptions
 {
+    
+    /// <summary>
+    /// Gets or sets if the user is adding a reseller flow
+    /// </summary>
+    public bool ResellerFlow { get; set; }
 }

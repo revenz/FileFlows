@@ -16,7 +16,10 @@
 {
     <div class="info box">@lblFailureFlowDescription</div>
 }
-    <FlowTable @ref="Table" Data="@(SelectedType == FlowType.Failure ? DataFailure : SelectedType == FlowType.SubFlow ? DataSubFlows : DataStandard)" TItem="FlowListModel" Selection="SelectionMode.Multiple"
+    <FlowTable @ref="Table" Data="@(SelectedType == FlowType.Failure ? DataFailure : 
+SelectedType == FlowType.SubFlow ? DataSubFlows :
+SelectedType == FlowType.Reseller ? DataReseller : 
+DataStandard)" TItem="FlowListModel" Selection="SelectionMode.Multiple"
             DoubleClick="@OnDoubleClick" TableIdentifier=@TableIdentifier>
             <ToolBar>            
                 <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />

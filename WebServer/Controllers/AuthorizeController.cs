@@ -79,6 +79,17 @@ public class AuthorizeController : Controller
         var settings = await ServiceLoader.Load<ISettingsService>().Get();
 
         var jwt = AuthenticationHelper.CreateJwtToken(result.Value, ipAddress, settings.TokenExpiryMinutes);
+        
+        Response.Cookies.Append("AccessToken", jwt, new CookieOptions
+        {
+            //HttpOnly = true,
+            //Secure = false, // Localhost doesn't use HTTPS
+            #if(DEBUG)
+            SameSite = SameSiteMode.None, // Needed for cross-origin requests in dev
+            #endif
+            //Path = "/"
+        });
+        
         return Ok(jwt);
     }
 

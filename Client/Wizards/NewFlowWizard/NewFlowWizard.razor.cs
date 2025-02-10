@@ -70,6 +70,10 @@ public partial class NewFlowWizard : IModal
     public bool DontAutoNavigateTo { get; set; }
     private Guid FlowUid = Guid.Empty;
     private List<Flow> Flows = new List<Flow>();
+    /// <summary>
+    /// If the user is adding a reseller flow
+    /// </summary>
+    private bool ResellerFlow;
 
     /// <summary>
     /// A dictionary of all available flow elements
@@ -97,6 +101,8 @@ public partial class NewFlowWizard : IModal
                     FlowUid = Flows.FirstOrDefault()?.Uid ?? Guid.Empty;
                 }
             }
+
+            ResellerFlow = options.ResellerFlow;
         }
         
         initDone = true;
@@ -310,7 +316,9 @@ public partial class NewFlowWizard : IModal
         {
             case 0: // Convert Video
             {
-                var result = await ModalService.ShowModal<NewVideoFlowWizard, Flow>(new NewVideoFlowWizardOptions());
+                var result = await ModalService.ShowModal<NewVideoFlowWizard, Flow>(new NewVideoFlowWizardOptions() {
+                    ResellerFlow = ResellerFlow
+                });
                 if (result.Success(out var newFlow))
                     return newFlow;
             }
@@ -320,7 +328,9 @@ public partial class NewFlowWizard : IModal
             case 2: // Audio to Video
             {
                 var result =
-                    await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions());
+                    await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions() {
+                        ResellerFlow = ResellerFlow
+                    });
                 if (result.Success(out var newFlow))
                     return newFlow;
                 return null;
@@ -340,7 +350,9 @@ public partial class NewFlowWizard : IModal
         {
             case 0: // Convert Audio
             {
-                var result = await ModalService.ShowModal<NewAudioFlowWizard, Flow>(new NewAudioFlowWizardOptions());
+                var result = await ModalService.ShowModal<NewAudioFlowWizard, Flow>(new NewAudioFlowWizardOptions() {
+                    ResellerFlow = ResellerFlow
+                });
                 if (result.Success(out var newFlow))
                     return newFlow;
                 }
@@ -349,7 +361,9 @@ public partial class NewFlowWizard : IModal
                 return CreateBasicFlow(FlowElementUids.AudioFile, "fas fa-headphones", "Custom audio processing flow.");
             case 2: // Audio to Video
             {
-                var result = await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions());
+                var result = await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions() {
+                    ResellerFlow = ResellerFlow
+                });
                 if (result.Success(out var newFlow))
                     return newFlow;
                 return null;
@@ -368,7 +382,10 @@ public partial class NewFlowWizard : IModal
         {
             case 0: // Convert Image
             {
-                var result = await ModalService.ShowModal<NewImageFlowWizard, Flow>(new NewImageFlowWizardOptions());
+                var result = await ModalService.ShowModal<NewImageFlowWizard, Flow>(new NewImageFlowWizardOptions()
+                {
+                    ResellerFlow = ResellerFlow
+                });
                 if (result.Success(out var newFlow))
                     return newFlow;
             }
@@ -391,7 +408,10 @@ public partial class NewFlowWizard : IModal
                 return null;
             case 1: // Comic Book
             {
-                var result = await ModalService.ShowModal<NewComicFlowWizard, Flow>(new NewComicFlowWizardOptions());
+                var result = await ModalService.ShowModal<NewComicFlowWizard, Flow>(new NewComicFlowWizardOptions()
+                {
+                    ResellerFlow = ResellerFlow
+                });
                 if (result.Success(out var newFlow))
                     return newFlow;
             }
@@ -417,6 +437,8 @@ public partial class NewFlowWizard : IModal
             flow.Type = FlowType.SubFlow;
         else if (inputFlowElementUid == FlowElementUids.FlowFailure)
             flow.Type = FlowType.Failure;
+        else if (ResellerFlow)
+            flow.Type = FlowType.Reseller;
         var part =
             new FlowPart()
             {
@@ -493,4 +515,9 @@ public class NewFlowWizardOptions : IModalOptions
     /// Gets or sets if the flow shouldn't be auto navigated to
     /// </summary>
     public bool DontAutoNavigateTo { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if the user is adding a reseller flow
+    /// </summary>
+    public bool ResellerFlow { get; set; }
 }

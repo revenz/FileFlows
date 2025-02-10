@@ -33,6 +33,10 @@ public partial class NewComicFlowWizard
 
     // if the initialization has been done
     private bool initDone;
+    /// <summary>
+    /// If the user is adding a reseller flow
+    /// </summary>
+    private bool ResellerFlow;
     
     /// <summary>
     /// Gets or sets bound Format
@@ -50,6 +54,8 @@ public partial class NewComicFlowWizard
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        if (Options is NewComicFlowWizardOptions options)
+            ResellerFlow = options.ResellerFlow;
         ImageFormats =
         [
             new () { Value = "", Label = Translater.Instant("Dialogs.NewComicFlowWizard.Labels.SameAsSource") },
@@ -88,6 +94,8 @@ public partial class NewComicFlowWizard
             var flow = builder.Flow;
             flow.Description = Description;
             flow.Icon = "fas fa-journal-whills";
+            if (ResellerFlow)
+                flow.Type = FlowType.Reseller;
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
@@ -168,4 +176,8 @@ public partial class NewComicFlowWizard
 /// </summary>
 public class NewComicFlowWizardOptions : IModalOptions
 {
+    /// <summary>
+    /// Gets or sets if the user is adding a reseller flow
+    /// </summary>
+    public bool ResellerFlow { get; set; }
 }

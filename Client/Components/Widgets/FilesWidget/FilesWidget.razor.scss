@@ -78,11 +78,19 @@
 }
 
 .icon {
-  width:3rem;
   .icon {
     height:2.25rem;
+    width:3rem;
     cursor: pointer;
     position: relative;
+  }
+  .icon.thumbnail {
+    height: 7rem;
+    width: 7rem;
+    cursor: pointer;
+    position: relative;
+    margin-right: 0.5rem;
+    object-fit: contain;
   }
 }
 

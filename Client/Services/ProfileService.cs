@@ -1,13 +1,17 @@
 using System.Threading;
 using System.Web;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace FileFlows.Client.Services;
 
 /// <summary>
 /// Profile service
 /// </summary>
-public class ProfileService
+/// <param name="navigationManager">the navigation manager</param>
+/// <param name="localStorageService">the local storage service</param>
+/// <param name="jsRuntime">the JS runtime</param>
+public class ProfileService(NavigationManager navigationManager, FFLocalStorageService localStorageService, IJSRuntime jsRuntime)
 {
     /// <summary>
     /// Semaphore to ensure profile is only fetched once
@@ -18,8 +22,8 @@ public class ProfileService
     /// </summary>
     private Profile _profile;
 
-    private NavigationManager NavigationManager;
-    private FFLocalStorageService LocalStorageService;
+    private NavigationManager NavigationManager = navigationManager;
+    private FFLocalStorageService LocalStorageService = localStorageService;
     /// <summary>
     /// Represents the method that handles the Refresh event.
     /// </summary>
@@ -29,11 +33,6 @@ public class ProfileService
     /// </summary>
     public event OnRefreshDelegate OnRefresh;
 
-    public ProfileService(NavigationManager navigationManager, FFLocalStorageService localStorageService)
-    {
-        NavigationManager = navigationManager;
-        LocalStorageService = localStorageService;
-    }
 
     /// <summary>
     /// Gets the profile
@@ -121,6 +120,10 @@ public class ProfileService
     {
         await LocalStorageService.SetAccessToken(null);
         HttpHelper.Client.DefaultRequestHeaders.Authorization = null;
+        // clera AccessToken coookie
+        await jsRuntime.InvokeVoidAsync("ff.clearAcessTokenCookie");
+        
+        
         string suffix = string.IsNullOrWhiteSpace(message) ? string.Empty : "?msg=" + HttpUtility.UrlEncode(message);
 #if(DEBUG)
         NavigationManager.NavigateTo("http://localhost:6868/login" + suffix, true);

@@ -85,32 +85,33 @@ public class FileTypeIconController : Controller
 	/// Gets an extension icon
 	/// </summary>
 	/// <param name="extension">the extension</param>
+	/// <param name="pad">the amount of padding</param>
 	/// <returns>the icon</returns>
 	[HttpGet("{extension}.svg")]
-	public IActionResult Icon(string extension)
+	public IActionResult Icon(string extension, int pad = 0)
 	{
 		extension = extension.ToLowerInvariant();
 		if (ArchiveExtensions.Contains(extension))
-			return ReturnImage(ARCHIVE, extension, ArchiveExtensions.IndexOf(extension));
+			return ReturnImage(ARCHIVE, extension, ArchiveExtensions.IndexOf(extension), pad);
         if (AudioExtensions.Contains(extension))
-	        return ReturnImage(AUDIO, extension, AudioExtensions.IndexOf(extension));
+	        return ReturnImage(AUDIO, extension, AudioExtensions.IndexOf(extension), pad);
         if (ComicExtensions.Contains(extension))
-	        return ReturnImage(COMIC, extension, ComicExtensions.IndexOf(extension));
+	        return ReturnImage(COMIC, extension, ComicExtensions.IndexOf(extension), pad);
         if (CodeExtensions.Contains(extension))
-	        return ReturnImage(CODE, extension, CodeExtensions.IndexOf(extension));
+	        return ReturnImage(CODE, extension, CodeExtensions.IndexOf(extension), pad);
         if (ImageExtensions.Contains(extension))
-	        return ReturnImage(IMAGE, extension, ImageExtensions.IndexOf(extension));
+	        return ReturnImage(IMAGE, extension, ImageExtensions.IndexOf(extension), pad);
         if (TextExtensions.Contains(extension))
-	        return ReturnImage(TEXT, extension, TextExtensions.IndexOf(extension));
+	        return ReturnImage(TEXT, extension, TextExtensions.IndexOf(extension), pad);
         if (VideoExtensions.Contains(extension))
-	        return ReturnImage(VIDEO, extension, VideoExtensions.IndexOf(extension));
+	        return ReturnImage(VIDEO, extension, VideoExtensions.IndexOf(extension), pad);
         if (DiscExtensions.Contains(extension))
-	        return ReturnImage(DISC, extension, DiscExtensions.IndexOf(extension));
+	        return ReturnImage(DISC, extension, DiscExtensions.IndexOf(extension), pad);
         if (UrlExtensions.Contains(extension))
-	        return ReturnImage(URL, extension, UrlExtensions.IndexOf(extension));
+	        return ReturnImage(URL, extension, UrlExtensions.IndexOf(extension), pad);
         if (extension == "pdf")
-	        return ReturnImage(PDF, extension, 2 /* red */);
-        return ReturnImage(string.Empty, extension);
+	        return ReturnImage(PDF, extension, 2 /* red */, pad);
+        return ReturnImage(string.Empty, extension, pad);
 	}
 	
 	/// <summary>
@@ -119,19 +120,35 @@ public class FileTypeIconController : Controller
 	/// <param name="icon">the icon to return</param>
 	/// <param name="extension">the file extension</param>
 	/// <param name="index">the index of the color</param>
+	/// <param name="pad">the amount of padding</param>
 	/// <returns>the result</returns>
-	private IActionResult ReturnImage(string icon, string extension, int index = -1)
+	private IActionResult ReturnImage(string icon, string extension, int index = -1, int pad = 0)
 	{
 		string color = index >= 0 ? COLORS[index] : GetColor(extension);
-		string svg = HEAD + icon.Replace("{COLOR}", color) + Bottom(extension, color) + END;
-		// return svg as a file result
-		// For example, returning SVG as a ContentResult
+
+		// Convert pad percentage to a scale factor
+		double scale = 1 - (pad / 100.0);
+		scale = Math.Max(0, Math.Min(1, scale)); // Ensure scale is between 0 and 1
+
+		// Compute translation to center the scaled content
+		double translate = (1 - scale) * 28; // 28 is half of the viewBox size (56/2)
+
+		// Modify HEAD to apply the transformation inside the <g> tag
+		string transformedHead = HEAD.Replace("<g>", $"<g transform=\"translate({translate}, {translate}) scale({scale})\">");
+
+		string svg = $@"
+{transformedHead}
+{icon.Replace("{COLOR}", color)}
+{Bottom(extension, color)}
+{END}".Trim();
+
 		return new ContentResult
 		{
 			Content = svg,
 			ContentType = "image/svg+xml",
 		};
 	}
+
 
 	/// <summary>
 	/// Gets the bottom with the extension
