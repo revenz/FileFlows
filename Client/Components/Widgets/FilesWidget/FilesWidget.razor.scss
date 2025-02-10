@@ -49,8 +49,29 @@
   }
   &.fm-0
   {
+    .center {
+      flex-direction: column;
+      align-items: unset;
+    }
     .path {
       font-weight: 600;
+      
+    }
+    .size {
+      position: relative;
+      top:0;
+      right:0;
+      padding:0.5rem;
+      background:var(--base);
+      border-bottom-left-radius: 0.25rem;
+    }
+    .time {
+      position: relative;
+      top:0;
+      right:0;
+      padding:0.5rem;
+      background:var(--base);
+      border-bottom-left-radius: 0.25rem;
       
     }
   }
@@ -83,9 +104,13 @@
 .traits {
   display: flex;
   .trait {
-    border:solid 1px var(--info);
-    font-size:0.9rem;
+    border: solid 1px var(--info);
+    font-size: 0.8rem;
     font-weight: var(--bold, 600);
+    padding: 0 0.25rem;
+    border-radius: 0.5rem;
+    margin-right: 0.25rem;
+    opacity: 0.75;
   }
 }
 .savings {

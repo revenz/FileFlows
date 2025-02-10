@@ -23,8 +23,25 @@
       .file-table-row.has-message .center .message > span {
         cursor: pointer;
         position: relative; }
+  .file-table-row.fm-0 .center {
+    flex-direction: column;
+    align-items: unset; }
   .file-table-row.fm-0 .path {
     font-weight: 600; }
+  .file-table-row.fm-0 .size {
+    position: relative;
+    top: 0;
+    right: 0;
+    padding: 0.5rem;
+    background: var(--base);
+    border-bottom-left-radius: 0.25rem; }
+  .file-table-row.fm-0 .time {
+    position: relative;
+    top: 0;
+    right: 0;
+    padding: 0.5rem;
+    background: var(--base);
+    border-bottom-left-radius: 0.25rem; }
   .file-table-row .center {
     display: flex;
     align-content: center;
@@ -52,8 +69,12 @@
   display: flex; }
   .traits .trait {
     border: solid 1px var(--info);
-    font-size: 0.9rem;
-    font-weight: var(--bold, 600); }
+    font-size: 0.8rem;
+    font-weight: var(--bold, 600);
+    padding: 0 0.25rem;
+    border-radius: 0.5rem;
+    margin-right: 0.25rem;
+    opacity: 0.75; }
 
 .savings {
   background: rgba(255, 255, 255, 0.05);
