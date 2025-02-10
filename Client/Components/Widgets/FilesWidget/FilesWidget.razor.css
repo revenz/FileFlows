@@ -48,6 +48,13 @@
     cursor: pointer;
     position: relative; }
 
+.traits {
+  display: flex; }
+  .traits .trait {
+    border: solid 1px var(--info);
+    font-size: 0.9rem;
+    font-weight: var(--bold, 600); }
+
 .savings {
   background: rgba(255, 255, 255, 0.05);
   position: absolute;

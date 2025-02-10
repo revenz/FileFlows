@@ -184,7 +184,8 @@ public class LibraryFileController : Controller
                 x.OriginalSize,
                 x.FinalSize,
                 Message = x.Status == FileStatus.ProcessingFailed ? x.FailureReason : null,
-                Status = (int)x.Status
+                Status = (int)x.Status,
+                x.Additional?.Traits
             };
         });
         return Ok(data);

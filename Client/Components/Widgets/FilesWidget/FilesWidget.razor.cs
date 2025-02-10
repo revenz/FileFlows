@@ -201,7 +201,8 @@ public partial class FilesWidget : ComponentBase, IDisposable
         long OriginalSize,
         long FinalSize,
         string Message,
-        FileStatus Status
+        FileStatus Status,
+        string[] Traits
     );
     
     /// <summary>

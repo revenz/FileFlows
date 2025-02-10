@@ -80,6 +80,14 @@
     position:relative;
   }
 }
+.traits {
+  display: flex;
+  .trait {
+    border:solid 1px var(--info);
+    font-size:0.9rem;
+    font-weight: var(--bold, 600);
+  }
+}
 .savings {
   @include backgroundBar;
 }

@@ -83,6 +83,15 @@
                                 <span class="size">
                                     @FileSizeFormatter.FormatSize(file.FinalSize)
                                 </span>
+                                @if (file.Traits?.Any() == true)
+                                {
+                                    <div class="traits">
+                                        @foreach (var trait in file.Traits)
+                                        {
+                                            <span class="trait">@trait</span>
+                                        }
+                                    </div>
+                                }
                             }
                             @if (file.Message != null)
                             {
