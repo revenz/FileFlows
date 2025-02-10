@@ -356,6 +356,12 @@ public class LibraryFileAdditional
     /// Gets or sets the mime/type
     /// </summary>
     public string? MimeType { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the traits of a file,
+    /// e.g. for video the codec, the language, for images the format the resolution
+    /// </summary>
+    public List<string> Traits { get; set; }
 }
 
 /// <summary>

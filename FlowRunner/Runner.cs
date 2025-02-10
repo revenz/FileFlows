@@ -511,6 +511,12 @@ public class Runner
                 logger.ILog("Updating display name to : " + (displayName ?? "null"));
                 Info.LibraryFile.Additional ??= new();
                 Info.LibraryFile.Additional.DisplayName = displayName;
+            },
+            SetTraitsActual = (traits) =>
+            {
+                logger.ILog("Setting file traits: " + string.Join(", ", traits ?? []));
+                Info.LibraryFile.Additional ??= new();
+                Info.LibraryFile.Additional.Traits = traits;
             }
         };
         

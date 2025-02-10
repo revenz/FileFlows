@@ -142,6 +142,11 @@ public class NodeParameters
     public Action<string> SetDisplayNameActual { get; set; }
 
     /// <summary>
+    /// Gets or sets the method to set the file traits
+    /// </summary>
+    public Action<List<string>> SetTraitsActual { get; set; }
+
+    /// <summary>
     /// Gets or sets the action that records running totals statistics
     /// </summary>
     public Action<string, string>? StatisticRecorderRunningTotals { get; set; }
@@ -548,6 +553,13 @@ public class NodeParameters
     /// <param name="displayName">the display name</param>
     public void SetDisplayName(string displayName)
         => SetDisplayNameActual(displayName);
+
+    /// <summary>
+    /// Sets the traits of a file
+    /// </summary>
+    /// <param name="traits">the traits</param>
+    public void SetTraits(string[] traits)
+        => SetTraitsActual(traits?.ToList() ?? []);
 
     /// <summary>
     /// Gets the archive helper
