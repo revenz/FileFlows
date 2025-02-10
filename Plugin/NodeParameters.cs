@@ -507,8 +507,8 @@ public class NodeParameters
         var tempFile = Path.Combine(TempPath, Guid.NewGuid() + ".webp");
         var result = ImageHelper.ConvertToWebp(local.Value, tempFile, new ()
             {
-                MaxWidth = 100,
-                MaxHeight = 100,
+                MaxWidth = 250,
+                MaxHeight = 250,
                 Mode = ResizeMode.Contain,
                 Quality = 70
             });

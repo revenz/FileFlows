@@ -23,6 +23,8 @@
       .file-table-row.has-message .center .message > span {
         cursor: pointer;
         position: relative; }
+  .file-table-row.fm-0 .path {
+    font-weight: 600; }
   .file-table-row .center {
     display: flex;
     align-content: center;
@@ -65,7 +67,9 @@
   cursor: pointer;
   position: relative;
   margin-right: 0.5rem;
-  object-fit: contain; }
+  object-fit: cover;
+  border-radius: 0.5rem;
+  overflow: hidden; }
 
 .no-files {
   display: flex;

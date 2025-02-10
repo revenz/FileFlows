@@ -47,6 +47,13 @@
       }
     }
   }
+  &.fm-0
+  {
+    .path {
+      font-weight: 600;
+      
+    }
+  }
   .center {
     display: flex;
     align-content: center;
@@ -86,11 +93,13 @@
   }
   .icon.thumbnail {
     height: 7rem;
-    width: 7rem;
+    width: 7rem;  
     cursor: pointer;
     position: relative;
     margin-right: 0.5rem;
-    object-fit: contain;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    overflow: hidden;
   }
 }
 

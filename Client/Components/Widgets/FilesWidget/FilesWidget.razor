@@ -1,3 +1,4 @@
+@using FileFlows.Client.Helpers
 @namespace FileFlows.Client.Components.Widgets
 
 <ContainerWidget Title="@lblTitle" Scroll="true">
@@ -53,7 +54,7 @@
             {
                 foreach (var file in list ?? [])
                 {
-                    <div class="file-table-row @(file.Message != null ? "has-message" : "no-message")">
+                    <div class="file-table-row fm-@FileMode @(file.Message != null ? "has-message" : "no-message")">
                         @if (FileMode == 0)
                         {
                             var percentage = Math.Min(100, (file.FinalSize / (double)file.OriginalSize) * 100);
@@ -77,6 +78,12 @@
                             <span class="time">
                                 <span @onclick="() => OpenFile(file)">@file.When</span>
                             </span>
+                            @if (FileMode == 0)
+                            {
+                                <span class="size">
+                                    @FileSizeFormatter.FormatSize(file.FinalSize)
+                                </span>
+                            }
                             @if (file.Message != null)
                             {
                                 <div class="message" @onclick="() => OpenFile(file)"><span>@file.Message</span></div>
