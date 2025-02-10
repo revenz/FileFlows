@@ -22,7 +22,7 @@
             </span>
             <div class="center">
                 <span class="name path">
-                    @(runner.RelativeFile?.EmptyAsNull() ?? runner.LibraryFileName)
+                    @(runner.DisplayName?.EmptyAsNull() ?? runner.RelativeFile?.EmptyAsNull() ?? runner.LibraryFileName)
                 </span>
                 <div class="info">
                     <div class="current-flow-element">
