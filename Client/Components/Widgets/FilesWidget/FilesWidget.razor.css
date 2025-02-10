@@ -30,7 +30,7 @@
     font-weight: 600; }
   .file-table-row.fm-0 .size {
     position: absolute;
-    top: 0;
+    bottom: 0;
     right: 0;
     padding: 0.5rem;
     background: var(--base);

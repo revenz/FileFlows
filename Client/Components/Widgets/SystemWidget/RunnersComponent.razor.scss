@@ -197,9 +197,12 @@
   }
 }
 .icon {
-  width:3rem;
-  .icon {
-    height:2.25rem;
+  .icon {  
+    height: 6rem;
+    width: 6rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin: 0.25rem;
   }
 }
 
