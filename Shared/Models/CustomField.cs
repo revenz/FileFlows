@@ -52,6 +52,10 @@ public enum CustomFieldType
     /// </summary>
     Text,
     /// <summary>
+    /// Text area
+    /// </summary>
+    TextArea,
+    /// <summary>
     /// Boolean field
     /// </summary>
     Boolean,
@@ -70,5 +74,9 @@ public enum CustomFieldType
     /// <summary>
     /// Option group
     /// </summary>
-    OptionGroup
+    OptionGroup,
+    /// <summary>
+    /// Image resource
+    /// </summary>
+    Image
 }

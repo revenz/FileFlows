@@ -127,6 +127,11 @@ public class FlowExecutorInfoMinified
     public string DisplayName { get; set; }
     
     /// <summary>
+    /// Gets or sets any traits on the file
+    /// </summary>
+    public List<string> Traits { get; set; }
+    
+    /// <summary>
     /// Gets or sets the name of the Node executing this flow
     /// </summary>
     public string NodeName { get; set; }

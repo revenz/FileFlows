@@ -35,6 +35,17 @@
                     <div class="current-flow-element">
                         <FlowIconValue Icon="fas fa-puzzle-piece" Color="dark" Value="@runner.CurrentPartName"></FlowIconValue>
                     </div>
+
+                    @if (runner.Traits?.Any() == true)
+                    {
+                        <div class="traits">
+                            @foreach (var trait in runner.Traits)
+                            {
+                                <span class="trait">@trait</span>
+                            }
+                        </div>
+                    }
+                    
                     <div class="others">
                         <FlowIconValue Icon="node" Color="dark" Value="@runner.NodeName"></FlowIconValue>
                         @if (string.IsNullOrWhiteSpace(runner.LibraryName))
