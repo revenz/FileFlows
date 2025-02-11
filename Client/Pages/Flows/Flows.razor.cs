@@ -54,7 +54,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
     private void Add()
     {
         //NavigationManager.NavigateTo("flows/" + Guid.Empty);
-        _ = ModalService.ShowModal<NewFlowWizard, Flow>(new NewVideoFlowWizardOptions()
+        _ = ModalService.ShowModal<NewFlowWizard, Flow>(new NewFlowWizardOptions()
         {
             ResellerFlow = Profile.LicensedFor(LicenseFlags.Reseller) && Skybox.SelectedItem.Value is FlowType.Reseller 
         });

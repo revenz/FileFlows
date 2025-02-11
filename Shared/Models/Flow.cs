@@ -75,4 +75,35 @@ public class Flow : FileFlowObject
     /// Gets or sets the fields on a flow
     /// </summary>
     public List<CustomField> Fields { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the options for a reseller flow
+    /// </summary>
+    public ResellerFlowOptions? ResellerOptions { get; set; }
+}
+
+/// <summary>
+/// Options for a reseller flow
+/// </summary>
+public class ResellerFlowOptions
+{
+    /// <summary>
+    /// Gets or sets the token cost of this flow
+    /// </summary>
+    public int Tokens { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the extensions allowed for this flow
+    /// </summary>
+    public string[] Extensions { get; set; } = [];
+    
+    /// <summary>
+    /// Gets or sets the maximum file size allowed for this flow
+    /// </summary>
+    public long MaxFileSize { get; set; }
+    
+    /// <summary>
+    /// Preview mode 
+    /// </summary>
+    public ResellerPreviewMode PreviewMode { get; set; }
 }

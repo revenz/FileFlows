@@ -126,4 +126,10 @@ public partial class InputCustomFields : Input<List<CustomField>>
 
     }
 
+    public void UpdateData(List<CustomField> customFields)
+    {
+        Value = customFields;
+        Table.SetData(customFields);
+        StateHasChanged();
+    }
 }

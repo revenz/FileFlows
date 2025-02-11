@@ -4,7 +4,7 @@
 @inherits Input<List<CustomField>>
 
 <div class="wrapper">
-    <FlowTable @ref="Table" Data="Value"
+    <FlowTable @ref="Table" Data="Value" NoFilter="true"
                TItem="CustomField" Selection="SelectionMode.Multiple" DoubleClick="@Edit" TableIdentifier="CustomFields"
     >
         <ToolBar>
@@ -12,8 +12,8 @@
             <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
             <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
             <FlowTableButtonSeparator />
-            <FlowTableButton Clicked=MoveUp Icon="fas fa-arrow-up" Label="Pages.AccessControl.Buttons.MoveUp" SelectedOneOrMore="true" />
-            <FlowTableButton Clicked=MoveDown Icon="fas fa-arrow-down" Label="Pages.AccessControl.Buttons.MoveDown" SelectedOneOrMore="true" />
+            <FlowTableButton Clicked=MoveUp Icon="fas fa-arrow-up" HideLabel="true" Label="Pages.AccessControl.Buttons.MoveUp" SelectedOneOrMore="true" />
+            <FlowTableButton Clicked=MoveDown Icon="fas fa-arrow-down" HideLabel="true" Label="Pages.AccessControl.Buttons.MoveDown" SelectedOneOrMore="true" />
         </ToolBar>
 
         <Columns>
@@ -23,14 +23,6 @@
                 </Header>
                 <Cell Context="item">
                     <span>@item.Name</span>
-                </Cell>
-            </FlowTableColumn>
-            <FlowTableColumn TItem="CustomField" Width="12rem">
-                <Header>
-                    Type
-                </Header>
-                <Cell Context="item">
-                    <span>@item.Type</span>
                 </Cell>
             </FlowTableColumn>
         </Columns>

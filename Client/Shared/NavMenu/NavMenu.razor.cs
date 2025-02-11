@@ -241,11 +241,9 @@ public partial class NavMenu : IDisposable
                 Items = new List<NavMenuItem>
                 {
                     new ("Settings", "fas fa-people-carry", "reseller/settings"),
-                    new ("Flows", "fas fa-sitemap", "reseller/flows"),
                     new ("Users", "fas fa-user-astronaut", "reseller/users")
                 }
             });
-            
         }
         
         MenuItems.Add(new NavMenuGroup

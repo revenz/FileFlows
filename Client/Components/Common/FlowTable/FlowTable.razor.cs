@@ -190,6 +190,11 @@ public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropert
     [Parameter] public bool HideToolbar { get; set; }
     
     /// <summary>
+    /// Gets or sets if there is no filter available
+    /// </summary>
+    [Parameter] public bool NoFilter { get; set; }
+    
+    /// <summary>
     /// Gets or sets if clicking will clear existing selected items
     /// </summary>
     [Parameter] public bool DontClearOnClick { get; set; }

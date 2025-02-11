@@ -3,10 +3,18 @@
 @if (Visible && Area != ButtonArea.ContextMenu)
 {
     <button class="flowtable-button" @onclick="@OnClick" disabled="@(Enabled == false)">
-        @if (string.IsNullOrEmpty(Icon) == false)
+        @if (HideLabel && string.IsNullOrWhiteSpace(Icon) == false)
         {
-            <span class="icon @Icon"></span>
+            <span class="icon @Icon" title="@Label"></span>
         }
-        @Label
+        else
+        {
+            if (string.IsNullOrEmpty(Icon) == false)
+            {
+                <span class="icon @Icon"></span>
+            }
+
+            @Label
+        }
     </button>
 }

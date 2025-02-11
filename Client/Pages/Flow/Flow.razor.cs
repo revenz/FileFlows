@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using BlazorContextMenu;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Components.Inputs;
 using FileFlows.Client.Helpers;
 using FileFlows.Client.Wizards;
 using Microsoft.AspNetCore.Components.Web;
@@ -76,8 +77,12 @@ public partial class Flow : ComponentBase, IDisposable
     private NewFlowEditor AddEditor;
 
     private string lblEdit, lblHelp, lblDelete, lblCopy, lblPaste, lblRedo, lblUndo, lblAdd, 
-        lblProperties, lblEditSubFlow, lblPlugins, lblScripts, lblSubFlows, lblFields;
+        lblProperties, lblEditSubFlow, lblElements, lblScripts, lblSubFlows, lblFields;
 
+    /// <summary>
+    /// The custom field input
+    /// </summary>
+    private InputCustomFields CustomFieldsList;
 
     /// <summary>
     /// The default group to show for the `Plugins` flow elements
@@ -115,12 +120,6 @@ public partial class Flow : ComponentBase, IDisposable
 
     private Func<Task<bool>> NavigationCheck;
 
-    /// <summary>
-    /// A reference to the floe elements tabs
-    /// </summary>
-    private FlowTabs tabsFlowElements;
-
-    private FlowTab tabFields;
 
     /// <summary>
     /// Gets or sets if the active tab is the fields tab
@@ -155,7 +154,7 @@ public partial class Flow : ComponentBase, IDisposable
         lblProperties = Translater.Instant("Labels.Properties");
         lblFields = Translater.Instant("Labels.Fields");
         lblEditSubFlow = Translater.Instant("Labels.EditSubFlow");
-        lblPlugins = Translater.Instant("Labels.Plugins");
+        lblElements = Translater.Instant("Labels.Elements");
         lblScripts = Translater.Instant("Labels.Scripts");
         lblSubFlows = Translater.Instant("Labels.SubFlows");
         lblUnsavedChanges =Translater.Instant("Labels.UnsavedChanges");
@@ -536,7 +535,7 @@ public partial class Flow : ComponentBase, IDisposable
             InputType = FormInputType.HorizontalRule
         });
 
-        if (FieldsTabOpened &&
+        if (FieldsTabOpened && editor.Flow.Type is not FlowType.Reseller &&
             part.Type != FlowElementType.Output) // output is for sub flow outputs, we dont want to show the UID
         {
             fields.Insert(0, new ElementField
@@ -866,6 +865,9 @@ public partial class Flow : ComponentBase, IDisposable
             field.ConditionField = result.ConditionField;
             field.ConditionValue = result.ConditionValue;
         }
+
+        if (CustomFieldsList != null)
+            CustomFieldsList.UpdateData(editor.Flow.Fields);
     }
 
     private void ShowElementsOnClick()

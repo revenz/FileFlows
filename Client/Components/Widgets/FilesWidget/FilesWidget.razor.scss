@@ -48,7 +48,10 @@
     }
   }
   &.fm-0
-  {
+  {  
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
     .center {
       flex-direction: column;
       align-items: unset;
@@ -57,22 +60,25 @@
       font-weight: 600;
       
     }
-    .size {
+    .size, .time {
+      font-weight: var(--bold, 600);
       position: absolute;
-      bottom:0;
       right:0;
       padding:0.5rem;
-      background:var(--base);
-      border-bottom-left-radius: 0.5rem;
+      background:#3e3e3e47;
+      width: fit-content;
+    }
+    .size {
+      bottom:0;
+      border-top-left-radius: 0.5rem;  
+      border-top: solid 1px var(--base);
+      border-left: solid 1px var(--base);
     }
     .time {
-      position: absolute;
       top:0;
-      right:0;
-      padding:0.5rem;
-      background:var(--base);  
-      border-top-left-radius: 0.5rem;
-      width: fit-content;      
+      border-bottom-left-radius: 0.5rem;
+      border-bottom: solid 1px var(--base);
+      border-left: solid 1px var(--base);
     }
   }
   .center {

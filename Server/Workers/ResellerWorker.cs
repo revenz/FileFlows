@@ -33,16 +33,16 @@ public class ResellerWorker : Worker
 
         _ = Task.Run(async () =>
         {
-            var resellerFlow = await ServiceLoader.Load<ResellerFlowService>().GetByUid(file.Additional.ResellerFlowUid.Value);
-            if (resellerFlow == null)
+            var resellerFlow = await ServiceLoader.Load<FlowService>().GetByUidAsync(file.Additional.ResellerFlowUid.Value);
+            if (resellerFlow == null || resellerFlow.Type != FlowType.Reseller || resellerFlow.ResellerOptions == null)
                 return;
 
-            if (resellerFlow.Tokens < 1)
+            if (resellerFlow.ResellerOptions.Tokens < 1)
                 return; // no tokens
             
             // give the user the tokens back
             var userService = ServiceLoader.Load<ResellerUserService>();
-            await userService.GiveTokens(file.Additional.ResellerUserUid.Value, resellerFlow.Tokens);
+            await userService.GiveTokens(file.Additional.ResellerUserUid.Value, resellerFlow.ResellerOptions.Tokens);
         });
     }
 

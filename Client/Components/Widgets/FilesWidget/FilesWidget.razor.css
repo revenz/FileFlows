@@ -23,26 +23,32 @@
       .file-table-row.has-message .center .message > span {
         cursor: pointer;
         position: relative; }
-  .file-table-row.fm-0 .center {
-    flex-direction: column;
-    align-items: unset; }
-  .file-table-row.fm-0 .path {
-    font-weight: 600; }
-  .file-table-row.fm-0 .size {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 0.5rem;
-    background: var(--base);
-    border-bottom-left-radius: 0.5rem; }
-  .file-table-row.fm-0 .time {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0.5rem;
-    background: var(--base);
-    border-top-left-radius: 0.5rem;
-    width: fit-content; }
+  .file-table-row.fm-0 {
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden; }
+    .file-table-row.fm-0 .center {
+      flex-direction: column;
+      align-items: unset; }
+    .file-table-row.fm-0 .path {
+      font-weight: 600; }
+    .file-table-row.fm-0 .size, .file-table-row.fm-0 .time {
+      font-weight: var(--bold, 600);
+      position: absolute;
+      right: 0;
+      padding: 0.5rem;
+      background: #3e3e3e47;
+      width: fit-content; }
+    .file-table-row.fm-0 .size {
+      bottom: 0;
+      border-top-left-radius: 0.5rem;
+      border-top: solid 1px var(--base);
+      border-left: solid 1px var(--base); }
+    .file-table-row.fm-0 .time {
+      top: 0;
+      border-bottom-left-radius: 0.5rem;
+      border-bottom: solid 1px var(--base);
+      border-left: solid 1px var(--base); }
   .file-table-row .center {
     display: flex;
     align-content: center;

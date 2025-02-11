@@ -1,6 +1,4 @@
-﻿using FileFlows.Plugin;
-
-namespace FileFlows.Shared.Models;
+﻿namespace FileFlows.Shared.Models;
 
 /// <summary>
 /// Advanced flow properties
@@ -8,7 +6,7 @@ namespace FileFlows.Shared.Models;
 public class FlowProperties
 {
     private List<FlowField> _Fields = new();
-    
+
     // /// <summary>
     // /// Gets or sets the author or this flow
     // /// </summary>
@@ -37,6 +35,7 @@ public class FlowProperties
         get => _Fields;
         set => _Fields = value ?? new();
     }
+
     private Dictionary<string, object> _Variables = new();
 
     /// <summary>

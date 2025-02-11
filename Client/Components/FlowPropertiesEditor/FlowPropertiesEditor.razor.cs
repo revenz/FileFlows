@@ -72,6 +72,13 @@ public partial class FlowPropertiesEditor
         }
     }
 
+    private List<ListOption> resellerPreviewModes=
+    [
+        new() { Label = "List", Value = ResellerPreviewMode.List },
+        new() { Label = "Images", Value = ResellerPreviewMode.Images },
+        new() { Label = "Thumbnails", Value = ResellerPreviewMode.Thumbnails }
+    ];
+
     protected override void OnInitialized()
     {
         lblTitle = Translater.Instant("Pages.Flow.Labels.FlowProperties");
@@ -83,6 +90,7 @@ public partial class FlowPropertiesEditor
             this.Visible = false;
             return;
         }
+
 
         foreach (var field in Flow.Properties.Fields)
         {
@@ -97,6 +105,18 @@ public partial class FlowPropertiesEditor
                 else
                     field.DefaultValue = jsonElement.GetString();
             }
+        }
+    }
+    /// <summary>
+    /// Gets or sets the bound BoundPreviewMode
+    /// </summary>
+    private object BoundPreviewMode
+    {
+        get => Flow.ResellerOptions.PreviewMode;
+        set
+        {
+            if (value is ResellerPreviewMode v)
+                Flow.ResellerOptions.PreviewMode = v;
         }
     }
 

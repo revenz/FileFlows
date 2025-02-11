@@ -4,7 +4,7 @@
 @using FileFlows.Client.Helpers
 @using FileFlows.Plugin
 @{
-    bool fieldsOnTop = FieldsTabOpened && EditorOpen;
+    bool fieldsOnTop = FieldsTabOpened && EditorOpen && ActiveFlow.Flow.Type is not FlowType.Reseller;
     bool hideFields = ActiveFlow == null || ActiveFlow.Flow?.ReadOnly == true;
 }
 <div class="flow-wrapper @(hideFields ? "hide-flow-elements": "")">
@@ -14,10 +14,10 @@
             <i id="show-elements" class="show-elements fas fa-sitemap" @onclick="ShowElementsOnClick"></i>
         }
         <div class="flow-elements @(fieldsOnTop ? "flow-elements-on-top" : "")">
-            <FlowTabs @ref="tabsFlowElements" TitleOnlyOnActive="true" ContainTabs="true" 
+            <FlowTabs TitleOnlyOnActive="true" ContainTabs="true" 
                       OnTabChanged="OnFlowElementsTabChange" DisableChanging="fieldsOnTop" 
                       Style="TabStyle.Minimal">
-                <FlowTab Icon="fas fa-puzzle-piece" Title="@lblPlugins" Visible="@(AvailablePlugins?.Any() == true)">
+                <FlowTab Icon="fas fa-puzzle-piece" Title="@lblElements" Visible="@(AvailablePlugins?.Any() == true)">
                     <FlowElementList @ref="eleListPlugins" Items="@AvailablePlugins" DefaultGroup="@PluginsDefaultGroup" OnDragStart="@HandleDragStart"
                                      AddSelectedElement="AddSelectedElement" Close="@CloseElements" />
                 </FlowTab>
@@ -43,8 +43,16 @@
                 <FlowTab Icon="fas fa-cogs" Title="@lblProperties" Visible="ActiveFlow?.Flow?.Type != FlowType.Failure">
                     <FlowPropertiesEditor @ref="PropertiesEditor" FlowEditor="@ActiveFlow" Mode="General" />
                 </FlowTab>
-                <FlowTab @ref="@tabFields" Icon="fas fa-sliders-h" Title="@lblFields" Visible="ActiveFlow?.Flow?.Type == FlowType.SubFlow">
-                    <FlowPropertiesEditor @ref="PropertiesEditor" FlowEditor="@ActiveFlow" Mode="Fields" />
+                <FlowTab  Icon="fas fa-sliders-h" Title="@lblFields" 
+                         Visible="ActiveFlow?.Flow?.Type is FlowType.SubFlow or FlowType.Reseller">
+                    @if (ActiveFlow.Flow.Type is FlowType.SubFlow)
+                    {
+                        <FlowPropertiesEditor @ref="PropertiesEditor" FlowEditor="@ActiveFlow" Mode="Fields"/>
+                    }
+                    else
+                    {
+                        <InputCustomFields @ref="CustomFieldsList" @bind-Value="ActiveFlow.Flow.Fields" OnChangedValue="(v) => ActiveFlow.MarkDirty()" />
+                    }
                 </FlowTab>
             </FlowTabs>
         </div>
