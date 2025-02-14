@@ -343,6 +343,11 @@ public class LibraryFileAdditional
     public Guid? ResellerUserUid { get; set; }
     
     /// <summary>
+    /// Gets or sets a username of the reseller user who this file belongs to
+    /// </summary>
+    public string ResellerUserName { get; set; }
+    
+    /// <summary>
     /// Gets or sets a UID of a reseller flow who this file belongs to
     /// </summary>
     public Guid? ResellerFlowUid { get; set; }
