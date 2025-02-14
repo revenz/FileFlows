@@ -112,4 +112,21 @@ public class FlowRunnerService : RemoteService, IFlowRunnerService
             Logger.Instance?.WLog("Failed to set thumbnail: " + ex.Message);
         }
     }
+
+    /// <inheritdoc />
+    public async Task<string> GetResellerUserUsername(Guid resellerUserUid)
+    {
+        try
+        {
+            var result = await HttpHelper.Get<string>($"{ServiceBaseUrl}/remote/flow/reseller-user{resellerUserUid}/name");
+            if (result.Success == false)
+                throw new Exception("Failed to get reseller user username: " + result.Body);
+            return result.Data ?? string.Empty;
+        }
+        catch (Exception ex)
+        {
+            Logger.Instance?.WLog("Failed to get reseller user username: " + ex.Message);
+            return string.Empty;
+        }
+    }
 }

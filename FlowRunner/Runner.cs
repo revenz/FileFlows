@@ -526,9 +526,13 @@ public class Runner
         if (Info.LibraryFile.Additional?.ResellerUserUid != null &&
             Info.LibraryFile.Additional?.ResellerUserUid != Guid.Empty)
         {
-            var uid = Info.LibraryFile.Additional.ResellerUserUid;
+            var uid = Info.LibraryFile.Additional.ResellerUserUid.Value;
+            var ruUsername = ServiceLoader.Load<IFlowRunnerService>().GetResellerUserUsername(uid).Result;
             nodeParameters.Variables["ResellerUserUid"] = uid.ToString();
+            nodeParameters.Variables["ResellerUser"] = ruUsername;
             nodeParameters.Variables["rUserUid"] = uid.ToString();
+            if (string.IsNullOrWhiteSpace(Info.LibraryFile.Additional?.ShortName) == false)
+                nodeParameters.Variables["ShortName"] = Info.LibraryFile.Additional.ShortName;
             nodeParameters.Variables["ResellerUserOutputDir"] 
                 = Path.Combine(runInstance.Config.ManualLibraryPath, "reseller-users", uid.ToString(), "processed", Info.LibraryFile.Uid.ToString());
             nodeParameters.Variables["ruOutput"] 

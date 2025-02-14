@@ -45,4 +45,11 @@ public interface IFlowRunnerService
     /// <param name="binaryData">the binary data for the thumbnail</param>
     /// <returns>a completed task</returns>
     Task SetThumbnail(Guid libraryFileUid, byte[] binaryData);
+
+    /// <summary>
+    /// Gets the username of the reseller user
+    /// </summary>
+    /// <param name="resellerUserUid">the UID of the reseller user</param>
+    /// <returns>the reseller user username</returns>
+    Task<string> GetResellerUserUsername(Guid resellerUserUid);
 }
