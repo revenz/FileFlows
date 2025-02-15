@@ -1,4 +1,5 @@
 using FileFlows.Client.Components;
+using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages.Reseller;
@@ -30,8 +31,10 @@ public partial class ResellerSettings
     private bool IsSaving { get; set; }
 
     private string lblSave, lblSaving, lblHelp;
+    private string FileFlowsCallbackUrl;
 
     private FileFlows.Shared.Models.ResellerSettings Model { get; set; } = new ();
+    private List<ListOption> openInOptions;
     
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -42,6 +45,14 @@ public partial class ResellerSettings
             NavigationManager.NavigateTo("/");
             return;
         }
+
+        openInOptions =
+        [
+            new () {Label = "A New Window", Value = false},
+            new () {Label = "A Popup Dialog", Value = true}
+        ];
+
+        FileFlowsCallbackUrl = NavigationManager.BaseUri + "api/reseller/user/{uuid}/";
         
         lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
@@ -103,4 +114,17 @@ public partial class ResellerSettings
         }
     }
 
+    
+    /// <summary>
+    /// Gets or sets Open Url In Popup
+    /// </summary>
+    private object BoundOpenUrlInPopup
+    {
+        get => Model.OpenUrlInPopup;
+        set
+        {
+            if (value is bool v)
+                Model.OpenUrlInPopup = v;
+        }
+    }
 }

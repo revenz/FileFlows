@@ -43,5 +43,7 @@
     margin: 2rem 0 0; }
     .settings ::deep .btn-test .btn {
       width: 100%; } }
+.info .important, .info .url {
+  font-weight: var(--bold, 600); }
 
 /*# sourceMappingURL=ResellerSettings.razor.css.map */

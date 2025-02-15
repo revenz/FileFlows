@@ -68,3 +68,12 @@
     }
   }
 }
+
+
+
+
+.info {
+  .important, .url {
+    font-weight: var(--bold, 600);
+  }
+}
