@@ -25,24 +25,18 @@ public class FileDropWorker : Worker
     /// <param name="file">the file that finished processing</param>
     private void ServiceOnOnFileFinished(LibraryFile file)
     {
-        if (file.Additional?.FileDropUserUid == null || file.Additional?.FileDropFlowUid == null)
-            return; // nothing to do 
-
         if (file.Status != FileStatus.ProcessingFailed)
             return; // it didnt fail, nothing to do
+        
+        if (file.Additional?.FileDropUserUid == null || file.Additional?.TokenCost == null ||
+            file.Additional.TokenCost < 1)
+            return; // nothing to do 
 
         _ = Task.Run(async () =>
         {
-            var fileDropFlow = await ServiceLoader.Load<FlowService>().GetByUidAsync(file.Additional.FileDropFlowUid.Value);
-            if (fileDropFlow == null || fileDropFlow.Type != FlowType.FileDrop || fileDropFlow.FileDropOptions == null)
-                return;
-
-            if (fileDropFlow.FileDropOptions.Tokens < 1)
-                return; // no tokens
-            
             // give the user the tokens back
             var userService = ServiceLoader.Load<FileDropUserService>();
-            await userService.GiveTokens(file.Additional.FileDropUserUid.Value, fileDropFlow.FileDropOptions.Tokens);
+            await userService.GiveTokens(file.Additional.FileDropUserUid.Value, file.Additional.TokenCost);
         });
     }
 

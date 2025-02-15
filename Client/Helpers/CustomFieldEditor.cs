@@ -15,6 +15,7 @@ public class CustomFieldEditor(Editor editor, Flow flow)
     /// Edits a field
     /// </summary>
     /// <param name="editingItem">Optional item being edited</param>
+    /// <param name="canChangeVariable">if the variable name can be chagned</param>
     /// <returns>the updated field, or null if canceled</returns>
     public async Task<CustomField> EditField(CustomField? editingItem = null, bool canChangeVariable = true)
     {
@@ -140,7 +141,7 @@ public class CustomFieldEditor(Editor editor, Flow flow)
         fields.Add(new ElementField()
         {
             Name = "Options",
-            InputType = FormInputType.KeyValue,
+            InputType = FormInputType.CustomFieldOptions,
             Conditions = [
                 new AnyCondition(efType, editingItem?.Type ?? CustomFieldType.Text, new []
                 {
@@ -152,7 +153,7 @@ public class CustomFieldEditor(Editor editor, Flow flow)
         
         var result = await editor.Open(new()
         {
-            TypeName = "Pages.FileDrop.Flows", Title = "Pages.FileDrop.Flows.Single", Model = GetEditingModel(editingItem),
+            TypeName = "Pages.CustomField", Title = "Pages.CustomField.Title", Model = GetEditingModel(editingItem),
             Fields = fields, SaveCallback = (ExpandoObject model) =>
             {
                 var saving = ExpandoToCustomField(model);
@@ -226,7 +227,7 @@ public class CustomFieldEditor(Editor editor, Flow flow)
             else if (cf.Type is CustomFieldType.Select or CustomFieldType.OptionGroup)
             {
                 if (dict.TryGetValue("Options", out var options) &&
-                    options is List<KeyValuePair<string, string>> listOptions)
+                    options is List<CustomFieldOption> listOptions)
                 {
                     cf.Data["Options"] = listOptions;
                 }
@@ -267,16 +268,14 @@ public class CustomFieldEditor(Editor editor, Flow flow)
                 case CustomFieldType.OptionGroup:
                     if (editingItem.Data.TryGetValue("Options", out var options))
                     {   
-                        if(options is List<KeyValuePair<string, string>> kvp)
-                            editingModel.Options = kvp;
+                        if(options is List<CustomFieldOption> cfos)
+                            editingModel.Options = cfos;
                         else if (options is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.Array)
                         {
                             try
                             {
                                 var list = jsonElement.EnumerateArray()
-                                    .Select(e => new KeyValuePair<string, string>(
-                                        e.GetProperty("Key").GetString() ?? string.Empty, 
-                                        e.GetProperty("Value").GetString() ?? string.Empty))
+                                    .Select(e => e.Deserialize<CustomFieldOption>())
                                     .ToList();
 
                                 editingModel.Options = list;

@@ -367,6 +367,11 @@ public class LibraryFileAdditional
     /// e.g. for video the codec, the language, for images the format the resolution
     /// </summary>
     public List<string> Traits { get; set; }
+    
+    /// <summary>
+    /// Gets or sets how much this file cost in tokens
+    /// </summary>
+    public int TokenCost { get; set; }
 }
 
 /// <summary>

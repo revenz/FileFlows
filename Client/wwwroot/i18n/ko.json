@@ -23,6 +23,7 @@
     "CopiedToClipboard": "''{text}''을(를) 클립보드에 복사했습니다.",
     "Copy": "복사",
     "CopyToClipboard": "클립보드에 복사",
+    "CustomField": "사용자 정의 필드",
     "Decrease": "감소",
     "Default": "기본값",
     "Delete": "삭제",
@@ -75,6 +76,8 @@
     "MissingDependencies": "누락된 종속성",
     "MissingDependenciesMessage": "다음 누락된 플러그인을 다운로드해야 이 템플릿을 사용할 수 있습니다:\n\n#LIST#",
     "MonthShort": "월",
+    "MoveDown": "아래로 이동",
+    "MoveUp": "위로 이동",
     "Name": "이름",
     "Never": "없음",
     "Next": "다음",
@@ -148,6 +151,7 @@
     "Tag": "태그",
     "Test": "테스트",
     "Time": "시간",
+    "Tokens": "토큰",
     "TooManyDockerMods": "너무 많은 DockerMods를 선택했습니다. 이는 성능에 영향을 미칠 수 있으며, 모든 DockerMods를 설치할 필요가 없을 수 있습니다.",
     "Total": "전체",
     "Trigger": "트리거",
@@ -161,6 +165,7 @@
     "UpdateAvailable": "새 버전 {version} 사용 가능",
     "Upload": "업로드",
     "UsedBy": "사용됨",
+    "Value": "값",
     "Version": "버전",
     "VersionNumber": "버전: {version}",
     "View": "보기",
@@ -740,6 +745,16 @@
       "PasswordResetRequest": "비밀번호 재설정 요청",
       "Updated": "업데이트됨"
     },
+    "CustomFieldType": {
+      "Boolean": "불리언",
+      "Image": "이미지",
+      "Integer": "정수",
+      "OptionGroup": "옵션 그룹",
+      "Select": "선택",
+      "Slider": "슬라이더",
+      "Text": "텍스트",
+      "TextArea": "텍스트 영역"
+    },
     "DateCompareMode": {
       "After": "이후",
       "Any": "모두",
@@ -932,7 +947,7 @@
     "Admin": "관리",
     "Configuration": "구성",
     "Extensions": "확장",
-    "FileDrop": "File Drop",
+    "FileDrop": "FileDrop",
     "Information": "정보",
     "Overview": "개요",
     "Security": "보안",
@@ -983,6 +998,25 @@
         "Operator": "운영자",
         "Summary": "요약",
         "Type": "유형"
+      }
+    },
+    "CustomField": {
+      "Title": "필드",
+      "Fields": {
+        "ConditionField": "조건",
+        "ConditionValue": "값",
+        "ConditionValue-Help": "이 필드가 주어진 값과 일치할 경우에만 표시됩니다.",
+        "DefaultNumber": "기본",
+        "Description": "설명",
+        "Description-Help": "필드 아래에 표시되는 도움말 설명.",
+        "Maximum": "최대",
+        "Minimum": "최소",
+        "Name-Help": "이 필드에 표시되는 이름.",
+        "Options": "옵션",
+        "Type": "유형",
+        "Type-Help": "표시되는 입력 유형.",
+        "Variable": "변수",
+        "Variable-Help": "흐름에 전달될 변수."
       }
     },
     "Dashboard": {
@@ -1126,11 +1160,15 @@
       },
       "Fields": {
         "Description": "설명.",
+        "Extensions": "확장 기능",
         "Icon": "아이콘",
+        "MaxFileSize": "최대 파일 크기",
         "Outputs": "출력",
         "Outputs-Help": "이 서브 흐름의 출력 수입니다. 이 서브 흐름을 다른 흐름에서 사용할 때 사용 가능한 출력 수입니다.",
         "OutputsKey": "출력",
         "OutputsValue": "설명",
+        "PreviewMode": "미리보기 모드",
+        "Tokens": "토큰",
         "Variables": "변수",
         "VariablesKey": "이름",
         "VariablesValue": "값",
@@ -1167,7 +1205,7 @@
       "Title": "흐름",
       "Labels": {
         "FailureFlows": "실패 흐름",
-        "FileDropFlows": "File Drop Flows",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "표준 흐름",
         "SubFlows": "서브 흐름"
       },

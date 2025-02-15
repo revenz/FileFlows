@@ -80,3 +80,22 @@ public enum CustomFieldType
     /// </summary>
     Image
 }
+
+/// <summary>
+/// A custom field option
+/// </summary>
+public class CustomFieldOption
+{
+    /// <summary>
+    /// Gets or sets the name
+    /// </summary>
+    public string Name { get; set; }
+    /// <summary>
+    /// Gets or set the value of this
+    /// </summary>
+    public string Value { get; set; }
+    /// <summary>
+    /// Gets or sets if this option cost additional tokens
+    /// </summary>
+    public int Tokens { get; set; }
+}

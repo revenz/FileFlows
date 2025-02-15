@@ -23,6 +23,7 @@
     "CopiedToClipboard": "Gekopieerd ''{text}'' naar het klembord.",
     "Copy": "Kopiëren",
     "CopyToClipboard": "Kopiëren naar klembord",
+    "CustomField": "Aangepast Veld",
     "Decrease": "Afnemen",
     "Default": "Standaard",
     "Delete": "Verwijderen",
@@ -75,6 +76,8 @@
     "MissingDependencies": "Ontbrekende Afhankelijkheden",
     "MissingDependenciesMessage": "De volgende ontbrekende plugins moeten worden gedownload voordat je deze sjabloon kunt gebruiken:\n\n#LIST#",
     "MonthShort": "Mnd",
+    "MoveDown": "Omlaag Verplaatsen",
+    "MoveUp": "Omhoog Verplaatsen",
     "Name": "Naam",
     "Never": "Nooit",
     "Next": "Volgende",
@@ -148,6 +151,7 @@
     "Tag": "Tag",
     "Test": "Test",
     "Time": "Tijd",
+    "Tokens": "Tokens",
     "TooManyDockerMods": "U heeft te veel DockerMods geselecteerd. Dit kan de prestaties beïnvloeden, en het is waarschijnlijk niet nodig om al deze DockerMods te installeren.",
     "Total": "Totaal",
     "Trigger": "Trigger",
@@ -161,6 +165,7 @@
     "UpdateAvailable": "Nieuwe versie beschikbaar {version}",
     "Upload": "Uploaden",
     "UsedBy": "Gebruikt Door",
+    "Value": "Waarde",
     "Version": "Versie",
     "VersionNumber": "Versie: {version}",
     "View": "Bekijk",
@@ -740,6 +745,16 @@
       "PasswordResetRequest": "Aanvraag voor Wachtwoord Herstel",
       "Updated": "Bijgewerkt"
     },
+    "CustomFieldType": {
+      "Boolean": "Booleaans",
+      "Image": "Afbeelding",
+      "Integer": "Geheel getal",
+      "OptionGroup": "Optiegroep",
+      "Select": "Selecteren",
+      "Slider": "Schuifregelaar",
+      "Text": "Tekst",
+      "TextArea": "Tekstgebied"
+    },
     "DateCompareMode": {
       "After": "Na",
       "Any": "Elke",
@@ -932,7 +947,7 @@
     "Admin": "Admin",
     "Configuration": "Configuratie",
     "Extensions": "Extensies",
-    "FileDrop": "File Drop",
+    "FileDrop": "FileDrop",
     "Information": "Informatie",
     "Overview": "Overzicht",
     "Security": "Beveiliging",
@@ -983,6 +998,25 @@
         "Operator": "Operator",
         "Summary": "Samenvatting",
         "Type": "Type"
+      }
+    },
+    "CustomField": {
+      "Title": "Veld",
+      "Fields": {
+        "ConditionField": "조건",
+        "ConditionValue": "값",
+        "ConditionValue-Help": "이 필드가 주어진 값과 일치할 경우에만 표시됩니다.",
+        "DefaultNumber": "Standaard",
+        "Description": "Beschrijving",
+        "Description-Help": "필드 아래에 표시되는 도움말 설명.",
+        "Maximum": "Maximum",
+        "Minimum": "Minimum",
+        "Name-Help": "이 필드에 표시되는 이름.",
+        "Options": "Opties",
+        "Type": "Type",
+        "Type-Help": "표시되는 입력 유형.",
+        "Variable": "변수",
+        "Variable-Help": "흐름에 전달될 변수."
       }
     },
     "Dashboard": {
@@ -1126,11 +1160,15 @@
       },
       "Fields": {
         "Description": "Beschrijving.",
+        "Extensions": "Extensies",
         "Icon": "Icoon",
+        "MaxFileSize": "Maximale bestandsgrootte",
         "Outputs": "Uitgangen",
         "Outputs-Help": "Het aantal uitgangen dat deze substroom heeft. Dit is het aantal uitgangen dat beschikbaar zal zijn bij het gebruik van deze substroom in een andere stroom.",
         "OutputsKey": "Uitgang",
         "OutputsValue": "Beschrijving",
+        "PreviewMode": "Voorbeeldmodus",
+        "Tokens": "Tokens",
         "Variables": "Variabelen",
         "VariablesKey": "Naam",
         "VariablesValue": "Waarde",
@@ -1167,7 +1205,7 @@
       "Title": "Stromen",
       "Labels": {
         "FailureFlows": "Foutstromen",
-        "FileDropFlows": "File Drop Flows",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Standaardstromen",
         "SubFlows": "Substromen"
       },

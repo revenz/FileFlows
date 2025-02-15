@@ -23,6 +23,7 @@
     "CopiedToClipboard": "Kopierade ''{text}'' till urklipp.",
     "Copy": "Kopiera",
     "CopyToClipboard": "Kopiera till urklipp",
+    "CustomField": "Anpassat Fält",
     "Decrease": "Minska",
     "Default": "Standard",
     "Delete": "Ta bort",
@@ -75,6 +76,8 @@
     "MissingDependencies": "Saknade beroenden",
     "MissingDependenciesMessage": "Följande saknade plugins måste laddas ner innan du använder denna mall:\n\n#LIST#",
     "MonthShort": "Mån",
+    "MoveDown": "Flytta Ner",
+    "MoveUp": "Flytta Upp",
     "Name": "Namn",
     "Never": "Aldrig",
     "Next": "Nästa",
@@ -148,6 +151,7 @@
     "Tag": "Tagg",
     "Test": "Test",
     "Time": "Tid",
+    "Tokens": "Polletter",
     "TooManyDockerMods": "Du har valt för många DockerMods. Detta kan påverka prestandan och det är sannolikt inte nödvändigt att installera alla dessa DockerMods.",
     "Total": "Totalt",
     "Trigger": "Utlösa",
@@ -161,6 +165,7 @@
     "UpdateAvailable": "Ny version tillgänglig {version}",
     "Upload": "Ladda upp",
     "UsedBy": "Används av",
+    "Value": "Värde",
     "Version": "Version",
     "VersionNumber": "Version: {version}",
     "View": "Visa",
@@ -740,6 +745,16 @@
       "PasswordResetRequest": "Begäran om återställning av lösenord",
       "Updated": "Uppdaterad"
     },
+    "CustomFieldType": {
+      "Boolean": "Boolean",
+      "Image": "Bild",
+      "Integer": "Heltal",
+      "OptionGroup": "Alternativgrupp",
+      "Select": "Välj",
+      "Slider": "Skjutreglage",
+      "Text": "Text",
+      "TextArea": "Textområde"
+    },
     "DateCompareMode": {
       "After": "Efter",
       "Any": "Vilken som helst",
@@ -932,7 +947,7 @@
     "Admin": "Admin",
     "Configuration": "Konfiguration",
     "Extensions": "Tillägg",
-    "FileDrop": "File Drop",
+    "FileDrop": "FileDrop",
     "Information": "Information",
     "Overview": "Översikt",
     "Security": "Säkerhet",
@@ -983,6 +998,25 @@
         "Operator": "Operatör",
         "Summary": "Sammanfattning",
         "Type": "Typ"
+      }
+    },
+    "CustomField": {
+      "Title": "Fält",
+      "Fields": {
+        "ConditionField": "Villkor",
+        "ConditionValue": "Värde",
+        "ConditionValue-Help": "Visas endast om detta fält matchar det angivna värdet.",
+        "DefaultNumber": "Standard",
+        "Description": "Beskrivning",
+        "Description-Help": "En hjälpbeschrivning som visas under fältet.",
+        "Maximum": "Maximum",
+        "Minimum": "Minimum",
+        "Name-Help": "Namnet på detta fält som visas.",
+        "Options": "Alternativ",
+        "Type": "Typ",
+        "Type-Help": "Den typ av inmatning som visas.",
+        "Variable": "Variabel",
+        "Variable-Help": "Variabeln som skickas till flödet."
       }
     },
     "Dashboard": {
@@ -1126,11 +1160,15 @@
       },
       "Fields": {
         "Description": "Beskrivning.",
+        "Extensions": "Tillägg",
         "Icon": "Ikon",
+        "MaxFileSize": "Maximal filstorlek",
         "Outputs": "Utgångar",
         "Outputs-Help": "Antalet utgångar detta underskript har. Detta är antalet utgångar som kommer att vara tillgängliga när detta underskript används i ett annat flöde.",
         "OutputsKey": "Utgång",
         "OutputsValue": "Beskrivning",
+        "PreviewMode": "Förhandsgranskningsläge",
+        "Tokens": "Tokens",
         "Variables": "Variabler",
         "VariablesKey": "Namn",
         "VariablesValue": "Värde",
@@ -1167,7 +1205,7 @@
       "Title": "Flöden",
       "Labels": {
         "FailureFlows": "Misslyckade flöden",
-        "FileDropFlows": "File Drop Flows",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Standardflöden",
         "SubFlows": "Underskrifter"
       },

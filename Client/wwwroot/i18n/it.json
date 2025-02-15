@@ -23,6 +23,7 @@
     "CopiedToClipboard": "Copia ''{text}'' negli appunti.",
     "Copy": "Copia",
     "CopyToClipboard": "Copia negli appunti",
+    "CustomField": "Campo Personalizzato",
     "Decrease": "Diminuisci",
     "Default": "Predefinito",
     "Delete": "Elimina",
@@ -75,6 +76,8 @@
     "MissingDependencies": "Dipendenze Mancanti",
     "MissingDependenciesMessage": "I seguenti plugin mancanti devono essere scaricati prima di utilizzare questo modello:\n\n#LIST#",
     "MonthShort": "Mese",
+    "MoveDown": "Sposta Giù",
+    "MoveUp": "Sposta Su",
     "Name": "Nome",
     "Never": "Mai",
     "Next": "Avanti",
@@ -148,6 +151,7 @@
     "Tag": "Tag",
     "Test": "Test",
     "Time": "Tempo",
+    "Tokens": "Gettoni",
     "TooManyDockerMods": "Hai selezionato troppi DockerMods. Questo può influire sulle prestazioni ed è probabilmente inutile installare tutti questi DockerMods.",
     "Total": "Totale",
     "Trigger": "Attivatore",
@@ -161,6 +165,7 @@
     "UpdateAvailable": "Nuova versione disponibile {version}",
     "Upload": "Caricare",
     "UsedBy": "Usato Da",
+    "Value": "Valore",
     "Version": "Versione",
     "VersionNumber": "Versione: {version}",
     "View": "Visualizza",
@@ -740,6 +745,16 @@
       "PasswordResetRequest": "Richiesta di Reset della Password",
       "Updated": "Aggiornato"
     },
+    "CustomFieldType": {
+      "Boolean": "Booleano",
+      "Image": "Immagine",
+      "Integer": "Intero",
+      "OptionGroup": "Gruppo di opzioni",
+      "Select": "Selezionare",
+      "Slider": "Dispositivo di scorrimento",
+      "Text": "Testo",
+      "TextArea": "Area di testo"
+    },
     "DateCompareMode": {
       "After": "Dopo",
       "Any": "Qualsiasi",
@@ -932,7 +947,7 @@
     "Admin": "Amministrazione",
     "Configuration": "Configurazione",
     "Extensions": "Estensioni",
-    "FileDrop": "File Drop",
+    "FileDrop": "FileDrop",
     "Information": "Informazioni",
     "Overview": "Panoramica",
     "Security": "Sicurezza",
@@ -983,6 +998,25 @@
         "Operator": "Operatore",
         "Summary": "Riepilogo",
         "Type": "Tipo"
+      }
+    },
+    "CustomField": {
+      "Title": "Campo",
+      "Fields": {
+        "ConditionField": "Condizione",
+        "ConditionValue": "Valore",
+        "ConditionValue-Help": "Verrà mostrato solo se questo campo corrisponde al valore dato.",
+        "DefaultNumber": "Predefinito",
+        "Description": "Descrizione",
+        "Description-Help": "Una descrizione di aiuto mostrata sotto il campo.",
+        "Maximum": "Massimo",
+        "Minimum": "Minimo",
+        "Name-Help": "Il nome di questo campo mostrato.",
+        "Options": "Opzioni",
+        "Type": "Tipo",
+        "Type-Help": "Il tipo di input mostrato.",
+        "Variable": "Variabile",
+        "Variable-Help": "La variabile che verrà passata nel flusso."
       }
     },
     "Dashboard": {
@@ -1126,11 +1160,15 @@
       },
       "Fields": {
         "Description": "Descrizione.",
+        "Extensions": "Estensioni",
         "Icon": "Icona",
+        "MaxFileSize": "Dimensione massima del file",
         "Outputs": "Output",
         "Outputs-Help": "Il numero di output che ha questo sottoflow. Questo è il numero di output disponibili quando si utilizza questo sottoflow in un altro flow.",
         "OutputsKey": "Output",
         "OutputsValue": "Descrizione",
+        "PreviewMode": "Modalità anteprima",
+        "Tokens": "Tokens",
         "Variables": "Variabili",
         "VariablesKey": "Nome",
         "VariablesValue": "Valore",
@@ -1167,7 +1205,7 @@
       "Title": "Flussi",
       "Labels": {
         "FailureFlows": "Flussi di Errore",
-        "FileDropFlows": "File Drop Flows",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Flussi Standard",
         "SubFlows": "Sottoflussi"
       },

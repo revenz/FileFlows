@@ -23,6 +23,7 @@
     "CopiedToClipboard": "已将 ''{text}'' 复制到剪贴板。",
     "Copy": "复制",
     "CopyToClipboard": "复制到剪贴板",
+    "CustomField": "自定义字段",
     "Decrease": "减少",
     "Default": "默认",
     "Delete": "删除",
@@ -75,6 +76,8 @@
     "MissingDependencies": "缺少依赖项",
     "MissingDependenciesMessage": "在使用此模板之前，必须下载以下缺少的插件：\n\n#LIST#",
     "MonthShort": "月",
+    "MoveDown": "下移",
+    "MoveUp": "上移",
     "Name": "名称",
     "Never": "从不",
     "Next": "下一个",
@@ -148,6 +151,7 @@
     "Tag": "标签",
     "Test": "测试",
     "Time": "时间",
+    "Tokens": "令牌",
     "TooManyDockerMods": "您选择了过多的DockerMods，这可能会影响性能，您可能不需要安装所有这些DockerMods。",
     "Total": "总计",
     "Trigger": "触发",
@@ -161,6 +165,7 @@
     "UpdateAvailable": "新版本可用 {version}",
     "Upload": "上传",
     "UsedBy": "使用者",
+    "Value": "值",
     "Version": "版本",
     "VersionNumber": "版本：{version}",
     "View": "查看",
@@ -740,6 +745,16 @@
       "PasswordResetRequest": "请求重置密码",
       "Updated": "已更新"
     },
+    "CustomFieldType": {
+      "Boolean": "布尔值",
+      "Image": "图片",
+      "Integer": "整数",
+      "OptionGroup": "选项组",
+      "Select": "选择",
+      "Slider": "滑块",
+      "Text": "文本",
+      "TextArea": "文本区域"
+    },
     "DateCompareMode": {
       "After": "之后",
       "Any": "任何",
@@ -932,7 +947,7 @@
     "Admin": "管理员",
     "Configuration": "配置",
     "Extensions": "扩展",
-    "FileDrop": "File Drop",
+    "FileDrop": "FileDrop",
     "Information": "信息",
     "Overview": "概述",
     "Security": "安全",
@@ -983,6 +998,25 @@
         "Operator": "操作员",
         "Summary": "摘要",
         "Type": "类型"
+      }
+    },
+    "CustomField": {
+      "Title": "字段",
+      "Fields": {
+        "ConditionField": "条件",
+        "ConditionValue": "值",
+        "ConditionValue-Help": "仅在此字段与给定值匹配时显示。",
+        "DefaultNumber": "默认",
+        "Description": "描述",
+        "Description-Help": "显示在字段下方的帮助描述。",
+        "Maximum": "最大值",
+        "Minimum": "最小值",
+        "Name-Help": "此字段显示的名称。",
+        "Options": "选项",
+        "Type": "类型",
+        "Type-Help": "显示的输入类型。",
+        "Variable": "变量",
+        "Variable-Help": "将传递到流程中的变量。"
       }
     },
     "Dashboard": {
@@ -1126,11 +1160,15 @@
       },
       "Fields": {
         "Description": "描述。",
+        "Extensions": "扩展",
         "Icon": "图标",
+        "MaxFileSize": "最大文件大小",
         "Outputs": "输出",
         "Outputs-Help": "此子流程具有的输出数量。当在其他流程中使用此子流程时，这就是可用的输出数量",
         "OutputsKey": "输出",
         "OutputsValue": "描述",
+        "PreviewMode": "预览模式",
+        "Tokens": "令牌",
         "Variables": "变量",
         "VariablesKey": "名称",
         "VariablesValue": "值",
@@ -1167,7 +1205,7 @@
       "Title": "流程",
       "Labels": {
         "FailureFlows": "失败流程",
-        "FileDropFlows": "File Drop Flows",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "标准流程",
         "SubFlows": "子流程"
       },

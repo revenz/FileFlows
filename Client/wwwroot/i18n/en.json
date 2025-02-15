@@ -23,6 +23,7 @@
     "CopiedToClipboard": "Copied ''{text}'' to clipboard.",
     "Copy": "Copy",
     "CopyToClipboard": "Copy to clipboard",
+    "CustomField": "Custom Field",
     "Decrease": "Decrease",
     "Default": "Default",
     "Delete": "Delete",
@@ -75,6 +76,8 @@
     "MissingDependencies": "Missing Dependencies",
     "MissingDependenciesMessage": "The following missing plugins must be downloaded before using this template:\n\n#LIST#",
     "MonthShort": "Month",
+    "MoveDown": "Move Down",
+    "MoveUp": "Move Up",
     "Name": "Name",
     "Never": "Never",
     "Next": "Next",
@@ -148,6 +151,7 @@
     "Tag": "Tag",
     "Test": "Test",
     "Time": "Time",
+    "Tokens": "Tokens",
     "TooManyDockerMods": "You have selected too many DockerMods. This may impact performance, and it is likely unnecessary to install all of these DockerMods.",
     "Total": "Total",
     "Trigger": "Trigger",
@@ -161,6 +165,7 @@
     "UpdateAvailable": "New version available {version}",
     "Upload": "Upload",
     "UsedBy": "Used By",
+    "Value": "Value",
     "Version": "Version",
     "VersionNumber": "Version: {version}",
     "View": "View",
@@ -335,7 +340,7 @@
         "OutputPathRequired": "The output path is required."
       },
       "Output": {
-        "FileDropMove": "File Drop Move",
+        "FileDropMove": "FileDrop Move",
         "FileDropMoveDescription": "Moves the file to a temporary folder unique to the user for downloading. The file will be automatically deleted after a set period of time.",
         "ReplaceOriginal": "Replace Original",
         "ReplaceOriginalDescription": "Replace the original file with the converted one.",
@@ -740,6 +745,16 @@
       "PasswordResetRequest": "Password Reset Request",
       "Updated": "Updated"
     },
+    "CustomFieldType": {
+      "Boolean": "Boolean",
+      "Image": "Image",
+      "Integer": "Integer",
+      "OptionGroup": "Option Group",
+      "Select": "Select",
+      "Slider": "Slider",
+      "Text": "Text",
+      "TextArea": "Text Area"
+    },
     "DateCompareMode": {
       "After": "After",
       "Any": "Any",
@@ -932,7 +947,7 @@
     "Admin": "Admin",
     "Configuration": "Configuration",
     "Extensions": "Extensions",
-    "FileDrop": "File Drop",
+    "FileDrop": "FileDrop",
     "Information": "Information",
     "Overview": "Overview",
     "Security": "Security",
@@ -983,6 +998,25 @@
         "Operator": "Operator",
         "Summary": "Summary",
         "Type": "Type"
+      }
+    },
+    "CustomField": {
+      "Title": "Field",
+      "Fields": {
+        "ConditionField": "Condition",
+        "ConditionValue": "Value",
+        "ConditionValue-Help": "Will only be shown if this field matches the given value.",
+        "DefaultNumber": "Default",
+        "Description": "Description",
+        "Description-Help": "A help description shown below the field.",
+        "Maximum": "Maximum",
+        "Minimum": "Minimum",
+        "Name-Help": "The name displayed for this field.",
+        "Options": "Options",
+        "Type": "Type",
+        "Type-Help": "The type of input shown.",
+        "Variable": "Variable",
+        "Variable-Help": "The variable that will be passed into the flow."
       }
     },
     "Dashboard": {
@@ -1126,11 +1160,15 @@
       },
       "Fields": {
         "Description": "Description",
+        "Extensions": "Extensions",
         "Icon": "Icon",
+        "MaxFileSize": "Max File Size",
         "Outputs": "Outputs",
         "Outputs-Help": "The number of outputs this sub flow has.  This is the number of outputs that will be available when using this sub flow in another flow",
         "OutputsKey": "Output",
         "OutputsValue": "Description",
+        "PreviewMode": "Preview Mode",
+        "Tokens": "Tokens",
         "Variables": "Variables",
         "VariablesKey": "Name",
         "VariablesValue": "Value",
@@ -1167,7 +1205,7 @@
       "Title": "Flows",
       "Labels": {
         "FailureFlows": "Failure Flows",
-        "FileDropFlows": "File Drop Flows",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Standard Flows",
         "SubFlows": "Sub Flows"
       },
@@ -1726,7 +1764,7 @@
           "Key": "License Key",
           "Level": "Level",
           "ProcessingNodes": "Processing Nodes",
-          "ResellerUsers": "File Drop Users",
+          "ResellerUsers": "FileDrop Users",
           "Status": "Status"
         },
         "Security": {

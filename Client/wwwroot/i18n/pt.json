@@ -23,6 +23,7 @@
     "CopiedToClipboard": "Copiado ''{text}'' para a área de transferência.",
     "Copy": "Copiar",
     "CopyToClipboard": "Copiar para a área de transferência",
+    "CustomField": "Campo Personalizado",
     "Decrease": "Diminuir",
     "Default": "Padrão",
     "Delete": "Excluir",
@@ -75,6 +76,8 @@
     "MissingDependencies": "Dependências Faltando",
     "MissingDependenciesMessage": "Os seguintes plugins faltantes devem ser baixados antes de usar este modelo:\n\n#LIST#",
     "MonthShort": "Mês",
+    "MoveDown": "Mover Para Baixo",
+    "MoveUp": "Mover Para Cima",
     "Name": "Nome",
     "Never": "Nunca",
     "Next": "Próximo",
@@ -148,6 +151,7 @@
     "Tag": "Tag",
     "Test": "Teste",
     "Time": "Tempo",
+    "Tokens": "Tokens",
     "TooManyDockerMods": "Você selecionou muitos DockerMods. Isso pode afetar o desempenho e provavelmente não é necessário instalar todos esses DockerMods.",
     "Total": "Total",
     "Trigger": "Disparar",
@@ -161,6 +165,7 @@
     "UpdateAvailable": "Nova versão disponível {version}",
     "Upload": "Enviar",
     "UsedBy": "Usado Por",
+    "Value": "Valor",
     "Version": "Versão",
     "VersionNumber": "Versão: {version}",
     "View": "Visualizar",
@@ -740,6 +745,16 @@
       "PasswordResetRequest": "Solicitação de Redefinição de Senha",
       "Updated": "Atualizado"
     },
+    "CustomFieldType": {
+      "Boolean": "Booleano",
+      "Image": "Imagem",
+      "Integer": "Inteiro",
+      "OptionGroup": "Grupo de opções",
+      "Select": "Selecionar",
+      "Slider": "Controle deslizante",
+      "Text": "Texto",
+      "TextArea": "Área de texto"
+    },
     "DateCompareMode": {
       "After": "Depois",
       "Any": "Qualquer",
@@ -932,7 +947,7 @@
     "Admin": "Admin",
     "Configuration": "Configuração",
     "Extensions": "Extensões",
-    "FileDrop": "File Drop",
+    "FileDrop": "FileDrop",
     "Information": "Informação",
     "Overview": "Visão geral",
     "Security": "Segurança",
@@ -983,6 +998,25 @@
         "Operator": "Operador",
         "Summary": "Resumo",
         "Type": "Tipo"
+      }
+    },
+    "CustomField": {
+      "Title": "Campo",
+      "Fields": {
+        "ConditionField": "Condição",
+        "ConditionValue": "Valor",
+        "ConditionValue-Help": "Será exibido apenas se este campo corresponder ao valor fornecido.",
+        "DefaultNumber": "Padrão",
+        "Description": "Descrição",
+        "Description-Help": "Uma descrição de ajuda exibida abaixo do campo.",
+        "Maximum": "Máximo",
+        "Minimum": "Mínimo",
+        "Name-Help": "O nome deste campo exibido.",
+        "Options": "Opções",
+        "Type": "Tipo",
+        "Type-Help": "O tipo de entrada exibido.",
+        "Variable": "Variável",
+        "Variable-Help": "A variável que será passada para o fluxo."
       }
     },
     "Dashboard": {
@@ -1126,11 +1160,15 @@
       },
       "Fields": {
         "Description": "Descrição.",
+        "Extensions": "Extensões",
         "Icon": "Ícone",
+        "MaxFileSize": "Tamanho máximo do arquivo",
         "Outputs": "Saídas",
         "Outputs-Help": "O número de saídas que este sub flow possui. Este é o número de saídas que estarão disponíveis ao usar este sub flow em outro flow",
         "OutputsKey": "Saída",
         "OutputsValue": "Descrição",
+        "PreviewMode": "Modo de visualização",
+        "Tokens": "Tokens",
         "Variables": "Variáveis",
         "VariablesKey": "Nome",
         "VariablesValue": "Valor",
@@ -1167,7 +1205,7 @@
       "Title": "Flows",
       "Labels": {
         "FailureFlows": "Failure Flows",
-        "FileDropFlows": "File Drop Flows",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Standard Flows",
         "SubFlows": "Sub Flows"
       },

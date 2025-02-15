@@ -793,7 +793,6 @@ public partial class Flow : ComponentBase, IDisposable
     {
         var customFlowEditor = new CustomFieldEditor(CustomFieldEditor, editor.Flow);
         string efVariable = $"{part.Uid}.{eleField.Name}";
-        Logger.Instance.ILog("EFVariable: " + efVariable);
         var field = editor.Flow?.Fields?.FirstOrDefault(x => x.Variable == efVariable);
         bool isNew = field == null;
         if (isNew)
@@ -806,36 +805,66 @@ public partial class Flow : ComponentBase, IDisposable
                     Type = CustomFieldType.Boolean
                 };
             }
-            else if (eleField.InputType is FormInputType.Select && eleField.Parameters.TryGetValue("Options", out var options))
+            else if (eleField.InputType is FormInputType.Select 
+                     && eleField.Parameters.TryGetValue("Options", out var options))
             {
                 if (options is JsonElement je && je.ValueKind != JsonValueKind.Null)
                 {
-                    var kvpOptions  = (je.Deserialize<List<ListOption>>() ?? new List<ListOption>()).Select(x =>
-                        new KeyValuePair<string, string>(x.Label, x.Value?.ToString())).ToList();
-                    if (kvpOptions.Count > 0 && kvpOptions.Count <= 5)
+                    var cfos = (je.Deserialize<List<ListOption>>() ?? new List<ListOption>())
+                        .Where(x => x.Value?.ToString() != Globals.LIST_OPTION_GROUP )
+                        .Select(x =>
+                        new CustomFieldOption()
+                        {
+                            Name = x.Label,
+                            Value = x.Value?.ToString() ?? x.Label
+                        }).ToList();
+                    if (cfos.Count > 0 && cfos.Count <= 5)
                     {
                         field = new()
                         {
                             Type = CustomFieldType.OptionGroup,
                             Data = new()
                             {
-                                { "Options", kvpOptions }
+                                { "Options", cfos }
                             }
                         };
                     }
-                    else if(kvpOptions.Count > 0)
+                    else if(cfos.Count > 0)
                     {
                         field = new()
                         {
                             Type = CustomFieldType.Select,
                             Data = new()
                             {
-                                { "Options", kvpOptions }
+                                { "Options", cfos }
                             }
                         };
-                        
                     }
                 }
+            }
+            else if (eleField.InputType is FormInputType.Int)
+            {
+                field = new()
+                {
+                    Type = CustomFieldType.Integer,
+                    Data = new()
+                    {
+                        { "Minimum", 0 },
+                        { "Maximum", 100 }
+                    }
+                };
+            }
+            else if (eleField.InputType is FormInputType.Slider)
+            {
+                field = new()
+                {
+                    Type = CustomFieldType.Slider,
+                    Data = new()
+                    {
+                        { "Minimum", 0 },
+                        { "Maximum", 100 }
+                    }
+                };
             }
             
             field ??= new()

@@ -1,0 +1,53 @@
+@namespace FileFlows.Client.Components.Inputs
+@inherits Input<List<CustomFieldOption>>
+
+<InputWrapper Input="@this">
+    <div class="input-keyvalue-wrapper" @onblur="OnBlur">
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-name">@lblName</th>
+                    <th class="col-value">@lblValue</th>
+                    <th class="col-tokens">@lblTokens</th>
+                    <th class="col-actions"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var key in Data.Keys)
+                {
+                    var cfo = Data[key];
+                    <tr class="@(cfo.Name == DuplicateKey ? "invalid" : "")">
+                        <td class="col-name">
+                            <input type="text" @bind-value="cfo.Name" @onblur="OnBlur"/>
+                        </td>
+                        <td class="col-value">
+                            <input type="text" @bind-value="cfo.Value" @onblur="OnBlur"/>
+                        </td>
+                        <td class="col-tokens">
+                            <input type="number" @bind-value="cfo.Tokens" @onblur="OnBlur"/>
+                        </td>
+                        <td class="col-actions">
+                            <i title="@lblMoveUp" class="fas fa-caret-up" @onclick="() => Move(key, true)"></i>
+                            <i title="@lblMoveDown" class="fas fa-caret-down" @onclick="() => Move(key, false)"></i>
+                            <i title="@lblDelete" class="fas fa-trash" @onclick="() => Remove(key)"></i>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="col-name">
+                        <input id="@Uid" type="text" @bind-value="NewName"/>
+                    </td>
+                    <td class="col-value">
+                         <input type="text" @bind-value="NewValue" @onblur="BlurAdd"/>
+                    </td>
+                    <td class="col-tokens">
+                        <input type="number" @bind-value="NewTokens" @onblur="BlurAdd"/>
+                    </td>
+                    <td class="col-actions">                        
+                        <i title="@lblAdd" class="fas fa-plus" @onclick="Add"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</InputWrapper>

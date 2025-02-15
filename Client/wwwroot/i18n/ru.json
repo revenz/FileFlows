@@ -23,6 +23,7 @@
     "CopiedToClipboard": "Скопировано ''{text}'' в буфер обмена.",
     "Copy": "Копировать",
     "CopyToClipboard": "Копировать в буфер обмена",
+    "CustomField": "Пользовательское Поле",
     "Decrease": "Уменьшить",
     "Default": "По умолчанию",
     "Delete": "Удалить",
@@ -75,6 +76,8 @@
     "MissingDependencies": "Отсутствуют зависимости",
     "MissingDependenciesMessage": "Следующие отсутствующие плагины должны быть загружены перед использованием этого шаблона:\n\n#LIST#",
     "MonthShort": "Мес",
+    "MoveDown": "Переместить Вниз",
+    "MoveUp": "Переместить Вверх",
     "Name": "Имя",
     "Never": "Никогда",
     "Next": "Далее",
@@ -148,6 +151,7 @@
     "Tag": "Тег",
     "Test": "Тест",
     "Time": "Время",
+    "Tokens": "Токены",
     "TooManyDockerMods": "Вы выбрали слишком много DockerMods. Это может повлиять на производительность, и, вероятно, нет необходимости устанавливать все эти DockerMods.",
     "Total": "Всего",
     "Trigger": "Сработать",
@@ -161,6 +165,7 @@
     "UpdateAvailable": "Доступна новая версия {version}",
     "Upload": "Загрузить",
     "UsedBy": "Используется",
+    "Value": "Значение",
     "Version": "Версия",
     "VersionNumber": "Версия: {version}",
     "View": "Просмотр",
@@ -740,6 +745,16 @@
       "PasswordResetRequest": "Запрос на сброс пароля",
       "Updated": "Обновлено"
     },
+    "CustomFieldType": {
+      "Boolean": "Булево",
+      "Image": "Изображение",
+      "Integer": "Целое число",
+      "OptionGroup": "Группа опций",
+      "Select": "Выбрать",
+      "Slider": "Ползунок",
+      "Text": "Текст",
+      "TextArea": "Текстовая область"
+    },
     "DateCompareMode": {
       "After": "После",
       "Any": "Любое",
@@ -932,7 +947,7 @@
     "Admin": "Администратор",
     "Configuration": "Конфигурация",
     "Extensions": "Расширения",
-    "FileDrop": "File Drop",
+    "FileDrop": "FileDrop",
     "Information": "Информация",
     "Overview": "Обзор",
     "Security": "Безопасность",
@@ -983,6 +998,25 @@
         "Operator": "Оператор",
         "Summary": "Резюме",
         "Type": "Тип"
+      }
+    },
+    "CustomField": {
+      "Title": "Поле",
+      "Fields": {
+        "ConditionField": "Условие",
+        "ConditionValue": "Значение",
+        "ConditionValue-Help": "Будет отображаться только в том случае, если это поле соответствует заданному значению.",
+        "DefaultNumber": "По умолчанию",
+        "Description": "Описание",
+        "Description-Help": "Описание помощи, отображаемое под полем.",
+        "Maximum": "Максимум",
+        "Minimum": "Минимум",
+        "Name-Help": "Имя этого поля, отображаемое в интерфейсе.",
+        "Options": "Опции",
+        "Type": "Тип",
+        "Type-Help": "Тип отображаемого ввода.",
+        "Variable": "Переменная",
+        "Variable-Help": "Переменная, которая будет передана в поток."
       }
     },
     "Dashboard": {
@@ -1126,11 +1160,15 @@
       },
       "Fields": {
         "Description": "Описание.",
+        "Extensions": "Расширения",
         "Icon": "Иконка",
+        "MaxFileSize": "Максимальный размер файла",
         "Outputs": "Выходы",
         "Outputs-Help": "Количество выходов, которые имеет этот под-поток. Это количество выходов, которые будут доступны при использовании этого под-потока в другом потоке.",
         "OutputsKey": "Выход",
         "OutputsValue": "Описание",
+        "PreviewMode": "Режим предварительного просмотра",
+        "Tokens": "Токены",
         "Variables": "Переменные",
         "VariablesKey": "Имя",
         "VariablesValue": "Значение",
@@ -1167,7 +1205,7 @@
       "Title": "Потоки",
       "Labels": {
         "FailureFlows": "Потоки с ошибками",
-        "FileDropFlows": "File Drop Flows",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Стандартные потоки",
         "SubFlows": "Под-потоки"
       },

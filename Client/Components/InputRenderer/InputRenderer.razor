@@ -327,6 +327,16 @@
                            OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
         }
             break;
+        case FormInputType.CustomFieldOptions:
+        {
+            var value = GetValue<List<CustomFieldOption>>(field.Name);
+            hideLabel = hideLabel || string.IsNullOrEmpty(Translater.Instant(label));
+            <InputCustomFieldOptions Field=@field Label="@label" Value="@value" ReadOnly=@readOnly
+                                     ValueChanged="@(x => UpdateValue(field, x))"
+                           Validators=@field.Validators Placeholder="@field.Placeholder" HideLabel=@hideLabel 
+                           OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
+        }
+            break;
         case FormInputType.KeyValue:
             {
                 var value = GetValue<List<KeyValuePair<string, string>>>(field.Name);
