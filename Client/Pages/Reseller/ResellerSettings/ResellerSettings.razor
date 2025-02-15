@@ -44,6 +44,12 @@
                 <InputText @bind-Value=@Model.CustomProviderClientId Label="Client ID" />
                 <InputText @bind-Value=@Model.CustomProviderClientSecret Label="Client Secret" />
             </FlowTab>
+            <FlowTab Title="Home Page">
+                <p>Here you can customise the home page for logged in users and set the custom HTML to show to the user.</p>
+                <p>If this is left blank, then the user will not have a home page and the first alphabetical flow will be their defacto landing page.</p>
+                
+                <InputCode Language="html" @bind-Value="Model.HomePageHtml" />
+            </FlowTab>
         </FlowTabs>
     </div>
 </Body>

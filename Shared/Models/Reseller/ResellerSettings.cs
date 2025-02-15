@@ -6,6 +6,11 @@ namespace FileFlows.Shared.Models;
 public class ResellerSettings : FileFlowObject
 {
     /// <summary>
+    /// Gets or set the home page HTML for logged in users
+    /// </summary>
+    public string HomePageHtml { get; set; }
+    
+    /// <summary>
     /// Gets or sets the custom port to run the reseller app on
     /// </summary>
     public int? CustomPort { get; set; }
