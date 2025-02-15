@@ -1,12 +1,12 @@
-namespace FileFlows.Client.Pages.Reseller;
+namespace FileFlows.Client.Pages.FileDrop;
 
 /// <summary>
-/// Reseller Users page
+/// File Drop Users page
 /// </summary>
-public partial class ResellerUsers : ListPage<Guid, ResellerUser>
+public partial class FileDropUsers : ListPage<Guid, FileDropUser>
 {
     /// <inheritdoc />
-    public override string ApiUrl => "/api/reseller/user";
+    public override string ApiUrl => "/api/file-drop/user";
     /// <summary>
     /// Translation strings
     /// </summary>
@@ -25,20 +25,20 @@ public partial class ResellerUsers : ListPage<Guid, ResellerUser>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        lblPageTitle = Translater.Instant("Pages.Resellers.Flows.Title");
+        lblPageTitle = Translater.Instant("Pages.FileDrop.Flows.Title");
     }
 
     /// <inheritdoc />
     public override string FetchUrl => $"{ApiUrl}?page={PageIndex}&pageSize={App.PageSize}";
     
     /// <inheritdoc />
-    protected override async Task<RequestResult<List<ResellerUser>>> FetchData()
+    protected override async Task<RequestResult<List<FileDropUser>>> FetchData()
     {
-        var request = await HttpHelper.Get<List<ResellerUser>>(FetchUrl);
+        var request = await HttpHelper.Get<List<FileDropUser>>(FetchUrl);
 
         if (request.Success == false)
         {
-            return new RequestResult<List<ResellerUser>>
+            return new RequestResult<List<FileDropUser>>
             {
                 Body = request.Body,
                 Success = request.Success
@@ -51,7 +51,7 @@ public partial class ResellerUsers : ListPage<Guid, ResellerUser>
             this.TotalItems = totalItems;
         }
         
-        var result = new RequestResult<List<ResellerUser>>
+        var result = new RequestResult<List<FileDropUser>>
         {
             Body = request.Body,
             Success = request.Success,

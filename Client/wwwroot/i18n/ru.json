@@ -335,10 +335,10 @@
         "OutputPathRequired": "Необходим путь для вывода."
       },
       "Output": {
+        "FileDropMove": "Переместить файл",
+        "FileDropMoveDescription": "Перемещает файл в временную папку, уникальную для пользователя, для скачивания. Файл будет автоматически удалён после установленного времени.",
         "ReplaceOriginal": "Заменить оригинал",
         "ReplaceOriginalDescription": "Заменяет оригинальный файл на преобразованный.",
-        "ResellerMove": "Перемещение реселлера",
-        "ResellerMoveDescription": "Перемещает файл в временную папку, уникальную для пользователя, для скачивания. Файл будет автоматически удалён после установленного времени.",
         "SaveToFolder": "Сохранить в папку",
         "SaveToFolderDescription": "Сохраняет преобразованный файл в новое место."
       },
@@ -932,6 +932,7 @@
     "Admin": "Администратор",
     "Configuration": "Конфигурация",
     "Extensions": "Расширения",
+    "FileDrop": "File Drop",
     "Information": "Информация",
     "Overview": "Обзор",
     "Security": "Безопасность",
@@ -1166,6 +1167,7 @@
       "Title": "Потоки",
       "Labels": {
         "FailureFlows": "Потоки с ошибками",
+        "FileDropFlows": "File Drop Flows",
         "StandardFlows": "Стандартные потоки",
         "SubFlows": "Под-потоки"
       },
@@ -1724,6 +1726,7 @@
           "Key": "Лицензионный ключ",
           "Level": "Уровень",
           "ProcessingNodes": "Узлы обработки",
+          "ResellerUsers": "",
           "Status": "Статус"
         },
         "Security": {

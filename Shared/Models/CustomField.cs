@@ -3,7 +3,7 @@ using FileFlows.Plugin;
 namespace FileFlows.Shared.Models;
 
 /// <summary>
-/// Custom field used by reseller flows and possible templates in the future
+/// Custom field used by file drop flows and possible templates in the future
 /// </summary>
 public class CustomField
 {

@@ -335,10 +335,10 @@
         "OutputPathRequired": "輸出路徑是必需的。"
       },
       "Output": {
+        "FileDropMove": "檔案移動",
+        "FileDropMoveDescription": "將文件移動到用戶專用的臨時文件夾以供下載。文件將在設定的時間後自動刪除。",
         "ReplaceOriginal": "替換原始檔案",
         "ReplaceOriginalDescription": "用轉換後的檔案替換原始檔案。",
-        "ResellerMove": "經銷商移動",
-        "ResellerMoveDescription": "將文件移動到用戶專用的臨時文件夾以供下載。文件將在設定的時間後自動刪除。",
         "SaveToFolder": "保存到資料夾",
         "SaveToFolderDescription": "將轉換後的檔案保存到新位置。"
       },
@@ -932,6 +932,7 @@
     "Admin": "管理",
     "Configuration": "配置",
     "Extensions": "擴展",
+    "FileDrop": "File Drop",
     "Information": "信息",
     "Overview": "概覽",
     "Security": "安全性",
@@ -1166,6 +1167,7 @@
       "Title": "流程",
       "Labels": {
         "FailureFlows": "失敗流程",
+        "FileDropFlows": "File Drop Flows",
         "StandardFlows": "標準流程",
         "SubFlows": "子流程"
       },
@@ -1724,6 +1726,7 @@
           "Key": "授權金鑰",
           "Level": "級別",
           "ProcessingNodes": "處理節點",
+          "ResellerUsers": "",
           "Status": "狀態"
         },
         "Security": {

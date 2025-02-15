@@ -2,12 +2,12 @@ using FileFlows.Client.Components;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
-namespace FileFlows.Client.Pages.Reseller;
+namespace FileFlows.Client.Pages.FileDrop;
 
 /// <summary>
-/// Reseller settings
+/// File Drop settings
 /// </summary>
-public partial class ResellerSettings
+public partial class FileDropSettings
 {
     /// <summary>
     /// Gets or sets the navigation manager used
@@ -33,14 +33,14 @@ public partial class ResellerSettings
     private string lblSave, lblSaving, lblHelp;
     private string FileFlowsCallbackUrl;
 
-    private FileFlows.Shared.Models.ResellerSettings Model { get; set; } = new ();
+    private FileFlows.Shared.Models.FileDropSettings Model { get; set; } = new ();
     private List<ListOption> openInOptions;
     
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         Profile = await ProfileService.Get();
-        if (Profile.LicensedFor(LicenseFlags.Reseller) == false)
+        if (Profile.LicensedFor(LicenseFlags.FileDrop) == false)
         {
             NavigationManager.NavigateTo("/");
             return;
@@ -52,7 +52,7 @@ public partial class ResellerSettings
             new () {Label = "A Popup Dialog", Value = true}
         ];
 
-        FileFlowsCallbackUrl = NavigationManager.BaseUri + "api/reseller/user/{uuid}/";
+        FileFlowsCallbackUrl = NavigationManager.BaseUri + "api/file-drop/user/{uuid}/";
         
         lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
@@ -77,7 +77,7 @@ public partial class ResellerSettings
         if(blocker)
             Blocker.Show();
         
-        var response = await HttpHelper.Get<FileFlows.Shared.Models.ResellerSettings>("/api/reseller/settings");
+        var response = await HttpHelper.Get<FileFlows.Shared.Models.FileDropSettings>("/api/file-drop/settings");
         if (response.Success)
         {
             this.Model = response.Data;
@@ -91,7 +91,7 @@ public partial class ResellerSettings
     /// Opens the help page
     /// </summary>
     private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/reseller/settings");
+        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/file-drop/settings");
     
     private async Task Save()
     {
@@ -103,7 +103,7 @@ public partial class ResellerSettings
             if (valid == false)
                 return;
             
-            await HttpHelper.Put<string>("/api/reseller/settings", this.Model);
+            await HttpHelper.Put<string>("/api/file-drop/settings", this.Model);
 
             await ProfileService.Refresh();
         }

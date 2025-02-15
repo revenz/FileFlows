@@ -3,24 +3,24 @@
 namespace FileFlows.Managers;
 
 /// <summary>
-/// An instance of the Reseller Settings Service which allows accessing of the resseller settings
+/// An instance of the File Drop Settings Service which allows accessing of the resseller settings
 /// </summary>
-public class ResellerSettingsManager
+public class FileDropSettingsManager
 {
     private static FairSemaphore _semaphore = new(1);
     // Special case, we always cache the settings, as it is constantly looked up
-    private static ResellerSettings? Instance;
+    private static FileDropSettings? Instance;
     private static Guid _Uid = new Guid("c85e56cc-6648-4815-b85e-dc780201a5d6");
 
-    static ResellerSettingsManager()
+    static FileDropSettingsManager()
     {
-        Instance = DatabaseAccessManager.Instance.FileFlowsObjectManager.Single<ResellerSettings>().Result;
+        Instance = DatabaseAccessManager.Instance.FileFlowsObjectManager.Single<FileDropSettings>().Result;
         if (Instance != null)
             return;
-        Instance = new ResellerSettings
+        Instance = new FileDropSettings
         {
             Uid = _Uid,
-            Name = nameof(ResellerSettings),
+            Name = nameof(FileDropSettings),
             DateCreated = DateTime.Now,
             DateModified = DateTime.Now,
         };
@@ -36,20 +36,20 @@ public class ResellerSettingsManager
     /// Gets the system settings
     /// </summary>
     /// <returns>the system settings</returns>
-    public ResellerSettings Get() => Instance!;
+    public FileDropSettings Get() => Instance!;
     
     /// <summary>
-    /// Updates the reseller settings
+    /// Updates the file drop settings
     /// </summary>
-    /// <param name="model">the reseller settings</param>
+    /// <param name="model">the file drop settings</param>
     /// <param name="auditDetails">the audit details</param>
-    public async Task Update(ResellerSettings model, AuditDetails? auditDetails)
+    public async Task Update(FileDropSettings model, AuditDetails? auditDetails)
     {
         await _semaphore.WaitAsync();
         try
         {
             model.Uid = _Uid;
-            model.Name = nameof(ResellerSettings.Name);
+            model.Name = nameof(FileDropSettings.Name);
             Instance = model;
             await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(Instance, auditDetails);
         }

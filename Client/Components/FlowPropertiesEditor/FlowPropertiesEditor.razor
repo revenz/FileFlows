@@ -7,15 +7,15 @@
 
 @if (Mode == "General")
 {
-    if (Flow.Type == FlowType.Reseller)
+    if (Flow.Type == FlowType.FileDrop)
     {
-        Flow.ResellerOptions ??= new();
+        Flow.FileDropOptions ??= new();
         <InputTextArea @bind-Value="@Flow.Description" Label="Pages.Flow.Fields.Description" OnChangedValue="(v) => MarkDirty()"/>
         <InputIconPicker @bind-Value="@Flow.Icon" Label="Pages.Flow.Fields.Icon" OnChangedValue="(v) => MarkDirty()"/>
-        <InputNumber TItem="Int32" @bind-Value="Flow.ResellerOptions.Tokens" Label="Pages.Flow.Fields.Tokens" OnChangedValue="(v) => MarkDirty()"/>
-        <InputFileSize @bind-Value="Flow.ResellerOptions.MaxFileSize" Label="Pages.Flow.Fields.MaxFileSize" OnChangedValue="(v) => MarkDirty()"/>
-        <InputSelect @bind-Value="BoundPreviewMode" Label="Pages.Flow.Fields.PreviewMode" Options="@resellerPreviewModes" OnChangedValue="(v) => MarkDirty()"/>
-        <InputArray @bind-Value="Flow.ResellerOptions.Extensions" Label="Pages.Flow.Fields.Extensions" OnChangedValue="(v) => MarkDirty()"/>
+        <InputNumber TItem="Int32" @bind-Value="Flow.FileDropOptions.Tokens" Label="Pages.Flow.Fields.Tokens" OnChangedValue="(v) => MarkDirty()"/>
+        <InputFileSize @bind-Value="Flow.FileDropOptions.MaxFileSize" Label="Pages.Flow.Fields.MaxFileSize" OnChangedValue="(v) => MarkDirty()"/>
+        <InputSelect @bind-Value="BoundPreviewMode" Label="Pages.Flow.Fields.PreviewMode" Options="@fileDropPreviewModes" OnChangedValue="(v) => MarkDirty()"/>
+        <InputArray @bind-Value="Flow.FileDropOptions.Extensions" Label="Pages.Flow.Fields.Extensions" OnChangedValue="(v) => MarkDirty()"/>
     }
     else if (Flow.Type != FlowType.SubFlow)
     {

@@ -92,14 +92,14 @@ public class LibraryFileFilter
     public LibraryFilterSystemInfo SysInfo { get; set; } = new();
     
     /// <summary>
-    /// Gets or sets a UID of a reseller user who this file belongs to
+    /// Gets or sets a UID of a file drop user who this file belongs to
     /// </summary>
-    public Guid? ResellerUserUid { get; set; }
+    public Guid? FileDropUserUid { get; set; }
     
     /// <summary>
-    /// Gets or sets a UID of a reseller flow who this file belongs to
+    /// Gets or sets a UID of a file drop flow who this file belongs to
     /// </summary>
-    public Guid? ResellerFlowUid { get; set; }
+    public Guid? FileDropFlowUid { get; set; }
 
     /// <summary>
     /// Tests if a file matches the filter
@@ -179,9 +179,9 @@ public class LibraryFileFilter
             return false;
         if (TagUid != null && file.Tags?.Contains(TagUid.Value) != true)
             return false;
-        if (ResellerUserUid != null && file.Additional?.ResellerUserUid != ResellerUserUid)
+        if (FileDropUserUid != null && file.Additional?.FileDropUserUid != FileDropUserUid)
             return false;
-        if (ResellerFlowUid != null && file.Additional?.ResellerFlowUid != ResellerFlowUid)
+        if (FileDropFlowUid != null && file.Additional?.FileDropFlowUid != FileDropFlowUid)
             return false;
 
         return true;

@@ -1,6 +1,6 @@
 using FileFlows.WebServer.Authentication;
 using FileFlows.Services;
-using FileFlows.Services.ResellerServices;
+using FileFlows.Services.FileDropServices;
 using FileFlows.Shared.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -47,14 +47,14 @@ public class FlowController : Controller
         => ServiceLoader.Load<FlowService>().GetFailureFlow(libraryUid);
 
     /// <summary>
-    /// Gets a reseller users name
+    /// Gets a file drop users name
     /// </summary>
-    /// <param name="resellerUserUid">the UID of the reseller user</param>
-    /// <returns>the reseller users username or empty if not found</returns>
-    [HttpGet("reseller-user/{resellerUserUid}/name")]
-    public async Task<string> GetResellerUserUserName([FromRoute] Guid resellerUserUid)
+    /// <param name="fileDropUserUid">the UID of the file drop user</param>
+    /// <returns>the file drop users username or empty if not found</returns>
+    [HttpGet("file-drop-user/{fileDropUserUid}/name")]
+    public async Task<string> GetFileDropUserUserName([FromRoute] Guid fileDropUserUid)
     {
-        var user = await ServiceLoader.Load<ResellerUserService>().GetByUid(resellerUserUid);
+        var user = await ServiceLoader.Load<FileDropUserService>().GetByUid(fileDropUserUid);
         return user?.Name ?? string.Empty;
     }
 }

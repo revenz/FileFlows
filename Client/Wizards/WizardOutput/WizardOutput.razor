@@ -15,8 +15,8 @@
             <InputSwitch @bind-Value="DeleteOld" Label="Dialogs.NewFlowCommon.Fields.DeleteOld"/>
         </div>
     </FlowRadioGroupItem>
-    @if (IsReseller)
+    @if (IsFileDrop)
     {
-        <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-people-carry" TLabel="ResellerMove" />
+        <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-tint" TLabel="FileDropMove" />
     }
 </FlowRadioGroup>

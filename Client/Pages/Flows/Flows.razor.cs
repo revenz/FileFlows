@@ -28,7 +28,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
     private List<FlowListModel> DataStandard = new();
     private List<FlowListModel> DataSubFlows = new();
     private List<FlowListModel> DataFailure = new();
-    private List<FlowListModel> DataReseller = new();
+    private List<FlowListModel> DataFileDrop = new();
     private FlowType SelectedType = FlowType.Standard;
 
     public override string FetchUrl => ApiUrl + "/list-all";
@@ -56,7 +56,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         //NavigationManager.NavigateTo("flows/" + Guid.Empty);
         _ = ModalService.ShowModal<NewFlowWizard, Flow>(new NewFlowWizardOptions()
         {
-            ResellerFlow = Profile.LicensedFor(LicenseFlags.Reseller) && Skybox.SelectedItem.Value is FlowType.Reseller 
+            FileDropFlow = Profile.LicensedFor(LicenseFlags.FileDrop) && Skybox.SelectedItem.Value is FlowType.FileDrop 
         });
     }
 
@@ -169,7 +169,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         this.DataFailure = this.Data.Where(x => x.Type == FlowType.Failure).ToList();
         this.DataStandard = this.Data.Where(x => x.Type == FlowType.Standard).ToList();
         this.DataSubFlows = this.Data.Where(x => x.Type == FlowType.SubFlow).ToList();
-        this.DataReseller = this.Data.Where(x => x.Type == FlowType.Reseller).ToList();
+        this.DataFileDrop = this.Data.Where(x => x.Type == FlowType.FileDrop).ToList();
         this.Skybox.SetItems(new List<FlowSkyBoxItem<FlowType>>()
         {
             new ()
@@ -193,12 +193,12 @@ public partial class Flows : ListPage<Guid, FlowListModel>
                 Count = this.DataFailure.Count,
                 Value = FlowType.Failure
             },
-            Profile.LicensedFor(LicenseFlags.Reseller) ? new ()
+            Profile.LicensedFor(LicenseFlags.FileDrop) ? new ()
             {
-                Name = Translater.Instant("Pages.Flows.Labels.ResellerFlows"),
-                Icon = "fas fa-people-carry",
-                Count = this.DataReseller.Count,
-                Value = FlowType.Reseller
+                Name = Translater.Instant("Pages.Flows.Labels.FileDropFlows"),
+                Icon = "fas fa-tint",
+                Count = this.DataFileDrop.Count,
+                Value = FlowType.FileDrop
             } : null
         }.Where(x => x != null).ToList(), this.SelectedType);
     }

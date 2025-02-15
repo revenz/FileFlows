@@ -2,16 +2,16 @@ using FileFlows.Client.Components;
 using FileFlows.Client.Components.Inputs;
 using FileFlows.Plugin;
 
-namespace FileFlows.Client.Pages.Reseller;
+namespace FileFlows.Client.Pages.FileDrop;
 
 /// <summary>
-/// Reseller Users editor
+/// File Drop Users editor
 /// </summary>
-public partial class ResellerUsers
+public partial class FileDropUsers
 {
 
     /// <inheritdoc />
-    public override async Task<bool> Edit(ResellerUser item)
+    public override async Task<bool> Edit(FileDropUser item)
     {
         var fields = new List<IFlowField>();
         fields.Add(new ElementField()
@@ -53,9 +53,9 @@ public partial class ResellerUsers
         
         await Editor.Open(new()
         {
-            TypeName = "Pages.Reseller.User", Title = "Pages.Reseller.User.Title", Model = item,
+            TypeName = "Pages.FileDrop.User", Title = "Pages.FileDrop.User.Title", Model = item,
             SaveCallback = Save, Fields = fields,
-            HelpUrl = "https://fileflows.com/docs/webconsole/reseller/users"
+            HelpUrl = "https://fileflows.com/docs/webconsole/file-drop/users"
         });
         return true;
     }
@@ -72,7 +72,7 @@ public partial class ResellerUsers
 
         try
         {
-            var saveResult = await HttpHelper.Post<ResellerUser>($"{ApiUrl}", model);
+            var saveResult = await HttpHelper.Post<FileDropUser>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
                 Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));

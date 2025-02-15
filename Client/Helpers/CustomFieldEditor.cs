@@ -152,7 +152,7 @@ public class CustomFieldEditor(Editor editor, Flow flow)
         
         var result = await editor.Open(new()
         {
-            TypeName = "Pages.Resellers.Flows", Title = "Pages.Resellers.Flows.Single", Model = GetEditingModel(editingItem),
+            TypeName = "Pages.FileDrop.Flows", Title = "Pages.FileDrop.Flows.Single", Model = GetEditingModel(editingItem),
             Fields = fields, SaveCallback = (ExpandoObject model) =>
             {
                 var saving = ExpandoToCustomField(model);

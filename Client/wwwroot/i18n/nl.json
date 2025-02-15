@@ -335,10 +335,10 @@
         "OutputPathRequired": "Het uitvoerpad is vereist."
       },
       "Output": {
+        "FileDropMove": "Bestand Verplaatsen",
+        "FileDropMoveDescription": "Verplaatst het bestand naar een tijdelijke map die uniek is voor de gebruiker om te downloaden. Het bestand wordt automatisch verwijderd na een bepaalde tijd.",
         "ReplaceOriginal": "Vervang Origineel",
         "ReplaceOriginalDescription": "Vervang het originele bestand door het geconverteerde bestand.",
-        "ResellerMove": "Reseller Verplaatsen",
-        "ResellerMoveDescription": "Verplaatst het bestand naar een tijdelijke map die uniek is voor de gebruiker om te downloaden. Het bestand wordt automatisch verwijderd na een bepaalde tijd.",
         "SaveToFolder": "Opslaan in map",
         "SaveToFolderDescription": "Sla het geconverteerde bestand op op een nieuwe locatie."
       },
@@ -932,6 +932,7 @@
     "Admin": "Admin",
     "Configuration": "Configuratie",
     "Extensions": "Extensies",
+    "FileDrop": "File Drop",
     "Information": "Informatie",
     "Overview": "Overzicht",
     "Security": "Beveiliging",
@@ -1166,6 +1167,7 @@
       "Title": "Stromen",
       "Labels": {
         "FailureFlows": "Foutstromen",
+        "FileDropFlows": "File Drop Flows",
         "StandardFlows": "Standaardstromen",
         "SubFlows": "Substromen"
       },
@@ -1724,6 +1726,7 @@
           "Key": "Licentie Sleutel",
           "Level": "Niveau",
           "ProcessingNodes": "Verwerkingsnodes",
+          "ResellerUsers": "",
           "Status": "Status"
         },
         "Security": {

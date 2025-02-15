@@ -335,10 +335,10 @@
         "OutputPathRequired": "Der Ausgabepfad ist erforderlich."
       },
       "Output": {
+        "FileDropMove": "Dateiablage Verschieben",
+        "FileDropMoveDescription": "Verschiebt die Datei in einen temporären Ordner, der dem Benutzer zum Herunterladen zur Verfügung steht. Die Datei wird nach einer festgelegten Zeit automatisch gelöscht.",
         "ReplaceOriginal": "Original ersetzen",
         "ReplaceOriginalDescription": "Ersetzt die Originaldatei durch die konvertierte Datei.",
-        "ResellerMove": "Wiederverkäufer Verschieben",
-        "ResellerMoveDescription": "Verschiebt die Datei in einen temporären Ordner, der dem Benutzer zum Herunterladen zur Verfügung steht. Die Datei wird nach einer festgelegten Zeit automatisch gelöscht.",
         "SaveToFolder": "In Ordner speichern",
         "SaveToFolderDescription": "Speichert die konvertierte Datei in einem neuen Speicherort."
       },
@@ -932,6 +932,7 @@
     "Admin": "Admin",
     "Configuration": "Konfiguration",
     "Extensions": "Erweiterungen",
+    "FileDrop": "File Drop",
     "Information": "Informationen",
     "Overview": "Übersicht",
     "Security": "Sicherheit",
@@ -1166,6 +1167,7 @@
       "Title": "Flows",
       "Labels": {
         "FailureFlows": "Fehler flows",
+        "FileDropFlows": "File Drop Flows",
         "StandardFlows": "Standard Flows",
         "SubFlows": "Unter Flows"
       },
@@ -1724,6 +1726,7 @@
           "Key": "Lizenzschlüssel",
           "Level": "Stufe",
           "ProcessingNodes": "Processing Nodes",
+          "ResellerUsers": "",
           "Status": "Status"
         },
         "Security": {

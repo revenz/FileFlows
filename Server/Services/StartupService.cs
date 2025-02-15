@@ -4,7 +4,7 @@ using FileFlows.Server.Helpers;
 using FileFlows.Server.Workers;
 using FileFlows.ServerShared.Workers;
 using FileFlows.Services;
-using FileFlows.Services.ResellerServices;
+using FileFlows.Services.FileDropServices;
 using FileFlows.Shared.Models;
 using FileFlows.WebServer;
 using LibraryFileService = FileFlows.RemoteServices.LibraryFileService;
@@ -114,7 +114,7 @@ public class StartupService : IStartupService
             // Start workers right at the end, so the ServerUrl is set in case the worker needs BaseServerUrl
             StartupWorkers();
 
-            StartResellerServer();
+            StartFileDropServer();
             
             WebServerApp.FullyStarted = true;
             return true;
@@ -131,15 +131,15 @@ public class StartupService : IStartupService
         }
     }
 
-    private void StartResellerServer()
+    private void StartFileDropServer()
     {
 #if(!DEBUG)
-        if (LicenseService.IsLicensed(LicenseFlags.Reseller) == false)
+        if (LicenseService.IsLicensed(LicenseFlags.FileDrop) == false)
             return;
 #endif
-        var service = new FileFlows.ResellerApp.ResellerWebService();
-        ServiceLoader.AddSpecialCase<IResellerWebServerService>(service);
-        Logger.Instance?.ILog("Starting Reseller App...");
+        var service = new FileFlows.FileDropApp.FileDropWebService();
+        ServiceLoader.AddSpecialCase<IFileDropWebServerService>(service);
+        Logger.Instance?.ILog("Starting File Drop App...");
         
         service.Start();
     }
@@ -203,7 +203,7 @@ public class StartupService : IStartupService
             new ScheduledReportWorker(),
             new StatisticSyncer(),
             new UpdateWorker(),
-            new ResellerWorker(),
+            new FileDropWorker(),
             new DistributedCacheCleanerWorker()
             //new LibraryFileServiceUpdater()
         );

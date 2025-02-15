@@ -23,9 +23,9 @@ public partial class NewVideoFlowWizard
     private bool CropBlackBars, AttemptHardwareEncode = true;
     private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
     /// <summary>
-    /// If the user is adding a reseller flow
+    /// If the user is adding a file drop flow
     /// </summary>
-    private bool ResellerFlow;
+    private bool FileDropFlow;
     
 
     /// <summary>
@@ -149,7 +149,7 @@ public partial class NewVideoFlowWizard
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
 
         if (Options is NewVideoFlowWizardOptions options)
-            ResellerFlow = options.ResellerFlow;
+            FileDropFlow = options.FileDropFlow;
 
         if (profile.UseGerman)
         {
@@ -345,8 +345,8 @@ public partial class NewVideoFlowWizard
             var flow = builder.Flow;
             flow.Description = Description;
             flow.Icon = "fas fa-video";
-            if (ResellerFlow)
-                flow.Type = FlowType.Reseller;
+            if (FileDropFlow)
+                flow.Type = FlowType.FileDrop;
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
@@ -755,7 +755,7 @@ public partial class NewVideoFlowWizard
 public class NewVideoFlowWizardOptions : IModalOptions
 {
     /// <summary>
-    /// Gets or sets if the user is adding a reseller flow
+    /// Gets or sets if the user is adding a file drop flow
     /// </summary>
-    public bool ResellerFlow { get; set; }
+    public bool FileDropFlow { get; set; }
 }

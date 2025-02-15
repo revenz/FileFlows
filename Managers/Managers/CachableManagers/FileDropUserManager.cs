@@ -3,9 +3,9 @@
 namespace FileFlows.Managers;
 
 /// <summary>
-/// Reseller User Manager
+/// File Drop User Manager
 /// </summary>
-public class ResellerUserManager : CachedManager<ResellerUser>
+public class FileDropUserManager : CachedManager<FileDropUser>
 {
     /// <summary>
     /// Force using cache
@@ -22,7 +22,7 @@ public class ResellerUserManager : CachedManager<ResellerUser>
     /// <param name="picture">The users picture.</param>
     /// <param name="auditDetails">Optional audit details</param>
     /// <returns>The mapped or newly created local user.</returns>
-    public async Task<Result<ResellerUser>> GetOrCreateLocalUser(string provider,
+    public async Task<Result<FileDropUser>> GetOrCreateLocalUser(string provider,
         string providerUid,
         string email,
         string name,
@@ -30,11 +30,11 @@ public class ResellerUserManager : CachedManager<ResellerUser>
     {
         var existing = await GetUserFromProviderInfo(provider, providerUid, email);
         if (existing.Failed(out var error))
-            return Result<ResellerUser>.Fail(error);
+            return Result<FileDropUser>.Fail(error);
         if (existing.Value != null)
             return existing.Value;
         
-        ResellerUser user = new();
+        FileDropUser user = new();
         user.Email = email.ToLower();
         user.Provider = provider;
         user.ProviderUid = providerUid;
@@ -50,7 +50,7 @@ public class ResellerUserManager : CachedManager<ResellerUser>
     /// <param name="providerUid">The UID of the user from the Provider</param>
     /// <param name="email">The user's email address.</param>
     /// <returns>The user if one exists, otherwise null</returns>
-    private async Task<Result<ResellerUser?>> GetUserFromProviderInfo(string provider, string providerUid, string email)
+    private async Task<Result<FileDropUser?>> GetUserFromProviderInfo(string provider, string providerUid, string email)
     {
         var data = await GetData();
         var user = data.FirstOrDefault(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
@@ -64,14 +64,14 @@ public class ResellerUserManager : CachedManager<ResellerUser>
         
         return null;
 
-        Result<ResellerUser?> ValidateUser(ResellerUser rUser)
+        Result<FileDropUser?> ValidateUser(FileDropUser rUser)
         {
             if (rUser.Email.Equals(email, StringComparison.OrdinalIgnoreCase) == false)
-                return Result<ResellerUser?>.Fail("Email address not valid for this user.");
+                return Result<FileDropUser?>.Fail("Email address not valid for this user.");
             if (rUser.Provider.Equals(provider, StringComparison.OrdinalIgnoreCase) == false)
-                return Result<ResellerUser?>.Fail("Email address registered to different user.");
+                return Result<FileDropUser?>.Fail("Email address registered to different user.");
             if (rUser.ProviderUid.Equals(providerUid, StringComparison.OrdinalIgnoreCase) == false)
-                return Result<ResellerUser?>.Fail("Email address registered to different user.");
+                return Result<FileDropUser?>.Fail("Email address registered to different user.");
             return rUser;
         }
     }
@@ -80,13 +80,13 @@ public class ResellerUserManager : CachedManager<ResellerUser>
     /// <summary>
     /// Gives the specified number of tokens to the user
     /// </summary>
-    /// <param name="resellerUserUid">The UID of the reseller user</param>
+    /// <param name="fileDropUserUid">The UID of the file drop user</param>
     /// <param name="tokens">the number of tokens to give</param>
     /// <param name="auditDetails">Optional audit details</param>
     /// <returns>the number of tokens the user now has</returns>
-    public async Task<int> GiveTokens(Guid resellerUserUid, int tokens, AuditDetails? auditDetails = null)
+    public async Task<int> GiveTokens(Guid fileDropUserUid, int tokens, AuditDetails? auditDetails = null)
     {
-        var user = await GetByUid(resellerUserUid);
+        var user = await GetByUid(fileDropUserUid);
         if (user == null)
             return 0;
         user.Tokens += tokens;
@@ -97,13 +97,13 @@ public class ResellerUserManager : CachedManager<ResellerUser>
     /// <summary>
     /// Takes the specified number of tokens to the user
     /// </summary>
-    /// <param name="resellerUserUid">The UID of the reseller user</param>
+    /// <param name="fileDropUserUid">The UID of the file drop user</param>
     /// <param name="tokens">the number of tokens to tale</param>
     /// <param name="auditDetails">Optional audit details</param>
     /// <returns>the number of tokens the user now has</returns>
-    public async Task<Result<int>> TakeTokens(Guid resellerUserUid, int tokens, AuditDetails? auditDetails = null)
+    public async Task<Result<int>> TakeTokens(Guid fileDropUserUid, int tokens, AuditDetails? auditDetails = null)
     {
-        var user = await GetByUid(resellerUserUid);
+        var user = await GetByUid(fileDropUserUid);
         if (user == null)
             return Result<int>.Fail("User not found.");
         if(user.Tokens < tokens)
@@ -116,12 +116,12 @@ public class ResellerUserManager : CachedManager<ResellerUser>
     /// <summary>
     /// Sets the specified number of tokens to the user
     /// </summary>
-    /// <param name="resellerUserUid">The UID of the reseller user</param>
+    /// <param name="fileDropUserUid">The UID of the file drop user</param>
     /// <param name="tokens">the number of tokens to set</param>
     /// <param name="auditDetails">Optional audit details</param>
-    public async Task SetTokens(Guid resellerUserUid, int tokens, AuditDetails? auditDetails = null)
+    public async Task SetTokens(Guid fileDropUserUid, int tokens, AuditDetails? auditDetails = null)
     {
-        var user = await GetByUid(resellerUserUid);
+        var user = await GetByUid(fileDropUserUid);
         if (user == null)
             return;
         user.Tokens = tokens;

@@ -1233,7 +1233,7 @@ internal class DbLibraryFileManager : BaseManager
                 sql += $" and {Wrap(nameof(LibraryFile.Tags))} LIKE '%{args.TagUid.Value}%'";
 
 
-            if (args.ResellerUserUid != null && args.ResellerUserUid != Guid.Empty)
+            if (args.FileDropUserUid != null && args.FileDropUserUid != Guid.Empty)
             {
                 sql += $" and {Wrap(nameof(LibraryFile.Additional))} <> '' ";
                 string col = $"{Wrap(nameof(LibraryFile))}.{Wrap(nameof(LibraryFile.Additional))}";
@@ -1241,23 +1241,23 @@ internal class DbLibraryFileManager : BaseManager
                 {
                     case DatabaseType.MySql:
                         sql +=
-                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.ResellerUserUid)}') = '{args.ResellerUserUid}' ";
+                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.FileDropUserUid)}') = '{args.FileDropUserUid}' ";
                         break;
                     case DatabaseType.Postgres:
-                        sql += $" and {col}::jsonb->>'{nameof(LibraryFile.Additional.ResellerUserUid)}' = '{args.ResellerUserUid}' ";
+                        sql += $" and {col}::jsonb->>'{nameof(LibraryFile.Additional.FileDropUserUid)}' = '{args.FileDropUserUid}' ";
                         break;
                     case DatabaseType.Sqlite:
                         sql +=
-                            $" and json_extract({col}, '$.{nameof(LibraryFile.Additional.ResellerUserUid)}') = '{args.ResellerUserUid}' ";
+                            $" and json_extract({col}, '$.{nameof(LibraryFile.Additional.FileDropUserUid)}') = '{args.FileDropUserUid}' ";
                         break;
                     case DatabaseType.SqlServer:
                         sql +=
-                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.ResellerUserUid)}') = '{args.ResellerUserUid}' ";
+                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.FileDropUserUid)}') = '{args.FileDropUserUid}' ";
                         break;
                 }
             }
 
-            if (args.ResellerFlowUid != null && args.ResellerFlowUid != Guid.Empty)
+            if (args.FileDropFlowUid != null && args.FileDropFlowUid != Guid.Empty)
             {
                 sql += $" and {Wrap(nameof(LibraryFile.Additional))} <> '' ";
                 string col = $"{Wrap(nameof(LibraryFile))}.{Wrap(nameof(LibraryFile.Additional))}";
@@ -1265,18 +1265,18 @@ internal class DbLibraryFileManager : BaseManager
                 {
                     case DatabaseType.MySql:
                         sql +=
-                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.ResellerFlowUid)}') = '{args.ResellerFlowUid}'";
+                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.FileDropFlowUid)}') = '{args.FileDropFlowUid}'";
                         break;
                     case DatabaseType.Postgres:
-                        sql += $" and {col}::jsonb->>'{nameof(LibraryFile.Additional.ResellerFlowUid)}' = '{args.ResellerFlowUid}'";
+                        sql += $" and {col}::jsonb->>'{nameof(LibraryFile.Additional.FileDropFlowUid)}' = '{args.FileDropFlowUid}'";
                         break;
                     case DatabaseType.Sqlite:
                         sql +=
-                            $" and json_extract({col}, '$.{nameof(LibraryFile.Additional.ResellerFlowUid)}') = '{args.ResellerFlowUid}'";
+                            $" and json_extract({col}, '$.{nameof(LibraryFile.Additional.FileDropFlowUid)}') = '{args.FileDropFlowUid}'";
                         break;
                     case DatabaseType.SqlServer:
                         sql +=
-                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.ResellerFlowUid)}') = '{args.ResellerFlowUid}'";
+                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.FileDropFlowUid)}') = '{args.FileDropFlowUid}'";
                         break;
                 }
             }

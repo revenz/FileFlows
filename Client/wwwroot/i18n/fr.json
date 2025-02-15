@@ -335,10 +335,10 @@
         "OutputPathRequired": "Le chemin de sortie est obligatoire."
       },
       "Output": {
+        "FileDropMove": "Déplacer le fichier",
+        "FileDropMoveDescription": "Déplace le fichier dans un dossier temporaire unique pour l'utilisateur afin qu'il puisse le télécharger. Le fichier sera automatiquement supprimé après une période de temps définie.",
         "ReplaceOriginal": "Remplacer l'original",
         "ReplaceOriginalDescription": "Remplace le fichier original par celui converti.",
-        "ResellerMove": "Déplacement du revendeur",
-        "ResellerMoveDescription": "Déplace le fichier dans un dossier temporaire unique pour l'utilisateur afin qu'il puisse le télécharger. Le fichier sera automatiquement supprimé après une période de temps définie.",
         "SaveToFolder": "Enregistrer dans un dossier",
         "SaveToFolderDescription": "Enregistre le fichier converti dans un nouvel emplacement."
       },
@@ -932,6 +932,7 @@
     "Admin": "Admin",
     "Configuration": "Configuration",
     "Extensions": "Extensions",
+    "FileDrop": "File Drop",
     "Information": "Information",
     "Overview": "Aperçu",
     "Security": "Sécurité",
@@ -1166,6 +1167,7 @@
       "Title": "Flow",
       "Labels": {
         "FailureFlows": "Flow d'Échec",
+        "FileDropFlows": "File Drop Flows",
         "StandardFlows": "Flow Standards",
         "SubFlows": "Sous-Flow"
       },
@@ -1724,6 +1726,7 @@
           "Key": "Clé de licence",
           "Level": "Niveau",
           "ProcessingNodes": "Nœuds de traitement",
+          "ResellerUsers": "",
           "Status": "Statut"
         },
         "Security": {

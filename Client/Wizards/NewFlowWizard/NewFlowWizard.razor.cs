@@ -71,9 +71,9 @@ public partial class NewFlowWizard : IModal
     private Guid FlowUid = Guid.Empty;
     private List<Flow> Flows = new List<Flow>();
     /// <summary>
-    /// If the user is adding a reseller flow
+    /// If the user is adding a file drop  flow
     /// </summary>
-    private bool ResellerFlow;
+    private bool FileDropFlow;
 
     /// <summary>
     /// A dictionary of all available flow elements
@@ -102,7 +102,7 @@ public partial class NewFlowWizard : IModal
                 }
             }
 
-            ResellerFlow = options.ResellerFlow;
+            FileDropFlow = options.FileDropFlow;
         }
         
         initDone = true;
@@ -317,7 +317,7 @@ public partial class NewFlowWizard : IModal
             case 0: // Convert Video
             {
                 var result = await ModalService.ShowModal<NewVideoFlowWizard, Flow>(new NewVideoFlowWizardOptions() {
-                    ResellerFlow = ResellerFlow
+                    FileDropFlow = FileDropFlow
                 });
                 if (result.Success(out var newFlow))
                     return newFlow;
@@ -329,7 +329,7 @@ public partial class NewFlowWizard : IModal
             {
                 var result =
                     await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions() {
-                        ResellerFlow = ResellerFlow
+                        FileDropFlow = FileDropFlow
                     });
                 if (result.Success(out var newFlow))
                     return newFlow;
@@ -351,7 +351,7 @@ public partial class NewFlowWizard : IModal
             case 0: // Convert Audio
             {
                 var result = await ModalService.ShowModal<NewAudioFlowWizard, Flow>(new NewAudioFlowWizardOptions() {
-                    ResellerFlow = ResellerFlow
+                    FileDropFlow = FileDropFlow
                 });
                 if (result.Success(out var newFlow))
                     return newFlow;
@@ -362,7 +362,7 @@ public partial class NewFlowWizard : IModal
             case 2: // Audio to Video
             {
                 var result = await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions() {
-                    ResellerFlow = ResellerFlow
+                    FileDropFlow = FileDropFlow
                 });
                 if (result.Success(out var newFlow))
                     return newFlow;
@@ -384,7 +384,7 @@ public partial class NewFlowWizard : IModal
             {
                 var result = await ModalService.ShowModal<NewImageFlowWizard, Flow>(new NewImageFlowWizardOptions()
                 {
-                    ResellerFlow = ResellerFlow
+                    FileDropFlow = FileDropFlow
                 });
                 if (result.Success(out var newFlow))
                     return newFlow;
@@ -410,7 +410,7 @@ public partial class NewFlowWizard : IModal
             {
                 var result = await ModalService.ShowModal<NewComicFlowWizard, Flow>(new NewComicFlowWizardOptions()
                 {
-                    ResellerFlow = ResellerFlow
+                    FileDropFlow = FileDropFlow
                 });
                 if (result.Success(out var newFlow))
                     return newFlow;
@@ -437,8 +437,8 @@ public partial class NewFlowWizard : IModal
             flow.Type = FlowType.SubFlow;
         else if (inputFlowElementUid == FlowElementUids.FlowFailure)
             flow.Type = FlowType.Failure;
-        else if (ResellerFlow)
-            flow.Type = FlowType.Reseller;
+        else if (FileDropFlow)
+            flow.Type = FlowType.FileDrop;
         var part =
             new FlowPart()
             {
@@ -517,7 +517,7 @@ public class NewFlowWizardOptions : IModalOptions
     public bool DontAutoNavigateTo { get; set; }
     
     /// <summary>
-    /// Gets or sets if the user is adding a reseller flow
+    /// Gets or sets if the user is adding a file drop flow
     /// </summary>
-    public bool ResellerFlow { get; set; }
+    public bool FileDropFlow { get; set; }
 }

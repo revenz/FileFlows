@@ -15,7 +15,7 @@ public partial class WizardOutput : ComponentBase
     [Inject] private ProfileService ProfileService { get; set; }
     
     private string OutputPath;
-    private bool DeleteOld, IsWindows, IsReseller;
+    private bool DeleteOld, IsWindows, IsFileDrop;
     private int OutputMode = 0;
 
     /// <inheritdoc />
@@ -23,7 +23,7 @@ public partial class WizardOutput : ComponentBase
     {
         var profile = await ProfileService.Get();
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
-        IsReseller = profile.LicensedFor(LicenseFlags.Reseller);
+        IsFileDrop = profile.LicensedFor(LicenseFlags.FileDrop);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public partial class WizardOutput : ComponentBase
         }
         else if (OutputMode == 2)
         {
-            // reseller
+            // file drop
             fpOutput = builder.AddAndConnect(new FlowPart()
             {
                 FlowElementUid = FlowElementUids.MoveToUserFolder,

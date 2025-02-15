@@ -18,7 +18,7 @@
 }
     <FlowTable @ref="Table" Data="@(SelectedType == FlowType.Failure ? DataFailure : 
 SelectedType == FlowType.SubFlow ? DataSubFlows :
-SelectedType == FlowType.Reseller ? DataReseller : 
+SelectedType == FlowType.FileDrop ? DataFileDrop : 
 DataStandard)" TItem="FlowListModel" Selection="SelectionMode.Multiple"
             DoubleClick="@OnDoubleClick" TableIdentifier=@TableIdentifier>
             <ToolBar>            

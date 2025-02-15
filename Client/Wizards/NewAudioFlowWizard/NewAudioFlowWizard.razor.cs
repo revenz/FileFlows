@@ -30,9 +30,9 @@ public partial class NewAudioFlowWizard
     /// </summary>
     private FlowWizard Wizard { get; set; }
     /// <summary>
-    /// If the user is adding a reseller flow
+    /// If the user is adding a file drop flow
     /// </summary>
-    private bool ResellerFlow;
+    private bool FileDropFlow;
 
     // if the initialization has been done
     private bool initDone;
@@ -67,7 +67,7 @@ public partial class NewAudioFlowWizard
     protected override async Task OnInitializedAsync()
     {
         if (Options is NewAudioFlowWizardOptions options)
-            ResellerFlow = options.ResellerFlow;
+            FileDropFlow = options.FileDropFlow;
         
         var profile = await ProfileService.Get(); 
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
@@ -197,7 +197,7 @@ public partial class NewAudioFlowWizard
 public class NewAudioFlowWizardOptions : IModalOptions
 {
     /// <summary>
-    /// Gets or sets if the user is adding a reseller flow
+    /// Gets or sets if the user is adding a file drop flow
     /// </summary>
-    public bool ResellerFlow { get; set; }
+    public bool FileDropFlow { get; set; }
 }

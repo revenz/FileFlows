@@ -72,11 +72,11 @@ public partial class FlowPropertiesEditor
         }
     }
 
-    private List<ListOption> resellerPreviewModes=
+    private List<ListOption> fileDropPreviewModes=
     [
-        new() { Label = "List", Value = ResellerPreviewMode.List },
-        new() { Label = "Images", Value = ResellerPreviewMode.Images },
-        new() { Label = "Thumbnails", Value = ResellerPreviewMode.Thumbnails }
+        new() { Label = "List", Value = FileDropPreviewMode.List },
+        new() { Label = "Images", Value = FileDropPreviewMode.Images },
+        new() { Label = "Thumbnails", Value = FileDropPreviewMode.Thumbnails }
     ];
 
     protected override void OnInitialized()
@@ -112,11 +112,11 @@ public partial class FlowPropertiesEditor
     /// </summary>
     private object BoundPreviewMode
     {
-        get => Flow.ResellerOptions.PreviewMode;
+        get => Flow.FileDropOptions.PreviewMode;
         set
         {
-            if (value is ResellerPreviewMode v)
-                Flow.ResellerOptions.PreviewMode = v;
+            if (value is FileDropPreviewMode v)
+                Flow.FileDropOptions.PreviewMode = v;
         }
     }
 

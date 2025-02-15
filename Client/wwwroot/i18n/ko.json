@@ -335,10 +335,10 @@
         "OutputPathRequired": "출력 경로는 필수입니다."
       },
       "Output": {
+        "FileDropMove": "파일 드롭 이동",
+        "FileDropMoveDescription": "사용자가 다운로드할 수 있도록 사용자 고유의 임시 폴더로 파일을 이동합니다. 파일은 설정된 시간이 지나면 자동으로 삭제됩니다.",
         "ReplaceOriginal": "원본 교체",
         "ReplaceOriginalDescription": "원본 파일을 변환된 파일로 교체합니다.",
-        "ResellerMove": "리셀러 이동",
-        "ResellerMoveDescription": "사용자가 다운로드할 수 있도록 사용자 고유의 임시 폴더로 파일을 이동합니다. 파일은 설정된 시간이 지나면 자동으로 삭제됩니다.",
         "SaveToFolder": "폴더에 저장",
         "SaveToFolderDescription": "변환된 파일을 새로운 위치에 저장합니다."
       },
@@ -932,6 +932,7 @@
     "Admin": "관리",
     "Configuration": "구성",
     "Extensions": "확장",
+    "FileDrop": "File Drop",
     "Information": "정보",
     "Overview": "개요",
     "Security": "보안",
@@ -1166,6 +1167,7 @@
       "Title": "흐름",
       "Labels": {
         "FailureFlows": "실패 흐름",
+        "FileDropFlows": "File Drop Flows",
         "StandardFlows": "표준 흐름",
         "SubFlows": "서브 흐름"
       },
@@ -1724,6 +1726,7 @@
           "Key": "라이센스 키",
           "Level": "레벨",
           "ProcessingNodes": "처리 노드",
+          "ResellerUsers": "",
           "Status": "상태"
         },
         "Security": {

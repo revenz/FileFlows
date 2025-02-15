@@ -338,22 +338,22 @@ public class LibraryFileAdditional
     public string? Version { get; set; } = null;
     
     /// <summary>
-    /// Gets or sets a UID of a reseller user who this file belongs to
+    /// Gets or sets a UID of a file drop user who this file belongs to
     /// </summary>
-    public Guid? ResellerUserUid { get; set; }
+    public Guid? FileDropUserUid { get; set; }
     
     /// <summary>
-    /// Gets or sets a username of the reseller user who this file belongs to
+    /// Gets or sets a username of the file drop user who this file belongs to
     /// </summary>
-    public string ResellerUserName { get; set; }
+    public string FileDropUserName { get; set; }
     
     /// <summary>
-    /// Gets or sets a UID of a reseller flow who this file belongs to
+    /// Gets or sets a UID of a file drop flow who this file belongs to
     /// </summary>
-    public Guid? ResellerFlowUid { get; set; }
+    public Guid? FileDropFlowUid { get; set; }
     /// <summary>
     /// Gets or sets the original short name of a file.
-    /// This is only used for reseller files to display to reseller users.
+    /// This is only used for file drop files to display to file drop users.
     /// </summary>
     public string? ShortName { get; set; }
     

@@ -335,10 +335,10 @@
         "OutputPathRequired": "出力パスは必須です。"
       },
       "Output": {
+        "FileDropMove": "ファイルドロップ移動",
+        "FileDropMoveDescription": "ユーザー専用の一時フォルダにファイルを移動し、ダウンロードできるようにします。ファイルは設定された期間が経過した後に自動的に削除されます。",
         "ReplaceOriginal": "元を置き換える",
         "ReplaceOriginalDescription": "元のファイルを変換後のファイルで置き換えます。",
-        "ResellerMove": "リセラームーブ",
-        "ResellerMoveDescription": "ユーザー専用の一時フォルダにファイルを移動し、ダウンロードできるようにします。ファイルは設定された期間が経過した後に自動的に削除されます。",
         "SaveToFolder": "フォルダーに保存",
         "SaveToFolderDescription": "変換されたファイルを新しい場所に保存します。"
       },
@@ -932,6 +932,7 @@
     "Admin": "管理者",
     "Configuration": "設定",
     "Extensions": "拡張機能",
+    "FileDrop": "File Drop",
     "Information": "情報",
     "Overview": "概要",
     "Security": "セキュリティ",
@@ -1166,6 +1167,7 @@
       "Title": "フロー",
       "Labels": {
         "FailureFlows": "失敗フロー",
+        "FileDropFlows": "File Drop Flows",
         "StandardFlows": "標準フロー",
         "SubFlows": "サブフロー"
       },
@@ -1724,6 +1726,7 @@
           "Key": "ライセンスキー",
           "Level": "レベル",
           "ProcessingNodes": "処理ノード",
+          "ResellerUsers": "",
           "Status": "ステータス"
         },
         "Security": {

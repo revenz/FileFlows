@@ -77,15 +77,15 @@ public class Flow : FileFlowObject
     public List<CustomField> Fields { get; set; }
     
     /// <summary>
-    /// Gets or sets the options for a reseller flow
+    /// Gets or sets the options for a file drop flow
     /// </summary>
-    public ResellerFlowOptions? ResellerOptions { get; set; }
+    public FileDropOptions? FileDropOptions { get; set; }
 }
 
 /// <summary>
-/// Options for a reseller flow
+/// Options for a file drop flow
 /// </summary>
-public class ResellerFlowOptions
+public class FileDropOptions
 {
     /// <summary>
     /// Gets or sets the token cost of this flow
@@ -105,5 +105,5 @@ public class ResellerFlowOptions
     /// <summary>
     /// Preview mode 
     /// </summary>
-    public ResellerPreviewMode PreviewMode { get; set; }
+    public FileDropPreviewMode PreviewMode { get; set; }
 }

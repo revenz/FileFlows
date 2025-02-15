@@ -76,9 +76,9 @@ public enum FlowType
     /// </summary>
     SubFlow = 2,
     /// <summary>
-    /// A reseller flow
+    /// A file drop flow
     /// </summary>
-    Reseller
+    FileDrop
 }
 
 
@@ -336,9 +336,9 @@ public enum LicenseFlags
     /// </summary>
     Reporting = 8192,
     /// <summary>
-    /// Reseller license
+    /// File Drop license
     /// </summary>
-    Reseller = 16384,
+    FileDrop = 16384,
 }
 
 /// <summary>

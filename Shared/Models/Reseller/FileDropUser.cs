@@ -1,9 +1,9 @@
 namespace FileFlows.Shared.Models;
 
 /// <summary>
-/// Reseller User
+/// File Drop User
 /// </summary>
-public class ResellerUser : FileFlowObject
+public class FileDropUser : FileFlowObject
 {
     /// <summary>
     /// Gets or sets the provider of this user

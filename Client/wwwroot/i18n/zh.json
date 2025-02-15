@@ -335,10 +335,10 @@
         "OutputPathRequired": "输出路径是必需的。"
       },
       "Output": {
+        "FileDropMove": "文件移動",
+        "FileDropMoveDescription": "将文件移动到用户专用的临时文件夹以供下载。文件将在设定的时间后自动删除。",
         "ReplaceOriginal": "替换原文件",
         "ReplaceOriginalDescription": "用转换后的文件替换原文件。",
-        "ResellerMove": "经销商移动",
-        "ResellerMoveDescription": "将文件移动到用户专用的临时文件夹以供下载。文件将在设定的时间后自动删除。",
         "SaveToFolder": "保存到文件夹",
         "SaveToFolderDescription": "将转换后的文件保存到新位置。"
       },
@@ -932,6 +932,7 @@
     "Admin": "管理员",
     "Configuration": "配置",
     "Extensions": "扩展",
+    "FileDrop": "File Drop",
     "Information": "信息",
     "Overview": "概述",
     "Security": "安全",
@@ -1166,6 +1167,7 @@
       "Title": "流程",
       "Labels": {
         "FailureFlows": "失败流程",
+        "FileDropFlows": "File Drop Flows",
         "StandardFlows": "标准流程",
         "SubFlows": "子流程"
       },
@@ -1724,6 +1726,7 @@
           "Key": "许可证密钥",
           "Level": "级别",
           "ProcessingNodes": "处理节点",
+          "ResellerUsers": "",
           "Status": "状态"
         },
         "Security": {

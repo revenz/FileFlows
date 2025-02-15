@@ -335,10 +335,10 @@
         "OutputPathRequired": "Utmatningsväg är obligatorisk."
       },
       "Output": {
+        "FileDropMove": "Flytta fil",
+        "FileDropMoveDescription": "Flyttar filen till en temporär mapp som är unik för användaren för nedladdning. Filen tas automatiskt bort efter en angiven tidsperiod.",
         "ReplaceOriginal": "Ersätt original",
         "ReplaceOriginalDescription": "Ersätt originalfilen med den konverterade filen.",
-        "ResellerMove": "Återförsäljare Flytta",
-        "ResellerMoveDescription": "Flyttar filen till en temporär mapp som är unik för användaren för nedladdning. Filen tas automatiskt bort efter en angiven tidsperiod.",
         "SaveToFolder": "Spara i mapp",
         "SaveToFolderDescription": "Spara den konverterade filen på en ny plats."
       },
@@ -932,6 +932,7 @@
     "Admin": "Admin",
     "Configuration": "Konfiguration",
     "Extensions": "Tillägg",
+    "FileDrop": "File Drop",
     "Information": "Information",
     "Overview": "Översikt",
     "Security": "Säkerhet",
@@ -1166,6 +1167,7 @@
       "Title": "Flöden",
       "Labels": {
         "FailureFlows": "Misslyckade flöden",
+        "FileDropFlows": "File Drop Flows",
         "StandardFlows": "Standardflöden",
         "SubFlows": "Underskrifter"
       },
@@ -1724,6 +1726,7 @@
           "Key": "Licensnyckel",
           "Level": "Nivå",
           "ProcessingNodes": "Bearbetningsnoder",
+          "ResellerUsers": "",
           "Status": "Status"
         },
         "Security": {

@@ -1,13 +1,13 @@
-@namespace FileFlows.Client.Pages.Reseller
-@inherits ListPage<Guid, ResellerUser>
+@namespace FileFlows.Client.Pages.FileDrop
+@inherits ListPage<Guid, FileDropUser>
 
-@page "/reseller/users"
+@page "/file-drop/users"
 
 
 <PageView Flex="@true">
     <Body>
 
-    <FlowTable @ref="Table" Data="@Data" TItem="ResellerUser" Selection="SelectionMode.Multiple"
+    <FlowTable @ref="Table" Data="@Data" TItem="FileDropUser" Selection="SelectionMode.Multiple"
                DoubleClick="@OnDoubleClick"
                ShowPager=@true TotalItems=@TotalItems OnPageChange=@PageChange OnPageSizeChange=@PageSizeChange 
     >
@@ -15,11 +15,11 @@
             <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
             <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
             <FlowTableButtonSeparator />
-            <FlowTableHelpButton HelpUrl="reseller/users"/>
+            <FlowTableHelpButton HelpUrl="file-drop/users"/>
         </ToolBar>
 
         <Columns>
-            <FlowTableColumn TItem="ResellerUser" NoHeight="true">
+            <FlowTableColumn TItem="FileDropUser" NoHeight="true">
                 <Header>
                     <div class="header">
                         <span class="column-header"></span>

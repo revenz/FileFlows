@@ -335,10 +335,10 @@
         "OutputPathRequired": "Il percorso di uscita è obbligatorio."
       },
       "Output": {
+        "FileDropMove": "Sposta il file",
+        "FileDropMoveDescription": "Sposta il file in una cartella temporanea unica per l'utente per il download. Il file verrà eliminato automaticamente dopo un periodo di tempo stabilito.",
         "ReplaceOriginal": "Sostituisci Originale",
         "ReplaceOriginalDescription": "Sostituisce il file originale con quello convertito.",
-        "ResellerMove": "Spostamento del rivenditore",
-        "ResellerMoveDescription": "Sposta il file in una cartella temporanea unica per l'utente per il download. Il file verrà eliminato automaticamente dopo un periodo di tempo stabilito.",
         "SaveToFolder": "Salva in una cartella",
         "SaveToFolderDescription": "Salva il file convertito in una nuova posizione."
       },
@@ -932,6 +932,7 @@
     "Admin": "Amministrazione",
     "Configuration": "Configurazione",
     "Extensions": "Estensioni",
+    "FileDrop": "File Drop",
     "Information": "Informazioni",
     "Overview": "Panoramica",
     "Security": "Sicurezza",
@@ -1166,6 +1167,7 @@
       "Title": "Flussi",
       "Labels": {
         "FailureFlows": "Flussi di Errore",
+        "FileDropFlows": "File Drop Flows",
         "StandardFlows": "Flussi Standard",
         "SubFlows": "Sottoflussi"
       },
@@ -1724,6 +1726,7 @@
           "Key": "Chiave di Licenza",
           "Level": "Livello",
           "ProcessingNodes": "Nodi di Elaborazione",
+          "ResellerUsers": "",
           "Status": "Stato"
         },
         "Security": {

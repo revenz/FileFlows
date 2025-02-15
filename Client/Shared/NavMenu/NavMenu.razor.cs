@@ -232,16 +232,16 @@ public partial class NavMenu : IDisposable
             }
         });
 
-        if (Profile.LicensedFor(LicenseFlags.Reseller))
+        if (Profile.LicensedFor(LicenseFlags.FileDrop))
         {
             MenuItems.Add(new NavMenuGroup
             {
-                Name = Translater.Instant("MenuGroups.Reseller"),
-                Icon = "fas fa-people-carry",
+                Name = Translater.Instant("MenuGroups.FileDrop"),
+                Icon = "fas fa-tint",
                 Items = new List<NavMenuItem>
                 {
-                    new ("Settings", "fas fa-people-carry", "reseller/settings"),
-                    new ("Users", "fas fa-user-astronaut", "reseller/users")
+                    new ("Settings", "fas fa-tint", "file-drop/settings"),
+                    new ("Users", "fas fa-user-astronaut", "file-drop/users")
                 }
             });
         }

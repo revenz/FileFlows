@@ -158,6 +158,10 @@
                         <InputText Value=@Model.LicenseProcessingNodes.ToString() Label="Pages.Settings.Fields.License.ProcessingNodes" ReadOnly="true"/>
                         @if (IsLicensed)
                         {
+                            @if ((Model.LicenseFlags & LicenseFlags.FileDrop) == LicenseFlags.FileDrop)
+                            {
+                                <InputText Value="@Model.LicensedFileDropUsers.ToString()" Label="Pages.Settings.Fields.License.FileDropUsers" ReadOnly="true" />
+                            }
                             <InputText Value=@Model.LicenseExpiryDate.ToString("f") Label="Pages.Settings.Fields.License.ExpiryDate" ReadOnly="true"/>
                             <InputTextArea @bind-Value=@LicenseFlagsString Label="Pages.Settings.Fields.License.Flags" ReadOnly="true" Rows="10"/>
                         }

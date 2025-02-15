@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileFlowsTests", "FileFlows
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xBuild", "xBuild\xBuild.csproj", "{1C111E4D-6913-4F1D-8EE4-E3B2A21F389B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResellerApp", "..\FileFlowsAdditional\ResellerApp\ResellerApp.csproj", "{C574CD95-ED87-47E2-B4F7-73514082C30A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileDropApp", "..\FileFlowsAdditional\FileDropApp\FileDropApp.csproj", "{C574CD95-ED87-47E2-B4F7-73514082C30A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "WebServer\WebServer.csproj", "{66CE747F-5BCD-400E-BD54-3EEA9A710AC8}"
 EndProject

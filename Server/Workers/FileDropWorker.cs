@@ -1,19 +1,19 @@
 using FileFlows.ServerShared.Workers;
 using FileFlows.Services;
-using FileFlows.Services.ResellerServices;
+using FileFlows.Services.FileDropServices;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.Server.Workers;
 
 /// <summary>
-/// Worker responsible for cleaning up old reseller files
+/// Worker responsible for cleaning up old file drop files
 /// </summary>
-public class ResellerWorker : Worker
+public class FileDropWorker : Worker
 {
     /// <summary>
     /// Constructs a new instance of the worker
     /// </summary>
-    public ResellerWorker() : base(ScheduleType.Hourly, 3, false)
+    public FileDropWorker() : base(ScheduleType.Hourly, 3, false)
     {
         var service = ServiceLoader.Load<FlowRunnerService>();
         service.OnFileFinished += ServiceOnOnFileFinished;
@@ -25,7 +25,7 @@ public class ResellerWorker : Worker
     /// <param name="file">the file that finished processing</param>
     private void ServiceOnOnFileFinished(LibraryFile file)
     {
-        if (file.Additional?.ResellerUserUid == null || file.Additional?.ResellerFlowUid == null)
+        if (file.Additional?.FileDropUserUid == null || file.Additional?.FileDropFlowUid == null)
             return; // nothing to do 
 
         if (file.Status != FileStatus.ProcessingFailed)
@@ -33,23 +33,23 @@ public class ResellerWorker : Worker
 
         _ = Task.Run(async () =>
         {
-            var resellerFlow = await ServiceLoader.Load<FlowService>().GetByUidAsync(file.Additional.ResellerFlowUid.Value);
-            if (resellerFlow == null || resellerFlow.Type != FlowType.Reseller || resellerFlow.ResellerOptions == null)
+            var fileDropFlow = await ServiceLoader.Load<FlowService>().GetByUidAsync(file.Additional.FileDropFlowUid.Value);
+            if (fileDropFlow == null || fileDropFlow.Type != FlowType.FileDrop || fileDropFlow.FileDropOptions == null)
                 return;
 
-            if (resellerFlow.ResellerOptions.Tokens < 1)
+            if (fileDropFlow.FileDropOptions.Tokens < 1)
                 return; // no tokens
             
             // give the user the tokens back
-            var userService = ServiceLoader.Load<ResellerUserService>();
-            await userService.GiveTokens(file.Additional.ResellerUserUid.Value, resellerFlow.ResellerOptions.Tokens);
+            var userService = ServiceLoader.Load<FileDropUserService>();
+            await userService.GiveTokens(file.Additional.FileDropUserUid.Value, fileDropFlow.FileDropOptions.Tokens);
         });
     }
 
     /// <inheritdoc />
     protected override void Execute()
     {
-        var path = Path.Combine(DirectoryHelper.ManualLibrary, "reseller-users");
+        var path = Path.Combine(DirectoryHelper.ManualLibrary, "file-drop-users");
         if (Directory.Exists(path) == false)
             return; // nothing to do
 

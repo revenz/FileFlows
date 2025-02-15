@@ -34,9 +34,9 @@ public partial class NewComicFlowWizard
     // if the initialization has been done
     private bool initDone;
     /// <summary>
-    /// If the user is adding a reseller flow
+    /// If the user is adding a file drop flow
     /// </summary>
-    private bool ResellerFlow;
+    private bool FileDropFlow;
     
     /// <summary>
     /// Gets or sets bound Format
@@ -55,7 +55,7 @@ public partial class NewComicFlowWizard
     protected override void OnInitialized()
     {
         if (Options is NewComicFlowWizardOptions options)
-            ResellerFlow = options.ResellerFlow;
+            FileDropFlow = options.FileDropFlow;
         ImageFormats =
         [
             new () { Value = "", Label = Translater.Instant("Dialogs.NewComicFlowWizard.Labels.SameAsSource") },
@@ -94,8 +94,8 @@ public partial class NewComicFlowWizard
             var flow = builder.Flow;
             flow.Description = Description;
             flow.Icon = "fas fa-journal-whills";
-            if (ResellerFlow)
-                flow.Type = FlowType.Reseller;
+            if (FileDropFlow)
+                flow.Type = FlowType.FileDrop;
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
@@ -177,7 +177,7 @@ public partial class NewComicFlowWizard
 public class NewComicFlowWizardOptions : IModalOptions
 {
     /// <summary>
-    /// Gets or sets if the user is adding a reseller flow
+    /// Gets or sets if the user is adding a file drop flow
     /// </summary>
-    public bool ResellerFlow { get; set; }
+    public bool FileDropFlow { get; set; }
 }

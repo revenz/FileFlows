@@ -141,6 +141,9 @@ public class SettingsController : BaseController
             license.Files >= 1_000_000_000 ? "Unlimited" : license.Files.ToString();
         settings.LicenseFlags = license?.Flags ?? 0;
         settings.LicenseLevel = license?.Level ?? 0;
+        if(license != null && (license.Flags & LicenseFlags.FileDrop) == LicenseFlags.FileDrop)
+            settings.LicensedFileDropUsers = license.FileDropUsers;
+        
         var licenseService = ServiceLoader.Load<LicenseService>();
         settings.LicenseProcessingNodes = licenseService.GetLicensedProcessingNodes();
         settings.LicenseExpiryDate = license == null ? DateTime.MinValue : license.ExpirationDateUtc.ToLocalTime();

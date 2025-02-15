@@ -2,9 +2,9 @@ namespace FileFlows.Shared.Models;
 
 
 /// <summary>
-/// Reseller preview mode
+/// File Drop preview mode
 /// </summary>
-public enum ResellerPreviewMode
+public enum FileDropPreviewMode
 {
     /// <summary>
     /// Standard list

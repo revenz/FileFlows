@@ -508,7 +508,7 @@ public partial class Flow : ComponentBase, IDisposable
             {
                 // if (FieldsTabOpened)
                 x.CopyValue = $"{part.Uid}.{x.Name}";
-                if (editor.Flow.Type is FlowType.Reseller)
+                if (editor.Flow.Type is FlowType.FileDrop)
                 {
                     x.CustomFieldAction = async void () => await EditCustomVariable(editor, x, part);
                 }
@@ -535,7 +535,7 @@ public partial class Flow : ComponentBase, IDisposable
             InputType = FormInputType.HorizontalRule
         });
 
-        if (FieldsTabOpened && editor.Flow.Type is not FlowType.Reseller &&
+        if (FieldsTabOpened && editor.Flow.Type is not FlowType.FileDrop &&
             part.Type != FlowElementType.Output) // output is for sub flow outputs, we dont want to show the UID
         {
             fields.Insert(0, new ElementField

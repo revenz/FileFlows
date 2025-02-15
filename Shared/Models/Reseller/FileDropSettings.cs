@@ -1,9 +1,9 @@
 namespace FileFlows.Shared.Models;
 
 /// <summary>
-/// Reseller Settings
+/// File Drop Settings
 /// </summary>
-public class ResellerSettings : FileFlowObject
+public class FileDropSettings : FileFlowObject
 {
     /// <summary>
     /// Gets or sets the URL to purchase tokens from
@@ -16,7 +16,7 @@ public class ResellerSettings : FileFlowObject
     public string HomePageHtml { get; set; }
     
     /// <summary>
-    /// Gets or sets the custom port to run the reseller app on
+    /// Gets or sets the custom port to run the file drop app on
     /// </summary>
     public int? CustomPort { get; set; }
     /// <summary>
