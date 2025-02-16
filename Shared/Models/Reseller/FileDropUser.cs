@@ -21,6 +21,11 @@ public class FileDropUser : FileFlowObject
     public string Email { get; set; }
     
     /// <summary>
+    /// Gets or sets the password hash, used by Forms users
+    /// </summary>
+    public string PasswordHash { get; set; }
+    
+    /// <summary>
     /// Gets or sets how many tokens this user currently has
     /// </summary>
     public int Tokens { get; set; }

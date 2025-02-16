@@ -138,4 +138,17 @@ public class FileDropUserManager : CachedManager<FileDropUser>
         var user = await GetByUid(fduUid);
         return user?.Email;
     }
+
+    
+    /// <summary>
+    /// Gets a file drop user by their email
+    /// </summary>
+    /// <param name="email">the email of the file drop user</param>
+    /// <returns>the file drop user if found</returns>
+    public async Task<FileDropUser?> GetByEmail(string email)
+    {
+        var data = await GetData();
+        var user = data.FirstOrDefault(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+        return user;
+    }
 }
