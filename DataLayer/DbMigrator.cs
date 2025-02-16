@@ -41,7 +41,11 @@ internal class DbMigrator
             Logger?.ILog($"Database {(backingUp ? "Backup" : "Migration")} started");
 
             var source = DatabaseAccessManager.FromType(Logger!, sourceInfo.Type, sourceInfo.ConnectionString);
-            var dest = DatabaseAccessManager.FromType(Logger!, destinationInfo.Type, destinationInfo.ConnectionString);
+            // we do not want cache as this will break if the db doesnt exist yet
+            var destType = destinationInfo.Type is DatabaseType.Sqlite or DatabaseType.SqlitePooledConnection
+                ? DatabaseType.SqliteNonCached
+                : destinationInfo.Type; 
+            var dest = DatabaseAccessManager.FromType(Logger!, destType, destinationInfo.ConnectionString);
 
             var destExternal = dest.Type is DatabaseType.Postgres or DatabaseType.MySql or DatabaseType.SqlServer;
             if(destExternal == false)
