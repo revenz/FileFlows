@@ -112,21 +112,4 @@ public class FlowRunnerService : RemoteService, IFlowRunnerService
             Logger.Instance?.WLog("Failed to set thumbnail: " + ex.Message);
         }
     }
-
-    /// <inheritdoc />
-    public async Task<string> GetFileDropUserUsername(Guid fileDropUserUid)
-    {
-        try
-        {
-            var result = await HttpHelper.Get<string>($"{ServiceBaseUrl}/remote/flow/file-drop-user{fileDropUserUid}/name");
-            if (result.Success == false)
-                throw new Exception("Failed to get file drop user username: " + result.Body);
-            return result.Data ?? string.Empty;
-        }
-        catch (Exception ex)
-        {
-            Logger.Instance?.WLog("Failed to get file drop user username: " + ex.Message);
-            return string.Empty;
-        }
-    }
 }

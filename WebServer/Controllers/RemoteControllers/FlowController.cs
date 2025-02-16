@@ -45,16 +45,4 @@ public class FlowController : Controller
     [HttpGet("failure-flow-by-library/{libraryUid}")]
     public Task<Flow?> GetFailureFlow([FromRoute] Guid libraryUid)
         => ServiceLoader.Load<FlowService>().GetFailureFlow(libraryUid);
-
-    /// <summary>
-    /// Gets a file drop users name
-    /// </summary>
-    /// <param name="fileDropUserUid">the UID of the file drop user</param>
-    /// <returns>the file drop users username or empty if not found</returns>
-    [HttpGet("file-drop-user/{fileDropUserUid}/name")]
-    public async Task<string> GetFileDropUserUserName([FromRoute] Guid fileDropUserUid)
-    {
-        var user = await ServiceLoader.Load<FileDropUserService>().GetByUid(fileDropUserUid);
-        return user?.Name ?? string.Empty;
-    }
 }

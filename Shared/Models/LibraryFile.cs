@@ -343,11 +343,6 @@ public class LibraryFileAdditional
     public Guid? FileDropUserUid { get; set; }
     
     /// <summary>
-    /// Gets or sets a username of the file drop user who this file belongs to
-    /// </summary>
-    public string FileDropUserName { get; set; }
-    
-    /// <summary>
     /// Gets or sets a UID of a file drop flow who this file belongs to
     /// </summary>
     public Guid? FileDropFlowUid { get; set; }

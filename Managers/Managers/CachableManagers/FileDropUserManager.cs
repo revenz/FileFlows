@@ -127,4 +127,15 @@ public class FileDropUserManager : CachedManager<FileDropUser>
         user.Tokens = tokens;
         await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(user, auditDetails);
     }
+
+    /// <summary>
+    /// Gets the email address for a user
+    /// </summary>
+    /// <param name="fduUid">the users UID</param>
+    /// <returns>the email address or null if not found</returns>
+    public async Task<string?> GetEmail(Guid fduUid)
+    {
+        var user = await GetByUid(fduUid);
+        return user?.Email;
+    }
 }

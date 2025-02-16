@@ -527,9 +527,7 @@ public class Runner
             Info.LibraryFile.Additional?.FileDropUserUid != Guid.Empty)
         {
             var uid = Info.LibraryFile.Additional.FileDropUserUid.Value;
-            var fdUsername = ServiceLoader.Load<IFlowRunnerService>().GetFileDropUserUsername(uid).Result;
             nodeParameters.Variables["FileDropUserUid"] = uid.ToString();
-            nodeParameters.Variables["FileDropUser"] = fdUsername;
             nodeParameters.Variables["fdUserUid"] = uid.ToString();
             if (string.IsNullOrWhiteSpace(Info.LibraryFile.Additional?.ShortName) == false)
                 nodeParameters.Variables["ShortName"] = Info.LibraryFile.Additional.ShortName;

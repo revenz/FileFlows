@@ -118,8 +118,7 @@ public class LibraryFileController : Controller
             x.Uid,
             x.Name,
             x.LibraryName,
-            DisplayName = ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x.Name, x.RelativePath, x.LibraryName)?.EmptyAsNull() 
-                          ?? x.RelativePath?.EmptyAsNull() ?? x.Name
+            DisplayName = ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x)
         });
         return Ok(results);
     }
@@ -170,9 +169,7 @@ public class LibraryFileController : Controller
                     Regex.IsMatch(x.OutputPath, @"^[\w\d]{2,}:")
                         ? x.OutputPath
                         : // special case for uploaded files e.g. nc: for next cloud
-                        ServiceLoader.Load<FileDisplayNameService>()
-                            .GetDisplayName(x.Name, x.RelativePath, x.LibraryName)?.EmptyAsNull() ??
-                        x.RelativePath?.EmptyAsNull() ?? x.Name;
+                        ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x);
             }
             return new
             {
