@@ -1759,12 +1759,12 @@
         "License": {
           "Email": "Email de la licence",
           "ExpiryDate": "Date d'expiration",
+          "FileDropUsers": "Utilisateurs De FileDrop",
           "Files": "Fichiers",
           "Flags": "Fonctionnalités",
           "Key": "Clé de licence",
           "Level": "Niveau",
           "ProcessingNodes": "Nœuds de traitement",
-          "ResellerUsers": "",
           "Status": "Statut"
         },
         "Security": {

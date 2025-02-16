@@ -1759,12 +1759,12 @@
         "License": {
           "Email": "라이센스 이메일",
           "ExpiryDate": "만료 날짜",
+          "FileDropUsers": "FileDrop 사용자",
           "Files": "파일",
           "Flags": "기능",
           "Key": "라이센스 키",
           "Level": "레벨",
           "ProcessingNodes": "처리 노드",
-          "ResellerUsers": "",
           "Status": "상태"
         },
         "Security": {

@@ -1759,12 +1759,12 @@
         "License": {
           "Email": "Лицензионная электронная почта",
           "ExpiryDate": "Дата окончания",
+          "FileDropUsers": "Пользователи FileDrop",
           "Files": "Файлы",
           "Flags": "Функции",
           "Key": "Лицензионный ключ",
           "Level": "Уровень",
           "ProcessingNodes": "Узлы обработки",
-          "ResellerUsers": "",
           "Status": "Статус"
         },
         "Security": {

@@ -1759,12 +1759,12 @@
         "License": {
           "Email": "许可证电子邮件",
           "ExpiryDate": "到期日期",
+          "FileDropUsers": "FileDrop 用户",
           "Files": "文件",
           "Flags": "功能",
           "Key": "许可证密钥",
           "Level": "级别",
           "ProcessingNodes": "处理节点",
-          "ResellerUsers": "",
           "Status": "状态"
         },
         "Security": {

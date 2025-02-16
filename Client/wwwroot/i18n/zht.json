@@ -1759,12 +1759,12 @@
         "License": {
           "Email": "授權電子郵件",
           "ExpiryDate": "到期日期",
+          "FileDropUsers": "FileDrop 使用者",
           "Files": "文件",
           "Flags": "功能",
           "Key": "授權金鑰",
           "Level": "級別",
           "ProcessingNodes": "處理節點",
-          "ResellerUsers": "",
           "Status": "狀態"
         },
         "Security": {

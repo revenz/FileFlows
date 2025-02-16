@@ -1759,12 +1759,12 @@
         "License": {
           "Email": "Licens E-post",
           "ExpiryDate": "Utgångsdatum",
+          "FileDropUsers": "FileDrop-Användare",
           "Files": "Filer",
           "Flags": "Funktioner",
           "Key": "Licensnyckel",
           "Level": "Nivå",
           "ProcessingNodes": "Bearbetningsnoder",
-          "ResellerUsers": "",
           "Status": "Status"
         },
         "Security": {
