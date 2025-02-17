@@ -23,6 +23,10 @@ public class FileDropSettingsManager
             Name = nameof(FileDropSettings),
             DateCreated = DateTime.Now,
             DateModified = DateTime.Now,
+            FormsMinLength = 8,
+            FormsRequireDigits = true,
+            FormsRequireMixedCase = true,
+            FormsRequireSpecialCharacters = true
         };
         DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(Instance, auditDetails: AuditDetails.ForServer()).Wait();
     }
@@ -49,7 +53,7 @@ public class FileDropSettingsManager
         try
         {
             model.Uid = _Uid;
-            model.Name = nameof(FileDropSettings.Name);
+            model.Name = nameof(FileDropSettings);
             Instance = model;
             await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(Instance, auditDetails);
         }

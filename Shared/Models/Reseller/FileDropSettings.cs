@@ -117,20 +117,20 @@ public class FileDropSettings : FileFlowObject
     /// <summary>
     /// Gets the minimum length for forms passwords
     /// </summary>
-    public int FormsMinLength { get; set; } = 8;
+    public int FormsMinLength { get; set; }
 
     /// <summary>
     /// Gets or sets if forms requires special characters in their passwords
     /// </summary>
-    public bool FormsRequireSpecialCharacters { get; set; } = true;
+    public bool FormsRequireSpecialCharacters { get; set; }
 
     /// <summary>
     /// Gets or sets if forms requires digits characters in their passwords
     /// </summary>
-    public bool FormsRequireDigits { get; set; } = true;
+    public bool FormsRequireDigits { get; set; }
 
     /// <summary>
     /// Gets or sets if forms requires a mixture of upper and lower case characters in their passwords
     /// </summary>
-    public bool FormsRequireMixedCase { get; set; } = true;
+    public bool FormsRequireMixedCase { get; set; }
 }

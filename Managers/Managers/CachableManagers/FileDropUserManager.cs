@@ -1,4 +1,5 @@
 ﻿using FileFlows.ServerShared.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FileFlows.Managers;
 
@@ -19,6 +20,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
     /// <param name="providerUid">The UID of the user from the Provider</param>
     /// <param name="email">The user's email address.</param>
     /// <param name="name">The user's name (if available).</param>
+    /// <param name="tokens">How many tokens to give if creating the user.</param>
     /// <param name="picture">The users picture.</param>
     /// <param name="auditDetails">Optional audit details</param>
     /// <returns>The mapped or newly created local user.</returns>
@@ -26,6 +28,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
         string providerUid,
         string email,
         string name,
+        int tokens,
         string picture, AuditDetails? auditDetails)
     {
         var existing = await GetUserFromProviderInfo(provider, providerUid, email);
@@ -39,6 +42,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
         user.Provider = provider;
         user.ProviderUid = providerUid;
         user.DisplayName = name;
+        user.Tokens = tokens;
         user.Picture = picture ?? string.Empty;
         return await Update(user, auditDetails);
     }
