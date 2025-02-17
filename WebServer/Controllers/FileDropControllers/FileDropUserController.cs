@@ -23,6 +23,27 @@ public class FileDropUserController : BaseController
         var list = await service.GetAll() ?? [];
         return Ok(list.OrderBy(x => x.Name.ToLowerInvariant()));
     }
+    
+    /// <summary>
+    /// Set state of the FileDrop User
+    /// </summary>
+    /// <param name="uid">The UID of the FileDrop</param>
+    /// <param name="enable">Whether or not this FileDrop is enabled</param>
+    /// <returns>an awaited task</returns>
+    [HttpPut("state/{uid}")]
+    public async Task<IActionResult> SetState([FromRoute] Guid uid, [FromQuery] bool? enable)
+    {
+        var service = ServiceLoader.Load<FileDropUserService>();
+        var fdu = await service.GetByUid(uid);
+        if (fdu == null)
+            return BadRequest("FileDrop User not found.");
+        if (enable == null || fdu.Enabled == enable.Value) 
+            return Ok();
+        
+        fdu.Enabled = enable.Value;
+        await service.Update(fdu, await GetAuditDetails());
+        return Ok();
+    }
 
     /// <summary>
     /// Saves a file drop User

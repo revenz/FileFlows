@@ -72,22 +72,13 @@
                             <span class="top-right">
                                     <i class="fas fa-coins"></i>
                                 @item.Tokens
-                            </span>
+                            </span>   
+                            <FlowSwitch Value="@item.Enabled" 
+                                        ValueChanged="@(args => { item.Enabled= args; Enable(args, item); })"
+                                        />
+
                         </div>
                     </div>
-                </Cell>
-            </FlowTableColumn>
-            <FlowTableColumn TItem="FileDropUser" Width="6rem" MobileWidth="4rem">
-                <Header>
-                    @Globals.lblEnabled
-                </Header>
-                <Cell Context="item">
-                    
-                    <FlowSwitch Value="@item.Enabled" ValueChanged="@(args =>
-                                                                    {
-                                                                        item.Enabled = args;
-                                                                        Enable(args, item);
-                                                                    })"/>
                 </Cell>
             </FlowTableColumn>
         </Columns>

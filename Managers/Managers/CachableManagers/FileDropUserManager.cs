@@ -21,7 +21,6 @@ public class FileDropUserManager : CachedManager<FileDropUser>
     /// <param name="email">The user's email address.</param>
     /// <param name="name">The user's name (if available).</param>
     /// <param name="tokens">How many tokens to give if creating the user.</param>
-    /// <param name="picture">The users picture.</param>
     /// <param name="auditDetails">Optional audit details</param>
     /// <returns>The mapped or newly created local user.</returns>
     public async Task<Result<FileDropUser>> GetOrCreateLocalUser(string provider,
@@ -29,7 +28,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
         string email,
         string name,
         int tokens,
-        string picture, AuditDetails? auditDetails)
+        AuditDetails? auditDetails)
     {
         var existing = await GetUserFromProviderInfo(provider, providerUid, email);
         if (existing.Failed(out var error))
@@ -43,7 +42,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
         user.ProviderUid = providerUid;
         user.DisplayName = name;
         user.Tokens = tokens;
-        user.Picture = picture ?? string.Empty;
+        user.Enabled = true;
         return await Update(user, auditDetails);
     }
 
