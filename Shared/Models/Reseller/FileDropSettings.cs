@@ -92,7 +92,7 @@ public class FileDropSettings : FileFlowObject
     /// <summary>
     /// Gets or sets if the token URL should open in a popup or a new tab
     /// </summary>
-    public bool OpenUrlInPopup { get; set; }
+    public bool TokenPurchaseInPopup { get; set; }
     
     /// <summary>
     /// Gets or sets if auto tokens will be given to users
@@ -133,4 +133,9 @@ public class FileDropSettings : FileFlowObject
     /// Gets or sets if forms requires a mixture of upper and lower case characters in their passwords
     /// </summary>
     public bool FormsRequireMixedCase { get; set; }
+
+    /// <summary>
+    /// Gets or sets the length of a session in minutes
+    /// </summary>
+    public int SessionExpireInMinutes { get; set; }
 }

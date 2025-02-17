@@ -13,7 +13,7 @@ public class FileDropWorker : Worker
     /// <summary>
     /// Constructs a new instance of the worker
     /// </summary>
-    public FileDropWorker() : base(ScheduleType.Hourly, 3, false)
+    public FileDropWorker() : base(ScheduleType.Hourly, 1, false)
     {
         var service = ServiceLoader.Load<FlowRunnerService>();
         service.OnFileFinished += ServiceOnOnFileFinished;
@@ -42,6 +42,51 @@ public class FileDropWorker : Worker
 
     /// <inheritdoc />
     protected override void Execute()
+    {
+        CleanUpFileDropFiles();
+        GiveTokens().Wait();
+    }
+
+    /// <summary>
+    /// Gives any tokens to users
+    /// </summary>
+    async Task GiveTokens()
+    {
+        if (LicenseService.IsLicensed(LicenseFlags.FileDrop) == false)
+            return;
+
+        var settings = ServiceLoader.Load<FileDropSettingsService>().Get();
+        if (settings.AutoTokens == false || settings.AutoTokensAmount <= 0 || settings.AutoTokensPeriodMinutes < 60)
+            return;
+
+        var service = ServiceLoader.Load<FileDropUserService>();
+        var fdUsers = await service.GetAll();
+        foreach (var fdUser in fdUsers)
+        {
+            // Check if they received tokens in this interval or not
+            if (fdUser.LastAutoTokensUtc >= DateTime.UtcNow.AddMinutes(-settings.AutoTokensPeriodMinutes))
+                continue;
+
+            if (fdUser.Tokens < settings.AutoTokensMaximum)
+            {
+                // Give them the tokens, make sure their tokens aren't greater than the max
+                int newTotal = Math.Min(settings.AutoTokensMaximum, fdUser.Tokens + settings.AutoTokensAmount);
+                await service.SetTokens(fdUser.Uid, newTotal, autoTokens: true);
+            }
+            else
+            {
+                // Update the LastAutoTokensUtc when no tokens were given
+                fdUser.LastAutoTokensUtc = DateTime.UtcNow;
+                await service.Update(fdUser);
+            }
+        }
+
+    }
+    
+    /// <summary>
+    /// Cleans up any file drop files
+    /// </summary>
+    void CleanUpFileDropFiles()
     {
         var path = Path.Combine(DirectoryHelper.ManualLibrary, "file-drop-users");
         if (Directory.Exists(path) == false)

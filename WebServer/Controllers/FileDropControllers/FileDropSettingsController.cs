@@ -41,6 +41,7 @@ public class FileDropSettingsController : BaseController
         var service = ServiceLoader.Load<FileDropSettingsService>();
         var existing = service.Get();
         bool changed = existing.Enabled != model.Enabled ||
+                       existing.SessionExpireInMinutes != model.SessionExpireInMinutes ||
                        existing.GoogleClientId?.EmptyAsNull() != model.GoogleClientId?.EmptyAsNull() ||
                        existing.GoogleClientSecret?.EmptyAsNull() != model.GoogleClientSecret?.EmptyAsNull() ||
                        existing.MicrosoftClientId?.EmptyAsNull() != model.MicrosoftClientId?.EmptyAsNull() ||

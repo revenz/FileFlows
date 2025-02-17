@@ -35,6 +35,7 @@ public partial class FileDropSettings
 
     private FileFlows.Shared.Models.FileDropSettings Model { get; set; } = new ();
     private List<ListOption> openInOptions;
+    private bool initDone = false;
     
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -65,6 +66,8 @@ public partial class FileDropSettings
         }
         finally
         {
+            initDone = true;
+            StateHasChanged();
             Blocker.Hide();
         }
     }
@@ -119,13 +122,13 @@ public partial class FileDropSettings
     /// <summary>
     /// Gets or sets Open Url In Popup
     /// </summary>
-    private object BoundOpenUrlInPopup
+    private object BoundTokenPurchaseInPopup
     {
-        get => Model.OpenUrlInPopup;
+        get => Model.TokenPurchaseInPopup;
         set
         {
             if (value is bool v)
-                Model.OpenUrlInPopup = v;
+                Model.TokenPurchaseInPopup = v;
         }
     }
 }

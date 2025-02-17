@@ -44,4 +44,9 @@ public class FileDropUser : FileFlowObject
     /// Gets or sets the users picture as a base64 encoded image
     /// </summary>
     public string PictureBase64 { get; set; }
+
+    /// <summary>
+    /// Gets or sets the last time auto tokens were given to this user
+    /// </summary>
+    public DateTime LastAutoTokensUtc { get; set; }
 }

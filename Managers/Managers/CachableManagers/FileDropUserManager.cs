@@ -43,6 +43,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
         user.DisplayName = name;
         user.Tokens = tokens;
         user.Enabled = true;
+        user.LastAutoTokensUtc = DateTime.UtcNow;
         return await Update(user, auditDetails);
     }
 
@@ -121,13 +122,16 @@ public class FileDropUserManager : CachedManager<FileDropUser>
     /// </summary>
     /// <param name="fileDropUserUid">The UID of the file drop user</param>
     /// <param name="tokens">the number of tokens to set</param>
+    /// <param name="autoTokens">if these are auto tokens</param>
     /// <param name="auditDetails">Optional audit details</param>
-    public async Task SetTokens(Guid fileDropUserUid, int tokens, AuditDetails? auditDetails = null)
+    public async Task SetTokens(Guid fileDropUserUid, int tokens, bool autoTokens = false, AuditDetails? auditDetails = null)
     {
         var user = await GetByUid(fileDropUserUid);
         if (user == null)
             return;
         user.Tokens = tokens;
+        if (autoTokens)
+            user.LastAutoTokensUtc = DateTime.UtcNow;
         await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(user, auditDetails);
     }
 

@@ -20,6 +20,7 @@ public class FileDropSettingsManager
         Instance = new FileDropSettings
         {
             Uid = _Uid,
+            SessionExpireInMinutes = 7 * 24 * 60,
             Name = nameof(FileDropSettings),
             DateCreated = DateTime.Now,
             DateModified = DateTime.Now,
