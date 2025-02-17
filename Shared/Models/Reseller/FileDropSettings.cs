@@ -38,7 +38,12 @@ public class FileDropSettings : FileFlowObject
     /// <summary>
     /// Gets or sets the site id for hCaptcha
     /// </summary>
-    public string hCaptchaId { get; set; }
+    public string hCaptchaSiteId { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the secret to verify hCaptcha
+    /// </summary>
+    public string hCaptchaSecret { get; set; }
     
     /// <summary>
     /// Gets or sets the custom port to run the file drop app on
