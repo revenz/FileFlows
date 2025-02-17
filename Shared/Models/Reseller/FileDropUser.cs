@@ -16,9 +16,9 @@ public class FileDropUser : FileFlowObject
     public string ProviderUid { get; set; }
     
     /// <summary>
-    /// Gets or sets the email address of the user
+    /// Gets or sets the display name
     /// </summary>
-    public string Email { get; set; }
+    public string DisplayName { get; set; }
     
     /// <summary>
     /// Gets or sets the password hash, used by Forms users

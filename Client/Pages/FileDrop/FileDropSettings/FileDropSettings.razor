@@ -25,27 +25,18 @@
 <Body>
     <div class="settings">
         <FlowTabs>
-            <FlowTab Title="Labels.General">
-                <p class="info">
-                    To update user tokens in FileFlows you can make a <span class="important">POST</span> request to
-                </p>
-                <ul>
-                    <li><span class="url">@(FileFlowsCallbackUrl)give-tokens/{tokens}</span></li>
-                    <li><span class="url">@(FileFlowsCallbackUrl)set-tokens/{tokens}</span></li>
-                </ul>
-                <p class="info">
-                    This request should be done on your sever side and not in the users browser.
-                </p>
-                <p class="info">
-                    These URLs must be called with the <span class="important">Access Token</span> from <a href="/settings">Settings > Security</a> in the header field <span class="important">Authorize: {AccessToken}</span>.
-                </p>
-                
-                <hr />
-                
-                <InputText @bind-Value="@Model.TokenPurchaseUrl" Label="Token Purchase URL"
-                           Help="This is the URL that will be opened for users to purchase new tokens.  It will include the include the query parameter 'uuid' for the users unique identifier"/>
-                
-                <InputSelect @bind-Value="BoundOpenUrlInPopup" Label="Open In" Options="openInOptions" />
+            <FlowTab Title="General">
+                <InputSwitch @bind-Value="Model.Enabled" Label="Labels.Enabled" Help="Turn on to enable FileDrop." />
+                <InputSwitch @bind-Value="Model.AllowRegistrations" Label="Allowed Registrations" Help="If new users can be registered." />
+                <InputNumber TItem="Int32" @bind-Value="Model.NewUserTokens" Label="New User Tokens" Min="0" Max="1000" Help="The number of tokens to give to new users." />
+                <InputText @bind-Value="Model.hCaptchaId" Label="hCaptcha Site ID" Help="An optional Site ID for hCaptcha. When provided, users must successfully complete the hCaptcha test to register." />
+
+            </FlowTab>
+            <FlowTab Title="Passwords">
+                <InputSlider @bind-Value="Model.FormsMinLength" Min="2" Max="20" Label="Password Lenght" Help="The minimum password length." />
+                <InputSwitch @bind-Value="Model.FormsRequireDigits" Label="Require Digits" Help="If user passwords require digits." />
+                <InputSwitch @bind-Value="Model.FormsRequireDigits" Label="Require Mixed Casing" Help="If user passwords require a mixture of lower and upper case characters." />
+                <InputSwitch @bind-Value="Model.FormsRequireSpecialCharacters" Label="Require Special Characters" Help="If user passwords require a special character." />
             </FlowTab>
             <FlowTab Title="Single Sign On">
                 <h3>Google</h3>
@@ -62,7 +53,7 @@
                 <InputText @bind-Value=@Model.MicrosoftClientSecret Label="Secret ID"/>
 
                 <hr/>
-                ser does not have enough tokens.
+                
                 <h3>Custom</h3>
                 <InputText @bind-Value=@Model.CustomProviderName Label="Name"/>
                 <InputText @bind-Value=@Model.CustomProviderAuthority Label="Authority"/>
@@ -70,11 +61,46 @@
                 <InputText @bind-Value=@Model.CustomProviderClientSecret Label="Client Secret"/>
             </FlowTab>
             <FlowTab Title="Home Page">
+                <div style="display:flex;flex-direction: column;height: calc(100% - 1rem)">
+                    
                 <p>Here you can customise the home page for logged in users and set the custom HTML to show to the user.</p>
                 <p>If this is left blank, then the user will not have a home page and the first alphabetical flow will be their defacto landing page.</p>
 
                 <InputCode Language="html" @bind-Value="Model.HomePageHtml"/>
+                </div>
             </FlowTab>
+            <FlowTab Title="Custom CSS">
+                <div style="display:flex;flex-direction: column;height: calc(100% - 1rem)">
+
+                    <p>Here you can add custom CSS that will be added to every page in FileDrop.</p>
+
+                    <InputCode Language="css" @bind-Value="Model.CustomCss"/>
+                </div>
+            </FlowTab>
+
+            <FlowTab Title="Tokens">
+                <p class="info">
+                    To update user tokens in FileFlows you can make a <span class="important">POST</span> request to
+                </p>
+                <ul>
+                    <li><span class="url">@(FileFlowsCallbackUrl)give-tokens/{tokens}</span></li>
+                    <li><span class="url">@(FileFlowsCallbackUrl)set-tokens/{tokens}</span></li>
+                </ul>
+                <p class="info">
+                    This request should be done on your sever side and not in the users browser.
+                </p>
+                <p class="info">
+                    These URLs must be called with the <span class="important">Access Token</span> from <a href="/settings">Settings > Security</a> in the header field <span class="important">Authorize: {AccessToken}</span>.
+                </p>
+
+                <hr/>
+
+                <InputText @bind-Value="@Model.TokenPurchaseUrl" Label="Token Purchase URL"
+                           Help="This is the URL that will be opened for users to purchase new tokens.  It will include the include the query parameter 'uuid' for the users unique identifier"/>
+
+                <InputSelect @bind-Value="BoundOpenUrlInPopup" Label="Open In" Options="openInOptions"/>
+            </FlowTab>
+            
             <FlowTab Title="Auto Tokens">
                 <p>This feature allows you to configure automated token distribution for each user. For example, you can
                     allocate 10 free tokens daily to each user, with a cap of 100 tokens. If a user already has 90 tokens,

@@ -40,10 +40,15 @@ public class FileDropSettingsController : BaseController
 
         var service = ServiceLoader.Load<FileDropSettingsService>();
         await service.Save(model, await GetAuditDetails());
-        
-        if(ServiceLoader.TryLoad<IFileDropWebServerService>(out var webService))
-            webService.Restart();
-        
+
+        if (ServiceLoader.TryLoad<IFileDropWebServerService>(out var webService))
+        {
+            if(model.Enabled)
+                webService.Restart();
+            else
+                webService.Stop();
+        }
+
         return Ok();
     }
 

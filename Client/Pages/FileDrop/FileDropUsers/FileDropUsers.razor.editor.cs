@@ -34,7 +34,7 @@ public partial class FileDropUsers
         });
         fields.Add(new ElementField()
         {
-            Name = nameof(item.Email),
+            Name = nameof(item.Name),
             InputType = FormInputType.Text,
             Parameters = new ()
             {

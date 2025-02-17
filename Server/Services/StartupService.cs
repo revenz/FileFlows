@@ -139,9 +139,13 @@ public class StartupService : IStartupService
 #endif
         var service = new FileFlows.FileDropApp.FileDropWebService();
         ServiceLoader.AddSpecialCase<IFileDropWebServerService>(service);
-        Logger.Instance?.ILog("Starting File Drop App...");
         
-        service.Start();
+        var settings = ServiceLoader.Load<FileDropSettingsService>().Get();
+        if (settings.Enabled)
+        {
+            Logger.Instance?.ILog("Starting File Drop App...");
+            service.Start();
+        }
     }
 
     /// <summary>

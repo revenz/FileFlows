@@ -202,6 +202,7 @@ public class Application
         FileFlows.Services.ServiceLoader.AddSpecialCase<IStartupService>(new StartupService());
         FileFlows.Services.ServiceLoader.AddSpecialCase<IPluginScanner>(new PluginScanner());
         FileFlows.Services.ServiceLoader.AddSpecialCase<ISystemEventsService>(new SystemEvents());
+        FileFlows.Services.ServiceLoader.AddSpecialCase<IEmailService>(new EmailService());
     }
 
     /// <summary>

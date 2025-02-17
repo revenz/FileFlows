@@ -6,6 +6,21 @@ namespace FileFlows.Shared.Models;
 public class FileDropSettings : FileFlowObject
 {
     /// <summary>
+    /// Gets or sets if File Drop is enabled
+    /// </summary>
+    public bool Enabled { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if users are allowed to register
+    /// </summary>
+    public bool AllowRegistrations { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the amount of tokens to give to new users
+    /// </summary>
+    public int NewUserTokens { get; set; }
+    
+    /// <summary>
     /// Gets or sets the URL to purchase tokens from
     /// </summary>
     public string TokenPurchaseUrl { get; set; }
@@ -14,6 +29,16 @@ public class FileDropSettings : FileFlowObject
     /// Gets or set the home page HTML for logged in users
     /// </summary>
     public string HomePageHtml { get; set; }
+    
+    /// <summary>
+    /// Gets or set the custom CSS
+    /// </summary>
+    public string CustomCss { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the site id for hCaptcha
+    /// </summary>
+    public string hCaptchaId { get; set; }
     
     /// <summary>
     /// Gets or sets the custom port to run the file drop app on
@@ -83,4 +108,24 @@ public class FileDropSettings : FileFlowObject
     /// Gets or sets the auto tokens period
     /// </summary>
     public int AutoTokensPeriodMinutes { get; set; }
+
+    /// <summary>
+    /// Gets the minimum length for forms passwords
+    /// </summary>
+    public int FormsMinLength { get; set; } = 8;
+
+    /// <summary>
+    /// Gets or sets if forms requires special characters in their passwords
+    /// </summary>
+    public bool FormsRequireSpecialCharacters { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets if forms requires digits characters in their passwords
+    /// </summary>
+    public bool FormsRequireDigits { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets if forms requires a mixture of upper and lower case characters in their passwords
+    /// </summary>
+    public bool FormsRequireMixedCase { get; set; } = true;
 }

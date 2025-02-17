@@ -35,10 +35,10 @@ public class FileDropUserManager : CachedManager<FileDropUser>
             return existing.Value;
         
         FileDropUser user = new();
-        user.Email = email.ToLower();
+        user.Name = email.ToLower();
         user.Provider = provider;
         user.ProviderUid = providerUid;
-        user.Name = name;
+        user.DisplayName = name;
         user.Picture = picture ?? string.Empty;
         return await Update(user, auditDetails);
     }
@@ -53,7 +53,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
     private async Task<Result<FileDropUser?>> GetUserFromProviderInfo(string provider, string providerUid, string email)
     {
         var data = await GetData();
-        var user = data.FirstOrDefault(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+        var user = data.FirstOrDefault(x => x.Name.Equals(email, StringComparison.OrdinalIgnoreCase));
         if (user != null)
             return ValidateUser(user);
 
@@ -66,7 +66,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
 
         Result<FileDropUser?> ValidateUser(FileDropUser rUser)
         {
-            if (rUser.Email.Equals(email, StringComparison.OrdinalIgnoreCase) == false)
+            if (rUser.Name.Equals(email, StringComparison.OrdinalIgnoreCase) == false)
                 return Result<FileDropUser?>.Fail("Email address not valid for this user.");
             if (rUser.Provider.Equals(provider, StringComparison.OrdinalIgnoreCase) == false)
                 return Result<FileDropUser?>.Fail("Email address registered to different user.");
@@ -136,19 +136,15 @@ public class FileDropUserManager : CachedManager<FileDropUser>
     public async Task<string?> GetEmail(Guid fduUid)
     {
         var user = await GetByUid(fduUid);
-        return user?.Email;
+        return user?.Name;
     }
 
-    
+
     /// <summary>
     /// Gets a file drop user by their email
     /// </summary>
     /// <param name="email">the email of the file drop user</param>
     /// <returns>the file drop user if found</returns>
     public async Task<FileDropUser?> GetByEmail(string email)
-    {
-        var data = await GetData();
-        var user = data.FirstOrDefault(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
-        return user;
-    }
+        => await GetByName(email); // the name is their email
 }
