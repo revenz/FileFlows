@@ -1130,6 +1130,19 @@
         "Updating": "Bijwerken"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "FileDrop-instellingen"
+      },
+      "User": {
+        "Plural": "FileDrop-gebruikers",
+        "Title": "FileDrop-gebruiker",
+        "Fields": {
+          "Provider": "Provider",
+          "Tokens": "Tokens"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "Taak"
     },

@@ -25,7 +25,7 @@ public partial class FileDropUsers : ListPage<Guid, FileDropUser>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        lblPageTitle = Translater.Instant("Pages.FileDrop.Flows.Title");
+        lblPageTitle = Translater.Instant("Pages.FileDrop.User.Plural");
     }
 
     /// <inheritdoc />

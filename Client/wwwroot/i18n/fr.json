@@ -1130,6 +1130,19 @@
         "Updating": "Mise à jour"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "Paramètres de FileDrop"
+      },
+      "User": {
+        "Plural": "Utilisateurs de FileDrop",
+        "Title": "Utilisateur de FileDrop",
+        "Fields": {
+          "Provider": "Fournisseur",
+          "Tokens": "Jetons"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "Tâche"
     },

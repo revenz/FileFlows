@@ -1130,6 +1130,19 @@
         "Updating": "更新中"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "FileDropの設定"
+      },
+      "User": {
+        "Plural": "FileDropユーザー",
+        "Title": "FileDropユーザー",
+        "Fields": {
+          "Provider": "プロバイダー",
+          "Tokens": "トークン"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "タスク"
     },

@@ -1130,6 +1130,19 @@
         "Updating": "Updating"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "FileDrop Settings"
+      },
+      "User": {
+        "Plural": "FileDrop Users",
+        "Title": "FileDrop User",
+        "Fields": {
+          "Provider": "Provider",
+          "Tokens": "Tokens"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "Task"
     },

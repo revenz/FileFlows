@@ -1130,6 +1130,19 @@
         "Updating": "Uppdaterar"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "FileDrop-inställningar"
+      },
+      "User": {
+        "Plural": "FileDrop-användare",
+        "Title": "FileDrop-användare",
+        "Fields": {
+          "Provider": "Leverantör",
+          "Tokens": "Token"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "Uppgift"
     },

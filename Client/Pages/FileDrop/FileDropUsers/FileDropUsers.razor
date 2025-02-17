@@ -4,7 +4,7 @@
 @page "/file-drop/users"
 
 
-<PageView Flex="@true">
+<PageView Flex="@true" Title="@lblPageTitle">
     <Body>
 
     <FlowTable @ref="Table" Data="@Data" TItem="FileDropUser" Selection="SelectionMode.Multiple"
@@ -28,7 +28,7 @@
                 <Cell Context="item">
                     <div class="table-item">
                             <span class="icon">
-                                <TableItemIcon Icon="@item.Picture" DefaultIcon="fas fa-user" />
+                                <TableItemIcon Icon="@item.PictureBase64" DefaultIcon="fas fa-user" />
                             </span>
                         <div class="center">
                                 <span class="name">
@@ -75,6 +75,19 @@
                             </span>
                         </div>
                     </div>
+                </Cell>
+            </FlowTableColumn>
+            <FlowTableColumn TItem="FileDropUser" Width="6rem" MobileWidth="4rem">
+                <Header>
+                    @Globals.lblEnabled
+                </Header>
+                <Cell Context="item">
+                    
+                    <FlowSwitch Value="@item.Enabled" ValueChanged="@(args =>
+                                                                    {
+                                                                        item.Enabled = args;
+                                                                        Enable(args, item);
+                                                                    })"/>
                 </Cell>
             </FlowTableColumn>
         </Columns>

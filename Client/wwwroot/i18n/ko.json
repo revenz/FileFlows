@@ -1130,6 +1130,19 @@
         "Updating": "업데이트 중"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "FileDrop 설정"
+      },
+      "User": {
+        "Plural": "FileDrop 사용자",
+        "Title": "FileDrop 사용자",
+        "Fields": {
+          "Provider": "제공자",
+          "Tokens": "토큰"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "작업"
     },

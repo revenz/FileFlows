@@ -26,12 +26,22 @@ public class FileDropUser : FileFlowObject
     public string PasswordHash { get; set; }
     
     /// <summary>
+    /// Gets or sets if this user is enabled
+    /// </summary>
+    public bool Enabled { get; set; }
+    
+    /// <summary>
     /// Gets or sets how many tokens this user currently has
     /// </summary>
     public int Tokens { get; set; }
     
     /// <summary>
-    /// Gets or sets the users pictures
+    /// Gets or sets the users pictures from the source
     /// </summary>
     public string Picture { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the users picture as a base64 encoded image
+    /// </summary>
+    public string PictureBase64 { get; set; }
 }

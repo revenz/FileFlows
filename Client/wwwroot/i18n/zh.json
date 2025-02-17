@@ -1130,6 +1130,19 @@
         "Updating": "更新中"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "FileDrop设置"
+      },
+      "User": {
+        "Plural": "FileDrop用户",
+        "Title": "FileDrop用户",
+        "Fields": {
+          "Provider": "提供者",
+          "Tokens": "令牌"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "任务"
     },

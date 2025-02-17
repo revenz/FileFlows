@@ -30,7 +30,7 @@ public partial class FileDropSettings
     protected Profile Profile { get; private set; }
     private bool IsSaving { get; set; }
 
-    private string lblSave, lblSaving, lblHelp;
+    private string lblTitle, lblSave, lblSaving, lblHelp;
     private string FileFlowsCallbackUrl;
 
     private FileFlows.Shared.Models.FileDropSettings Model { get; set; } = new ();
@@ -54,6 +54,7 @@ public partial class FileDropSettings
 
         FileFlowsCallbackUrl = NavigationManager.BaseUri + "api/file-drop/user/{uuid}/";
         
+        lblTitle = Translater.Instant("Pages.FileDrop.Settings.Title");
         lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
         lblHelp = Translater.Instant("Labels.Help");

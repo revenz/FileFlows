@@ -1130,6 +1130,19 @@
         "Updating": "Обновление"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "Настройки FileDrop"
+      },
+      "User": {
+        "Plural": "Пользователи FileDrop",
+        "Title": "Пользователь FileDrop",
+        "Fields": {
+          "Provider": "Поставщик",
+          "Tokens": "Токены"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "Задача"
     },
