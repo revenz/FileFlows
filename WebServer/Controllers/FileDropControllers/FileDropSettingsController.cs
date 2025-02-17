@@ -39,12 +39,27 @@ public class FileDropSettingsController : BaseController
             return BadRequest();
 
         var service = ServiceLoader.Load<FileDropSettingsService>();
+        var existing = service.Get();
+        bool changed = existing.Enabled != model.Enabled ||
+                       existing.GoogleClientId?.EmptyAsNull() != model.GoogleClientId?.EmptyAsNull() ||
+                       existing.GoogleClientSecret?.EmptyAsNull() != model.GoogleClientSecret?.EmptyAsNull() ||
+                       existing.MicrosoftClientId?.EmptyAsNull() != model.MicrosoftClientId?.EmptyAsNull() ||
+                       existing.MicrosoftClientSecret?.EmptyAsNull() != model.MicrosoftClientSecret?.EmptyAsNull() ||
+                       existing.CustomProviderAuthority?.EmptyAsNull() !=
+                       model.CustomProviderAuthority?.EmptyAsNull() ||
+                       existing.CustomProviderClientId?.EmptyAsNull() != model.CustomProviderClientId?.EmptyAsNull() ||
+                       existing.CustomProviderClientSecret?.EmptyAsNull() !=
+                       model.CustomProviderClientSecret?.EmptyAsNull();
+        
         await service.Save(model, await GetAuditDetails());
 
         if (ServiceLoader.TryLoad<IFileDropWebServerService>(out var webService))
         {
-            if(model.Enabled)
-                webService.Restart();
+            if (model.Enabled)
+            {
+                if(changed)
+                    webService.Restart();
+            }
             else
                 webService.Stop();
         }
