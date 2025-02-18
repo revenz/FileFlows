@@ -148,7 +148,11 @@ public partial class NewAudioToVideoWizard
             flow.Description = Description;
             flow.Icon = "fas fa-headphones";
             if (FileDropFlow)
+            {
                 flow.Type = FlowType.FileDrop;
+                flow.FileDropOptions ??= new();
+                flow.FileDropOptions.Extensions = Extensions_Audio;
+            }
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)

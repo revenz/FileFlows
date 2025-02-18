@@ -346,7 +346,13 @@ public partial class NewVideoFlowWizard
             flow.Description = Description;
             flow.Icon = "fas fa-video";
             if (FileDropFlow)
+            {
                 flow.Type = FlowType.FileDrop;
+                flow.FileDropOptions ??= new();
+                flow.FileDropOptions.PreviewMode = FileDropPreviewMode.Thumbnails;
+                flow.FileDropOptions.Extensions = Extensions_Video;
+
+            }
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)

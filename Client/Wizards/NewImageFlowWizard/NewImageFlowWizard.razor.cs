@@ -115,8 +115,13 @@ public partial class NewImageFlowWizard
             flow.Description = Description;
             flow.Icon = "fas fa-image";
             if (FileDropFlow)
+            {
                 flow.Type = FlowType.FileDrop;
-            
+                flow.FileDropOptions ??= new();
+                flow.FileDropOptions.PreviewMode = FileDropPreviewMode.Images;
+                flow.FileDropOptions.Extensions = Extensions_Image;
+            }
+
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
             {

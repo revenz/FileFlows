@@ -95,7 +95,11 @@ public partial class NewComicFlowWizard
             flow.Description = Description;
             flow.Icon = "fas fa-journal-whills";
             if (FileDropFlow)
+            {
                 flow.Type = FlowType.FileDrop;
+                flow.FileDropOptions ??= new();
+                flow.FileDropOptions.Extensions = Extensions_Comic;
+            }
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)

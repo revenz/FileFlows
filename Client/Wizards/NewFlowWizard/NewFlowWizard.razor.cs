@@ -324,7 +324,8 @@ public partial class NewFlowWizard : IModal
             }
                 return null;
             case 1: // Blank Video
-                return CreateBasicFlow(FlowElementUids.VideoFile, "fas fa-video", "Custom video processing flow.");
+                return CreateBasicFlow(FlowElementUids.VideoFile, "fas fa-video", 
+                    "Custom video processing flow.", extensions: FlowWizardBase.Extensions_Video, FileDropPreviewMode.Thumbnails);
             case 2: // Audio to Video
             {
                 var result =
@@ -358,7 +359,8 @@ public partial class NewFlowWizard : IModal
                 }
                 return null;
             case 1: // Blank Audio
-                return CreateBasicFlow(FlowElementUids.AudioFile, "fas fa-headphones", "Custom audio processing flow.");
+                return CreateBasicFlow(FlowElementUids.AudioFile, "fas fa-headphones", "Custom audio processing flow.",
+                    extensions: FlowWizardBase.Extensions_Audio);
             case 2: // Audio to Video
             {
                 var result = await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions() {
@@ -391,7 +393,8 @@ public partial class NewFlowWizard : IModal
             }
                 return null;
             case 1: // Blank Image
-                return CreateBasicFlow(FlowElementUids.ImageFile, "fas fa-image", "Custom image processing flow.");
+                return CreateBasicFlow(FlowElementUids.ImageFile, "fas fa-image", "Custom image processing flow.",
+                    extensions: FlowWizardBase.Extensions_Image, previewMode: FileDropPreviewMode.Images);
         }
         return null;
     }
@@ -426,7 +429,10 @@ public partial class NewFlowWizard : IModal
     /// <param name="inputFlowElementUid">the UID of the input flow element</param>
     /// <param name="icon">the icon for the new flow</param>
     /// <param name="description">the description for the flow</param>
-    private Flow CreateBasicFlow(string inputFlowElementUid, string icon, string description)
+    /// <param name="extensions">the extensions to accept</param>
+    /// <param name="previewMode">the FileDrop preview mode</param>
+    private Flow CreateBasicFlow(string inputFlowElementUid, string icon, string description, 
+        string[]? extensions = null, FileDropPreviewMode previewMode = FileDropPreviewMode.List)
     {
         var flow = new Flow()
         {
@@ -438,7 +444,18 @@ public partial class NewFlowWizard : IModal
         else if (inputFlowElementUid == FlowElementUids.FlowFailure)
             flow.Type = FlowType.Failure;
         else if (FileDropFlow)
+        {
             flow.Type = FlowType.FileDrop;
+            if (extensions != null)
+            {
+                flow.FileDropOptions = new()
+                {
+                    Extensions = extensions,
+                    PreviewMode = previewMode
+                };
+            }
+        }
+
         var part =
             new FlowPart()
             {

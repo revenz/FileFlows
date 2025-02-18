@@ -13,6 +13,10 @@ public partial class WizardOutput : ComponentBase
     /// Gets or sets the profile service
     /// </summary>
     [Inject] private ProfileService ProfileService { get; set; }
+    /// <summary>
+    /// Gets or sets if this is a file drop flow
+    /// </summary>
+    [Parameter] public bool FileDropFlow { get; set; }
     
     private string OutputPath;
     private bool DeleteOld, IsWindows, IsFileDrop;
@@ -24,6 +28,8 @@ public partial class WizardOutput : ComponentBase
         var profile = await ProfileService.Get();
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
         IsFileDrop = profile.LicensedFor(LicenseFlags.FileDrop);
+        if (IsFileDrop && FileDropFlow)
+            OutputMode = 2;
     }
 
     /// <summary>
