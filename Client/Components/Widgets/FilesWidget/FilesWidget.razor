@@ -26,7 +26,7 @@
                 {
                     <div class="file-table-row">
                         <span class="icon">
-                            <img class="icon" src="icons/filetypes/video/mkv.svg" @onclick="() => OpenFile(file)"/>
+                            <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/>
                         </span>
                         <span class="path">
                             <span @onclick="() => OpenFile(file)">@file.DisplayName</span>
@@ -68,7 +68,7 @@
                             }
                             else
                             {
-                                <img class="icon" src="icons/filetypes/video/mkv.svg" @onclick="() => OpenFile(file)"/>
+                                <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/>
                             }
                         </span>
                         <div class="center">

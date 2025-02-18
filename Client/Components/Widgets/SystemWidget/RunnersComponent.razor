@@ -20,11 +20,12 @@
             <span class="icon">
                 @if (runner.HasThumbnail)
                 {
-                    <img class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.LibraryFileUid, runner.LibraryFileName)"/>
+                    <img class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.LibraryFileUid,
+                        runner.LibraryFileName, runner.IsDirectory)"/>
                 }
                 else
                 {
-                    <img class="icon" src="@IconHelper.GetExtensionImage(runner.LibraryFileName?.ToLowerInvariant())"/>
+                    <img class="icon" src="@IconHelper.GetExtensionImage(runner.IsDirectory ? "folder" : runner.LibraryFileName?.ToLowerInvariant())"/>
                 }
             </span>
             <div class="center">

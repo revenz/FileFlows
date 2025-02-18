@@ -198,6 +198,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         string RelativePath,
         DateTime ProcessingEnded,
         string LibraryName,
+        bool IsDirectory,
         string? When,
         long OriginalSize,
         long FinalSize,
@@ -228,5 +229,13 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// <returns>the thumbnail url</returns>
     private string GetThumbUrl(DashboardFile file)
         => IconHelper.GetThumbnail(file.Uid,
-            file.Name?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.DisplayName);
+            file.Name?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.DisplayName, file.IsDirectory);
+    
+    /// <summary>
+    /// Gets the extension image
+    /// </summary>
+    /// <param name="file">the file</param>
+    /// <returns>the extension image</returns>
+    private string GetExtensionImage(DashboardFile file)
+        => IconHelper.GetExtensionImage(file.Name?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.DisplayName);
 }

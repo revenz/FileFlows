@@ -127,6 +127,12 @@ public class FlowExecutorInfoMinified
     public string DisplayName { get; set; }
     
     /// <summary>
+    /// Gets or sets the display name of the file being executed
+    /// </summary>
+    [JsonPropertyName("dir")]
+    public bool IsDirectory { get; set; }
+    
+    /// <summary>
     /// Gets or sets any traits on the file
     /// </summary>
     public List<string> Traits { get; set; }

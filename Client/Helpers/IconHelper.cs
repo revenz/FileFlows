@@ -61,14 +61,15 @@ public static class IconHelper
     /// </summary>
     /// <param name="libraryFileUid">the UID of the library file</param>
     /// <param name="libraryFileName">the name of the library file</param>
+    /// <param name="IsDirectory">if this is a directory</param>
     /// <returns>the thumbnail url</returns>
-    public static string GetThumbnail(Guid libraryFileUid, string libraryFileName)
+    public static string GetThumbnail(Guid libraryFileUid, string libraryFileName, bool IsDirectory)
     {
         var extension = GetExtension(libraryFileName);
 #if(DEBUG)
-        return $"http://localhost:6868/api/thumbnail/{libraryFileUid}?extension={extension}";
+        return $"http://localhost:6868/api/thumbnail/{libraryFileUid}?extension={extension}&pad=30&folder={IsDirectory}";
 #else
-        return $"/api/thumbnail/{libraryFileUid}?extension={extension}";
+        return $"/api/thumbnail/{libraryFileUid}?extension={extension}&pad=30&folder={IsDirectory}";
 #endif
     }
 }

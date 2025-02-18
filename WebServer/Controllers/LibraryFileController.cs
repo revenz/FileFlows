@@ -180,6 +180,7 @@ public class LibraryFileController : Controller
                 When = when,
                 x.OriginalSize,
                 x.FinalSize,
+                x.IsDirectory,
                 Message = x.Status == FileStatus.ProcessingFailed ? x.FailureReason : null,
                 Status = (int)x.Status,
                 x.Additional?.Traits

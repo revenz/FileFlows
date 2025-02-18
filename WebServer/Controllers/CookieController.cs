@@ -14,10 +14,13 @@ public class CookieController : Controller
     /// </summary>
     /// <param name="uid">the UID of the file</param>
     /// <param name="extension">the extension of the file</param>
+    /// <param name="pad">the padding</param>
+    /// <param name="folder">if this is a folder</param>
     /// <returns>the thumbnail</returns>
     [HttpGet("/api/thumbnail/{uid}")]
     [SwaggerIgnore]
-    public async Task<IActionResult> FileThumbnail([FromRoute] Guid uid, [FromQuery] string extension)
+    public async Task<IActionResult> FileThumbnail([FromRoute] Guid uid, [FromQuery] string extension,
+        [FromQuery] int pad = 20, [FromQuery] bool folder = false)
     {
         if (AuthenticationHelper.GetSecurityMode() != SecurityMode.Off)
         {
@@ -31,7 +34,7 @@ public class CookieController : Controller
 
         var path = Path.Combine(DirectoryHelper.LibraryFilesLoggingDirectory, uid + ".webp");
         if (System.IO.File.Exists(path) == false)
-            return Redirect($"/icon/filetype/{extension}.svg?pad=30");
+            return Redirect($"/icon/filetype/{pad}/{(folder ? "folder" : "extension")}.svg");
             
         return PhysicalFile(path, "application/octet-stream");
     }
