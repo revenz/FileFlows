@@ -195,23 +195,9 @@ class Repository
     public List<RepositoryObject> WebhookScripts { get; set; } = new List<RepositoryObject>();
 
     /// <summary>
-    /// Gets or sets a list of library templates 
-    /// </summary>
-    public List<RepositoryObject> LibraryTemplates { get; set; } = new List<RepositoryObject>();
-
-    /// <summary>
-    /// Gets or sets a list of flow templates 
-    /// </summary>
-    public List<RepositoryObject> FlowTemplates { get; set; } = new List<RepositoryObject>();
-    /// <summary>
     /// Gets or sets a list of sub flows 
     /// </summary>
     public List<RepositoryObject> SubFlows { get; set; } = new List<RepositoryObject>();
-
-    /// <summary>
-    /// Gets or sets a list of community flow templates 
-    /// </summary>
-    public List<RepositoryObject> CommunityFlowTemplates { get; set; } = new List<RepositoryObject>();
 
     /// <summary>
     /// Gets or sets a list of DockerMods 
