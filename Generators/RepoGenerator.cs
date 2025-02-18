@@ -19,7 +19,6 @@ class RepoGenerator : Generator
         repo.FlowScripts = GetScripts(Path.Combine(projDir, "Scripts/Flow"), ScriptType.Flow);
         repo.WebhookScripts = GetScripts(Path.Combine(projDir, "Scripts/Webhook"), ScriptType.Webhook);
         repo.FunctionScripts = GetScripts(Path.Combine(projDir, "Scripts/Function"), ScriptType.Template, new [] { ".js", ".cs", ".bat", ".ps1", "sh"});
-        repo.LibraryTemplates = GetTemplates(Path.Combine(projDir, "Templates/Library"));
         repo.SubFlows = GetTemplates(Path.Combine(projDir, "SubFlows"));
         repo.DockerMods = DockerModGenerator.GetMods().Select(x => new RepositoryObject()
         {
