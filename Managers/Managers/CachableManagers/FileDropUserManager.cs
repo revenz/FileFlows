@@ -21,6 +21,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
     /// <param name="email">The user's email address.</param>
     /// <param name="name">The user's name (if available).</param>
     /// <param name="tokens">How many tokens to give if creating the user.</param>
+    /// <param name="maxFileDropUsers">The maximum FileDrop users allowed</param>
     /// <param name="auditDetails">Optional audit details</param>
     /// <returns>The mapped or newly created local user.</returns>
     public async Task<Result<FileDropUser>> GetOrCreateLocalUser(string provider,
@@ -28,6 +29,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
         string email,
         string name,
         int tokens,
+        int maxFileDropUsers,
         AuditDetails? auditDetails)
     {
         var existing = await GetUserFromProviderInfo(provider, providerUid, email);
@@ -35,7 +37,7 @@ public class FileDropUserManager : CachedManager<FileDropUser>
             return Result<FileDropUser>.Fail(error);
         if (existing.Value != null)
             return existing.Value;
-        
+         
         FileDropUser user = new();
         user.Name = email.ToLower();
         user.Provider = provider;
@@ -44,7 +46,33 @@ public class FileDropUserManager : CachedManager<FileDropUser>
         user.Tokens = tokens;
         user.Enabled = true;
         user.LastAutoTokensUtc = DateTime.UtcNow;
-        return await Update(user, auditDetails);
+        return await AddUser(user, maxFileDropUsers, auditDetails);
+    }
+
+    private SemaphoreSlim _addSemaphore = new(1, 1);
+    
+    /// <summary>
+    /// Adds a FileDrop user
+    /// </summary>
+    /// <param name="user">the user to add</param>
+    /// <param name="maxAllowed">the maximum allowed FileDrop users</param>
+    /// <param name="auditDetails">the audit details</param>
+    /// <returns>the created user or a failure</returns>
+    public async Task<Result<FileDropUser>> AddUser(FileDropUser user, int maxAllowed, AuditDetails? auditDetails)
+    {
+        await _addSemaphore.WaitAsync();
+        try
+        {
+            var current = (await GetAll()).Count;
+            if (current >= maxAllowed)
+                return Result<FileDropUser>.Fail("Cannot create any more users.");
+            
+            return await Update(user, auditDetails);
+        }
+        finally
+        {
+            _addSemaphore.Release();
+        }
     }
 
     /// <summary>

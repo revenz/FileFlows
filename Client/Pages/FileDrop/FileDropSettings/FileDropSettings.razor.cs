@@ -95,7 +95,7 @@ public partial class FileDropSettings
     /// Opens the help page
     /// </summary>
     private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/file-drop/settings");
+        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/file-drop/settings");
     
     private async Task Save()
     {
