@@ -34,7 +34,7 @@ public class CookieController : Controller
 
         var path = Path.Combine(DirectoryHelper.LibraryFilesLoggingDirectory, uid + ".webp");
         if (System.IO.File.Exists(path) == false)
-            return Redirect($"/icon/filetype/{pad}/{(folder ? "folder" : "extension")}.svg");
+            return Redirect($"/icon/filetype/{pad}/{(folder ? "folder" : extension)}.svg");
             
         return PhysicalFile(path, "application/octet-stream");
     }
