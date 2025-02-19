@@ -16,10 +16,16 @@ public class FileDropSettingsManager
     {
         Instance = DatabaseAccessManager.Instance.FileFlowsObjectManager.Single<FileDropSettings>().Result;
         if (Instance != null)
+        {
+            if (Instance.CustomPort is < 1 or > 65535)
+                Instance.CustomPort = 19201;
             return;
+        }
+
         Instance = new FileDropSettings
         {
             Uid = _Uid,
+            CustomPort = 19201,
             SessionExpireInMinutes = 7 * 24 * 60,
             Name = nameof(FileDropSettings),
             DateCreated = DateTime.Now,

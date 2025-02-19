@@ -29,6 +29,9 @@
         <FlowTabs>
             <FlowTab Title="General">
                 <InputSwitch @bind-Value="Model.Enabled" Label="Labels.Enabled" Help="Turn on to enable FileDrop."/>
+                <InputNumber TItem="Int32" @bind-Value="Model.CustomPort" Min="1" Max="65535"
+                             Label="Port" Help="The port FileDrop will be accessible on."
+                             ReadOnly="@(Profile.ServerOS is OperatingSystemType.Docker)"/>
                 <InputPeriod @bind-Value="Model.SessionExpireInMinutes"
                              Label="Session Length"
                              Help="How long users will be logged in for before needing to reauthenticate."

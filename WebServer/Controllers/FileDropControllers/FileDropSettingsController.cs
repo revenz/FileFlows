@@ -37,6 +37,8 @@ public class FileDropSettingsController : BaseController
         
         if (model == null)
             return BadRequest();
+        
+        model.CustomPort = Math.Clamp(model.CustomPort, 1, 65535);
 
         var service = ServiceLoader.Load<FileDropSettingsService>();
         var existing = service.Get();
@@ -50,7 +52,8 @@ public class FileDropSettingsController : BaseController
                        model.CustomProviderAuthority?.EmptyAsNull() ||
                        existing.CustomProviderClientId?.EmptyAsNull() != model.CustomProviderClientId?.EmptyAsNull() ||
                        existing.CustomProviderClientSecret?.EmptyAsNull() !=
-                       model.CustomProviderClientSecret?.EmptyAsNull();
+                       model.CustomProviderClientSecret?.EmptyAsNull() ||
+                       existing.CustomPort != model.CustomPort;
         
         await service.Save(model, await GetAuditDetails());
 

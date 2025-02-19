@@ -48,7 +48,8 @@ public class FileDropSettings : FileFlowObject
     /// <summary>
     /// Gets or sets the custom port to run the file drop app on
     /// </summary>
-    public int? CustomPort { get; set; }
+    public int CustomPort { get; set; }
+    
     /// <summary>
     /// Gets or sets the client secret for Google single sign on
     /// </summary>

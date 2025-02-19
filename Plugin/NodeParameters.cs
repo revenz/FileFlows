@@ -509,20 +509,45 @@ public class NodeParameters
     public void SetThumbnail(string file)
     {
         var actual = ReplaceVariables(file?.EmptyAsNull() ?? WorkingFile, stripMissing: true);
-        var local = FileService.GetLocalPath(actual);
-        if(local.Failed(out var error))
-            Logger?.ILog("Failed creating thumbnail: " + error);
-        
+
+        if (string.IsNullOrWhiteSpace(file))
+        {
+            Logger?.WLog("No file specified for thumbnail image");
+            return;
+        }
+
+        if (actual.StartsWith("http:", StringComparison.InvariantCultureIgnoreCase) ||
+            actual.StartsWith("https:", StringComparison.InvariantCultureIgnoreCase))
+        {
+            Logger?.ILog("URL specified for thumbnail image: " + actual);
+            var newFile = Path.Combine(TempPath, Guid.NewGuid().ToString());
+            var result2 = DownloadHelper.Download(actual, newFile);
+            if (result2.Failed(out var error2))
+            {
+                Logger.WLog(error2);
+                return;
+            }
+
+            actual = newFile;
+        }
+        else
+        {
+            var local = FileService.GetLocalPath(actual);
+            if (local.Failed(out var error2))
+                Logger?.ILog("Failed creating thumbnail: " + error2);
+            actual = local.Value;
+        }
+
         Logger?.ILog("Attempting to create thumbnail from: " + actual);
         var tempFile = Path.Combine(TempPath, Guid.NewGuid() + ".webp");
-        var result = ImageHelper.ConvertToWebp(local.Value, tempFile, new ()
+        var result = ImageHelper.ConvertToWebp(actual, tempFile, new ()
             {
                 MaxWidth = 250,
                 MaxHeight = 250,
                 Mode = ResizeMode.Contain,
                 Quality = 70
             });
-        if (result.Failed(out error))
+        if (result.Failed(out var error))
         {
             Logger?.ILog("Failed creating thumbnail: " + error);
             return;

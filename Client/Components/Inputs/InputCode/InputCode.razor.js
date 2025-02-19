@@ -216,6 +216,11 @@ export class InputCode
  */
 CreateDirectoryIfNotExists: function (path:string) { },
 /**
+ * Sets the thumbnail on the file, takes either a file path or URL
+ * @param {string} path - The path of the file or URL
+ */
+SetThumbnail: function(path:string) {},
+/**
  * Fails the flow with the given reason.
  *
  * Example usage: return Flow.Fail('File not found');
