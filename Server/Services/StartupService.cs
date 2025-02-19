@@ -143,7 +143,7 @@ public class StartupService : IStartupService
         var settings = ServiceLoader.Load<FileDropSettingsService>().Get();
         if (settings.Enabled)
         {
-            Logger.Instance?.ILog("Starting File Drop App...");
+            Logger.Instance?.ILog("Starting FileDrop App...");
             service.Start();
         }
     }
