@@ -1585,25 +1585,6 @@
         "Revision": "Revisión"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "Flujo de Revendedor",
-        "Title": "Flujos de Revendedor",
-        "Fields": {
-          "Extensions": "Extensiones",
-          "Extensions-Help": "La lista de extensiones permitidas que pueden ser procesadas por este flujo.",
-          "Flow": "Flujo",
-          "Icon": "Ícono",
-          "MaxFileSize": "Tamaño Máximo de Archivo",
-          "MaxFileSize-Help": "El tamaño máximo de archivo permitido para ser procesado por este flujo.",
-          "Tokens": "Tokens",
-          "Tokens-Help": "La cantidad de tokens que cuesta para que un usuario ejecute este flujo."
-        }
-      },
-      "Settings": {
-        "Title": "Configuraciones de Revendedor"
-      }
-    },
     "Resources": {
       "Singular": "Recurso",
       "Title": "Recursos",

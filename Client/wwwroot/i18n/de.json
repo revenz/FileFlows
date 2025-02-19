@@ -1585,25 +1585,6 @@
         "Revision": "Revision"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "Reseller Flow",
-        "Title": "Reseller Flows",
-        "Fields": {
-          "Extensions": "Erweiterungen",
-          "Extensions-Help": "Die Liste der erlaubten Erweiterungen, die von diesem Flow verarbeitet werden können.",
-          "Flow": "Flow",
-          "Icon": "Symbol",
-          "MaxFileSize": "Maximale Dateigröße",
-          "MaxFileSize-Help": "Die maximale Dateigröße, die von diesem Flow verarbeitet werden darf.",
-          "Tokens": "Tokens",
-          "Tokens-Help": "Die Anzahl der Tokens, die ein Benutzer benötigt, um diesen Flow auszuführen."
-        }
-      },
-      "Settings": {
-        "Title": "Reseller-Einstellungen"
-      }
-    },
     "Resources": {
       "Singular": "Ressource",
       "Title": "Ressourcen",

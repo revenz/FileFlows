@@ -1585,25 +1585,6 @@
         "Revision": "修訂"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "代理商流程",
-        "Title": "代理商流程",
-        "Fields": {
-          "Extensions": "擴展名",
-          "Extensions-Help": "此流程允許處理的擴展名列表。",
-          "Flow": "流程",
-          "Icon": "圖標",
-          "MaxFileSize": "最大文件大小",
-          "MaxFileSize-Help": "此流程允許處理的最大文件大小。",
-          "Tokens": "代幣",
-          "Tokens-Help": "用戶運行此流程所需的代幣數量。"
-        }
-      },
-      "Settings": {
-        "Title": "代理商設置"
-      }
-    },
     "Resources": {
       "Singular": "資源",
       "Title": "資源",

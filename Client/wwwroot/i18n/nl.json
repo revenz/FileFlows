@@ -1585,25 +1585,6 @@
         "Revision": "Herziening"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "Reseller Flow",
-        "Title": "Reseller Flows",
-        "Fields": {
-          "Extensions": "Extensies",
-          "Extensions-Help": "De lijst met toegestane extensies die door deze flow kunnen worden verwerkt.",
-          "Flow": "Flow",
-          "Icon": "Icoon",
-          "MaxFileSize": "Maximale Bestandsgrootte",
-          "MaxFileSize-Help": "De maximale bestandsgrootte die door deze flow mag worden verwerkt.",
-          "Tokens": "Tokens",
-          "Tokens-Help": "Het aantal tokens dat een gebruiker nodig heeft om deze flow uit te voeren."
-        }
-      },
-      "Settings": {
-        "Title": "Reseller Instellingen"
-      }
-    },
     "Resources": {
       "Singular": "Hulpbron",
       "Title": "Hulpbronnen",

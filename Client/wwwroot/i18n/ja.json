@@ -1585,25 +1585,6 @@
         "Revision": "改訂"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "リセラーフロー",
-        "Title": "リセラーフロー",
-        "Fields": {
-          "Extensions": "拡張子",
-          "Extensions-Help": "このフローで処理可能な許可された拡張子のリスト。",
-          "Flow": "フロー",
-          "Icon": "アイコン",
-          "MaxFileSize": "最大ファイルサイズ",
-          "MaxFileSize-Help": "このフローで処理可能な最大ファイルサイズ。",
-          "Tokens": "トークン",
-          "Tokens-Help": "ユーザーがこのフローを実行するのに必要なトークン数。"
-        }
-      },
-      "Settings": {
-        "Title": "リセラー設定"
-      }
-    },
     "Resources": {
       "Singular": "リソース",
       "Title": "リソース",

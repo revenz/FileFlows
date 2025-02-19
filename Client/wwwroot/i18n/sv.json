@@ -1585,25 +1585,6 @@
         "Revision": "Revision"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "Återförsäljarflöde",
-        "Title": "Återförsäljarflöden",
-        "Fields": {
-          "Extensions": "Tillägg",
-          "Extensions-Help": "Listan över tillåtna tillägg som kan behandlas av detta flöde.",
-          "Flow": "Flöde",
-          "Icon": "Ikon",
-          "MaxFileSize": "Maximal Filstorlek",
-          "MaxFileSize-Help": "Den maximala filstorleken som får behandlas av detta flöde.",
-          "Tokens": "Tokens",
-          "Tokens-Help": "Antalet tokens det kostar för en användare att köra detta flöde."
-        }
-      },
-      "Settings": {
-        "Title": "Återförsäljarinställningar"
-      }
-    },
     "Resources": {
       "Singular": "Resurs",
       "Title": "Resurser",

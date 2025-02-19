@@ -1585,25 +1585,6 @@
         "Revision": "修订版"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "代理商流程",
-        "Title": "代理商流程",
-        "Fields": {
-          "Extensions": "扩展名",
-          "Extensions-Help": "此流程允许处理的扩展名列表。",
-          "Flow": "流程",
-          "Icon": "图标",
-          "MaxFileSize": "最大文件大小",
-          "MaxFileSize-Help": "此流程允许处理的最大文件大小。",
-          "Tokens": "令牌",
-          "Tokens-Help": "用户运行此流程所需的令牌数量。"
-        }
-      },
-      "Settings": {
-        "Title": "代理商设置"
-      }
-    },
     "Resources": {
       "Singular": "资源",
       "Title": "资源",

@@ -1585,25 +1585,6 @@
         "Revision": "Revision"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "Reseller Flow",
-        "Title": "Reseller Flows",
-        "Fields": {
-          "Extensions": "Extensions",
-          "Extensions-Help": "The list of allowed extensions that can be processed by this flow.",
-          "Flow": "Flow",
-          "Icon": "Icon",
-          "MaxFileSize": "Max File Size",
-          "MaxFileSize-Help": "The maximum file size allowed to be processed by this flow.",
-          "Tokens": "Tokens",
-          "Tokens-Help": "The number of tokens it costs a user to run this flow."
-        }
-      },
-      "Settings": {
-        "Title": "Reseller Settings"
-      }
-    },
     "Resources": {
       "Singular": "Resource",
       "Title": "Resources",

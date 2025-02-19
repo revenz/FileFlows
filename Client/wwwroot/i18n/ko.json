@@ -1585,25 +1585,6 @@
         "Revision": "개정"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "리셀러 플로우",
-        "Title": "리셀러 플로우",
-        "Fields": {
-          "Extensions": "확장자",
-          "Extensions-Help": "이 플로우에서 처리할 수 있는 허용된 확장자의 목록입니다.",
-          "Flow": "플로우",
-          "Icon": "아이콘",
-          "MaxFileSize": "최대 파일 크기",
-          "MaxFileSize-Help": "이 플로우에서 처리할 수 있는 최대 파일 크기입니다.",
-          "Tokens": "토큰",
-          "Tokens-Help": "사용자가 이 플로우를 실행하는 데 필요한 토큰 수입니다."
-        }
-      },
-      "Settings": {
-        "Title": "리셀러 설정"
-      }
-    },
     "Resources": {
       "Singular": "리소스",
       "Title": "리소스",
