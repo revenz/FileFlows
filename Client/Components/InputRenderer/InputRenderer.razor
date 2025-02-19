@@ -73,10 +73,15 @@
         {
             var value = GetValue<string>(field.Name);
             var options = GetParameter<List<ListOption>>(field, "Options");
+            options.Insert(0, new ListOption
+            {
+                Label = Translater.Instant("Labels.None"),
+                Value = null
+            });
             if (options?.Any() == true)
             {
                 <InputSelect Label="Template" ValueChanged="@(x => UpdateTemplateCode(x, field))" 
-                             Options="options" BlankClearLabel="true" AllowClear="true" />
+                             Options="options" BlankClearLabel="true" />
             }
             <InputCode Field=@field Label="@label" Value="@value" ReadOnly=@readOnly ValueChanged="@(x => UpdateValue(field, x))"
                        Validators=@field.Validators Variables=@field.Variables Placeholder="@field.Placeholder" HideLabel=@hideLabel 
