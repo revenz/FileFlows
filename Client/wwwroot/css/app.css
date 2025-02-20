@@ -409,8 +409,8 @@ a.btn {
 }
 .editor-wrapper .fields .description {
   white-space: pre-wrap;
-  padding-bottom: 1rem;
-  font-size: 0.8rem;
+  padding: 1rem 0;
+  font-size: 1.1rem;
   border-bottom: solid 1px rgba(var(--color-rgb), 0.1);
   margin-bottom: 1rem;
 }
