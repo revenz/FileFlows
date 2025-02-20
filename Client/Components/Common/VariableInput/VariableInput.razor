@@ -1,5 +1,6 @@
 ﻿@namespace FileFlows.Client.Components.Common
 
 <div>
-    <input id="@Uid" @ref="eleInput" type="text" @bind-value="Value" @bind-value:event="oninput" autocomplete="off" />
+    <input id="@Uid" @ref="eleInput" type="text" @bind-value="Value" @bind-value:event="oninput" 
+           autocomplete="off" @onblur="Blur" />
 </div>
