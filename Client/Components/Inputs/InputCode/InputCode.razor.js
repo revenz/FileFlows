@@ -97,10 +97,39 @@ export class InputCode
      * @param {string|Uint8Array} input - The input string or binary data.
      * @returns {string} The SHA-512 checksum as a hexadecimal string.
      */
-    SHA512: function (input) { }
+    SHA512: function (input) { },
+
+    /**
+     * Computes the MD5 checksum for a given file.
+     * @param {string} filename - The file path.
+     * @returns {string} The MD5 checksum of the file’s contents as a hexadecimal string.
+     */
+    MD5File: function (filename) { },
+
+    /**
+     * Computes the SHA-1 checksum for a given file.
+     * @param {string} filename - The file path.
+     * @returns {string} The SHA-1 checksum of the file’s contents as a hexadecimal string.
+     */
+    SHA1File: function (filename) { },
+
+    /**
+     * Computes the SHA-256 checksum for a given file.
+     * @param {string} filename - The file path.
+     * @returns {string} The SHA-256 checksum of the file’s contents as a hexadecimal string.
+     */
+    SHA256File: function (filename) { },
+
+    /**
+     * Computes the SHA-512 checksum for a given file.
+     * @param {string} filename - The file path.
+     * @returns {string} The SHA-512 checksum of the file’s contents as a hexadecimal string.
+     */
+    SHA512File: function (filename) { }
   }`,
             "javascript"
         );
+
 
 
         monaco.editor.createModel(
