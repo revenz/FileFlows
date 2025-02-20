@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using FileFlows.Plugin;
+using FileFlows.Plugin.Helpers;
 using Jint;
 using Jint.Runtime;
 using Jint.Runtime.Interop;
@@ -184,6 +185,7 @@ public class Executor
             })
 
             .SetValue("Logger", Logger)
+            .SetValue("Checksum", new CheckSumHelper())
             .SetValue("Variables", Variables)
             .SetValue("Sleep", (int milliseconds) => Thread.Sleep(milliseconds))
             .SetValue("http", HttpClient)

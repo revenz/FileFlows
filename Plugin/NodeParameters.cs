@@ -601,6 +601,11 @@ public class NodeParameters
     /// </summary>
     public IArchiveHelper ArchiveHelper { get; set; }
 
+    /// <summary>
+    /// Gets the checksum helper
+    /// </summary>
+    public CheckSumHelper CheckSumHelper { get; } = new ();
+
     private bool initDone = false;
     
     /// <summary>

@@ -68,6 +68,39 @@ export class InputCode
   }`,
             "javascript"
         );
+        
+        monaco.editor.createModel(
+            `const Checksum = { 
+    /**
+     * Computes the MD5 checksum for the given input.
+     * @param {string|Uint8Array} input - The input string or binary data.
+     * @returns {string} The MD5 checksum as a hexadecimal string.
+     */
+    MD5: function (input) { },
+
+    /**
+     * Computes the SHA-1 checksum for the given input.
+     * @param {string|Uint8Array} input - The input string or binary data.
+     * @returns {string} The SHA-1 checksum as a hexadecimal string.
+     */
+    SHA1: function (input) { },
+
+    /**
+     * Computes the SHA-256 checksum for the given input.
+     * @param {string|Uint8Array} input - The input string or binary data.
+     * @returns {string} The SHA-256 checksum as a hexadecimal string.
+     */
+    SHA256: function (input) { },
+
+    /**
+     * Computes the SHA-512 checksum for the given input.
+     * @param {string|Uint8Array} input - The input string or binary data.
+     * @returns {string} The SHA-512 checksum as a hexadecimal string.
+     */
+    SHA512: function (input) { }
+  }`,
+            "javascript"
+        );
 
 
         monaco.editor.createModel(
