@@ -140,6 +140,16 @@ public class NodeParameters
     /// Gets or sets the method to set the display name of the file which is shown in the UI/webconsole.
     /// </summary>
     public Action<string> SetDisplayNameActual { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the method to get properties
+    /// </summary>
+    public Func<string, string> GetPropertyActual { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the method to set properties
+    /// </summary>
+    public Action<string, string> SetPropertyActual { get; set; }
 
     /// <summary>
     /// Gets or sets the method to set the file traits
@@ -578,6 +588,23 @@ public class NodeParameters
     /// <param name="displayName">the display name</param>
     public void SetDisplayName(string displayName)
         => SetDisplayNameActual(displayName);
+
+
+    /// <summary>
+    /// Gets the property value
+    /// </summary>
+    /// <param name="name">the name of the property</param>
+    /// <returns>the value or null if not found</returns>
+    public string GetProperty(string name)
+        => GetPropertyActual(name);
+    
+    /// <summary>
+    /// Sets a property 
+    /// </summary>
+    /// <param name="name">the name of the property</param>
+    /// <param name="value">the value</param>
+    public void SetProperty(string name, string value)
+        => SetPropertyActual(name, value);
 
     /// <summary>
     /// Sets the traits of a file

@@ -517,6 +517,26 @@ public class Runner
                 logger.ILog("Setting file traits: " + string.Join(", ", traits ?? []));
                 Info.LibraryFile.Additional ??= new();
                 Info.LibraryFile.Additional.Traits = traits;
+            },
+            GetPropertyActual = (property) 
+                => Info.LibraryFile?.Additional?.Properties?.TryGetValue(property, out var value) == true ? value : null,
+            SetPropertyActual = (property, value) =>
+            {
+                if(string.IsNullOrWhiteSpace(property))
+                    return;
+                Info.LibraryFile.Additional ??= new();
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    logger.ILog($"Removing file property: {property} => {value}");
+                    if(Info.LibraryFile.Additional.Properties?.ContainsKey(property) == true)
+                        Info.LibraryFile.Additional.Properties.Remove(property);
+                }
+                else
+                {
+                    logger.ILog($"Setting file property: {property} => {value}");
+                    Info.LibraryFile.Additional ??= new();
+                    Info.LibraryFile.Additional.Properties[property] = value;
+                }
             }
         };
         
