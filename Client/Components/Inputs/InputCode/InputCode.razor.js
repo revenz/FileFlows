@@ -283,6 +283,22 @@ CreateDirectoryIfNotExists: function (path:string) { },
  */
 SetThumbnail: function(path:string) {},
 /**
+ * Gets a property on this file record. Properties are stored in the file's database 
+ * record and are unique to this specific file instance, not the filename. If the same 
+ * file appears in a different library, it will have its own separate properties.
+ * @param {string} name - The name of the file record property to get.
+ * @returns {string} - The property value if found.
+ */
+GetProperty: function(name:string):string {},
+/**
+ * Sets a property on this file record. Properties are stored in the file's database 
+ * record and are unique to this specific file instance, not the filename. If the same 
+ * file appears in a different library, it will have its own separate properties.
+ * @param {string} name - The name of the file record property to set.
+ * @param {string} value - The value to assign to the property.
+ */
+SetProperty: function(name:string, value:string) {},
+/**
  * Fails the flow with the given reason.
  *
  * Example usage: return Flow.Fail('File not found');
