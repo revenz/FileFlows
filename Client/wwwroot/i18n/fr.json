@@ -561,7 +561,7 @@
         "CopyOnlyLanguages": "Copier uniquement les langues spécifiées",
         "CopyOnlyLanguagesDescription": "Copie uniquement les langues spécifiées ci-dessous. Toutes les autres langues seront supprimées. Les pistes audio seront copiées sans modification.",
         "CropBlackBars": "Recadrer les barres noires",
-        "CropBlackBars-Help": "FileFlows tentera de détecter les barres noires dans le fichier vidéo. Si elles sont détectées, elles seront recadrées."
+        "CropBlackBars-Help": "FileFlows tentera de détecter les barres noires dans le fichier vidéo. Si elles sont détectées, elles seront recadrées.",
         "DefaultLanguage": "Langue par défaut",
         "DefaultLanguage-Help": "Spécifie la langue à attribuer aux pistes audio qui n'ont actuellement pas de langue spécifiée.",
         "KeepAllSubtitles": "Conserver tous les sous-titres",
