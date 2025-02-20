@@ -177,19 +177,24 @@ public class FlowController : BaseController
         
         // multiple, send a zip
         using var ms = new MemoryStream();
-        using var zip = new ZipArchive(ms, ZipArchiveMode.Create, true);
-        foreach (var flow in flows)
+        using (var zip = new ZipArchive(ms, ZipArchiveMode.Create, true)) // Dispose explicitly
         {
-            string json = CreateExportJson(flow, subFlows);
-            var fe = zip.CreateEntry(flow.Name + ".json");
+            foreach (var flow in flows)
+            {
+                string json = CreateExportJson(flow, subFlows);
+                var fe = zip.CreateEntry(flow.Name + ".json");
 
-            await using var entryStream = fe.Open();
-            await using var streamWriter = new StreamWriter(entryStream);
-            await streamWriter.WriteAsync(json);
+                await using var entryStream = fe.Open();
+                await using var streamWriter = new StreamWriter(entryStream);
+                await streamWriter.WriteAsync(json);
+                await streamWriter.FlushAsync(); // Ensure all data is written
+            }
         }
 
+        // Reset stream position AFTER disposing ZipArchive
         ms.Seek(0, SeekOrigin.Begin);
         return File(ms.ToArray(), "application/octet-stream", "Flows.zip");
+
     }
 
     private string CreateExportJson(Flow flow, List<Flow> subFlows)
