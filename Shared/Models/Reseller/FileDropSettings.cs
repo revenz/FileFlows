@@ -119,6 +119,11 @@ public class FileDropSettings : FileFlowObject
     /// Gets the minimum length for forms passwords
     /// </summary>
     public int FormsMinLength { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if new Forms users require to verify their emails
+    /// </summary>
+    public bool RequireEmailVerification { get; set; }
 
     /// <summary>
     /// Gets or sets if forms requires special characters in their passwords

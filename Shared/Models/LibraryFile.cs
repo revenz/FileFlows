@@ -367,6 +367,11 @@ public class LibraryFileAdditional
     /// Gets or sets how much this file cost in tokens
     /// </summary>
     public int TokenCost { get; set; }
+
+    /// <summary>
+    /// Gets or sets properties users can set on a file in the flow
+    /// </summary>
+    public Dictionary<string, string> Properties { get; set; } = new();
 }
 
 /// <summary>

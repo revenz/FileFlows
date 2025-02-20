@@ -30,6 +30,7 @@ public class FileDropSettingsManager
             Name = nameof(FileDropSettings),
             DateCreated = DateTime.Now,
             DateModified = DateTime.Now,
+            RequireEmailVerification = true,
             FormsMinLength = 8,
             FormsRequireDigits = true,
             FormsRequireMixedCase = true,
