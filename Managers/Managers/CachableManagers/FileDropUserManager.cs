@@ -35,9 +35,25 @@ public class FileDropUserManager : CachedManager<FileDropUser>
         var existing = await GetUserFromProviderInfo(provider, providerUid, email);
         if (existing.Failed(out var error))
             return Result<FileDropUser>.Fail(error);
+        
+        var all = await GetAll();
         if (existing.Value != null)
+        {
+            if (all.Count > maxFileDropUsers)
+            {
+                // check one if in first indexes
+                int index = all.IndexOf(existing.Value);
+                if(index >= maxFileDropUsers)
+                    return Result<FileDropUser>.Fail("Exceeded licensed users.");
+            }
+            
             return existing.Value;
-         
+        }
+
+        var current = (await GetAll()).Count;
+        if (current >= maxFileDropUsers)
+            return Result<FileDropUser>.Fail("Cannot create any more users.");
+        
         FileDropUser user = new();
         user.Name = email.ToLower();
         user.Provider = provider;

@@ -269,16 +269,16 @@ public class TelemetryReporter : ServerWorker
         /// Gets or sets the telemetry data sets for flow templates in the client.
         /// </summary>
         public List<TelemetryDataSet> FlowTemplates { get; set; }
-
-        /// <summary>
-        /// Gets or sets the number of files processed by the client.
-        /// </summary>
-        public int FilesProcessed { get; set; }
         
         /// <summary>
         /// Gets or sets the number of registered FileDropUsers
         /// </summary>
         public int FileDropUsers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of files processed by the client.
+        /// </summary>
+        public int FilesProcessed { get; set; }
 
         /// <summary>
         /// Gets or sets the number of files that failed during processing by the client.
