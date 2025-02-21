@@ -30,8 +30,6 @@
     .file-table-row.fm-0 .center {
       flex-direction: column;
       align-items: unset; }
-    .file-table-row.fm-0 .path {
-      font-weight: 600; }
     .file-table-row.fm-0 .size, .file-table-row.fm-0 .time {
       font-weight: var(--bold, 600);
       position: absolute;

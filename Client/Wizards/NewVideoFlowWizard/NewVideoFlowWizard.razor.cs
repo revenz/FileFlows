@@ -444,30 +444,38 @@ public partial class NewVideoFlowWizard
             Outputs = 1,
             Type = FlowElementType.BuildPart
         });
-        if(VideoContainer == "MP4")
+        if (VideoContainer != "MP4") 
+            return;
+        
+        // need to remove subtitles that arent supported in MP4
+        builder.AddAndConnect(new FlowPart()
         {
-            // need to remove subtitles that arent supported in MP4
-            builder.AddAndConnect(new FlowPart()
+            FlowElementUid = FlowElementUids.FFmpegBuilderSubtitleFormatRemover,
+            Outputs = 2,
+            Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.RemoveUnsupportedSubtitles"),
+            Type = FlowElementType.BuildPart,
+            Model = ExpandoHelper.ToExpandoObject(new
             {
-                FlowElementUid = FlowElementUids.FFmpegBuilderSubtitleFormatRemover,
-                Outputs = 2,
-                Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.RemoveUnsupportedSubtitles"),
-                Type = FlowElementType.BuildPart,
-                Model = ExpandoHelper.ToExpandoObject(new
+                SubtitlesToRemove = new List<string>
                 {
-                    SubtitlesToRemove = new List<string>
-                    {
-                        "xsub",           // DivX subtitles (XSUB)
-                        "dvbsub",         // DVB subtitles (codec dvb_subtitle)
-                        "dvdsub",         // DVD subtitles (codec dvd_subtitle)
-                        "dvb_teletext",   // DVB/Teletext Format
-                        "hdmv_pgs_subtitle", // Presentation Graphic Stream (PGS)
-                        "ttml",           // TTML subtitle
-                        "OTHER"           // Unknown/Other
-                    }
-                })
-            });
-        }
+                    "xsub",           // DivX subtitles (XSUB)
+                    "dvbsub",         // DVB subtitles (codec dvb_subtitle)
+                    "dvdsub",         // DVD subtitles (codec dvd_subtitle)
+                    "dvb_teletext",   // DVB/Teletext Format
+                    "hdmv_pgs_subtitle", // Presentation Graphic Stream (PGS)
+                    "ttml",           // TTML subtitle
+                    "OTHER"           // Unknown/Other
+                }
+            })
+        });
+            
+        // need to remove attachments
+        builder.AddAndConnect(new FlowPart()
+        {
+            FlowElementUid = FlowElementUids.FFmpegBuilderRemoveAttachments,
+            Outputs = 1,
+            Type = FlowElementType.BuildPart
+        }, allOutputs: true);
     }
     
     /// <summary>

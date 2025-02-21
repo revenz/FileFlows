@@ -249,6 +249,11 @@ public class FlowElementUids
     public static string FFmpegBuilderSubtitleFormatRemover => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderSubtitleFormatRemover";
 
     /// <summary>
+    /// Gets the UID for FFmpeg Builder Subtitle Remove Attachments
+    /// </summary>
+    public static string FFmpegBuilderRemoveAttachments => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderRemoveAttachments";
+
+    /// <summary>
     /// Gets the UID for FFmpeg Builder Crop Black Bars
     /// </summary>
     public static string FFmpegBuildeCropBlackBars => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderCropBlackBars";
