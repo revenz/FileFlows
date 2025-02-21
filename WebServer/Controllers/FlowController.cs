@@ -209,6 +209,7 @@ public class FlowController : BaseController
             Revision = Math.Max(1, flow.Revision),
             flow.Description,
             flow.Icon,
+            flow.Fields,
             Properties = new
             {
                 // flow.Properties.Tags,
