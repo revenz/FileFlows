@@ -182,4 +182,11 @@ public class FileDropUserManager : CachedManager<FileDropUser>
     /// <returns>the file drop user if found</returns>
     public async Task<FileDropUser?> GetByEmail(string email)
         => await GetByName(email); // the name is their email
+
+    /// <summary>
+    /// Gets the number of FileDrop users
+    /// </summary>
+    /// <returns>the number of FileDrop users</returns>
+    public async Task<int> GetCount()
+        => (await GetAll()).Count;
 }

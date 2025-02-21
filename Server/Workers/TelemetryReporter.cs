@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using FileFlows.Server.Helpers;
 using FileFlows.Services;
 using FileFlows.ServerShared.Workers;
+using FileFlows.Services.FileDropServices;
 using FileFlows.Shared.Helpers;
 using FileFlows.Shared.Models;
 using FlowService = FileFlows.Services.FlowService;
@@ -133,6 +134,7 @@ public class TelemetryReporter : ServerWorker
             
             data.FilesFailed = filesFailed;
             data.FilesProcessed = filesProcessed;
+            data.FileDropUsers = ServiceLoader.Load<FileDropUserService>().GetCount().Result;
             var repo = ServiceLoader.Load<RepositoryService>().GetRepository().Result ?? new ();
             var repoScripts = repo.FlowScripts.Union(repo.SharedScripts).Union(repo.SystemScripts)
                 .Where(x => x.Uid != null)
@@ -272,6 +274,11 @@ public class TelemetryReporter : ServerWorker
         /// Gets or sets the number of files processed by the client.
         /// </summary>
         public int FilesProcessed { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the number of registered FileDropUsers
+        /// </summary>
+        public int FileDropUsers { get; set; }
 
         /// <summary>
         /// Gets or sets the number of files that failed during processing by the client.
