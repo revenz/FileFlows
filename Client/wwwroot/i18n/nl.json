@@ -1217,6 +1217,7 @@
     "Flows": {
       "Title": "Stromen",
       "Labels": {
+        "DuplicateAsFileDropFlow": "Dupliceren naar FileDrop",
         "FailureFlows": "Foutstromen",
         "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Standaardstromen",

@@ -1217,6 +1217,7 @@
     "Flows": {
       "Title": "流程",
       "Labels": {
+        "DuplicateAsFileDropFlow": "複製到 FileDrop",
         "FailureFlows": "失敗流程",
         "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "標準流程",

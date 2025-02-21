@@ -1217,6 +1217,7 @@
     "Flows": {
       "Title": "흐름",
       "Labels": {
+        "DuplicateAsFileDropFlow": "FileDrop으로 복제",
         "FailureFlows": "실패 흐름",
         "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "표준 흐름",

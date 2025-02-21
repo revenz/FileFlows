@@ -24,7 +24,13 @@ DataStandard)" TItem="FlowListModel" Selection="SelectionMode.Multiple"
             <ToolBar>            
                 <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
                 <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
-                <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />     
+                <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
+                @if (SelectedType == FlowType.Standard && Profile?.LicensedFor(LicenseFlags.FileDrop) == true)
+                {
+                    <FlowTableButton Clicked="@(() => Duplicate(true))" SelectedOne="true"
+                                     Icon="fas fa-copy" Label="Pages.Flows.Labels.DuplicateAsFileDropFlow"
+                                     Area="ButtonArea.ContextMenu" />
+                }
                 <FlowTableButtonSeparator />
                 @if (SelectedType == FlowType.Failure)
                 {
@@ -32,7 +38,7 @@ DataStandard)" TItem="FlowListModel" Selection="SelectionMode.Multiple"
                 }
                 @if (App.Instance.IsMobile == false)
                 {
-                    <FlowTableButton Clicked=Duplicate SelectedOne="true" Icon="fas fa-clone" Label="Labels.Duplicate" />
+                    <FlowTableButton Clicked="@(() => Duplicate())" SelectedOne="true" Icon="fas fa-clone" Label="Labels.Duplicate" />
                     <FlowTableButton Clicked=Import Icon="fas fa-file-import" Label="Labels.Import" />
                     <FlowTableButton Clicked=Export SelectedOneOrMore="true" Icon="fas fa-file-export" Label="Labels.Export" />
                     <FlowTableButtonSeparator />

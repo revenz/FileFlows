@@ -1217,6 +1217,7 @@
     "Flows": {
       "Title": "Потоки",
       "Labels": {
+        "DuplicateAsFileDropFlow": "Дублировать в FileDrop",
         "FailureFlows": "Потоки с ошибками",
         "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Стандартные потоки",

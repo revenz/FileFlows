@@ -1217,6 +1217,7 @@
     "Flows": {
       "Title": "Flöden",
       "Labels": {
+        "DuplicateAsFileDropFlow": "Duplicera till FileDrop",
         "FailureFlows": "Misslyckade flöden",
         "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Standardflöden",

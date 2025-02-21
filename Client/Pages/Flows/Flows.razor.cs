@@ -67,6 +67,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         return await Task.FromResult(false);
     }
 
+
     private async Task Export()
     {
         var items = Table.GetSelected()?.ToList() ?? new (); 
@@ -126,7 +127,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
     /// <summary>
     /// Duplicate the selected item
     /// </summary>
-    private async Task Duplicate()
+    private async Task Duplicate(bool asFileDropFlow = false)
     {
         Blocker.Show();
         try
@@ -138,6 +139,8 @@ public partial class Flows : ListPage<Guid, FlowListModel>
 #if (DEBUG)
             url = "http://localhost:6868" + url;
 #endif
+            if(asFileDropFlow)
+                url += "?asFileDropFlow=true";
             var newItem = await HttpHelper.Get<Script>(url);
             if (newItem != null && newItem.Success)
             {

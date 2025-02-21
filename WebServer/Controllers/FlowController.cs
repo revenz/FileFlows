@@ -251,9 +251,10 @@ public class FlowController : BaseController
     /// Imports a flow
     /// </summary>
     /// <param name="json">The json data to import</param>
+    /// <param name="asFileDropFlow">If the flow is duplicated as a FileDrop flow</param>
     /// <returns>The newly import flow</returns>
     [HttpPost("import")]
-    public async Task<Flow> Import([FromBody] string json)
+    public async Task<Flow> Import([FromBody] string json, [FromQuery] bool asFileDropFlow = false)
     {
         Flow? flow = JsonSerializer.Deserialize<Flow>(json);
         if (flow == null)
@@ -274,6 +275,9 @@ public class FlowController : BaseController
         if(flow.Type != FlowType.SubFlow || await service.UidInUse(flow.Uid))
             flow.Uid = Guid.Empty;
         
+        if (asFileDropFlow && LicenseService.IsLicensed(LicenseFlags.FileDrop) && flow.Type == FlowType.Standard)
+            flow.Type = FlowType.FileDrop;
+        
         flow.ReadOnly = false;
         flow.Default = false;
         flow.DateModified = DateTime.UtcNow;
@@ -287,9 +291,10 @@ public class FlowController : BaseController
     /// Duplicates a flow
     /// </summary>
     /// <param name="uid">The UID of the flow</param>
+    /// <param name="asFileDropFlow">If the flow is duplicated as a FileDrop flow</param>
     /// <returns>The duplicated flow</returns>
     [HttpGet("duplicate/{uid}")]
-    public async Task<Flow?> Duplicate([FromRoute] Guid uid)
+    public async Task<Flow?> Duplicate([FromRoute] Guid uid, [FromQuery] bool asFileDropFlow = false)
     { 
         var flow = await ServiceLoader.Load<FlowService>().GetByUidAsync(uid);
         if (flow == null)
@@ -299,7 +304,8 @@ public class FlowController : BaseController
         {
             WriteIndented = true
         });
-        return await Import(json);
+        
+        return await Import(json, asFileDropFlow);
     }
 
     /// <summary>

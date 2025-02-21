@@ -1217,6 +1217,7 @@
     "Flows": {
       "Title": "Flows",
       "Labels": {
+        "DuplicateAsFileDropFlow": "Duplicate to FileDrop",
         "FailureFlows": "Failure Flows",
         "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Standard Flows",
