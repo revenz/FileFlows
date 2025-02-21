@@ -210,6 +210,7 @@ public class FlowController : BaseController
             flow.Description,
             flow.Icon,
             flow.Fields,
+            flow.FileDropOptions,
             Properties = new
             {
                 // flow.Properties.Tags,
