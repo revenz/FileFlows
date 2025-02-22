@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+
 namespace FileFlows.WebServer.Controllers.RemoteControllers;
 
 /// <summary>
@@ -11,7 +13,7 @@ public class LogController : Controller
     /// <summary>
     /// The loggers
     /// </summary>
-    private static Dictionary<string, FileLogger> Loggers = new ();
+    private static ConcurrentDictionary<string, FileLogger> Loggers = new ();
 
     /// <summary>
     /// The semaphore to allow the loggers to be thread safe
@@ -25,34 +27,42 @@ public class LogController : Controller
     [HttpPost]
     public async Task Log([FromBody] LogServiceMessage message)
     {
-        if (message == null)
-            return;
-        if (string.IsNullOrEmpty(message.NodeAddress))
-            return;
-        
-        await _semaphoreSlim.WaitAsync();
         try
         {
-            if (Loggers.TryGetValue(message.NodeAddress, out var logger) == false)
+            if (message == null)
+                return;
+            if (string.IsNullOrEmpty(message.NodeAddress))
+                return;
+
+            await _semaphoreSlim.WaitAsync();
+            try
             {
-                string name = message.NodeAddress;
-                if (IsValidFileName(name) == false)
-                    return;
+                if (Loggers.TryGetValue(message.NodeAddress, out var logger) == false)
+                {
+                    string name = message.NodeAddress;
+                    if (IsValidFileName(name) == false)
+                        return;
 
-                Loggers[message.NodeAddress] = new(DirectoryHelper.LoggingDirectory, "Node-" + name, false);
-                logger = Loggers[message.NodeAddress];
+                    Loggers[message.NodeAddress] = new(DirectoryHelper.LoggingDirectory, "Node-" + name, false);
+                    logger = Loggers[message.NodeAddress];
+                }
+
+                await logger.Log(message.Type, message.Arguments ?? []);
             }
-
-            await logger.Log(message.Type, message.Arguments ?? []);
+            catch (Exception ex)
+            {
+                Logger.Instance.ELog($"Failed logging '{message.NodeAddress} message: " + ex.Message +
+                                     Environment.NewLine +
+                                     ex.StackTrace);
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
         }
-        catch (Exception ex)
+        catch(Exception)
         {
-            Logger.Instance.ELog($"Failed logging '{message.NodeAddress} message: " + ex.Message + Environment.NewLine +
-                                 ex.StackTrace);
-        }
-        finally
-        {
-            _semaphoreSlim.Release();
+            // Ignore    
         }
     }
     /// <summary>
