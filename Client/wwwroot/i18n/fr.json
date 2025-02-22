@@ -531,6 +531,7 @@
         "BitrateDescription": "Utilise un débit binaire fixe lors de l'encodage de la vidéo. Cela produit des tailles de fichiers cohérentes entre les vidéos, mais gaspille de l'espace de stockage ou perd de la qualité si le débit binaire n'est pas optimal.",
         "FileExtensions": "Extensions",
         "FileExtensionsDescription": "Spécifiez les extensions à traiter dans cette bibliothèque.",
+        "OnlyOnePerLanguage": "Une seule piste sera conservée par langue spécifiée. Toutes les autres pistes, même des langues spécifiées, seront supprimées. Si une langue spécifiée n'est pas trouvée dans la vidéo source, elle sera ignorée et non incluse.",
         "Quality": "Qualité",
         "QualityDescription": "Utilise un encodage adaptatif basé sur l'entrée de la vidéo pour atteindre un niveau de qualité constant. Ceci est recommandé et produit une qualité constante entre les vidéos, tout en générant les fichiers les plus petits.",
         "UseOriginal": "Utiliser l'original sans modification",

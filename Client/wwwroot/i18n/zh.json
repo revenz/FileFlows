@@ -531,6 +531,7 @@
         "BitrateDescription": "使用固定的比特率对视频进行编码。这会使视频的文件大小保持一致，但如果比特率不理想，则会浪费存储空间或降低质量。",
         "FileExtensions": "文件扩展名",
         "FileExtensionsDescription": "指定在此库中处理的文件扩展名。",
+        "OnlyOnePerLanguage": "每种指定语言仅保留一个音轨。即使是指定语言的其他音轨也会被移除。如果指定语言在源视频中未找到，则会跳过，不会包含。",
         "Quality": "质量",
         "QualityDescription": "基于视频的输入使用自适应编码来实现恒定的质量水平。推荐使用此方法，它能确保视频质量一致，并且产生最小的文件。",
         "UseOriginal": "使用未修改的原始文件",

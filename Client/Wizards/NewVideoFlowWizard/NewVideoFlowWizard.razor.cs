@@ -13,7 +13,7 @@ public partial class NewVideoFlowWizard
     /// <summary>
     /// Translation strings
     /// </summary>
-    private string lblUseOriginal, lblCopyOnlyLanguages;
+    private string lblUseOriginal, lblCopyOnlyLanguages, lblOnlyOnePerLanguage;
 
     /// <summary>
     /// Gets the selected encoding type
@@ -171,6 +171,7 @@ public partial class NewVideoFlowWizard
         }
 
         lblUseOriginal = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.UseOriginal");
+        lblOnlyOnePerLanguage = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.OnlyOnePerLanguage");
         
         lblCopyOnlyLanguages = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyOnlyLanguages");
         

@@ -57,15 +57,17 @@
                 </FlowRadioGroup>
             </FlowWizardPage>
             
-            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio1" Indented="true" Visible="@(AudioMode == 2)"  OnPageAdvanced="OnAudio1PageAdvanced" >
-                <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator"  OriginalLanguage="true" />
-                <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec" />
-                <InputSelect @bind-Value="@BoundAudio1Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio1" Indented="true" Visible="@(AudioMode == 2)" OnPageAdvanced="OnAudio1PageAdvanced">
+                <p class="wizard-page-help">@lblOnlyOnePerLanguage</p>
+                <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" OriginalLanguage="true"/>
+                <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
+                <InputSelect @bind-Value="@BoundAudio1Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels"/>
             </FlowWizardPage>
             <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio2" Indented="true" Visible="@(AudioMode == 2 && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
-                <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" OriginalLanguage="true" />
+                <p class="wizard-page-help">@lblOnlyOnePerLanguage</p>
+                <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" OriginalLanguage="true"/>
                 <InputSelect @bind-Value="@BoundAudio2Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
-                <InputSelect @bind-Value="@BoundAudio2Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
+                <InputSelect @bind-Value="@BoundAudio2Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels"/>
             </FlowWizardPage>
             <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Subtitle">
 

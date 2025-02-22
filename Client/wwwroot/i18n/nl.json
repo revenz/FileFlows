@@ -531,6 +531,7 @@
         "BitrateDescription": "Gebruik een vaste bitrate bij het coderen van de video. Dit zorgt voor consistente bestandsgroottes tussen video's, maar verspilt opslagruimte of verliest kwaliteit als de bitrate niet optimaal is.",
         "FileExtensions": "Extensies",
         "FileExtensionsDescription": "Geef de extensies op die in deze bibliotheek verwerkt moeten worden.",
+        "OnlyOnePerLanguage": "Er wordt slechts één track per opgegeven taal behouden. Alle andere tracks, zelfs van de opgegeven talen, worden verwijderd. Als een opgegeven taal niet in de bronvideo wordt gevonden, wordt deze overgeslagen en niet opgenomen.",
         "Quality": "Kwaliteit",
         "QualityDescription": "Gebruik adaptieve codering op basis van de invoer van de video om een constant kwaliteitsniveau te bereiken. Dit wordt aanbevolen en zorgt voor een constante kwaliteit tussen video's en ook voor de kleinste bestanden.",
         "UseOriginal": "Gebruik origineel zonder wijziging",

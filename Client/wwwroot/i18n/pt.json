@@ -531,6 +531,7 @@
         "BitrateDescription": "Usa uma taxa de bits fixa ao codificar o vídeo. Isso produz tamanhos de arquivos consistentes entre vídeos, mas desperdiça armazenamento ou perde qualidade se a taxa de bits não for ideal.",
         "FileExtensions": "Extensões",
         "FileExtensionsDescription": "Especifique as extensões para processar nesta biblioteca.",
+        "OnlyOnePerLanguage": "Será mantida apenas uma faixa por idioma especificado. Todas as outras faixas, mesmo dos idiomas especificados, serão removidas. Se um idioma especificado não for encontrado no vídeo de origem, ele será ignorado e não incluído.",
         "Quality": "Qualidade",
         "QualityDescription": "Usa codificação adaptativa com base na entrada do vídeo para alcançar um nível de qualidade constante. Isso é recomendado e resulta em qualidade constante entre vídeos e também nos menores arquivos.",
         "UseOriginal": "Usar original sem modificação",

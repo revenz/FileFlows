@@ -4091,3 +4091,7 @@ hr {
   font-weight: var(--bold, 600);
   font-size: 0.9rem;
 }
+
+.wizard-page-help {
+  margin:0 1rem 2rem;
+}

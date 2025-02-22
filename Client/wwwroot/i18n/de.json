@@ -531,6 +531,7 @@
         "BitrateDescription": "Verwendet eine feste Bitrate bei der Video-Codierung. Dies sorgt für konstante Dateigrößen bei den Videos, kann jedoch Speicherplatz verschwenden oder Qualität verlieren, wenn die Bitrate nicht optimal ist.",
         "FileExtensions": "Erweiterungen",
         "FileExtensionsDescription": "Geben Sie die Erweiterungen an, die in dieser Bibliothek verarbeitet werden sollen.",
+        "OnlyOnePerLanguage": "Es wird nur eine Spur pro angegebener Sprache beibehalten. Alle anderen Spuren, auch aus den angegebenen Sprachen, werden entfernt. Falls eine angegebene Sprache im Quellvideo nicht gefunden wird, wird sie übersprungen und nicht einbezogen.",
         "Quality": "Qualität",
         "QualityDescription": "Verwendet eine adaptive Kodierung basierend auf dem Eingangsvideo, um ein konstantes Qualitätsniveau zu erreichen. Dies wird empfohlen, da es konstante Qualität über alle Videos hinweg gewährleistet und die kleinsten Dateigrößen erzeugt.",
         "UseOriginal": "Original ohne Modifikation verwenden",
