@@ -39,6 +39,12 @@ public class Program
     {
         // Check if the assembly being requested is 'FileFlows.Plugin'
         var requestedAssembly = new AssemblyName(args.Name);
+        if (requestedAssembly.Name == "FileFlows.Common")
+        {
+            instance?.LogInfo("Forcing use of already loaded FileFlows.Common.");
+            return typeof(FileFlows.Common.Globals).Assembly;
+        }
+        
         if (requestedAssembly.Name == "FileFlows.Plugin")
         {
             // Specify the path where the correct version of the assembly is located
