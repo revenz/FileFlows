@@ -107,7 +107,8 @@ public class ImageMagickHelper
         }
         catch (Exception ex)
         {
-            Logger.WLog(ex.Message);
+            if(ex.Message.Contains("The system cannot find the file specified.") == false)
+                Logger.WLog(ex.Message);
             // An exception occurred, command is not available
             return false;
         }

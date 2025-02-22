@@ -548,9 +548,13 @@ public class NodeParameters
             actual = local.Value;
         }
 
-        Logger?.ILog("Attempting to create thumbnail from: " + actual);
+        var copy = Path.Combine(TempPath, Guid.NewGuid() + FileHelper.GetExtension(actual));
+        Logger?.ILog($"Copying image for screenshot '{actual}' to '{copy}'");
+        File.Copy(actual, copy);
+
+        Logger?.ILog("Attempting to create thumbnail from: " + copy);
         var tempFile = Path.Combine(TempPath, Guid.NewGuid() + ".webp");
-        var result = ImageHelper.ConvertToWebp(actual, tempFile, new ()
+        var result = ImageHelper.ConvertToWebp(copy, tempFile, new ()
             {
                 MaxWidth = 250,
                 MaxHeight = 250,
