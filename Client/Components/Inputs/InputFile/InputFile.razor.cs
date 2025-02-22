@@ -40,9 +40,17 @@ public partial class InputFile : Input<string>
     /// </summary>
     async Task Browse()
     {
+        var start = Value;
+        if (Directory == false)
+        {
+            var index = start.Replace("\\", "/").LastIndexOf('/');
+            if (index > 0)
+                start = start[..index];
+        }
         Result<string> result = await ModalService.ShowModal<FileBrowser, string>(new FileBrowserOptions()
         {
             Directory = Directory, 
+            Start = start,
             Extensions = Extensions
         });
         if (result.Failed(out _))

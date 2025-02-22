@@ -24,6 +24,8 @@ export class VariableInput {
 
         // Reference to the textarea element
         this.textInput = document.getElementById(uid);
+        if(!this.textInput)
+            return;
 
         // Create dropdown element
         this.dropdown = document.createElement("ul");
@@ -35,7 +37,7 @@ export class VariableInput {
 
         // Event listeners
         this.textInput.addEventListener("keydown", this.handleKeydown.bind(this));
-        this.textInput.addEventListener('click', this.handleClick.bind(this))
+        this.textInput.addEventListener('click', this.handleClick.bind(this));
 
 
         // CSS for the dropdown
