@@ -19,7 +19,7 @@ public partial class NewVideoFlowWizard
     /// Gets the selected encoding type
     /// </summary>
     private int SelectedVideoEncodingType;
-    private int Quality = 3, Bitrate = 5000;
+    private int Quality = 6, Bitrate = 5000;
     private bool CropBlackBars, AttemptHardwareEncode = true;
     private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
     /// <summary>
@@ -45,9 +45,9 @@ public partial class NewVideoFlowWizard
         {
             _SelectedType = value;
             if (value == 1)
-                Quality = 4;
+                Quality = 8;
             if (value == 2)
-                Quality = 3;
+                Quality = 6;
         }
     }
 
