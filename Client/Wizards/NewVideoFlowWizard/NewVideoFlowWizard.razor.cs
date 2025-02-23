@@ -19,7 +19,7 @@ public partial class NewVideoFlowWizard
     /// Gets the selected encoding type
     /// </summary>
     private int SelectedVideoEncodingType;
-    private int Quality, Bitrate = 5000;
+    private int Quality = 3, Bitrate = 5000;
     private bool CropBlackBars, AttemptHardwareEncode = true;
     private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
     /// <summary>
@@ -32,8 +32,24 @@ public partial class NewVideoFlowWizard
     /// Flow properties
     /// </summary>
     private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng";
-    private int SelectedType, Audio1Channels, Audio2Channels, AudioMode;
+    private int _SelectedType, Audio1Channels, Audio2Channels, AudioMode;
     private bool TwoAudioVersions, SubtitleKeepOnly;
+
+    /// <summary>
+    /// Gets or sets the selected type
+    /// </summary>
+    private int SelectedType
+    {
+        get => _SelectedType;
+        set
+        {
+            _SelectedType = value;
+            if (value == 1)
+                Quality = 4;
+            if (value == 2)
+                Quality = 3;
+        }
+    }
 
     /// <summary>
     /// The input options
