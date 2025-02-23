@@ -276,7 +276,7 @@ public class FlowElementUids
     /// <summary>
     /// Gets the UID for FFmpeg Builder Video Encode (Quality Encoding)
     /// </summary>
-    public static string FFmpegBuilderVideoEncode => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncode";
+    public static string FFmpegBuilderVideoEncodeSimple => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncodeSimple";
 
     /// <summary>
     /// Gets the UID for FFmpeg Builder Bitrate Encode

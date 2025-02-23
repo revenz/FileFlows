@@ -224,11 +224,11 @@ public partial class NewVideoFlowWizard
         ];
         QualityOptions =
         [
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Ok"), Value = -2},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Good"), Value = -1},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Recommended"), Value = 0},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.High"), Value = 1},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.VeryHigh"), Value = 2},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Ok"), Value = 2},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Good"), Value = 4},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Recommended"), Value = 6},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.High"), Value = 8},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.VeryHigh"), Value = 10},
         ];
 
         initDone = true;
@@ -313,7 +313,7 @@ public partial class NewVideoFlowWizard
                         }
                         : new FlowPart()
                         {
-                            FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncode,
+                            FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncodeSimple,
                             Outputs = 1,
                             Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.CpuFailOverEncode"),
                             Type = FlowElementType.BuildPart,
@@ -321,8 +321,8 @@ public partial class NewVideoFlowWizard
                             {
                                 Codec = VideoCodec,
                                 Encoder= "CPU",
-                                Quality = GetQuality(VideoCodec, Quality),
-                                Speed = "medium"
+                                Quality,
+                                Speed = 3
                             })
                         }, row: 1);
                 builder.Connect(executor, secondEncode, -1);
@@ -487,7 +487,7 @@ public partial class NewVideoFlowWizard
     {
         switch (SelectedType)
         {
-            case 0: // film
+            case 1: // film
                 builder.AddAndConnect(new FlowPart()
                 {
                     FlowElementUid = FlowElementUids.MovieLookup,
@@ -499,7 +499,7 @@ public partial class NewVideoFlowWizard
                     })
                 });
                 break;
-            case 1: // tv
+            case 2: // tv
                 builder.AddAndConnect(new FlowPart()
                 {
                     FlowElementUid = FlowElementUids.TVShowLookup,
@@ -547,7 +547,7 @@ public partial class NewVideoFlowWizard
             // quality encode
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncode,
+                FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncodeSimple,
                 Outputs = 1,
                 Name = codecLabel + " (Bitrate)",
                 Type = FlowElementType.BuildPart,
@@ -555,8 +555,8 @@ public partial class NewVideoFlowWizard
                 {
                     Codec = VideoCodec,
                     Encoder = AttemptHardwareEncode ? "" : "CPU",
-                    Quality = GetQuality(VideoCodec, Quality),
-                    Speed = "medium"
+                    Quality = Quality,
+                    Speed = 3
                 })
             });
         }
