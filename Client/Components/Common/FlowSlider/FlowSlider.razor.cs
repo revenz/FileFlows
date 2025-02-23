@@ -22,6 +22,11 @@ public partial class FlowSlider:ComponentBase
     [Parameter] public int Max { get; set; } = 100;
     
     /// <summary>
+    /// Gets or sets if the value should be hidden
+    /// </summary>
+    [Parameter] public bool HideValue { get; set; }
+    
+    /// <summary>
     /// Gets or sets if the slider is inversed, with minimum on right and maximum on left
     /// </summary>
     [Parameter] public bool Inverse { get; set; }

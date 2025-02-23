@@ -228,13 +228,14 @@
                 int min = GetParameter<int>(field, nameof(InputSlider.Min));
                 int max = GetParameter<int>(field, nameof(InputSlider.Max));
                 bool inverse = GetParameter<bool>(field, nameof(InputSlider.Inverse));
+                bool hideValue = GetParameter<bool>(field, nameof(InputSlider.HideValue));
                 if (min == 0 && max == 0)
                 {
                     (min, max) = GetRange(field);
                 }
                 <InputSlider Field=@field Label="@label" Value="@value" ReadOnly=@readOnly ValueChanged="@(x => UpdateValue(field, x))"
                              Validators=@field.Validators Placeholder="@field.Placeholder" Min="@min" Max="@max" 
-                             Inverse=@inverse HideLabel=@hideLabel OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
+                             Inverse=@inverse HideValue="@hideValue" HideLabel=@hideLabel OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
             }
             break;
         case FormInputType.Switch:

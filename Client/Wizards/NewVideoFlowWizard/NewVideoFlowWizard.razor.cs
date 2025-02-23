@@ -361,7 +361,12 @@ public partial class NewVideoFlowWizard
 
             var flow = builder.Flow;
             flow.Description = Description;
-            flow.Icon = "fas fa-video";
+            flow.Icon = SelectedType switch
+            {
+                1 => "fas fa-film",
+                2 => "fas fa-tv",
+                _ => "fas fa-video"
+            };
             if (FileDropFlow)
             {
                 flow.Type = FlowType.FileDrop;
@@ -548,7 +553,7 @@ public partial class NewVideoFlowWizard
             {
                 FlowElementUid = FlowElementUids.FFmpegBuilderVideoBitrateEncode,
                 Outputs = 1,
-                Name = codecLabel,
+                Name = codecLabel + " (Bitrate)",
                 Type = FlowElementType.BuildPart,
                 Model = ExpandoHelper.ToExpandoObject(new
                 {
@@ -565,7 +570,7 @@ public partial class NewVideoFlowWizard
             {
                 FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncodeSimple,
                 Outputs = 1,
-                Name = codecLabel + " (Bitrate)",
+                Name = codecLabel,
                 Type = FlowElementType.BuildPart,
                 Model = ExpandoHelper.ToExpandoObject(new
                 {
