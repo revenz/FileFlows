@@ -172,7 +172,10 @@
     padding: 0 0.25rem;
     border-radius: 0.5rem;
     margin-right: 0.25rem;
-    opacity: 0.75; }
+    opacity: 0.75;
+    height: fit-content;
+    line-height: 1.25rem;
+    margin-bottom: 0.5rem; }
 
 .label {
   font-weight: var(--bold, 600);
