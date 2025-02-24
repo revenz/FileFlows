@@ -147,6 +147,8 @@
     margin: 0.25rem; }
     .icon .icon.no-thumbnail {
       padding: 1.25rem; }
+    .icon .icon.thumbnail {
+      object-fit: cover; }
 
 .steps {
   white-space: nowrap;

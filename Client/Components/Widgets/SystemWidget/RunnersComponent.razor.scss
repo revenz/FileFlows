@@ -208,6 +208,9 @@
     &.no-thumbnail {
       padding: 1.25rem;
     }
+    &.thumbnail {
+      object-fit: cover;
+    }
   }
 }
 
