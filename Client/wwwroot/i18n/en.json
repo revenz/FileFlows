@@ -115,7 +115,6 @@
     "Reprocess": "Reprocess",
     "Rescan": "Rescan",
     "Reset": "Reset",
-    "ResetLayout": "Reset Layout",
     "Restore": "Restore",
     "RestoredFailedMessage": "Failed to restore {type}",
     "RestoredMessage": "{type} restored",

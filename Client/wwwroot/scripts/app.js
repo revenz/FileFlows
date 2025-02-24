@@ -316,11 +316,6 @@ window.ff = {
             document.removeEventListener("mousemove", resize, false);
         }, false);        
     },
-    resetTable: function(uid, tableIdentifier) {
-        console.log('reset table');
-        localStorage.removeItem(tableIdentifier);        
-        this.resizableTable(uid, tableIdentifier, true);
-    },
     resizableTable: function(uid, tableIdentifier, reset){
         let div = document.getElementById(uid);
         if(!div)

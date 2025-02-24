@@ -48,7 +48,6 @@ public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropert
     private readonly string ContextMenuUid = "ctxMenu-" + Guid.NewGuid();
     private Dictionary<TItem, string> DataDictionary;
     private List<TItem> _Data;
-    private string lblResetLayout;
 
     [Inject] private IBlazorContextMenuService ContextMenuService { get; set; }
 
@@ -299,7 +298,6 @@ public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropert
         FlowTableHotkey = Guid.NewGuid().ToString();
         lblFilterPlaceholder = Translater.Instant("Labels.FilterPlaceholder");
         lblFilter = Translater.Instant("Labels.Filter");
-        lblResetLayout = Translater.Instant("Labels.ResetLayout");
         HotKeyService.RegisterHotkey(FlowTableHotkey, "/", callback: () =>
         {
             Task.Run(async () =>
@@ -324,11 +322,6 @@ public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropert
         }
 
         return base.OnAfterRenderAsync(firstRender);
-    }
-
-    private async Task ResetLayout()
-    {
-        await jsRuntime.InvokeVoidAsync("ff.resetTable", this.Uid, this.TableIdentifier);
     }
 
     public void Dispose()
@@ -599,20 +592,6 @@ public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropert
 
             return null;
         }).Where(x => x != null).ToList();
-
-        if (items?.Any() == true)
-        {
-            FlowContextMenuItem reset = new()
-            {
-                Icon = "icon fas fa-table",
-                Label = lblResetLayout,
-                OnClick = () => _ = ResetLayout()
-            };
-            if (items.Last().IsHelpButton)
-                items.Insert(items.Count - 1, reset);
-            else
-                items.Add(reset);
-        }
 
         TableContextMenu.SetItems((items ?? new ())!);
     }

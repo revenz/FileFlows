@@ -115,7 +115,6 @@
     "Reprocess": "재처리",
     "Rescan": "다시 스캔",
     "Reset": "초기화",
-    "ResetLayout": "레이아웃 초기화",
     "Restore": "복원",
     "RestoredFailedMessage": "{type} 복원에 실패했습니다",
     "RestoredMessage": "{type} 복원 완료",
