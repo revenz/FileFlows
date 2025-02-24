@@ -67,9 +67,9 @@ public static class IconHelper
     {
         var extension = GetExtension(libraryFileName);
 #if(DEBUG)
-        return $"http://localhost:6868/api/thumbnail/{libraryFileUid}?extension={extension}&pad=40&folder={IsDirectory}";
+        return $"http://localhost:6868/api/thumbnail/{libraryFileUid}?extension={extension}&pad=50&folder={IsDirectory}";
 #else
-        return $"/api/thumbnail/{libraryFileUid}?extension={extension}&pad=40&folder={IsDirectory}";
+        return $"/api/thumbnail/{libraryFileUid}?extension={extension}&pad=50&folder={IsDirectory}";
 #endif
     }
 }
