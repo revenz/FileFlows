@@ -62,6 +62,11 @@
                 <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" OriginalLanguage="true"/>
                 <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
                 <InputSelect @bind-Value="@BoundAudio1Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels"/>
+                @if (TwoAudioVersions == false && Audio1Channels != 0)
+                {
+                    <InputSwitch @bind-Value="@FallBackAudio" Label="Dialogs.NewVideoFlowWizard.Fields.FallBackAudio"/>
+
+                }
             </FlowWizardPage>
             <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio2" Indented="true" Visible="@(AudioMode == 2 && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
                 <p class="wizard-page-help">@lblOnlyOnePerLanguage</p>

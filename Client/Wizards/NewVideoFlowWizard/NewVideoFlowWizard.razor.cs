@@ -1,3 +1,4 @@
+using System.Reflection.Emit;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
@@ -33,7 +34,7 @@ public partial class NewVideoFlowWizard
     /// </summary>
     private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng";
     private int _SelectedType, Audio1Channels, Audio2Channels, AudioMode;
-    private bool TwoAudioVersions, SubtitleKeepOnly;
+    private bool TwoAudioVersions, FallBackAudio, SubtitleKeepOnly;
 
     /// <summary>
     /// Gets or sets the selected type
@@ -285,10 +286,13 @@ public partial class NewVideoFlowWizard
 
             if (videoEncode)
                 FlowAddVideo(builder);
-            FlowAddAudio(builder);
+            
             FlowAddSubtitles(builder);
             
-            var executor = builder.AddAndConnect(new FlowPart()
+            // audio must go last since it can require 2 flow parts being connected up
+            var partsToConnect = FlowAddAudio(builder);
+
+            var executor = new FlowPart()
             {
                 FlowElementUid = FlowElementUids.FFmpegBuilderExecutor,
                 Outputs = 2,
@@ -298,13 +302,23 @@ public partial class NewVideoFlowWizard
                     HardwareDecoding = "auto",
                     Strictness = "experimental"
                 })
-            }, allOutputs: true);
-
+            };
+            int rowBase = 0;
+            if(partsToConnect.Length < 2)
+                builder.AddAndConnect(executor, allOutputs: true);
+            else
+            {
+                builder.Add(executor);
+                foreach (var partToConnect in partsToConnect)
+                    builder.Connect(partToConnect, executor, 1);
+                builder.CurrentRow += 1;
+                rowBase = 1;
+            }
 
             var preOutputColumn = builder.CurrentColumn;
             FlowPart fpOutput = Output.FlowAddOutput(builder,
                 ["mkv", "mp4", "avi", "divx", "mov", "mpeg", "mpe"],
-                videoEncode && AttemptHardwareEncode ? 5 : 0, videoEncode && AttemptHardwareEncode ? 4 : 0);
+                videoEncode && AttemptHardwareEncode ? 5 + rowBase : 0, videoEncode && AttemptHardwareEncode ? 4 : 0);
 
             if (videoEncode && AttemptHardwareEncode)
             {
@@ -625,7 +639,8 @@ public partial class NewVideoFlowWizard
     /// Adds the audio flow parts to the flow
     /// </summary>
     /// <param name="builder">the flow builder</param>
-    private void FlowAddAudio(FlowBuilder builder)
+    /// <returns>the flow parts to connect the next flow part to</returns>
+    private FlowPart[] FlowAddAudio(FlowBuilder builder)
     {
         if (AudioMode > 1)
         {
@@ -696,7 +711,41 @@ public partial class NewVideoFlowWizard
                     })
                 }, allOutputs: true);
             }
+            else if (FallBackAudio)
+            {
+                int currentColumn = builder.CurrentColumn;
+                builder.AddAndConnect(new FlowPart()
+                {
+                    FlowElementUid = FlowElementUids.FFmpegBuilderAudioLanguageConverter,
+                    Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.FallBackAudio"),
+                    Outputs = 2,
+                    Type = FlowElementType.BuildPart,
+                    Model = ExpandoHelper.ToExpandoObject(new
+                    {
+                        Languages = Audio1Languages,
+                        Codec = Audio1Codec,
+                        Channels = 0,
+                        Bitrate = GetBitratePerChannel(Audio1Codec)
+                    })
+                }, column:currentColumn + 1, output: 2);
+                var parts = builder.Flow.Parts[^2..].ToArray();
+                builder.AddAndConnect(new FlowPart()
+                {
+                    FlowElementUid = FlowElementUids.FailFlow,
+                    Outputs = 0,
+                    Type = FlowElementType.Logic,
+                    CustomColor = "var(--error)",
+                    Model = ExpandoHelper.ToExpandoObject(new
+                    {
+                        Reason = "Failed to find any wanted audio languages."
+                    })
+                }, column: currentColumn + 2, output: 2);
+                
+                builder.CurrentColumn = currentColumn;
+                return parts;
+            }
         }
+        return [builder.Flow.Parts.Last()];
     }
 
     /// <summary>

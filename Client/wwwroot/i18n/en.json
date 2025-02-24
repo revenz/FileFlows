@@ -326,6 +326,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "Always Move",
+        "AlwaysMove-Help": "When enabled, the file will always be moved, even if no processing was applied to the original input file.",
         "DeleteOld": "Clean Up Original",
         "DeleteOld-Help": "Delete the original file and remove its folder if no other files remain.",
         "Description": "Description",
@@ -565,6 +567,8 @@
         "CropBlackBars-Help": "FileFlows will attempt to detect black bars in the video file and crop them, reducing file size and enabling aspect ratio adjustments on players.",
         "DefaultLanguage": "Default Language",
         "DefaultLanguage-Help": "Specifies the language to assign to audio tracks that do not have a language specified.",
+        "FallBackAudio": "Fall Back",
+        "FallBackAudio-Help": "Enable this option to create fallback audio tracks when the requested channels are unavailable. If the desired channel configuration cannot be met (e.g., 5.1 is requested but only stereo is available), the original channel configuration will be used instead.",
         "KeepAllSubtitles": "Keep All Subtitles",
         "KeepAllSubtitlesDescription": "Retain all the subtitles from the original video.",
         "KeepOnlySpecifiedSubtitles": "Keep Only",

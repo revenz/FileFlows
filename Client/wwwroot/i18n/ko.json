@@ -326,6 +326,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "항상 이동",
+        "AlwaysMove-Help": "이 옵션을 활성화하면 원본 입력 파일에 처리가 적용되지 않았더라도 파일이 항상 이동됩니다.",
         "DeleteOld": "원본 정리",
         "DeleteOld-Help": "원본 파일을 삭제하고, 다른 파일이 없으면 원본 폴더를 제거합니다.",
         "Description": "설명",
@@ -565,6 +567,8 @@
         "CropBlackBars-Help": "FileFlows는 비디오 파일에서 검은 띠를 감지하고, 찾을 경우 이를 잘라 파일 크기를 줄이며, 플레이어에서 비율 변경을 허용합니다.",
         "DefaultLanguage": "기본 언어",
         "DefaultLanguage-Help": "현재 언어가 지정되지 않은 오디오 트랙에 할당할 언어를 지정합니다.",
+        "FallBackAudio": "백업 오디오",
+        "FallBackAudio-Help": "요청된 채널을 사용할 수 없는 경우 백업 오디오 트랙을 생성하도록 이 옵션을 활성화합니다. 원하는 채널 구성을 충족할 수 없는 경우(예: 5.1이 요청되었지만 스테레오만 사용 가능), 원본 채널 구성이 사용됩니다.",
         "KeepAllSubtitles": "모든 자막 유지",
         "KeepAllSubtitlesDescription": "원본 비디오에서 모든 자막을 유지합니다.",
         "KeepOnlySpecifiedSubtitles": "지정된 자막만 유지",

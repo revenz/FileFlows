@@ -326,6 +326,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "Immer verschieben",
+        "AlwaysMove-Help": "Wenn aktiviert, wird die Datei immer verschoben, auch wenn keine Verarbeitung auf die ursprüngliche Eingabedatei angewendet wurde.",
         "DeleteOld": "Original bereinigen",
         "DeleteOld-Help": "Löscht die Originaldatei und entfernt den Originalordner, falls keine anderen Dateien übrig sind.",
         "Description": "Beschreibung",
@@ -565,6 +567,8 @@
         "CropBlackBars-Help": "FileFlows wird versuchen, schwarze Balken in der Videodatei zu erkennen und zuzuschneiden, um die Dateigröße zu reduzieren und eine Änderung des Seitenverhältnisses im Player zu ermöglichen.",
         "DefaultLanguage": "Standard-Sprache",
         "DefaultLanguage-Help": "Legt die Sprache fest, die den Audiotracks zugewiesen wird, die keine Sprache angegeben haben.",
+        "FallBackAudio": "Fallback",
+        "FallBackAudio-Help": "Aktivieren Sie diese Option, um Ersatz-Audiotracks zu erstellen, wenn die gewünschten Kanäle nicht verfügbar sind. Wenn die gewünschte Kanal-Konfiguration nicht erfüllt werden kann (z. B. 5.1 angefordert, aber nur Stereo verfügbar), wird die ursprüngliche Kanal-Konfiguration verwendet.",
         "KeepAllSubtitles": "Alle Untertitel behalten",
         "KeepAllSubtitlesDescription": "Behalten Sie alle Untertitel der Originalvideo-Datei.",
         "KeepOnlySpecifiedSubtitles": "Nur behalten",

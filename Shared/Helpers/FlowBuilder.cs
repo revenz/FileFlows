@@ -9,7 +9,7 @@ public class FlowBuilder
 {
     private const int ROW_OFFSET = -60;
     private const int COL_OFFSET = -20;
-    private const int COL_WIDTH = 100;
+    private const int COL_WIDTH = 120;
     private const int ROW_HEIGHT = 140;
     /// <summary>
     /// Gets or sets the max rows in this flow
@@ -159,9 +159,13 @@ public class FlowElementUids
     /// </summary>
     public static string InputFolder => "FileFlows.BasicNodes.File.InputFolder";
     /// <summary>
-    /// Gets the UID for FlowFailure
+    /// Gets the UID for the flow element that is the input for a Failure Flow
     /// </summary>
     public static string FlowFailure => "FileFlows.BasicNodes.FlowFailure";
+    /// <summary>
+    /// Gets the UID for tha flow element that fails a flow
+    /// </summary>
+    public static string FailFlow => "FileFlows.BasicNodes.Functions.FailFlow";
     /// <summary>
     /// Gets the UID for SubFlowInput
     /// </summary>

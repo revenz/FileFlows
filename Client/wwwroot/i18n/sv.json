@@ -326,6 +326,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "Flytta alltid",
+        "AlwaysMove-Help": "Om aktiverat kommer filen alltid att flyttas, även om ingen bearbetning har tillämpats på den ursprungliga indatafilen.",
         "DeleteOld": "Rensa original",
         "DeleteOld-Help": "Tar bort originalfilen och originalmappen om inga andra filer finns kvar.",
         "Description": "Beskrivning",
@@ -565,6 +567,8 @@
         "CropBlackBars-Help": "FileFlows kommer att försöka upptäcka svarta kanter i videofilen och om de hittas kommer de att beskäras för att minska filstorleken och för att möjliggöra ändring av bildförhållandet i spelare.",
         "DefaultLanguage": "Standardspråk",
         "DefaultLanguage-Help": "Anger språket som ska tilldelas ljudspår som inte har något språk specificerat.",
+        "FallBackAudio": "Reservljud",
+        "FallBackAudio-Help": "Aktivera det här alternativet för att skapa reservljudspår om de begärda kanalerna inte är tillgängliga. Om den önskade kanalkonfigurationen inte kan uppfyllas (t.ex. 5.1 begärs men endast stereo finns tillgängligt), kommer den ursprungliga kanalkonfigurationen att användas.",
         "KeepAllSubtitles": "Bevara alla undertexter",
         "KeepAllSubtitlesDescription": "Bevara alla undertexter från originalvideon",
         "KeepOnlySpecifiedSubtitles": "Bevara endast",

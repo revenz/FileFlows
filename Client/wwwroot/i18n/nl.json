@@ -326,6 +326,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "Altijd verplaatsen",
+        "AlwaysMove-Help": "Indien ingeschakeld, wordt het bestand altijd verplaatst, zelfs als er geen verwerking op het oorspronkelijke invoerbestand is toegepast.",
         "DeleteOld": "Opruimen Origineel",
         "DeleteOld-Help": "Verwijder het originele bestand en de originele map als er geen andere bestanden meer zijn.",
         "Description": "Beschrijving",
@@ -565,6 +567,8 @@
         "CropBlackBars-Help": "FileFlows probeert zwarte balken in het videobestand te detecteren en snijdt deze af als ze gevonden worden om de bestandsgrootte te verkleinen en de beeldverhouding in de mediaspelers aan te passen.",
         "DefaultLanguage": "Standaardtaal",
         "DefaultLanguage-Help": "Geef de taal op die toegewezen moet worden aan audiotracks die momenteel geen taal hebben.",
+        "FallBackAudio": "Terugval-audio",
+        "FallBackAudio-Help": "Schakel deze optie in om terugval-audiotracks te maken wanneer de gevraagde kanalen niet beschikbaar zijn. Als de gewenste kanaalconfiguratie niet kan worden bereikt (bijvoorbeeld 5.1 aangevraagd, maar alleen stereo beschikbaar), wordt de originele kanaalconfiguratie gebruikt.",
         "KeepAllSubtitles": "Behoud alle ondertitels",
         "KeepAllSubtitlesDescription": "Behoud alle ondertitels van het originele bestand",
         "KeepOnlySpecifiedSubtitles": "Behoud alleen opgegeven ondertitels",

@@ -326,6 +326,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "Mover siempre",
+        "AlwaysMove-Help": "Si está habilitado, el archivo siempre se moverá, incluso si no se aplicó ningún procesamiento al archivo de entrada original.",
         "DeleteOld": "Limpiar original",
         "DeleteOld-Help": "Elimina el archivo original y la carpeta si no quedan otros archivos.",
         "Description": "Descripción",
@@ -565,6 +567,8 @@
         "CropBlackBars-Help": "FileFlows intentará detectar barras negras en el archivo de video, y si las encuentra, las recortará para reducir el tamaño del archivo y permitir el cambio de relación de aspecto en los reproductores.",
         "DefaultLanguage": "Idioma Predeterminado",
         "DefaultLanguage-Help": "Especifica el idioma a asignar a las pistas de audio que actualmente no tienen idioma especificado.",
+        "FallBackAudio": "Audio de respaldo",
+        "FallBackAudio-Help": "Habilita esta opción para crear pistas de audio de respaldo cuando los canales solicitados no estén disponibles. Si no se puede cumplir con la configuración de canales deseada (por ejemplo, se solicita 5.1 pero solo hay estéreo disponible), se usará la configuración de canales original.",
         "KeepAllSubtitles": "Mantener Todos los Subtítulos",
         "KeepAllSubtitlesDescription": "Mantén todos los subtítulos del archivo de video original.",
         "KeepOnlySpecifiedSubtitles": "Mantener Solo",

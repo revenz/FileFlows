@@ -326,6 +326,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "常に移動",
+        "AlwaysMove-Help": "有効にすると、元の入力ファイルに処理が適用されなくても、常にファイルが移動されます。",
         "DeleteOld": "元を削除",
         "DeleteOld-Help": "元のファイルと、他のファイルがない場合は元のフォルダーを削除します。",
         "Description": "説明",
@@ -565,6 +567,8 @@
         "CropBlackBars-Help": "FileFlowsはビデオファイル内の黒帯を検出し、見つかった場合はファイルサイズを縮小し、プレーヤーでのアスペクト比変更を可能にするためにトリミングします。",
         "DefaultLanguage": "デフォルト言語",
         "DefaultLanguage-Help": "現在言語が指定されていないオーディオトラックに割り当てる言語を指定します。",
+        "FallBackAudio": "フォールバックオーディオ",
+        "FallBackAudio-Help": "指定したチャンネルが利用できない場合にフォールバックオーディオトラックを作成するオプションを有効にします。希望するチャンネル構成が満たされない場合（例：5.1を要求したがステレオのみ利用可能）、元のチャンネル構成が使用されます。",
         "KeepAllSubtitles": "すべての字幕を保持",
         "KeepAllSubtitlesDescription": "オリジナルビデオからすべての字幕を保持します。",
         "KeepOnlySpecifiedSubtitles": "指定した字幕のみ保持",

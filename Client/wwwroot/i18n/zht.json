@@ -326,6 +326,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "始終移動",
+        "AlwaysMove-Help": "啟用後，即使未對原始輸入文件進行任何處理，文件仍將始終被移動。",
         "DeleteOld": "清理原始檔案",
         "DeleteOld-Help": "刪除原始檔案及原始資料夾（如果沒有其他檔案）。",
         "Description": "描述",
@@ -565,6 +567,8 @@
         "CropBlackBars-Help": "FileFlows將嘗試檢測影片檔案中的黑邊，若找到，將裁剪這些黑邊以減少檔案大小並允許播放器更改縱橫比。",
         "DefaultLanguage": "預設語言",
         "DefaultLanguage-Help": "指定要分配給當前未指定語言的音軌的語言。",
+        "FallBackAudio": "備用音軌",
+        "FallBackAudio-Help": "啟用此選項，以在請求的音頻通道不可用時建立備用音軌。如果無法滿足所需的通道配置（例如，要求 5.1 但僅提供立體聲），則會使用原始通道配置。",
         "KeepAllSubtitles": "保留所有字幕",
         "KeepAllSubtitlesDescription": "保留原始影片中的所有字幕",
         "KeepOnlySpecifiedSubtitles": "僅保留指定字幕",

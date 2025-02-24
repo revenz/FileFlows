@@ -516,8 +516,9 @@ public class FlowController : BaseController
     /// <returns>all the flow elements</returns>
     internal static async Task<FlowElement[]> GetFlowElements(Guid flowUid, FlowType? type = null)
     {
-        var plugins = await new PluginController(null).GetAll(includeElements: true);
-        var results = plugins.Where(x => x.Enabled && x.Elements != null).SelectMany(x => x.Elements)?.Where(x =>
+        var plugins = await ServiceLoader.Load<PluginService>().GetPluginInfoModels(true, skipVersionUpdateCheck: true);
+        var results = plugins.Where(x => x is { Enabled: true, Elements: not null })
+            .SelectMany(x => x.Elements)?.Where(x =>
         {
             if (type == null || (int)type == -1) // special case used by get variables, we want everything
                 return true;

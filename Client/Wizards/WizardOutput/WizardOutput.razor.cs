@@ -19,7 +19,7 @@ public partial class WizardOutput : ComponentBase
     [Parameter] public bool FileDropFlow { get; set; }
     
     private string OutputPath;
-    private bool DeleteOld, IsWindows, IsFileDrop;
+    private bool DeleteOld, IsWindows, IsFileDrop, AlwaysMove;
     private int OutputMode = 0;
 
     /// <inheritdoc />
@@ -59,7 +59,7 @@ public partial class WizardOutput : ComponentBase
     /// <param name="row">Optional row to start at</param>
     /// <param name="col">Optional col to start at</param>
     /// <returns>the primary flow output flow part</returns>
-    public FlowPart  FlowAddOutput(FlowBuilder builder, string[] keepExtensions
+    public FlowPart FlowAddOutput(FlowBuilder builder, string[] keepExtensions
     , int row = 0, int col = 0)
     {
         int preOutputColumn = builder.CurrentColumn;
@@ -98,7 +98,7 @@ public partial class WizardOutput : ComponentBase
                     DeleteOriginal = DeleteOld,
                     MoveFolder = true
                 })
-            }, row: row, column: col > 0 ? (preOutputColumn + col) : 0);
+            }, row: row, column: col > 0 ? (preOutputColumn + col) : 0, allOutputs: AlwaysMove);
 
             if (DeleteOld)
             {
