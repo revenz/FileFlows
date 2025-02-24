@@ -205,6 +205,9 @@
     border-radius: 1rem;
     overflow: hidden;
     margin: 0.25rem;
+    &.no-thumbnail {
+      padding: 1.25rem;
+    }
   }
 }
 

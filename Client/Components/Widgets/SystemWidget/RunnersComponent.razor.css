@@ -145,6 +145,8 @@
     border-radius: 1rem;
     overflow: hidden;
     margin: 0.25rem; }
+    .icon .icon.no-thumbnail {
+      padding: 1.25rem; }
 
 .steps {
   white-space: nowrap;
