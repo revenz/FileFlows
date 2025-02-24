@@ -241,11 +241,11 @@ public partial class NewVideoFlowWizard
         ];
         QualityOptions =
         [
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Ok"), Value = 2},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Good"), Value = 4},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Recommended"), Value = 6},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.High"), Value = 8},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.VeryHigh"), Value = 10},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Ok"), Value = 1},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Good"), Value = 3},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Recommended"), Value = 5},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.High"), Value = 7},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.VeryHigh"), Value = 9},
         ];
 
         initDone = true;
