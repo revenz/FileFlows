@@ -717,7 +717,7 @@ public partial class NewVideoFlowWizard
                 builder.AddAndConnect(new FlowPart()
                 {
                     FlowElementUid = FlowElementUids.FFmpegBuilderAudioLanguageConverter,
-                    Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.FallBackAudio"),
+                    Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.FallBackAudio"),
                     Outputs = 2,
                     Type = FlowElementType.BuildPart,
                     Model = ExpandoHelper.ToExpandoObject(new
