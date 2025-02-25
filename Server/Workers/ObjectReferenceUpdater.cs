@@ -1,4 +1,5 @@
 using FileFlows.Services;
+using FileFlows.Services.FileDropServices;
 using FileFlows.Shared.Models;
 using FlowService = FileFlows.Services.FlowService;
 using LibraryFileService = FileFlows.Services.LibraryFileService;
@@ -96,6 +97,7 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
             {
                 libService.UpdateFlowName(flow.Uid, flow.Name).Wait();
                 lfService.UpdateFlowName(flow.Uid, flow.Name).Wait();
+                
             }
             Logger.Instance.ILog("Time Taken to complete for ObjectReference rename: "+ DateTime.UtcNow.Subtract(start));
         }

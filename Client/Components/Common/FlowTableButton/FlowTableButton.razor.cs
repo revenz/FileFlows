@@ -26,6 +26,12 @@ public partial class FlowTableButton : ComponentBase, IDisposable
     /// </summary>
     [Parameter]
     public string Icon { get; set; }
+    
+    /// <summary>
+    /// Gets or sets  if the label should be hidden
+    /// </summary>
+    [Parameter]
+    public bool HideLabel { get; set; }
 
     /// <summary>
     /// Gets or sets if this button is disabled

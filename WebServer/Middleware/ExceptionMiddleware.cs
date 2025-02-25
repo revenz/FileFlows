@@ -31,6 +31,9 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
+            if (context.Request?.Path.Value == "/remote/log")
+                return; // not a big we can ignore this.
+            
             context.Response.ContentType = "text/plain";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 

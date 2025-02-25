@@ -1,0 +1,23 @@
+@namespace FileFlows.Client.Components.Common
+
+<div class="flow-checklist">
+    @foreach (var item in Items)
+    {
+        <label  class="table-item">
+            <input type="checkbox" @bind="@item.Checked" disabled="@item.ReadOnly" />
+            <TableItemIcon Icon="@item.Icon" DefaultIcon="@DefaultIcon"/>
+            <div class="center">
+                <span class="name"><span class="name-actual">@item.Name</span></span>
+                <span class="description"><span>@item.Description</span></span>
+            </div>
+            @if (string.IsNullOrEmpty(item.TopRightText) == false)
+            {
+                <div class="right">
+                    <span class="top-right">
+                        @item.TopRightText
+                    </span>
+                </div>
+            }
+        </label>
+    }
+</div>

@@ -1,6 +1,5 @@
 .file-table {
-  height: 100%;
-}
+  height: 100%; }
 
 .file-table-row {
   display: flex;
@@ -9,52 +8,79 @@
   font-size: 0.9rem;
   align-items: center;
   padding: 0.25rem 0;
-  position: relative;
-}
-.file-table-row.has-message .center {
-  display: grid;
-  grid-template-columns: 1fr 8rem;
-}
-.file-table-row.has-message .center .message {
-  grid-column: 1/span 2;
-  font-weight: 600;
-  font-size: 0.8rem;
-  color: var(--red);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.file-table-row.has-message .center .message > span {
-  cursor: pointer;
-  position: relative;
-}
-.file-table-row .center {
-  display: flex;
-  align-content: center;
-  width: 100%;
-  overflow: hidden;
-  align-items: center;
-}
+  position: relative; }
+  .file-table-row.has-message .center {
+    display: grid;
+    grid-template-columns: 1fr 8rem; }
+    .file-table-row.has-message .center .message {
+      grid-column: 1 / span 2;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--red);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; }
+      .file-table-row.has-message .center .message > span {
+        cursor: pointer;
+        position: relative; }
+  .file-table-row.fm-0 {
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden; }
+    .file-table-row.fm-0 .center {
+      flex-direction: column;
+      align-items: unset; }
+    .file-table-row.fm-0 .size, .file-table-row.fm-0 .time {
+      font-weight: var(--bold, 600);
+      position: absolute;
+      right: 0;
+      padding: 0.5rem;
+      background: #3e3e3e47;
+      width: fit-content; }
+    .file-table-row.fm-0 .size {
+      bottom: 0;
+      border-top-left-radius: 0.5rem;
+      border-top: solid 1px var(--base);
+      border-left: solid 1px var(--base); }
+    .file-table-row.fm-0 .time {
+      top: 0;
+      border-bottom-left-radius: 0.5rem;
+      border-bottom: solid 1px var(--base);
+      border-left: solid 1px var(--base); }
+  .file-table-row .center {
+    display: flex;
+    align-content: center;
+    width: 100%;
+    overflow: hidden;
+    align-items: center; }
 
 .path {
   flex-grow: 1;
   overflow: hidden;
-  text-overflow: ellipsis;
-}
-.path > span {
-  cursor: pointer;
-  position: relative;
-}
+  text-overflow: ellipsis; }
+  .path > span {
+    cursor: pointer;
+    position: relative; }
 
 .time {
   width: 8rem;
   min-width: 8rem;
-  text-align: center;
-}
-.time > span {
-  cursor: pointer;
-  position: relative;
-}
+  text-align: center; }
+  .time > span {
+    cursor: pointer;
+    position: relative; }
+
+.traits {
+  display: flex;
+  margin-top: 0.5rem; }
+  .traits .trait {
+    border: solid 1px var(--info);
+    font-size: 0.8rem;
+    font-weight: var(--bold, 600);
+    padding: 0 0.25rem;
+    border-radius: 0.5rem;
+    margin-right: 0.25rem;
+    opacity: 0.75; }
 
 .savings {
   background: rgba(255, 255, 255, 0.05);
@@ -62,17 +88,22 @@
   top: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-}
+  right: 0; }
 
-.icon {
-  width: 3rem;
-}
 .icon .icon {
   height: 2.25rem;
+  width: 3rem;
+  cursor: pointer;
+  position: relative; }
+.icon .icon.thumbnail {
+  height: 7rem;
+  width: 7rem;
   cursor: pointer;
   position: relative;
-}
+  margin-right: 0.5rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  overflow: hidden; }
 
 .no-files {
   display: flex;
@@ -82,9 +113,9 @@
   place-content: center;
   font-size: 1.2rem;
   font-weight: var(--bold, 600);
-  padding: 1.47rem;
-}
-.no-files i {
-  font-size: 5rem;
-  margin-bottom: 1rem;
-}
+  padding: 1.47rem; }
+  .no-files i {
+    font-size: 5rem;
+    margin-bottom: 1rem; }
+
+/*# sourceMappingURL=FilesWidget.razor.css.map */

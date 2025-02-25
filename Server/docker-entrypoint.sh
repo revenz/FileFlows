@@ -1,15 +1,26 @@
 #!/usr/bin/env bash
-
-# set -e makes the script exit when a command fails.
-set -e
+set -e  # Exit immediately if a command exits with a non-zero status.
 
 # Start logging to startup.log and also output to console
 exec > >(tee -a /app/startup.log) 2>&1
 
+# Function to stop logging to startup.log and continue logging only to the console
 stopLogging() {
-  # Stop logging to startup.log and continue logging only to the console
   exec > /proc/1/fd/1 2>/proc/1/fd/2
 }
+
+# Function to handle graceful shutdown
+shutdown() {
+    echo "Shutting down gracefully..."
+    if [[ -n "$dotnet_pid" ]]; then
+        kill -TERM "$dotnet_pid"
+        wait "$dotnet_pid"
+    fi
+    exit 0
+}
+
+# Trap SIGTERM and SIGINT to ensure a graceful shutdown
+trap shutdown SIGTERM SIGINT
 
 dockermods() {
 
@@ -89,11 +100,12 @@ dockermods() {
     fi
 }
 
+# Default mode is "server"
 mode=server
 
+# Check if running as a node
 if [[ "$FFNODE" == 'true' || "$FFNODE" == '1' || "$1" = '--node' ]]; then
-
-    # check if there is an upgrade to apply
+    # Check if an upgrade script exists and run it
     if test -f "/app/NodeUpdate/node-upgrade.sh"; then
         printf "Upgrade found\n"
         chmod +x /app/NodeUpdate/node-upgrade.sh
@@ -101,12 +113,9 @@ if [[ "$FFNODE" == 'true' || "$FFNODE" == '1' || "$1" = '--node' ]]; then
         printf "bash node-upgrade.sh docker\n"
         bash node-upgrade.sh docker
     fi
-
     mode=node
-    
 else
-
-    # check if there is an upgrade to apply
+    # Check if a server upgrade script exists and run it
     if test -f "/app/Update/server-upgrade.sh"; then
         printf "Upgrade found\n"
         chmod +x /app/Update/server-upgrade.sh
@@ -116,37 +125,33 @@ else
     fi
 fi
 
-
-
+# Run as root if PUID is not set
 if [[ -z "${PUID}" ]]; then
-
     if [[ "$mode" == "node" ]]; then
-
         printf "Launching node as root\n"
         cd /app/Node
         stopLogging
-        exec /dotnet/dotnet FileFlows.Node.dll --docker true
-
+        dotnet FileFlows.Node.dll --docker true &
+        dotnet_pid=$!
     else
-
-        # dockermods
-
+        # Run DockerMods before starting the server
+        dockermods
         printf "Launching server as root\n"
         cd /app/Server
         stopLogging
-        exec /dotnet/dotnet FileFlows.Server.dll --urls=http://*:5000 --docker
-
+        dotnet FileFlows.Server.dll --urls=http://*:5000 --docker &
+        dotnet_pid=$!
     fi
-
-else 
+else
     # running as PGID/PUID
     pgid=${PGID}
     if [[ -z "${PGID}" ]]; then
         pgid="${PUID}"
     fi
-
+    
     user=fileflows
 
+    # Check if the user exists
     if id "${PUID}" &>/dev/null; then
         printf "${PUID} user exists\n"
         user="$(id -u -n)"
@@ -166,26 +171,19 @@ else
             printf "failed to create user '$user'\n"
             exit
         fi
-    fi      
-        
-    # Handle additional groups from PGIDS
+    fi
+
+    # Add user to additional groups if specified
     if [[ -n "${PGIDS}" ]]; then
         IFS=';' read -ra ADDITIONAL_GROUPS <<< "${PGIDS}"
         for group in "${ADDITIONAL_GROUPS[@]}"; do
-            # Resolve group name to GID if it's a number
-            if [[ "$group" =~ ^[0-9]+$ ]]; then
-                group_name=$(getent group "$group" | cut -d: -f1)
-                if [[ -z "$group_name" ]]; then
-                    printf "Group with GID $group does not exist\n"
-                    continue
-                fi
-            else
-                group_name="$group"
+            group_name=$(getent group "$group" | cut -d: -f1)
+            if [[ -z "$group_name" ]]; then
+                printf "Group with GID $group does not exist\n"
+                continue
             fi
-    
-            # Check if the group exists
             if getent group "$group_name" &>/dev/null; then
-                printf "Group $group_name exists, adding user to this group\n"
+                printf "Adding user to group $group_name\n"
                 usermod -aG "$group_name" "$user"
             else
                 printf "Group $group_name does not exist, skipping\n"
@@ -193,26 +191,26 @@ else
         done
     fi
 
-    printf "changing owner of /app to: ${PUID}:$pgid\n"
+    printf "Changing ownership of /app to: ${PUID}:$pgid\n"
     chown -R "${PUID}:$pgid" /app
-    printf "changed owner of /app to: ${PUID}:$pgid\n"
-
-    # need to clear password for root, this is so DockerMods can be run
     passwd -d root
 
     if [[ "$mode" == "node" ]]; then
         printf "Launching node as '$user'\n"
         cd /app/Node
         stopLogging
-        su -c "/dotnet/dotnet FileFlows.Node.dll --docker true" $user
-
+        su -c "/dotnet/dotnet FileFlows.Node.dll --docker true" "$user" &
+        dotnet_pid=$!
     else
-
-        # dockermods
-
+        # Run DockerMods before starting the server
+        dockermods
         printf "Launching server as '$user'\n"
         cd /app/Server
         stopLogging
-        su -c "/dotnet/dotnet FileFlows.Server.dll --urls=http://*:5000 --docker" $user
+        su -c "/dotnet/dotnet FileFlows.Server.dll --urls=http://*:5000 --docker" "$user" &
+        dotnet_pid=$!
     fi
 fi
+
+# Wait for the process to exit, ensuring the script doesn't terminate prematurely
+wait "$dotnet_pid"

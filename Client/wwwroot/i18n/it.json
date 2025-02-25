@@ -23,6 +23,7 @@
     "CopiedToClipboard": "Copia ''{text}'' negli appunti.",
     "Copy": "Copia",
     "CopyToClipboard": "Copia negli appunti",
+    "CustomField": "Campo Personalizzato",
     "Decrease": "Diminuisci",
     "Default": "Predefinito",
     "Delete": "Elimina",
@@ -41,6 +42,7 @@
     "Duplicate": "Duplica",
     "Edit": "Modifica",
     "EditSubFlow": "Modifica Sotto Flow",
+    "Elements": "Elementi",
     "Enabled": "Abilitato",
     "Execute": "Esegui",
     "Executing": "Esecuzione",
@@ -74,6 +76,8 @@
     "MissingDependencies": "Dipendenze Mancanti",
     "MissingDependenciesMessage": "I seguenti plugin mancanti devono essere scaricati prima di utilizzare questo modello:\n\n#LIST#",
     "MonthShort": "Mese",
+    "MoveDown": "Sposta Giù",
+    "MoveUp": "Sposta Su",
     "Name": "Nome",
     "Never": "Mai",
     "Next": "Avanti",
@@ -111,7 +115,6 @@
     "Reprocess": "Rielabora",
     "Rescan": "Ripeti Scansione",
     "Reset": "Ripristina",
-    "ResetLayout": "Ripristina Layout",
     "Restore": "Ripristina",
     "RestoredFailedMessage": "Ripristino di {type} non riuscito",
     "RestoredMessage": "{type} ripristinato",
@@ -147,6 +150,7 @@
     "Tag": "Tag",
     "Test": "Test",
     "Time": "Tempo",
+    "Tokens": "Gettoni",
     "TooManyDockerMods": "Hai selezionato troppi DockerMods. Questo può influire sulle prestazioni ed è probabilmente inutile installare tutti questi DockerMods.",
     "Total": "Totale",
     "Trigger": "Attivatore",
@@ -160,6 +164,7 @@
     "UpdateAvailable": "Nuova versione disponibile {version}",
     "Upload": "Caricare",
     "UsedBy": "Usato Da",
+    "Value": "Valore",
     "Version": "Versione",
     "VersionNumber": "Versione: {version}",
     "View": "Visualizza",
@@ -320,6 +325,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "Sposta sempre",
+        "AlwaysMove-Help": "Se abilitato, il file verrà sempre spostato, anche se nessuna elaborazione è stata applicata al file di input originale.",
         "DeleteOld": "Pulisci Originale",
         "DeleteOld-Help": "Elimina il file originale e la cartella originale se non rimangono altri file.",
         "Description": "Descrizione",
@@ -334,10 +341,10 @@
         "OutputPathRequired": "Il percorso di uscita è obbligatorio."
       },
       "Output": {
+        "FileDropMove": "Sposta il file",
+        "FileDropMoveDescription": "Sposta il file in una cartella temporanea unica per l'utente per il download. Il file verrà eliminato automaticamente dopo un periodo di tempo stabilito.",
         "ReplaceOriginal": "Sostituisci Originale",
         "ReplaceOriginalDescription": "Sostituisce il file originale con quello convertito.",
-        "ResellerMove": "Spostamento del rivenditore",
-        "ResellerMoveDescription": "Sposta il file in una cartella temporanea unica per l'utente per il download. Il file verrà eliminato automaticamente dopo un periodo di tempo stabilito.",
         "SaveToFolder": "Salva in una cartella",
         "SaveToFolderDescription": "Salva il file convertito in una nuova posizione."
       },
@@ -525,6 +532,7 @@
         "BitrateDescription": "Utilizza un bitrate fisso durante la codifica del video. Ciò produce dimensioni di file costanti tra i video, ma spreca spazio di archiviazione o perde qualità se il bitrate non è ottimale.",
         "FileExtensions": "Estensioni",
         "FileExtensionsDescription": "Specifica le estensioni da elaborare in questa libreria.",
+        "OnlyOnePerLanguage": "Verrà mantenuta solo una traccia per ogni lingua specificata. Tutte le altre tracce, anche di lingue specificate, verranno rimosse. Se una lingua specificata non è presente nel video sorgente, verrà ignorata e non inclusa.",
         "Quality": "Qualità",
         "QualityDescription": "Utilizza una codifica adattativa basata sull'input del video per ottenere un livello di qualità costante. Questo è raccomandato e produce una qualità costante tra i video e anche i file più piccoli.",
         "UseOriginal": "Usa l'originale senza modifiche",
@@ -558,6 +566,8 @@
         "CropBlackBars-Help": "FileFlows cercherà di rilevare le barre nere nel file video e, se le troverà, le ritaglierà per ridurre le dimensioni del file e consentire il cambio del rapporto d'aspetto nei lettori.",
         "DefaultLanguage": "Lingua predefinita",
         "DefaultLanguage-Help": "Specifica la lingua da assegnare alle tracce audio che attualmente non hanno una lingua specificata.",
+        "FallBackAudio": "Traccia audio di riserva",
+        "FallBackAudio-Help": "Abilita questa opzione per creare tracce audio di riserva quando i canali richiesti non sono disponibili. Se la configurazione desiderata non può essere soddisfatta (ad esempio, 5.1 richiesto ma solo stereo disponibile), verrà utilizzata la configurazione originale.",
         "KeepAllSubtitles": "Mantieni tutti i sottotitoli",
         "KeepAllSubtitlesDescription": "Mantieni tutti i sottotitoli dal video originale.",
         "KeepOnlySpecifiedSubtitles": "Mantieni solo",
@@ -738,6 +748,16 @@
       "PasswordReset": "Reset della Password",
       "PasswordResetRequest": "Richiesta di Reset della Password",
       "Updated": "Aggiornato"
+    },
+    "CustomFieldType": {
+      "Boolean": "Booleano",
+      "Image": "Immagine",
+      "Integer": "Intero",
+      "OptionGroup": "Gruppo di opzioni",
+      "Select": "Selezionare",
+      "Slider": "Dispositivo di scorrimento",
+      "Text": "Testo",
+      "TextArea": "Area di testo"
     },
     "DateCompareMode": {
       "After": "Dopo",
@@ -931,6 +951,7 @@
     "Admin": "Amministrazione",
     "Configuration": "Configurazione",
     "Extensions": "Estensioni",
+    "FileDrop": "FileDrop",
     "Information": "Informazioni",
     "Overview": "Panoramica",
     "Security": "Sicurezza",
@@ -981,6 +1002,25 @@
         "Operator": "Operatore",
         "Summary": "Riepilogo",
         "Type": "Tipo"
+      }
+    },
+    "CustomField": {
+      "Title": "Campo",
+      "Fields": {
+        "ConditionField": "Condizione",
+        "ConditionValue": "Valore",
+        "ConditionValue-Help": "Verrà mostrato solo se questo campo corrisponde al valore dato.",
+        "DefaultNumber": "Predefinito",
+        "Description": "Descrizione",
+        "Description-Help": "Una descrizione di aiuto mostrata sotto il campo.",
+        "Maximum": "Massimo",
+        "Minimum": "Minimo",
+        "Name-Help": "Il nome di questo campo mostrato.",
+        "Options": "Opzioni",
+        "Type": "Tipo",
+        "Type-Help": "Il tipo di input mostrato.",
+        "Variable": "Variabile",
+        "Variable-Help": "La variabile che verrà passata nel flusso."
       }
     },
     "Dashboard": {
@@ -1094,6 +1134,19 @@
         "Updating": "Aggiornamento in corso"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "Impostazioni di FileDrop"
+      },
+      "User": {
+        "Plural": "Utenti di FileDrop",
+        "Title": "Utente di FileDrop",
+        "Fields": {
+          "Provider": "Fornitore",
+          "Tokens": "Token"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "Compito"
     },
@@ -1124,11 +1177,15 @@
       },
       "Fields": {
         "Description": "Descrizione.",
+        "Extensions": "Estensioni",
         "Icon": "Icona",
+        "MaxFileSize": "Dimensione massima del file",
         "Outputs": "Output",
         "Outputs-Help": "Il numero di output che ha questo sottoflow. Questo è il numero di output disponibili quando si utilizza questo sottoflow in un altro flow.",
         "OutputsKey": "Output",
         "OutputsValue": "Descrizione",
+        "PreviewMode": "Modalità anteprima",
+        "Tokens": "Tokens",
         "Variables": "Variabili",
         "VariablesKey": "Nome",
         "VariablesValue": "Valore",
@@ -1164,7 +1221,9 @@
     "Flows": {
       "Title": "Flussi",
       "Labels": {
+        "DuplicateAsFileDropFlow": "Duplica su FileDrop",
         "FailureFlows": "Flussi di Errore",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Flussi Standard",
         "SubFlows": "Sottoflussi"
       },
@@ -1531,25 +1590,6 @@
         "Revision": "Revisione"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "Flusso Rivenditore",
-        "Title": "Flussi Rivenditori",
-        "Fields": {
-          "Extensions": "Estensioni",
-          "Extensions-Help": "L'elenco delle estensioni consentite che possono essere elaborate da questo flusso.",
-          "Flow": "Flusso",
-          "Icon": "Icona",
-          "MaxFileSize": "Dimensione Massima del File",
-          "MaxFileSize-Help": "La dimensione massima del file che può essere elaborata da questo flusso.",
-          "Tokens": "Token",
-          "Tokens-Help": "Il numero di token necessari a un utente per eseguire questo flusso."
-        }
-      },
-      "Settings": {
-        "Title": "Impostazioni Rivenditore"
-      }
-    },
     "Resources": {
       "Singular": "Risorsa",
       "Title": "Risorse",
@@ -1668,8 +1708,8 @@
         "LogFileRetention-Suffix": "Giorni",
         "LoggingPath": "Directory di Registrazione",
         "LoggingPath-Help": "Qui verranno creati i file di registro.",
-        "LogQueueMessages": "Registra Messaggi della Coda",
-        "LogQueueMessages-Help": "Ciò comporterà una registrazione eccessiva di tutti i file in coda/dequeuati nel watcher della libreria.\nAttivalo se hai problemi con i file che non appaiono, disattivalo di nuovo in seguito per evitare di riempire i tuoi file di registro con registrazioni eccessive.",
+        "LogQueueMessages": "Registrazione dettagliata della libreria",
+        "LogQueueMessages-Help": "Ciò aumenterà la registrazione del processo di rilevamento dei file della libreria. Dovrebbe essere attivato solo durante il debug di problemi di rilevamento dei file e disattivato successivamente.",
         "PluginRepositoryUrls": "Repository di Plugin",
         "PluginRepositoryUrls-Help": "Un elenco separato da righe di URL dei repository di plugin da utilizzare quando si cerca plugin.\nL'ordine è importante; se più repository contengono lo stesso plugin, verrà utilizzato come sorgente il primo repository.\nIl repository predefinito sarà sempre aggiunto alla fine di questo elenco.",
         "ProcessFileCheckInterval": "Intervallo di Controllo dei File",
@@ -1718,6 +1758,7 @@
         "License": {
           "Email": "Email di Licenza",
           "ExpiryDate": "Data di Scadenza",
+          "FileDropUsers": "Utenti Di FileDrop",
           "Files": "File",
           "Flags": "Funzionalità",
           "Key": "Chiave di Licenza",

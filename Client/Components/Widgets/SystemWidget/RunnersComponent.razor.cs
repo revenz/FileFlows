@@ -176,4 +176,38 @@ public partial class RunnersComponent : ComponentBase, IDisposable
         if (RunnersState.TryAdd(runner.Uid, true) == false)
             RunnersState[runner.Uid] = !RunnersState[runner.Uid];
     }
+    
+    
+    /// <summary>
+    /// Defines the priority order for sorting specific keys before the rest.
+    /// </summary>
+    private static readonly Dictionary<string, int> PriorityMap = new()
+    {
+        { "encoder", 0 },
+        { "decoder", 1 },
+        { "bitrate", 2 },
+        { "eta", 3 },
+        { "speed", 4 },
+        { "fps", 5 }
+    };
+
+    /// <summary>
+    /// Returns the sorted additional information entries.
+    /// Sorting is done lazily when the enumeration is accessed.
+    /// </summary>
+    /// <param name="runner">The runner containing additional information.</param>
+    /// <returns>A lazily evaluated enumerable of sorted additional info.</returns>
+    private static IEnumerable<object[]> GetSortedAdditional(FlowExecutorInfoMinified runner)
+    {
+        if (runner?.Additional == null)
+            yield break;
+
+        foreach (var item in runner.Additional
+                     .Where(item => item.Length >= 2) // Ensure at least two elements
+                     .OrderBy(item => PriorityMap.TryGetValue(item[0]?.ToString()?.ToLowerInvariant() ?? "", out var index) ? index : int.MaxValue)
+                     .ThenBy(item => item[0]?.ToString(), StringComparer.OrdinalIgnoreCase))
+        {
+            yield return item;
+        }
+    }
 }

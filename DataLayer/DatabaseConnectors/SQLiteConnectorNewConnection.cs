@@ -47,17 +47,20 @@ public class SQLiteConnectorNewConnection : IDatabaseConnector
     /// <inheritdoc />
     public int GetOpenedConnections()
         => connectionPool.OpenedConnections;
-    
+
+    private readonly bool _Cached;
     /// <inheritdoc />
-    public bool Cached => true;
+    public bool Cached => _Cached;
     
     /// <summary>
     /// Initialise a new connector
     /// </summary>
     /// <param name="logger">the logger to use</param>
     /// <param name="connectionString">the connection string</param>
-    public SQLiteConnectorNewConnection(ILogger logger, string connectionString)
+    /// <param name="cached">If this is cached or not, defaults to true</param>
+    public SQLiteConnectorNewConnection(ILogger logger, string connectionString, bool cached = true)
     {
+        _Cached = cached;
         Logger = logger;
         logger.ILog("Using SQLite Connector New Connection");
         connectionPool = new(CreateConnection, 20, connectionLifetime: new TimeSpan(0, 10, 0));

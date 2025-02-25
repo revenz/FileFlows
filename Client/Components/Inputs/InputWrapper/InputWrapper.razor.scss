@@ -9,7 +9,12 @@
     margin-bottom:auto;
     .fa-clipboard {
         color:var(--info);
-        padding-left:0.25rem;
+        padding-left:0.5rem;
+        cursor:pointer;
+    }
+    .fa-link {
+        color:var(--secondary);
+        padding-left:0.5rem;
         cursor:pointer;
     }
 }

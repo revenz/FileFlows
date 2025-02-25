@@ -85,7 +85,7 @@
                         <p>@lblDbDescription</p>
                         <hr />
                         <InputSelect @bind-Value="@DbType" Options=@DbTypes Label="Pages.Settings.Fields.Database.Type" AllowClear="false"/>
-                        @if (Model.DbType is DatabaseType.Sqlite or DatabaseType.SqlitePooledConnection or DatabaseType.SqliteNonCached == false)
+                        @if (Model.DbType is DatabaseType.Sqlite == false)
                         {
                             <InputText @bind-Value=@Model.DbServer Label="Pages.Settings.Fields.Database.Server" Validators=@RequiredValidator/>
                             <InputText @bind-Value=@Model.DbName Label="Pages.Settings.Fields.Database.Name" Validators=@RequiredValidator/>
@@ -100,7 +100,7 @@
                             <InputSwitch @bind-Value="@Model.DontBackupOnUpgrade" Label="Pages.Settings.Fields.Database.DontBackupOnUpgrade" OnChangedValue="OnDbBackupChange"/>
                         }
                         <div class="btn-test">
-                            @if (Model.DbType is DatabaseType.Sqlite or DatabaseType.SqlitePooledConnection or DatabaseType.SqliteNonCached == false)
+                            @if (Model.DbType is DatabaseType.Sqlite == false)
                             {
                                 <button class="btn" @onclick=@TestDbConnection>@lblTest</button>
                             }
@@ -158,6 +158,10 @@
                         <InputText Value=@Model.LicenseProcessingNodes.ToString() Label="Pages.Settings.Fields.License.ProcessingNodes" ReadOnly="true"/>
                         @if (IsLicensed)
                         {
+                            @if ((Model.LicenseFlags & LicenseFlags.FileDrop) == LicenseFlags.FileDrop)
+                            {
+                                <InputText Value="@Model.LicensedFileDropUsers.ToString()" Label="Pages.Settings.Fields.License.FileDropUsers" ReadOnly="true" />
+                            }
                             <InputText Value=@Model.LicenseExpiryDate.ToString("f") Label="Pages.Settings.Fields.License.ExpiryDate" ReadOnly="true"/>
                             <InputTextArea @bind-Value=@LicenseFlagsString Label="Pages.Settings.Fields.License.Flags" ReadOnly="true" Rows="10"/>
                         }

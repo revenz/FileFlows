@@ -39,7 +39,7 @@ public class FileTypeIconController : Controller
 	private const string PDF = "<path style=\"fill:#fff;\" d=\"M19.514,33.324L19.514,33.324c-0.348,0-0.682-0.113-0.967-0.326\n\t\tc-1.041-0.781-1.181-1.65-1.115-2.242c0.182-1.628,2.195-3.332,5.985-5.068c1.504-3.296,2.935-7.357,3.788-10.75\n\t\tc-0.998-2.172-1.968-4.99-1.261-6.643c0.248-0.579,0.557-1.023,1.134-1.215c0.228-0.076,0.804-0.172,1.016-0.172\n\t\tc0.504,0,0.947,0.649,1.261,1.049c0.295,0.376,0.964,1.173-0.373,6.802c1.348,2.784,3.258,5.62,5.088,7.562\n\t\tc1.311-0.237,2.439-0.358,3.358-0.358c1.566,0,2.515,0.365,2.902,1.117c0.32,0.622,0.189,1.349-0.39,2.16\n\t\tc-0.557,0.779-1.325,1.191-2.22,1.191c-1.216,0-2.632-0.768-4.211-2.285c-2.837,0.593-6.15,1.651-8.828,2.822\n\t\tc-0.836,1.774-1.637,3.203-2.383,4.251C21.273,32.654,20.389,33.324,19.514,33.324z M22.176,28.198\n\t\tc-2.137,1.201-3.008,2.188-3.071,2.744c-0.01,0.092-0.037,0.334,0.431,0.692C19.685,31.587,20.555,31.19,22.176,28.198z\n\t\t M35.813,23.756c0.815,0.627,1.014,0.944,1.547,0.944c0.234,0,0.901-0.01,1.21-0.441c0.149-0.209,0.207-0.343,0.23-0.415\n\t\tc-0.123-0.065-0.286-0.197-1.175-0.197C37.12,23.648,36.485,23.67,35.813,23.756z M28.343,17.174\n\t\tc-0.715,2.474-1.659,5.145-2.674,7.564c2.09-0.811,4.362-1.519,6.496-2.02C30.815,21.15,29.466,19.192,28.343,17.174z\n\t\t M27.736,8.712c-0.098,0.033-1.33,1.757,0.096,3.216C28.781,9.813,27.779,8.698,27.736,8.712z\"/>\n\t";
 	private const string DISC = "\n\t<circle style=\"fill:#C8BDB8;\" cx=\"27.5\" cy=\"21\" r=\"12\"/>\n\t<circle style=\"fill:#E9E9E0;\" cx=\"27.5\" cy=\"21\" r=\"3\"/>\n\t<path style=\"fill:#D3CCC9;\" d=\"M25.379,18.879c0.132-0.132,0.276-0.245,0.425-0.347l-2.361-8.813\n\t\tc-1.615,0.579-3.134,1.503-4.427,2.796c-1.294,1.293-2.217,2.812-2.796,4.427l8.813,2.361\n\t\tC25.134,19.155,25.247,19.011,25.379,18.879z\"/>\n\t<path style=\"fill:#D3CCC9;\" d=\"M30.071,23.486l2.273,8.483c1.32-0.582,2.56-1.402,3.641-2.484c1.253-1.253,2.16-2.717,2.743-4.275\n\t\tl-8.188-2.194C30.255,22.939,29.994,23.2,30.071,23.486z\"/>";
 	private const string URL =  "<path fill=\"#C8BDB8\" fill-rule=\"evenodd\" class=\"c\" d=\"m28 36c-5.7 0-10.8-3.4-12.9-8.6-2.2-5.3-1-11.3 3-15.3 4-4 10-5.2 15.3-3 5.2 2.1 8.6 7.2 8.6 12.9 0 1.8-0.4 3.7-1.1 5.4-0.7 1.7-1.7 3.2-3 4.5-1.3 1.3-2.8 2.3-4.5 3-1.7 0.7-3.6 1.1-5.4 1.1zm0-26.8c-5.2 0-9.9 3.1-11.8 7.9-2 4.8-0.9 10.3 2.7 14 3.7 3.6 9.2 4.7 14 2.7 4.8-1.9 7.9-6.6 7.9-11.8 0-1.7-0.3-3.4-1-4.9-0.6-1.6-1.5-3-2.7-4.2-1.2-1.2-2.6-2.1-4.2-2.7-1.5-0.7-3.2-1-4.9-1z\" />\n        <path fill=\"#C8BDB8\" class=\"c\" d=\"m14.8 21.4h26.4v1.2h-26.4z\" />\n        <path fill=\"#C8BDB8\" class=\"c\"\n              d=\"m28.3 16.5q-1.5 0-3-0.1-1.5-0.1-3-0.3-1.5-0.2-3-0.5-1.4-0.3-2.9-0.7l0.4-1.1c0.1 0 11.2 3.3 22.4 0l0.3 1.1q-1.3 0.4-2.7 0.7-1.4 0.3-2.8 0.5-1.4 0.2-2.8 0.3-1.5 0.1-2.9 0.1z\" /><path fill=\"#C8BDB8\" class=\"c\" d=\"m16.8 29.9l-0.4-1.1c11.5-3.4 22.7-0.2 23.1 0l-0.3 1.1c-0.1 0-11.3-3.3-22.4 0z\" />\n        <path fill=\"#C8BDB8\" class=\"c\"\n              d=\"m23.5 34.8q-1.3-3.1-2-6.3-0.7-3.2-0.8-6.5-0.1-3.3 0.4-6.6 0.5-3.2 1.6-6.4l1.1 0.5q-1.1 3-1.5 6.2-0.5 3.1-0.4 6.3 0.1 3.2 0.7 6.3 0.7 3.1 2 6z\" /><path fill=\"#C8BDB8\" class=\"c\" d=\"m32.4 34.8l-1-0.5q1.2-2.9 1.9-6 0.7-3.1 0.8-6.3 0-3.2-0.4-6.3-0.5-3.2-1.6-6.2l1.1-0.4q1.1 3.1 1.6 6.3 0.5 3.3 0.4 6.6-0.1 3.3-0.8 6.5-0.7 3.2-2 6.3z\" /><path fill=\"#C8BDB8\" class=\"d\" d=\"m48 56h-40c-0.8 0-1.5-0.7-1.5-1.5v-15.5h43v15.5c0 0.8-0.7 1.5-1.5 1.5z\" />";
-	
+
 	private static List<string> VideoExtensions = new() { "mkv", "mov", "mp4", "mpeg", "mpg","avi", "ts", "webm", "wmv" };
 	private static List<string> ImageExtensions = new() { "bmp", "gif", "gif", "heic", "jpg", "png", "tiff", "webp" };
 	private static List<string> TextExtensions = new() { "srt", "sub", "sup", "txt" };
@@ -85,32 +85,68 @@ public class FileTypeIconController : Controller
 	/// Gets an extension icon
 	/// </summary>
 	/// <param name="extension">the extension</param>
+	/// <param name="pad">the amount of padding</param>
 	/// <returns>the icon</returns>
 	[HttpGet("{extension}.svg")]
-	public IActionResult Icon(string extension)
+	public IActionResult Icon(string extension, [FromQuery] int pad = 0)
 	{
 		extension = extension.ToLowerInvariant();
 		if (ArchiveExtensions.Contains(extension))
-			return ReturnImage(ARCHIVE, extension, ArchiveExtensions.IndexOf(extension));
+			return ReturnImage(ARCHIVE, extension, ArchiveExtensions.IndexOf(extension), pad);
         if (AudioExtensions.Contains(extension))
-	        return ReturnImage(AUDIO, extension, AudioExtensions.IndexOf(extension));
+	        return ReturnImage(AUDIO, extension, AudioExtensions.IndexOf(extension), pad);
         if (ComicExtensions.Contains(extension))
-	        return ReturnImage(COMIC, extension, ComicExtensions.IndexOf(extension));
+	        return ReturnImage(COMIC, extension, ComicExtensions.IndexOf(extension), pad);
         if (CodeExtensions.Contains(extension))
-	        return ReturnImage(CODE, extension, CodeExtensions.IndexOf(extension));
+	        return ReturnImage(CODE, extension, CodeExtensions.IndexOf(extension), pad);
         if (ImageExtensions.Contains(extension))
-	        return ReturnImage(IMAGE, extension, ImageExtensions.IndexOf(extension));
+	        return ReturnImage(IMAGE, extension, ImageExtensions.IndexOf(extension), pad);
         if (TextExtensions.Contains(extension))
-	        return ReturnImage(TEXT, extension, TextExtensions.IndexOf(extension));
+	        return ReturnImage(TEXT, extension, TextExtensions.IndexOf(extension), pad);
         if (VideoExtensions.Contains(extension))
-	        return ReturnImage(VIDEO, extension, VideoExtensions.IndexOf(extension));
+	        return ReturnImage(VIDEO, extension, VideoExtensions.IndexOf(extension), pad);
         if (DiscExtensions.Contains(extension))
-	        return ReturnImage(DISC, extension, DiscExtensions.IndexOf(extension));
+	        return ReturnImage(DISC, extension, DiscExtensions.IndexOf(extension), pad);
         if (UrlExtensions.Contains(extension))
-	        return ReturnImage(URL, extension, UrlExtensions.IndexOf(extension));
+	        return ReturnImage(URL, extension, UrlExtensions.IndexOf(extension), pad);
         if (extension == "pdf")
-	        return ReturnImage(PDF, extension, 2 /* red */);
-        return ReturnImage(string.Empty, extension);
+	        return ReturnImage(PDF, extension, 2 /* red */, pad);
+        return ReturnImage(string.Empty, extension.Length > 4 ? extension[..4] : extension, pad);
+	}
+	
+	/// <summary>
+	/// Gets an padded extension icon
+	/// </summary>
+	/// <param name="extension">the extension</param>
+	/// <param name="pad">the amount of padding</param>
+	/// <returns>the icon</returns>
+	[HttpGet("{pad:int}/{extension}.svg")]
+	public IActionResult PaddedIcon([FromRoute]string extension, [FromRoute] int pad = 0)
+	{
+		extension = extension.ToLowerInvariant();
+		if (ArchiveExtensions.Contains(extension))
+			return ReturnImage(ARCHIVE, extension, ArchiveExtensions.IndexOf(extension), pad);
+		if (AudioExtensions.Contains(extension))
+			return ReturnImage(AUDIO, extension, AudioExtensions.IndexOf(extension), pad);
+		if (ComicExtensions.Contains(extension))
+			return ReturnImage(COMIC, extension, ComicExtensions.IndexOf(extension), pad);
+		if (CodeExtensions.Contains(extension))
+			return ReturnImage(CODE, extension, CodeExtensions.IndexOf(extension), pad);
+		if (ImageExtensions.Contains(extension))
+			return ReturnImage(IMAGE, extension, ImageExtensions.IndexOf(extension), pad);
+		if (TextExtensions.Contains(extension))
+			return ReturnImage(TEXT, extension, TextExtensions.IndexOf(extension), pad);
+		if (VideoExtensions.Contains(extension))
+			return ReturnImage(VIDEO, extension, VideoExtensions.IndexOf(extension), pad);
+		if (DiscExtensions.Contains(extension))
+			return ReturnImage(DISC, extension, DiscExtensions.IndexOf(extension), pad);
+		if (UrlExtensions.Contains(extension))
+			return ReturnImage(URL, extension, UrlExtensions.IndexOf(extension), pad);
+		if (extension == "pdf")
+			return ReturnImage(PDF, extension, 2 /* red */, pad);
+		if(extension == "folder")
+			return ReturnImage("FOLDER", extension, 1, pad);
+		return ReturnImage(string.Empty, extension.Length > 4 ? extension[..4] : extension, pad: pad);
 	}
 	
 	/// <summary>
@@ -119,19 +155,53 @@ public class FileTypeIconController : Controller
 	/// <param name="icon">the icon to return</param>
 	/// <param name="extension">the file extension</param>
 	/// <param name="index">the index of the color</param>
+	/// <param name="pad">the amount of padding</param>
 	/// <returns>the result</returns>
-	private IActionResult ReturnImage(string icon, string extension, int index = -1)
+	private IActionResult ReturnImage(string icon, string extension, int index = -1, int pad = 0)
 	{
+		while (index > COLORS.Length)
+			index -= COLORS.Length;
 		string color = index >= 0 ? COLORS[index] : GetColor(extension);
-		string svg = HEAD + icon.Replace("{COLOR}", color) + Bottom(extension, color) + END;
-		// return svg as a file result
-		// For example, returning SVG as a ContentResult
+
+		// Convert pad percentage to a scale factor
+		double scale = 1 - (pad / 100.0);
+		scale = Math.Max(0, Math.Min(1, scale)); // Ensure scale is between 0 and 1
+
+		// Compute translation to center the scaled content
+		double translate = (1 - scale) * 28; // 28 is half of the viewBox size (56/2)
+
+		// Modify HEAD to apply the transformation inside the <g> tag
+		string transformedHead = HEAD.Replace("<g>", $"<g transform=\"translate({translate}, {translate}) scale({scale})\">");
+
+		string svg;
+		if (icon == "FOLDER")
+		{
+			svg = $@"
+<?xml version=""1.0"" encoding=""iso-8859-1""?>
+<svg width=""800px"" height=""800px"" viewBox=""0 0 1024 1024"" class=""icon"" version=""1.1"" xmlns=""http://www.w3.org/2000/svg"">
+    <g transform=""translate(512,512) scale({scale}) translate(-512,-512)"">
+        <path fill=""#666"" d=""M853.333333 256H469.333333l-85.333333-85.333333H170.666667c-46.933333 0-85.333333 38.4-85.333334 85.333333v170.666667h853.333334v-85.333334c0-46.933333-38.4-85.333334-85.333334-85.333333z"" />
+        <path fill=""#404040"" d=""M853.333333 256H170.666667c-46.933333 0-85.333333 38.4-85.333334 85.333333v426.666667c0 46.933333 38.4 85.333333 85.333334 85.333333h682.666666c46.933333 0 85.333333-38.4 85.333334-85.333333V341.333333c0-46.933333-38.4-85.333333-85.333334-85.333333z"" />
+    </g>
+</svg>
+".Trim();
+		}
+		else
+		{
+			svg = $@"
+{transformedHead}
+{icon.Replace("{COLOR}", color)}
+{Bottom(extension, color)}
+{END}".Trim();
+		}
+
 		return new ContentResult
 		{
 			Content = svg,
 			ContentType = "image/svg+xml",
 		};
 	}
+
 
 	/// <summary>
 	/// Gets the bottom with the extension

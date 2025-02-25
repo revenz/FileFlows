@@ -1233,7 +1233,7 @@ internal class DbLibraryFileManager : BaseManager
                 sql += $" and {Wrap(nameof(LibraryFile.Tags))} LIKE '%{args.TagUid.Value}%'";
 
 
-            if (args.ResellerUserUid != null && args.ResellerUserUid != Guid.Empty)
+            if (args.FileDropUserUid != null && args.FileDropUserUid != Guid.Empty)
             {
                 sql += $" and {Wrap(nameof(LibraryFile.Additional))} <> '' ";
                 string col = $"{Wrap(nameof(LibraryFile))}.{Wrap(nameof(LibraryFile.Additional))}";
@@ -1241,23 +1241,23 @@ internal class DbLibraryFileManager : BaseManager
                 {
                     case DatabaseType.MySql:
                         sql +=
-                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.ResellerUserUid)}') = '{args.ResellerUserUid}' ";
+                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.FileDropUserUid)}') = '{args.FileDropUserUid}' ";
                         break;
                     case DatabaseType.Postgres:
-                        sql += $" and {col}::jsonb->>'{nameof(LibraryFile.Additional.ResellerUserUid)}' = '{args.ResellerUserUid}' ";
+                        sql += $" and {col}::jsonb->>'{nameof(LibraryFile.Additional.FileDropUserUid)}' = '{args.FileDropUserUid}' ";
                         break;
                     case DatabaseType.Sqlite:
                         sql +=
-                            $" and json_extract({col}, '$.{nameof(LibraryFile.Additional.ResellerUserUid)}') = '{args.ResellerUserUid}' ";
+                            $" and json_extract({col}, '$.{nameof(LibraryFile.Additional.FileDropUserUid)}') = '{args.FileDropUserUid}' ";
                         break;
                     case DatabaseType.SqlServer:
                         sql +=
-                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.ResellerUserUid)}') = '{args.ResellerUserUid}' ";
+                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.FileDropUserUid)}') = '{args.FileDropUserUid}' ";
                         break;
                 }
             }
 
-            if (args.ResellerFlowUid != null && args.ResellerFlowUid != Guid.Empty)
+            if (args.FileDropFlowUid != null && args.FileDropFlowUid != Guid.Empty)
             {
                 sql += $" and {Wrap(nameof(LibraryFile.Additional))} <> '' ";
                 string col = $"{Wrap(nameof(LibraryFile))}.{Wrap(nameof(LibraryFile.Additional))}";
@@ -1265,21 +1265,33 @@ internal class DbLibraryFileManager : BaseManager
                 {
                     case DatabaseType.MySql:
                         sql +=
-                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.ResellerFlowUid)}') = '{args.ResellerFlowUid}'";
+                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.FileDropFlowUid)}') = '{args.FileDropFlowUid}'";
                         break;
                     case DatabaseType.Postgres:
-                        sql += $" and {col}::jsonb->>'{nameof(LibraryFile.Additional.ResellerFlowUid)}' = '{args.ResellerFlowUid}'";
+                        sql += $" and {col}::jsonb->>'{nameof(LibraryFile.Additional.FileDropFlowUid)}' = '{args.FileDropFlowUid}'";
                         break;
                     case DatabaseType.Sqlite:
                         sql +=
-                            $" and json_extract({col}, '$.{nameof(LibraryFile.Additional.ResellerFlowUid)}') = '{args.ResellerFlowUid}'";
+                            $" and json_extract({col}, '$.{nameof(LibraryFile.Additional.FileDropFlowUid)}') = '{args.FileDropFlowUid}'";
                         break;
                     case DatabaseType.SqlServer:
                         sql +=
-                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.ResellerFlowUid)}') = '{args.ResellerFlowUid}'";
+                            $" and json_value({col}, '$.{nameof(LibraryFile.Additional.FileDropFlowUid)}') = '{args.FileDropFlowUid}'";
                         break;
                 }
             }
+
+            if (args.NodeUid != null)
+            {
+                if(iStatus > 0)
+                    sql += $" and {Wrap(nameof(LibraryFile.NodeUid))} = '{args.NodeUid.Value}'";
+                else
+                    sql += $" and {Wrap(nameof(LibraryFile.ProcessOnNodeUid))} = '{args.NodeUid.Value}'";
+            }
+
+            if (args.FlowUid != null)
+                sql += $" and {Wrap(nameof(LibraryFile.FlowUid))} = '{args.FlowUid.Value}'";
+            
             if (iStatus > 0)
             {
                 if (args.SortBy != null)
@@ -1346,15 +1358,9 @@ internal class DbLibraryFileManager : BaseManager
                     }
                 }
                 
-                if (args.NodeUid != null)
-                    sql += $" and {Wrap(nameof(LibraryFile.NodeUid))} = '{args.NodeUid.Value}'";
-                
                 if(args.ProcessingNodeUid != null)
                     sql += $" and ( {Wrap(nameof(LibraryFile.NodeUid))} = '{args.ProcessingNodeUid.Value}' or {Wrap(nameof(LibraryFile.NodeUid))} = '')";
                 
-                if (args.FlowUid != null)
-                    sql += $" and {Wrap(nameof(LibraryFile.FlowUid))} = '{args.FlowUid.Value}'";
-
                 if (args.Status is FileStatus.Processed or FileStatus.ProcessingFailed)
                 {
                     orderBys.Add($" case " +

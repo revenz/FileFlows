@@ -13,19 +13,13 @@ using System.Collections.Generic;
 [TableName(nameof(LibraryFile))]
 public class LibraryFile : FileFlowObject
 {
-    /// <summary>
-    /// Gets or sets the display name for this library file
-    /// </summary>
-    [DbIgnore] // ignores serialization for models, if we removes this it can be kept in unwanted serializations
-    [NPoco.Ignore] // ignores the insert from PetaPoco, if we remove this, migration fails.  we have both to prevent dependency of NPoco outside of server
-    public string DisplayName { get; set; }
 
     /// <summary>
     /// Gets or sets the relative path of the library file.
     /// This is the path relative to the library
     /// </summary>
     public string RelativePath { get; set; }
-
+    
     /// <summary>
     /// Gets or sets the path of the final output file
     /// </summary>
@@ -334,22 +328,27 @@ public class LibraryFile : FileFlowObject
 public class LibraryFileAdditional
 {
     /// <summary>
+    /// Gets or sets the display name for this library file
+    /// </summary>
+    public string DisplayName { get; set; }
+    
+    /// <summary>
     /// Gets or sets the version of FileFlows this file was processed on
     /// </summary>
     public string? Version { get; set; } = null;
     
     /// <summary>
-    /// Gets or sets a UID of a reseller user who this file belongs to
+    /// Gets or sets a UID of a file drop user who this file belongs to
     /// </summary>
-    public Guid? ResellerUserUid { get; set; }
+    public Guid? FileDropUserUid { get; set; }
     
     /// <summary>
-    /// Gets or sets a UID of a reseller flow who this file belongs to
+    /// Gets or sets a UID of a file drop flow who this file belongs to
     /// </summary>
-    public Guid? ResellerFlowUid { get; set; }
+    public Guid? FileDropFlowUid { get; set; }
     /// <summary>
     /// Gets or sets the original short name of a file.
-    /// This is only used for reseller files to display to reseller users.
+    /// This is only used for file drop files to display to file drop users.
     /// </summary>
     public string? ShortName { get; set; }
     
@@ -357,6 +356,22 @@ public class LibraryFileAdditional
     /// Gets or sets the mime/type
     /// </summary>
     public string? MimeType { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the traits of a file,
+    /// e.g. for video the codec, the language, for images the format the resolution
+    /// </summary>
+    public List<string> Traits { get; set; }
+    
+    /// <summary>
+    /// Gets or sets how much this file cost in tokens
+    /// </summary>
+    public int TokenCost { get; set; }
+
+    /// <summary>
+    /// Gets or sets properties users can set on a file in the flow
+    /// </summary>
+    public Dictionary<string, string> Properties { get; set; } = new();
 }
 
 /// <summary>

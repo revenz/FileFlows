@@ -1,0 +1,11 @@
+.flow-checklist .table-item + .table-item {
+  border-top: solid 1px var(--border-color); }
+
+input {
+  min-width: 1.5rem;
+  max-width: 1.5rem;
+  width: 1.5rem;
+  margin-right: 2rem;
+  align-self: center; }
+
+/*# sourceMappingURL=FlowChecklist.razor.css.map */

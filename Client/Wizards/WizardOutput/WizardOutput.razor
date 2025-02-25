@@ -12,11 +12,12 @@
             {
                 <InputFile @bind-Value="@OutputPath" Label="Dialogs.NewFlowCommon.Fields.OutputPath" Validators=@RequiredValidator Directory=@true/>
             }
+            <InputSwitch @bind-Value="AlwaysMove" Label="Dialogs.NewFlowCommon.Fields.AlwaysMove" />
             <InputSwitch @bind-Value="DeleteOld" Label="Dialogs.NewFlowCommon.Fields.DeleteOld"/>
         </div>
     </FlowRadioGroupItem>
-    @if (IsReseller)
+    @if (FileDropFlow)
     {
-        <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-people-carry" TLabel="ResellerMove" />
+        <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-tint" TLabel="FileDropMove" />
     }
 </FlowRadioGroup>

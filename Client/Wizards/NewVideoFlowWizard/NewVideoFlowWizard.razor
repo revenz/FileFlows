@@ -25,9 +25,9 @@
 
             <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Type" >
                 <FlowRadioGroup TItem="Int32" @bind-Value="SelectedType" LabelPrefix="Dialogs.NewVideoFlowWizard.Labels.Types">
-                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-film" TLabel="Film" />
-                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-tv" TLabel="TV" />
-                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-video" TLabel="Video" />
+                    <FlowRadioGroupItem TItem="Int32" Value="0" Icon="fas fa-video" TLabel="Video" />
+                    <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-film" TLabel="Film" />
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-tv" TLabel="TV" />
                 </FlowRadioGroup>
             </FlowWizardPage>
             
@@ -57,15 +57,22 @@
                 </FlowRadioGroup>
             </FlowWizardPage>
             
-            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio1" Indented="true" Visible="@(AudioMode == 2)"  OnPageAdvanced="OnAudio1PageAdvanced" >
-                <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator"  OriginalLanguage="true" />
-                <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec" />
-                <InputSelect @bind-Value="@BoundAudio1Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
+            <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio1" Indented="true" Visible="@(AudioMode == 2)" OnPageAdvanced="OnAudio1PageAdvanced">
+                <p class="wizard-page-help">@lblOnlyOnePerLanguage</p>
+                <InputLanguages @bind-Value="@Audio1Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" OriginalLanguage="true"/>
+                <InputSelect @bind-Value="@BoundAudio1Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
+                <InputSelect @bind-Value="@BoundAudio1Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels"/>
+                @if (TwoAudioVersions == false && Audio1Channels != 0)
+                {
+                    <InputSwitch @bind-Value="@FallBackAudio" Label="Dialogs.NewVideoFlowWizard.Fields.FallBackAudio"/>
+
+                }
             </FlowWizardPage>
             <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Audio2" Indented="true" Visible="@(AudioMode == 2 && TwoAudioVersions)" OnPageAdvanced="OnAudio2PageAdvanced">
-                <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" OriginalLanguage="true" />
+                <p class="wizard-page-help">@lblOnlyOnePerLanguage</p>
+                <InputLanguages @bind-Value="@Audio2Languages" Label="Dialogs.NewVideoFlowWizard.Fields.AudioLanguages" Validators="RequiredValidator" OriginalLanguage="true"/>
                 <InputSelect @bind-Value="@BoundAudio2Codec" AllowClear="false" Options=@AudioCodecs Label="Dialogs.NewVideoFlowWizard.Fields.AudioCodec"/>
-                <InputSelect @bind-Value="@BoundAudio2Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels" />
+                <InputSelect @bind-Value="@BoundAudio2Channels" AllowClear="false" Options=@AudioChannels Label="Dialogs.NewVideoFlowWizard.Fields.AudioChannels"/>
             </FlowWizardPage>
             <FlowWizardPage TLabel="Dialogs.NewVideoFlowWizard.Pages.Subtitle">
 
@@ -78,7 +85,7 @@
             </FlowWizardPage>
 
             <FlowWizardPage TLabel="Dialogs.NewFlowCommon.Pages.Output">
-                <WizardOutput @ref="Output" />
+                <WizardOutput @ref="Output" FileDropFlow="FileDropFlow" />
             </FlowWizardPage>
         </FlowWizard>
     </CascadingValue>

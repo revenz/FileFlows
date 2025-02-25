@@ -16,6 +16,11 @@ public partial class InputSlider : Input<int>
     public override bool Focus() => FocusUid();
 
     private int _Min = 0, _Max = int.MaxValue;
+    
+    /// <summary>
+    /// Gets or sets if the value should be hidden
+    /// </summary>
+    [Parameter] public bool HideValue { get; set; }
 
     /// <summary>
     /// Gets or sets the minimum value of the slider

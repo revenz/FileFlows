@@ -1,3 +1,4 @@
+using System.Reflection.Emit;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
@@ -13,23 +14,43 @@ public partial class NewVideoFlowWizard
     /// <summary>
     /// Translation strings
     /// </summary>
-    private string lblUseOriginal, lblCopyOnlyLanguages;
+    private string lblUseOriginal, lblCopyOnlyLanguages, lblOnlyOnePerLanguage;
 
     /// <summary>
     /// Gets the selected encoding type
     /// </summary>
     private int SelectedVideoEncodingType;
-    private int Quality, Bitrate = 5000;
+    private int Quality = 6, Bitrate = 5000;
     private bool CropBlackBars, AttemptHardwareEncode = true;
     private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
+    /// <summary>
+    /// If the user is adding a file drop flow
+    /// </summary>
+    private bool FileDropFlow;
     
 
     /// <summary>
     /// Flow properties
     /// </summary>
     private string VideoCodec = "h265", VideoContainer = "MKV", Audio1Codec = "aac", Audio2Codec = "aac", DefaultLanguage = "eng";
-    private int SelectedType, Audio1Channels, Audio2Channels, AudioMode;
-    private bool TwoAudioVersions, SubtitleKeepOnly;
+    private int _SelectedType, Audio1Channels, Audio2Channels, AudioMode;
+    private bool TwoAudioVersions, FallBackAudio, SubtitleKeepOnly;
+
+    /// <summary>
+    /// Gets or sets the selected type
+    /// </summary>
+    private int SelectedType
+    {
+        get => _SelectedType;
+        set
+        {
+            _SelectedType = value;
+            if (value == 1)
+                Quality = 6;
+            if (value == 2)
+                Quality = 4;
+        }
+    }
 
     /// <summary>
     /// The input options
@@ -144,6 +165,9 @@ public partial class NewVideoFlowWizard
         var profile = await ProfileService.Get(); 
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
 
+        if (Options is NewVideoFlowWizardOptions options)
+            FileDropFlow = options.FileDropFlow;
+
         if (profile.UseGerman)
         {
             Audio1Languages = ["eng", "deu", "orig"];
@@ -164,9 +188,9 @@ public partial class NewVideoFlowWizard
         }
 
         lblUseOriginal = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.UseOriginal");
+        lblOnlyOnePerLanguage = Translater.Instant("Dialogs.NewVideoFlowWizard.Labels.OnlyOnePerLanguage");
         
         lblCopyOnlyLanguages = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.CopyOnlyLanguages");
-   
         
         LanguageOptions = LanguageHelper.Languages.DistinctBy(x => x.Iso2).Select(x =>
         {
@@ -201,7 +225,7 @@ public partial class NewVideoFlowWizard
         ];
         AudioCodecs =
         [
-            new () { Label = lblUseOriginal, Value = ""},
+            //new () { Label = lblUseOriginal, Value = ""},
             new() { Label = "AAC", Value = "aac" },
             new() { Label = "AC3", Value = "ac3" },
             // new() { Label = "DTS", Value = "dts" },
@@ -217,11 +241,11 @@ public partial class NewVideoFlowWizard
         ];
         QualityOptions =
         [
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Ok"), Value = -2},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Good"), Value = -1},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Recommended"), Value = 0},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.High"), Value = 1},
-            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.VeryHigh"), Value = 2},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Ok"), Value = 2},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Good"), Value = 4},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.Recommended"), Value = 6},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.High"), Value = 7},
+            new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.VeryHigh"), Value = 8},
         ];
 
         initDone = true;
@@ -262,10 +286,13 @@ public partial class NewVideoFlowWizard
 
             if (videoEncode)
                 FlowAddVideo(builder);
-            FlowAddAudio(builder);
+            
             FlowAddSubtitles(builder);
             
-            var executor = builder.AddAndConnect(new FlowPart()
+            // audio must go last since it can require 2 flow parts being connected up
+            var partsToConnect = FlowAddAudio(builder);
+
+            var executor = new FlowPart()
             {
                 FlowElementUid = FlowElementUids.FFmpegBuilderExecutor,
                 Outputs = 2,
@@ -275,13 +302,23 @@ public partial class NewVideoFlowWizard
                     HardwareDecoding = "auto",
                     Strictness = "experimental"
                 })
-            }, allOutputs: true);
-
+            };
+            int rowBase = 0;
+            if(partsToConnect.Length < 2)
+                builder.AddAndConnect(executor, allOutputs: true);
+            else
+            {
+                builder.Add(executor);
+                foreach (var partToConnect in partsToConnect)
+                    builder.Connect(partToConnect, executor, 1);
+                builder.CurrentRow += 1;
+                rowBase = 1;
+            }
 
             var preOutputColumn = builder.CurrentColumn;
             FlowPart fpOutput = Output.FlowAddOutput(builder,
                 ["mkv", "mp4", "avi", "divx", "mov", "mpeg", "mpe"],
-                videoEncode && AttemptHardwareEncode ? 5 : 0, videoEncode && AttemptHardwareEncode ? 4 : 0);
+                videoEncode && AttemptHardwareEncode ? 5 + rowBase : 0, videoEncode && AttemptHardwareEncode ? 4 : 0);
 
             if (videoEncode && AttemptHardwareEncode)
             {
@@ -306,7 +343,7 @@ public partial class NewVideoFlowWizard
                         }
                         : new FlowPart()
                         {
-                            FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncode,
+                            FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncodeSimple,
                             Outputs = 1,
                             Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.CpuFailOverEncode"),
                             Type = FlowElementType.BuildPart,
@@ -314,8 +351,8 @@ public partial class NewVideoFlowWizard
                             {
                                 Codec = VideoCodec,
                                 Encoder= "CPU",
-                                Quality = GetQuality(VideoCodec, Quality),
-                                Speed = "medium"
+                                Quality,
+                                Speed = 3
                             })
                         }, row: 1);
                 builder.Connect(executor, secondEncode, -1);
@@ -338,7 +375,20 @@ public partial class NewVideoFlowWizard
 
             var flow = builder.Flow;
             flow.Description = Description;
-            flow.Icon = "fas fa-video";
+            flow.Icon = SelectedType switch
+            {
+                1 => "fas fa-film",
+                2 => "fas fa-tv",
+                _ => "fas fa-video"
+            };
+            if (FileDropFlow)
+            {
+                flow.Type = FlowType.FileDrop;
+                flow.FileDropOptions ??= new();
+                flow.FileDropOptions.PreviewMode = FileDropPreviewMode.Thumbnails;
+                flow.FileDropOptions.Extensions = Extensions_Video;
+
+            }
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
@@ -430,30 +480,38 @@ public partial class NewVideoFlowWizard
             Outputs = 1,
             Type = FlowElementType.BuildPart
         });
-        if(VideoContainer == "MP4")
+        if (VideoContainer != "MP4") 
+            return;
+        
+        // need to remove subtitles that arent supported in MP4
+        builder.AddAndConnect(new FlowPart()
         {
-            // need to remove subtitles that arent supported in MP4
-            builder.AddAndConnect(new FlowPart()
+            FlowElementUid = FlowElementUids.FFmpegBuilderSubtitleFormatRemover,
+            Outputs = 2,
+            Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.RemoveUnsupportedSubtitles"),
+            Type = FlowElementType.BuildPart,
+            Model = ExpandoHelper.ToExpandoObject(new
             {
-                FlowElementUid = FlowElementUids.FFmpegBuilderSubtitleFormatRemover,
-                Outputs = 2,
-                Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.RemoveUnsupportedSubtitles"),
-                Type = FlowElementType.BuildPart,
-                Model = ExpandoHelper.ToExpandoObject(new
+                SubtitlesToRemove = new List<string>
                 {
-                    SubtitlesToRemove = new List<string>
-                    {
-                        "xsub",           // DivX subtitles (XSUB)
-                        "dvbsub",         // DVB subtitles (codec dvb_subtitle)
-                        "dvdsub",         // DVD subtitles (codec dvd_subtitle)
-                        "dvb_teletext",   // DVB/Teletext Format
-                        "hdmv_pgs_subtitle", // Presentation Graphic Stream (PGS)
-                        "ttml",           // TTML subtitle
-                        "OTHER"           // Unknown/Other
-                    }
-                })
-            });
-        }
+                    "xsub",           // DivX subtitles (XSUB)
+                    "dvbsub",         // DVB subtitles (codec dvb_subtitle)
+                    "dvdsub",         // DVD subtitles (codec dvd_subtitle)
+                    "dvb_teletext",   // DVB/Teletext Format
+                    "hdmv_pgs_subtitle", // Presentation Graphic Stream (PGS)
+                    "ttml",           // TTML subtitle
+                    "OTHER"           // Unknown/Other
+                }
+            })
+        });
+            
+        // need to remove attachments
+        builder.AddAndConnect(new FlowPart()
+        {
+            FlowElementUid = FlowElementUids.FFmpegBuilderRemoveAttachments,
+            Outputs = 1,
+            Type = FlowElementType.BuildPart
+        }, allOutputs: true);
     }
     
     /// <summary>
@@ -464,7 +522,7 @@ public partial class NewVideoFlowWizard
     {
         switch (SelectedType)
         {
-            case 0: // film
+            case 1: // film
                 builder.AddAndConnect(new FlowPart()
                 {
                     FlowElementUid = FlowElementUids.MovieLookup,
@@ -476,7 +534,7 @@ public partial class NewVideoFlowWizard
                     })
                 });
                 break;
-            case 1: // tv
+            case 2: // tv
                 builder.AddAndConnect(new FlowPart()
                 {
                     FlowElementUid = FlowElementUids.TVShowLookup,
@@ -509,7 +567,7 @@ public partial class NewVideoFlowWizard
             {
                 FlowElementUid = FlowElementUids.FFmpegBuilderVideoBitrateEncode,
                 Outputs = 1,
-                Name = codecLabel,
+                Name = codecLabel + " (Bitrate)",
                 Type = FlowElementType.BuildPart,
                 Model = ExpandoHelper.ToExpandoObject(new
                 {
@@ -524,16 +582,16 @@ public partial class NewVideoFlowWizard
             // quality encode
             builder.AddAndConnect(new FlowPart()
             {
-                FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncode,
+                FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncodeSimple,
                 Outputs = 1,
-                Name = codecLabel + " (Bitrate)",
+                Name = codecLabel,
                 Type = FlowElementType.BuildPart,
                 Model = ExpandoHelper.ToExpandoObject(new
                 {
                     Codec = VideoCodec,
                     Encoder = AttemptHardwareEncode ? "" : "CPU",
-                    Quality = GetQuality(VideoCodec, Quality),
-                    Speed = "medium"
+                    Quality = Quality,
+                    Speed = 3
                 })
             });
         }
@@ -581,7 +639,8 @@ public partial class NewVideoFlowWizard
     /// Adds the audio flow parts to the flow
     /// </summary>
     /// <param name="builder">the flow builder</param>
-    private void FlowAddAudio(FlowBuilder builder)
+    /// <returns>the flow parts to connect the next flow part to</returns>
+    private FlowPart[] FlowAddAudio(FlowBuilder builder)
     {
         if (AudioMode > 1)
         {
@@ -652,7 +711,41 @@ public partial class NewVideoFlowWizard
                     })
                 }, allOutputs: true);
             }
+            else if (FallBackAudio)
+            {
+                int currentColumn = builder.CurrentColumn;
+                builder.AddAndConnect(new FlowPart()
+                {
+                    FlowElementUid = FlowElementUids.FFmpegBuilderAudioLanguageConverter,
+                    Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.FallBackAudio"),
+                    Outputs = 2,
+                    Type = FlowElementType.BuildPart,
+                    Model = ExpandoHelper.ToExpandoObject(new
+                    {
+                        Languages = Audio1Languages,
+                        Codec = Audio1Codec,
+                        Channels = 0,
+                        Bitrate = GetBitratePerChannel(Audio1Codec)
+                    })
+                }, column:currentColumn + 1, output: 2);
+                var parts = builder.Flow.Parts[^2..].ToArray();
+                builder.AddAndConnect(new FlowPart()
+                {
+                    FlowElementUid = FlowElementUids.FailFlow,
+                    Outputs = 0,
+                    Type = FlowElementType.Logic,
+                    CustomColor = "var(--error)",
+                    Model = ExpandoHelper.ToExpandoObject(new
+                    {
+                        Reason = "Failed to find any wanted audio languages."
+                    })
+                }, column: currentColumn + 2, output: 2);
+                
+                builder.CurrentColumn = currentColumn;
+                return parts;
+            }
         }
+        return [builder.Flow.Parts.Last()];
     }
 
     /// <summary>
@@ -746,4 +839,8 @@ public partial class NewVideoFlowWizard
 /// </summary>
 public class NewVideoFlowWizardOptions : IModalOptions
 {
+    /// <summary>
+    /// Gets or sets if the user is adding a file drop flow
+    /// </summary>
+    public bool FileDropFlow { get; set; }
 }

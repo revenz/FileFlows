@@ -12,6 +12,22 @@ public class LibaryFileListModel: IUniqueObject<Guid>
     public Guid Uid { get; set; }
     
     /// <summary>
+    /// Gets or sets if this is a file drop file
+    /// </summary>
+    [JsonPropertyName("fdf")]
+    public bool FileDropFile { get; set; }
+    /// <summary>
+    /// Gets or sets the file drop email if this is a file drop file
+    /// </summary>
+    [JsonPropertyName("fde")]
+    public string? FileDropEmail { get; set; }
+    /// <summary>
+    /// Gets or sets the file drop short name if this is a file drop file
+    /// </summary>
+    [JsonPropertyName("fdsn")]
+    public string? FileDropShortName { get; set; }
+    
+    /// <summary>
     /// Gets or sets a display name for the file
     /// </summary>
     public string DisplayName { get; set; }

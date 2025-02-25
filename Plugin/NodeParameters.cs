@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.RegularExpressions;
 using FileFlows.Plugin.Models;
 using System.Runtime.InteropServices;
@@ -130,6 +131,31 @@ public class NodeParameters
     /// </summary>
     public Func<string, string>? RenderTemplate { get; set; }
     
+    /// <summary>
+    /// Gets or sets a method used for setting the files thumbnail
+    /// </summary>
+    public Action<byte[]>? SetThumbnailActual { get; set; }
+
+    /// <summary>
+    /// Gets or sets the method to set the display name of the file which is shown in the UI/webconsole.
+    /// </summary>
+    public Action<string> SetDisplayNameActual { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the method to get properties
+    /// </summary>
+    public Func<string, string> GetPropertyActual { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the method to set properties
+    /// </summary>
+    public Action<string, string> SetPropertyActual { get; set; }
+
+    /// <summary>
+    /// Gets or sets the method to set the file traits
+    /// </summary>
+    public Action<List<string>> SetTraitsActual { get; set; }
+
     /// <summary>
     /// Gets or sets the action that records running totals statistics
     /// </summary>
@@ -476,7 +502,121 @@ public class NodeParameters
     /// <param name="path">the path to the image</param>
     public void LogImage(string path)
         => LogImageActual?.Invoke(path);
+
+    private bool _thumbnailSet = false;
+
+    /// <summary>
+    /// Gets if a thumbnail has been set
+    /// </summary>
+    /// <returns>true if has been set, otherwise false</returns>
+    public bool HasThumbnailBeenSet()
+        => _thumbnailSet;
+
+    /// <summary>
+    /// Sets the files thumbnail
+    /// </summary>
+    /// <param name="file">the thumbnail file</param>
+    public void SetThumbnail(string file)
+    {
+        var actual = ReplaceVariables(file?.EmptyAsNull() ?? WorkingFile, stripMissing: true);
+
+        if (string.IsNullOrWhiteSpace(file))
+        {
+            Logger?.WLog("No file specified for thumbnail image");
+            return;
+        }
+
+        if (actual.StartsWith("http:", StringComparison.InvariantCultureIgnoreCase) ||
+            actual.StartsWith("https:", StringComparison.InvariantCultureIgnoreCase))
+        {
+            Logger?.ILog("URL specified for thumbnail image: " + actual);
+            var newFile = Path.Combine(TempPath, Guid.NewGuid().ToString());
+            var result2 = DownloadHelper.Download(actual, newFile);
+            if (result2.Failed(out var error2))
+            {
+                Logger.WLog(error2);
+                return;
+            }
+
+            actual = newFile;
+        }
+        else
+        {
+            var local = FileService.GetLocalPath(actual);
+            if (local.Failed(out var error2))
+                Logger?.ILog("Failed creating thumbnail: " + error2);
+            actual = local.Value;
+        }
+
+        var copy = Path.Combine(TempPath, Guid.NewGuid() + FileHelper.GetExtension(actual));
+        Logger?.ILog($"Copying image for screenshot '{actual}' to '{copy}'");
+        File.Copy(actual, copy);
+
+        Logger?.ILog("Attempting to create thumbnail from: " + copy);
+        var tempFile = Path.Combine(TempPath, Guid.NewGuid() + ".webp");
+        var result = ImageHelper.ConvertToWebp(copy, tempFile, new ()
+            {
+                MaxWidth = 250,
+                MaxHeight = 250,
+                Mode = ResizeMode.Contain,
+                Quality = 70
+            });
+        if (result.Failed(out var error))
+        {
+            Logger?.ILog("Failed creating thumbnail: " + error);
+            return;
+        }
+
+        if (result.Value == false)
+        {
+            Logger?.ILog("Failed creating thumbnail");
+            return;
+        }
+
+        try
+        {
+            var data = File.ReadAllBytes(tempFile);
+            SetThumbnailActual(data);
+            _thumbnailSet = true;
+        }
+        catch(Exception ex)
+        {
+            Logger?.ILog("Failed creating thumbnail: " + ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Sets the display name of the file which is shown in the UI/webconsole.
+    /// Set to empty or null to clear it
+    /// </summary>
+    /// <param name="displayName">the display name</param>
+    public void SetDisplayName(string displayName)
+        => SetDisplayNameActual(displayName);
+
+
+    /// <summary>
+    /// Gets the property value
+    /// </summary>
+    /// <param name="name">the name of the property</param>
+    /// <returns>the value or null if not found</returns>
+    public string GetProperty(string name)
+        => GetPropertyActual(name);
     
+    /// <summary>
+    /// Sets a property 
+    /// </summary>
+    /// <param name="name">the name of the property</param>
+    /// <param name="value">the value</param>
+    public void SetProperty(string name, string value)
+        => SetPropertyActual(name, value);
+
+    /// <summary>
+    /// Sets the traits of a file
+    /// </summary>
+    /// <param name="traits">the traits</param>
+    public void SetTraits(string[] traits)
+        => SetTraitsActual(traits?.ToList() ?? []);
+
     /// <summary>
     /// Gets the archive helper
     /// </summary>
@@ -491,6 +631,11 @@ public class NodeParameters
     /// Gets the archive  helper
     /// </summary>
     public IArchiveHelper ArchiveHelper { get; set; }
+
+    /// <summary>
+    /// Gets the checksum helper
+    /// </summary>
+    public CheckSumHelper CheckSumHelper { get; } = new ();
 
     private bool initDone = false;
     

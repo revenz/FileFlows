@@ -127,6 +127,17 @@ public class FlowExecutorInfoMinified
     public string DisplayName { get; set; }
     
     /// <summary>
+    /// Gets or sets the display name of the file being executed
+    /// </summary>
+    [JsonPropertyName("dir")]
+    public bool IsDirectory { get; set; }
+    
+    /// <summary>
+    /// Gets or sets any traits on the file
+    /// </summary>
+    public List<string> Traits { get; set; }
+    
+    /// <summary>
     /// Gets or sets the name of the Node executing this flow
     /// </summary>
     public string NodeName { get; set; }
@@ -207,6 +218,11 @@ public class FlowExecutorInfoMinified
     /// Gets or sets any additional info to pass to the runner
     /// </summary>
     public object[][] Additional { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if the file has a thumbnail
+    /// </summary>
+    public bool HasThumbnail { get; set; }
 }
 
 /// <summary>

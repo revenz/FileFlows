@@ -1,50 +1,41 @@
 .input-filesize-wrapper {
   display: flex;
   flex-direction: row;
-}
+  max-width: 40rem; }
 
 .filesize-number {
   margin-right: 1px;
-  flex-grow: 1;
-}
+  flex-grow: 1; }
 
 .filesize-unit {
-  width: 10rem;
-}
+  width: 10rem; }
 
 input {
   width: 100%;
-  height: 2.1875rem;
+  height: var(--input-height, 2.1875rem);
   line-height: 1.5;
   font-size: 1rem;
   padding: 0.1875rem 0.625rem;
-  max-width: 40rem;
-}
-input:read-only {
-  filter: opacity(0.5);
-}
+  max-width: 40rem; }
+  input:read-only {
+    filter: opacity(0.5); }
 
 select {
   width: 100%;
   max-width: 40rem;
   background-color: var(--input-background) !important;
   color: var(--color) !important;
-  height: 2.1875rem;
+  height: var(--input-height, 2.1875rem);
   line-height: 1.5;
   font-size: 1rem;
-  border-color: transparent;
-}
-select:focus {
-  outline: 1px solid var(--accent);
-}
-select.select-one {
-  color: rgba(var(--color-rgb), 0.3) !important;
-}
-select option:not(.select-one) {
-  color: var(--color) !important;
-}
-select option:checked {
-  background-color: rgba(var(--accent-rgb), 0.3);
-}
+  border-color: transparent; }
+  select:focus {
+    outline: 1px solid var(--accent); }
+  select.select-one {
+    color: rgba(var(--color-rgb), 0.3) !important; }
+  select option:not(.select-one) {
+    color: var(--color) !important; }
+  select option:checked {
+    background-color: rgba(var(--accent-rgb), 0.3); }
 
 /*# sourceMappingURL=InputFileSize.razor.css.map */

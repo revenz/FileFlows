@@ -72,6 +72,13 @@ public partial class FlowPropertiesEditor
         }
     }
 
+    private List<ListOption> fileDropPreviewModes=
+    [
+        new() { Label = "List", Value = FileDropPreviewMode.List },
+        new() { Label = "Images", Value = FileDropPreviewMode.Images },
+        new() { Label = "Thumbnails", Value = FileDropPreviewMode.Thumbnails }
+    ];
+
     protected override void OnInitialized()
     {
         lblTitle = Translater.Instant("Pages.Flow.Labels.FlowProperties");
@@ -83,6 +90,7 @@ public partial class FlowPropertiesEditor
             this.Visible = false;
             return;
         }
+
 
         foreach (var field in Flow.Properties.Fields)
         {
@@ -97,6 +105,18 @@ public partial class FlowPropertiesEditor
                 else
                     field.DefaultValue = jsonElement.GetString();
             }
+        }
+    }
+    /// <summary>
+    /// Gets or sets the bound BoundPreviewMode
+    /// </summary>
+    private object BoundPreviewMode
+    {
+        get => Flow.FileDropOptions.PreviewMode;
+        set
+        {
+            if (value is FileDropPreviewMode v)
+                Flow.FileDropOptions.PreviewMode = v;
         }
     }
 

@@ -18,10 +18,13 @@
                     <div class="flowtable-toolbar-buttons">
                         @ToolBar
                     </div>
-                    <div class="flowtable-toolbar-filter">
-                        <input @ref="eleFilter" type="text" @bind-value="FilterText" @bind-value:event="oninput" @onkeydown="FilterKeyDown" placeholder="@(App.Instance.IsMobile ? lblFilter : lblFilterPlaceholder)" autocomplete="off"/>
-                        <i class="fas fa-search"></i>
-                    </div>
+                    @if (NoFilter == false)
+                    {
+                        <div class="flowtable-toolbar-filter">
+                            <input @ref="eleFilter" type="text" @bind-value="FilterText" @bind-value:event="oninput" @onkeydown="FilterKeyDown" placeholder="@(App.Instance.IsMobile ? lblFilter : lblFilterPlaceholder)" autocomplete="off"/>
+                            <i class="fas fa-search"></i>
+                        </div>
+                    }
                 </div>
             }
         </CascadingValue>

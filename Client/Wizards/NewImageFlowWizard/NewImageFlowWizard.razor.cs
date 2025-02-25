@@ -44,6 +44,10 @@ public partial class NewImageFlowWizard
 
     // if the initialization has been done
     private bool initDone;
+    /// <summary>
+    /// If the user is adding a file drop flow
+    /// </summary>
+    private bool FileDropFlow;
     
     /// <summary>
     /// Gets or sets bound Format
@@ -61,6 +65,9 @@ public partial class NewImageFlowWizard
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        if (Options is NewImageFlowWizardOptions options)
+            FileDropFlow = options.FileDropFlow;
+        
         ImageFormats =
         [
             new () { Value = "###GROUP###", Label = Translater.Instant("Dialogs.NewImageFlowWizard.Labels.LosslessFormats") },
@@ -107,7 +114,14 @@ public partial class NewImageFlowWizard
             var flow = builder.Flow;
             flow.Description = Description;
             flow.Icon = "fas fa-image";
-            
+            if (FileDropFlow)
+            {
+                flow.Type = FlowType.FileDrop;
+                flow.FileDropOptions ??= new();
+                flow.FileDropOptions.PreviewMode = FileDropPreviewMode.Images;
+                flow.FileDropOptions.Extensions = Extensions_Image;
+            }
+
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
             {
@@ -204,4 +218,9 @@ public partial class NewImageFlowWizard
 /// </summary>
 public class NewImageFlowWizardOptions : IModalOptions
 {
+    
+    /// <summary>
+    /// Gets or sets if the user is adding a file drop flow
+    /// </summary>
+    public bool FileDropFlow { get; set; }
 }

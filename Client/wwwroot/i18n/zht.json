@@ -23,6 +23,7 @@
     "CopiedToClipboard": "已將 ''{text}'' 複製到剪貼簿。",
     "Copy": "複製",
     "CopyToClipboard": "複製到剪貼簿",
+    "CustomField": "自訂欄位",
     "Decrease": "減少",
     "Default": "預設",
     "Delete": "刪除",
@@ -41,6 +42,7 @@
     "Duplicate": "複製",
     "Edit": "編輯",
     "EditSubFlow": "編輯子流程",
+    "Elements": "元素",
     "Enabled": "已啟用",
     "Execute": "執行",
     "Executing": "執行中",
@@ -74,6 +76,8 @@
     "MissingDependencies": "缺少依賴項",
     "MissingDependenciesMessage": "以下缺少的插件必須在使用此範本之前下載：\n\n#LIST#",
     "MonthShort": "月",
+    "MoveDown": "下移",
+    "MoveUp": "上移",
     "Name": "名稱",
     "Never": "從不",
     "Next": "下一步",
@@ -111,7 +115,6 @@
     "Reprocess": "重新處理",
     "Rescan": "重新掃描",
     "Reset": "重設",
-    "ResetLayout": "重設佈局",
     "Restore": "還原",
     "RestoredFailedMessage": "無法還原 {type}",
     "RestoredMessage": "{type} 已還原",
@@ -147,6 +150,7 @@
     "Tag": "標籤",
     "Test": "測試",
     "Time": "時間",
+    "Tokens": "令牌",
     "TooManyDockerMods": "您選擇了過多的DockerMods，這可能會影響效能，而且您可能不需要安裝所有這些DockerMods。",
     "Total": "總計",
     "Trigger": "觸發",
@@ -160,6 +164,7 @@
     "UpdateAvailable": "有新版本可用 {version}",
     "Upload": "上傳",
     "UsedBy": "被使用者",
+    "Value": "值",
     "Version": "版本",
     "VersionNumber": "版本： {version}",
     "View": "查看",
@@ -320,6 +325,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "始終移動",
+        "AlwaysMove-Help": "啟用後，即使未對原始輸入文件進行任何處理，文件仍將始終被移動。",
         "DeleteOld": "清理原始檔案",
         "DeleteOld-Help": "刪除原始檔案及原始資料夾（如果沒有其他檔案）。",
         "Description": "描述",
@@ -334,10 +341,10 @@
         "OutputPathRequired": "輸出路徑是必需的。"
       },
       "Output": {
+        "FileDropMove": "檔案移動",
+        "FileDropMoveDescription": "將文件移動到用戶專用的臨時文件夾以供下載。文件將在設定的時間後自動刪除。",
         "ReplaceOriginal": "替換原始檔案",
         "ReplaceOriginalDescription": "用轉換後的檔案替換原始檔案。",
-        "ResellerMove": "經銷商移動",
-        "ResellerMoveDescription": "將文件移動到用戶專用的臨時文件夾以供下載。文件將在設定的時間後自動刪除。",
         "SaveToFolder": "保存到資料夾",
         "SaveToFolderDescription": "將轉換後的檔案保存到新位置。"
       },
@@ -525,6 +532,7 @@
         "BitrateDescription": "使用固定的位元速率編碼影片。這將使影片的檔案大小保持一致，但如果位元速率不理想，則會浪費儲存空間或降低品質。",
         "FileExtensions": "檔案副檔名",
         "FileExtensionsDescription": "指定在此庫中處理的檔案副檔名。",
+        "OnlyOnePerLanguage": "每種指定語言僅保留一個音軌。即使是指定語言的其他音軌也會被移除。如果指定語言在源視頻中未找到，則會跳過，不會包含。",
         "Quality": "品質",
         "QualityDescription": "根據影片的輸入使用自適應編碼來達到固定的品質水準。這是推薦的方式，可以確保影片品質一致，並且生成最小的檔案。",
         "UseOriginal": "使用未修改的原始檔案",
@@ -558,6 +566,8 @@
         "CropBlackBars-Help": "FileFlows將嘗試檢測影片檔案中的黑邊，若找到，將裁剪這些黑邊以減少檔案大小並允許播放器更改縱橫比。",
         "DefaultLanguage": "預設語言",
         "DefaultLanguage-Help": "指定要分配給當前未指定語言的音軌的語言。",
+        "FallBackAudio": "備用音軌",
+        "FallBackAudio-Help": "啟用此選項，以在請求的音頻通道不可用時建立備用音軌。如果無法滿足所需的通道配置（例如，要求 5.1 但僅提供立體聲），則會使用原始通道配置。",
         "KeepAllSubtitles": "保留所有字幕",
         "KeepAllSubtitlesDescription": "保留原始影片中的所有字幕",
         "KeepOnlySpecifiedSubtitles": "僅保留指定字幕",
@@ -738,6 +748,16 @@
       "PasswordReset": "重設密碼",
       "PasswordResetRequest": "重設密碼請求",
       "Updated": "已更新"
+    },
+    "CustomFieldType": {
+      "Boolean": "布林值",
+      "Image": "圖片",
+      "Integer": "整數",
+      "OptionGroup": "選項組",
+      "Select": "選擇",
+      "Slider": "滑桿",
+      "Text": "文字",
+      "TextArea": "文字區域"
     },
     "DateCompareMode": {
       "After": "之後",
@@ -931,6 +951,7 @@
     "Admin": "管理",
     "Configuration": "配置",
     "Extensions": "擴展",
+    "FileDrop": "FileDrop",
     "Information": "信息",
     "Overview": "概覽",
     "Security": "安全性",
@@ -981,6 +1002,25 @@
         "Operator": "操作員",
         "Summary": "摘要",
         "Type": "類型"
+      }
+    },
+    "CustomField": {
+      "Title": "欄位",
+      "Fields": {
+        "ConditionField": "條件",
+        "ConditionValue": "值",
+        "ConditionValue-Help": "僅在此欄位與給定的值匹配時顯示。",
+        "DefaultNumber": "預設",
+        "Description": "描述",
+        "Description-Help": "顯示在欄位下方的幫助描述。",
+        "Maximum": "最大值",
+        "Minimum": "最小值",
+        "Name-Help": "此欄位顯示的名稱。",
+        "Options": "選項",
+        "Type": "類型",
+        "Type-Help": "顯示的輸入類型。",
+        "Variable": "變數",
+        "Variable-Help": "將傳遞到流程中的變數。"
       }
     },
     "Dashboard": {
@@ -1094,6 +1134,19 @@
         "Updating": "正在更新"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "FileDrop設定"
+      },
+      "User": {
+        "Plural": "FileDrop使用者",
+        "Title": "FileDrop使用者",
+        "Fields": {
+          "Provider": "提供者",
+          "Tokens": "令牌"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "任務"
     },
@@ -1124,11 +1177,15 @@
       },
       "Fields": {
         "Description": "描述。",
+        "Extensions": "擴展",
         "Icon": "圖標",
+        "MaxFileSize": "最大文件大小",
         "Outputs": "輸出",
         "Outputs-Help": "此子流程有多少個輸出。當在另一個流程中使用此子流程時，將提供這些輸出。",
         "OutputsKey": "輸出",
         "OutputsValue": "描述",
+        "PreviewMode": "預覽模式",
+        "Tokens": "令牌",
         "Variables": "變量",
         "VariablesKey": "名稱",
         "VariablesValue": "值",
@@ -1164,7 +1221,9 @@
     "Flows": {
       "Title": "流程",
       "Labels": {
+        "DuplicateAsFileDropFlow": "複製到 FileDrop",
         "FailureFlows": "失敗流程",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "標準流程",
         "SubFlows": "子流程"
       },
@@ -1531,25 +1590,6 @@
         "Revision": "修訂"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "代理商流程",
-        "Title": "代理商流程",
-        "Fields": {
-          "Extensions": "擴展名",
-          "Extensions-Help": "此流程允許處理的擴展名列表。",
-          "Flow": "流程",
-          "Icon": "圖標",
-          "MaxFileSize": "最大文件大小",
-          "MaxFileSize-Help": "此流程允許處理的最大文件大小。",
-          "Tokens": "代幣",
-          "Tokens-Help": "用戶運行此流程所需的代幣數量。"
-        }
-      },
-      "Settings": {
-        "Title": "代理商設置"
-      }
-    },
     "Resources": {
       "Singular": "資源",
       "Title": "資源",
@@ -1668,8 +1708,8 @@
         "LogFileRetention-Suffix": "天",
         "LoggingPath": "日誌目錄",
         "LoggingPath-Help": "日誌文件將在此創建。",
-        "LogQueueMessages": "記錄隊列消息",
-        "LogQueueMessages-Help": "這將導致在庫監視器中對所有排隊/出隊的文件進行過度日誌記錄。\n如果您遇到文件未顯示的問題，請打開此選項，然後關閉以避免填滿日誌文件。",
+        "LogQueueMessages": "詳細的庫日誌記錄",
+        "LogQueueMessages-Help": "這將增加庫文件檢測過程的日誌記錄。僅在調試文件檢測問題時啟用，並在之後關閉。",
         "PluginRepositoryUrls": "插件庫",
         "PluginRepositoryUrls-Help": "用於查找插件的插件庫 URL 列表，以換行分隔。\n順序很重要，如果多個庫包含相同的插件，將使用第一個庫作為其來源。\n默認庫將始終添加到此列表的末尾。",
         "ProcessFileCheckInterval": "文件檢查間隔",
@@ -1718,6 +1758,7 @@
         "License": {
           "Email": "授權電子郵件",
           "ExpiryDate": "到期日期",
+          "FileDropUsers": "FileDrop 使用者",
           "Files": "文件",
           "Flags": "功能",
           "Key": "授權金鑰",

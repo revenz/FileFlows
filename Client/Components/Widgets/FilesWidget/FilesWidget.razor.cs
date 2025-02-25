@@ -1,3 +1,5 @@
+using System.IO;
+using FileFlows.Client.Helpers;
 using FileFlows.Shared.Formatters;
 using Microsoft.AspNetCore.Components;
 
@@ -65,6 +67,10 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// Gets the profile
     /// </summary>
     protected Profile Profile { get; private set; }
+    /// <summary>
+    /// If this component needs rendering
+    /// </summary>
+    private bool _needsRendering = false;
 
 
     private List<DashboardFile> UpcomingFiles, RecentlyFinished, FailedFiles;
@@ -150,9 +156,30 @@ public partial class FilesWidget : ComponentBase, IDisposable
             initialized = true;
         }
         StateHasChanged();
+        await WaitForRender();
         OptionButtons?.TriggerStateHasChanged();
     }
 
+    /// <summary>
+    /// Waits for a render to occur
+    /// </summary>
+    async Task WaitForRender()
+    {
+        _needsRendering = true;
+        StateHasChanged();
+        while (_needsRendering)
+        {
+            await Task.Delay(50);
+        }
+    }
+    
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _needsRendering = false;
+    }
+
+    
     /// <summary>
     /// Loads the data from the server
     /// </summary>
@@ -171,11 +198,13 @@ public partial class FilesWidget : ComponentBase, IDisposable
         string RelativePath,
         DateTime ProcessingEnded,
         string LibraryName,
+        bool IsDirectory,
         string? When,
         long OriginalSize,
         long FinalSize,
         string Message,
-        FileStatus Status
+        FileStatus Status,
+        string[] Traits
     );
     
     /// <summary>
@@ -192,4 +221,21 @@ public partial class FilesWidget : ComponentBase, IDisposable
     {
         ClientService.FileStatusUpdated -= OnFileStatusUpdated;
     }
+
+    /// <summary>
+    /// Gets the thumbnail url
+    /// </summary>
+    /// <param name="file">the file</param>
+    /// <returns>the thumbnail url</returns>
+    private string GetThumbUrl(DashboardFile file)
+        => IconHelper.GetThumbnail(file.Uid,
+            file.Name?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.DisplayName, file.IsDirectory);
+    
+    /// <summary>
+    /// Gets the extension image
+    /// </summary>
+    /// <param name="file">the file</param>
+    /// <returns>the extension image</returns>
+    private string GetExtensionImage(DashboardFile file)
+        => IconHelper.GetExtensionImage(file.Name?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.DisplayName);
 }

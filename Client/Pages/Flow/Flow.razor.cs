@@ -11,6 +11,8 @@ using System.Text.RegularExpressions;
 using System.Web;
 using BlazorContextMenu;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Components.Inputs;
+using FileFlows.Client.Helpers;
 using FileFlows.Client.Wizards;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -18,7 +20,14 @@ namespace FileFlows.Client.Pages;
 
 public partial class Flow : ComponentBase, IDisposable
 {
+    /// <summary>
+    /// Editor for flow elements/parts
+    /// </summary>
     public Editor Editor { get; set; }
+    /// <summary>
+    /// Editor for custom fields
+    /// </summary>
+    public Editor CustomFieldEditor { get; set; }
     /// <summary>
     /// Gets or sets the UID of the flow to edit
     /// </summary>
@@ -68,8 +77,12 @@ public partial class Flow : ComponentBase, IDisposable
     private NewFlowEditor AddEditor;
 
     private string lblEdit, lblHelp, lblDelete, lblCopy, lblPaste, lblRedo, lblUndo, lblAdd, 
-        lblProperties, lblEditSubFlow, lblPlugins, lblScripts, lblSubFlows, lblFields;
+        lblProperties, lblEditSubFlow, lblElements, lblScripts, lblSubFlows, lblFields;
 
+    /// <summary>
+    /// The custom field input
+    /// </summary>
+    private InputCustomFields CustomFieldsList;
 
     /// <summary>
     /// The default group to show for the `Plugins` flow elements
@@ -107,12 +120,6 @@ public partial class Flow : ComponentBase, IDisposable
 
     private Func<Task<bool>> NavigationCheck;
 
-    /// <summary>
-    /// A reference to the floe elements tabs
-    /// </summary>
-    private FlowTabs tabsFlowElements;
-
-    private FlowTab tabFields;
 
     /// <summary>
     /// Gets or sets if the active tab is the fields tab
@@ -147,7 +154,7 @@ public partial class Flow : ComponentBase, IDisposable
         lblProperties = Translater.Instant("Labels.Properties");
         lblFields = Translater.Instant("Labels.Fields");
         lblEditSubFlow = Translater.Instant("Labels.EditSubFlow");
-        lblPlugins = Translater.Instant("Labels.Plugins");
+        lblElements = Translater.Instant("Labels.Elements");
         lblScripts = Translater.Instant("Labels.Scripts");
         lblSubFlows = Translater.Instant("Labels.SubFlows");
         lblUnsavedChanges =Translater.Instant("Labels.UnsavedChanges");
@@ -501,6 +508,11 @@ public partial class Flow : ComponentBase, IDisposable
             {
                 // if (FieldsTabOpened)
                 x.CopyValue = $"{part.Uid}.{x.Name}";
+                if (editor.Flow.Type is FlowType.FileDrop)
+                {
+                    x.CustomFieldAction = async void () => await EditCustomVariable(editor, x, part);
+                }
+
                 return x;
             }).ToList();
         // add the name to the fields, so a node can be renamed
@@ -523,7 +535,7 @@ public partial class Flow : ComponentBase, IDisposable
             InputType = FormInputType.HorizontalRule
         });
 
-        if (FieldsTabOpened &&
+        if (FieldsTabOpened && editor.Flow.Type is not FlowType.FileDrop &&
             part.Type != FlowElementType.Output) // output is for sub flow outputs, we dont want to show the UID
         {
             fields.Insert(0, new ElementField
@@ -775,6 +787,116 @@ public partial class Flow : ComponentBase, IDisposable
 
         ActiveFlow?.MarkDirty();
         return new { outputs, model = newModel };
+    }
+
+    private async Task EditCustomVariable(FlowEditor editor, ElementField eleField, FlowPart part)
+    {
+        var customFlowEditor = new CustomFieldEditor(CustomFieldEditor, editor.Flow);
+        string efVariable = $"{part.Uid}.{eleField.Name}";
+        var field = editor.Flow?.Fields?.FirstOrDefault(x => x.Variable == efVariable);
+        bool isNew = field == null;
+        if (isNew)
+        {
+            // create a best option for this part
+            if (eleField.InputType is FormInputType.Switch)
+            {
+                field = new()
+                {
+                    Type = CustomFieldType.Boolean
+                };
+            }
+            else if (eleField.InputType is FormInputType.Select 
+                     && eleField.Parameters.TryGetValue("Options", out var options))
+            {
+                if (options is JsonElement je && je.ValueKind != JsonValueKind.Null)
+                {
+                    var cfos = (je.Deserialize<List<ListOption>>() ?? new List<ListOption>())
+                        .Where(x => x.Value?.ToString() != Globals.LIST_OPTION_GROUP )
+                        .Select(x =>
+                        new CustomFieldOption()
+                        {
+                            Name = x.Label,
+                            Value = x.Value?.ToString() ?? x.Label
+                        }).ToList();
+                    if (cfos.Count > 0 && cfos.Count <= 5)
+                    {
+                        field = new()
+                        {
+                            Type = CustomFieldType.OptionGroup,
+                            Data = new()
+                            {
+                                { "Options", cfos }
+                            }
+                        };
+                    }
+                    else if(cfos.Count > 0)
+                    {
+                        field = new()
+                        {
+                            Type = CustomFieldType.Select,
+                            Data = new()
+                            {
+                                { "Options", cfos }
+                            }
+                        };
+                    }
+                }
+            }
+            else if (eleField.InputType is FormInputType.Int)
+            {
+                field = new()
+                {
+                    Type = CustomFieldType.Integer,
+                    Data = new()
+                    {
+                        { "Minimum", 0 },
+                        { "Maximum", 100 }
+                    }
+                };
+            }
+            else if (eleField.InputType is FormInputType.Slider)
+            {
+                field = new()
+                {
+                    Type = CustomFieldType.Slider,
+                    Data = new()
+                    {
+                        { "Minimum", 0 },
+                        { "Maximum", 100 }
+                    }
+                };
+            }
+            
+            field ??= new()
+            {
+                Type = CustomFieldType.Text
+            };
+            field.Name = eleField.Name;
+            field.Description = eleField.Description;
+        }
+        var result = await customFlowEditor.EditField(field, canChangeVariable: false);
+        if (result == null)
+            return;
+        result.Variable = efVariable;
+        if (isNew)
+        {
+            // new
+            editor.Flow.Fields ??= new ();
+            editor.Flow.Fields.Add(result);
+        }
+        else
+        {
+            // updated
+            field.Name = result.Name;
+            field.Description = result.Description;
+            field.Data = result.Data;
+            field.Type = result.Type;
+            field.ConditionField = result.ConditionField;
+            field.ConditionValue = result.ConditionValue;
+        }
+
+        if (CustomFieldsList != null)
+            CustomFieldsList.UpdateData(editor.Flow.Fields);
     }
 
     private void ShowElementsOnClick()

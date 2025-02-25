@@ -13,9 +13,13 @@ public partial class WizardOutput : ComponentBase
     /// Gets or sets the profile service
     /// </summary>
     [Inject] private ProfileService ProfileService { get; set; }
+    /// <summary>
+    /// Gets or sets if this is a file drop flow
+    /// </summary>
+    [Parameter] public bool FileDropFlow { get; set; }
     
     private string OutputPath;
-    private bool DeleteOld, IsWindows, IsReseller;
+    private bool DeleteOld, IsWindows, IsFileDrop, AlwaysMove;
     private int OutputMode = 0;
 
     /// <inheritdoc />
@@ -23,7 +27,9 @@ public partial class WizardOutput : ComponentBase
     {
         var profile = await ProfileService.Get();
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
-        IsReseller = profile.LicensedFor(LicenseFlags.Reseller);
+        IsFileDrop = profile.LicensedFor(LicenseFlags.FileDrop);
+        if (IsFileDrop && FileDropFlow)
+            OutputMode = 2;
     }
 
     /// <summary>
@@ -53,7 +59,7 @@ public partial class WizardOutput : ComponentBase
     /// <param name="row">Optional row to start at</param>
     /// <param name="col">Optional col to start at</param>
     /// <returns>the primary flow output flow part</returns>
-    public FlowPart  FlowAddOutput(FlowBuilder builder, string[] keepExtensions
+    public FlowPart FlowAddOutput(FlowBuilder builder, string[] keepExtensions
     , int row = 0, int col = 0)
     {
         int preOutputColumn = builder.CurrentColumn;
@@ -70,7 +76,7 @@ public partial class WizardOutput : ComponentBase
         }
         else if (OutputMode == 2)
         {
-            // reseller
+            // file drop
             fpOutput = builder.AddAndConnect(new FlowPart()
             {
                 FlowElementUid = FlowElementUids.MoveToUserFolder,
@@ -92,7 +98,7 @@ public partial class WizardOutput : ComponentBase
                     DeleteOriginal = DeleteOld,
                     MoveFolder = true
                 })
-            }, row: row, column: col > 0 ? (preOutputColumn + col) : 0);
+            }, row: row, column: col > 0 ? (preOutputColumn + col) : 0, allOutputs: AlwaysMove);
 
             if (DeleteOld)
             {

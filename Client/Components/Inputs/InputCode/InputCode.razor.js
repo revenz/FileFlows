@@ -68,6 +68,68 @@ export class InputCode
   }`,
             "javascript"
         );
+        
+        monaco.editor.createModel(
+            `const Checksum = { 
+    /**
+     * Computes the MD5 checksum for the given input.
+     * @param {string|Uint8Array} input - The input string or binary data.
+     * @returns {string} The MD5 checksum as a hexadecimal string.
+     */
+    MD5: function (input) { },
+
+    /**
+     * Computes the SHA-1 checksum for the given input.
+     * @param {string|Uint8Array} input - The input string or binary data.
+     * @returns {string} The SHA-1 checksum as a hexadecimal string.
+     */
+    SHA1: function (input) { },
+
+    /**
+     * Computes the SHA-256 checksum for the given input.
+     * @param {string|Uint8Array} input - The input string or binary data.
+     * @returns {string} The SHA-256 checksum as a hexadecimal string.
+     */
+    SHA256: function (input) { },
+
+    /**
+     * Computes the SHA-512 checksum for the given input.
+     * @param {string|Uint8Array} input - The input string or binary data.
+     * @returns {string} The SHA-512 checksum as a hexadecimal string.
+     */
+    SHA512: function (input) { },
+
+    /**
+     * Computes the MD5 checksum for a given file.
+     * @param {string} filename - The file path.
+     * @returns {string} The MD5 checksum of the file’s contents as a hexadecimal string.
+     */
+    MD5File: function (filename) { },
+
+    /**
+     * Computes the SHA-1 checksum for a given file.
+     * @param {string} filename - The file path.
+     * @returns {string} The SHA-1 checksum of the file’s contents as a hexadecimal string.
+     */
+    SHA1File: function (filename) { },
+
+    /**
+     * Computes the SHA-256 checksum for a given file.
+     * @param {string} filename - The file path.
+     * @returns {string} The SHA-256 checksum of the file’s contents as a hexadecimal string.
+     */
+    SHA256File: function (filename) { },
+
+    /**
+     * Computes the SHA-512 checksum for a given file.
+     * @param {string} filename - The file path.
+     * @returns {string} The SHA-512 checksum of the file’s contents as a hexadecimal string.
+     */
+    SHA512File: function (filename) { }
+  }`,
+            "javascript"
+        );
+
 
 
         monaco.editor.createModel(
@@ -215,6 +277,27 @@ export class InputCode
  * @param {string} path - The path of the directory
  */
 CreateDirectoryIfNotExists: function (path:string) { },
+/**
+ * Sets the thumbnail on the file, takes either a file path or URL
+ * @param {string} path - The path of the file or URL
+ */
+SetThumbnail: function(path:string) {},
+/**
+ * Gets a property on this file record. Properties are stored in the file's database 
+ * record and are unique to this specific file instance, not the filename. If the same 
+ * file appears in a different library, it will have its own separate properties.
+ * @param {string} name - The name of the file record property to get.
+ * @returns {string} - The property value if found.
+ */
+GetProperty: function(name:string):string {},
+/**
+ * Sets a property on this file record. Properties are stored in the file's database 
+ * record and are unique to this specific file instance, not the filename. If the same 
+ * file appears in a different library, it will have its own separate properties.
+ * @param {string} name - The name of the file record property to set.
+ * @param {string} value - The value to assign to the property.
+ */
+SetProperty: function(name:string, value:string) {},
 /**
  * Fails the flow with the given reason.
  *

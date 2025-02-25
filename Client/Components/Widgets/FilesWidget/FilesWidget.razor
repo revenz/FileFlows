@@ -1,3 +1,4 @@
+@using FileFlows.Client.Helpers
 @namespace FileFlows.Client.Components.Widgets
 
 <ContainerWidget Title="@lblTitle" Scroll="true">
@@ -25,7 +26,7 @@
                 {
                     <div class="file-table-row">
                         <span class="icon">
-                            <img class="icon" src="icons/filetypes/video/mkv.svg" @onclick="() => OpenFile(file)"/>
+                            <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/>
                         </span>
                         <span class="path">
                             <span @onclick="() => OpenFile(file)">@file.DisplayName</span>
@@ -53,14 +54,22 @@
             {
                 foreach (var file in list ?? [])
                 {
-                    <div class="file-table-row @(file.Message != null ? "has-message" : "no-message")">
+                    <div class="file-table-row fm-@FileMode @(file.Message != null ? "has-message" : "no-message")">
                         @if (FileMode == 0)
                         {
                             var percentage = Math.Min(100, (file.FinalSize / (double)file.OriginalSize) * 100);
                             <div class="savings" style="width: @percentage%"></div>
                         }
                         <span class="icon">
-                            <img class="icon" src="icons/filetypes/video/mkv.svg" @onclick="() => OpenFile(file)"/>
+                            @if (FileMode == 0)
+                            {
+                                <img id="thumb-@file.Uid" class="icon thumbnail" src="@GetThumbUrl(file)" @onclick="() => OpenFile(file)" 
+                                     alt="@file.Name" />
+                            }
+                            else
+                            {
+                                <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/>
+                            }
                         </span>
                         <div class="center">
                             <span class="path">
@@ -69,6 +78,21 @@
                             <span class="time">
                                 <span @onclick="() => OpenFile(file)">@file.When</span>
                             </span>
+                            @if (FileMode == 0)
+                            {
+                                <span class="size">
+                                    @FileSizeFormatter.FormatSize(file.FinalSize)
+                                </span>
+                                @if (file.Traits?.Any() == true)
+                                {
+                                    <div class="traits">
+                                        @foreach (var trait in file.Traits)
+                                        {
+                                            <span class="trait">@trait</span>
+                                        }
+                                    </div>
+                                }
+                            }
                             @if (file.Message != null)
                             {
                                 <div class="message" @onclick="() => OpenFile(file)"><span>@file.Message</span></div>

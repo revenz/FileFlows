@@ -138,6 +138,16 @@ public class OpenIDController : Controller
     /// <returns>the IActionResult</returns>
     private IActionResult AuthRedirectPage(string jwt)
     {
+        Response.Cookies.Append("AccessToken", jwt, new CookieOptions
+        {
+            //HttpOnly = true,
+            //Secure = false, // Localhost doesn't use HTTPS
+#if(DEBUG)
+            SameSite = SameSiteMode.None, // Needed for cross-origin requests in dev
+#endif
+            //Path = "/"
+        });
+        
 #if(DEBUG)
         return Redirect($"http://localhost:5276/auth-redirect.html?jwt={jwt}");
 #else

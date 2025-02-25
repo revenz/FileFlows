@@ -12,8 +12,12 @@
                 @if (Seconds)
                 {
                     <option selected="@(Period == SECONDS_SECOND)" value="@SECONDS_SECOND">Seconds</option>
+                    <option selected="@(Period == SECONDS_MINUTE)" value="@SECONDS_MINUTE">Minutes</option>
                 }
-                <option selected="@(Period == SECONDS_MINUTE)" value="@SECONDS_MINUTE">Minutes</option>
+                else if (ShowMinutes)
+                {
+                    <option selected="@(Period == SECONDS_MINUTE)" value="@SECONDS_MINUTE">Minutes</option>
+                }
                 <option selected="@(Period == SECONDS_HOUR)" value="@SECONDS_HOUR">Hours</option>
                 <option selected="@(Period == SECONDS_DAY)" value="@SECONDS_DAY">Days</option>
                 @if (ShowWeeks)

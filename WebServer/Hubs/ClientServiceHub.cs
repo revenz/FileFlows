@@ -2,6 +2,7 @@
 using FileFlows.Services;
 using FileFlows.Shared.Models;
 using Microsoft.AspNetCore.SignalR;
+using FileHelper = FileFlows.ServerShared.Helpers.FileHelper;
 
 namespace FileFlows.WebServer.Hubs;
 
@@ -78,6 +79,12 @@ public class ClientServiceManager : IClientService
 
         try
         {
+            foreach (var executor in executors)
+            {
+                executor.Value.HasThumbnail = File.Exists(Path.Combine(DirectoryHelper.LibraryFilesLoggingDirectory,
+                    executor.Value.LibraryFileUid + ".webp"));
+            }
+            
             await _hubContext.Clients.All.SendAsync("UpdateExecutors", executors);
             await Task.Delay(500); // creates a 500 ms delay between messages to the client
         }

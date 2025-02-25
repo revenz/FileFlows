@@ -28,6 +28,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
     private List<FlowListModel> DataStandard = new();
     private List<FlowListModel> DataSubFlows = new();
     private List<FlowListModel> DataFailure = new();
+    private List<FlowListModel> DataFileDrop = new();
     private FlowType SelectedType = FlowType.Standard;
 
     public override string FetchUrl => ApiUrl + "/list-all";
@@ -53,7 +54,10 @@ public partial class Flows : ListPage<Guid, FlowListModel>
     private void Add()
     {
         //NavigationManager.NavigateTo("flows/" + Guid.Empty);
-        _ = ModalService.ShowModal<NewFlowWizard, Flow>(new NewVideoFlowWizardOptions());
+        _ = ModalService.ShowModal<NewFlowWizard, Flow>(new NewFlowWizardOptions()
+        {
+            FileDropFlow = Profile.LicensedFor(LicenseFlags.FileDrop) && Skybox.SelectedItem.Value is FlowType.FileDrop 
+        });
     }
 
     public override async Task<bool> Edit(FlowListModel item)
@@ -62,6 +66,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
             NavigationManager.NavigateTo("flows/" + item.Uid);
         return await Task.FromResult(false);
     }
+
 
     private async Task Export()
     {
@@ -122,7 +127,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
     /// <summary>
     /// Duplicate the selected item
     /// </summary>
-    private async Task Duplicate()
+    private async Task Duplicate(bool asFileDropFlow = false)
     {
         Blocker.Show();
         try
@@ -134,6 +139,8 @@ public partial class Flows : ListPage<Guid, FlowListModel>
 #if (DEBUG)
             url = "http://localhost:6868" + url;
 #endif
+            if(asFileDropFlow)
+                url += "?asFileDropFlow=true";
             var newItem = await HttpHelper.Get<Script>(url);
             if (newItem != null && newItem.Success)
             {
@@ -165,6 +172,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         this.DataFailure = this.Data.Where(x => x.Type == FlowType.Failure).ToList();
         this.DataStandard = this.Data.Where(x => x.Type == FlowType.Standard).ToList();
         this.DataSubFlows = this.Data.Where(x => x.Type == FlowType.SubFlow).ToList();
+        this.DataFileDrop = this.Data.Where(x => x.Type == FlowType.FileDrop).ToList();
         this.Skybox.SetItems(new List<FlowSkyBoxItem<FlowType>>()
         {
             new ()
@@ -187,7 +195,14 @@ public partial class Flows : ListPage<Guid, FlowListModel>
                 Icon = "fas fa-exclamation-circle",
                 Count = this.DataFailure.Count,
                 Value = FlowType.Failure
-            }
+            },
+            Profile.LicensedFor(LicenseFlags.FileDrop) ? new ()
+            {
+                Name = Translater.Instant("Pages.Flows.Labels.FileDropFlows"),
+                Icon = "fas fa-tint",
+                Count = this.DataFileDrop.Count,
+                Value = FlowType.FileDrop
+            } : null
         }.Where(x => x != null).ToList(), this.SelectedType);
     }
 

@@ -22,10 +22,16 @@ public partial class InputPeriod : Input<int>
     private int Number { get; set; }
 
     /// <summary>
-    /// Gets or sets if the weeks is shown
+    /// Gets or sets if weeks are shown
     /// </summary>
     [Parameter]
     public bool ShowWeeks { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets if minutes are shown
+    /// </summary>
+    [Parameter]
+    public bool ShowMinutes { get; set; } = true;
 
     /// <summary>
     /// Gets or sets if the is using seconds

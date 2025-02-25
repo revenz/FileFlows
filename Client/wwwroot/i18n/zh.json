@@ -23,6 +23,7 @@
     "CopiedToClipboard": "已将 ''{text}'' 复制到剪贴板。",
     "Copy": "复制",
     "CopyToClipboard": "复制到剪贴板",
+    "CustomField": "自定义字段",
     "Decrease": "减少",
     "Default": "默认",
     "Delete": "删除",
@@ -41,6 +42,7 @@
     "Duplicate": "重复",
     "Edit": "编辑",
     "EditSubFlow": "编辑子流",
+    "Elements": "元素",
     "Enabled": "已启用",
     "Execute": "执行",
     "Executing": "正在执行",
@@ -74,6 +76,8 @@
     "MissingDependencies": "缺少依赖项",
     "MissingDependenciesMessage": "在使用此模板之前，必须下载以下缺少的插件：\n\n#LIST#",
     "MonthShort": "月",
+    "MoveDown": "下移",
+    "MoveUp": "上移",
     "Name": "名称",
     "Never": "从不",
     "Next": "下一个",
@@ -111,7 +115,6 @@
     "Reprocess": "重新处理",
     "Rescan": "重新���描",
     "Reset": "重置",
-    "ResetLayout": "重置布局",
     "Restore": "恢复",
     "RestoredFailedMessage": "恢复 {type} 失败",
     "RestoredMessage": "{type} 已恢复",
@@ -147,6 +150,7 @@
     "Tag": "标签",
     "Test": "测试",
     "Time": "时间",
+    "Tokens": "令牌",
     "TooManyDockerMods": "您选择了过多的DockerMods，这可能会影响性能，您可能不需要安装所有这些DockerMods。",
     "Total": "总计",
     "Trigger": "触发",
@@ -160,6 +164,7 @@
     "UpdateAvailable": "新版本可用 {version}",
     "Upload": "上传",
     "UsedBy": "使用者",
+    "Value": "值",
     "Version": "版本",
     "VersionNumber": "版本：{version}",
     "View": "查看",
@@ -320,6 +325,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "始终移动",
+        "AlwaysMove-Help": "启用后，即使未对原始输入文件进行任何处理，文件仍将始终被移动。",
         "DeleteOld": "清理原文件",
         "DeleteOld-Help": "删除原文件和原文件夹（如果没有其他文件）。",
         "Description": "描述",
@@ -334,10 +341,10 @@
         "OutputPathRequired": "输出路径是必需的。"
       },
       "Output": {
+        "FileDropMove": "文件移動",
+        "FileDropMoveDescription": "将文件移动到用户专用的临时文件夹以供下载。文件将在设定的时间后自动删除。",
         "ReplaceOriginal": "替换原文件",
         "ReplaceOriginalDescription": "用转换后的文件替换原文件。",
-        "ResellerMove": "经销商移动",
-        "ResellerMoveDescription": "将文件移动到用户专用的临时文件夹以供下载。文件将在设定的时间后自动删除。",
         "SaveToFolder": "保存到文件夹",
         "SaveToFolderDescription": "将转换后的文件保存到新位置。"
       },
@@ -525,6 +532,7 @@
         "BitrateDescription": "使用固定的比特率对视频进行编码。这会使视频的文件大小保持一致，但如果比特率不理想，则会浪费存储空间或降低质量。",
         "FileExtensions": "文件扩展名",
         "FileExtensionsDescription": "指定在此库中处理的文件扩展名。",
+        "OnlyOnePerLanguage": "每种指定语言仅保留一个音轨。即使是指定语言的其他音轨也会被移除。如果指定语言在源视频中未找到，则会跳过，不会包含。",
         "Quality": "质量",
         "QualityDescription": "基于视频的输入使用自适应编码来实现恒定的质量水平。推荐使用此方法，它能确保视频质量一致，并且产生最小的文件。",
         "UseOriginal": "使用未修改的原始文件",
@@ -558,6 +566,8 @@
         "CropBlackBars-Help": "FileFlows将尝试检测视频文件中的黑边，如果找到，它会裁剪这些黑边以减少文件大小，并允许播放器更改纵横比。",
         "DefaultLanguage": "默认语言",
         "DefaultLanguage-Help": "指定要分配给当前没有指定语言的音轨的语言。",
+        "FallBackAudio": "备用音轨",
+        "FallBackAudio-Help": "启用此选项，以在所请求的音频通道不可用时创建备用音轨。如果无法满足所需的通道配置（例如，要求 5.1 但仅提供立体声），则会使用原始通道配置。",
         "KeepAllSubtitles": "保留所有字幕",
         "KeepAllSubtitlesDescription": "保留原始视频中的所有字幕",
         "KeepOnlySpecifiedSubtitles": "仅保留指定字幕",
@@ -738,6 +748,16 @@
       "PasswordReset": "重置密码",
       "PasswordResetRequest": "请求重置密码",
       "Updated": "已更新"
+    },
+    "CustomFieldType": {
+      "Boolean": "布尔值",
+      "Image": "图片",
+      "Integer": "整数",
+      "OptionGroup": "选项组",
+      "Select": "选择",
+      "Slider": "滑块",
+      "Text": "文本",
+      "TextArea": "文本区域"
     },
     "DateCompareMode": {
       "After": "之后",
@@ -931,6 +951,7 @@
     "Admin": "管理员",
     "Configuration": "配置",
     "Extensions": "扩展",
+    "FileDrop": "FileDrop",
     "Information": "信息",
     "Overview": "概述",
     "Security": "安全",
@@ -981,6 +1002,25 @@
         "Operator": "操作员",
         "Summary": "摘要",
         "Type": "类型"
+      }
+    },
+    "CustomField": {
+      "Title": "字段",
+      "Fields": {
+        "ConditionField": "条件",
+        "ConditionValue": "值",
+        "ConditionValue-Help": "仅在此字段与给定值匹配时显示。",
+        "DefaultNumber": "默认",
+        "Description": "描述",
+        "Description-Help": "显示在字段下方的帮助描述。",
+        "Maximum": "最大值",
+        "Minimum": "最小值",
+        "Name-Help": "此字段显示的名称。",
+        "Options": "选项",
+        "Type": "类型",
+        "Type-Help": "显示的输入类型。",
+        "Variable": "变量",
+        "Variable-Help": "将传递到流程中的变量。"
       }
     },
     "Dashboard": {
@@ -1094,6 +1134,19 @@
         "Updating": "更新中"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "FileDrop设置"
+      },
+      "User": {
+        "Plural": "FileDrop用户",
+        "Title": "FileDrop用户",
+        "Fields": {
+          "Provider": "提供者",
+          "Tokens": "令牌"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "任务"
     },
@@ -1124,11 +1177,15 @@
       },
       "Fields": {
         "Description": "描述。",
+        "Extensions": "扩展",
         "Icon": "图标",
+        "MaxFileSize": "最大文件大小",
         "Outputs": "输出",
         "Outputs-Help": "此子流程具有的输出数量。当在其他流程中使用此子流程时，这就是可用的输出数量",
         "OutputsKey": "输出",
         "OutputsValue": "描述",
+        "PreviewMode": "预览模式",
+        "Tokens": "令牌",
         "Variables": "变量",
         "VariablesKey": "名称",
         "VariablesValue": "值",
@@ -1164,7 +1221,9 @@
     "Flows": {
       "Title": "流程",
       "Labels": {
+        "DuplicateAsFileDropFlow": "复制到 FileDrop",
         "FailureFlows": "失败流程",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "标准流程",
         "SubFlows": "子流程"
       },
@@ -1531,25 +1590,6 @@
         "Revision": "修订版"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "代理商流程",
-        "Title": "代理商流程",
-        "Fields": {
-          "Extensions": "扩展名",
-          "Extensions-Help": "此流程允许处理的扩展名列表。",
-          "Flow": "流程",
-          "Icon": "图标",
-          "MaxFileSize": "最大文件大小",
-          "MaxFileSize-Help": "此流程允许处理的最大文件大小。",
-          "Tokens": "令牌",
-          "Tokens-Help": "用户运行此流程所需的令牌数量。"
-        }
-      },
-      "Settings": {
-        "Title": "代理商设置"
-      }
-    },
     "Resources": {
       "Singular": "资源",
       "Title": "资源",
@@ -1668,8 +1708,8 @@
         "LogFileRetention-Suffix": "天",
         "LoggingPath": "日志目录",
         "LoggingPath-Help": "日志文件将在此处创建。",
-        "LogQueueMessages": "记录队列消息",
-        "LogQueueMessages-Help": "这将导致库观察器中所有文件的排队/出队进行过度记录。\n如果您在文件未出现时遇到问题，请开启此功能，然后关闭以避免日志文件填充过多记录。",
+        "LogQueueMessages": "详细的库日志记录",
+        "LogQueueMessages-Help": "这将增加库文件检测过程的日志记录。仅在调试文件检测问题时启用，并在之后关闭。",
         "PluginRepositoryUrls": "插件仓库",
         "PluginRepositoryUrls-Help": "用于搜索插件的插件仓库 URL 的换行分隔列表。\n顺序很重要，如果多个仓库包含相同的插件，将使用第一个仓库作为其来源。\n默认仓库将始终添加到此列表的末尾。",
         "ProcessFileCheckInterval": "文件检查间隔",
@@ -1718,6 +1758,7 @@
         "License": {
           "Email": "许可证电子邮件",
           "ExpiryDate": "到期日期",
+          "FileDropUsers": "FileDrop 用户",
           "Files": "文件",
           "Flags": "功能",
           "Key": "许可证密钥",

@@ -11,4 +11,4 @@ Checkout the official website for more information and documentation
 --- 
 
 ## License and Contribution
-Copyright (C) 2024 John Andrews - All Rights Reserved
+Copyright (C) 2025 John Andrews - All Rights Reserved

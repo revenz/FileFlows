@@ -31,6 +31,10 @@ public class SettingsUiModel:Settings
     /// </summary>
     public LicenseLevel LicenseLevel { get; set; }
     /// <summary>
+    /// Gets or sets the number of file drop users they are licensed for
+    /// </summary>
+    public int LicensedFileDropUsers { get; set; }
+    /// <summary>
     /// Gets the license expiry date for the user
     /// </summary>
     public DateTime LicenseExpiryDate { get; set; }

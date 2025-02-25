@@ -203,9 +203,15 @@ public class ImageHelper : IImageHelper
         {
             if (ImageMagick.CanUseImageMagick())
             {
+                Logger.ILog("Using ImagMagick method for image");
                 var result = ImageMagick.ConvertImage(imagePath, destination, options);
                 if (result.IsFailed == false)
                     return true;
+                Logger.ILog("Failed falling back to .net method for image");
+            }
+            else
+            {
+                Logger.ILog("Using .net method for image");
             }
 
             using var image = Image.Load(imagePath);

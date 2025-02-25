@@ -96,4 +96,20 @@ public class FlowRunnerService : RemoteService, IFlowRunnerService
             Logger.Instance?.WLog("Failed to update work: " + ex.Message);
         }
     }
+
+    /// <inheritdoc />
+    public async Task SetThumbnail(Guid libraryFileUid, byte[] binaryData)
+    {
+        try
+        {
+            var result = await HttpHelper.Post($"{ServiceBaseUrl}/remote/work/set-thumbnail/{libraryFileUid}",
+                binaryData);
+            if (result.Success == false)
+                throw new Exception("Failed to set thumbnail: " + result.Body);
+        }
+        catch (Exception ex)
+        {
+            Logger.Instance?.WLog("Failed to set thumbnail: " + ex.Message);
+        }
+    }
 }

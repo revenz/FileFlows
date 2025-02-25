@@ -350,6 +350,9 @@ public class RunInstance
 
         FileService.Instance = _fileService;
 
+        if (initialSize == 0)
+            initialSize = libFile.OriginalSize;
+
         libFile.Status = FileStatus.Processing;
 
         libFile.ProcessingStarted = DateTime.UtcNow;

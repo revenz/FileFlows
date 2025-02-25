@@ -23,6 +23,7 @@
     "CopiedToClipboard": "Kopierade ''{text}'' till urklipp.",
     "Copy": "Kopiera",
     "CopyToClipboard": "Kopiera till urklipp",
+    "CustomField": "Anpassat Fält",
     "Decrease": "Minska",
     "Default": "Standard",
     "Delete": "Ta bort",
@@ -41,6 +42,7 @@
     "Duplicate": "Duplicera",
     "Edit": "Redigera",
     "EditSubFlow": "Redigera delflöde",
+    "Elements": "Element",
     "Enabled": "Aktiverad",
     "Execute": "Kör",
     "Executing": "Körs",
@@ -74,6 +76,8 @@
     "MissingDependencies": "Saknade beroenden",
     "MissingDependenciesMessage": "Följande saknade plugins måste laddas ner innan du använder denna mall:\n\n#LIST#",
     "MonthShort": "Mån",
+    "MoveDown": "Flytta Ner",
+    "MoveUp": "Flytta Upp",
     "Name": "Namn",
     "Never": "Aldrig",
     "Next": "Nästa",
@@ -111,7 +115,6 @@
     "Reprocess": "Bearbeta om",
     "Rescan": "Skanna om",
     "Reset": "Återställ",
-    "ResetLayout": "Återställ layout",
     "Restore": "Återställ",
     "RestoredFailedMessage": "Misslyckades med att återställa {type}",
     "RestoredMessage": "{type} återställd",
@@ -147,6 +150,7 @@
     "Tag": "Tagg",
     "Test": "Test",
     "Time": "Tid",
+    "Tokens": "Polletter",
     "TooManyDockerMods": "Du har valt för många DockerMods. Detta kan påverka prestandan och det är sannolikt inte nödvändigt att installera alla dessa DockerMods.",
     "Total": "Totalt",
     "Trigger": "Utlösa",
@@ -160,6 +164,7 @@
     "UpdateAvailable": "Ny version tillgänglig {version}",
     "Upload": "Ladda upp",
     "UsedBy": "Används av",
+    "Value": "Värde",
     "Version": "Version",
     "VersionNumber": "Version: {version}",
     "View": "Visa",
@@ -320,6 +325,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "Flytta alltid",
+        "AlwaysMove-Help": "Om aktiverat kommer filen alltid att flyttas, även om ingen bearbetning har tillämpats på den ursprungliga indatafilen.",
         "DeleteOld": "Rensa original",
         "DeleteOld-Help": "Tar bort originalfilen och originalmappen om inga andra filer finns kvar.",
         "Description": "Beskrivning",
@@ -334,10 +341,10 @@
         "OutputPathRequired": "Utmatningsväg är obligatorisk."
       },
       "Output": {
+        "FileDropMove": "Flytta fil",
+        "FileDropMoveDescription": "Flyttar filen till en temporär mapp som är unik för användaren för nedladdning. Filen tas automatiskt bort efter en angiven tidsperiod.",
         "ReplaceOriginal": "Ersätt original",
         "ReplaceOriginalDescription": "Ersätt originalfilen med den konverterade filen.",
-        "ResellerMove": "Återförsäljare Flytta",
-        "ResellerMoveDescription": "Flyttar filen till en temporär mapp som är unik för användaren för nedladdning. Filen tas automatiskt bort efter en angiven tidsperiod.",
         "SaveToFolder": "Spara i mapp",
         "SaveToFolderDescription": "Spara den konverterade filen på en ny plats."
       },
@@ -525,6 +532,7 @@
         "BitrateDescription": "Använder en fast bitrate när videon kodas. Detta ger konsekventa filstorlekar över videor, men slösar lagring eller förlorar kvalitet om bitraten inte är optimal.",
         "FileExtensions": "Filändelser",
         "FileExtensionsDescription": "Ange filändelser för att behandla i detta bibliotek.",
+        "OnlyOnePerLanguage": "Endast ett spår per angivet språk kommer att behållas. Alla andra spår, även från de angivna språken, tas bort. Om ett angivet språk inte finns i källvideon, kommer det att hoppas över och inte inkluderas.",
         "Quality": "Kvalitet",
         "QualityDescription": "Använder adaptiv kodning baserat på videons ingång för att uppnå ett konstant kvalitetsnivå. Detta rekommenderas och ger en konstant kvalitet över videor och producerar också de minsta filerna.",
         "UseOriginal": "Använd original utan modifiering",
@@ -558,6 +566,8 @@
         "CropBlackBars-Help": "FileFlows kommer att försöka upptäcka svarta kanter i videofilen och om de hittas kommer de att beskäras för att minska filstorleken och för att möjliggöra ändring av bildförhållandet i spelare.",
         "DefaultLanguage": "Standardspråk",
         "DefaultLanguage-Help": "Anger språket som ska tilldelas ljudspår som inte har något språk specificerat.",
+        "FallBackAudio": "Reservljud",
+        "FallBackAudio-Help": "Aktivera det här alternativet för att skapa reservljudspår om de begärda kanalerna inte är tillgängliga. Om den önskade kanalkonfigurationen inte kan uppfyllas (t.ex. 5.1 begärs men endast stereo finns tillgängligt), kommer den ursprungliga kanalkonfigurationen att användas.",
         "KeepAllSubtitles": "Bevara alla undertexter",
         "KeepAllSubtitlesDescription": "Bevara alla undertexter från originalvideon",
         "KeepOnlySpecifiedSubtitles": "Bevara endast",
@@ -738,6 +748,16 @@
       "PasswordReset": "Återställning av lösenord",
       "PasswordResetRequest": "Begäran om återställning av lösenord",
       "Updated": "Uppdaterad"
+    },
+    "CustomFieldType": {
+      "Boolean": "Boolean",
+      "Image": "Bild",
+      "Integer": "Heltal",
+      "OptionGroup": "Alternativgrupp",
+      "Select": "Välj",
+      "Slider": "Skjutreglage",
+      "Text": "Text",
+      "TextArea": "Textområde"
     },
     "DateCompareMode": {
       "After": "Efter",
@@ -931,6 +951,7 @@
     "Admin": "Admin",
     "Configuration": "Konfiguration",
     "Extensions": "Tillägg",
+    "FileDrop": "FileDrop",
     "Information": "Information",
     "Overview": "Översikt",
     "Security": "Säkerhet",
@@ -981,6 +1002,25 @@
         "Operator": "Operatör",
         "Summary": "Sammanfattning",
         "Type": "Typ"
+      }
+    },
+    "CustomField": {
+      "Title": "Fält",
+      "Fields": {
+        "ConditionField": "Villkor",
+        "ConditionValue": "Värde",
+        "ConditionValue-Help": "Visas endast om detta fält matchar det angivna värdet.",
+        "DefaultNumber": "Standard",
+        "Description": "Beskrivning",
+        "Description-Help": "En hjälpbeschrivning som visas under fältet.",
+        "Maximum": "Maximum",
+        "Minimum": "Minimum",
+        "Name-Help": "Namnet på detta fält som visas.",
+        "Options": "Alternativ",
+        "Type": "Typ",
+        "Type-Help": "Den typ av inmatning som visas.",
+        "Variable": "Variabel",
+        "Variable-Help": "Variabeln som skickas till flödet."
       }
     },
     "Dashboard": {
@@ -1094,6 +1134,19 @@
         "Updating": "Uppdaterar"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "FileDrop-inställningar"
+      },
+      "User": {
+        "Plural": "FileDrop-användare",
+        "Title": "FileDrop-användare",
+        "Fields": {
+          "Provider": "Leverantör",
+          "Tokens": "Token"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "Uppgift"
     },
@@ -1124,11 +1177,15 @@
       },
       "Fields": {
         "Description": "Beskrivning.",
+        "Extensions": "Tillägg",
         "Icon": "Ikon",
+        "MaxFileSize": "Maximal filstorlek",
         "Outputs": "Utgångar",
         "Outputs-Help": "Antalet utgångar detta underskript har. Detta är antalet utgångar som kommer att vara tillgängliga när detta underskript används i ett annat flöde.",
         "OutputsKey": "Utgång",
         "OutputsValue": "Beskrivning",
+        "PreviewMode": "Förhandsgranskningsläge",
+        "Tokens": "Tokens",
         "Variables": "Variabler",
         "VariablesKey": "Namn",
         "VariablesValue": "Värde",
@@ -1164,7 +1221,9 @@
     "Flows": {
       "Title": "Flöden",
       "Labels": {
+        "DuplicateAsFileDropFlow": "Duplicera till FileDrop",
         "FailureFlows": "Misslyckade flöden",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Standardflöden",
         "SubFlows": "Underskrifter"
       },
@@ -1531,25 +1590,6 @@
         "Revision": "Revision"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "Återförsäljarflöde",
-        "Title": "Återförsäljarflöden",
-        "Fields": {
-          "Extensions": "Tillägg",
-          "Extensions-Help": "Listan över tillåtna tillägg som kan behandlas av detta flöde.",
-          "Flow": "Flöde",
-          "Icon": "Ikon",
-          "MaxFileSize": "Maximal Filstorlek",
-          "MaxFileSize-Help": "Den maximala filstorleken som får behandlas av detta flöde.",
-          "Tokens": "Tokens",
-          "Tokens-Help": "Antalet tokens det kostar för en användare att köra detta flöde."
-        }
-      },
-      "Settings": {
-        "Title": "Återförsäljarinställningar"
-      }
-    },
     "Resources": {
       "Singular": "Resurs",
       "Title": "Resurser",
@@ -1668,8 +1708,8 @@
         "LogFileRetention-Suffix": "Dagar",
         "LoggingPath": "Loggkatalog",
         "LoggingPath-Help": "Detta är platsen där loggfiler kommer att skapas.",
-        "LogQueueMessages": "Logga kömeddelanden",
-        "LogQueueMessages-Help": "Detta kommer att orsaka överdriven loggning av alla filer som sätts i kö/avköas i biblioteksvaktaren.\nAktivera detta om du har problem med att filer inte visas, stäng av det igen efteråt för att undvika att fylla dina loggfiler med överdriven loggning.",
+        "LogQueueMessages": "Utförlig bibliotekloggning",
+        "LogQueueMessages-Help": "Detta ökar loggningen av bibliotekets fildetekteringsprocess. Det bör endast aktiveras vid felsökning av fildetekteringsproblem och stängas av efteråt.",
         "PluginRepositoryUrls": "Plugin-repositorier",
         "PluginRepositoryUrls-Help": "En linje-separerad lista över plugin-repository-URL:er som ska användas vid sökning efter plugins.\nOrdningen är viktig; om flera repositorier innehåller samma plugin kommer det första repositoriet att användas som källa.\nDet standardrepoet kommer alltid att läggas till i slutet av denna lista.",
         "ProcessFileCheckInterval": "Filkontrollintervall",
@@ -1718,6 +1758,7 @@
         "License": {
           "Email": "Licens E-post",
           "ExpiryDate": "Utgångsdatum",
+          "FileDropUsers": "FileDrop-Användare",
           "Files": "Filer",
           "Flags": "Funktioner",
           "Key": "Licensnyckel",

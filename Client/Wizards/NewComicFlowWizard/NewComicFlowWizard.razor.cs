@@ -33,6 +33,10 @@ public partial class NewComicFlowWizard
 
     // if the initialization has been done
     private bool initDone;
+    /// <summary>
+    /// If the user is adding a file drop flow
+    /// </summary>
+    private bool FileDropFlow;
     
     /// <summary>
     /// Gets or sets bound Format
@@ -50,6 +54,8 @@ public partial class NewComicFlowWizard
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        if (Options is NewComicFlowWizardOptions options)
+            FileDropFlow = options.FileDropFlow;
         ImageFormats =
         [
             new () { Value = "", Label = Translater.Instant("Dialogs.NewComicFlowWizard.Labels.SameAsSource") },
@@ -88,6 +94,12 @@ public partial class NewComicFlowWizard
             var flow = builder.Flow;
             flow.Description = Description;
             flow.Icon = "fas fa-journal-whills";
+            if (FileDropFlow)
+            {
+                flow.Type = FlowType.FileDrop;
+                flow.FileDropOptions ??= new();
+                flow.FileDropOptions.Extensions = Extensions_Comic;
+            }
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
@@ -168,4 +180,8 @@ public partial class NewComicFlowWizard
 /// </summary>
 public class NewComicFlowWizardOptions : IModalOptions
 {
+    /// <summary>
+    /// Gets or sets if the user is adding a file drop flow
+    /// </summary>
+    public bool FileDropFlow { get; set; }
 }

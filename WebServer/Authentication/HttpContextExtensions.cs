@@ -26,7 +26,34 @@ public static class HttpContextExtensions
             if (context == null)
                 return null;
 
-            var headerResult = ValidateAuthHeader(context);
+            var jwt = context.Request.Headers["Authorization"].ToString();
+            if (string.IsNullOrWhiteSpace(jwt) || jwt.StartsWith("Bearer ") == false)
+                return null;
+            jwt = jwt[7..]; // remove "Bearer "
+            
+            return await GetLoggedInUser(jwt, context.Request, requireActivated);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the logged in user
+    /// </summary>
+    /// <param name="accessToken">the access token</param>
+    /// <param name="request">the request</param>
+    /// <param name="requireActivated">[Optional] when true, if the user is not activated, will return null</param>
+    /// <returns>the logged in user</returns>
+    public static async Task<User?> GetLoggedInUser(string accessToken, HttpRequest request, bool requireActivated = true)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(accessToken))
+                return null;
+
+            var headerResult = ValidateToken(accessToken);
             if (headerResult.IsFailed)
                 return null;
 
@@ -47,7 +74,7 @@ public static class HttpContextExtensions
                 return null;
 
             string expectedIp = parts[1].Replace("_", ":");
-            string ip = context?.Request?.GetActualIP() ?? string.Empty;
+            string ip = request?.GetActualIP() ?? string.Empty;
             #if(DEBUG)
             if (ip == "127.0.0.1")
                 ip = "::1";
@@ -71,7 +98,7 @@ public static class HttpContextExtensions
             return null;
         }
     }
-
+    
     /// <summary>
     /// Validates the auth header
     /// </summary>
@@ -83,13 +110,23 @@ public static class HttpContextExtensions
         if (string.IsNullOrWhiteSpace(jwt) || jwt.StartsWith("Bearer ") == false)
             return Result<SecurityToken>.Fail("No Authorization header");
         jwt = jwt[7..]; // remove "Bearer "
+        return ValidateToken(jwt);
+    }
+    
 
+    /// <summary>
+    /// Validates the access token
+    /// </summary>
+    /// <param name="token">the access token to validate</param>
+    /// <returns>the validation result</returns>
+    public static Result<SecurityToken> ValidateToken(string token)
+    {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = ServiceLoader.Load<AppSettingsService>().Settings.EncryptionKey;
         var jwtKey = Encoding.ASCII.GetBytes(key);
         try
         {
-            tokenHandler.ValidateToken(jwt, new TokenValidationParameters
+            tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,

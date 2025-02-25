@@ -29,6 +29,10 @@ public partial class NewAudioFlowWizard
     /// Gets or sets the flow wizard
     /// </summary>
     private FlowWizard Wizard { get; set; }
+    /// <summary>
+    /// If the user is adding a file drop flow
+    /// </summary>
+    private bool FileDropFlow;
 
     // if the initialization has been done
     private bool initDone;
@@ -62,6 +66,9 @@ public partial class NewAudioFlowWizard
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
+        if (Options is NewAudioFlowWizardOptions options)
+            FileDropFlow = options.FileDropFlow;
+        
         var profile = await ProfileService.Get(); 
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
 
@@ -109,6 +116,13 @@ public partial class NewAudioFlowWizard
             var flow = builder.Flow;
             flow.Description = Description;
             flow.Icon = "fas fa-headphones";
+            
+            if (FileDropFlow)
+            {
+                flow.Type = FlowType.FileDrop;
+                flow.FileDropOptions ??= new();
+                flow.FileDropOptions.Extensions = Extensions_Audio;
+            }
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
@@ -189,4 +203,8 @@ public partial class NewAudioFlowWizard
 /// </summary>
 public class NewAudioFlowWizardOptions : IModalOptions
 {
+    /// <summary>
+    /// Gets or sets if the user is adding a file drop flow
+    /// </summary>
+    public bool FileDropFlow { get; set; }
 }

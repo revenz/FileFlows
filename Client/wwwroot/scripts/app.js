@@ -23,6 +23,9 @@ window.ff = {
             return ACCESS_TOKEN = token;
         }
     },
+    clearAcessTokenCookie: function() {
+        document.cookie = "AccessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    },
     doFetch: function(url) {
         let token = ff.getAccessToken();
         if(!token)
@@ -312,11 +315,6 @@ window.ff = {
         document.addEventListener("mouseup", function(){
             document.removeEventListener("mousemove", resize, false);
         }, false);        
-    },
-    resetTable: function(uid, tableIdentifier) {
-        console.log('reset table');
-        localStorage.removeItem(tableIdentifier);        
-        this.resizableTable(uid, tableIdentifier, true);
     },
     resizableTable: function(uid, tableIdentifier, reset){
         let div = document.getElementById(uid);

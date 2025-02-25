@@ -45,6 +45,13 @@ public class DatabaseValidator
                     await connector.CreateColumn(column.Item1, column.Item2, column.Item3, column.Item4);
                 }
             }
+            
+            // this is needed since 25.01 shipped with ResellerSettings instead of FileDropSettings
+            // in a few months this can be deleted
+            using var db = await connector.GetDb();
+            await db.Db.ExecuteAsync(
+                $"delete from {connector.WrapFieldName("DbObject")} where {connector.WrapFieldName("Type")} = @0",
+                "FileFlows.Shared.Models.ResellerSettings");
 
             return true;
         }
@@ -78,7 +85,7 @@ public class DatabaseValidator
 
                 await manager.AddOrUpdateObject(obj, null);
             }
-
+            
             return true;
         }
         catch (Exception ex)

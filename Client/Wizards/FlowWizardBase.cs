@@ -8,6 +8,29 @@ public class FlowWizardBase : InputRegister, IModal
     protected Editor _Editor;
     protected WizardOutput Output;
     
+    public static string[] Extensions_Audio = new[]
+        {
+            "aac", "ac3", "aif", "aiff", "flac", "m4a",
+            "mp3", "ogg", "opus", "wav", "wma"
+        }
+        .OrderBy(x => x)
+        .ToArray();
+    public static string[] Extensions_Comic = new[] { "cbz", "cbr", "zip", "pdf" }
+        .OrderBy(x => x)
+        .ToArray();
+    public static string[] Extensions_Image =  new[]
+            { "jpeg", "jpe", "jpg", "png", "bmp", "gif", "heic", "tiff", "tif", "webp" }
+        .OrderBy(x => x)
+        .ToArray();
+    public static string[] Extensions_Video = new[]
+        {
+            "3gp", "asf", "avi", "divx", "flv", "m2ts", "m4v", "mkv", "mov",
+            "mp4", "mpeg", "mpg", "mts", "ogv", "ts", "vob", "webm", "wmv"
+        }
+        .OrderBy(x => x)
+        .ToArray();
+        
+    
     /// <summary>
     /// The new flow name
     /// </summary>

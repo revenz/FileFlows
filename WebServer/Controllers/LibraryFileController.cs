@@ -1,3 +1,4 @@
+using FileFlows.LibraryUtils;
 using FileFlows.ServerShared.Models;
 using FileFlows.Services.ServiceHelpers;
 using Humanizer;
@@ -32,7 +33,8 @@ public class LibraryFileController : Controller
     [HttpGet("list-all")]
     public async Task<LibraryFileDatalistModel> ListAll([FromQuery] int status, [FromQuery] int page = 0, 
         [FromQuery] int pageSize = 0, [FromQuery] string? filter = null, [FromQuery] Guid? node = null, 
-        [FromQuery] Guid? library = null, [FromQuery] Guid? flow = null, [FromQuery] FilesSortBy? sortBy = null, [FromQuery] Guid? tag = null)
+        [FromQuery] Guid? library = null, [FromQuery] Guid? flow = null, [FromQuery] FilesSortBy? sortBy = null,
+        [FromQuery] Guid? tag = null)
     {
         var service = ServiceLoader.Load<LibraryFileService>();
         var lfStatus = await service.GetStatus();
@@ -118,8 +120,7 @@ public class LibraryFileController : Controller
             x.Uid,
             x.Name,
             x.LibraryName,
-            DisplayName = ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x.Name, x.RelativePath, x.LibraryName)?.EmptyAsNull() 
-                          ?? x.RelativePath?.EmptyAsNull() ?? x.Name
+            DisplayName = ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x)
         });
         return Ok(results);
     }
@@ -163,20 +164,28 @@ public class LibraryFileController : Controller
         {
             var date = x.ProcessingEnded.Year > 2000 ? x.ProcessingEnded : x.ProcessingStarted;
             var when = date.ToLocalTime().Humanize(false, DateTime.UtcNow);
+            var displayName = x.Additional?.DisplayName;
+            if (string.IsNullOrWhiteSpace(displayName))
+            {
+                displayName =
+                    Regex.IsMatch(x.OutputPath, @"^[\w\d]{2,}:")
+                        ? x.OutputPath
+                        : // special case for uploaded files e.g. nc: for next cloud
+                        ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x);
+            }
             return new
             {
                 x.Uid,
-                DisplayName = 
-                    Regex.IsMatch(x.OutputPath, @"^[\w\d]{2,}:") ? x.OutputPath : // special case for uploaded files e.g. nc: for next cloud
-                    ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x.Name, x.RelativePath, x.LibraryName)?.EmptyAsNull() ?? 
-                              x.RelativePath?.EmptyAsNull() ?? x.Name,
+                DisplayName = displayName,
                 x.RelativePath,
                 x.ProcessingEnded,
                 When = when,
                 x.OriginalSize,
                 x.FinalSize,
+                x.IsDirectory,
                 Message = x.Status == FileStatus.ProcessingFailed ? x.FailureReason : null,
-                Status = (int)x.Status
+                Status = (int)x.Status,
+                x.Additional?.Traits
             };
         });
         return Ok(data);
@@ -424,47 +433,49 @@ public class LibraryFileController : Controller
         return File(stream, "application/octet-stream", fileInfo.Name);
     }
 
-    // /// <summary>
-    // /// Processes a file or adds it to the queue to add to the system
-    // /// </summary>
-    // /// <param name="filename">the filename of the file to process</param>
-    // /// <param name="libraryUid">[Optional] the UID of the library the file is in, if not passed in then the first file with the name will be used</param>
-    // /// <returns>the HTTP response, 200 for an ok, otherwise bad request</returns>
-    // [HttpPost("process-file")]
-    // public async Task<IActionResult> ProcessFile([FromQuery] string filename, [FromQuery] Guid? libraryUid)
-    // {
-    //     try
-    //     {
-    //         if (string.IsNullOrWhiteSpace(filename))
-    //             return BadRequest("Filename not set");
-    //
-    //         var service = ServiceLoader.Load<LibraryFileService>();
-    //         var file = await service.GetFileIfKnown(filename, libraryUid);
-    //         if (file != null)
-    //         {
-    //             if ((int)file.Status < 2)
-    //                 return Ok(); // already in the queue or processing
-    //             await service.Reprocess(file.Uid);
-    //             return Ok();
-    //         }
-    //
-    //         // file not known, add to the queue
-    //         var library = (await ServiceLoader.Load<LibraryService>().GetAllAsync()).Where(x => x.Enabled)
-    //             .FirstOrDefault(x => filename.StartsWith(x.Path));
-    //         if (library == null)
-    //             return BadRequest("No library found for file: " + filename);
-    //         var watchedLibraray = LibraryWorker.GetWatchedLibrary(library);
-    //         if (watchedLibraray == null)
-    //             return BadRequest("Library is not currently watched");
-    //
-    //         watchedLibraray.QueueItem(filename);
-    //         return Ok();
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         return BadRequest(ex.Message);
-    //     }
-    // }
+    /// <summary>
+    /// Processes a file or adds it to the queue to add to the system
+    /// </summary>
+    /// <param name="filename">the filename of the file to process</param>
+    /// <param name="libraryUid">[Optional] the UID of the library the file is in, if not passed in then the first file with the name will be used</param>
+    /// <returns>the HTTP response, 200 for an ok, otherwise bad request</returns>
+    [HttpPost("process-file")]
+    public async Task<IActionResult> ProcessFile([FromQuery] string filename, [FromQuery] Guid? libraryUid)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(filename))
+                return BadRequest("Filename not set");
+    
+            var service = ServiceLoader.Load<LibraryFileService>();
+            var file = await service.GetFileIfKnown(filename, libraryUid);
+            if (file != null)
+            {
+                if ((int)file.Status < 2)
+                    return Ok(); // already in the queue or processing
+                await service.Reprocess(file.Uid);
+                return Ok();
+            }
+    
+            // file not known, add to the queue
+            var library = (await ServiceLoader.Load<LibraryService>().GetAllAsync()).Where(x => x.Enabled)
+                .FirstOrDefault(x => filename.StartsWith(x.Path));
+            if (library == null)
+                return BadRequest("No library found for file: " + filename);
+            
+            if(filename.StartsWith(library.Path) == false)
+                return BadRequest("File not in library");
+            
+            var lf = WatchedLibraryNew.NewLibraryFile(filename, library);
+
+            await service.Insert([lf]);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
 
     /// <summary>

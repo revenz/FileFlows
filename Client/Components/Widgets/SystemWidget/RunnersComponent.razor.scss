@@ -197,9 +197,20 @@
   }
 }
 .icon {
-  width:3rem;
-  .icon {
-    height:2.25rem;
+  width:unset;
+  min-width: unset;
+  .icon {  
+    height: 6rem;
+    width: 6rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin: 0.25rem;
+    &.no-thumbnail {
+      padding: 1.25rem;
+    }
+    &.thumbnail {
+      object-fit: cover;
+    }
   }
 }
 
@@ -214,6 +225,24 @@
   padding: 0.25rem 0.5rem;
   width: fit-content;
   margin: 2rem 0 0 auto;
+}
+
+.traits {
+  display: flex;
+  margin-top:0.5rem;
+  width: 100%;
+  .trait {
+    border: solid 1px var(--info);
+    font-size: 0.8rem;
+    font-weight: var(--bold, 600);
+    padding: 0 0.25rem;
+    border-radius: 0.5rem;
+    margin-right: 0.25rem;
+    opacity: 0.75;
+    height: fit-content;
+    line-height: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
 }
 
 .label {

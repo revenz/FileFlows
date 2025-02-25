@@ -4,7 +4,7 @@ using FileFlows.Server.Helpers;
 using FileFlows.Server.Workers;
 using FileFlows.ServerShared.Workers;
 using FileFlows.Services;
-using FileFlows.Services.ResellerServices;
+using FileFlows.Services.FileDropServices;
 using FileFlows.Shared.Models;
 using FileFlows.WebServer;
 using LibraryFileService = FileFlows.RemoteServices.LibraryFileService;
@@ -95,12 +95,9 @@ public class StartupService : IStartupService
                 return Result<bool>.Fail(error);
             }
         
-            UpdateStatus("Updating Templates...");
-            UpdateTemplates();
             // do this so the settings object is loaded
             var settings = ServiceLoader.Load<ISettingsService>().Get().Result;
             var appSettings = ServiceLoader.Load<AppSettingsService>().Settings;
-
 
             if (Globals.IsDocker && appSettings.DockerModsOnServer)
                 RunnerDockerMods();
@@ -117,7 +114,7 @@ public class StartupService : IStartupService
             // Start workers right at the end, so the ServerUrl is set in case the worker needs BaseServerUrl
             StartupWorkers();
 
-            StartResellerServer();
+            StartFileDropServer();
             
             WebServerApp.FullyStarted = true;
             return true;
@@ -134,17 +131,21 @@ public class StartupService : IStartupService
         }
     }
 
-    private void StartResellerServer()
+    private void StartFileDropServer()
     {
 #if(!DEBUG)
-        if (LicenseService.IsLicensed(LicenseFlags.Reseller) == false)
+        if (LicenseService.IsLicensed(LicenseFlags.FileDrop) == false)
             return;
 #endif
-        var service = new FileFlows.ResellerApp.ResellerWebService();
-        ServiceLoader.AddSpecialCase<IResellerWebServerService>(service);
-        Logger.Instance?.ILog("Starting Reseller App...");
+        var service = new FileFlows.FileDropApp.FileDropWebService();
+        ServiceLoader.AddSpecialCase<IFileDropWebServerService>(service);
         
-        service.Start();
+        var settings = ServiceLoader.Load<FileDropSettingsService>().Get();
+        if (settings.Enabled)
+        {
+            Logger.Instance?.ILog("Starting FileDrop App...");
+            service.Start();
+        }
     }
 
     /// <summary>
@@ -206,7 +207,7 @@ public class StartupService : IStartupService
             new ScheduledReportWorker(),
             new StatisticSyncer(),
             new UpdateWorker(),
-            new ResellerWorker(),
+            new FileDropWorker(),
             new DistributedCacheCleanerWorker()
             //new LibraryFileServiceUpdater()
         );
@@ -267,7 +268,7 @@ public class StartupService : IStartupService
     /// </summary>
     private void BackupSqlite()
     {
-        if (appSettingsService.Settings.DatabaseType is DatabaseType.Sqlite or DatabaseType.SqlitePooledConnection == false)
+        if (appSettingsService.Settings.DatabaseType is DatabaseType.Sqlite  == false)
             return;
         if (appSettingsService.Settings.DatabaseMigrateType != null)
             return;
@@ -353,53 +354,6 @@ public class StartupService : IStartupService
         return true;
     }
 
-    /// <summary>
-    /// Updates the templates
-    /// </summary>
-    private void UpdateTemplates()
-    {
-        var service = ServiceLoader.Load<ITemplateService>();
-        var libraryTemplates = service.GetLibraryTemplates();
-        if (libraryTemplates?.Any() == true)
-        {
-            Logger.Instance.ILog("Extracting Library Templates");
-            foreach (var template in libraryTemplates)
-            {
-                Logger.Instance.ILog("Embedded Library Template: " + GetShortName(template));
-                service.ExtractTo(template, DirectoryHelper.TemplateDirectoryLibrary);
-            }
-        }
-        else
-        {
-            Logger.Instance.WLog("No embedded library templates found");
-        }
-
-        // delete the old flow template files
-        var oldFlowTemplates = Directory.GetFiles(DirectoryHelper.TemplateDirectoryFlow, "Templates_*.json");
-        foreach(var file in oldFlowTemplates)
-             File.Delete(file);
-        
-        var flowTemplates = service.GetFlowTemplates();
-        if (flowTemplates?.Any() == true)
-        {
-            Logger.Instance.ILog("Extracting Flow Templates");
-            foreach (var template in flowTemplates)
-            {
-                Logger.Instance.ILog("Embedded Flow Template: " + GetShortName(template));
-                service.ExtractTo(template, DirectoryHelper.TemplateDirectoryFlow);
-            }
-        }
-        else
-        {
-            Logger.Instance.WLog("No embedded flow templates found");
-        }
-
-        string GetShortName(string path)
-        {
-            int index = path.IndexOf("DefaultTemplates.");
-            return path[(index + "DefaultTemplates.".Length)..];
-        }
-    }
 
     /// <summary>
     /// Prepares the database

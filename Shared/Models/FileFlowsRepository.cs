@@ -26,18 +26,6 @@ public class FileFlowsRepository
     /// </summary>
     public List<RepositoryObject> FunctionScripts { get; set; } = new ();
     /// <summary>
-    /// Gets or sets the flow templates
-    /// </summary>
-    public List<RepositoryObject> FlowTemplates { get; set; } = new ();
-    /// <summary>
-    /// Gets or sets the community flow templates
-    /// </summary>
-    public List<RepositoryObject> CommunityFlowTemplates { get; set; } = new ();
-    /// <summary>
-    /// Gets or sets the library templates
-    /// </summary>
-    public List<RepositoryObject> LibraryTemplates { get; set; } = new ();
-    /// <summary>
     /// Gets or sets the sub flows
     /// </summary>
     public List<RepositoryObject> SubFlows { get; set; } = new ();

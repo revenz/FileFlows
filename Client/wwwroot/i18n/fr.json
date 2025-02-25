@@ -23,6 +23,7 @@
     "CopiedToClipboard": "Copié ''{text}'' dans le presse-papiers.",
     "Copy": "Copier",
     "CopyToClipboard": "Copier dans le presse-papiers",
+    "CustomField": "Champ Personnalisé",
     "Decrease": "Diminuer",
     "Default": "Par défaut",
     "Delete": "Supprimer",
@@ -41,6 +42,7 @@
     "Duplicate": "Dupliquer",
     "Edit": "Éditer",
     "EditSubFlow": "Éditer le Sous Flow",
+    "Elements": "Éléments",
     "Enabled": "Activé",
     "Execute": "Exécuter",
     "Executing": "Exécution",
@@ -74,6 +76,8 @@
     "MissingDependencies": "Dépendances manquantes",
     "MissingDependenciesMessage": "Les plugins manquants suivants doivent être téléchargés avant d'utiliser ce modèle:\n\n#LIST#",
     "MonthShort": "Mois",
+    "MoveDown": "Déplacer Vers Le Bas",
+    "MoveUp": "Déplacer Vers Le Haut",
     "Name": "Nom",
     "Never": "Jamais",
     "Next": "Suivant",
@@ -111,7 +115,6 @@
     "Reprocess": "Re-traiter",
     "Rescan": "Re-analyser",
     "Reset": "Réinitialiser",
-    "ResetLayout": "Réinitialiser la mise en page",
     "Restore": "Restaurer",
     "RestoredFailedMessage": "Échec de la restauration de {type}",
     "RestoredMessage": "{type} restauré",
@@ -147,6 +150,7 @@
     "Tag": "Tag",
     "Test": "Tester",
     "Time": "Temps",
+    "Tokens": "Jetons",
     "TooManyDockerMods": "Vous avez sélectionné trop de DockerMods. Cela peut affecter les performances, et il est probablement inutile d’installer tous ces DockerMods.",
     "Total": "Total",
     "Trigger": "Déclencher",
@@ -160,6 +164,7 @@
     "UpdateAvailable": "Nouvelle version disponible {version}",
     "Upload": "Téléverser",
     "UsedBy": "Utilisé par",
+    "Value": "Valeur",
     "Version": "Version",
     "VersionNumber": "Version: {version}",
     "View": "Voir",
@@ -320,6 +325,8 @@
     },
     "NewFlowCommon": {
       "Fields": {
+        "AlwaysMove": "Toujours déplacer",
+        "AlwaysMove-Help": "Si cette option est activée, le fichier sera toujours déplacé, même si aucun traitement n’a été appliqué au fichier d’entrée original.",
         "DeleteOld": "Nettoyer l'original",
         "DeleteOld-Help": "Supprime le fichier original et son dossier si aucun autre fichier ne reste.",
         "Description": "Description",
@@ -334,10 +341,10 @@
         "OutputPathRequired": "Le chemin de sortie est obligatoire."
       },
       "Output": {
+        "FileDropMove": "Déplacer le fichier",
+        "FileDropMoveDescription": "Déplace le fichier dans un dossier temporaire unique pour l'utilisateur afin qu'il puisse le télécharger. Le fichier sera automatiquement supprimé après une période de temps définie.",
         "ReplaceOriginal": "Remplacer l'original",
         "ReplaceOriginalDescription": "Remplace le fichier original par celui converti.",
-        "ResellerMove": "Déplacement du revendeur",
-        "ResellerMoveDescription": "Déplace le fichier dans un dossier temporaire unique pour l'utilisateur afin qu'il puisse le télécharger. Le fichier sera automatiquement supprimé après une période de temps définie.",
         "SaveToFolder": "Enregistrer dans un dossier",
         "SaveToFolderDescription": "Enregistre le fichier converti dans un nouvel emplacement."
       },
@@ -525,6 +532,7 @@
         "BitrateDescription": "Utilise un débit binaire fixe lors de l'encodage de la vidéo. Cela produit des tailles de fichiers cohérentes entre les vidéos, mais gaspille de l'espace de stockage ou perd de la qualité si le débit binaire n'est pas optimal.",
         "FileExtensions": "Extensions",
         "FileExtensionsDescription": "Spécifiez les extensions à traiter dans cette bibliothèque.",
+        "OnlyOnePerLanguage": "Une seule piste sera conservée par langue spécifiée. Toutes les autres pistes, même des langues spécifiées, seront supprimées. Si une langue spécifiée n'est pas trouvée dans la vidéo source, elle sera ignorée et non incluse.",
         "Quality": "Qualité",
         "QualityDescription": "Utilise un encodage adaptatif basé sur l'entrée de la vidéo pour atteindre un niveau de qualité constant. Ceci est recommandé et produit une qualité constante entre les vidéos, tout en générant les fichiers les plus petits.",
         "UseOriginal": "Utiliser l'original sans modification",
@@ -549,15 +557,17 @@
         "Bitrate": "Débit binaire",
         "Bitrate-Suffix": "KB",
         "ConvertAudio": "Convertir l'audio",
-        "ConvertAudioDescription": "Convertit les pistes audio dans les formats spécifiés.",
-        "CopyAllAudio": "Copiar todo el audio",
-        "CopyAllAudioDescription": "Copiar todas las pistas de audio tal como están, sin modificaciones.",
-        "CopyOnlyLanguages": "Copiar solo idiomas específicos",
-        "CopyOnlyLanguagesDescription": "Copiar solo los idiomas especificados a continuación. Todos los demás idiomas serán eliminados. Las pistas de audio se copiarán sin modificaciones.",
+        "ConvertAudioDescription": "Convertit les pistes audio aux formats spécifiés.",
+        "CopyAllAudio": "Copier tout l'audio",
+        "CopyAllAudioDescription": "Copie toutes les pistes audio telles quelles, sans aucune modification.",
+        "CopyOnlyLanguages": "Copier uniquement les langues spécifiées",
+        "CopyOnlyLanguagesDescription": "Copie uniquement les langues spécifiées ci-dessous. Toutes les autres langues seront supprimées. Les pistes audio seront copiées sans modification.",
         "CropBlackBars": "Recadrer les barres noires",
-        "CropBlackBars-Help": "FileFlows essaiera de détecter les barres noires dans le fichier vidéo, et si elles sont trouvées, elles seront recadrées pour réduire la taille du fichier et permettre un changement de rapport d'aspect dans les lecteurs.",
+        "CropBlackBars-Help": "FileFlows tentera de détecter les barres noires dans le fichier vidéo. Si elles sont détectées, elles seront recadrées.",
         "DefaultLanguage": "Langue par défaut",
         "DefaultLanguage-Help": "Spécifie la langue à attribuer aux pistes audio qui n'ont actuellement pas de langue spécifiée.",
+        "FallBackAudio": "Piste audio de secours",
+        "FallBackAudio-Help": "Activez cette option pour créer des pistes audio de secours lorsque les canaux demandés ne sont pas disponibles. Si la configuration de canaux souhaitée ne peut pas être respectée (par exemple, 5.1 demandé mais seul le stéréo est disponible), la configuration d'origine sera utilisée.",
         "KeepAllSubtitles": "Conserver tous les sous-titres",
         "KeepAllSubtitlesDescription": "Conservez tous les sous-titres du fichier vidéo original.",
         "KeepOnlySpecifiedSubtitles": "Conserver uniquement",
@@ -738,6 +748,16 @@
       "PasswordReset": "Réinitialisation du Mot de Passe",
       "PasswordResetRequest": "Demande de Réinitialisation du Mot de Passe",
       "Updated": "Mis à Jour"
+    },
+    "CustomFieldType": {
+      "Boolean": "Booléen",
+      "Image": "Image",
+      "Integer": "Entier",
+      "OptionGroup": "Groupe d'options",
+      "Select": "Sélectionner",
+      "Slider": "Curseur",
+      "Text": "Texte",
+      "TextArea": "Zone de texte"
     },
     "DateCompareMode": {
       "After": "Après",
@@ -931,6 +951,7 @@
     "Admin": "Admin",
     "Configuration": "Configuration",
     "Extensions": "Extensions",
+    "FileDrop": "FileDrop",
     "Information": "Information",
     "Overview": "Aperçu",
     "Security": "Sécurité",
@@ -981,6 +1002,25 @@
         "Operator": "Opérateur",
         "Summary": "Résumé",
         "Type": "Type"
+      }
+    },
+    "CustomField": {
+      "Title": "Champ",
+      "Fields": {
+        "ConditionField": "Condition",
+        "ConditionValue": "Valeur",
+        "ConditionValue-Help": "Ne sera affiché que si ce champ correspond à la valeur donnée.",
+        "DefaultNumber": "Par défaut",
+        "Description": "Description",
+        "Description-Help": "Une description d'aide affichée sous le champ.",
+        "Maximum": "Maximum",
+        "Minimum": "Minimum",
+        "Name-Help": "Le nom de ce champ affiché.",
+        "Options": "Options",
+        "Type": "Type",
+        "Type-Help": "Le type de saisie affiché.",
+        "Variable": "Variable",
+        "Variable-Help": "La variable qui sera transmise au flux."
       }
     },
     "Dashboard": {
@@ -1094,6 +1134,19 @@
         "Updating": "Mise à jour"
       }
     },
+    "FileDrop": {
+      "Settings": {
+        "Title": "Paramètres de FileDrop"
+      },
+      "User": {
+        "Plural": "Utilisateurs de FileDrop",
+        "Title": "Utilisateur de FileDrop",
+        "Fields": {
+          "Provider": "Fournisseur",
+          "Tokens": "Jetons"
+        }
+      }
+    },
     "FileFlowsTask": {
       "Title": "Tâche"
     },
@@ -1124,11 +1177,15 @@
       },
       "Fields": {
         "Description": "Description.",
+        "Extensions": "Extensions",
         "Icon": "Icône",
+        "MaxFileSize": "Taille maximale du fichier",
         "Outputs": "Sorties",
         "Outputs-Help": "Le nombre de sorties que ce sous-flow a. C'est le nombre de sorties qui sera disponible lors de l'utilisation de ce sous-flow dans un autre flow.",
         "OutputsKey": "Sortie",
         "OutputsValue": "Description",
+        "PreviewMode": "Mode aperçu",
+        "Tokens": "Tokens",
         "Variables": "Variables",
         "VariablesKey": "Nom",
         "VariablesValue": "Valeur",
@@ -1164,7 +1221,9 @@
     "Flows": {
       "Title": "Flow",
       "Labels": {
+        "DuplicateAsFileDropFlow": "Dupliquer vers FileDrop",
         "FailureFlows": "Flow d'Échec",
+        "FileDropFlows": "FileDrop Flows",
         "StandardFlows": "Flow Standards",
         "SubFlows": "Sous-Flow"
       },
@@ -1531,25 +1590,6 @@
         "Revision": "Révision"
       }
     },
-    "Resellers": {
-      "Flows": {
-        "Single": "Flux de Revendeur",
-        "Title": "Flux de Revendeurs",
-        "Fields": {
-          "Extensions": "Extensions",
-          "Extensions-Help": "La liste des extensions autorisées pouvant être traitées par ce flux.",
-          "Flow": "Flux",
-          "Icon": "Icône",
-          "MaxFileSize": "Taille Maximale du Fichier",
-          "MaxFileSize-Help": "La taille maximale de fichier autorisée à être traitée par ce flux.",
-          "Tokens": "Jetons",
-          "Tokens-Help": "Le nombre de jetons nécessaires à un utilisateur pour exécuter ce flux."
-        }
-      },
-      "Settings": {
-        "Title": "Paramètres de Revendeur"
-      }
-    },
     "Resources": {
       "Singular": "Ressource",
       "Title": "Ressources",
@@ -1668,8 +1708,8 @@
         "LogFileRetention-Suffix": "Jours",
         "LoggingPath": "Répertoire de journalisation",
         "LoggingPath-Help": "C'est ici que les fichiers journaux seront créés.",
-        "LogQueueMessages": "Journaliser les messages de file d'attente",
-        "LogQueueMessages-Help": "Cela entraînera une journalisation excessive de tous les fichiers étant mis en file d'attente/défilés dans le surveillant de bibliothèque.\nDésactivez ceci si vous rencontrez des problèmes avec des fichiers qui n'apparaissent pas, réactivez-le ensuite pour éviter de remplir vos fichiers journaux avec une journalisation excessive.",
+        "LogQueueMessages": "Journalisation détaillée de la bibliothèque",
+        "LogQueueMessages-Help": "Cela augmentera la journalisation du processus de détection des fichiers de la bibliothèque. Il ne doit être activé que lors du débogage des problèmes de détection de fichiers et désactivé ensuite.",
         "PluginRepositoryUrls": "Dépôts de plugins",
         "PluginRepositoryUrls-Help": "Une liste séparée par des lignes des URL des dépôts de plugins à utiliser lors de la recherche de plugins.\nL'ordre est important, si plusieurs dépôts contiennent le même plugin, le premier dépôt sera utilisé comme source.\nLe dépôt par défaut sera toujours ajouté à la fin de cette liste.",
         "ProcessFileCheckInterval": "Intervalle de vérification des fichiers",
@@ -1718,6 +1758,7 @@
         "License": {
           "Email": "Email de la licence",
           "ExpiryDate": "Date d'expiration",
+          "FileDropUsers": "Utilisateurs De FileDrop",
           "Files": "Fichiers",
           "Flags": "Fonctionnalités",
           "Key": "Clé de licence",

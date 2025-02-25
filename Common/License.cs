@@ -29,6 +29,11 @@ public class License
     /// Gets or sets the number of processing nodes
     /// </summary>
     public int ProcessingNodes { get; init; }
+    
+    /// <summary>
+    /// Gets or sets how many file drop users they are licensed for
+    /// </summary>
+    public int FileDropUsers { get; set; }
 
     /// <summary>
     /// Gets the default license

@@ -74,7 +74,11 @@ public enum FlowType
     /// <summary>
     /// A special flow can be used with-in other flows but cannot be executed by itself
     /// </summary>
-    SubFlow = 2
+    SubFlow = 2,
+    /// <summary>
+    /// A file drop flow
+    /// </summary>
+    FileDrop
 }
 
 
@@ -332,9 +336,9 @@ public enum LicenseFlags
     /// </summary>
     Reporting = 8192,
     /// <summary>
-    /// Reseller license
+    /// File Drop license
     /// </summary>
-    Reseller = 16384,
+    FileDrop = 16384,
 }
 
 /// <summary>

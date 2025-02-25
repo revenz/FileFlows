@@ -80,10 +80,16 @@ public partial class NewAudioToVideoWizard
                 Visualization = v;
         }
     }
+    /// <summary>
+    /// If the user is adding a file drop flow
+    /// </summary>
+    private bool FileDropFlow;
     
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        if (Options is NewImageFlowWizardOptions options)
+            FileDropFlow = options.FileDropFlow;
         VideoCodecs =
         [
             new() { Label = "H264", Value = "h264" },
@@ -141,6 +147,12 @@ public partial class NewAudioToVideoWizard
             var flow = builder.Flow;
             flow.Description = Description;
             flow.Icon = "fas fa-headphones";
+            if (FileDropFlow)
+            {
+                flow.Type = FlowType.FileDrop;
+                flow.FileDropOptions ??= new();
+                flow.FileDropOptions.Extensions = Extensions_Audio;
+            }
             
             var saveResult = await HttpHelper.Put<Flow>("/api/flow?uniqueName=true", flow);
             if (saveResult.Success == false)
@@ -220,4 +232,9 @@ public partial class NewAudioToVideoWizard
 /// </summary>
 public class NewAudioToVideoWizardOptions : IModalOptions
 {
+    
+    /// <summary>
+    /// Gets or sets if the user is adding a file drop flow
+    /// </summary>
+    public bool FileDropFlow { get; set; }
 }

@@ -50,9 +50,9 @@ public class FlowController : BaseController
         if (type != null)
             items = items.Where(x => x.Type == type.Value);
         if (folderFlows == true)
-            items = items.Where(x => x.Parts.Any(x => x.Type == FlowElementType.Input && x.FlowElementUid.EndsWith("Folder")));
+            items = items.Where(x => x.Type is FlowType.Standard && x.Parts.Any(x => x.Type == FlowElementType.Input && x.FlowElementUid.EndsWith("Folder")));
         else if (folderFlows == false)
-            items = items.Where(x => x.Parts.Any(x => x.Type == FlowElementType.Input && x.FlowElementUid.EndsWith("Folder") == false));
+            items = items.Where(x => x.Type is FlowType.Standard && x.Parts.Any(x => x.Type == FlowElementType.Input && x.FlowElementUid.EndsWith("Folder") == false));
         return items.ToDictionary(x => x.Uid, x => x.Name);
     }
 
@@ -177,19 +177,24 @@ public class FlowController : BaseController
         
         // multiple, send a zip
         using var ms = new MemoryStream();
-        using var zip = new ZipArchive(ms, ZipArchiveMode.Create, true);
-        foreach (var flow in flows)
+        using (var zip = new ZipArchive(ms, ZipArchiveMode.Create, true)) // Dispose explicitly
         {
-            string json = CreateExportJson(flow, subFlows);
-            var fe = zip.CreateEntry(flow.Name + ".json");
+            foreach (var flow in flows)
+            {
+                string json = CreateExportJson(flow, subFlows);
+                var fe = zip.CreateEntry(flow.Name + ".json");
 
-            await using var entryStream = fe.Open();
-            await using var streamWriter = new StreamWriter(entryStream);
-            await streamWriter.WriteAsync(json);
+                await using var entryStream = fe.Open();
+                await using var streamWriter = new StreamWriter(entryStream);
+                await streamWriter.WriteAsync(json);
+                await streamWriter.FlushAsync(); // Ensure all data is written
+            }
         }
 
+        // Reset stream position AFTER disposing ZipArchive
         ms.Seek(0, SeekOrigin.Begin);
         return File(ms.ToArray(), "application/octet-stream", "Flows.zip");
+
     }
 
     private string CreateExportJson(Flow flow, List<Flow> subFlows)
@@ -204,6 +209,8 @@ public class FlowController : BaseController
             Revision = Math.Max(1, flow.Revision),
             flow.Description,
             flow.Icon,
+            flow.Fields,
+            flow.FileDropOptions,
             Properties = new
             {
                 // flow.Properties.Tags,
@@ -246,9 +253,10 @@ public class FlowController : BaseController
     /// Imports a flow
     /// </summary>
     /// <param name="json">The json data to import</param>
+    /// <param name="asFileDropFlow">If the flow is duplicated as a FileDrop flow</param>
     /// <returns>The newly import flow</returns>
     [HttpPost("import")]
-    public async Task<Flow> Import([FromBody] string json)
+    public async Task<Flow> Import([FromBody] string json, [FromQuery] bool asFileDropFlow = false)
     {
         Flow? flow = JsonSerializer.Deserialize<Flow>(json);
         if (flow == null)
@@ -269,6 +277,9 @@ public class FlowController : BaseController
         if(flow.Type != FlowType.SubFlow || await service.UidInUse(flow.Uid))
             flow.Uid = Guid.Empty;
         
+        if (asFileDropFlow && LicenseService.IsLicensed(LicenseFlags.FileDrop) && flow.Type == FlowType.Standard)
+            flow.Type = FlowType.FileDrop;
+        
         flow.ReadOnly = false;
         flow.Default = false;
         flow.DateModified = DateTime.UtcNow;
@@ -282,9 +293,10 @@ public class FlowController : BaseController
     /// Duplicates a flow
     /// </summary>
     /// <param name="uid">The UID of the flow</param>
+    /// <param name="asFileDropFlow">If the flow is duplicated as a FileDrop flow</param>
     /// <returns>The duplicated flow</returns>
     [HttpGet("duplicate/{uid}")]
-    public async Task<Flow?> Duplicate([FromRoute] Guid uid)
+    public async Task<Flow?> Duplicate([FromRoute] Guid uid, [FromQuery] bool asFileDropFlow = false)
     { 
         var flow = await ServiceLoader.Load<FlowService>().GetByUidAsync(uid);
         if (flow == null)
@@ -294,7 +306,8 @@ public class FlowController : BaseController
         {
             WriteIndented = true
         });
-        return await Import(json);
+        
+        return await Import(json, asFileDropFlow);
     }
 
     /// <summary>
@@ -503,8 +516,9 @@ public class FlowController : BaseController
     /// <returns>all the flow elements</returns>
     internal static async Task<FlowElement[]> GetFlowElements(Guid flowUid, FlowType? type = null)
     {
-        var plugins = await new PluginController(null).GetAll(includeElements: true);
-        var results = plugins.Where(x => x.Enabled && x.Elements != null).SelectMany(x => x.Elements)?.Where(x =>
+        var plugins = await ServiceLoader.Load<PluginService>().GetPluginInfoModels(true, skipVersionUpdateCheck: true);
+        var results = plugins.Where(x => x is { Enabled: true, Elements: not null })
+            .SelectMany(x => x.Elements)?.Where(x =>
         {
             if (type == null || (int)type == -1) // special case used by get variables, we want everything
                 return true;

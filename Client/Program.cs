@@ -5,7 +5,6 @@ using System.Net.Http;
 using BlazorContextMenu;
 using FileFlows.Client;
 
-
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");

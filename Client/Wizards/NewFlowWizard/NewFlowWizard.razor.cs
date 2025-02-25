@@ -70,6 +70,10 @@ public partial class NewFlowWizard : IModal
     public bool DontAutoNavigateTo { get; set; }
     private Guid FlowUid = Guid.Empty;
     private List<Flow> Flows = new List<Flow>();
+    /// <summary>
+    /// If the user is adding a file drop  flow
+    /// </summary>
+    private bool FileDropFlow;
 
     /// <summary>
     /// A dictionary of all available flow elements
@@ -97,6 +101,8 @@ public partial class NewFlowWizard : IModal
                     FlowUid = Flows.FirstOrDefault()?.Uid ?? Guid.Empty;
                 }
             }
+
+            FileDropFlow = options.FileDropFlow;
         }
         
         initDone = true;
@@ -310,17 +316,22 @@ public partial class NewFlowWizard : IModal
         {
             case 0: // Convert Video
             {
-                var result = await ModalService.ShowModal<NewVideoFlowWizard, Flow>(new NewVideoFlowWizardOptions());
+                var result = await ModalService.ShowModal<NewVideoFlowWizard, Flow>(new NewVideoFlowWizardOptions() {
+                    FileDropFlow = FileDropFlow
+                });
                 if (result.Success(out var newFlow))
                     return newFlow;
             }
                 return null;
             case 1: // Blank Video
-                return CreateBasicFlow(FlowElementUids.VideoFile, "fas fa-video", "Custom video processing flow.");
+                return CreateBasicFlow(FlowElementUids.VideoFile, "fas fa-video", 
+                    "Custom video processing flow.", extensions: FlowWizardBase.Extensions_Video, FileDropPreviewMode.Thumbnails);
             case 2: // Audio to Video
             {
                 var result =
-                    await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions());
+                    await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions() {
+                        FileDropFlow = FileDropFlow
+                    });
                 if (result.Success(out var newFlow))
                     return newFlow;
                 return null;
@@ -340,16 +351,21 @@ public partial class NewFlowWizard : IModal
         {
             case 0: // Convert Audio
             {
-                var result = await ModalService.ShowModal<NewAudioFlowWizard, Flow>(new NewAudioFlowWizardOptions());
+                var result = await ModalService.ShowModal<NewAudioFlowWizard, Flow>(new NewAudioFlowWizardOptions() {
+                    FileDropFlow = FileDropFlow
+                });
                 if (result.Success(out var newFlow))
                     return newFlow;
                 }
                 return null;
             case 1: // Blank Audio
-                return CreateBasicFlow(FlowElementUids.AudioFile, "fas fa-headphones", "Custom audio processing flow.");
+                return CreateBasicFlow(FlowElementUids.AudioFile, "fas fa-headphones", "Custom audio processing flow.",
+                    extensions: FlowWizardBase.Extensions_Audio);
             case 2: // Audio to Video
             {
-                var result = await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions());
+                var result = await ModalService.ShowModal<NewAudioToVideoWizard, Flow>(new NewAudioToVideoWizardOptions() {
+                    FileDropFlow = FileDropFlow
+                });
                 if (result.Success(out var newFlow))
                     return newFlow;
                 return null;
@@ -368,13 +384,17 @@ public partial class NewFlowWizard : IModal
         {
             case 0: // Convert Image
             {
-                var result = await ModalService.ShowModal<NewImageFlowWizard, Flow>(new NewImageFlowWizardOptions());
+                var result = await ModalService.ShowModal<NewImageFlowWizard, Flow>(new NewImageFlowWizardOptions()
+                {
+                    FileDropFlow = FileDropFlow
+                });
                 if (result.Success(out var newFlow))
                     return newFlow;
             }
                 return null;
             case 1: // Blank Image
-                return CreateBasicFlow(FlowElementUids.ImageFile, "fas fa-image", "Custom image processing flow.");
+                return CreateBasicFlow(FlowElementUids.ImageFile, "fas fa-image", "Custom image processing flow.",
+                    extensions: FlowWizardBase.Extensions_Image, previewMode: FileDropPreviewMode.Images);
         }
         return null;
     }
@@ -391,7 +411,10 @@ public partial class NewFlowWizard : IModal
                 return null;
             case 1: // Comic Book
             {
-                var result = await ModalService.ShowModal<NewComicFlowWizard, Flow>(new NewComicFlowWizardOptions());
+                var result = await ModalService.ShowModal<NewComicFlowWizard, Flow>(new NewComicFlowWizardOptions()
+                {
+                    FileDropFlow = FileDropFlow
+                });
                 if (result.Success(out var newFlow))
                     return newFlow;
             }
@@ -406,7 +429,10 @@ public partial class NewFlowWizard : IModal
     /// <param name="inputFlowElementUid">the UID of the input flow element</param>
     /// <param name="icon">the icon for the new flow</param>
     /// <param name="description">the description for the flow</param>
-    private Flow CreateBasicFlow(string inputFlowElementUid, string icon, string description)
+    /// <param name="extensions">the extensions to accept</param>
+    /// <param name="previewMode">the FileDrop preview mode</param>
+    private Flow CreateBasicFlow(string inputFlowElementUid, string icon, string description, 
+        string[]? extensions = null, FileDropPreviewMode previewMode = FileDropPreviewMode.List)
     {
         var flow = new Flow()
         {
@@ -417,6 +443,19 @@ public partial class NewFlowWizard : IModal
             flow.Type = FlowType.SubFlow;
         else if (inputFlowElementUid == FlowElementUids.FlowFailure)
             flow.Type = FlowType.Failure;
+        else if (FileDropFlow)
+        {
+            flow.Type = FlowType.FileDrop;
+            if (extensions != null)
+            {
+                flow.FileDropOptions = new()
+                {
+                    Extensions = extensions,
+                    PreviewMode = previewMode
+                };
+            }
+        }
+
         var part =
             new FlowPart()
             {
@@ -493,4 +532,9 @@ public class NewFlowWizardOptions : IModalOptions
     /// Gets or sets if the flow shouldn't be auto navigated to
     /// </summary>
     public bool DontAutoNavigateTo { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if the user is adding a file drop flow
+    /// </summary>
+    public bool FileDropFlow { get; set; }
 }

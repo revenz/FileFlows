@@ -500,26 +500,65 @@ public class Runner
             {
                 ServiceLoader.Load<INotificationService>().Record((NotificationSeverity)severity, title, message);
             },
-            Cache = cacheHelper
+            Cache = cacheHelper,
+            SetThumbnailActual = (binaryData) =>
+            {
+                var service = ServiceLoader.Load<IFlowRunnerService>();
+                service.SetThumbnail(Info.LibraryFile.Uid, binaryData).Wait();
+            },
+            SetDisplayNameActual = (displayName) =>
+            {
+                logger.ILog("Updating display name to : " + (displayName ?? "null"));
+                Info.LibraryFile.Additional ??= new();
+                Info.LibraryFile.Additional.DisplayName = displayName;
+            },
+            SetTraitsActual = (traits) =>
+            {
+                logger.ILog("Setting file traits: " + string.Join(", ", traits ?? []));
+                Info.LibraryFile.Additional ??= new();
+                Info.LibraryFile.Additional.Traits = traits;
+            },
+            GetPropertyActual = (property) 
+                => Info.LibraryFile?.Additional?.Properties?.TryGetValue(property, out var value) == true ? value : null,
+            SetPropertyActual = (property, value) =>
+            {
+                if(string.IsNullOrWhiteSpace(property))
+                    return;
+                Info.LibraryFile.Additional ??= new();
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    logger.ILog($"Removing file property: {property} => {value}");
+                    if(Info.LibraryFile.Additional.Properties?.ContainsKey(property) == true)
+                        Info.LibraryFile.Additional.Properties.Remove(property);
+                }
+                else
+                {
+                    logger.ILog($"Setting file property: {property} => {value}");
+                    Info.LibraryFile.Additional ??= new();
+                    Info.LibraryFile.Additional.Properties[property] = value;
+                }
+            }
         };
         
         nodeParameters.Variables["library.Name"] = Info.Library.Name;
         nodeParameters.Variables["library.Path"] = Info.LibraryPath;
 
-        if (Info.LibraryFile.Additional?.ResellerUserUid != null &&
-            Info.LibraryFile.Additional?.ResellerUserUid != Guid.Empty)
+        if (Info.LibraryFile.Additional?.FileDropUserUid != null &&
+            Info.LibraryFile.Additional?.FileDropUserUid != Guid.Empty)
         {
-            var uid = Info.LibraryFile.Additional.ResellerUserUid;
-            nodeParameters.Variables["ResellerUserUid"] = uid.ToString();
-            nodeParameters.Variables["rUserUid"] = uid.ToString();
-            nodeParameters.Variables["ResellerUserOutputDir"] 
-                = Path.Combine(runInstance.Config.ManualLibraryPath, "reseller-users", uid.ToString(), "processed", Info.LibraryFile.Uid.ToString());
-            nodeParameters.Variables["ruOutput"] 
-                = Path.Combine(runInstance.Config.ManualLibraryPath, "reseller-users", uid.ToString(), "processed", Info.LibraryFile.Uid.ToString());
+            var uid = Info.LibraryFile.Additional.FileDropUserUid.Value;
+            nodeParameters.Variables["FileDropUserUid"] = uid.ToString();
+            nodeParameters.Variables["fdUserUid"] = uid.ToString();
+            if (string.IsNullOrWhiteSpace(Info.LibraryFile.Additional?.ShortName) == false)
+                nodeParameters.Variables["ShortName"] = Info.LibraryFile.Additional.ShortName;
+            nodeParameters.Variables["FileDropUserOutputDir"] 
+                = Path.Combine(runInstance.Config.ManualLibraryPath, "file-drop-users", uid.ToString(), "processed", Info.LibraryFile.Uid.ToString());
+            nodeParameters.Variables["fdOutput"] 
+                = Path.Combine(runInstance.Config.ManualLibraryPath, "file-drop-users", uid.ToString(), "processed", Info.LibraryFile.Uid.ToString());
         }
 
-        if(Info.LibraryFile.Additional?.ResellerFlowUid != null && Info.LibraryFile.Additional?.ResellerFlowUid != Guid.Empty)
-            nodeParameters.Variables["ResellerFlowUid"] = Info.LibraryFile.Additional.ResellerFlowUid;
+        if(Info.LibraryFile.Additional?.FileDropFlowUid != null && Info.LibraryFile.Additional?.FileDropFlowUid != Guid.Empty)
+            nodeParameters.Variables["FileDropFlowUid"] = Info.LibraryFile.Additional.FileDropFlowUid;
 
         if (runInstance.Config.Resources?.Any() == true)
         {

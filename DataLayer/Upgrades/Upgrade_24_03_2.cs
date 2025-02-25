@@ -170,7 +170,7 @@ public class Upgrade_24_03_2
         {
             string dbFile = Path.Combine(DirectoryHelper.DatabaseDirectory, "FileFlows.sqlite");
             File.Move(dbFile, dbFile);
-            var connector = new SQLiteConnectorPooledConnection(logger, SqliteHelper.GetConnectionString(dbFile));
+            var connector = new SQLiteConnectorNewConnection(logger, SqliteHelper.GetConnectionString(dbFile));
             List<DbObject> dbObjects;
             List<RevisionedObject> revisionObjects;
             List<LibraryFileUpgrade> libFiles;
@@ -238,7 +238,7 @@ public class Upgrade_24_03_2
             creator.CreateDatabase(true);
             creator.CreateDatabaseStructure();
             
-            connector = new SQLiteConnectorPooledConnection(logger, connString);
+            connector = new SQLiteConnectorNewConnection(logger, connString);
             using (var db = connector.GetDb(true).Result)
             {
                 foreach (var dbo in dbObjects)

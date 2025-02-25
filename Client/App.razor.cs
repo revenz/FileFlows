@@ -111,6 +111,7 @@ public partial class App : ComponentBase
         {
             HttpHelper.Client.DefaultRequestHeaders.Authorization
                 = new AuthenticationHeaderValue("Bearer", token);
+            
         }
 
         await LoadLanguage();
