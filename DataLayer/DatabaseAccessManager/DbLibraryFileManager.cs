@@ -1280,10 +1280,15 @@ internal class DbLibraryFileManager : BaseManager
                         break;
                 }
             }
-            
+
             if (args.NodeUid != null)
-                sql += $" and {Wrap(nameof(LibraryFile.NodeUid))} = '{args.NodeUid.Value}'";
-            
+            {
+                if(iStatus > 0)
+                    sql += $" and {Wrap(nameof(LibraryFile.NodeUid))} = '{args.NodeUid.Value}'";
+                else
+                    sql += $" and {Wrap(nameof(LibraryFile.ProcessOnNodeUid))} = '{args.NodeUid.Value}'";
+            }
+
             if (args.FlowUid != null)
                 sql += $" and {Wrap(nameof(LibraryFile.FlowUid))} = '{args.FlowUid.Value}'";
             
