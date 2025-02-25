@@ -85,7 +85,7 @@
                         <p>@lblDbDescription</p>
                         <hr />
                         <InputSelect @bind-Value="@DbType" Options=@DbTypes Label="Pages.Settings.Fields.Database.Type" AllowClear="false"/>
-                        @if (Model.DbType is DatabaseType.Sqlite or DatabaseType.SqlitePooledConnection or DatabaseType.SqliteNonCached == false)
+                        @if (Model.DbType is DatabaseType.Sqlite == false)
                         {
                             <InputText @bind-Value=@Model.DbServer Label="Pages.Settings.Fields.Database.Server" Validators=@RequiredValidator/>
                             <InputText @bind-Value=@Model.DbName Label="Pages.Settings.Fields.Database.Name" Validators=@RequiredValidator/>
@@ -100,7 +100,7 @@
                             <InputSwitch @bind-Value="@Model.DontBackupOnUpgrade" Label="Pages.Settings.Fields.Database.DontBackupOnUpgrade" OnChangedValue="OnDbBackupChange"/>
                         }
                         <div class="btn-test">
-                            @if (Model.DbType is DatabaseType.Sqlite or DatabaseType.SqlitePooledConnection or DatabaseType.SqliteNonCached == false)
+                            @if (Model.DbType is DatabaseType.Sqlite == false)
                             {
                                 <button class="btn" @onclick=@TestDbConnection>@lblTest</button>
                             }

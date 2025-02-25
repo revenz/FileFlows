@@ -239,7 +239,8 @@ public class SettingsController : BaseController
 
         Settings.RecreateDatabase = model.RecreateDatabase;
         Settings.DockerModsOnServer = model.DockerModsOnServer;
-        Settings.DontBackupOnUpgrade = model.DbType != DatabaseType.Sqlite && model.DbType != DatabaseType.SqlitePooledConnection && model.DontBackupOnUpgrade;
+        Settings.DontBackupOnUpgrade = model.DbType != DatabaseType.Sqlite && 
+                                       model.DontBackupOnUpgrade;
         // save AppSettings with updated license and db migration if set
         SettingsService.Save();
 

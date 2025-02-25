@@ -42,7 +42,7 @@ internal class DbMigrator
 
             var source = DatabaseAccessManager.FromType(Logger!, sourceInfo.Type, sourceInfo.ConnectionString);
             // we do not want cache as this will break if the db doesnt exist yet
-            var destType = destinationInfo.Type is DatabaseType.Sqlite or DatabaseType.SqlitePooledConnection
+            var destType = destinationInfo.Type is DatabaseType.Sqlite 
                 ? DatabaseType.SqliteNonCached
                 : destinationInfo.Type; 
             var dest = DatabaseAccessManager.FromType(Logger!, destType, destinationInfo.ConnectionString);
@@ -51,7 +51,7 @@ internal class DbMigrator
             if(destExternal == false)
             {
                 // move the db if it exists so we can create a new one
-                SQLiteConnectorPooledConnection.MoveFileFromConnectionString(destinationInfo.ConnectionString);
+                SQLiteConnectorNewConnection.MoveFileFromConnectionString(destinationInfo.ConnectionString);
             }
 
             var destCreator = DatabaseCreator.Get(Logger!, dest.Type, destinationInfo.ConnectionString);

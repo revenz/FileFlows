@@ -248,10 +248,10 @@ public enum DatabaseType
     /// SQLite but without a cached connection
     /// </summary>
     SqliteNonCached = 11,
-    /// <summary>
-    /// SQLite but with a new connection each time
-    /// </summary>
-    SqlitePooledConnection = 12,
+    // /// <summary>
+    // /// SQLite but with a new connection each time
+    // /// </summary>
+    // SqlitePooledConnection = 12,
 }
 
 /// <summary>

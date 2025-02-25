@@ -268,7 +268,7 @@ public class StartupService : IStartupService
     /// </summary>
     private void BackupSqlite()
     {
-        if (appSettingsService.Settings.DatabaseType is DatabaseType.Sqlite or DatabaseType.SqlitePooledConnection == false)
+        if (appSettingsService.Settings.DatabaseType is DatabaseType.Sqlite  == false)
             return;
         if (appSettingsService.Settings.DatabaseMigrateType != null)
             return;
