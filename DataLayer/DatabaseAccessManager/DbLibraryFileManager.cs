@@ -1280,6 +1280,13 @@ internal class DbLibraryFileManager : BaseManager
                         break;
                 }
             }
+            
+            if (args.NodeUid != null)
+                sql += $" and {Wrap(nameof(LibraryFile.NodeUid))} = '{args.NodeUid.Value}'";
+            
+            if (args.FlowUid != null)
+                sql += $" and {Wrap(nameof(LibraryFile.FlowUid))} = '{args.FlowUid.Value}'";
+            
             if (iStatus > 0)
             {
                 if (args.SortBy != null)
@@ -1346,15 +1353,9 @@ internal class DbLibraryFileManager : BaseManager
                     }
                 }
                 
-                if (args.NodeUid != null)
-                    sql += $" and {Wrap(nameof(LibraryFile.NodeUid))} = '{args.NodeUid.Value}'";
-                
                 if(args.ProcessingNodeUid != null)
                     sql += $" and ( {Wrap(nameof(LibraryFile.NodeUid))} = '{args.ProcessingNodeUid.Value}' or {Wrap(nameof(LibraryFile.NodeUid))} = '')";
                 
-                if (args.FlowUid != null)
-                    sql += $" and {Wrap(nameof(LibraryFile.FlowUid))} = '{args.FlowUid.Value}'";
-
                 if (args.Status is FileStatus.Processed or FileStatus.ProcessingFailed)
                 {
                     orderBys.Add($" case " +
