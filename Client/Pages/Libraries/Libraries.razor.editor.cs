@@ -29,7 +29,11 @@ public partial class Libraries : ListPage<Guid, Library>
             return false;
         }
         var flowOptions = flowResult.Data
-            .Select(x => new ListOption { Value = new ObjectReference { Name = x.Value, Uid = x.Key, Type = typeof(Flow).FullName! }, Label = x.Value });
+            .Select(x => new ListOption
+            {
+                Value = new ObjectReference { Name = x.Value, Uid = x.Key, 
+                    Type = typeof(Flow).FullName! }, Label = x.Value
+            });
         efTemplate = null;
 
         var tabs = new Dictionary<string, List<IFlowField>>();
@@ -40,7 +44,7 @@ public partial class Libraries : ListPage<Guid, Library>
             Name = nameof(library.Folders)
         };
         
-        var tabGeneral = await TabGeneral(library, flowOptions, efFolders);
+        var tabGeneral = TabGeneral(library, flowOptions, efFolders);
         tabs.Add("General", tabGeneral);
         tabs.Add("Schedule", TabSchedule(library));
         tabs.Add("Detection", TabDetection(library));
@@ -60,70 +64,9 @@ public partial class Libraries : ListPage<Guid, Library>
     }
 
 
-    private async Task<List<IFlowField>> TabGeneral(Library library, IEnumerable<ListOption> flowOptions, ElementField efFolders)
+    private List<IFlowField> TabGeneral(Library library, IEnumerable<ListOption> flowOptions, ElementField efFolders)
     {
         List<IFlowField> fields = new ();
-        if (library == null || library.Uid == Guid.Empty)
-        {
-            // adding
-            Blocker.Show();
-            try
-            {
-                var templateResult = await HttpHelper.Get<Dictionary<string, List<Library>>>("/api/library/templates");
-                if (templateResult.Success || templateResult.Data?.Any() == true)
-                {
-                    List<ListOption> templates = new();
-                    foreach (var group in templateResult.Data)
-                    {
-                        if (string.IsNullOrEmpty(group.Key) == false)
-                        {
-                            templates.Add(new ListOption
-                            {
-                                Value = Globals.LIST_OPTION_GROUP,
-                                Label = group.Key
-                            });
-                        }
-                        templates.AddRange(group.Value.Select(x => new ListOption
-                        {
-                            Label = x.Name,
-                            Value = x
-                        }));
-                    }
-                    var loCustom = new ListOption
-                    {
-                        Label = "Custom",
-                        Value = null
-                    };
-                    
-                    if(templates.Any() && (string)templates[0].Value! == Globals.LIST_OPTION_GROUP)
-                        templates.Insert(1, loCustom);
-                    else
-                        templates.Insert(0, loCustom);
-                    
-                    efTemplate = new ElementField
-                    {
-                        Name = "Template",
-                        InputType = FormInputType.Select,
-                        Parameters = new Dictionary<string, object>
-                        {
-                            { nameof(InputSelect.Options), templates },
-                            { nameof(InputSelect.AllowClear), true},
-                            { nameof(InputSelect.ShowDescription), true }
-                        }
-                    };
-                    efTemplate.ValueChanged += TemplateValueChanged;
-                    fields.Add(efTemplate);
-                    fields.Add(new ElementField
-                    {
-                        InputType = FormInputType.HorizontalRule
-                    });
-                }
-            }
-            finally
-            {
-                Blocker.Hide();
-            }
-        }
         
         fields.Add(new ElementField
         {

@@ -50,9 +50,9 @@ public class FlowController : BaseController
         if (type != null)
             items = items.Where(x => x.Type == type.Value);
         if (folderFlows == true)
-            items = items.Where(x => x.Parts.Any(x => x.Type == FlowElementType.Input && x.FlowElementUid.EndsWith("Folder")));
+            items = items.Where(x => x.Type is FlowType.Standard && x.Parts.Any(x => x.Type == FlowElementType.Input && x.FlowElementUid.EndsWith("Folder")));
         else if (folderFlows == false)
-            items = items.Where(x => x.Parts.Any(x => x.Type == FlowElementType.Input && x.FlowElementUid.EndsWith("Folder") == false));
+            items = items.Where(x => x.Type is FlowType.Standard && x.Parts.Any(x => x.Type == FlowElementType.Input && x.FlowElementUid.EndsWith("Folder") == false));
         return items.ToDictionary(x => x.Uid, x => x.Name);
     }
 
