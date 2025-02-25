@@ -71,7 +71,7 @@
                 <span class="label">FPS</span>
                 <span class="value">@runner.FramesPerSecond</span>
             }
-            @foreach (var additional in runner.Additional ?? [])
+            @foreach (var additional in GetSortedAdditional(runner))
             {
                 <span class="label">@additional[0]</span>
                 <span class="value">@additional[1]</span>
