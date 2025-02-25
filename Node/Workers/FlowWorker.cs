@@ -657,6 +657,8 @@ public class FlowWorker : Worker
         return content.Contains("Revision") == false;
     }
     
+    private SemaphoreSlim _updateConfigSemaphore = new SemaphoreSlim(1, 1);
+    
     /// <summary>
     /// Ensures the local configuration is current with the server
     /// </summary>
@@ -664,6 +666,7 @@ public class FlowWorker : Worker
     /// <returns>an awaited task</returns>
     private bool UpdateConfiguration(ProcessingNode node)
     {
+        _updateConfigSemaphore.Wait();
         try
         {
             var service = ServiceLoader.Load<ISettingsService>();
@@ -688,14 +691,24 @@ public class FlowWorker : Worker
             try
             {
                 if (Directory.Exists(dir))
+                {
+                    Logger.Instance.ILog("Deleting config directory: " + dir);
                     Directory.Delete(dir, true);
+                    Logger.Instance.ILog("Deleted config directory: " + dir);
+                }
 
                 Directory.CreateDirectory(dir);
+                Logger.Instance.ILog("Created config directory: " + dir);
                 Directory.CreateDirectory(Path.Combine(dir, "Scripts"));
+                Logger.Instance.ILog("Created config directory: " + Path.Combine(dir, "Scripts"));
                 Directory.CreateDirectory(Path.Combine(dir, "Scripts", "Shared"));
+                Logger.Instance.ILog("Created config directory: " + Path.Combine(dir, "Scripts", "Shared"));
                 Directory.CreateDirectory(Path.Combine(dir, "Scripts", "Flow"));
+                Logger.Instance.ILog("Created config directory: " + Path.Combine(dir, "Scripts", "Flow"));
                 Directory.CreateDirectory(Path.Combine(dir, "Scripts", "System"));
+                Logger.Instance.ILog("Created config directory: " + Path.Combine(dir, "Scripts", "System"));
                 Directory.CreateDirectory(Path.Combine(dir, "Plugins"));
+                Logger.Instance.ILog("Created config directory: " + Path.Combine(dir, "Plugins"));
             }
             catch (Exception ex)
             {
@@ -814,6 +827,10 @@ public class FlowWorker : Worker
         {
             Logger.Instance.ELog("Failed getting configuration: " + ex.Message + Environment.NewLine + ex.StackTrace);
             return false;
+        }
+        finally
+        {
+            _updateConfigSemaphore.Release();
         }
     }
 
