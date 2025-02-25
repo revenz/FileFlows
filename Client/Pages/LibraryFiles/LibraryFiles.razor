@@ -72,12 +72,12 @@
                                 <FlowDropDown Options="optionsSortBy" OnSelected="SelectSortBy" SelectedValue="@SelectedSortBy"
                                               Placeholder="@lblSortBy" PlaceholderIcon="fas fa-sort"/>
                             }
-                            @if (optionsNodes?.Any() == true && SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed)
+                            @if (optionsNodes?.Any() == true)
                             {
                                 <FlowDropDown Options="optionsNodes" OnSelected="SelectNode" SelectedValue="@SelectedNode"
                                               Placeholder="@lblNode" PlaceholderIcon="fas fa-desktop"/>
                             }
-                            @if (optionsFlows?.Any() == true && SelectedStatus is not FileStatus.Unprocessed and not FileStatus.Disabled and not FileStatus.OnHold)
+                            @if (optionsFlows?.Any() == true)
                             {
                                 <FlowDropDown Options="optionsFlows" OnSelected="SelectFlow" SelectedValue="@SelectedFlow"
                                               Placeholder="@lblFlow" PlaceholderIcon="fas fa-sitemap"/>
