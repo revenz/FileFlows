@@ -10,6 +10,16 @@ public class SettingsManager
     private static FairSemaphore _semaphore = new(1);
     // Special case, we always cache the settings, as it is constantly looked up
     private static Settings? Instance;
+    
+    /// <summary>
+    /// Revision updated handler
+    /// </summary>
+    public delegate void RevisionUpdatedHandler(int revision);
+
+    /// <summary>
+    /// Called when the revision is updated
+    /// </summary>
+    public event RevisionUpdatedHandler? RevisionUpdated;
 
     static SettingsManager()
     {
@@ -50,17 +60,22 @@ public class SettingsManager
     public async Task RevisionIncrement()
     {
         await _semaphore.WaitAsync();
+        int revision = 0;
         try
         {
-            Instance!.Revision += 1;
+            revision = Instance!.Revision + 1;
+            Instance!.Revision = revision;
             await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(Instance, null);
         }
         catch (Exception ex)
         {
             Logger.Instance.WLog("Failed to increment revision: " + ex.Message);
+            revision = 0;
         }
         finally
         {
+            if(revision > 0)
+                RevisionUpdated?.Invoke(revision);
             _semaphore.Release();
         }
     }
@@ -82,6 +97,8 @@ public class SettingsManager
         finally
         {
             _semaphore.Release();
+            if(Instance != null)
+                RevisionUpdated?.Invoke(Instance.Revision);
         }
     }
     

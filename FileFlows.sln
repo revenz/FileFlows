@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validators", "Validators\Validators.csproj", "{BB1F205D-6A09-46F4-B041-985990715D21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeClient", "NodeClient\NodeClient.csproj", "{7132E1F8-0D9C-4317-8D77-A6081194224F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{BB1F205D-6A09-46F4-B041-985990715D21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB1F205D-6A09-46F4-B041-985990715D21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB1F205D-6A09-46F4-B041-985990715D21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

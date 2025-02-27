@@ -1,5 +1,5 @@
+using FileFlows.NodeClient;
 using FileFlows.RemoteServices;
-using FileFlows.Server.Workers;
 using FileFlows.ServerShared.Services;
 using FileFlows.ServerShared.Workers;
 
@@ -37,8 +37,10 @@ public class TempFileCleaner : Worker
         if (tempDir.Exists == false)
             return;
 
-        var executors = (WorkerManager.GetWorker<FlowWorker>()?.GetExecutors() ?? new Guid[] { })
-            .Select(x => "Runner-" + x).ToList();
+        var runnerService = ServiceLoader.Load<RunnerManager>();
+        var uids = runnerService.GetActiveRunnerUids();
+
+        var executors = uids.Select(x => "Runner-" + x).ToList();
         
         Logger.Instance?.ILog("About to clean temporary directory: " + tempDir.FullName);
         foreach (var dir in tempDir.GetDirectories())

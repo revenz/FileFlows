@@ -35,6 +35,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\FileFlowsAdditional\Services\Services.csproj" />
+      <ProjectReference Include="..\NodeClient\NodeClient.csproj" />
       <ProjectReference Include="..\Plugin\Plugin.csproj" />
       <ProjectReference Include="..\ServerShared\ServerShared.csproj" />
       <ProjectReference Include="..\Shared\Shared.csproj" />

@@ -58,60 +58,60 @@ public class NodeManager
         var nodeVersion = Globals.Version;
         var nodeVersionVersion = new Version(nodeVersion);
 
-        var flowWorker = new FlowWorker(AppSettings.Instance.HostName)
-        {
-            IsEnabledCheck = () =>
-            {
-                if (this.Registered == false)
-                {
-                    Logger.Instance?.ILog($"Node not registered, Flow Worker skip running.");
-                    return false;
-                }
-
-                if (AppSettings.IsConfigured() == false)
-                {
-                    Logger.Instance?.ILog($"Node not configured, Flow Worker skip running.");
-                    return false;
-                }
-
-                var nodeService = ServiceLoader.Load<INodeService>();
-                try
-                {
-                    var settings = nodeService.GetByAddressAsync(AppSettings.Instance.HostName).Result;
-                    if (settings == null)
-                    {
-                        Logger.Instance?.ELog("Failed getting settings for node: " + AppSettings.Instance.HostName);
-                        return false;
-                    }
-
-                    AppSettings.Instance.Save();
-
-                    var serverVersion = ServiceLoader.Load<ISettingsService>().GetServerVersion().Result;
-                    if (serverVersion != nodeVersionVersion)
-                    {
-                        Logger.Instance?.ILog($"Node version '{nodeVersion}' does not match server version '{serverVersion}'");
-                        NodeUpdater.CheckForUpdate();
-                        return false;
-                    }
-
-                    //return AppSettings.Instance.Enabled;
-                    return settings.Enabled;
-                }
-                catch (Exception ex)
-                {
-                    if (ex.Message?.Contains("502 Bad Gateway") == true)
-                        Logger.Instance?.ELog("Failed checking enabled: Unable to reach FileFlows Server.");
-                    else
-                        Logger.Instance?.ELog("Failed checking enabled: " + ex.Message + Environment.NewLine +
-                                              ex.StackTrace);
-                }
-
-                return false;
-            }
-        };
+        // var flowWorker = new FlowWorker(AppSettings.Instance.HostName)
+        // {
+        //     IsEnabledCheck = () =>
+        //     {
+        //         if (this.Registered == false)
+        //         {
+        //             Logger.Instance?.ILog($"Node not registered, Flow Worker skip running.");
+        //             return false;
+        //         }
+        //
+        //         if (AppSettings.IsConfigured() == false)
+        //         {
+        //             Logger.Instance?.ILog($"Node not configured, Flow Worker skip running.");
+        //             return false;
+        //         }
+        //
+        //         var nodeService = ServiceLoader.Load<INodeService>();
+        //         try
+        //         {
+        //             var settings = nodeService.GetByAddressAsync(AppSettings.Instance.HostName).Result;
+        //             if (settings == null)
+        //             {
+        //                 Logger.Instance?.ELog("Failed getting settings for node: " + AppSettings.Instance.HostName);
+        //                 return false;
+        //             }
+        //
+        //             AppSettings.Instance.Save();
+        //
+        //             var serverVersion = ServiceLoader.Load<ISettingsService>().GetServerVersion().Result;
+        //             if (serverVersion != nodeVersionVersion)
+        //             {
+        //                 Logger.Instance?.ILog($"Node version '{nodeVersion}' does not match server version '{serverVersion}'");
+        //                 NodeUpdater.CheckForUpdate();
+        //                 return false;
+        //             }
+        //
+        //             //return AppSettings.Instance.Enabled;
+        //             return settings.Enabled;
+        //         }
+        //         catch (Exception ex)
+        //         {
+        //             if (ex.Message?.Contains("502 Bad Gateway") == true)
+        //                 Logger.Instance?.ELog("Failed checking enabled: Unable to reach FileFlows Server.");
+        //             else
+        //                 Logger.Instance?.ELog("Failed checking enabled: " + ex.Message + Environment.NewLine +
+        //                                       ex.StackTrace);
+        //         }
+        //
+        //         return false;
+        //     }
+        // };
         
         WorkerManager.StartWorkers(
-            flowWorker, 
+            //flowWorker, 
             updater, 
             //new RestApiWorker(), // is this used?
             new LogFileCleaner(),
@@ -119,6 +119,8 @@ public class NodeManager
             //new SystemStatisticsWorker(),
             new ConfigCleaner()
         );
+
+        // new NodeClient.Client(AppSettings.Instance.ServerUrl, AppSettings.Instance.HostName);
     }
 
     

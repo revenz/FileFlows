@@ -1,6 +1,5 @@
+using FileFlows.NodeClient;
 using FileFlows.RemoteServices;
-using FileFlows.ServerShared;
-using FileFlows.ServerShared.Helpers;
 using FileFlows.ServerShared.Services;
 using FileFlows.ServerShared.Workers;
 
@@ -31,12 +30,13 @@ public class NodeUpdater:UpdaterWorker
         Instance.Trigger();
     }
 
-    
+
     /// <summary>
     /// Gets if an update can currently run
     /// </summary>
     /// <returns>true if the update can run, otherwise false</returns>
-    protected override bool CanUpdate() => FlowWorker.HasActiveRunners == false;
+    protected override bool CanUpdate()
+        => ServiceLoader.Load<RunnerManager>().HasActiveRunners;
 
     /// <summary>
     /// Quits the application so the update can be applied
