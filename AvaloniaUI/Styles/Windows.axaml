@@ -1,47 +1,34 @@
 <Styles xmlns="https://github.com/avaloniaui">
     <!-- BASE BUTTON STYLE (Applies to all buttons) -->
     <Style Selector="Button">
-        <Setter Property="CornerRadius" Value="6"/> <!-- Win11 Rounded Corners -->
+        <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="FontWeight" Value="600"/>  
         <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="FontSize" Value="{DynamicResource BaseFontSize}" />
+        <Setter Property="BorderThickness" Value="2"/>  
+        <Setter Property="BorderBrush" Value="Transparent"/>  
+        <Setter Property="Background" Value="{DynamicResource DefaultButtonBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource DefaultButtonForeground}" />
+    </Style>
+    
+    <Style Selector="Button:not(.btnIcon)">
         <Setter Property="MinWidth" Value="120"/>
         <Setter Property="Margin" Value="4"/>  
-        <Setter Property="FontSize" Value="{DynamicResource BaseFontSize}" />
-        <Setter Property="BorderThickness" Value="1"/>  
-        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>  
-        <Setter Property="Background" Value="{DynamicResource DefaultButtonBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource DefaultButtonForeground}" />
+    </Style>
+    <Style Selector="Button.btnIcon">
+        <Setter Property="MinWidth" Value="50"/>  
     </Style>
 
-    <!-- DEFAULT BUTTON (SECONDARY) -->
-    <Style Selector="Button:not(.primary)">
-        <Setter Property="Background" Value="{DynamicResource DefaultButtonBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource DefaultButtonForeground}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}" />
+    <Style Selector="Button:focus">
+        <Setter Property="Background" Value="{DynamicResource SystemAccentBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}" />
     </Style>
 
-    <Style Selector="Button:not(.primary):hover">
-        <Setter Property="Background" Value="{DynamicResource DefaultButtonHover}" />
-    </Style>
-
-    <Style Selector="Button:not(.primary):pressed">
+    <Style Selector="Button:pressed">
         <Setter Property="Background" Value="{DynamicResource DefaultButtonPressed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}" />
     </Style>
 
-    <!-- PRIMARY BUTTON (ACCENT) -->
-    <Style Selector="Button.primary">
-        <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" /> 
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColorDark}" /> 
-    </Style>
-
-    <Style Selector="Button.primary:hover">
-        <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight}" />
-    </Style>
-
-    <Style Selector="Button.primary:pressed">
-        <Setter Property="Background" Value="{DynamicResource SystemAccentColorDark}" />
-    </Style>
     
     <!-- TextBox -->
     <Style Selector="TextBox">
@@ -67,4 +54,24 @@
         <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorder}" />
     </Style>
 
+    
+    
+    <Style Selector="Window.messagebox" >
+        <Setter Property="SystemDecorations" Value="Full" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="SizeToContent" Value="WidthAndHeight" />
+    </Style>
+    <Style Selector="StackPanel.mbOuter">
+        <Setter Property="Spacing" Value="10" />
+    </Style>
+    <Style Selector="StackPanel.mbContent TextBlock">
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+    <Style Selector="TextBlock.mbTitle">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="StackPanel.modalButtons">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+    
 </Styles>

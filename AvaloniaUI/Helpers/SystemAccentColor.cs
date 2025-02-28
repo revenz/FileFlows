@@ -35,28 +35,29 @@ public static class SystemAccentColor
         {
             try
             {
-                var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\DWM");
+                using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\DWM");
                 var value = key?.GetValue("AccentColor") as int?;
                 if (value.HasValue)
                 {
                     uint colorValue = (uint)value.Value;
+    
+                    // Windows stores color as ABGR, need to convert to ARGB
                     return Color.FromArgb(
-                        255,
-                        (byte)((colorValue >> 16) & 0xFF), // R
-                        (byte)((colorValue >> 8) & 0xFF), // G
-                        (byte)(colorValue & 0xFF) // B
+                        255, // Force full opacity
+                        (byte)(colorValue & 0xFF),       // R (Swap with B)
+                        (byte)((colorValue >> 8) & 0xFF),  // G
+                        (byte)((colorValue >> 16) & 0xFF) // B
                     );
                 }
             }
             catch (Exception)
             {
-                // Ignore
+                // Ignore errors and return fallback color
             }
         }
-
-        return Colors.DodgerBlue;
+    
+        return Colors.DodgerBlue; // Fallback if not Windows or registry fails
     }
-
     
     /// <summary>
     /// Retrieves the accent color for macOS by executing a shell command.

@@ -37,7 +37,7 @@ public abstract partial class App : Application
         // Get system text scaling factor
         double scale = SystemTextScale.GetSystemTextScalingFactor();
         // Set the base font size dynamically
-        double baseFontSize = (OperatingSystem.IsMacOS() ? 14 : 16) * scale; // Scale base size dynamically
+        double baseFontSize = (OperatingSystem.IsLinux() ? 16 : 14) * scale; // Scale base size dynamically
         Current.Resources["BaseFontSize"] = baseFontSize;
         Current.Resources["LargeFontSize"] = baseFontSize * 1.25f;
 
@@ -62,7 +62,7 @@ public abstract partial class App : Application
             stylePath = "avares://FileFlows.AvaloniaUI/Styles/Mac.axaml";
 
         Styles.Add(new StyleInclude(new Uri("avares://FileFlows.AvaloniaUI"))
-        {
+        {   
             Source = new Uri(stylePath)
         });
     }
@@ -276,12 +276,16 @@ public abstract partial class App : Application
                 else if (isWindows)
                 {
                     // Windows Dark Theme Colors
-                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(45, 45, 45);
+                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(50, 50, 50);
                     Current.Resources["DefaultButtonForeground"] = Colors.White;
                     Current.Resources["DefaultButtonHover"] = Color.FromRgb(60, 60, 60);
                     Current.Resources["DefaultButtonPressed"] = Color.FromRgb(80, 80, 80);
+                    Current.Resources["SystemAccentBackground"] = Color.FromArgb(20, accentColor.R, accentColor.G, accentColor.B);
 
-                    Current.Resources["TextBoxBackground"] = Color.FromRgb(30, 30, 30);
+                    Current.Resources["DisabledBackground"] = Color.FromRgb(30,30,30);
+                    Current.Resources["DisabledForeground"] = Color.FromRgb(200, 200, 200);
+                    
+                    Current.Resources["TextBoxBackground"] = Color.FromRgb(50, 50, 50);
                     Current.Resources["TextBoxForeground"] = Colors.White;
                 }
                 else if (isMac)
@@ -329,9 +333,14 @@ public abstract partial class App : Application
                     Current.Resources["DefaultButtonBackground"] = Color.FromRgb(240, 240, 240);
                     Current.Resources["DefaultButtonForeground"] = Colors.Black;
                     Current.Resources["DefaultButtonHover"] = Color.FromRgb(225, 225, 225);
-                    Current.Resources["DefaultButtonPressed"] = Color.FromRgb(200, 200, 200);
+                    Current.Resources["DefaultButtonPressed"] = Color.FromRgb(230, 230, 230);
 
-                    Current.Resources["TextBoxBackground"] = Color.FromRgb(255, 255, 255);
+                    Current.Resources["SystemAccentBackground"] = Color.FromArgb(20, accentColor.R, accentColor.G, accentColor.B);
+                    
+                    Current.Resources["DisabledBackground"] = Color.FromRgb(200,200,200);
+                    Current.Resources["DisabledForeground"] = Color.FromRgb(40, 40, 40);
+                    
+                    Current.Resources["TextBoxBackground"] = Color.FromRgb(240, 240, 240);
                     Current.Resources["TextBoxForeground"] = Colors.Black;
                 }
                 else if (isMac)
