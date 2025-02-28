@@ -18,8 +18,11 @@ public abstract class UiWindow : Window
     {
         return await Dispatcher.UIThread.InvokeAsync(() =>
         {
+            IsEnabled = false;
             var msgBox = new MessageBox(title, message, "Yes", "No", showCancel: true);
-            return msgBox.ShowDialogAsync(this);
+            var result = msgBox.ShowDialogAsync(this);
+            IsEnabled = true;
+            return result;
         });
     }
     
@@ -31,10 +34,13 @@ public abstract class UiWindow : Window
     /// <returns>the task to await</returns>
     public async Task Message(string title, string message)
     {
-        await Dispatcher.UIThread.InvokeAsync(() =>
+        await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            var msgBox = new MessageBox(title, message, "Close", "", showCancel: false);
-            return msgBox.ShowDialogAsync(this);
+            IsEnabled = false;
+            var msgBox = new MessageBox( title, message, "Close", "", showCancel: false);
+            await msgBox.ShowDialogAsync(this);
+            IsEnabled = true;
+            return;
         });
     }
 }

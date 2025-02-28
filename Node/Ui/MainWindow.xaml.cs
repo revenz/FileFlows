@@ -36,6 +36,15 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
         ViewModel.AccessToken = AppSettings.Instance.AccessToken ?? string.Empty;
         ViewModel.StartMinimized = AppSettings.Instance.StartMinimized;
         
+        var txtServerUrl = this.FindControl<TextBox>("txtServerUrl");
+        this.Opened += async (_, _) => await Task.Delay(10).ContinueWith(_ =>
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                txtServerUrl?.Focus();
+            });
+        });
+        
 #if DEBUG
         this.AttachDevTools();
 #endif

@@ -7,12 +7,18 @@
         WindowStartupLocation="CenterOwner"
         MinWidth="400"
         HorizontalAlignment="Stretch"
+        ShowInTaskbar="False"
+        Classes="messagebox"
+        Topmost="True"
 >
-        <StackPanel Spacing="10" Margin="20">
-                <TextBlock Name="MessageText" TextWrapping="Wrap" MaxWidth="400"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-                        <Button Name="ConfirmButton"/>
-                        <Button Name="CancelButton"/>
+        <StackPanel Classes="mbOuter">
+                <StackPanel Classes="mbContent">
+                        <TextBlock Name="Title" Classes="mbTitle" />
+                        <TextBlock Name="MessageText" TextWrapping="Wrap" MaxWidth="400"/>
                 </StackPanel>
+                <Grid Name="Buttons" Classes="modalButtons" ColumnDefinitions="*,*">
+                        <Button Name="ConfirmButton" Grid.Column="0"/>
+                        <Button Name="CancelButton" Grid.Column="1"/>
+                </Grid>
         </StackPanel>
 </Window>

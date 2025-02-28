@@ -39,12 +39,10 @@ public abstract partial class App : Application
         // Set the base font size dynamically
         double baseFontSize = 16 * scale; // Scale base size dynamically
         Current.Resources["BaseFontSize"] = baseFontSize;
+        Current.Resources["LargeFontSize"] = baseFontSize * 1.25f;
 
         // Set the OS accent color as a resource
 
-        var accentColor = SystemAccentColor.GetOsAccentColor();
-        Current.Resources["SystemAccentColor"] = accentColor;
-        Current.Resources["SystemAccentTextColor"] = GetContrastingTextColor(accentColor);
         LoadPlatformSpecificStyles();
     }
 
@@ -175,6 +173,8 @@ public abstract partial class App : Application
                     Current.Resources["DefaultButtonForeground"] = Colors.White;
                     Current.Resources["DefaultButtonHover"] = Color.FromRgb(70, 70, 70);
                     Current.Resources["DefaultButtonPressed"] = Color.FromRgb(90, 90, 90);
+                    Current.Resources["SystemAccentBackground"] = Color.FromArgb(20, accentColor.R, accentColor.G, accentColor.B);
+
                     
                     Current.Resources["DisabledBackground"] = Color.FromRgb(34, 34, 34);
                     Current.Resources["DisabledForeground"] = Color.FromRgb(200, 200, 200);

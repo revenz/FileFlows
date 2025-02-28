@@ -1,5 +1,7 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 
 namespace FileFlows.AvaloniaUi;
 
@@ -21,12 +23,14 @@ public class MessageBox : Window
     /// <param name="confirmText">The text for the confirm button. Defaults to "OK".</param>
     /// <param name="cancelText">The text for the cancel button. Defaults to "Cancel".</param>
     /// <param name="showCancel">Determines whether the cancel button is shown. Defaults to false.</param>
-    public MessageBox(string title, string message, string confirmText = "OK", string cancelText = "Cancel", bool showCancel = false)
+    public MessageBox(string title, string message, string confirmText = "OK",
+        string cancelText = "Cancel", bool showCancel = false)
     {
         InitializeComponent();
 
         this.Title = title;
         this.FindControl<TextBlock>("MessageText")!.Text = message;
+        this.FindControl<TextBlock>("Title")!.Text = title;
 
         var confirmButton = this.FindControl<Button>("ConfirmButton");
         var cancelButton = this.FindControl<Button>("CancelButton");
@@ -38,6 +42,26 @@ public class MessageBox : Window
         cancelButton.Click += (_, _) => CloseDialog(false);
 
         cancelButton.IsVisible = showCancel;
+        // If only one button is visible, make it span both columns
+        if (!showCancel)
+        {
+            var gridButtons = this.FindControl<Grid>("Buttons");
+            if (gridButtons != null)
+                gridButtons.ColumnDefinitions = ColumnDefinitions.Parse("*, 2*, *");
+            confirmButton.SetValue(Grid.ColumnProperty, 1);
+        }
+
+        // Give focus to the confirm button when the dialog opens
+        this.Opened += async (_, _) => await Task.Delay(10).ContinueWith(_ =>
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                if (showCancel)
+                    cancelButton.Focus();
+                else
+                    confirmButton.Focus();
+            });
+        });
     }
 
     /// <summary>
