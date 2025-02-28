@@ -114,8 +114,14 @@ public class WebServerApp
 
         string serverUrl = $"{protocol}://0.0.0.0:{Port}/";
         Logger.Instance.ILog("Server URL: " + serverUrl);
+        ServerUrl = serverUrl;
         return serverUrl;
     }
+    
+    /// <summary>
+    /// Gets the server url
+    /// </summary>
+    public static string? ServerUrl { get; private set; }
 
     /// <summary>
     /// Starts the server

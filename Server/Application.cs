@@ -59,6 +59,10 @@ public class Application
     {
         try
         {
+            #if(DEBUG)
+            ShowMinimalGui = true;
+            #endif
+            
             bool noGui = ShowGui == false && ShowMinimalGui == false;
 
             if (string.IsNullOrWhiteSpace(EntryPoint) == false && OperatingSystem.IsMacOS())
@@ -85,7 +89,7 @@ public class Application
                     {
                         try
                         {
-                            var appBuilder = Gui.Avalon.App.BuildAvaloniaApp(true);
+                            var appBuilder = Gui.Avalon.App.BuildAvaloniaApp();
                             appBuilder.StartWithClassicDesktopLifetime(args);
                         }
                         catch (Exception)
