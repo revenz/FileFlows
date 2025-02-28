@@ -75,6 +75,8 @@
     <Style Selector="Window.messagebox" >
         <Setter Property="SystemDecorations" Value="None" />
         <Setter Property="Padding" Value="20" />
+        <Setter Property="SizeToContent" Value="Height" />
+        <Setter Property="MinWidth" Value="400" />
     </Style>
     <Style Selector="StackPanel.mbOuter">
         <Setter Property="Spacing" Value="10" />
