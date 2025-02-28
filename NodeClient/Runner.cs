@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using FileFlows.Common;
+using FileFlows.Helpers;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared.Models;
 using FileFlows.ServerShared.Services;
@@ -144,7 +146,7 @@ public class Runner
             string output = process.StandardOutput.ReadToEnd();
             string error = process.StandardError.ReadToEnd();
             process.WaitForExit();
-            exitCode = process.ExitCode;
+            _exitCode = process.ExitCode;
 
 #endif
             if (_exitCode == 100)
@@ -216,4 +218,23 @@ public class Runner
     private void AppendToCompleteLog(string message, string type = "INFO")
         => completeLog.AppendLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture)} [{type}] -> {message}");
 
+    private static string? Dotnet;
+    
+     /// <summary>
+     /// Gets the location of dotnet to use to start the flow runner
+     /// </summary>
+     /// <returns>the location of dotnet to use to start the flow runner</returns>
+     private string GetDotnetLocation()
+     {
+         if(string.IsNullOrEmpty(Dotnet))
+         {
+             if (Globals.IsWindows == false && File.Exists("/dotnet/dotnet"))
+                 Dotnet = "/dotnet/dotnet"; // location of docker
+             else if (Globals.IsWindows == false && File.Exists("/root/.dotnet/dotnet"))
+                 Dotnet = "/root/.dotnet/dotnet"; // location of legacy docker
+             else
+                 Dotnet = "dotnet";// assume in PATH
+         }
+         return Dotnet;
+     }
 }

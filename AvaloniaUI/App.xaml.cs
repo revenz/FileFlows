@@ -37,7 +37,7 @@ public abstract partial class App : Application
         // Get system text scaling factor
         double scale = SystemTextScale.GetSystemTextScalingFactor();
         // Set the base font size dynamically
-        double baseFontSize = 16 * scale; // Scale base size dynamically
+        double baseFontSize = (OperatingSystem.IsMacOS() ? 14 : 16) * scale; // Scale base size dynamically
         Current.Resources["BaseFontSize"] = baseFontSize;
         Current.Resources["LargeFontSize"] = baseFontSize * 1.25f;
 
@@ -196,7 +196,7 @@ public abstract partial class App : Application
                 else if (isMac)
                 {
                     // macOS Dark Theme Colors
-                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(58, 58, 58);
+                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(86, 84, 89);
                     Current.Resources["DefaultButtonForeground"] = Colors.White;
                     Current.Resources["DefaultButtonHover"] = Color.FromRgb(78, 78, 78);
                     Current.Resources["DefaultButtonPressed"] = Color.FromRgb(98, 98, 98);

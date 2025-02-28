@@ -11,7 +11,7 @@
         Icon="avares://FileFlows.AvaloniaUI/Resources/icon.ico"
         Title="FileFlows Node">
     <Grid RowDefinitions="Auto, Auto" Classes="MainWindow">
-        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="20 10">
+        <StackPanel Grid.Row="0" Orientation="Vertical">
             <StackPanel Orientation="Vertical" Margin="20">
         
                 <Image Stretch="None"  Source="avares://FileFlows.AvaloniaUI/Resources/logo.png" />

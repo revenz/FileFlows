@@ -13,7 +13,7 @@
         <ProjectReference Include="..\ServerShared\ServerShared.csproj" />
         <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>
-    <ItemGroup Condition=" '$(Configuration)' == 'Debug'">
+    <ItemGroup>
         <ProjectReference Include="..\FlowRunner\FlowRunner.csproj" />
     </ItemGroup>
 </Project>

@@ -89,4 +89,9 @@
     <Style Selector="StackPanel.modalButtons">
         <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
+    
+    
+    <Style Selector="Grid.MainWindow">
+        <Setter Property="Margin" Value="20 10" />
+    </Style>
 </Styles>

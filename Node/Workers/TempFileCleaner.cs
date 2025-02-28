@@ -2,6 +2,7 @@ using FileFlows.NodeClient;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared.Services;
 using FileFlows.ServerShared.Workers;
+using FileFlows.Shared.Models;
 
 namespace FileFlows.Node.Workers;
 
@@ -28,9 +29,18 @@ public class TempFileCleaner : Worker
     protected sealed override void Execute()
     {
         var service = ServiceLoader.Load<INodeService>();
-        var node = string.IsNullOrWhiteSpace(nodeAddress)
-            ? service.GetServerNodeAsync().Result
-            : service.GetByAddressAsync(nodeAddress).Result;
+        ProcessingNode? node = null;
+        try
+        {
+            node = string.IsNullOrWhiteSpace(nodeAddress)
+                ? service.GetServerNodeAsync().Result
+                : service.GetByAddressAsync(nodeAddress).Result;
+        }
+        catch (Exception ex)
+        {
+            Logger.Instance.WLog("Failed to fetch node: " + ex.Message);
+        }
+        
         if (string.IsNullOrWhiteSpace(node?.TempPath))
             return;
         var tempDir = new DirectoryInfo(node.TempPath);

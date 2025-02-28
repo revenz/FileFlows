@@ -90,6 +90,7 @@ public class Application
                         }
                         catch (Exception)
                         {
+                            // Ignore
                         }
                     }
 

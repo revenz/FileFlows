@@ -57,13 +57,36 @@ public static class SystemAccentColor
         return Colors.DodgerBlue;
     }
 
+    
     /// <summary>
-    /// Retrieves the accent color for macOS.
+    /// Retrieves the accent color for macOS by executing a shell command.
     /// </summary>
-    /// <returns>A fallback accent color, as macOS does not expose this easily.</returns>
     private static Color GetMacOsAccentColor()
     {
-        return Colors.CornflowerBlue; // macOS doesn't expose accent color easily
+        try
+        {
+            string accentColorIndex = RunShellCommand("defaults read -g AppleAccentColor").Trim();
+            if (string.IsNullOrEmpty(accentColorIndex))
+                return Colors.CornflowerBlue; // Fallback if not found
+            
+            return accentColorIndex switch
+            {
+                "0" => Colors.Red,
+                "1" => Colors.Orange,
+                "2" => Colors.Goldenrod,
+                "3" => Colors.Green,
+                "4" => Colors.Blue,
+                "5" => Colors.Purple,
+                "6" => Colors.HotPink,
+                "-1" => Color.FromRgb(85,85,85),
+                _ => Colors.CornflowerBlue, // Default fallback color
+            };
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Failed getting accent color: " + ex.Message);
+            return Colors.CornflowerBlue; // Return fallback color if error occurs
+        }
     }
 
     /// <summary>

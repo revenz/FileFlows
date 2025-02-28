@@ -17,7 +17,7 @@ public class NodeService : RemoteService, INodeService
         }
         catch (Exception)
         {
-            return;
+            // Ignored
         }
     }
 
@@ -55,7 +55,7 @@ public class NodeService : RemoteService, INodeService
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Failed to get node by address: " + ex.Message + Environment.NewLine + ex.StackTrace);
+            Console.WriteLine("Failed to get node by address: " + ex.Message);
             throw;
         }
     }

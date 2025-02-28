@@ -44,10 +44,6 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
                 txtServerUrl?.Focus();
             });
         });
-        
-#if DEBUG
-        this.AttachDevTools();
-#endif
     }
     
     
