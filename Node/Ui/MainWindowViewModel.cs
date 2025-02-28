@@ -48,6 +48,20 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
+    private string _Version = string.Empty;
+    public string Version
+    {
+        get => _Version;
+        set
+        {
+            if (_Version != value)
+            {
+                _Version = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Version)));
+            }
+        }
+    }
+    
     private bool _StartMinimized = false;
 
     public bool StartMinimized

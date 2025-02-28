@@ -37,6 +37,7 @@
                 <TrayIcon.Menu>
                     <NativeMenu>
                         <NativeMenuItem Header="Open" Click="Open" />
+                        <NativeMenuItem Header="Logs" Click="Logs" />
                         <NativeMenuItem Header="Quit" Click="Quit" />
                     </NativeMenu>
                 </TrayIcon.Menu>

@@ -16,14 +16,17 @@
         
                 <Image Stretch="None"  Source="avares://FileFlows.AvaloniaUI/Resources/logo.png" />
                 
-                <TextBlock Margin="0 20 0 0" Name="tbServerUrl">Server</TextBlock>
+                <TextBlock Margin="0 4 0 2" Name="tbVersion" TextAlignment="Center" Text="{Binding Version}"/>
+               
+                
+                <TextBlock Margin="0 20 0 2" Name="tbServerUrl">Server</TextBlock>
                     
                 <TextBox Name="txtServerUrl" IsEnabled="{Binding !ReadOnly}" 
                          Text="{Binding ServerUrl}" 
                          Watermark="e.g http://tower:19200/"/>
                 
                     
-                <TextBlock Margin="0 20 0 0" Name="tbAccessToken">Access Token</TextBlock>
+                <TextBlock Margin="0 20 0 2" Name="tbAccessToken">Access Token</TextBlock>
                    
                 <TextBox Name="txtAccessToken" IsEnabled="{Binding !ReadOnly}" 
                          Text="{Binding AccessToken}"

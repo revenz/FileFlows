@@ -111,6 +111,12 @@ public abstract partial class App : Application
     /// </summary>
     /// <returns>The server URL as a string.</returns>
     protected abstract string GetServerUrl();
+    
+    /// <summary>
+    /// Retrieves the logging directory
+    /// </summary>
+    /// <returns>The logging directory path.</returns>
+    protected abstract string GetLoggingDirectory();
 
     /// <summary>
     /// Opens the specified server URL in the default web browser.
@@ -127,6 +133,29 @@ public abstract partial class App : Application
             Process.Start("open", url);
         else
             Process.Start(new ProcessStartInfo("xdg-open", url));
+    }
+    
+    /// <summary>
+    /// Opens the logging directory in the host's file browser (Explorer, Finder, etc).
+    /// </summary>
+    private void Logs(object? sender, EventArgs e)
+    {
+        string path = GetLoggingDirectory();
+        if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
+            return;
+
+        if (OperatingSystem.IsWindows())
+        {
+            Process.Start(new ProcessStartInfo("explorer", $"/select,{path}") { CreateNoWindow = true });
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            Process.Start("open", path);
+        }
+        else
+        {
+            Process.Start(new ProcessStartInfo("xdg-open", path));
+        }
     }
 
     /// <summary>

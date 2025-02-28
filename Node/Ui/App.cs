@@ -14,4 +14,8 @@ public class App : FileFlows.AvaloniaUi.App
     /// <inheritdoc />
     protected override string GetServerUrl()
         => AppSettings.Instance.ServerUrl;
+
+    /// <inheritdoc />
+    protected override string GetLoggingDirectory()
+        => DirectoryHelper.LoggingDirectory;
 }

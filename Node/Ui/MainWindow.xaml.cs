@@ -35,6 +35,7 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
         ViewModel.ServerUrl = AppSettings.Instance.ServerUrl ?? $"http://{Environment.MachineName}:19200";
         ViewModel.AccessToken = AppSettings.Instance.AccessToken ?? string.Empty;
         ViewModel.StartMinimized = AppSettings.Instance.StartMinimized;
+        ViewModel.Version = Globals.Version;
         
         var txtServerUrl = this.FindControl<TextBox>("txtServerUrl");
         this.Opened += async (_, _) => await Task.Delay(10).ContinueWith(_ =>
