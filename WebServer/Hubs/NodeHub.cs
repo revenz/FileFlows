@@ -1,5 +1,6 @@
 using FileFlows.Shared.Models.SignalAre;
 using Microsoft.AspNetCore.SignalR;
+using NPoco.Expressions;
 using ILogger = FileFlows.Common.ILogger;
 
 namespace FileFlows.WebServer.Hubs;
@@ -34,10 +35,16 @@ public class NodeHub : Hub
     public override async Task OnConnectedAsync()
     {
         var httpContext = Context.GetHttpContext();
-        var accessToken = httpContext?.Request.Headers["Authorization"].ToString()?.Replace("Bearer ", "");
+        var accessToken = string.Empty;
+
+        if (httpContext?.Request.Headers.TryGetValue("Authorization", out var value) == true)
+        {
+            accessToken = value.FirstOrDefault()?.Replace("Bearer ", "") ?? string.Empty;
+        }
+
         var remoteIp = httpContext?.Connection.RemoteIpAddress;
         
-        if (string.IsNullOrEmpty(accessToken) || !ValidateAccessToken(accessToken))
+        if (ValidateAccessToken(accessToken) == false)
         {
             _logger.WLog($"Unauthorized connection attempt from {remoteIp}");
             Context.Abort(); // Reject the connection
@@ -80,19 +87,68 @@ public class NodeHub : Hub
     /// <summary>
     /// Registers a node when it connects.
     /// </summary>
-    /// <param name="hostname">The hostname of the node.</param>
-    /// <param name="currentConfig">the nodes current config</param>
-    public async Task<NodeRegisterResult> RegisterNode(string hostname, int currentConfig)
+    /// <param name="parameters">The register parameters.</param>
+    /// <returns>the result of the registration</returns>
+    public async Task<NodeRegisterResult> RegisterNode(NodeRegisterParameters parameters)
     {
-        _logger.ILog($"Registering node: {hostname}");
-        var node = await GetNode(hostname);
-        if (node == null)
+        _logger.ILog($"Registering node: {parameters.Hostname}");
+        var node = await _nodeService.GetByAddressAsync(parameters.Hostname);
+        if (node != null)
         {
-            _logger.WLog($"Failed to register node: {hostname}");
-            return new NodeRegisterResult() { Success = false };
+            // already exists
+            if(node.Version != parameters.Version) 
+            {
+                node.Architecture = parameters.Architecture;
+                node.OperatingSystem = parameters.OperatingSystem;
+                node.Version = parameters.Version;
+                node.HardwareInfo = parameters.HardwareInfo;
+                node = await _nodeService.Update(node, null);
+            }
         }
-        
-        _nodeService.SetConnectionId(node.Uid, Context.ConnectionId, currentConfig);
+        else
+        {
+            _logger.ILog($"Node {parameters.Hostname} does not exist, registering new node");
+
+            // doesnt exist, register a new node.
+            var variables = await ServiceLoader.Load<VariableService>().GetAllAsync();
+            bool isSystem = parameters.Hostname == CommonVariables.InternalNodeName;
+            node = new ProcessingNode
+            {
+                Name = parameters.Hostname,
+                Address = parameters.Hostname,
+                Architecture = parameters.Architecture,
+                OperatingSystem = parameters.OperatingSystem,
+                Version = parameters.Version,
+                Enabled = isSystem, // default to disabled so they have to configure it first
+                FlowRunners = 1,
+                AllLibraries = ProcessingLibraries.All,
+                Schedule = new string('1', 672)
+            };
+            if(parameters.Mappings?.Any() == true)
+            {
+                var ffmpegTool = variables?.FirstOrDefault(x => x.Name.Equals("ffmpeg", StringComparison.CurrentCultureIgnoreCase));
+                if (ffmpegTool != null)
+                {
+                    // Find and replace the existing ffmpeg mapping if it exists
+                    var index = parameters.Mappings.FindIndex(x => x.Key.Equals("ffmpeg", StringComparison.InvariantCultureIgnoreCase));
+                    if (index >= 0)
+                    {
+                        parameters.Mappings[index] = new KeyValuePair<string, string>(ffmpegTool.Value, parameters.Mappings[index].Value);
+                    }
+                }
+
+                node.Mappings = parameters.Mappings;
+            }
+            else
+            {
+                node.Mappings = variables?.Select(x => new
+                    KeyValuePair<string, string>(x.Value, "")
+                )?.ToList() ?? new();
+            }
+            node = await _nodeService.Update(node, null);
+        }
+            
+        _nodeService.SetConnectionId(node.Uid, Context.ConnectionId, parameters.ConfigRevision);
         _logger.ILog($"Node registered: {node.Name} ({node.Uid})");
         return new NodeRegisterResult()
         {
@@ -108,32 +164,6 @@ public class NodeHub : Hub
     /// </summary>
     public async Task<ConfigurationRevision?> GetConfiguration()
         => await _settingsService.GetCurrentConfiguration();
-    
-    private async Task<ProcessingNode> GetNode(string hostname)
-    {
-        hostname = hostname?.Trim() ?? string.Empty;
-        _logger.DLog($"Fetching node: {hostname}");
-        var node = await _nodeService.GetByAddressAsync(hostname);
-        if (node != null)
-            return node;
-        
-        _logger.ILog($"Node {hostname} does not exist, registering new node");
-        var variables = await ServiceLoader.Load<VariableService>().GetAllAsync();
-        bool isSystem = hostname == CommonVariables.InternalNodeName;
-        node = new ProcessingNode
-        {
-            Name = hostname,
-            Address = hostname,
-            Enabled = isSystem,
-            FlowRunners = 1,
-            AllLibraries = ProcessingLibraries.All,
-            Schedule = new string('1', 672),
-            Mappings = isSystem
-                ? []
-                : variables?.Select(x => new KeyValuePair<string, string>(x.Value, string.Empty)).ToList() ?? []
-        };
-        return await _nodeService.Update(node, null);
-    }
     
     /// <summary>
     /// Unregisters a node when it disconnects.

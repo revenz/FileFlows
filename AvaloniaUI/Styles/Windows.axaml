@@ -1,0 +1,70 @@
+<Styles xmlns="https://github.com/avaloniaui">
+    <!-- BASE BUTTON STYLE (Applies to all buttons) -->
+    <Style Selector="Button">
+        <Setter Property="CornerRadius" Value="6"/> <!-- Win11 Rounded Corners -->
+        <Setter Property="FontWeight" Value="600"/>  
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="Margin" Value="4"/>  
+        <Setter Property="FontSize" Value="{DynamicResource BaseFontSize}" />
+        <Setter Property="BorderThickness" Value="1"/>  
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}"/>  
+        <Setter Property="Background" Value="{DynamicResource DefaultButtonBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource DefaultButtonForeground}" />
+    </Style>
+
+    <!-- DEFAULT BUTTON (SECONDARY) -->
+    <Style Selector="Button:not(.primary)">
+        <Setter Property="Background" Value="{DynamicResource DefaultButtonBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource DefaultButtonForeground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}" />
+    </Style>
+
+    <Style Selector="Button:not(.primary):hover">
+        <Setter Property="Background" Value="{DynamicResource DefaultButtonHover}" />
+    </Style>
+
+    <Style Selector="Button:not(.primary):pressed">
+        <Setter Property="Background" Value="{DynamicResource DefaultButtonPressed}" />
+    </Style>
+
+    <!-- PRIMARY BUTTON (ACCENT) -->
+    <Style Selector="Button.primary">
+        <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" /> 
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColorDark}" /> 
+    </Style>
+
+    <Style Selector="Button.primary:hover">
+        <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight}" />
+    </Style>
+
+    <Style Selector="Button.primary:pressed">
+        <Setter Property="Background" Value="{DynamicResource SystemAccentColorDark}" />
+    </Style>
+    
+    <!-- TextBox -->
+    <Style Selector="TextBox">
+        <Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBoxForeground}" />
+        <Setter Property="CornerRadius" Value="6"/> <!-- Windows 11 Rounder Corners -->
+        <Setter Property="Padding" Value="8,8"/>
+        <Setter Property="FontSize" Value="{DynamicResource BaseFontSize}" />
+        <Setter Property="BorderThickness" Value="2"/>  
+        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorder}" />
+    </Style>
+
+    <!-- Focused TextBox -->
+    <Style Selector="TextBox:focus /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}"/>
+        <Setter Property="BorderThickness" Value="2"/> 
+    </Style>
+
+    <!-- Disabled TextBox -->
+    <Style Selector="TextBox:disabled">
+        <Setter Property="Background" Value="{DynamicResource DisabledBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource DisabledForeground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorder}" />
+    </Style>
+
+</Styles>

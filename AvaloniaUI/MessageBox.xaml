@@ -1,0 +1,18 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FileFlows.AvaloniaUi.MessageBox"
+        Title="{Binding Title}"
+        CanResize="False"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        MinWidth="400"
+        HorizontalAlignment="Stretch"
+>
+        <StackPanel Spacing="10" Margin="20">
+                <TextBlock Name="MessageText" TextWrapping="Wrap" MaxWidth="400"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                        <Button Name="ConfirmButton"/>
+                        <Button Name="CancelButton"/>
+                </StackPanel>
+        </StackPanel>
+</Window>

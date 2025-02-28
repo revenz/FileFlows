@@ -240,7 +240,7 @@ public class Program
     /// <param name="exitCode">the exit code</param>
     internal static void Quit(int exitCode = 0)
     {
-        MainWindow.Instance?.ForceQuit();
+        // MainWindow.Instance?.ForceQuit();
         Environment.Exit(exitCode);
     }
 

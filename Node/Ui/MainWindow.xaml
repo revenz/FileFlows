@@ -1,69 +1,48 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="FileFlows.Node.Ui.MainWindow" 
-        Title="FileFlows Node" Width="600" Height="390"
-		MaxWidth="600" MaxHeight="390"
-		
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="FileFlows.Node.Ui.MainWindow"
+        mc:Ignorable="d" d:DesignWidth="514" d:DesignHeight="393"
+        Width="513" SizeToContent="Height"
         CanResize="False"
-        Foreground="#ff0090"
-        Background="#111214"
-        FontSize="16"
-		Icon="avares://FileFlows.Node/Ui/icon.ico"
-		>
-	<Grid RowDefinitions="Auto,*">
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="Full"
+        Icon="avares://FileFlows.AvaloniaUI/Resources/icon.ico"
+        Title="FileFlows Node">
+    <Grid RowDefinitions="Auto, Auto" Classes="MainWindow">
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="20 10">
+            <StackPanel Orientation="Vertical" Margin="20">
+        
+                <Image Stretch="None"  Source="avares://FileFlows.AvaloniaUI/Resources/logo.png" />
+                
+                <TextBlock Margin="0 20 0 0" Name="tbServerUrl">Server</TextBlock>
+                    
+                <TextBox Name="txtServerUrl" IsEnabled="{Binding !ReadOnly}" 
+                         Text="{Binding ServerUrl}" 
+                         Watermark="e.g http://tower:19200/"/>
+                
+                    
+                <TextBlock Margin="0 20 0 0" Name="tbAccessToken">Access Token</TextBlock>
+                   
+                <TextBox Name="txtAccessToken" IsEnabled="{Binding !ReadOnly}" 
+                         Text="{Binding AccessToken}"
+                         Watermark="Optional Access Token" />
 
-		<!-- Title bar -->
-		<Grid IsVisible="{Binding CustomTitle}" Height="30" ColumnDefinitions="Auto, *,Auto,Auto" IsHitTestVisible="True" Background="Transparent">
-			<Image      Grid.Column="0" VerticalAlignment="Center" Source="avares://FileFlows.Node/Ui/icon.ico" Width="40" Margin="0,4,0,0" ></Image>
-			<TextBlock  Grid.Column="1" VerticalAlignment="Center" FontSize="16" Text="FileFlows Node"></TextBlock>
-			
-			<Button Grid.Column="2" Margin="0" Content="🗕" Command="{Binding Hide}" Width="60"
-			        Foreground="#eee" Background="Transparent" BorderBrush="Transparent"
-			/>
-			<Button Grid.Column="3" Margin="0" Content="✕" Command="{Binding Quit}" Width="60"
-		        Foreground="#eee" Background="Transparent" BorderBrush="Transparent" />
-		</Grid>
-		<StackPanel Grid.Row="1" Margin="10">
-			<Image Source="avares://FileFlows.Node/Ui/icon.ico" Width="100" />
-
-			<TextBlock Margin="6" Text="{Binding Version}" TextAlignment="Center" />
-			
-			<Grid ColumnDefinitions="140,4*" RowDefinitions="Auto,Auto,Auto,40,40,Auto"  Margin="4">
-				<TextBlock Text="Server:" Grid.Row="0" Grid.Column="0" Margin="5 13 5 5" TextAlignment="Right" />
-				
-				<DockPanel Grid.Row="0" Grid.Column="1"  Margin="5" HorizontalAlignment="Stretch">
-					<TextBox Text="{Binding ServerUrl}" Watermark="Server Address" Foreground="white" IsEnabled="{Binding Enabled}"
-					         Margin="0"  Height="38" Padding="7" Width="350" VerticalAlignment="Center"  />
-					
-					<Button Margin="0" Content="OPEN" Command="{Binding Launch}" Width="70" IsEnabled="{Binding Enabled}"
-					        Grid.Row="4" Grid.Column="1"
-					        Foreground="#ff0090" Background="#111214"
-					        BorderBrush="#ff0090"
-					/>
-				</DockPanel>
-				
-				<TextBlock Text="Access Token:" Grid.Row="1" Grid.Column="0" Margin="5 13 5 5" TextAlignment="Right" />
-				<TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"  Text="{Binding AccessToken}" Watermark="Required if using user security" Foreground="white" 
-				                     Margin="0"  Height="38" Padding="7" Width="420" VerticalAlignment="Center"  IsEnabled="{Binding Enabled}" />
-				
-				<ToggleSwitch Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
-				              IsVisible="{Binding ShowStartMinimized}" 
-				              IsChecked="{Binding StartMinimized}" 
-				              Margin="5 5 5 5" HorizontalAlignment="Center" 
-				              OffContent="Start Minimised" OnContent="Start Minimised"  IsEnabled="{Binding Enabled}" />
-				
-				<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
-					<Button Margin="6" Content="SAVE / REGISTER" Command="{Binding SaveRegister}"
-					        Foreground="#ff0090" Background="#111214" Width="180"
-					        BorderBrush="#ff0090"  IsEnabled="{Binding Enabled}"
-					/>
-					<Button Margin="6" Content="LOGS" Command="{Binding OpenLogs}"
-					        Foreground="#ff0090" Background="#111214" Width="180"
-					        BorderBrush="#ff0090"  IsEnabled="{Binding Enabled}"
-					/>
-				</StackPanel>
-			</Grid>
-			
-		</StackPanel>
-	</Grid>
+                   
+                <ToggleSwitch Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" 
+                              IsVisible="{Binding ShowStartMinimized}" 
+                              IsChecked="{Binding StartMinimized}" 
+                              Margin="0 10 0 0" HorizontalAlignment="Center" 
+                              OffContent="Start Minimized" OnContent="Start Minimized"  
+                              IsEnabled="{Binding Enabled}" />
+            </StackPanel>
+            <Panel>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                  <Button Classes="primary" IsEnabled="{Binding !ReadOnly}" Name="btnRegister" Click="Register_OnClick" IsDefault="True">Save</Button>
+                  <Button IsEnabled="{Binding !ReadOnly}" Name="btnClose" Click="Close_OnClick">Close</Button>
+              </StackPanel>
+            </Panel>
+        </StackPanel>
+    </Grid>
 </Window>

@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validators", "Validators\Va
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeClient", "NodeClient\NodeClient.csproj", "{7132E1F8-0D9C-4317-8D77-A6081194224F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaUI", "AvaloniaUI\AvaloniaUI.csproj", "{800A38FB-8DC8-4F8C-8A74-87796ABB6408}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{800A38FB-8DC8-4F8C-8A74-87796ABB6408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{800A38FB-8DC8-4F8C-8A74-87796ABB6408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{800A38FB-8DC8-4F8C-8A74-87796ABB6408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{800A38FB-8DC8-4F8C-8A74-87796ABB6408}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

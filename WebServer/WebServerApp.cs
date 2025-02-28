@@ -311,14 +311,18 @@ public class WebServerApp
         //var nodeManagerService = ServiceLoader.Load<NodeManagerService>();
         ServiceLoader.AddSpecialCase<INodeHubService>(new NodeHubBridge(_nodeHub));
 
-        var client = new Client($"ws://localhost:{Port}", CommonVariables.InternalNodeName, 
-            NodeHub.InternalAccessToken, Logger.Instance);
-        _ =  client.StartAsync();
+        // var client = new Client(new ()
+        //     {
+        //         ServerUrl =$"ws://localhost:{Port}",
+        //         Hostname = CommonVariables.InternalNodeName,
+        //         AccessToken = NodeHub.InternalAccessToken
+        //     }, Logger.Instance);
+        // _ =  client.StartAsync();
         // just to start up the file queue service
         _ = ServiceLoader.Load<FileQueueService>();
         
         task.Wait();
-        client.StopAsync().Wait();
+        //client.StopAsync().Wait();
         Logger.Instance.ILog("Finished running FileFlows Server");
         WorkerManager.StopWorkers();
     }

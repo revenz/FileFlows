@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using FileFlows.Node.Ui;
+using FileFlows.NodeClient;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared;
 using FileFlows.ServerShared.Helpers;
@@ -23,6 +24,11 @@ namespace FileFlows.Node;
 /// </summary>
 public class NodeManager
 {
+    /// <summary>
+    /// The node client
+    /// </summary>
+    private Client? _client;
+    
     /// <summary>
     /// Gets or sets if this node is registered
     /// </summary>
@@ -50,13 +56,16 @@ public class NodeManager
     private void StartWorkers()
     {
         Shared.Logger.Instance?.ILog("Starting workers");
+
+        _ = Register();
+        
         var updater = new NodeUpdater();
         
         if (updater.RunCheck())
             return;
 
-        var nodeVersion = Globals.Version;
-        var nodeVersionVersion = new Version(nodeVersion);
+        //var nodeVersion = Globals.Version;
+        //var nodeVersionVersion = new Version(nodeVersion);
 
         // var flowWorker = new FlowWorker(AppSettings.Instance.HostName)
         // {
@@ -119,8 +128,6 @@ public class NodeManager
             //new SystemStatisticsWorker(),
             new ConfigCleaner()
         );
-
-        // new NodeClient.Client(AppSettings.Instance.ServerUrl, AppSettings.Instance.HostName);
     }
 
     
@@ -130,54 +137,29 @@ public class NodeManager
     /// <returns>whether it was registered</returns>
     public async Task<(bool Success, string Message)> Register()
     {
-        string path = DirectoryHelper.BaseDirectory;
-
-        bool windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-
-        List<RegisterModelMapping> mappings = new List<RegisterModelMapping>
-            {
-                new()
-                {
-                    Server = "ffmpeg",
-                    Local =  Globals.IsDocker ? "/usr/local/bin/ffmpeg" :
-                             windows ? Path.Combine(path, "Tools", "ffmpeg.exe") : "/usr/local/bin/ffmpeg"
-                }
-            };
-        if (AppSettings.EnvironmentalMappings?.Any() == true)
-        {
-            Logger.Instance.ILog("Environmental mappings found, adding those");
-            mappings.AddRange(AppSettings.EnvironmentalMappings);
-        }
-
-        string tempPath =  AppSettings.ForcedTempPath?.EmptyAsNull() ?? (Globals.IsDocker ? "/temp" : Path.Combine(DirectoryHelper.BaseDirectory, "Temp"));
-
         var settings = AppSettings.Instance;
         if (string.IsNullOrEmpty(settings.ServerUrl))
             return (false, "Server URL not set");
+
+        _client?.Dispose();
+
+        _client = new(new()
+        {
+            ServerUrl = AppSettings.Instance.ServerUrl,
+            Hostname = AppSettings.Instance.HostName,
+            AccessToken = AppSettings.Instance.AccessToken,
+            ForcedTempPath = AppSettings.ForcedTempPath,
+            EnvironmentalMappings = AppSettings.EnvironmentalMappings
+        }, Logger.Instance!);
+        
         
         RemoteService.AccessToken = settings.AccessToken;
-        HardwareInfo? hardwareInfo = null;
-        try
-        {
-            hardwareInfo = ServiceLoader.Load<HardwareInfoService>().GetHardwareInfo();
-            Logger.Instance?.ILog("Hardware Info: " + Environment.NewLine + hardwareInfo);
-        }
-        catch(Exception ex)
-        {
-            Logger.Instance?.ELog("Failed to get hardware info: " + ex.Message);
-        }
-
         
-        var nodeService = ServiceLoader.Load<INodeService>();
-        Shared.Models.ProcessingNode? result;
         try
         {
-            result = await nodeService.Register(settings.ServerUrl, settings.HostName, tempPath, mappings, hardwareInfo);
-            if (result == null)
-            {
-                this.Registered = false;
+            await _client.StartAsync();
+            if(_client.IsRegistered == false)
                 return (false, "Failed to register");
-            }
         }
         catch (TaskCanceledException ex)
         {
@@ -194,14 +176,14 @@ public class NodeManager
             return (false, ex.Message);
         }
 
-        if(result.Uid != CommonVariables.InternalNodeUid) // internal node uid is already set elsewhere to a unique UID for security
-            RemoteService.NodeUid = result.Uid;
+        if(_client.NodeUid! != CommonVariables.InternalNodeUid) // internal node uid is already set elsewhere to a unique UID for security
+            RemoteService.NodeUid = _client.NodeUid!.Value;
+        
         RemoteService.ServiceBaseUrl = settings.ServerUrl;
         if (RemoteService.ServiceBaseUrl.EndsWith('/'))
             RemoteService.ServiceBaseUrl = RemoteService.ServiceBaseUrl[..^1];
 
         Logger.Instance?.ILog("Successfully registered node");
-
 
         settings.Save();
         this.Registered = true;
