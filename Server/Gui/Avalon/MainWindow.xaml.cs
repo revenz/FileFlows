@@ -124,7 +124,9 @@ public class MainWindowViewModel
     {
         AppSettingsService = ServiceLoader.Load<AppSettingsService>();
         this.Window = window;
-        this.ServerUrl = $"http://{Environment.MachineName.ToLower()}:{WebServerApp.Port}/";
-        this.Version = "FileFlows Version: " + Globals.Version;
+        this.ServerUrl = WebServerApp.ServerUrl.ToLowerInvariant().StartsWith("https")
+            ? $"https://{Environment.MachineName.ToLower()}:{WebServerApp.Port}/"
+            : $"http://{Environment.MachineName.ToLower()}:{WebServerApp.Port}/";
+        this.Version = Globals.Version;
     }
 }

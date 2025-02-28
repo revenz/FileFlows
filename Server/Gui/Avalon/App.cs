@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using FileFlows.WebServer;
 
 namespace FileFlows.Server.Gui.Avalon;
 
@@ -14,7 +15,9 @@ public class App : FileFlows.AvaloniaUi.App
 
     /// <inheritdoc />
     protected override string GetServerUrl()
-        => WebServer.WebServerApp.ServerUrl;
+        => WebServerApp.ServerUrl.ToLowerInvariant().StartsWith("https")
+            ? $"https://{Environment.MachineName.ToLower()}:{WebServerApp.Port}/"
+            : $"http://{Environment.MachineName.ToLower()}:{WebServerApp.Port}/";
 
     /// <inheritdoc />
     protected override string GetLoggingDirectory()
