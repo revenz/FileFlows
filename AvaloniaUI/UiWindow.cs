@@ -38,9 +38,17 @@ public abstract class UiWindow : Window
         Hide(); // Hide the window
     }
 
+    /// <summary>
+    /// Dont prompt with confirm quit mesage
+    /// </summary>
+    protected virtual bool DontPromptOnQuit => false;
+
 
     protected override void OnClosing(WindowClosingEventArgs e)
     {
+        if (DontPromptOnQuit)
+            return;
+        
         e.Cancel = true;
         _ = Task.Run(async () =>
         {

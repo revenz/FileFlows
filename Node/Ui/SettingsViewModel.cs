@@ -2,14 +2,8 @@ using FileFlows.NodeClient;
 
 namespace FileFlows.Node.Ui;
 
-public class MainWindowViewModel : INotifyPropertyChanged
+public class SettingsViewModel : INotifyPropertyChanged
 {
-    private MainWindow Window { get; init; }
-    public MainWindowViewModel(MainWindow window)
-    {
-        this.Window = window;
-    }
-    
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private string _ServerUrl = string.Empty;
@@ -25,63 +19,35 @@ public class MainWindowViewModel : INotifyPropertyChanged
             }
         }
     }
-
-    private string _Version = string.Empty;
-    public string Version
+    private string _AccessToken = string.Empty;
+    public string AccessToken
     {
-        get => _Version;
+        get => _AccessToken;
         set
         {
-            if (_Version != value)
+            if (_AccessToken != value)
             {
-                _Version = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Version)));
+                _AccessToken = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AccessToken)));
             }
         }
     }
     
-    private ConnectionState _ConnectionState;
-    public ConnectionState ConnectionState
+    private bool _StartMinimized = false;
+
+    public bool StartMinimized
     {
-        get => _ConnectionState;
+        get => _StartMinimized;
         set
         {
-            if (_ConnectionState != value)
+            if (_StartMinimized != value)
             {
-                _ConnectionState = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ConnectionState)));
+                _StartMinimized = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartMinimized)));
             }
         }
     }
 
-    public int _ActiveRunners;
-
-    public int ActiveRunners
-    {
-        get => _ActiveRunners;
-        set
-        {
-            if (_ActiveRunners != value)
-            {
-                _ActiveRunners = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ActiveRunners)));
-            }
-        }
-    }
-
-    private string _ConnectionText = string.Empty;
-    public string ConnectionText
-    {
-        get => _ConnectionText;
-        set
-        {
-            if (_ConnectionText != value)
-            {
-                _ConnectionText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ConnectionText)));
-            }
-        }
-    }
     
     public Result<bool> Validate()
     {

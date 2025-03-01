@@ -12,6 +12,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using FileFlows.NodeClient;
 using FileFlows.RemoteServices;
+using Logger = FileFlows.ScriptExecution.Logger;
 
 namespace FileFlows.Node.Ui;
 
@@ -32,8 +33,6 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
         InitializeComponent();
 
         ViewModel.ServerUrl = AppSettings.Instance.ServerUrl ?? $"http://{Environment.MachineName}:19200";
-        ViewModel.AccessToken = AppSettings.Instance.AccessToken ?? string.Empty;
-        ViewModel.StartMinimized = AppSettings.Instance.StartMinimized;
         ViewModel.Version = Globals.Version;
         ViewModel.ConnectionState = Program.Manager!.CurrentStete;
         ViewModel.ConnectionText = Program.Manager!.CurrentStete.ToString();
@@ -63,7 +62,6 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
         ViewModel.ConnectionText = state.ToString();
     }
 
-
     protected void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
@@ -72,36 +70,26 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
     private void Close_OnClick(object? sender, RoutedEventArgs e)
         => this.Close();
 
-
-    private void Register_OnClick(object? sender, RoutedEventArgs e)
+    private void Settings_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (ViewModel.Validate().Failed(out var error))
-        {
-            _ = Message("Error", error);
-            return;
-        }
-        
-        AppSettings.Instance.ServerUrl = ViewModel.ServerUrl.Trim();
-        AppSettings.Instance.StartMinimized = ViewModel.StartMinimized;
-        AppSettings.Instance.AccessToken = ViewModel.AccessToken.Trim();
-        AppSettings.Instance.Save();
-
         IsEnabled = false;
-
-        Task.Run(async () =>
+        Dispatcher.UIThread.InvokeAsync(async () =>
         {
             try
             {
-                var result = await Program.Manager!.Register();
-                if (result.Success == false)
-                    await Message("Failed", result.Message);
+                var settingsWindow =
+                    new SettingsWindow();
+                await settingsWindow.ShowDialogAsync(this);
             }
             catch (Exception ex)
             {
-                await Message("Failed", ex.Message);
+                Console.WriteLine("Exception caught in Dispatcher.UIThread: " + ex.Message);
             }
-
-            await Dispatcher.UIThread.InvokeAsync(() => { IsEnabled = true; });
+            finally
+            {
+                await Dispatcher.UIThread.InvokeAsync(() => { IsEnabled = true; });
+            }
         });
+        
     }
 }
