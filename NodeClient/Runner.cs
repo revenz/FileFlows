@@ -88,7 +88,7 @@ public class Runner
         var cfgService = ServiceLoader.Load<ConfigurationService>();
 
         var libFile = _args.LibraryFile;
-
+        
         bool windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         bool isServer = _node.Uid == CommonVariables.InternalNodeUid;
         var node2 = _node;

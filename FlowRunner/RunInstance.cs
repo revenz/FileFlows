@@ -211,6 +211,17 @@ public class RunInstance
             return (true, false); // nothing to process
         }
 
+        // clear some data that may have existed
+        libFile.ExecutedNodes = [];
+        libFile.NodeName = node.Name;
+        libFile.NodeUid = node.Uid;
+        libFile.Node = new()
+        {
+            Name = node.Name,
+            Uid = node.Uid,
+            Type = node.GetType().FullName!
+        };
+        
         // string workingFile = node.Map(libFile.Name);
         string workingFile = libFile.Name;
 
