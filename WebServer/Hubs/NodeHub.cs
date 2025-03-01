@@ -61,8 +61,10 @@ public class NodeHub : Hub
     /// <param name="info">The node status information.</param>
     public void UpdateNodeStatus(NodeService.OnlineNodeInfo info)
     {
-        _logger.DLog($"Updating node status: {info?.NodeUid}");
-        _nodeService.UpdateNodeStatus(info);
+        if (info == null)
+            return;
+        _logger.DLog($"Updating node status: {info.NodeUid}");
+        _nodeService.UpdateNodeStatusFromNode(info);
     }
     
     /// <summary>
@@ -148,8 +150,9 @@ public class NodeHub : Hub
             }
             node = await _nodeService.Update(node, null);
         }
-            
-        _nodeService.SetConnectionId(node.Uid, Context.ConnectionId, parameters.ConfigRevision);
+
+        _nodeService.SetConnectionId(node.Uid, Context.ConnectionId, parameters.ConfigRevision, node.Enabled,
+            node.FlowRunners);
         _logger.ILog($"Node registered: {node.Name} ({node.Uid})");
         return new NodeRegisterResult()
         {
