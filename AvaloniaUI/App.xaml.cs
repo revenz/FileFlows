@@ -54,7 +54,7 @@ public abstract partial class App : Application
     {
         string stylePath = "avares://FileFlows.AvaloniaUI/Styles/Gnome.axaml"; // Fallback
 
-        if ( RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             stylePath = "avares://FileFlows.AvaloniaUI/Styles/Windows.axaml";
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && SystemHelper.IsGnome)
             stylePath = "avares://FileFlows.AvaloniaUI/Styles/Gnome.axaml";
@@ -93,17 +93,14 @@ public abstract partial class App : Application
 
             // Immediately apply the theme
             UpdateTheme(mainWindow.ActualThemeVariant);
-            mainWindow.ActualThemeVariantChanged += (_, _) =>
-            {
-                UpdateTheme(mainWindow.ActualThemeVariant);
-            };
+            mainWindow.ActualThemeVariantChanged += (_, _) => { UpdateTheme(mainWindow.ActualThemeVariant); };
 
             // Check if the app should start minimized and hidden
             if (GetInitialStartMinimized())
             {
                 // Ensure the window is created minimized and hidden before it's displayed
                 mainWindow.WindowState = WindowState.Minimized;
-            
+
                 // Post to the UI thread after framework initialization is complete
                 Avalonia.Threading.Dispatcher.UIThread.Post(() =>
                 {
@@ -127,13 +124,13 @@ public abstract partial class App : Application
     /// </summary>
     /// <returns>A new instance of the main window.</returns>
     protected abstract Window CreateMainWindow();
-    
+
     /// <summary>
     /// Retrieves the FileFlows server URL used to open a browser to this location
     /// </summary>
     /// <returns>The server URL as a string.</returns>
     protected abstract string GetServerUrl();
-    
+
     /// <summary>
     /// Retrieves the logging directory
     /// </summary>
@@ -184,6 +181,21 @@ public abstract partial class App : Application
             }
         }
     }
+
+    /// <summary>
+    /// The shows the window
+    /// </summary>
+    /// <param name="sender">the sender</param>
+    /// <param name="e">the event</param>
+    private void ShowWindow(object? sender, EventArgs e)
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop)
+        {
+            desktop.MainWindow.Show();
+            desktop.MainWindow.WindowState = WindowState.Normal;
+        }
+    }
+
 
     /// <summary>
     /// Opens the logging directory in the host's file browser (Explorer, Finder, etc).

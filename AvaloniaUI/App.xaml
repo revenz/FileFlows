@@ -36,9 +36,9 @@
                       ToolTipText="FileFlows" Clicked="TrayIcon_OnClicked">
                 <TrayIcon.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="Open Web Console" Click="Open" />
+                        <NativeMenuItem Header="Show Window" Click="ShowWindow" />
                         <NativeMenuItemSeparator />
-                        <NativeMenuItem Header="Show Window" Click="TrayIcon_OnClicked" />
+                        <NativeMenuItem Header="Open Web Console" Click="Open" />
                         <NativeMenuItem Header="Open Logging Directory" Click="Logs" />
                         <NativeMenuItemSeparator />
                         <NativeMenuItem Header="Exit Application" Command="{Binding ExitCommand}" />
