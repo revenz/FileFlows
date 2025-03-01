@@ -63,7 +63,7 @@ public partial class Client : IDisposable
             .WithAutomaticReconnect(_retryPolicyLoop) // Custom retry policy
             .Build();
 
-        _connection.On<RunFileArguments, Task<bool>>("ClientProcessFile", HandleClientProcessFile);
+        _connection.On<RunFileArguments, bool>("ClientProcessFile", HandleClientProcessFile);
         _connection.On<ProcessingNode>("NodeUpdated", UpdateNode);
         _connection.On<ConfigurationRevision>("ConfigUpdated", UpdateConfiguration);
 
@@ -150,7 +150,7 @@ public partial class Client : IDisposable
             .WithAutomaticReconnect(_retryPolicyLoop) // Custom retry policy
             .Build();
 
-        _connection.On<RunFileArguments, Task<bool>>("ClientProcessFile", HandleClientProcessFile);
+        _connection.On<RunFileArguments, bool>("ClientProcessFile", HandleClientProcessFile);
         _connection.On<ProcessingNode>("NodeUpdated", UpdateNode);
         _connection.On<ConfigurationRevision>("ConfigUpdated", UpdateConfiguration);
 

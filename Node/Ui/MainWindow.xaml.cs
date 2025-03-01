@@ -47,6 +47,10 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
                 txtServerUrl?.Focus();
             });
         });
+        EventManager.Subscribe(EventNames.RUNNERS_UPDATED, (int runners) =>
+        {
+            ViewModel.ActiveRunners = runners;
+        });
     }
 
     /// <summary>

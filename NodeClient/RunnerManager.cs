@@ -55,6 +55,7 @@ public class RunnerManager
             if (_activeRunners.TryAdd(runner.Id, runner))
             {
                 runner.Start();
+                EventManager.Broadcast(EventNames.RUNNERS_UPDATED,  _activeRunners.Count);
                 return true;
             }
             return false;
@@ -95,6 +96,7 @@ public class RunnerManager
     private void OnRunnerCompleted(Guid runnerId)
     {
         _activeRunners.TryRemove(runnerId, out _);
+        EventManager.Broadcast(EventNames.RUNNERS_UPDATED,  _activeRunners.Count);
     }
 
     /// <summary>

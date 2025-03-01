@@ -82,6 +82,21 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
+    public int _ActiveRunners;
+
+    public int ActiveRunners
+    {
+        get => _ActiveRunners;
+        set
+        {
+            if (_ActiveRunners != value)
+            {
+                _ActiveRunners = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ActiveRunners)));
+            }
+        }
+    }
+
     private string _ConnectionText = string.Empty;
     public string ConnectionText
     {
