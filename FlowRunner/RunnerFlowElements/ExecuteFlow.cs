@@ -160,6 +160,7 @@ public class ExecuteFlow : Node
                 if (LogFlowPart(part))
                 {
                     args.Logger?.ILog(new string('=', 70));
+                    Runner.Info.LibraryFile.ExecutedNodes ??= new();
                     args.Logger?.ILog(
                         $"Executing Flow Element {(Runner.Info.LibraryFile.ExecutedNodes.Count + 1)}: {part.Label?.EmptyAsNull() ?? part.Name?.EmptyAsNull() ?? currentFlowElement.Name} [{currentFlowElement.GetType().FullName}]");
                     args.Logger?.ILog(new string('=', 70));
