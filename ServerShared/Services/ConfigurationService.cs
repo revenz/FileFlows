@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using FileFlows.Shared.Models;
 
@@ -22,21 +23,47 @@ public class ConfigurationService
     bool CurrentConfigurationKeepFailedFlowFiles { get; set; }
 
     /// <summary>
-    /// Gets if the config encryption key 
+    /// Constructs a new instance of the configuration service
     /// </summary>
-    /// <returns>the configuration encryption key</returns>
-    public string GetConfigKey(ProcessingNode node)
+    public ConfigurationService()
     {
-        var key = Environment.GetEnvironmentVariable("FF_ENCRYPT");
-        if (string.IsNullOrWhiteSpace(key) == false)
-            return key;
-        key = node?.GetVariable("FF_ENCRYPT");
-        
-        if (string.IsNullOrWhiteSpace(key) == false)
-            return key;
-        
-        return _configKeyDefault;
+        LoadPreviousConfig();
     }
+
+    void LoadPreviousConfig()
+    {
+        if (Directory.Exists(DirectoryHelper.ConfigDirectory) == false)
+            return;
+
+        var path = new DirectoryInfo(DirectoryHelper.ConfigDirectory).GetDirectories(
+            ).Where(x => Regex.IsMatch(x.Name, "^[\\d]+$"))
+            .OrderByDescending(x => int.TryParse(x.Name, out var value) ? value : 0)
+            .FirstOrDefault();
+        if (path == null)
+            return;
+        
+        try
+        {
+            string cfgFile = Path.Combine(path.FullName, "config.json");
+            if (File.Exists(cfgFile) == false)
+                return;
+
+            var cfgJson = Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1"
+                ? File.ReadAllText(cfgFile)
+                : ConfigEncrypter.DecryptConfig(cfgFile);
+
+            CurrentConfig = JsonSerializer.Deserialize<ConfigurationRevision>(cfgJson);
+            Logger.Instance?.ILog("Loading configuration from disk: " + path.Name);
+        }
+        catch (Exception ex)
+        {
+            // Ignored
+            Logger.Instance?.WLog("Failed to load previous config: " + ex.Message);
+            path.Delete(true);
+
+        }
+    }
+
 
     /// <summary>
     /// Gets the configuration directory
@@ -210,7 +237,7 @@ public class ConfigurationService
             });
 
             string cfgFile = Path.Combine(dir, "config.json");
-            if (GetConfigNoEncrypt(node))
+            if (Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1")
             {
                 Logger.Instance?.DLog("Configuration set to no encryption, saving as plain text");
                 await File.WriteAllTextAsync(cfgFile, json);
@@ -218,7 +245,7 @@ public class ConfigurationService
             else
             {
                 Logger.Instance?.DLog("Saving encrypted configuration");
-                ConfigEncrypter.Save(json, GetConfigKey(node), cfgFile);
+                ConfigEncrypter.EncryptConfig(json, cfgFile);
             }
 
             if (Globals.IsDocker)
@@ -242,21 +269,6 @@ public class ConfigurationService
         {
             _updateConfigSemaphore.Release();
         }
-    }
-
-    
-    /// <summary>
-    /// Gets if the config should not be encrypted
-    /// </summary>
-    /// <returns>true if the configuration should NOT be encrypted</returns>
-    public bool GetConfigNoEncrypt(ProcessingNode node)
-    {
-        if (Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1")
-            return true;
-        if (node?.GetVariable("FF_NO_ENCRYPT") == "1")
-            return true;
-        
-        return false;
     }
     
     /// <summary>

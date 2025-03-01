@@ -91,20 +91,16 @@ public class RunInstance
                 throw new Exception("Configuration file doesnt exist: " + cfgFile);
             LogInfo("Configuration File: " + cfgFile);
 
-            string cfgKey = parameters.ConfigKey;
-            if (string.IsNullOrEmpty(cfgKey))
-                throw new Exception("Configuration Key not set");
-            bool noEncrypt = cfgKey == "NO_ENCRYPT";
             string cfgJson;
-            if (noEncrypt)
+            if (Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1")
             {
                 LogInfo("No Encryption for Node configuration");
                 cfgJson = File.ReadAllText(cfgFile);
             }
             else
             {
-                LogInfo("Using configuration encryption key: " + cfgKey);
-                cfgJson = ConfigDecrypter.DecryptConfig(cfgFile, cfgKey);
+                LogInfo("Loading encrypted config");
+                cfgJson = ConfigEncrypter.DecryptConfig(cfgFile);
             }
 
             var config = JsonSerializer.Deserialize<ConfigurationRevision>(cfgJson);

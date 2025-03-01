@@ -99,8 +99,6 @@ public class Runner
         runnerParameters.LibraryFile = libFile.Uid;
         runnerParameters.TempPath = _tempPath;
         runnerParameters.ConfigPath = cfgService.GetConfigurationDirectory();
-        runnerParameters.ConfigKey =
-            cfgService.GetConfigNoEncrypt(node2) ? "NO_ENCRYPT" : cfgService.GetConfigKey(node2);
         runnerParameters.BaseUrl = RemoteService.ServiceBaseUrl;
         runnerParameters.AccessToken = RemoteService.AccessToken;
         runnerParameters.RemoteNodeUid = RemoteService.NodeUid;

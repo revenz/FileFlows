@@ -30,10 +30,6 @@ public class RunnerParameters
     /// </summary>
     public string ConfigPath { get; set; } = null!;
     /// <summary>
-    /// Gets or sets the configuration encryption key
-    /// </summary>
-    public string ConfigKey { get; set; } = null!;
-    /// <summary>
     /// Gets or sets the base URL for the FileFlows server
     /// </summary>
     public string BaseUrl { get; set; } = null!;
