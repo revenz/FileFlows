@@ -6,7 +6,6 @@
         mc:Ignorable="d" d:DesignWidth="514" d:DesignHeight="393"
         Width="513" SizeToContent="Height"
         CanResize="False"
-        WindowStartupLocation="CenterScreen"
         SystemDecorations="Full"
         Icon="avares://FileFlows.AvaloniaUI/Resources/icon.ico"
         Title="FileFlows">
@@ -19,10 +18,9 @@
 
 
 				<TextBlock Margin="0 20 0 2" Name="tbServerUrl">Server</TextBlock>
+				
 				<TextBox Name="txtServerUrl" IsEnabled="{Binding !ReadOnly}" 
 				         Text="{Binding ServerUrl}" IsReadOnly="True" />
-
-
                    
 				<ToggleSwitch Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" 
 				              IsVisible="{Binding ShowStartMinimized}" 
@@ -34,7 +32,7 @@
 			</StackPanel>
 			<Panel>
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-					<Button IsEnabled="{Binding !ReadOnly}" Name="btnClose">Close</Button>
+					<Button IsEnabled="{Binding !ReadOnly}" Name="btnOpen" Click="BtnOpen_OnClick">Open</Button>
 				</StackPanel>
 			</Panel>
 		</StackPanel>

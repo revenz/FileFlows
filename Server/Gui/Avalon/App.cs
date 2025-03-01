@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using FileFlows.Services;
 using FileFlows.WebServer;
 
 namespace FileFlows.Server.Gui.Avalon;
@@ -26,4 +27,8 @@ public class App : FileFlows.AvaloniaUi.App
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
         =>  AppBuilder.Configure<App>().UsePlatformDetect();
+
+    /// <inheritdoc />
+    protected override bool GetInitialStartMinimized()
+        => ServiceLoader.Load<AppSettingsService>().Settings.StartMinimized;
 }

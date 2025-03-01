@@ -26,11 +26,8 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
     public MainWindow()
     {
         ViewModel = new MainWindowViewModel(this);
-        this.WindowState = WindowState.Normal;
-        this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         base.DataContext = ViewModel;
         InitializeComponent();
-
 
         ViewModel.ServerUrl = AppSettings.Instance.ServerUrl ?? $"http://{Environment.MachineName}:19200";
         ViewModel.AccessToken = AppSettings.Instance.AccessToken ?? string.Empty;
@@ -52,19 +49,9 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
     {
         AvaloniaXamlLoader.Load(this);
     }
-
-    /// <summary>
-    /// Quit the application
-    /// </summary>
-    public async void Quit()
-    {
-        if (await Confirm("Confirm Exit", "Are you sure you want to quit?") == false)
-             return;
-        _ = Dispatcher.UIThread.InvokeAsync(this.Close);
-    }
     
     private void Close_OnClick(object? sender, RoutedEventArgs e)
-        => Quit();
+        => this.Close();
 
 
     private void Register_OnClick(object? sender, RoutedEventArgs e)

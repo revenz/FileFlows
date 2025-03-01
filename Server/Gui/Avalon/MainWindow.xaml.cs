@@ -1,17 +1,13 @@
+using Avalonia.Interactivity;
 using FileFlows.AvaloniaUi;
 using FileFlows.Services;
 using FileFlows.WebServer;
-
-namespace FileFlows.Server.Gui.Avalon;
-
-using System.ComponentModel;
 using System.Diagnostics;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using System.Runtime.InteropServices;
-using Avalonia;
-using Avalonia.Platform;
-using Avalonia.Controls.ApplicationLifetimes;
+
+namespace FileFlows.Server.Gui.Avalon;
 
 /// <summary>
 /// Main window for Server application
@@ -30,22 +26,6 @@ public class MainWindow : UiWindow
         DataContext = dc;
     }
 
-
-
-    protected override void OnClosing(WindowClosingEventArgs e)
-    {
-        e.Cancel = true;
-        _ = Task.Run(async () =>
-        {
-            if(await Confirm("Quit", "Are you sure you want to quit?"))
-            {
-                if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
-                {
-                    lifetime.Shutdown();
-                }
-            }
-        });
-    }
 
     private void InitializeComponent()
     {
@@ -67,6 +47,14 @@ public class MainWindow : UiWindow
             Process.Start(new ProcessStartInfo("xdg-open", url));
     }
 
+
+    /// <summary>
+    /// The open button was clicked
+    /// </summary>
+    /// <param name="sender">the sender</param>
+    /// <param name="e">the event</param>
+    private void BtnOpen_OnClick(object? sender, RoutedEventArgs e)
+        => Launch();
 
     /// <summary>
     /// Quit the application
@@ -112,11 +100,6 @@ public class MainWindowViewModel
             }
         } 
     }
-
-    public void Launch() => Window.Launch();
-    public void Quit() => Window.Quit();
-
-    public void Hide() => Window.Minimize();
 
     private AppSettingsService AppSettingsService;
 

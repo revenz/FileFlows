@@ -1,4 +1,7 @@
+using System.Data;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 
 namespace FileFlows.AvaloniaUi;
@@ -8,6 +11,50 @@ namespace FileFlows.AvaloniaUi;
 /// </summary>
 public abstract class UiWindow : Window
 {
+    public UiWindow()
+    {
+        this.PropertyChanged += OnPropertyChanged;
+    }
+
+    /// <summary>
+    /// Called when a property changed
+    /// </summary>
+    /// <param name="sender">the sener</param>
+    /// <param name="e">the event</param>
+    private void OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        // Check if the WindowState has changed to Minimized
+        if (e.Property == Window.WindowStateProperty && (WindowState == WindowState.Minimized))
+        {
+            HideWindow();
+        }
+    }
+
+    /// <summary>
+    /// Hides the window
+    /// </summary>
+    protected void HideWindow()
+    {
+        Hide(); // Hide the window
+    }
+
+
+    protected override void OnClosing(WindowClosingEventArgs e)
+    {
+        e.Cancel = true;
+        _ = Task.Run(async () =>
+        {
+            if(await Confirm("Quit", "Are you sure you want to quit?"))
+            {
+                if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
+                {
+                    lifetime.Shutdown();
+                }
+            }
+        });
+    }
+
+
     /// <summary>
     /// Show a confirmation prompt
     /// </summary>

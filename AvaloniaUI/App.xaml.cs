@@ -88,17 +88,39 @@ public abstract partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = CreateMainWindow();
-            // Immediately apply the correct theme at startup
-            UpdateTheme(desktop.MainWindow.ActualThemeVariant);
-            desktop.MainWindow.ActualThemeVariantChanged += (_, _) =>
+            // Create the main window here, but don't display it yet
+            var mainWindow = CreateMainWindow();
+
+            // Immediately apply the theme
+            UpdateTheme(mainWindow.ActualThemeVariant);
+            mainWindow.ActualThemeVariantChanged += (_, _) =>
             {
-                UpdateTheme(desktop.MainWindow.ActualThemeVariant);
+                UpdateTheme(mainWindow.ActualThemeVariant);
             };
+
+            // Check if the app should start minimized and hidden
+            if (GetInitialStartMinimized())
+            {
+                // Ensure the window is created minimized and hidden before it's displayed
+                mainWindow.WindowState = WindowState.Minimized;
+            
+                // Post to the UI thread after framework initialization is complete
+                Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+                {
+                    // Hide the window immediately
+                    mainWindow.Hide();
+                    desktop.MainWindow = mainWindow;
+                }, Avalonia.Threading.DispatcherPriority.ApplicationIdle);
+            }
+            else
+            {
+                desktop.MainWindow = mainWindow;
+            }
         }
 
         base.OnFrameworkInitializationCompleted();
     }
+
 
     /// <summary>
     /// Creates the main window for the application.
@@ -119,6 +141,12 @@ public abstract partial class App : Application
     protected abstract string GetLoggingDirectory();
 
     /// <summary>
+    /// Gets the initial state of start minimized
+    /// </summary>
+    /// <returns>the state</returns>
+    protected abstract bool GetInitialStartMinimized();
+
+    /// <summary>
     /// Opens the specified server URL in the default web browser.
     /// </summary>
     private void Open(object? sender, EventArgs e)
@@ -134,7 +162,29 @@ public abstract partial class App : Application
         else
             Process.Start(new ProcessStartInfo("xdg-open", url));
     }
-    
+
+    /// <summary>
+    /// The tray icon was clicked
+    /// </summary>
+    /// <param name="sender">the sender</param>
+    /// <param name="e">the event</param>
+    private void TrayIcon_OnClicked(object? sender, EventArgs e)
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop)
+        {
+            if (desktop.MainWindow.WindowState == WindowState.Normal)
+            {
+                desktop.MainWindow.WindowState = WindowState.Minimized;
+                desktop.MainWindow.Hide();
+            }
+            else
+            {
+                desktop.MainWindow.Show();
+                desktop.MainWindow.WindowState = WindowState.Normal;
+            }
+        }
+    }
+
     /// <summary>
     /// Opens the logging directory in the host's file browser (Explorer, Finder, etc).
     /// </summary>
@@ -297,5 +347,4 @@ public abstract partial class App : Application
             }
         }
     }
-
 }

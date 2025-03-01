@@ -1,8 +1,3 @@
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-
 namespace FileFlows.Node.Ui;
 
 public class MainWindowViewModel : INotifyPropertyChanged
@@ -12,12 +7,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         this.Window = window;
     }
-    
-    /// <summary>
-    /// Quits the application
-    /// </summary>
-    public void Quit() => Window.Quit();
-    
     
     public event PropertyChangedEventHandler? PropertyChanged;
 

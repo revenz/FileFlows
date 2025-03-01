@@ -5,11 +5,17 @@
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="FontWeight" Value="600"/>  
         <Setter Property="Padding" Value="12,8"/>
-        <Setter Property="MinWidth" Value="120"/>
-        <Setter Property="Margin" Value="4"/>  
         <Setter Property="FontSize" Value="{DynamicResource BaseFontSize}" />
         <Setter Property="BorderThickness" Value="2"/>  
         <Setter Property="BorderBrush" Value="Transparent"/>  
+    </Style>
+    
+    <Style Selector="Button:not(.btnIcon)">
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="Margin" Value="4"/>  
+    </Style>
+    <Style Selector="Button.btnIcon">
+        <Setter Property="MinWidth" Value="50"/>  
     </Style>
 
     <!-- DEFAULT BUTTON (SECONDARY) -->
