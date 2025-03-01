@@ -8,7 +8,7 @@ using FileFlows.Shared;
 using FileFlows.Shared.Models;
 using FileFlows.Shared.Models.SignalAre;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.Logging;
+using UglyToad.PdfPig.Graphics;
 using ILogger = FileFlows.Common.ILogger;
 
 namespace FileFlows.NodeClient;
@@ -16,21 +16,25 @@ namespace FileFlows.NodeClient;
 /// <summary>
 /// SignalR Node Client for connecting to the server.
 /// </summary>
-public class Client : IDisposable
+public partial class Client : IDisposable
 {
-    private readonly HubConnection _connection;
-    private readonly string _hostname;
-    private readonly RunnerManager _runnerManager;
+    private HubConnection _connection;
+    private readonly RetryPolicyLoop _retryPolicyLoop; 
     private readonly ConfigurationService _configurationService;
     private readonly ILogger _logger;
-    private ProcessingNode? _node;
-    public Guid? NodeUid => _node?.Uid;
     private TaskCompletionSource<bool> _registrationCompletion = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private bool _disposed;
-    private ClientParameters _parameters;
+    private CancellationTokenSource _cts;  // Cancellation token source for graceful shutdown
+
+    /// <summary>
+    /// Connection updated event
+    /// </summary>
+    public delegate void ConnectionUpdated(ConnectionState state);
     
-    public bool IsRegistered => _node != null;
-    private Guid _nodeUid => _node?.Uid ?? Guid.Empty;
+    /// <summary>
+    /// Event fired when connection state changes
+    /// </summary>
+    public event ConnectionUpdated OnConnectionUpdated;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Client"/> class.
@@ -44,6 +48,8 @@ public class Client : IDisposable
         _hostname = parameters.Hostname;
         _runnerManager = new();
         _logger = logger;
+        _retryPolicyLoop = new RetryPolicyLoop(logger);  // Initialize retry policy
+        _cts = new CancellationTokenSource();  // Initialize the cancellation token source
 
         parameters.ServerUrl = parameters.ServerUrl.Replace("http:", "ws:").Replace("https:", "wss:").TrimEnd('/');
 
@@ -53,7 +59,8 @@ public class Client : IDisposable
                 if (string.IsNullOrWhiteSpace(parameters.AccessToken) == false)
                     options.Headers.Add("Authorization", parameters.AccessToken);
             })
-            .WithAutomaticReconnect()
+            .WithKeepAliveInterval(TimeSpan.FromSeconds(10))
+            .WithAutomaticReconnect(_retryPolicyLoop) // Custom retry policy
             .Build();
 
         _connection.On<RunFileArguments, Task<bool>>("ClientProcessFile", HandleClientProcessFile);
@@ -62,6 +69,7 @@ public class Client : IDisposable
 
         _connection.Reconnecting += error =>
         {
+            OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
             _logger.WLog("Connection lost, attempting to reconnect...");
             _registrationCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             return Task.CompletedTask;
@@ -69,53 +77,105 @@ public class Client : IDisposable
 
         _connection.Reconnected += async connectionId =>
         {
+            OnConnectionUpdated?.Invoke(ConnectionState.Connected);
+            _logger.ILog("Reconnected, registering node...");
+            await RegisterNodeAsync();
+            _retryPolicyLoop.ResetBackoff();  // Reset backoff after successful reconnection
+        };
+
+        _connection.Closed += error =>
+        {
+            OnConnectionUpdated?.Invoke(ConnectionState.Disconnected);
+            _logger.WLog("Connection closed.");
+            _registrationCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            _retryPolicyLoop.ResetBackoff();  // Reset backoff on closure if needed
+            return Task.CompletedTask;
+        };
+
+        // Try to start the connection immediately on construction, and handle the initial failure
+        TryStartConnectionAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Attempts to start the connection and retry if the connection fails initially.
+    /// </summary>
+    private async Task TryStartConnectionAsync()
+    {
+        OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
+        try
+        {
+            if (_connection.State == HubConnectionState.Disconnected)
+            {
+                // The connection is in a disconnected state, retrying
+                _logger.ILog("Attempting to start connection...");
+                await _connection.StartAsync(_cts.Token);  // Pass cancellation token here
+                OnConnectionUpdated?.Invoke(ConnectionState.Connected);
+                await RegisterNodeAsync();
+                _ = Task.Run(SendNodeStatusAsync); // Start sending node status once connected
+            }
+        }
+        catch (ObjectDisposedException)
+        {
+            // If the connection has been disposed, handle re-creating the connection
+            _logger.WLog("Connection object disposed. Recreating the connection...");
+            CreateNewConnection();
+            await TryStartConnectionAsync(); // Retry after re-creating the connection
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.WLog("Connection attempt was canceled.");
+        }
+        catch (Exception ex)
+        {
+            _logger.WLog($"Connection failed to start: {ex.Message}. Retrying...");
+            await Task.Delay(5000);  // Wait for a few seconds before retrying
+            await TryStartConnectionAsync();  // Retry connecting
+        }
+    }
+
+    private void CreateNewConnection()
+    {
+        _logger.ILog("Creating a new HubConnection...");
+
+        // Recreate the connection object
+        _connection.DisposeAsync().GetAwaiter().GetResult();
+
+        _connection = new HubConnectionBuilder()
+            .WithUrl($"{_parameters.ServerUrl}/node", options =>
+            {
+                if (string.IsNullOrWhiteSpace(_parameters.AccessToken) == false)
+                    options.Headers.Add("Authorization", _parameters.AccessToken);
+            })
+            .WithKeepAliveInterval(TimeSpan.FromSeconds(10))
+            .WithAutomaticReconnect(_retryPolicyLoop) // Custom retry policy
+            .Build();
+
+        _connection.On<RunFileArguments, Task<bool>>("ClientProcessFile", HandleClientProcessFile);
+        _connection.On<ProcessingNode>("NodeUpdated", UpdateNode);
+        _connection.On<ConfigurationRevision>("ConfigUpdated", UpdateConfiguration);
+
+        _connection.Reconnecting += error =>
+        {
+            OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
+            _logger.WLog("Connection lost, attempting to reconnect...");
+            _registrationCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            return Task.CompletedTask;
+        };
+
+        _connection.Reconnected += async connectionId =>
+        {
+            OnConnectionUpdated?.Invoke(ConnectionState.Connected);
             _logger.ILog("Reconnected, registering node...");
             await RegisterNodeAsync();
         };
 
         _connection.Closed += error =>
         {
+            OnConnectionUpdated?.Invoke(ConnectionState.Disconnected);
             _logger.WLog("Connection closed.");
             _registrationCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             return Task.CompletedTask;
         };
-    }
-
-    private async Task DownloadConfiguration()
-    {
-        try
-        {
-            if (_node == null)
-                return;
-
-            _logger.ILog("Downloading configuration...");
-            var cfg = await _connection.InvokeAsync<ConfigurationRevision>("GetConfiguration");
-            if (cfg == null || _node == null)
-                return;
-            
-            await _configurationService.SaveConfiguration(cfg, _node);
-            _logger.ILog($"Node '{_node.Name}' Configuration updated to {cfg.Revision}");
-        }
-        catch (Exception ex)
-        {
-            _logger.ELog($"Error downloading configuration: {ex.Message}");
-        }
-    }
-
-    private async Task UpdateConfiguration(ConfigurationRevision obj)
-    {
-        if (_node == null)
-            return;
-        
-        _logger.ILog("Updating configuration...");
-        await _configurationService.SaveConfiguration(obj, _node);
-    }
-
-    private void UpdateNode(ProcessingNode obj)
-    {
-        _logger.ILog("Updating node information...");
-        _node = obj;
-        _registrationCompletion.TrySetResult(true);
     }
 
     /// <summary>
@@ -124,123 +184,10 @@ public class Client : IDisposable
     public async Task StartAsync()
     {
         _logger.ILog("Starting client...");
-        await _connection.StartAsync();
+        await _connection.StartAsync(_cts.Token);  // Pass cancellation token here
+        OnConnectionUpdated?.Invoke(ConnectionState.Connected);
         await RegisterNodeAsync();
         _ = Task.Run(SendNodeStatusAsync);
-    }
-
-    /// <summary>
-    /// Registers the node with the server
-    /// </summary>
-    private async Task RegisterNodeAsync()
-    {
-        try
-        {
-            _logger.ILog("Registering node...");
-            _node = null;
-            
-            string path = DirectoryHelper.BaseDirectory;
-
-            bool windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-
-            List<RegisterModelMapping> mappings = new List<RegisterModelMapping>
-            {
-                new()
-                {
-                    Server = "ffmpeg",
-                    Local =  Globals.IsDocker ? "/usr/local/bin/ffmpeg" :
-                        windows ? Path.Combine(path, "Tools", "ffmpeg.exe") : "/usr/local/bin/ffmpeg"
-                }
-            };
-            if (_parameters.EnvironmentalMappings?.Any() == true)
-            {
-                Logger.Instance.ILog("Environmental mappings found, adding those");
-                mappings.AddRange(_parameters.EnvironmentalMappings);
-            }
-
-            string tempPath =  _parameters.ForcedTempPath?.EmptyAsNull() 
-                               ?? (Globals.IsDocker ? "/temp" : 
-                                   Path.Combine(DirectoryHelper.BaseDirectory, "Temp"));
-        
-            HardwareInfo? hardwareInfo = null;
-            try
-            {
-                hardwareInfo = ServiceLoader.Load<HardwareInfoService>().GetHardwareInfo();
-                Logger.Instance?.ILog("Hardware Info: " + Environment.NewLine + hardwareInfo);
-            }
-            catch(Exception ex)
-            {
-                Logger.Instance?.ELog("Failed to get hardware info: " + ex.Message);
-            }
-
-            var parameters = new NodeRegisterParameters()
-            {
-                Hostname = _hostname,
-                ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
-                HardwareInfo = hardwareInfo,
-                TempPath = tempPath,
-                Version = Globals.Version,
-                Mappings = mappings.Select(x => new KeyValuePair<string, string>(x.Server, x.Local)).ToList(),
-                Architecture = RuntimeInformation.ProcessArchitecture == Architecture.Arm ? ArchitectureType.Arm32 :
-                    RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? ArchitectureType.Arm64 :
-                    RuntimeInformation.ProcessArchitecture == Architecture.Arm ? ArchitectureType.Arm64 :
-                    RuntimeInformation.ProcessArchitecture == Architecture.X64 ? ArchitectureType.x64 :
-                    RuntimeInformation.ProcessArchitecture == Architecture.X86 ? ArchitectureType.x86 :
-                    IntPtr.Size == 8 ? ArchitectureType.x64 :
-                    IntPtr.Size == 4 ? ArchitectureType.x86 :
-                    ArchitectureType.Unknown,
-                OperatingSystem = Globals.IsDocker ? OperatingSystemType.Docker :
-                    Globals.IsWindows ? OperatingSystemType.Windows :
-                    Globals.IsLinux ? OperatingSystemType.Linux :
-                    Globals.IsMac ? OperatingSystemType.Mac :
-                    Globals.IsFreeBsd ? OperatingSystemType.FreeBsd :
-                    OperatingSystemType.Unknown,
-            };
-            
-            var result = await _connection.InvokeAsync<NodeRegisterResult>("RegisterNode", parameters);
-            
-            if (!result.Success)
-                return;
-            
-            _node = result.Node;
-            _logger.ILog("Node successfully registered.");
-            _registrationCompletion.TrySetResult(true);
-            
-            if (result.CurrentConfigRevision != _configurationService.CurrentConfig?.Revision)
-                _ = DownloadConfiguration();
-        }
-        catch (Exception ex)
-        {
-            _logger.ELog($"Node registration failed: {ex.Message}");
-            _registrationCompletion.TrySetResult(false);
-        }
-    }
-
-    private async Task SendNodeStatusAsync()
-    {
-        while (true)
-        {
-            try
-            {
-                if (_connection.State == HubConnectionState.Connected && _node != null)
-                {
-                    _logger.ILog($"Sending node status from node '{_node?.Name ?? Environment.MachineName}'...");
-                    await _connection.SendAsync("UpdateNodeStatus", new
-                    {
-                        NodeUid = _nodeUid,
-                        ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
-                        MaxRunners = _node!.FlowRunners,
-                        ActiveRunners = _runnerManager.GetActiveRunnerUids()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.ELog($"Error sending node status: {ex.Message}");
-            }
-
-            await Task.Delay(TimeSpan.FromSeconds(10));
-        }
     }
 
     public async Task StopAsync()
@@ -258,7 +205,8 @@ public class Client : IDisposable
             }
             _node = null;
         }
-        await _connection.StopAsync();
+
+        await _connection.StopAsync();  // Stop connection asynchronously
     }
 
     private async Task EnsureRegisteredAsync()
@@ -270,73 +218,25 @@ public class Client : IDisposable
         }
     }
 
-    private async Task<bool> HandleClientProcessFile(RunFileArguments args)
-    {
-        await EnsureRegisteredAsync();
-        _logger.ILog("Handling process file request...");
-
-        try
-        {
-            if (_configurationService.CurrentConfig?.Revision < args.ConfigRevision)
-            {
-                var updateTask = _configurationService.UpdateConfiguration(args.ConfigRevision, _node);
-                if (await Task.WhenAny(updateTask, Task.Delay(TimeSpan.FromSeconds(10))) != updateTask)
-                {
-                    _logger.WLog("Configuration update timed out.");
-                    return false;
-                }
-                if (_configurationService.CurrentConfig?.Revision < args.ConfigRevision)
-                    return false;
-            }
-
-            bool result = _runnerManager.TryStartRunner(args, _node, _configurationService.CurrentConfig!);
-            _logger.ILog($"Process file result: {result}");
-            return result;
-        }
-        catch (Exception ex)
-        {
-            _logger.ELog($"Error processing file: {ex.Message}");
-            return false;
-        }
-    }
-
     public void Dispose()
     {
         if (_disposed)
             return;
 
+        // Unsubscribe all listeners from the event
+        if (OnConnectionUpdated != null)
+        {
+            foreach (var listener in OnConnectionUpdated.GetInvocationList())
+            {
+                OnConnectionUpdated -= (ConnectionUpdated)listener;
+            }
+        }
         _disposed = true;
         _logger.ILog("Disposing client...");
+
+        // Cancel any ongoing connection tasks if disposing
+        _cts.Cancel();
         StopAsync().GetAwaiter().GetResult();
         _connection.DisposeAsync().GetAwaiter().GetResult();
     }
-}
-
-/// <summary>
-/// The client paraemeters
-/// </summary>
-public class ClientParameters
-{
-    /// <summary>
-    /// Gets or sets the Server URL
-    /// </summary>
-    public string ServerUrl { get; set; }
-    /// <summary>
-    /// Gets or sets the hostname
-    /// </summary>
-    public string Hostname  { get; set; }
-    /// <summary>
-    /// Gets or sets the access token
-    /// </summary>
-    public string AccessToken { get; set; }
-    
-    /// <summary>
-    /// Gets or sets a forced temporary path
-    /// </summary>
-    public string? ForcedTempPath { get; set; }
-
-    /// <summary>
-    /// Gets or sets mappings passed in via enviromental values
-    /// </summary>
-    public List<RegisterModelMapping>? EnvironmentalMappings { get; set; }
 }

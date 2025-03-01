@@ -10,6 +10,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using FileFlows.NodeClient;
+using FileFlows.RemoteServices;
 
 namespace FileFlows.Node.Ui;
 
@@ -33,6 +35,9 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
         ViewModel.AccessToken = AppSettings.Instance.AccessToken ?? string.Empty;
         ViewModel.StartMinimized = AppSettings.Instance.StartMinimized;
         ViewModel.Version = Globals.Version;
+        ViewModel.ConnectionState = Program.Manager!.CurrentStete;
+        ViewModel.ConnectionText = Program.Manager!.CurrentStete.ToString();
+        Program.Manager!.OnConnectionUpdated += OnConnectionUpdated;
         
         var txtServerUrl = this.FindControl<TextBox>("txtServerUrl");
         this.Opened += async (_, _) => await Task.Delay(10).ContinueWith(_ =>
@@ -43,8 +48,18 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
             });
         });
     }
-    
-    
+
+    /// <summary>
+    /// Called when the connection state chagnes
+    /// </summary>
+    /// <param name="state">the new connection state</param>>
+    private void OnConnectionUpdated(ConnectionState state)
+    {
+        ViewModel.ConnectionState = state;
+        ViewModel.ConnectionText = state.ToString();
+    }
+
+
     protected void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);

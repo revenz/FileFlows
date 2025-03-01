@@ -35,6 +35,16 @@ public class NodeManager
     public bool Registered { get; private set; }
 
     /// <summary>
+    /// Gets the current connection state
+    /// </summary>
+    public ConnectionState CurrentStete { get; private set; }
+
+    /// <summary>
+    /// Event fired when connection state changes
+    /// </summary>
+    public event Client.ConnectionUpdated? OnConnectionUpdated;
+
+    /// <summary>
     /// Starts the node processing
     /// </summary>
     public void Start()
@@ -141,6 +151,9 @@ public class NodeManager
         if (string.IsNullOrEmpty(settings.ServerUrl))
             return (false, "Server URL not set");
 
+        if(_client != null)
+            _client.OnConnectionUpdated -= ClientOnOnConnectionUpdated;
+        
         _client?.Dispose();
 
         _client = new(new()
@@ -151,7 +164,9 @@ public class NodeManager
             ForcedTempPath = AppSettings.ForcedTempPath,
             EnvironmentalMappings = AppSettings.EnvironmentalMappings
         }, Logger.Instance!);
-        
+
+
+        _client.OnConnectionUpdated += ClientOnOnConnectionUpdated;
         
         RemoteService.AccessToken = settings.AccessToken;
         
@@ -188,5 +203,15 @@ public class NodeManager
         settings.Save();
         this.Registered = true;
         return (true, string.Empty);
+    }
+
+    /// <summary>
+    /// Called when the state changes
+    /// </summary>
+    /// <param name="state">the new state</param>
+    private void ClientOnOnConnectionUpdated(ConnectionState state)
+    {
+        CurrentStete = state;
+        OnConnectionUpdated?.Invoke(state);
     }
 }

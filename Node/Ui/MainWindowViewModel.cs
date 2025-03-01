@@ -1,3 +1,5 @@
+using FileFlows.NodeClient;
+
 namespace FileFlows.Node.Ui;
 
 public class MainWindowViewModel : INotifyPropertyChanged
@@ -62,6 +64,34 @@ public class MainWindowViewModel : INotifyPropertyChanged
             {
                 _StartMinimized = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartMinimized)));
+            }
+        }
+    }
+
+    private ConnectionState _ConnectionState;
+    public ConnectionState ConnectionState
+    {
+        get => _ConnectionState;
+        set
+        {
+            if (_ConnectionState != value)
+            {
+                _ConnectionState = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ConnectionState)));
+            }
+        }
+    }
+
+    private string _ConnectionText = string.Empty;
+    public string ConnectionText
+    {
+        get => _ConnectionText;
+        set
+        {
+            if (_ConnectionText != value)
+            {
+                _ConnectionText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ConnectionText)));
             }
         }
     }
