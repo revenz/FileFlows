@@ -52,6 +52,19 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
         });
     }
 
+    /// <inheritdoc />
+    protected override string QuitMessage
+    {
+        get
+        {
+            if(ViewModel.ActiveRunners < 1)
+                return base.QuitMessage;
+            if (ViewModel.ActiveRunners == 1)
+                return "Are you sure you want to quit?\n\nA file is currently being processed and will be aborted.";
+            return $"Are you sure you want to quit?\n\n{ViewModel.ActiveRunners} files are currently being processed and will be aborted.";
+        }
+    }
+
     /// <summary>
     /// Called when the connection state chagnes
     /// </summary>
