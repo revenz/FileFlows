@@ -119,6 +119,7 @@ public class NodeHub : Hub
                 Architecture = parameters.Architecture,
                 OperatingSystem = parameters.OperatingSystem,
                 Version = parameters.Version,
+                TempPath = parameters.TempPath,
                 Enabled = isSystem, // default to disabled so they have to configure it first
                 FlowRunners = 1,
                 AllLibraries = ProcessingLibraries.All,
