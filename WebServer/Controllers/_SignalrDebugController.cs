@@ -14,6 +14,10 @@ public class _SignalrDebugController : Controller
     <head>
     <meta http-equiv="refresh" content="5">
     <style>
+        body {
+            background:#222;
+            color:#fff;
+        }
         table {
         width: 100%;
         border-collapse: collapse;
@@ -22,23 +26,23 @@ public class _SignalrDebugController : Controller
         }
 
         th, td {
-        border: 1px solid #ddd;
+        border: 1px solid #333;
         padding: 10px;
         text-align: left;
         }
 
         th {
-        background-color: #007bff;
+        background-color: #002854;
         color: white;
         font-weight: bold;
         }
 
         tr:nth-child(even) {
-        background-color: #f2f2f2;
+        background-color: #3c3c3c;
         }
 
         tr:hover {
-        background-color: #ddd;
+        background-color: #444;
         }
 
         </style>
