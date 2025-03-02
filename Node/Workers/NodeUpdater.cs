@@ -18,6 +18,11 @@ public class NodeUpdater:UpdaterWorker
     public NodeUpdater() : base("node-upgrade", ScheduleType.Daily, 3)
     {
         Instance = this;
+        EventManager.Subscribe("NodeVersionMismatch", (string version) =>
+        {
+            Trigger();
+        });
+
     }
 
     /// <summary>
@@ -113,6 +118,8 @@ public class NodeUpdater:UpdaterWorker
         var service = ServiceLoader.Load<INodeService>();
         var serverVersion = service.GetNodeUpdateVersion().Result;
         Logger.DLog("Checking for auto update: " + serverVersion);
+        if (serverVersion.Major == 0)
+            return false; // means not licensed for auto updates
         return CurrentVersion != serverVersion;
     }
 }

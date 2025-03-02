@@ -1,6 +1,5 @@
 using FileFlows.Shared.Models.SignalAre;
 using Microsoft.AspNetCore.SignalR;
-using NPoco.Expressions;
 using ILogger = FileFlows.Common.ILogger;
 
 namespace FileFlows.WebServer.Hubs;
@@ -157,6 +156,7 @@ public class NodeHub : Hub
         {
             Success = true,
             Node = node,
+            ServerVersion = Globals.Version,
             ConnectionId = Context.ConnectionId,
             CurrentConfigRevision = await _settingsService.GetCurrentConfigurationRevision()
         };

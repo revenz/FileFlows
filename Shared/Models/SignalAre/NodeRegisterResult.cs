@@ -22,6 +22,11 @@ public class NodeRegisterResult
     /// Gets or sets the config revision
     /// </summary>
     public int CurrentConfigRevision { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the server version
+    /// </summary>
+    public string ServerVersion { get; set; }
 }
 
 /// <summary>

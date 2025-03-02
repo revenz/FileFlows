@@ -15,7 +15,6 @@ namespace FileFlows.NodeClient;
 /// </summary>
 public partial class Client
 {
-    
     public bool IsRegistered => _node != null;
     private Guid _nodeUid => _node?.Uid ?? Guid.Empty;
     private readonly string _hostname;
@@ -136,12 +135,19 @@ public partial class Client
             
             if (!result.Success)
                 return;
+
             
             _node = result.Node;
             _logger.ILog("Node successfully registered.");
             _registrationCompletion.TrySetResult(true);
-            
-            if (result.CurrentConfigRevision != _configurationService.CurrentConfig?.Revision)
+
+            if (result.ServerVersion != Globals.Version)
+            {
+                _logger.ILog(
+                    $"Server version '{result.ServerVersion}' does not match node version '{Globals.Version}'");
+                EventManager.Broadcast("NodeVersionMismatch", result.ServerVersion);
+            }
+            else if (result.CurrentConfigRevision != _configurationService.CurrentConfig?.Revision)
                 _ = DownloadConfiguration();
         }
         catch (Exception ex)
@@ -194,8 +200,6 @@ public partial class Client
         _delayCts.Dispose();
         _delayCts = new CancellationTokenSource(); // Reset for the next delay
     }
-
-
     
     private async Task<bool> HandleClientProcessFile(RunFileArguments args)
     {
