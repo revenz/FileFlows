@@ -1,7 +1,5 @@
 using System.Text;
-using FileFlows.ServerModels;
 
-#if(DEBUG)
 namespace FileFlows.WebServer.Controllers;
 
 [Route("debug-info")]
@@ -132,4 +130,3 @@ public class _SignalrDebugController : Controller
     }
     
 }
-#endif
