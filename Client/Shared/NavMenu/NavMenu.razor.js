@@ -73,7 +73,7 @@ export class NavMenu {
         }
         
         let percent = (height - maxHeight) / maxHeight * 100;
-        let groupHeight = forcedNoGroups ? 0 : this.collapsed ? 0 : percent < 25 ? 2 : 0;
+        let groupHeight = forcedNoGroups ? 0 : this.collapsed ? 0 : percent < 15 ? 2 : 0;
         
         let itemHeight = idealItemHeight + 0.1;
         while(height > maxHeight && itemHeight > 1.5)
