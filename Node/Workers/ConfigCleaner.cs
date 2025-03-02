@@ -1,4 +1,6 @@
+using FileFlows.RemoteServices;
 using FileFlows.ServerShared.Helpers;
+using FileFlows.ServerShared.Services;
 using FileFlows.ServerShared.Workers;
 
 namespace FileFlows.Node.Workers;
@@ -27,7 +29,9 @@ public class ConfigCleaner: Worker
             max = Math.Max(revision, max);
         }
 
-        int current = FlowWorker.CurrentConfig?.Revision ?? 0;
+        var cfgService = ServiceLoader.Load<ConfigurationService>();
+
+        int current = cfgService.CurrentConfig?.Revision ?? 0;
         foreach (var kv in dirs)
         {
             if (kv.Key == max || kv.Key == current)
@@ -41,6 +45,7 @@ public class ConfigCleaner: Worker
             }
             catch (Exception)
             {
+                // Ignored
             }
         }
     }

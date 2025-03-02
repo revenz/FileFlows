@@ -1,0 +1,45 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FileFlows.Node.Ui.SettingsWindow"
+        Title="FileFlows Server Settings"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        HorizontalAlignment="Stretch"
+        ShowInTaskbar="False"
+        Classes="messagebox"
+        Topmost="True"
+>
+    <Grid RowDefinitions="Auto, Auto" Classes="SettingsWindow">
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <StackPanel Orientation="Vertical" Margin="20 0">
+        
+                <TextBlock Margin="0 20 0 2" Name="tbServerUrl">Server</TextBlock>
+                    
+                <TextBox Name="txtServerUrl" IsEnabled="{Binding !ReadOnly}" 
+                         Text="{Binding ServerUrl}" 
+                         Watermark="e.g http://tower:19200/"/>
+                
+                    
+                <TextBlock Margin="0 20 0 2" Name="tbAccessToken">Access Token</TextBlock>
+                   
+                <TextBox Name="txtAccessToken" IsEnabled="{Binding !ReadOnly}" 
+                         Text="{Binding AccessToken}"
+                         Watermark="Optional Access Token" />
+
+                   
+                <ToggleSwitch Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" 
+                              IsVisible="{Binding ShowStartMinimized}" 
+                              IsChecked="{Binding StartMinimized}" 
+                              Margin="0 10 0 0" HorizontalAlignment="Center" 
+                              OffContent="Start Minimized" OnContent="Start Minimized"  
+                              IsEnabled="{Binding Enabled}" />
+            </StackPanel>
+            <Panel>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                  <Button Classes="primary" IsEnabled="{Binding !ReadOnly}" Name="btnRegister" Click="Register_OnClick" IsDefault="True">Save</Button>
+                  <Button IsEnabled="{Binding !ReadOnly}" Name="btnClose" Click="Close_OnClick">Cancel</Button>
+              </StackPanel>
+            </Panel>
+        </StackPanel>
+    </Grid>
+</Window>

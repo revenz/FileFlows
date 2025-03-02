@@ -28,8 +28,9 @@ public static class ServiceLoader
             .AddSingleton<IVariableService>(() => new VariableService())
             .AddSingleton<INotificationService>(() => new NotificationService())
             .AddSingleton<IDistributedCacheService>(() => new RemoteDistributedCacheService())
-            .AddSingleton<EmailService>(() => new EmailService())
-            .AddSingleton<HardwareInfoService>(() => new HardwareInfoService())
+            .AddSingleton(() => new EmailService())
+            .AddSingleton(() => new HardwareInfoService())
+            .AddSingleton(() => new ConfigurationService())
             .BuildServiceProvider(); // Build the service provider
     }
     

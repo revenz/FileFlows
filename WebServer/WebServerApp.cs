@@ -1,6 +1,8 @@
 ﻿using FileFlows.Server.Workers;
 using Microsoft.OpenApi.Models;
 using System.Runtime.InteropServices;
+using FileFlows.NodeClient;
+using FileFlows.Services.Interfaces;
 using FileFlows.WebServer.Filters;
 using FileFlows.WebServer.Hubs;
 using FileFlows.WebServer.Middleware;
@@ -112,8 +114,14 @@ public class WebServerApp
 
         string serverUrl = $"{protocol}://0.0.0.0:{Port}/";
         Logger.Instance.ILog("Server URL: " + serverUrl);
+        ServerUrl = serverUrl;
         return serverUrl;
     }
+    
+    /// <summary>
+    /// Gets the server url
+    /// </summary>
+    public static string? ServerUrl { get; private set; }
 
     /// <summary>
     /// Starts the server
@@ -272,7 +280,9 @@ public class WebServerApp
             );
         //});
 
+        
         app.MapHub<FlowHub>("/flow");
+        app.MapHub<NodeHub>("/node");
         app.MapHub<ClientServiceHub>("/client-service");
 
         app.UseResponseCompression();
@@ -301,8 +311,24 @@ public class WebServerApp
 
             return;
         }
+
+
+        var _nodeHub = app.Services.GetRequiredService<IHubContext<NodeHub>>();
+        //var nodeManagerService = ServiceLoader.Load<NodeManagerService>();
+        ServiceLoader.AddSpecialCase<INodeHubService>(new NodeHubBridge(_nodeHub));
+
+        // var client = new Client(new ()
+        //     {
+        //         ServerUrl =$"ws://localhost:{Port}",
+        //         Hostname = CommonVariables.InternalNodeName,
+        //         AccessToken = NodeHub.InternalAccessToken
+        //     }, Logger.Instance);
+        // _ =  client.StartAsync();
+        // just to start up the file queue service
+        _ = ServiceLoader.Load<FileQueueService>();
         
         task.Wait();
+        //client.StopAsync().Wait();
         Logger.Instance.ILog("Finished running FileFlows Server");
         WorkerManager.StopWorkers();
     }

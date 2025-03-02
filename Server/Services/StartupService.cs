@@ -192,7 +192,7 @@ public class StartupService : IStartupService
             new SystemMonitor(),
             //new LibraryWorker(),
             new LogFileCleaner(),
-            new FlowWorker(string.Empty, isServer: true),
+            //new FlowWorker(string.Empty, isServer: true),
             new ConfigCleaner(),
             new PluginUpdaterWorker(),
             new LibraryFileLogPruner(),

@@ -86,7 +86,7 @@ public class LibraryFileController : Controller
     [HttpGet("node-list")]
     public async Task<List<NodeInfo>> GetNodeList()
     {
-        var nodes = await new NodeService().GetAllAsync();
+        var nodes = await ServiceLoader.Load<NodeService>().GetAllAsync();
         return nodes.Select(x => new NodeInfo()
         {
             Uid = x.Uid,

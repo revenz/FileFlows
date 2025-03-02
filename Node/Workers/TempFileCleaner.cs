@@ -1,7 +1,8 @@
+using FileFlows.NodeClient;
 using FileFlows.RemoteServices;
-using FileFlows.Server.Workers;
 using FileFlows.ServerShared.Services;
 using FileFlows.ServerShared.Workers;
+using FileFlows.Shared.Models;
 
 namespace FileFlows.Node.Workers;
 
@@ -28,17 +29,28 @@ public class TempFileCleaner : Worker
     protected sealed override void Execute()
     {
         var service = ServiceLoader.Load<INodeService>();
-        var node = string.IsNullOrWhiteSpace(nodeAddress)
-            ? service.GetServerNodeAsync().Result
-            : service.GetByAddressAsync(nodeAddress).Result;
+        ProcessingNode? node = null;
+        try
+        {
+            node = string.IsNullOrWhiteSpace(nodeAddress)
+                ? service.GetServerNodeAsync().Result
+                : service.GetByAddressAsync(nodeAddress).Result;
+        }
+        catch (Exception ex)
+        {
+            Logger.Instance.WLog("Failed to fetch node: " + ex.Message);
+        }
+        
         if (string.IsNullOrWhiteSpace(node?.TempPath))
             return;
         var tempDir = new DirectoryInfo(node.TempPath);
         if (tempDir.Exists == false)
             return;
 
-        var executors = (WorkerManager.GetWorker<FlowWorker>()?.GetExecutors() ?? new Guid[] { })
-            .Select(x => "Runner-" + x).ToList();
+        var runnerService = ServiceLoader.Load<RunnerManager>();
+        var uids = runnerService.GetActiveRunnerUids();
+
+        var executors = uids.Select(x => "Runner-" + x).ToList();
         
         Logger.Instance?.ILog("About to clean temporary directory: " + tempDir.FullName);
         foreach (var dir in tempDir.GetDirectories())
