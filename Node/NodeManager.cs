@@ -140,7 +140,6 @@ public class NodeManager
         );
     }
 
-    
     /// <summary>
     /// Registers the node with the server
     /// </summary>

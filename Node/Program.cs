@@ -145,11 +145,11 @@ public class Program
                     WindowsConsoleManager.Hide();
                 
                 Logger.Instance?.ILog("Launching GUI");
-                Task.Run(async () =>
-                {
-                    await Manager.Register();
+                // Task.Run(async () =>
+                // {
+                    //await Manager.Register();
                     Manager.Start();
-                });
+                // });
                 try
                 {
                     var appBuilder = BuildAvaloniaApp();
@@ -169,14 +169,14 @@ public class Program
                     return;
                 }
 
-                Shared.Logger.Instance?.ILog("Registering FileFlow Node");
-
-                var registerResult = Manager.Register().Result;
-                if (registerResult.Success == false)
-                {
-                    Logger.Instance?.WLog("Register failed: " + registerResult.Message);
-                    return;
-                }
+                // Shared.Logger.Instance?.ILog("Registering FileFlow Node");
+                //
+                // var registerResult = Manager.Register().Result;
+                // if (registerResult.Success == false)
+                // {
+                //     Logger.Instance?.WLog("Register failed: " + registerResult.Message);
+                //     return;
+                // }
 
 
                 Shared.Logger.Instance?.ILog("FileFlows node starting");

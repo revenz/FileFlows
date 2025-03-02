@@ -137,11 +137,12 @@ public partial class Client : IDisposable
     /// </summary>
     public async Task StartAsync()
     {
-        _logger.ILog("Starting client...");
+        _logger.ILog($"Starting client... (Connection {_connection.State})");
         try
         {
             if(_connection.State == HubConnectionState.Disconnected)
                 await _connection.StartAsync(_cts.Token);
+            _logger.ILog($"Starting client 2... (Connection {_connection.State})");
             if (_connection.State == HubConnectionState.Connected)
             {
                 OnConnectionUpdated?.Invoke(ConnectionState.Connected);
