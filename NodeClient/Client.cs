@@ -140,9 +140,14 @@ public partial class Client : IDisposable
         _logger.ILog("Starting client...");
         try
         {
-            await _connection.StartAsync(_cts.Token);
-            OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-            await RegisterNodeAsync();
+            if(_connection.State == HubConnectionState.Disconnected)
+                await _connection.StartAsync(_cts.Token);
+            if (_connection.State == HubConnectionState.Connected)
+            {
+                OnConnectionUpdated?.Invoke(ConnectionState.Connected);
+                await RegisterNodeAsync();
+            }
+
             _ = Task.Run(SendNodeStatusAsync, _cts.Token);
         }
         catch (Exception ex)
