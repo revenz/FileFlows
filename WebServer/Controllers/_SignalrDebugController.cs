@@ -32,13 +32,13 @@ public class _SignalrDebugController : Controller
         }
 
         th {
-        background-color: #002854;
+        background-color: #3c3c3c;
         color: white;
         font-weight: bold;
         }
 
         tr:nth-child(even) {
-        background-color: #3c3c3c;
+        background-color: #2c2c2c;
         }
 
         tr:hover {
