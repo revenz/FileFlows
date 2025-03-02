@@ -1,8 +1,9 @@
-using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using FileFlows.Shared.Models;
+using SharpCompress.Common;
+using SharpCompress.Readers;
 
 namespace FileFlows.ServerShared.Services;
 
@@ -128,12 +129,9 @@ public class ConfigurationService
 
             try
             {
-                if (Directory.Exists(dir))
-                {
-                    Logger.Instance.ILog("Deleting config directory: " + dir);
-                    Directory.Delete(dir, true);
-                    Logger.Instance.ILog("Deleted config directory: " + dir);
-                }
+                DeleteDirectory(dir);
+
+                Logger.Instance.ILog("Deleted config directory: " + dir);
 
                 Directory.CreateDirectory(dir);
                 Logger.Instance.ILog("Created config directory: " + dir);
@@ -183,7 +181,14 @@ public class ConfigurationService
                 {
                     Directory.CreateDirectory(destDir);
                 }
-                ExtractWithOverwrite(zip, destDir);
+                Logger.Instance?.ILog($"Extracting '{zip}' to '{destDir}'");
+
+                if (ExtractWithOverwrite(zip, destDir).Failed(out error))
+                {
+                    Logger.Instance?.ELog($"Configuration failed to extract zip '{zip}': " + error);
+                    return false;
+                }
+
                 File.Delete(zip);
 
                 // check if there are runtime specific files that need to be moved
@@ -278,36 +283,114 @@ public class ConfigurationService
         }
     }
     
-    /// <summary>
-    /// Extracts a ZIP archive to the specified directory, overwriting existing files and skipping those that cannot be overwritten.
-    /// </summary>
-    /// <param name="zipPath">The path to the ZIP file.</param>
-    /// <param name="destinationPath">The directory where the files should be extracted.</param>
-    public static void ExtractWithOverwrite(string zipPath, string destinationPath)
+    void DeleteDirectory(string dir)
     {
-        using ZipArchive archive = ZipFile.OpenRead(zipPath);
-        foreach (ZipArchiveEntry entry in archive.Entries)
+        if (!Directory.Exists(dir))
+            return;
+
+        Logger.Instance.ILog("Deleting config directory: " + dir);
+
+        // Ensure all files are writable before attempting to delete them
+        foreach (string file in Directory.GetFiles(dir, "*", SearchOption.AllDirectories))
         {
-            string destinationFilePath = Path.Combine(destinationPath, entry.FullName);
-
-            // Ensure the directory exists
-            string? directory = Path.GetDirectoryName(destinationFilePath);
-            if (!string.IsNullOrEmpty(directory))
-                Directory.CreateDirectory(directory);
-
             try
             {
-                // Overwrite file if it exists
-                entry.ExtractToFile(destinationFilePath, overwrite: true);
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.WLog($"Failed to delete file '{file}': {ex.Message}");
+            }
+        }
+
+        // Ensure symbolic links are deleted before the directory itself
+        foreach (var subDir in new DirectoryInfo(dir).GetDirectories("*", SearchOption.AllDirectories))
+        {
+            if ((subDir.Attributes & FileAttributes.ReparsePoint) != 0)
+            {
+                try
+                {
+                    subDir.Delete(); // Delete symlink
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.WLog($"Failed to delete symlink '{subDir.FullName}': {ex.Message}");
+                }
+            }
+        }
+
+        // Retry directory deletion if necessary
+        bool deleted = false;
+        for (int i = 0; i < 5; i++)  // Retry up to 5 times
+        {
+            try
+            {
+                if (Directory.Exists(dir))  // Check again before deleting
+                {
+                    Directory.Delete(dir, true);
+                    deleted = true;
+                    Logger.Instance.ILog("Deleted config directory: " + dir);
+                }
+                break;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Logger.Instance.ILog($"Directory '{dir}' not found, assuming deleted.");
+                return; // Exit since it's already gone
             }
             catch (IOException)
             {
-                // Skip files that can't be overwritten (e.g., locked files)
+                Logger.Instance.WLog($"Directory deletion failed, retrying... {dir}");
+                Thread.Sleep(500);  // Wait and retry
             }
         }
+
+        if (!deleted && Directory.Exists(dir))
+            Logger.Instance.WLog($"Failed to delete directory '{dir}' after multiple attempts.");
     }
-    
-    
+
+    /// <summary>
+    /// Extracts a ZIP archive to the specified directory, overwriting existing files and skipping those that cannot be overwritten.
+    /// </summary>
+    /// <param name="archivePath">The path to the ZIP file.</param>
+    /// <param name="destinationPath">The directory where the files should be extracted.</param>
+    public static Result<bool> ExtractWithOverwrite(string archivePath, string destinationPath)
+    {
+        try
+        {
+            Logger.Instance.ILog("About to open archive: " + archivePath);
+
+            using Stream stream = File.OpenRead(archivePath);
+            using var reader = ReaderFactory.Open(stream);
+
+            while (reader.MoveToNextEntry())
+            {
+                // Determine the type of the archive entry
+                if (reader.Entry.IsDirectory)
+                {
+                    // Skip directories, as we're interested in files
+                    continue;
+                }
+
+                // Extract the file
+                reader.WriteEntryToDirectory(destinationPath, new ExtractionOptions()
+                {
+                    ExtractFullPath = true, // Extract files with full path, ie in the appropriate sub directories
+                    Overwrite = true // Overwrite existing files
+                });
+            }
+
+            return true;
+
+        }
+        catch (Exception ex)
+        {
+            return Result<bool>.Fail("Failed to extract archive: " + ex.Message);
+        }
+    }
+
+
     /// <summary>
     /// Writes and run all the DockerMods
     /// </summary>
