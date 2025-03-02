@@ -1,4 +1,5 @@
 using System.Text;
+using FileFlows.ServerModels;
 
 #if(DEBUG)
 namespace FileFlows.WebServer.Controllers;
@@ -7,7 +8,7 @@ namespace FileFlows.WebServer.Controllers;
 public class _SignalrDebugController : Controller
 {
     [HttpGet]
-    public IActionResult GetHtmlOverview()
+    public async Task<IActionResult> GetHtmlOverview()
     {
         StringBuilder builder = new StringBuilder();
         builder.AppendLine("""
@@ -47,11 +48,24 @@ public class _SignalrDebugController : Controller
     <body>
 """);
         
+        builder.AppendLine(await GetTopInfo());
         builder.AppendLine(GetNodeOverview());
         builder.AppendLine(GetQueuedFiles());
         
         builder.AppendLine("</body></html>");
         return Content(builder.ToString(), "text/html");
+    }
+
+    private async Task<string> GetTopInfo()
+    {
+        int config = await ServiceLoader.Load<ISettingsService>().GetCurrentConfigurationRevision();
+        StringBuilder html = new ($"""
+                                   <div>
+                                       <span>Current Config</span>
+                                       <span>{config}</span>
+                                    <div>
+                                   """);
+        return html.ToString();
     }
 
     private string GetQueuedFiles()
@@ -105,10 +119,10 @@ public class _SignalrDebugController : Controller
         {
             html.AppendLine($"""
                              <tr>
-                                 <td>{node.NodeUid}</td>
+                                 <td>{node.Node.Name}</td>
                                  <td>{node.ConfigRevision}</td>
                                  <td>{node.ConnectionId}</td>
-                                 <td>{node.ActiveRunners?.Count} / {node.MaxRunners}</td>
+                                 <td>{node.ActiveRunners?.Count} / {node.Node.FlowRunners}</td>
                              </tr>
                              """);
         }

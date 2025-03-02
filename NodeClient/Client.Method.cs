@@ -53,6 +53,8 @@ public partial class Client
         
         _logger.ILog("Updating configuration...");
         await _configurationService.SaveConfiguration(obj, _node);
+        
+        TriggerStatusUpdate();
     }
 
     private void UpdateNode(ProcessingNode obj)
@@ -61,6 +63,7 @@ public partial class Client
         _node = obj;
         _registrationCompletion.TrySetResult(true);
     }
+    
     /// <summary>
     /// Registers the node with the server
     /// </summary>
@@ -147,6 +150,7 @@ public partial class Client
             _registrationCompletion.TrySetResult(false);
         }
     }
+    private CancellationTokenSource _delayCts = new();
 
     private async Task SendNodeStatusAsync()
     {
@@ -161,7 +165,6 @@ public partial class Client
                     {
                         NodeUid = _nodeUid,
                         ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
-                        MaxRunners = _node!.FlowRunners,
                         ActiveRunners = _runnerManager.GetActiveRunnerUids()
                     });
                 }
@@ -171,9 +174,28 @@ public partial class Client
                 _logger.ELog($"Error sending node status: {ex.Message}");
             }
 
-            await Task.Delay(TimeSpan.FromSeconds(10));
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(10), _delayCts.Token);
+            }
+            catch (TaskCanceledException)
+            {
+                // Task.Delay was interrupted, continue immediately
+            }
         }
     }
+
+    /// <summary>
+    /// Triggers an immediate node status update.
+    /// </summary>
+    public void TriggerStatusUpdate()
+    {
+        _delayCts.Cancel(); // Cancels the current delay
+        _delayCts.Dispose();
+        _delayCts = new CancellationTokenSource(); // Reset for the next delay
+    }
+
+
     
     private async Task<bool> HandleClientProcessFile(RunFileArguments args)
     {

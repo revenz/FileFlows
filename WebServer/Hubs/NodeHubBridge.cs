@@ -32,25 +32,12 @@ public class NodeHubBridge : INodeHubService
     }
 
     /// <inheritdoc/>
-    public async Task<Result<bool>> ProcessFile(Guid nodeUid, LibraryFile file, int configRevision)
+    public async Task<Result<bool>> ProcessFile(Guid nodeUid, LibraryFile file, string connectionId)
     {
-        var nodeStatus = _nodeService.GetNodeStatus(nodeUid);
-
-        if (nodeStatus == null)
-            return Result<bool>.Fail("Node is not registered");
-        if (string.IsNullOrEmpty(nodeStatus.ConnectionId))
-            return Result<bool>.Fail("Node is not connected");
-
-        if (nodeStatus.ActiveRunners.Count >= nodeStatus.MaxRunners)
-            return Result<bool>.Fail("Node is at max capacity");
-
-        if (nodeStatus.ConfigRevision != configRevision)
-            return Result<bool>.Fail("Node config out of date");
-
         try
         {
             var settings = await _settingsService.Get();
-            return await _hubContext.Clients.Client(nodeStatus.ConnectionId)
+            return await _hubContext.Clients.Client(connectionId)
                 .InvokeAsync<bool>("ClientProcessFile", new RunFileArguments()
                 {
                     LibraryFile = file,
@@ -61,6 +48,21 @@ public class NodeHubBridge : INodeHubService
         catch (Exception ex)
         {
             return Result<bool>.Fail($"Failed to communicate with node: {ex.Message}");
+        }
+    }
+
+    /// <inheritdoc/>
+    public async Task UpdateConfig(string connectionId)
+    {
+        try
+        {
+            var cfg = await _settingsService.GetCurrentConfiguration();
+            if(cfg != null)
+                await _hubContext.Clients.Client(connectionId).SendAsync("ConfigUpdated", cfg);
+        }
+        catch (Exception)
+        {
+            // Ignored
         }
     }
 

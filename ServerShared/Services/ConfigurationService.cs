@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -36,7 +37,7 @@ public class ConfigurationService
             return;
 
         var path = new DirectoryInfo(DirectoryHelper.ConfigDirectory).GetDirectories(
-            ).Where(x => Regex.IsMatch(x.Name, "^[\\d]+$"))
+            ).Where(x => Regex.IsMatch(x.Name, "^[\\d]+$") && x.Name != "0")
             .OrderByDescending(x => int.TryParse(x.Name, out var value) ? value : 0)
             .FirstOrDefault();
         if (path == null)
@@ -60,7 +61,6 @@ public class ConfigurationService
             // Ignored
             Logger.Instance?.WLog("Failed to load previous config: " + ex.Message);
             path.Delete(true);
-
         }
     }
 
@@ -175,8 +175,15 @@ public class ConfigurationService
 
                 var zip = result.Value;
                 string destDir = Path.Combine(dir, "Plugins", plugin);
-                Directory.CreateDirectory(destDir);
-                System.IO.Compression.ZipFile.ExtractToDirectory(zip, destDir);
+                if (Directory.Exists(destDir))
+                {
+                    Directory.Delete(destDir, true);
+                }
+                else
+                {
+                    Directory.CreateDirectory(destDir);
+                }
+                ExtractWithOverwrite(zip, destDir);
                 File.Delete(zip);
 
                 // check if there are runtime specific files that need to be moved
@@ -270,6 +277,36 @@ public class ConfigurationService
             _updateConfigSemaphore.Release();
         }
     }
+    
+    /// <summary>
+    /// Extracts a ZIP archive to the specified directory, overwriting existing files and skipping those that cannot be overwritten.
+    /// </summary>
+    /// <param name="zipPath">The path to the ZIP file.</param>
+    /// <param name="destinationPath">The directory where the files should be extracted.</param>
+    public static void ExtractWithOverwrite(string zipPath, string destinationPath)
+    {
+        using ZipArchive archive = ZipFile.OpenRead(zipPath);
+        foreach (ZipArchiveEntry entry in archive.Entries)
+        {
+            string destinationFilePath = Path.Combine(destinationPath, entry.FullName);
+
+            // Ensure the directory exists
+            string? directory = Path.GetDirectoryName(destinationFilePath);
+            if (!string.IsNullOrEmpty(directory))
+                Directory.CreateDirectory(directory);
+
+            try
+            {
+                // Overwrite file if it exists
+                entry.ExtractToFile(destinationFilePath, overwrite: true);
+            }
+            catch (IOException)
+            {
+                // Skip files that can't be overwritten (e.g., locked files)
+            }
+        }
+    }
+    
     
     /// <summary>
     /// Writes and run all the DockerMods

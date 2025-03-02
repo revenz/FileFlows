@@ -64,7 +64,7 @@ public class NodeHub : Hub
         if (info == null)
             return;
         _logger.DLog($"Updating node status: {info.NodeUid}");
-        _nodeService.UpdateNodeStatusFromNode(info);
+        _ = _nodeService.UpdateNodeStatusFromNode(info);
     }
     
     /// <summary>
@@ -151,8 +151,7 @@ public class NodeHub : Hub
             node = await _nodeService.Update(node, null);
         }
 
-        _nodeService.SetConnectionId(node.Uid, Context.ConnectionId, parameters.ConfigRevision, node.Enabled,
-            node.FlowRunners);
+        _nodeService.SetConnectionId(Context.ConnectionId, parameters.ConfigRevision, node);
         _logger.ILog($"Node registered: {node.Name} ({node.Uid})");
         return new NodeRegisterResult()
         {
