@@ -150,11 +150,13 @@ public class NodeManager
         var settings = AppSettings.Instance;
         if (string.IsNullOrEmpty(settings.ServerUrl))
             return (false, "Server URL not set");
-
-        if(_client != null)
-            _client.OnConnectionUpdated -= ClientOnOnConnectionUpdated;
         
-        _client?.Dispose();
+        if (_client != null)
+        {
+            _client.OnConnectionUpdated -= ClientOnOnConnectionUpdated;
+            _client.Dispose();
+            _client = null; // Ensure a fresh instance is created
+        }
 
         _client = new(new()
         {
@@ -164,7 +166,6 @@ public class NodeManager
             ForcedTempPath = AppSettings.ForcedTempPath,
             EnvironmentalMappings = AppSettings.EnvironmentalMappings
         }, Logger.Instance!);
-
 
         _client.OnConnectionUpdated += ClientOnOnConnectionUpdated;
         

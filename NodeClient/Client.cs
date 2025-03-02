@@ -8,7 +8,6 @@ using FileFlows.Shared;
 using FileFlows.Shared.Models;
 using FileFlows.Shared.Models.SignalAre;
 using Microsoft.AspNetCore.SignalR.Client;
-using UglyToad.PdfPig.Graphics;
 using ILogger = FileFlows.Common.ILogger;
 
 namespace FileFlows.NodeClient;
@@ -18,13 +17,15 @@ namespace FileFlows.NodeClient;
 /// </summary>
 public partial class Client : IDisposable
 {
-    private HubConnection _connection;
+    private readonly object _lock = new(); 
     private readonly RetryPolicyLoop _retryPolicyLoop; 
     private readonly ConfigurationService _configurationService;
     private readonly ILogger _logger;
+    private readonly CancellationTokenSource _cts;
+    
     private TaskCompletionSource<bool> _registrationCompletion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private readonly HubConnection _connection;
     private bool _disposed;
-    private CancellationTokenSource _cts;  // Cancellation token source for graceful shutdown
 
     /// <summary>
     /// Connection updated event
@@ -43,13 +44,14 @@ public partial class Client : IDisposable
     /// <param name="logger">The logger instance.</param>
     public Client(ClientParameters parameters, ILogger logger)
     {
-        _parameters = parameters;
+        _parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        
         _configurationService = ServiceLoader.Load<ConfigurationService>();
         _hostname = parameters.Hostname;
         _runnerManager = new();
-        _logger = logger;
-        _retryPolicyLoop = new RetryPolicyLoop(logger);  // Initialize retry policy
-        _cts = new CancellationTokenSource();  // Initialize the cancellation token source
+        _retryPolicyLoop = new RetryPolicyLoop(logger);
+        _cts = new CancellationTokenSource();
 
         parameters.ServerUrl = parameters.ServerUrl.Replace("http:", "ws:").Replace("https:", "wss:").TrimEnd('/');
 
@@ -60,7 +62,7 @@ public partial class Client : IDisposable
                     options.Headers.Add("Authorization", parameters.AccessToken);
             })
             .WithKeepAliveInterval(TimeSpan.FromSeconds(10))
-            .WithAutomaticReconnect(_retryPolicyLoop) // Custom retry policy
+            .WithAutomaticReconnect(_retryPolicyLoop)
             .Build();
 
         _connection.On<RunFileArguments, bool>("ClientProcessFile", HandleClientProcessFile);
@@ -69,113 +71,65 @@ public partial class Client : IDisposable
 
         _connection.Reconnecting += error =>
         {
-            OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
             _logger.WLog("Connection lost, attempting to reconnect...");
+            OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
             _registrationCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             return Task.CompletedTask;
         };
 
         _connection.Reconnected += async connectionId =>
         {
-            OnConnectionUpdated?.Invoke(ConnectionState.Connected);
             _logger.ILog("Reconnected, registering node...");
+            OnConnectionUpdated?.Invoke(ConnectionState.Connected);
             await RegisterNodeAsync();
-            _retryPolicyLoop.ResetBackoff();  // Reset backoff after successful reconnection
+            _retryPolicyLoop.ResetBackoff();
         };
 
         _connection.Closed += error =>
         {
-            OnConnectionUpdated?.Invoke(ConnectionState.Disconnected);
             _logger.WLog("Connection closed.");
+            OnConnectionUpdated?.Invoke(ConnectionState.Disconnected);
             _registrationCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            _retryPolicyLoop.ResetBackoff();  // Reset backoff on closure if needed
+            _retryPolicyLoop.ResetBackoff();
             return Task.CompletedTask;
         };
 
-        // Try to start the connection immediately on construction, and handle the initial failure
-        TryStartConnectionAsync().ConfigureAwait(false);
+        _ = TryStartConnectionAsync();
     }
 
     /// <summary>
-    /// Attempts to start the connection and retry if the connection fails initially.
+    /// Attempts to start the connection and retry if it fails initially.
     /// </summary>
     private async Task TryStartConnectionAsync()
     {
         OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
-        try
+
+        while (!_cts.Token.IsCancellationRequested)
         {
-            if (_connection.State == HubConnectionState.Disconnected)
+            try
             {
-                // The connection is in a disconnected state, retrying
+                lock (_lock)
+                {
+                    if (_connection.State != HubConnectionState.Disconnected)
+                    {
+                        _logger.WLog($"Connection is in state {_connection.State}, skipping StartAsync.");
+                        return;
+                    }
+                }
+
                 _logger.ILog("Attempting to start connection...");
-                await _connection.StartAsync(_cts.Token);  // Pass cancellation token here
+                await _connection.StartAsync(_cts.Token);
                 OnConnectionUpdated?.Invoke(ConnectionState.Connected);
                 await RegisterNodeAsync();
-                _ = Task.Run(SendNodeStatusAsync); // Start sending node status once connected
+                _ = Task.Run(SendNodeStatusAsync, _cts.Token);
+                return; // Exit loop on successful connection
+            }
+            catch (Exception ex)
+            {
+                _logger.WLog($"Connection failed: {ex.Message}. Retrying in 5 seconds...");
+                await Task.Delay(5000, _cts.Token);
             }
         }
-        catch (ObjectDisposedException)
-        {
-            // If the connection has been disposed, handle re-creating the connection
-            _logger.WLog("Connection object disposed. Recreating the connection...");
-            CreateNewConnection();
-            await TryStartConnectionAsync(); // Retry after re-creating the connection
-        }
-        catch (OperationCanceledException)
-        {
-            _logger.WLog("Connection attempt was canceled.");
-        }
-        catch (Exception ex)
-        {
-            _logger.WLog($"Connection failed to start: {ex.Message}. Retrying...");
-            await Task.Delay(5000);  // Wait for a few seconds before retrying
-            await TryStartConnectionAsync();  // Retry connecting
-        }
-    }
-
-    private void CreateNewConnection()
-    {
-        _logger.ILog("Creating a new HubConnection...");
-
-        // Recreate the connection object
-        _connection.DisposeAsync().GetAwaiter().GetResult();
-
-        _connection = new HubConnectionBuilder()
-            .WithUrl($"{_parameters.ServerUrl}/node", options =>
-            {
-                if (string.IsNullOrWhiteSpace(_parameters.AccessToken) == false)
-                    options.Headers.Add("Authorization", _parameters.AccessToken);
-            })
-            .WithKeepAliveInterval(TimeSpan.FromSeconds(10))
-            .WithAutomaticReconnect(_retryPolicyLoop) // Custom retry policy
-            .Build();
-
-        _connection.On<RunFileArguments, bool>("ClientProcessFile", HandleClientProcessFile);
-        _connection.On<ProcessingNode>("NodeUpdated", UpdateNode);
-        _connection.On<ConfigurationRevision>("ConfigUpdated", UpdateConfiguration);
-
-        _connection.Reconnecting += error =>
-        {
-            OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
-            _logger.WLog("Connection lost, attempting to reconnect...");
-            _registrationCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            return Task.CompletedTask;
-        };
-
-        _connection.Reconnected += async connectionId =>
-        {
-            OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-            _logger.ILog("Reconnected, registering node...");
-            await RegisterNodeAsync();
-        };
-
-        _connection.Closed += error =>
-        {
-            OnConnectionUpdated?.Invoke(ConnectionState.Disconnected);
-            _logger.WLog("Connection closed.");
-            _registrationCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            return Task.CompletedTask;
-        };
     }
 
     /// <summary>
@@ -184,31 +138,54 @@ public partial class Client : IDisposable
     public async Task StartAsync()
     {
         _logger.ILog("Starting client...");
-        await _connection.StartAsync(_cts.Token);  // Pass cancellation token here
-        OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-        await RegisterNodeAsync();
-        _ = Task.Run(SendNodeStatusAsync);
+        try
+        {
+            await _connection.StartAsync(_cts.Token);
+            OnConnectionUpdated?.Invoke(ConnectionState.Connected);
+            await RegisterNodeAsync();
+            _ = Task.Run(SendNodeStatusAsync, _cts.Token);
+        }
+        catch (Exception ex)
+        {
+            _logger.WLog($"Failed to start connection: {ex.Message}");
+        }
     }
 
+    /// <summary>
+    /// Stops the connection and unregisters the node.
+    /// </summary>
     public async Task StopAsync()
     {
-        if (IsRegistered)
+        if (_disposed)
+            return;
+
+        try
         {
-            try
+            if (IsRegistered)
             {
                 _logger.ILog("Unregistering node...");
                 await _connection.InvokeAsync("UnregisterNode", _nodeUid);
             }
-            catch (Exception ex)
-            {
-                _logger.WLog($"Failed to unregister node: {ex.Message}");
-            }
-            _node = null;
+        }
+        catch (Exception ex)
+        {
+            _logger.WLog($"Failed to unregister node: {ex.Message}");
         }
 
-        await _connection.StopAsync();  // Stop connection asynchronously
+        try
+        {
+            _logger.ILog("Stopping connection...");
+            await _connection.StopAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.WLog($"Failed to stop connection: {ex.Message}");
+        }
     }
 
+    /// <summary>
+    /// Ensures the node is registered before proceeding.
+    /// </summary>
     private async Task EnsureRegisteredAsync()
     {
         if (!IsRegistered)
@@ -218,25 +195,45 @@ public partial class Client : IDisposable
         }
     }
 
+    /// <summary>
+    /// Disposes the client, ensuring all resources are properly cleaned up.
+    /// </summary>
     public void Dispose()
     {
         if (_disposed)
             return;
 
-        // Unsubscribe all listeners from the event
-        if (OnConnectionUpdated != null)
+        lock (_lock)
         {
-            foreach (var listener in OnConnectionUpdated.GetInvocationList())
+            if (_disposed)
+                return;
+            
+            _disposed = true;
+            _logger.ILog("Disposing client...");
+
+            try
             {
-                OnConnectionUpdated -= (ConnectionUpdated)listener;
+                _cts.Cancel();
+                StopAsync().GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                _logger.WLog($"Exception during disposal: {ex.Message}");
+            }
+            finally
+            {
+                _cts.Dispose();
+                _connection.DisposeAsync().GetAwaiter().GetResult();
+            }
+
+            // Unsubscribe event handlers to prevent memory leaks
+            if (OnConnectionUpdated != null)
+            {
+                foreach (var listener in OnConnectionUpdated.GetInvocationList())
+                {
+                    OnConnectionUpdated -= (ConnectionUpdated)listener;
+                }
             }
         }
-        _disposed = true;
-        _logger.ILog("Disposing client...");
-
-        // Cancel any ongoing connection tasks if disposing
-        _cts.Cancel();
-        StopAsync().GetAwaiter().GetResult();
-        _connection.DisposeAsync().GetAwaiter().GetResult();
     }
 }
