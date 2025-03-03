@@ -27,6 +27,12 @@ public class ProcessingNode: FileFlowObject
     /// Gets or sets when the node was last seen
     /// </summary>
     public DateTime LastSeen { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if the node is online
+    /// </summary>
+    [DbIgnore]
+    public bool IsOnline { get; set; }
 
     /// <summary>
     /// Gets or sets if this node is enabled

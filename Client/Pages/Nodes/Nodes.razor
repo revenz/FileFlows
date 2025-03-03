@@ -42,37 +42,13 @@
                     <Cell Context="item">
                         @{
                             bool internalNode = item.Address == FileFlowsServer;
-                            string color;
-                            if (item.Priority <= LowestPriority)
-                            {
-                                color = lowestColor;
-                            }
-                            else if (item.Priority >= HighestPriority)
-                            {
-                                color = highestColor;
-                            }
-                            else
-                            {
-                                // Interpolate between lowestColor and highestColor based on priority value
-                                double ratio = (double)(item.Priority - LowestPriority) / (HighestPriority - LowestPriority);
-                                int red = (int)(255 * (1 - ratio) + 255 * ratio);
-                                int green = (int)(255 * ratio + 255 * (1 - ratio) * 0.75); // Adjusted to make more orange
-                                int blue = 0; // Assuming no blue component for simplicity
-                                color = $"#{red:X2}{green:X2}{blue:X2}";
-                            }
                             string statusTitle = lblRunning;
                             bool offline = false;
-                            bool possiblyDisconnected = false;
 
-                            if (internalNode == false && item.LastSeen < DateTime.UtcNow.AddMinutes(-10))
+                            if (internalNode == false && item.IsOnline == false)
                             {
                                 statusTitle = lblDisconnected;
                                 offline = true;
-                            }
-                            else if (internalNode == false && item.LastSeen < DateTime.UtcNow.AddMinutes(-5))
-                            {
-                                statusTitle = lblPossiblyDisconnected;
-                                possiblyDisconnected = true;
                             }
                         }
                         
@@ -95,10 +71,6 @@
                                     @if (offline)
                                     {
                                         <IconValue Color="IconValueColor.Red" Icon="fas fa-ethernet" Value="@statusTitle"/>
-                                    }
-                                    else if (possiblyDisconnected)
-                                    {
-                                        <IconValue Color="IconValueColor.Orange" Icon="fas fa-ethernet" Value="@statusTitle"/>
                                     }
 
                                     @if (internalNode == false && item.Status == ProcessingNodeStatus.VersionMismatch)
