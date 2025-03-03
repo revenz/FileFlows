@@ -79,6 +79,7 @@ public abstract partial class App : Application
         return luminance > 0.5 ? Colors.Black : Colors.White;
     }
 
+    private UiWindow? _mainWindow;
 
     /// <summary>
     /// Called when the framework initialization is complete.
@@ -89,29 +90,29 @@ public abstract partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Create the main window here, but don't display it yet
-            var mainWindow = CreateMainWindow();
+            _mainWindow = CreateMainWindow();
 
             // Immediately apply the theme
-            UpdateTheme(mainWindow.ActualThemeVariant);
-            mainWindow.ActualThemeVariantChanged += (_, _) => { UpdateTheme(mainWindow.ActualThemeVariant); };
+            UpdateTheme(_mainWindow.ActualThemeVariant);
+            _mainWindow.ActualThemeVariantChanged += (_, _) => { UpdateTheme(_mainWindow.ActualThemeVariant); };
 
             // Check if the app should start minimized and hidden
             if (GetInitialStartMinimized())
             {
                 // Ensure the window is created minimized and hidden before it's displayed
-                mainWindow.WindowState = WindowState.Minimized;
+                _mainWindow.WindowState = WindowState.Minimized;
 
                 // Post to the UI thread after framework initialization is complete
                 Avalonia.Threading.Dispatcher.UIThread.Post(() =>
                 {
                     // Hide the window immediately
-                    mainWindow.Hide();
-                    desktop.MainWindow = mainWindow;
+                    _mainWindow.Hide();
+                    desktop.MainWindow = _mainWindow;
                 }, Avalonia.Threading.DispatcherPriority.ApplicationIdle);
             }
             else
             {
-                desktop.MainWindow = mainWindow;
+                desktop.MainWindow = _mainWindow;
             }
         }
 
@@ -123,7 +124,7 @@ public abstract partial class App : Application
     /// Creates the main window for the application.
     /// </summary>
     /// <returns>A new instance of the main window.</returns>
-    protected abstract Window CreateMainWindow();
+    protected abstract UiWindow CreateMainWindow();
 
     /// <summary>
     /// Retrieves the FileFlows server URL used to open a browser to this location
@@ -224,13 +225,7 @@ public abstract partial class App : Application
     /// Shuts down the application.
     /// </summary>
     private void Quit(object? sender, EventArgs e)
-    {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop && desktop.MainWindow != null)
-        {
-            desktop.MainWindow.WindowState = WindowState.Normal;
-            desktop.MainWindow.Close();
-        }
-    }
+        => _mainWindow?.Quit();
 
 
     /// <summary>

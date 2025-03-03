@@ -39,6 +39,24 @@ public abstract class UiWindow : Window
     }
 
     /// <summary>
+    /// Quits the app
+    /// </summary>
+    public void Quit()
+    {
+        WindowState = WindowState.Normal;
+        Show();
+        
+        _ = Task.Run(async () =>
+        {
+            if (await Confirm("Quit", QuitMessage))
+            {
+                _quitting = true;
+                _ = Dispatcher.UIThread.InvokeAsync(Close);
+            }
+        });
+    }
+
+    /// <summary>
     /// Dont prompt with confirm quit mesage
     /// </summary>
     protected virtual bool DontPromptOnQuit => false;
@@ -49,26 +67,22 @@ public abstract class UiWindow : Window
     protected virtual string QuitMessage => "Are you sure you want to quit?";
 
     private bool _quitting = false;
-
+    
     protected override void OnClosing(WindowClosingEventArgs e)
     {
-        if (DontPromptOnQuit || _quitting)
-            return;
-        
-        e.Cancel = true;
-        _ = Task.Run(async () =>
+        base.OnClosing(e);
+
+        if (DontPromptOnQuit == false && _quitting == false) // Detects close button
         {
-            if(await Confirm("Quit", QuitMessage))
-            {
-                _quitting = true;
-                Close();
-                
-                if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
-                {
-                    lifetime.Shutdown();
-                }
-            }
-        });
+            e.Cancel = true; // Prevent closing if needed
+            Quit();
+        }
+    }
+
+    public void CloseWindow()
+    {
+        _quitting = true;
+        this.Close();
     }
 
     /// <summary>

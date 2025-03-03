@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using FileFlows.AvaloniaUi;
 using FileFlows.Services;
 using FileFlows.WebServer;
 
@@ -11,7 +12,7 @@ namespace FileFlows.Server.Gui.Avalon;
 public class App : FileFlows.AvaloniaUi.App
 {
     /// <inheritdoc />
-    protected override Window CreateMainWindow()
+    protected override UiWindow CreateMainWindow()
         => new MainWindow();
 
     /// <inheritdoc />

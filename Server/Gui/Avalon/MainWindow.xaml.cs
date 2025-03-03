@@ -56,16 +56,6 @@ public class MainWindow : UiWindow
     private void BtnOpen_OnClick(object? sender, RoutedEventArgs e)
         => Launch();
 
-    /// <summary>
-    /// Quit the application
-    /// </summary>
-    public void Quit()
-    {
-        this.WindowState = WindowState.Normal;
-        this.Show();
-        this.Close();
-    }
-
     public void Minimize()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

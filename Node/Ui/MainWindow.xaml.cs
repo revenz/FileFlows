@@ -81,7 +81,7 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
     }
     
     private void Close_OnClick(object? sender, RoutedEventArgs e)
-        => this.Close();
+        => Quit();
 
     private void Settings_OnClick(object? sender, RoutedEventArgs e)
     {
