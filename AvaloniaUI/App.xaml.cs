@@ -58,8 +58,8 @@ public abstract partial class App : Application
             stylePath = "avares://FileFlows.AvaloniaUI/Styles/Windows.axaml";
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && SystemHelper.IsGnome)
             stylePath = "avares://FileFlows.AvaloniaUI/Styles/Gnome.axaml";
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            stylePath = "avares://FileFlows.AvaloniaUI/Styles/Mac.axaml";
+        // else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        //     stylePath = "avares://FileFlows.AvaloniaUI/Styles/Mac.axaml";
 
         Styles.Add(new StyleInclude(new Uri("avares://FileFlows.AvaloniaUI"))
         {   
@@ -257,7 +257,33 @@ public abstract partial class App : Application
 
             if (variant == ThemeVariant.Dark)
             {
-                if (isGnome)
+                if (isWindows)
+                {
+                    // Windows Dark Theme Colors
+                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(50, 50, 50);
+                    Current.Resources["DefaultButtonForeground"] = Colors.White;
+                    Current.Resources["DefaultButtonHover"] = Color.FromRgb(60, 60, 60);
+                    Current.Resources["DefaultButtonPressed"] = Color.FromRgb(80, 80, 80);
+                    Current.Resources["SystemAccentBackground"] = Color.FromArgb(20, accentColor.R, accentColor.G, accentColor.B);
+
+                    Current.Resources["DisabledBackground"] = Color.FromRgb(30,30,30);
+                    Current.Resources["DisabledForeground"] = Color.FromRgb(200, 200, 200);
+                    
+                    Current.Resources["TextBoxBackground"] = Color.FromRgb(50, 50, 50);
+                    Current.Resources["TextBoxForeground"] = Colors.White;
+                }
+                // else if (isMac)
+                // {
+                //     // macOS Dark Theme Colors
+                //     Current.Resources["DefaultButtonBackground"] = Color.FromRgb(86, 84, 89);
+                //     Current.Resources["DefaultButtonForeground"] = Colors.White;
+                //     Current.Resources["DefaultButtonHover"] = Color.FromRgb(78, 78, 78);
+                //     Current.Resources["DefaultButtonPressed"] = Color.FromRgb(98, 98, 98);
+                //
+                //     Current.Resources["TextBoxBackground"] = Color.FromRgb(44, 44, 44);
+                //     Current.Resources["TextBoxForeground"] = Colors.White;
+                // }
+                else
                 {
                     // GNOME Dark Theme Colors
                     Current.Resources["DefaultButtonBackground"] = Color.FromRgb(50, 50, 50);
@@ -273,61 +299,10 @@ public abstract partial class App : Application
                     Current.Resources["TextBoxBackground"] = Color.FromRgb(54, 54, 54);
                     Current.Resources["TextBoxForeground"] = Colors.White;
                 }
-                else if (isWindows)
-                {
-                    // Windows Dark Theme Colors
-                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(50, 50, 50);
-                    Current.Resources["DefaultButtonForeground"] = Colors.White;
-                    Current.Resources["DefaultButtonHover"] = Color.FromRgb(60, 60, 60);
-                    Current.Resources["DefaultButtonPressed"] = Color.FromRgb(80, 80, 80);
-                    Current.Resources["SystemAccentBackground"] = Color.FromArgb(20, accentColor.R, accentColor.G, accentColor.B);
-
-                    Current.Resources["DisabledBackground"] = Color.FromRgb(30,30,30);
-                    Current.Resources["DisabledForeground"] = Color.FromRgb(200, 200, 200);
-                    
-                    Current.Resources["TextBoxBackground"] = Color.FromRgb(50, 50, 50);
-                    Current.Resources["TextBoxForeground"] = Colors.White;
-                }
-                else if (isMac)
-                {
-                    // macOS Dark Theme Colors
-                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(86, 84, 89);
-                    Current.Resources["DefaultButtonForeground"] = Colors.White;
-                    Current.Resources["DefaultButtonHover"] = Color.FromRgb(78, 78, 78);
-                    Current.Resources["DefaultButtonPressed"] = Color.FromRgb(98, 98, 98);
-
-                    Current.Resources["TextBoxBackground"] = Color.FromRgb(44, 44, 44);
-                    Current.Resources["TextBoxForeground"] = Colors.White;
-                }
-                else
-                {
-                    // Default Dark Theme Colors
-                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(55, 55, 55);
-                    Current.Resources["DefaultButtonForeground"] = Colors.White;
-                    Current.Resources["DefaultButtonHover"] = Color.FromRgb(75, 75, 75);
-                    Current.Resources["DefaultButtonPressed"] = Color.FromRgb(95, 95, 95);
-
-                    Current.Resources["TextBoxBackground"] = Color.FromRgb(35, 35, 35);
-                    Current.Resources["TextBoxForeground"] = Colors.White;
-                }
             }
             else
             {
-                if (isGnome)
-                {
-                    // GNOME Light Theme Colors
-                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(229, 229, 229);
-                    Current.Resources["DefaultButtonForeground"] = Colors.Black;
-                    Current.Resources["DefaultButtonHover"] = Color.FromRgb(213, 213, 213);
-                    Current.Resources["DefaultButtonPressed"] = Color.FromRgb(197, 197, 197);
-                    
-                    Current.Resources["DisabledBackground"] = Color.FromRgb(200, 200, 200);
-                    Current.Resources["DisabledForeground"] = Color.FromRgb(1, 1, 1);
-
-                    Current.Resources["TextBoxBackground"] = Color.FromRgb(245, 245, 245);
-                    Current.Resources["TextBoxForeground"] = Colors.Black;
-                }
-                else if (isWindows)
+                if (isWindows)
                 {
                     // Windows Light Theme Colors
                     Current.Resources["DefaultButtonBackground"] = Color.FromRgb(240, 240, 240);
@@ -343,24 +318,27 @@ public abstract partial class App : Application
                     Current.Resources["TextBoxBackground"] = Color.FromRgb(240, 240, 240);
                     Current.Resources["TextBoxForeground"] = Colors.Black;
                 }
-                else if (isMac)
-                {
-                    // macOS Light Theme Colors
-                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(242, 242, 242);
-                    Current.Resources["DefaultButtonForeground"] = Colors.Black;
-                    Current.Resources["DefaultButtonHover"] = Color.FromRgb(226, 226, 226);
-                    Current.Resources["DefaultButtonPressed"] = Color.FromRgb(210, 210, 210);
-
-                    Current.Resources["TextBoxBackground"] = Color.FromRgb(250, 250, 250);
-                    Current.Resources["TextBoxForeground"] = Colors.Black;
-                }
+                // else if (isMac)
+                // {
+                //     // macOS Light Theme Colors
+                //     Current.Resources["DefaultButtonBackground"] = Color.FromRgb(242, 242, 242);
+                //     Current.Resources["DefaultButtonForeground"] = Colors.Black;
+                //     Current.Resources["DefaultButtonHover"] = Color.FromRgb(226, 226, 226);
+                //     Current.Resources["DefaultButtonPressed"] = Color.FromRgb(210, 210, 210);
+                //
+                //     Current.Resources["TextBoxBackground"] = Color.FromRgb(250, 250, 250);
+                //     Current.Resources["TextBoxForeground"] = Colors.Black;
+                // }
                 else
                 {
-                    // Default Light Theme Colors
-                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(235, 235, 235);
+                    // GNOME Light Theme Colors
+                    Current.Resources["DefaultButtonBackground"] = Color.FromRgb(229, 229, 229);
                     Current.Resources["DefaultButtonForeground"] = Colors.Black;
-                    Current.Resources["DefaultButtonHover"] = Color.FromRgb(220, 220, 220);
-                    Current.Resources["DefaultButtonPressed"] = Color.FromRgb(200, 200, 200);
+                    Current.Resources["DefaultButtonHover"] = Color.FromRgb(213, 213, 213);
+                    Current.Resources["DefaultButtonPressed"] = Color.FromRgb(197, 197, 197);
+                    
+                    Current.Resources["DisabledBackground"] = Color.FromRgb(200, 200, 200);
+                    Current.Resources["DisabledForeground"] = Color.FromRgb(1, 1, 1);
 
                     Current.Resources["TextBoxBackground"] = Color.FromRgb(245, 245, 245);
                     Current.Resources["TextBoxForeground"] = Colors.Black;
