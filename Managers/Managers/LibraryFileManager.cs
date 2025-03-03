@@ -256,6 +256,13 @@ public class LibraryFileManager
     public Task<List<KnownFileInfo>> GetKnownLibraryFilesWithCreationTimes(Guid libraryUid)
         => DatabaseAccessManager.Instance.LibraryFileManager.GetKnownLibraryFilesWithCreationTimes(libraryUid);
 
+    /// <summary>
+    /// Gets if a specific library has any unprocessed files
+    /// </summary>
+    /// <param name="libraryUid">the UID of the library</param>
+    /// <returns>true if there are unprocessed files or not</returns>
+    public async Task<bool> LibraryHasUnprocessedFiles(Guid libraryUid)
+        => await DatabaseAccessManager.Instance.LibraryFileManager.LibraryHasUnprocessedFiles(libraryUid);
 
     /// <summary>
     /// Gets the total storage saved

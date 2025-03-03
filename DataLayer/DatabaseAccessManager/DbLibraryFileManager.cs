@@ -2377,4 +2377,20 @@ FROM {Wrap(nameof(LibraryFile))} GROUP BY {Wrap(nameof(LibraryFile.NodeUid))};";
         }
 
     }
+
+    /// <summary>
+    /// Gets if a specific library has any unprocessed files
+    /// </summary>
+    /// <param name="libraryUid">the UID of the library</param>
+    /// <returns>true if there are unprocessed files or not</returns>
+    public async Task<bool> LibraryHasUnprocessedFiles(Guid libraryUid)
+    {
+        if (UseCache)
+            return Cache.Any(x => x.Value.LibraryUid == libraryUid && (int)x.Value.Status < 1);
+
+        using var db = await DbConnector.GetDb();
+        return await db.Db.ExecuteScalarAsync<int>("select count(*) from " + Wrap(nameof(LibraryFile)) +
+                                                   $" where {Wrap(nameof(LibraryFile.LibraryUid))} = @0", libraryUid) >
+               0;
+    }
 }
