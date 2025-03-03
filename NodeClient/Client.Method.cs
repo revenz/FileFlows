@@ -146,6 +146,7 @@ public partial class Client
                 _logger.ILog(
                     $"Server version '{result.ServerVersion}' does not match node version '{Globals.Version}'");
                 EventManager.Broadcast("NodeVersionMismatch", result.ServerVersion);
+                Dispose();
             }
             else if (result.CurrentConfigRevision != _configurationService.CurrentConfig?.Revision)
                 _ = DownloadConfiguration();
@@ -166,7 +167,6 @@ public partial class Client
             {
                 if (_connection.State == HubConnectionState.Connected && _node != null)
                 {
-                    _logger.ILog($"Sending node status from node '{_node?.Name ?? Environment.MachineName}'...");
                     await _connection.SendAsync("UpdateNodeStatus", new
                     {
                         NodeUid = _nodeUid,
