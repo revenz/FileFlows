@@ -32,7 +32,7 @@
             </StackPanel>
             <Panel>
               <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                  <Button IsEnabled="{Binding !ReadOnly}" Name="btnClose" Click="Close_OnClick">Close</Button>
+                  <Button IsEnabled="{Binding !ReadOnly}" Name="btnClose" Click="Close_OnClick">Quit</Button>
               </StackPanel>
             </Panel>
         </StackPanel>

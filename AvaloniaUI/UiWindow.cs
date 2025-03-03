@@ -48,9 +48,11 @@ public abstract class UiWindow : Window
     /// </summary>
     protected virtual string QuitMessage => "Are you sure you want to quit?";
 
+    private bool _quitting = false;
+
     protected override void OnClosing(WindowClosingEventArgs e)
     {
-        if (DontPromptOnQuit)
+        if (DontPromptOnQuit || _quitting)
             return;
         
         e.Cancel = true;
@@ -58,6 +60,9 @@ public abstract class UiWindow : Window
         {
             if(await Confirm("Quit", QuitMessage))
             {
+                _quitting = true;
+                Close();
+                
                 if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
                 {
                     lifetime.Shutdown();

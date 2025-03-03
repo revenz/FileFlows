@@ -41,7 +41,7 @@
                         <NativeMenuItem Header="Open Web Console" Click="Open" />
                         <NativeMenuItem Header="Open Logging Directory" Click="Logs" />
                         <NativeMenuItemSeparator />
-                        <NativeMenuItem Header="Exit Application" Command="{Binding ExitCommand}" />
+                        <NativeMenuItem Header="Exit Application" Click="Quit" />
                     </NativeMenu>
                 </TrayIcon.Menu>
             </TrayIcon>
