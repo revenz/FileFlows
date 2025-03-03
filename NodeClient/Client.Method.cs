@@ -146,7 +146,7 @@ public partial class Client
                 _logger.ILog(
                     $"Server version '{result.ServerVersion}' does not match node version '{Globals.Version}'");
                 EventManager.Broadcast("NodeVersionMismatch", result.ServerVersion);
-                Dispose();
+                //Dispose();
             }
             else if (result.CurrentConfigRevision != _configurationService.CurrentConfig?.Revision)
                 _ = DownloadConfiguration();
