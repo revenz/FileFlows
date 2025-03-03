@@ -116,19 +116,30 @@ public class LibraryController : BaseController
 
         var service = ServiceLoader.Load<LibraryService>();
         bool nameUpdated = false;
+        bool requeue = false;
         if (library.Uid != Guid.Empty)
         {
             // existing, check for name change
             var existing = await service.GetByUidAsync(library.Uid);
-            nameUpdated = existing != null && existing.Name != library.Name;
+            if (existing != null)
+            {
+                nameUpdated = existing.Name != library.Name;
+                requeue = existing.Priority != library.Priority || existing.ProcessingOrder != library.ProcessingOrder;
+            }
         }
         
         bool newLib = library.Uid == Guid.Empty;
         var result  = await service.Update(library, await GetAuditDetails());
         if (result.Failed(out string error))
             return BadRequest(error);
-
+        
         library = result.Value;
+        
+        if (requeue && await service.HasUnprocessedFiles(library.Uid))
+        {
+            // this library has files not processed, have to update the queue
+            await ServiceLoader.Load<FileQueueService>().LoadQueue();
+        }
         
         _ = Task.Run(async () =>
         {
@@ -172,6 +183,12 @@ public class LibraryController : BaseController
             library.Enabled = enable;
             library = await service.Update(library, await GetAuditDetails());
             //RefreshCaches();
+            
+            if (await service.HasUnprocessedFiles(library.Uid))
+            {
+                // this library has files not processed, have to update the queue
+                await ServiceLoader.Load<FileQueueService>().LoadQueue();
+            }
         }
         return library;
     }
