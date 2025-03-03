@@ -41,7 +41,7 @@ public class NodeUpdater:UpdaterWorker
     /// </summary>
     /// <returns>true if the update can run, otherwise false</returns>
     protected override bool CanUpdate()
-        => ServiceLoader.Load<RunnerManager>().HasActiveRunners;
+        => ServiceLoader.Load<RunnerManager>().HasActiveRunners == false;
 
     /// <summary>
     /// Quits the application so the update can be applied
