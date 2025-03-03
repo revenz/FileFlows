@@ -2,6 +2,7 @@ using System.Collections;
 using System.Net;
 using Avalonia;
 using FileFlows.Charting;
+using FileFlows.NodeClient;
 using FileFlows.Server.Helpers;
 using FileFlows.Server.Services;
 using FileFlows.Services;
@@ -208,6 +209,7 @@ public class Application
         FileFlows.Services.ServiceLoader.AddSpecialCase<IPluginScanner>(new PluginScanner());
         FileFlows.Services.ServiceLoader.AddSpecialCase<ISystemEventsService>(new SystemEvents());
         FileFlows.Services.ServiceLoader.AddSpecialCase<IEmailService>(new EmailService());
+        FileFlows.Services.ServiceLoader.AddSpecialCase(new RunnerManager());
     }
 
     /// <summary>

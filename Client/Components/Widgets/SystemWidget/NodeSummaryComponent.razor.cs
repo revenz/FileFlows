@@ -65,15 +65,15 @@ public partial class NodeSummaryComponent : ComponentBase, IDisposable
             return "svg:apple";
         if (item.OperatingSystem == OperatingSystemType.Docker)
             return "svg:docker";
-        if (item.HardwareInfo.OperatingSystem?.Contains("ubuntu", StringComparison.InvariantCultureIgnoreCase) == true)
+        if (item.HardwareInfo?.OperatingSystem?.Contains("ubuntu", StringComparison.InvariantCultureIgnoreCase) == true)
             return "svg:distros/ubuntu";
-        if (item.HardwareInfo.OperatingSystem?.Contains("fedora", StringComparison.InvariantCultureIgnoreCase) == true)
+        if (item.HardwareInfo?.OperatingSystem?.Contains("fedora", StringComparison.InvariantCultureIgnoreCase) == true)
             return "svg:distros/fedora";
-        if (item.HardwareInfo.OperatingSystem?.Contains("pop!", StringComparison.InvariantCultureIgnoreCase) == true)
+        if (item.HardwareInfo?.OperatingSystem?.Contains("pop!", StringComparison.InvariantCultureIgnoreCase) == true)
             return "svg:distros/popos";
-        if (item.HardwareInfo.OperatingSystem?.Contains("debian", StringComparison.InvariantCultureIgnoreCase) == true)
+        if (item.HardwareInfo?.OperatingSystem?.Contains("debian", StringComparison.InvariantCultureIgnoreCase) == true)
             return "svg:distros/debian";
-        if (item.HardwareInfo.OperatingSystem?.Contains("arch", StringComparison.InvariantCultureIgnoreCase) == true)
+        if (item.HardwareInfo?.OperatingSystem?.Contains("arch", StringComparison.InvariantCultureIgnoreCase) == true)
             return "svg:distros/arch";
         if (item.OperatingSystem == OperatingSystemType.Windows)
             return "svg:windows";

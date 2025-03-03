@@ -21,7 +21,7 @@ public class RunnerManager
     private readonly ConfigurationService _configService;
 
     /// <summary>
-    /// Contructs a new instance of the runner manager
+    /// Constructs a new instance of the runner manager
     /// </summary>
     public RunnerManager()
     {

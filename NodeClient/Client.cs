@@ -49,7 +49,7 @@ public partial class Client : IDisposable
         
         _configurationService = ServiceLoader.Load<ConfigurationService>();
         _hostname = parameters.Hostname;
-        _runnerManager = new();
+        _runnerManager = ServiceLoader.Load<RunnerManager>();
         _retryPolicyLoop = new RetryPolicyLoop(logger);
         _cts = new CancellationTokenSource();
 

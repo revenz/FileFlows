@@ -5,6 +5,7 @@ using Avalonia;
 using FileFlows.Node.Helpers;
 using FileFlows.Node.Ui;
 using FileFlows.Node.Utils;
+using FileFlows.NodeClient;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared;
 using FileFlows.ServerShared.Helpers;
@@ -65,6 +66,7 @@ public class Program
             var genericMethod = method?.MakeGenericMethod(type);
             return genericMethod?.Invoke(null, null)!;
         };
+        ServiceLoader.AddSpecialCase(new RunnerManager());
 
         DirectoryHelper.Init();
         

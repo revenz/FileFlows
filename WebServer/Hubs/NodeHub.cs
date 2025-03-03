@@ -120,6 +120,7 @@ public class NodeHub : Hub
                 Architecture = parameters.Architecture,
                 OperatingSystem = parameters.OperatingSystem,
                 Version = parameters.Version,
+                HardwareInfo = parameters.HardwareInfo,
                 TempPath = parameters.TempPath,
                 Enabled = isSystem, // default to disabled so they have to configure it first
                 FlowRunners = 1,
@@ -152,6 +153,7 @@ public class NodeHub : Hub
 
         _nodeService.SetConnectionId(Context.ConnectionId, parameters.ConfigRevision, node);
         _logger.ILog($"Node registered: {node.Name} ({node.Uid})");
+        await ServiceLoader.Load<IClientService>().UpdateNodeStatusSummaries();
         return new NodeRegisterResult()
         {
             Success = true,
@@ -186,6 +188,7 @@ public class NodeHub : Hub
         _logger.ILog($"Node disconnected: {Context.ConnectionId}");
         _nodeService.RemoveOnlineNodeByConnection(Context.ConnectionId);
         await base.OnDisconnectedAsync(exception);
+        await ServiceLoader.Load<IClientService>().UpdateNodeStatusSummaries();
     }
     
     /// <summary>
