@@ -105,7 +105,7 @@ function searchMovieByPath(searchPattern, radarr) {
  */
 function searchInQueue(searchPattern, radarr) {
     return searchRadarrAPI('queue', searchPattern, radarr, (item, sp) => {
-        return item.outputPath.toLowerCase().includes(sp);
+        return item.outputPath?.toLowerCase().includes(sp);
     });
 }
 

@@ -112,7 +112,7 @@ function searchSeriesByPath(searchPattern, sonarr) {
  */
 function searchInQueue(searchPattern, sonarr) {
     return searchSonarrAPI('queue', searchPattern, sonarr, (item, sp) => {
-        return item.outputPath.toLowerCase().includes(sp);
+        return item.outputPath?.toLowerCase().includes(sp);
     });
 }
 
@@ -124,7 +124,7 @@ function searchInQueue(searchPattern, sonarr) {
  */
 function searchInDownloadHistory(searchPattern, sonarr) {
     return searchSonarrAPI('history', searchPattern, sonarr, (item, sp) => {
-        return item.data.droppedPath?.toLowerCase().includes(sp);
+        return item.data?.droppedPath?.toLowerCase().includes(sp);
     }, { eventType: 3 });
 }
 
