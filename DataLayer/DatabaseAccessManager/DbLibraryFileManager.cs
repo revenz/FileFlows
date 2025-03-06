@@ -601,6 +601,7 @@ internal class DbLibraryFileManager : BaseManager
         try
         {
             string sql = $"update {Wrap(nameof(LibraryFile))} set " +
+                         $" {Wrap(nameof(LibraryFile.Status))} = {(int)FileStatus.Processing}, " +
                          $" {Wrap(nameof(LibraryFile.ExecutedNodes))} = '', " +
                          $" {Wrap(nameof(LibraryFile.OriginalMetadata))} = '', " +
                          $" {Wrap(nameof(LibraryFile.FinalMetadata))} = '', " +
@@ -617,6 +618,7 @@ internal class DbLibraryFileManager : BaseManager
             // update cache
             if (UseCache && Cache.TryGetValue(uid, out var file))
             {
+                file.Status = FileStatus.Processing;
                 file.ExecutedNodes = new();
                 file.OriginalMetadata =  new();
                 file.FinalMetadata =  new();
