@@ -106,7 +106,8 @@ public abstract partial class App : Application
                 Avalonia.Threading.Dispatcher.UIThread.Post(() =>
                 {
                     // Hide the window immediately
-                    _mainWindow.Hide();
+                    if(OperatingSystem.IsMacOS() == false)
+                        _mainWindow.Hide();
                     desktop.MainWindow = _mainWindow;
                 }, Avalonia.Threading.DispatcherPriority.ApplicationIdle);
             }
@@ -168,7 +169,7 @@ public abstract partial class App : Application
     /// <param name="e">the event</param>
     private void TrayIcon_OnClicked(object? sender, EventArgs e)
     {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop)
+        if (OperatingSystem.IsMacOS() == false && ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop)
         {
             if (desktop.MainWindow.WindowState == WindowState.Normal)
             {
@@ -190,7 +191,7 @@ public abstract partial class App : Application
     /// <param name="e">the event</param>
     private void ShowWindow(object? sender, EventArgs e)
     {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop)
+        if (OperatingSystem.IsMacOS() == false && ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop)
         {
             desktop.MainWindow.Show();
             desktop.MainWindow.WindowState = WindowState.Normal;
