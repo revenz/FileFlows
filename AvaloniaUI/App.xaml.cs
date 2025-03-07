@@ -169,17 +169,18 @@ public abstract partial class App : Application
     /// <param name="e">the event</param>
     private void TrayIcon_OnClicked(object? sender, EventArgs e)
     {
-        if (OperatingSystem.IsMacOS() == false && ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop)
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop)
         {
             if (desktop.MainWindow.WindowState == WindowState.Normal)
             {
                 desktop.MainWindow.WindowState = WindowState.Minimized;
-                desktop.MainWindow.Hide();
+                if(OperatingSystem.IsMacOS() == false) 
+                    desktop.MainWindow.Hide();
             }
             else
             {
-                desktop.MainWindow.Show();
                 desktop.MainWindow.WindowState = WindowState.Normal;
+                desktop.MainWindow.Show();
             }
         }
     }
@@ -191,7 +192,7 @@ public abstract partial class App : Application
     /// <param name="e">the event</param>
     private void ShowWindow(object? sender, EventArgs e)
     {
-        if (OperatingSystem.IsMacOS() == false && ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop)
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop)
         {
             desktop.MainWindow.Show();
             desktop.MainWindow.WindowState = WindowState.Normal;
