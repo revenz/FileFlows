@@ -1,7 +1,7 @@
 /**
  * @name Radarr
  * @uid 88e66e7d-f835-4620-9616-9beaa4ee42dc
- * @revision 7
+ * @revision 8
  * @description Class that interacts with Radarr
  * @minimumVersion 1.0.0.0
  */
@@ -222,12 +222,13 @@ export class Radarr
     /**
      * Sleeps, waiting for a command to complete
      * @param {int} commandId ID of command being run
+     * @param {int} timeOut time for waiting for cammand to complete before timeour, in milliseconds (30000 milliseconds is 30 seconds).
      * @returns bool whether the coommand ran successfully
      */
-    waitForCompletion(commandId) 
+    waitForCompletion(commandId, timeOut=30000) 
     {
         const startTime = new Date().getTime();
-        const timeout = 30000; // 30 seconds in milliseconds
+        const timeout = timeOut
         const endpoint = `command/${commandId}`;
     
         while (new Date().getTime() - startTime <= timeout) {
