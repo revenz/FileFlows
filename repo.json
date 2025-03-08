@@ -276,6 +276,13 @@
       "Uid": "594f7f1e-2a8e-4858-b83b-38d971bf48d1"
     },
     {
+      "Path": "Scripts/Flow/Video/Video - Filesize bigger than calculated.js",
+      "Name": "Video - Filesize bigger than calculated",
+      "Description": "Determines a maximum filesize by the given GB/h comma-separated list for 4k, 1080p, 720p, SD (e.g. 15.5,4,2,1) and returns if the input file is bigger or not.\n It calculates the filesize using the actual runtime of the input file and compares it against the actual file size\n/",
+      "Revision": 1,
+      "Uid": "f3e173f1-e3a4-497c-9057-dc6debb3c8ac"
+    },
+    {
       "Path": "Scripts/Flow/Video/Video - Downscale greater than 720p.js",
       "Name": "Video - Downscale greater than 720p",
       "Description": "If a video\u0027s resolution is greater than 720p, this script will update the FFMPEG Builder video track with a filter to downscale the video to 720p when the FFMPEG Builder Executor runs.\n/",
