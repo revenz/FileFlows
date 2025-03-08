@@ -418,8 +418,8 @@
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - TV Show Lookup.js",
       "Name": "Sonarr - TV Show Lookup",
-      "Description": "This script looks up a TV Show from Sonarr and retrieves its metadata\n/",
-      "Revision": 3,
+      "Description": "/**\n/",
+      "Revision": 4,
       "Uid": "9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8"
     },
     {
@@ -446,8 +446,8 @@
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Movie Lookup.js",
       "Name": "Radarr - Movie Lookup",
-      "Description": "This script looks up a Movie from Radarr and retrieves its metadata\n/",
-      "Revision": 3,
+      "Description": "/**\n/",
+      "Revision": 4,
       "Uid": "1153e3fb-e7bb-4162-87ad-5c15cd9c081f"
     },
     {
