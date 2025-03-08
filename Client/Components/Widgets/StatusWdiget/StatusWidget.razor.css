@@ -19,7 +19,7 @@
 }
 .sw-paused .sw-icon {
   font-size: 5rem;
-  color: var(--orange);
+  color: var(--pink);
 }
 
 .sw-update-available {
@@ -38,3 +38,5 @@
   flex-direction: column;
   align-items: center;
 }
+
+/*# sourceMappingURL=StatusWidget.razor.css.map */
