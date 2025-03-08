@@ -283,6 +283,7 @@ input[type=file]{
     background: var(--base-darker);
     padding: 0 1rem;
     border-right:solid 1px var(--border-color);
+    
     .search-head{
         font-size: 1.25rem;
         padding: 0.75rem 0 0.5rem;
@@ -724,7 +725,7 @@ input[type=file]{
 .page:not(.collapsed) .navbar-brand 
 {
     margin: .75rem 0 0 .75rem;
-    img {
+    img, .logo {
         width: 11rem;
         height: 2.5rem;
     }

@@ -135,7 +135,10 @@
                     }
 
                     a {
-                        background-color: var(--accent) !important;
+                        background-color: var(--nav-menu-background);
+                        border: solid 1px var(--accent);
+                        border-left: none;
+                        font-weight:var(--bold, 600);
                     }
                 }
             }

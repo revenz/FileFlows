@@ -59,20 +59,23 @@ $maxItems: 15;
 .nav {
     .fas, .far, .fab {
         width: 2rem;
-        font-size: 1.1rem;
+        font-size: 0.9rem;
         vertical-align: text-top;
-        top: -2px;
+        padding-top:1px;
     }
 }
 
 .nav-menu-group, .nav-item {
     font-size: 0.9rem;
+    a {
+        font-weight: normal;
+    }
 }
 
 .nav-menu-group {
     padding-left: 1rem;
-    text-transform: uppercase;
-    font-weight:var(--nav-menu-bold, 700);
+    //text-transform: uppercase;
+    //font-weight:var(--nav-menu-bold, 700);
     display: inline-flex;
     align-items: end;
 
@@ -86,21 +89,50 @@ $maxItems: 15;
     overflow: hidden;
     display:inline-flex;
     
+    .icon {
+        color:var(--accent);
+    }
+    
     ::deep a {
         padding: 0 0 0 2rem;
         width:100%;
         display: flex;
         align-items: center;
         color: var(--color) !important;
-        border-left:solid 0.5rem transparent;
+        border-right:solid 1px transparent;
         &.active {
-            background-color: rgba(var(--accent-rgb),0.1);
+            background-color: rgba(169, 169, 169, 0.1);
             border-color:var(--accent);
+            &:after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 120%;
+                height: 120%;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 50%;
+                transform: translate(-50%, -50%) scale(0);
+                pointer-events: none;
+                animation: ripple 0.3s linear;
+            }
         }
         &:hover {
-            background-color: rgba(var(--accent-rgb),0.2);
+            background-color: rgba(104,104,104,0.075);
         }
         
+    }
+}
+
+/* Animation for the ripple effect */
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0;
     }
 }
 .paused-indicator {
@@ -141,6 +173,9 @@ $maxItems: 15;
     .nav-item.discord, .nav-item.forum {
         display:unset;
     }
+    .nav-menu-container, #ul-nav-menu {
+        overflow:unset;
+    }
     .bubbles {
         .bubble + .bubble {
             display:none;
@@ -156,6 +191,13 @@ $maxItems: 15;
         font-size:2rem !important;
         span {
             padding-right: 0 !important;
+        }
+    }
+    .nav-item {
+        .icon {
+            font-size:1.1rem;
+            width: 3.5rem;
+            color:var(--color);
         }
     }
 }

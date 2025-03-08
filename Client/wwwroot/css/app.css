@@ -14,8 +14,8 @@
 }
 .blocker .blocker-spinner {
   margin: auto;
-  border: 4px solid rgba(255, 0, 144, 0.2);
-  border-top: 4px solid #FF0090;
+  border: 4px solid rgba(var(--accent-rgb), 0.2);
+  border-top: 4px solid var(--accent);
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -3568,7 +3568,7 @@ hr {
 .page:not(.collapsed) .navbar-brand {
   margin: 0.75rem 0 0 0.75rem;
 }
-.page:not(.collapsed) .navbar-brand img {
+.page:not(.collapsed) .navbar-brand img, .page:not(.collapsed) .navbar-brand .logo {
   width: 11rem;
   height: 2.5rem;
 }
@@ -4093,5 +4093,7 @@ hr {
 }
 
 .wizard-page-help {
-  margin:0 1rem 2rem;
+  margin: 0 1rem 2rem;
 }
+
+/*# sourceMappingURL=app.css.map */

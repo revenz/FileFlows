@@ -29,10 +29,10 @@
             background: transparent;
             font-size: 1.1rem;
             padding: 0 1.25rem 0.75rem 1.25rem;
-            border-bottom: solid 0.25rem transparent;
+            border-bottom: solid 1px transparent;
             outline: none;
             position: relative;
-            bottom: -2px;
+            bottom: -0.1rem;
             font-weight: var(--bold, 600);
             opacity: 0.5;
 
@@ -44,6 +44,9 @@
             &.active {
                 border-color: var(--accent);
                 opacity: 1;
+                i {
+                    color: var(--accent);
+                }
             }
         }
     }

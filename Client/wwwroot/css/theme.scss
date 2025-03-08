@@ -33,8 +33,9 @@ body {
     --color-darke-rgb: 220, 220, 220;
     --color-darkest: rgb(160, 160, 160);
     --color-darkest-rgb: 160, 160, 160;
-    --accent: rgb(255, 0, 144);
-    --accent-rgb: 255, 0, 144;
+    // --accent: rgb(255, 0, 144);
+    --accent: hotpink;    
+    --accent-rgb: 255, 105, 180;
     --accent-2: #33b2df;
     --accent-2-rgb: 51, 178, 223;
     --table-link-color: var(--blue);
@@ -45,8 +46,9 @@ body {
     --primary:#1b8ab3;
     --error: #ff4d76;
     --modified: rgba(var(--accent-rgb), 0.4);
-    --nav-menu-background: var(--base-darker);
-    --main-background:#161616;
+    //--nav-menu-background: var(--base-darker);
+    --nav-menu-background: var(--widget-background);
+    --main-background:#101010;
     --widget-background:#141414;
     --button-border-radius:0.25rem;
     --container-border-radius:0.5rem;

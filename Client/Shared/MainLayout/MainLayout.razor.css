@@ -120,9 +120,14 @@
     display: unset;
   }
   .sidebar.collapsed ::deep li.nav-item:hover a {
-    background-color: var(--accent) !important;
+    background-color: var(--nav-menu-background);
+    border: solid 1px var(--accent);
+    border-left: none;
+    font-weight: var(--bold, 600);
   }
   .sidebar.collapsed ::deep .version-info {
     display: none !important;
   }
 }
+
+/*# sourceMappingURL=MainLayout.razor.css.map */

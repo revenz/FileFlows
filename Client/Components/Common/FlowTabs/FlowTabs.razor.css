@@ -26,10 +26,10 @@
   background: transparent;
   font-size: 1.1rem;
   padding: 0 1.25rem 0.75rem 1.25rem;
-  border-bottom: solid 0.25rem transparent;
+  border-bottom: solid 1px transparent;
   outline: none;
   position: relative;
-  bottom: -2px;
+  bottom: -0.1rem;
   font-weight: var(--bold, 600);
   opacity: 0.5;
 }
@@ -40,6 +40,9 @@
 .style-new-style > .flow-tab-buttons .tab-button.active {
   border-color: var(--accent);
   opacity: 1;
+}
+.style-new-style > .flow-tab-buttons .tab-button.active i {
+  color: var(--accent);
 }
 
 .style-old-style > .flow-tab-buttons {
@@ -153,3 +156,5 @@
 .flow-tabs-content {
   flex-grow: 1;
 }
+
+/*# sourceMappingURL=FlowTabs.razor.css.map */

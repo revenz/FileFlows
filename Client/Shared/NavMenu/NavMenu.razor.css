@@ -52,19 +52,20 @@
 }
 .nav .fas, .nav .far, .nav .fab {
   width: 2rem;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   vertical-align: text-top;
-  top: -2px;
+  padding-top: 1px;
 }
 
 .nav-menu-group, .nav-item {
   font-size: 0.9rem;
 }
+.nav-menu-group a, .nav-item a {
+  font-weight: normal;
+}
 
 .nav-menu-group {
   padding-left: 1rem;
-  text-transform: uppercase;
-  font-weight: var(--nav-menu-bold, 700);
   display: inline-flex;
   align-items: end;
 }
@@ -77,22 +78,49 @@
   overflow: hidden;
   display: inline-flex;
 }
+.nav-item .icon {
+  color: var(--accent);
+}
 .nav-item ::deep a {
   padding: 0 0 0 2rem;
   width: 100%;
   display: flex;
   align-items: center;
   color: var(--color) !important;
-  border-left: solid 0.5rem transparent;
+  border-right: solid 1px transparent;
 }
 .nav-item ::deep a.active {
-  background-color: rgba(var(--accent-rgb), 0.1);
+  background-color: rgba(169, 169, 169, 0.1);
   border-color: var(--accent);
 }
+.nav-item ::deep a.active:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  animation: ripple 0.3s linear;
+}
 .nav-item ::deep a:hover {
-  background-color: rgba(var(--accent-rgb), 0.2);
+  background-color: rgba(104, 104, 104, 0.075);
 }
 
+/* Animation for the ripple effect */
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
 .paused-indicator {
   width: 100%;
   text-align: center;
@@ -133,6 +161,9 @@
 .page.collapsed .nav-item.discord, .page.collapsed .nav-item.forum {
   display: unset;
 }
+.page.collapsed .nav-menu-container, .page.collapsed #ul-nav-menu {
+  overflow: unset;
+}
 .page.collapsed .bubbles {
   bottom: 2px;
   right: unset;
@@ -149,6 +180,11 @@
 }
 .page.collapsed .paused-indicator span {
   padding-right: 0 !important;
+}
+.page.collapsed .nav-item .icon {
+  font-size: 1.1rem;
+  width: 3.5rem;
+  color: var(--color);
 }
 
 .version-info {
@@ -392,3 +428,5 @@
 .user-menu-opened .user-menu {
   display: flex;
 }
+
+/*# sourceMappingURL=NavMenu.razor.css.map */
