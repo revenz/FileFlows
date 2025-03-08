@@ -20,7 +20,11 @@ public class TempFileCleaner : Worker
     public TempFileCleaner(string nodeAddress) : base(ScheduleType.Daily, 5)
     {
         this.nodeAddress = nodeAddress;
-        Trigger();
+        Task.Run(async () =>
+        {
+            await Task.Delay(TimeSpan.FromMinutes(1));
+            Trigger();
+        });
     }
 
     /// <summary>
@@ -47,7 +51,7 @@ public class TempFileCleaner : Worker
         if (tempDir.Exists == false)
             return;
 
-        var runnerService = ServiceLoader.Load<RunnerManager>();
+        var runnerService =  ServiceLoader.Load<RunnerManager>();
         var uids = runnerService.GetActiveRunnerUids();
 
         var executors = uids.Select(x => "Runner-" + x).ToList();

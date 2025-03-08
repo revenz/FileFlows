@@ -209,7 +209,10 @@ public class Application
         FileFlows.Services.ServiceLoader.AddSpecialCase<IPluginScanner>(new PluginScanner());
         FileFlows.Services.ServiceLoader.AddSpecialCase<ISystemEventsService>(new SystemEvents());
         FileFlows.Services.ServiceLoader.AddSpecialCase<IEmailService>(new EmailService());
-        FileFlows.Services.ServiceLoader.AddSpecialCase(new RunnerManager());
+        var runnerManager = new RunnerManager();
+        FileFlows.Services.ServiceLoader.AddSpecialCase(runnerManager);
+        // needed here for the internal processing node
+        RemoteServices.ServiceLoader.AddSpecialCase(runnerManager);
     }
 
     /// <summary>

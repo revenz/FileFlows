@@ -114,6 +114,7 @@ public class WebServerApp
 
         string serverUrl = $"{protocol}://0.0.0.0:{Port}/";
         Logger.Instance.ILog("Server URL: " + serverUrl);
+        Protocol = protocol;
         ServerUrl = serverUrl;
         return serverUrl;
     }
@@ -122,6 +123,11 @@ public class WebServerApp
     /// Gets the server url
     /// </summary>
     public static string? ServerUrl { get; private set; }
+
+    /// <summary>
+    /// Gets the protocol the server is listening on
+    /// </summary>
+    public static string? Protocol { get; private set; }
 
     /// <summary>
     /// Starts the server
@@ -317,15 +323,16 @@ public class WebServerApp
         //var nodeManagerService = ServiceLoader.Load<NodeManagerService>();
         ServiceLoader.AddSpecialCase<INodeHubService>(new NodeHubBridge(_nodeHub));
 
-        // var client = new Client(new ()
-        //     {
-        //         ServerUrl =$"ws://localhost:{Port}",
-        //         Hostname = CommonVariables.InternalNodeName,
-        //         AccessToken = NodeHub.InternalAccessToken
-        //     }, Logger.Instance);
-        // _ =  client.StartAsync();
         // just to start up the file queue service
         _ = ServiceLoader.Load<FileQueueService>();
+        
+        var client = new Client(new ()
+        {
+            ServerUrl =$"{(Protocol == "https" ? "wss" : "ws")}://localhost:{Port}",
+            Hostname = CommonVariables.InternalNodeName,
+            AccessToken = NodeHub.InternalAccessToken
+        }, Logger.Instance);
+        _ =  client.StartAsync();
         
         task.Wait();
         //client.StopAsync().Wait();
