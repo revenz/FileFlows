@@ -31,7 +31,7 @@ body {
   --modified: rgba(var(--accent-rgb), 0.4);
   --nav-menu-background: var(--widget-background);
   --main-background:#101010;
-  --widget-background:#141414;
+  --widget-background:#111;
   --button-border-radius:0.25rem;
   --container-border-radius:0.5rem;
   --scroller-width:6px;
