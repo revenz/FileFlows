@@ -79,7 +79,7 @@
   display: inline-flex;
 }
 .nav-item .icon {
-  color: var(--accent);
+  color: var(--menu-icon-color);
 }
 .nav-item ::deep a {
   padding: 0 0 0 2rem;

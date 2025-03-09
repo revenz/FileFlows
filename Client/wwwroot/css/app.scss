@@ -16,6 +16,7 @@
 
 $mobile_width: 850px;
 
+
 @font-face {
     font-family: 'Montserrat';
     src: url("webfonts/Montserrat-VariableFont_wght.ttf") format("truetype-variations"); 
@@ -250,17 +251,22 @@ input[type=file]{
     }
 }
 
-.search-pane {    
-    &.visible {
-        display:unset;
-        z-index:10000;
-    }
+.search-pane {
     display: none;
     position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
     width: 18rem;
+    z-index: 2;
+    background: var(--base-darker);
+    padding: 0 1rem;
+    border-right:solid 1px var(--border-color);
+    &.visible {
+        display:unset;
+        z-index:10000;
+    }
+    
     @media (max-width: 849.99px) 
     {
         width:unset;
@@ -279,10 +285,6 @@ input[type=file]{
             }
         }
     }
-    z-index: 2;
-    background: var(--base-darker);
-    padding: 0 1rem;
-    border-right:solid 1px var(--border-color);
     
     .search-head{
         font-size: 1.25rem;

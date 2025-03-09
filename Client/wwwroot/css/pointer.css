@@ -1,0 +1,48 @@
+@media screen and (max-width: 850px) {
+  .pointer-add {
+    display: none;
+  }
+}
+@media screen and (min-width: 850px) {
+  .page.collapsed .pointer-add {
+    left: 6px !important;
+    z-index: 10;
+  }
+  .pointer-add {
+    position: fixed;
+    z-index: 3;
+    top: 4rem;
+    left: 191px;
+    width: 75px;
+    background: var(--accent);
+    height: 25px;
+    line-height: 25px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: var(--color);
+    animation: bounce 1.75s infinite;
+    box-shadow: 0 3px 10px rgba(var(--accent-rgb), 0.2);
+  }
+  .pointer-add:before {
+    content: "";
+    position: absolute;
+    right: -10px;
+    top: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 10px solid var(--accent);
+  }
+}
+@keyframes bounce {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/*# sourceMappingURL=pointer.css.map */
