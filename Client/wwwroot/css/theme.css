@@ -31,8 +31,8 @@ body {
   --modified: rgba(var(--accent-rgb), 0.4);
   --nav-menu-background: var(--widget-background);
   --main-background:#060606;
-  --widget-background:#101010;
-  --border-color: #202020;
+  --widget-background:#0d0d0d;
+  --border-color: #1c1c1c;
   --button-border-radius:0.25rem;
   --container-border-radius:0.5rem;
   --scroller-width:6px;

@@ -293,11 +293,11 @@ public class HardwareInfoService
         {
             memory = model switch
             {
-                "Arc A380" => 4L * 1024 * 1024 * 1024, // 4 GB in bytes
+                "Arc A380" => 6L * 1024 * 1024 * 1024, // 6 GB in bytes
                 "Arc A750" => 8L * 1024 * 1024 * 1024, // 8 GB in bytes
                 "Arc A770" => 8L * 1024 * 1024 * 1024, // 8 GB in bytes
-                "Arc B570" => 10L * 1024 * 1024 * 1024, // 8 GB in bytes
-                "Arc B580" => 12L * 1024 * 1024 * 1024, // 8 GB in bytes
+                "Arc B570" => 10L * 1024 * 1024 * 1024, // 10 GB in bytes
+                "Arc B580" => 12L * 1024 * 1024 * 1024, // 12 GB in bytes
                 _ => 0 // Default for other models
             };
         }
