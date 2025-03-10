@@ -9,7 +9,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Jint" Version="4.2.0" />
+    <PackageReference Include="Jint" Version="4.2.1" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Jint.dll" />

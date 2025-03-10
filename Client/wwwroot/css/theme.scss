@@ -39,7 +39,6 @@ body {
     --accent-2: #33b2df;
     --accent-2-rgb: 51, 178, 223;
     --table-link-color: var(--blue);
-    --border-color: rgba(var(--color-rgb), 0.1);
     --input-background: rgb(49, 49, 49);
     --input-background-rgb: 49, 49, 49;
     // --primary: #0366d6;
@@ -49,7 +48,8 @@ body {
     //--nav-menu-background: var(--base-darker);
     --nav-menu-background: var(--widget-background);
     --main-background:#060606;
-    --widget-background:#0c0c0c;
+    --widget-background:#101010;
+    --border-color: #202020;
     --button-border-radius:0.25rem;
     --container-border-radius:0.5rem;
     --scroller-width:6px;

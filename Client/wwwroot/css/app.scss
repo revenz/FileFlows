@@ -251,6 +251,7 @@ input[type=file]{
     }
 }
 
+
 .search-pane {
     display: none;
     position: fixed;
@@ -266,7 +267,7 @@ input[type=file]{
         display:unset;
         z-index:10000;
     }
-    
+        
     @media (max-width: 849.99px) 
     {
         width:unset;

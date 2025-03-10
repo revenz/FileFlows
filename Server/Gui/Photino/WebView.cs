@@ -1,5 +1,5 @@
 using FileFlows.WebServer;
-using PhotinoNET;
+using Photino.NET;
 
 namespace FileFlows.Server.Gui.Photino;
 

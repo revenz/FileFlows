@@ -16,7 +16,7 @@
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Jint" Version="4.2.0" />
+    <PackageReference Include="Jint" Version="4.2.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.13.0" />
     <PackageReference Include="NPoco.SqlServer" Version="5.7.1" />
     <PackageReference Include="SharpCompress" Version="0.39.0" />
