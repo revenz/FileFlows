@@ -319,7 +319,8 @@ $maxItems: 15;
             padding: 0 !important;
             margin:0;
             .icon {
-                font-size:3rem;
+                font-size: 3rem;
+                color:var(--color);
                 width: 100%;
                 margin-bottom: 0.5rem;
             }

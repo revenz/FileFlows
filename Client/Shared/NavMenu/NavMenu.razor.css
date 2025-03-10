@@ -301,6 +301,7 @@
   }
   .nav-menu-container:not(.collapsed) li .icon {
     font-size: 3rem;
+    color: var(--color);
     width: 100%;
     margin-bottom: 0.5rem;
   }
