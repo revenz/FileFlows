@@ -172,6 +172,7 @@ public partial class Client
                         NodeUid = _nodeUid,
                         ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
                         ActiveRunners = _runnerManager.GetActiveRunnerUids(),
+                        NodeVersion = Globals.Version,
                         InstallingDockerMods = _InstallingDockerMods
                     });
                 }
