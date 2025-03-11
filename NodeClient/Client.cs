@@ -38,6 +38,11 @@ public partial class Client : IDisposable
     public event ConnectionUpdated OnConnectionUpdated;
 
     /// <summary>
+    /// If DockerMods are installing
+    /// </summary>
+    private bool _InstallingDockerMods;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="Client"/> class.
     /// </summary>
     /// <param name="parameters">The client parameters</param>
@@ -52,6 +57,13 @@ public partial class Client : IDisposable
         _runnerManager = ServiceLoader.Load<RunnerManager>();
         _retryPolicyLoop = new RetryPolicyLoop(logger);
         _cts = new CancellationTokenSource();
+        
+        
+        EventManager.Subscribe("InstallingDockerMods", (bool installing) =>
+        {
+            _InstallingDockerMods = installing;
+            TriggerStatusUpdate();
+        });
 
         parameters.ServerUrl = parameters.ServerUrl.Replace("http:", "ws:").Replace("https:", "wss:").TrimEnd('/');
 

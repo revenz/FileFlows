@@ -400,6 +400,7 @@ public class ConfigurationService
     async Task<bool> WriteAndRunDockerMods(List<DockerMod> mods, Guid nodeUid, string nodeName)
     {
         var nodeService = ServiceLoader.Load<INodeService>();
+        EventManager.Broadcast("InstallingDockerMods", true);
         await nodeService.SetStatus(nodeUid, ProcessingNodeStatus.InstallingDockerMods);
         try
         {
@@ -437,6 +438,7 @@ public class ConfigurationService
         finally
         {
             await nodeService.SetStatus(nodeUid, null);
+            EventManager.Broadcast("InstallingDockerMods", false);
         }
     }
 }
