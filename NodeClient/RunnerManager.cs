@@ -37,27 +37,39 @@ public class RunnerManager
     /// <returns>True if the runner was started, otherwise false.</returns>
     public bool TryStartRunner(RunFileArguments args, ProcessingNode node, ConfigurationRevision config)
     {
-        int maxRunners = node.FlowRunners;
-
         lock (_lock)
         {
+            int maxRunners = node.FlowRunners;
+
             if (_activeRunners.Count >= maxRunners)
+            {
+                Logger.Instance.ILog("At maximum number of runners reached.");
                 return false;
+            }
 
             if (args.CanRunPreExecuteCheck && PreExecuteScriptTest(node, _activeRunners.Count, config) == false)
+            {
+                Logger.Instance.ILog("Pre-execute check failed");
                 return false;
+            }
 
             var tempPath = GetTempPath(node);
             if (tempPath == null)
+            {
+                Logger.Instance.ILog("Failed to locate temp path.");
                 return false;
+            }
 
             var runner = new Runner(args, node, tempPath, OnRunnerCompleted);
             if (_activeRunners.TryAdd(runner.Id, runner))
             {
+                Logger.Instance.ILog("Starting runner!!!");
                 runner.Start();
                 EventManager.Broadcast(EventNames.RUNNERS_UPDATED,  _activeRunners.Count);
                 return true;
             }
+
+            Logger.Instance.ILog("Failed to add runner");
             return false;
         }
     }
