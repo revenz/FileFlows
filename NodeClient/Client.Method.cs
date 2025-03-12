@@ -37,21 +37,21 @@ public partial class Client
         const string prefix = "UpdateConfiguration:";
         _logger.ILog($"{prefix} Update Configuration to '{revision}' requested");
 
-        if (!await _configurationSemaphore.WaitAsync(20_000))
+        if (await _configurationSemaphore.WaitAsync(20_000) == false)
         {
             _logger.ILog($"{prefix} Failed to acquire configuration update semaphore within 20 seconds.");
             return;
         }
 
-        if (_configurationService.CurrentConfig?.Revision >= revision)
-        {
-            _logger.ILog($"{prefix} Configuration already updated to  to '{_configurationService.CurrentConfig?.Revision}'");
-            return; // already up to date
-        }
-
         bool updated = false;
         try
         {
+
+            if (_configurationService.CurrentConfig?.Revision >= revision)
+            {
+                _logger.ILog($"{prefix} Configuration already updated to  to '{_configurationService.CurrentConfig?.Revision}'");
+                return; // already up to date
+            }
             _logger.ILog($"{prefix} Updating configuration...");
             using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var cfg = await _connection.InvokeAsync<ConfigurationRevision>("GetConfiguration", cts2.Token);
