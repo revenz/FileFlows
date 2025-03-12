@@ -34,34 +34,40 @@ public partial class Client
     {
         if (_node == null)
             return;
+        const string prefix = "UpdateConfiguration:";
+        _logger.ILog($"{prefix} Update Configuration to '{revision}' requested");
 
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
         if (!await _configurationSemaphore.WaitAsync(20_000, cts.Token))
         {
-            _logger.ILog("Failed to acquire semaphore within 20 seconds.");
+            _logger.ILog($"{prefix} Failed to acquire configuration update semaphore within 20 seconds.");
             return;
         }
 
         if (_configurationService.CurrentConfig?.Revision >= revision)
+        {
+            _logger.ILog($"{prefix} Configuration already updated to  to '{_configurationService.CurrentConfig?.Revision}'");
             return; // already up to date
+        }
 
         bool updated = false;
         try
         {
-            _logger.ILog("Updating configuration...");
+            _logger.ILog($"{prefix} Updating configuration...");
             using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var cfg = await _connection.InvokeAsync<ConfigurationRevision>("GetConfiguration", cts2.Token);
 
             if (cfg != null && _configurationService.CurrentConfig?.Revision != cfg.Revision)
             {
                 await _configurationService.SaveConfiguration(cfg, _node);
-                _logger.ILog("Configuration updated");
+                _logger.ILog($"{prefix} Configuration updated");
                 updated = true;
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             // Ignore
+            _logger.WLog($"{prefix} Failed to update: {ex}");
         }
         finally
         {
