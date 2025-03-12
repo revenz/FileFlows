@@ -7,6 +7,7 @@ using FileFlows.ServerShared.Services;
 using FileFlows.Shared.Models;
 using FileFlows.Shared.Models.SignalAre;
 using Microsoft.AspNetCore.SignalR.Client;
+using ZstdSharp.Unsafe;
 
 namespace FileFlows.NodeClient;
 
@@ -22,6 +23,9 @@ public partial class Client
     private ProcessingNode? _node;
     public Guid? NodeUid => _node?.Uid;
     private ClientParameters _parameters;
+
+    private readonly SemaphoreSlim _configurationSemaphore = new SemaphoreSlim(1, 1);
+
     
     private async Task DownloadConfiguration()
     {
@@ -43,17 +47,51 @@ public partial class Client
             _logger.ELog($"Error downloading configuration: {ex.Message}");
         }
     }
-
-
-    private async Task UpdateConfiguration(ConfigurationRevision obj)
+    
+    /// <summary>
+    /// Called when the configuration has to be updated
+    /// </summary>
+    /// <param name="revision">the revision on the server</param>
+    private async Task UpdateConfiguration(int revision)
     {
         if (_node == null)
             return;
+
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+        if (!await _configurationSemaphore.WaitAsync(20_000, cts.Token))
+        {
+            _logger.ILog("Failed to acquire semaphore within 20 seconds.");
+            return;
+        }
+
+        if (_configurationService.CurrentConfig?.Revision >= revision)
+            return; // already up to date
+
+        bool updated = false;
+        try
+        {
+            _logger.ILog("Updating configuration...");
+            using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            var cfg = await _connection.InvokeAsync<ConfigurationRevision>("GetConfiguration", cts2.Token);
+
+            if (cfg != null && _configurationService.CurrentConfig?.Revision != cfg.Revision)
+            {
+                await _configurationService.SaveConfiguration(cfg, _node);
+                _logger.ILog("Configuration updated");
+                updated = true;
+            }
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
+        finally
+        {
+            _configurationSemaphore.Release();
+        }
         
-        _logger.ILog("Updating configuration...");
-        await _configurationService.SaveConfiguration(obj, _node);
-        
-        TriggerStatusUpdate();
+        if(updated)
+            TriggerStatusUpdate();
     }
 
     private void UpdateNode(ProcessingNode obj)

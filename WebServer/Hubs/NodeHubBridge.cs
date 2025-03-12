@@ -52,13 +52,11 @@ public class NodeHubBridge : INodeHubService
     }
 
     /// <inheritdoc/>
-    public async Task UpdateConfig(string connectionId)
+    public async Task UpdateConfig(string connectionId, int UpdateConfig)
     {
         try
         {
-            var cfg = await _settingsService.GetCurrentConfiguration();
-            if(cfg != null)
-                await _hubContext.Clients.Client(connectionId).SendAsync("ConfigUpdated", cfg);
+            await _hubContext.Clients.Client(connectionId).SendAsync("ConfigUpdated", UpdateConfig);
         }
         catch (Exception)
         {
