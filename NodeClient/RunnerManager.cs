@@ -43,7 +43,7 @@ public class RunnerManager
 
             if (_activeRunners.Count >= maxRunners)
             {
-                Logger.Instance.ILog("At maximum number of runners reached.");
+                Logger.Instance.ILog($"At maximum number of runners reached ({_activeRunners.Count} vs {maxRunners}).");
                 return false;
             }
 
