@@ -26,28 +26,6 @@ public partial class Client
 
     private readonly SemaphoreSlim _configurationSemaphore = new SemaphoreSlim(1, 1);
 
-    
-    private async Task DownloadConfiguration()
-    {
-        try
-        {
-            if (_node == null)
-                return;
-
-            _logger.ILog("Downloading configuration...");
-            var cfg = await _connection.InvokeAsync<ConfigurationRevision>("GetConfiguration");
-            if (cfg == null || _node == null)
-                return;
-            
-            await _configurationService.SaveConfiguration(cfg, _node);
-            _logger.ILog($"Node '{_node.Name}' Configuration updated to {cfg.Revision}");
-        }
-        catch (Exception ex)
-        {
-            _logger.ELog($"Error downloading configuration: {ex.Message}");
-        }
-    }
-    
     /// <summary>
     /// Called when the configuration has to be updated
     /// </summary>
@@ -187,7 +165,13 @@ public partial class Client
                 //Dispose();
             }
             else if (result.CurrentConfigRevision != _configurationService.CurrentConfig?.Revision)
-                _ = DownloadConfiguration();
+            {
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(50);
+                    await UpdateConfiguration(result.CurrentConfigRevision);
+                });
+            }
         }
         catch (Exception ex)
         {
@@ -195,6 +179,7 @@ public partial class Client
             _registrationCompletion.TrySetResult(false);
         }
     }
+    
     private CancellationTokenSource _delayCts = new();
 
     private async Task SendNodeStatusAsync()
