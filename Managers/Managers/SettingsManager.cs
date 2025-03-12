@@ -85,12 +85,14 @@ public class SettingsManager
     /// </summary>
     /// <param name="model">the settings</param>
     /// <param name="auditDetails">the audit details</param>
-    public async Task Update(Settings model, AuditDetails? auditDetails)
+    /// <param name="dontUpdateRevision">if the configuration revision should not be updated</param>
+    public async Task Update(Settings model, AuditDetails? auditDetails, bool dontUpdateRevision)
     {
         await _semaphore.WaitAsync();
         try
         {
-            model.Revision = Math.Max(model.Revision, Instance!.Revision) +  1;
+            model.Revision = Math.Max(model.Revision, Instance!.Revision) + (dontUpdateRevision ? 0 : 1);
+            
             Instance = model;
             await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(Instance, auditDetails);
         }

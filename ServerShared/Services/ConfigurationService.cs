@@ -121,6 +121,9 @@ public class ConfigurationService
     /// <returns>the configuration</returns>
     public async Task<bool> SaveConfiguration(ConfigurationRevision config, ProcessingNode node)
     {
+        if (!await _updateConfigSemaphore.WaitAsync(30_000))
+            return false;
+        
         try
         {
             var service = ServiceLoader.Load<ISettingsService>();

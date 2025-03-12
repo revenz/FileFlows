@@ -37,8 +37,7 @@ public partial class Client
         const string prefix = "UpdateConfiguration:";
         _logger.ILog($"{prefix} Update Configuration to '{revision}' requested");
 
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
-        if (!await _configurationSemaphore.WaitAsync(20_000, cts.Token))
+        if (!await _configurationSemaphore.WaitAsync(20_000))
         {
             _logger.ILog($"{prefix} Failed to acquire configuration update semaphore within 20 seconds.");
             return;
