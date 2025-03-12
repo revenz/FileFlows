@@ -198,7 +198,8 @@ public class LibraryFileController : Controller
         var dnService = ServiceLoader.Load<FileDisplayNameService>();
         var data = files.Select(x =>
         {
-            var date = x.ProcessingEnded.Year > 2000 ? x.ProcessingEnded : x.ProcessingStarted;
+            var date = x.ProcessingEnded.Year == 2000 && x.ProcessingStarted.Year < 2000 ? x.DateModified :
+                x.ProcessingEnded.Year > 2000 ? x.ProcessingEnded : x.ProcessingStarted;
             var when = date.ToLocalTime().Humanize(false, DateTime.UtcNow);
             var displayName = x.Additional?.DisplayName;
             if (string.IsNullOrWhiteSpace(displayName))
