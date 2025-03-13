@@ -1,3 +1,5 @@
+using FileFlows.Shared.Models;
+
 namespace FileFlows.ServerShared.Models;
 
 /// <summary>
@@ -17,14 +19,31 @@ public class RunnerParameters
     /// Gets or sets the UID of the node to include in the remote calls
     /// </summary>
     public Guid RemoteNodeUid { get; set; }
+    
     /// <summary>
-    /// Gets or sets the UID of the library file
+    /// Gets or sets the maximum flow parts that can be executed
     /// </summary>
-    public Guid LibraryFile { get; set; }
+    public int MaxFlowParts { get; set; }
+
+    /// <summary>
+    /// Gets or sets the library file being processed
+    /// </summary>
+    public LibraryFile LibraryFile { get; init; } = null!;
+
+    /// <summary>
+    /// Gets or sets the starting flow to execute
+    /// </summary>
+    public Flow Flow { get; set; } = null!;
+    
     /// <summary>
     /// Gets or sets the temporary path
     /// </summary>
     public string TempPath { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the working directory (Runner-Uid) directory where the actually processing will use as its temporary directory
+    /// </summary>
+    public string WorkingDirectory { get; set; } = null!;
     /// <summary>
     /// Gets or sets the configuration path
     /// </summary>

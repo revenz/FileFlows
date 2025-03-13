@@ -58,7 +58,7 @@ public class ExecuteFlow : Node
     public override int Execute(NodeParameters args)
     {
         // add this flows parts to the total
-        Runner.Info.TotalParts += Flow.Parts.Count;
+        Runner.IncreaseTotalParts(Flow.Parts.Count);
         
         if (Flow.Parts?.FirstOrDefault()?.FlowElementUid?.EndsWith("." + nameof(Startup)) == true)
             FlowDepthLevel = -1; // special case for startup flow, set depth to -1 so first flow is at 0
@@ -73,8 +73,8 @@ public class ExecuteFlow : Node
             COMPLETED_OUTPUT = RunnerCodes.Failure;
             args.UpdateVariables(new Dictionary<string, object>
             {
-                { "FailedNode", Runner.Info.LibraryFile.ExecutedNodes.Last()?.NodeName },
-                { "FailedElement", Runner.Info.LibraryFile.ExecutedNodes.Last()?.NodeName },
+                { "FailedNode", Runner.runInstance.LibraryFile.ExecutedNodes.Last()?.NodeName },
+                { "FailedElement", Runner.runInstance.LibraryFile.ExecutedNodes.Last()?.NodeName },
                 { "FlowName", Runner.ExecutedFlows.LastOrDefault()?.Name ?? Flow.Name },
                 { "FailureReason", args.FailureReason?.EmptyAsNull() }
             });
@@ -97,7 +97,7 @@ public class ExecuteFlow : Node
 
 
         int count = 0;
-        while(++count < Math.Min(Runner.runInstance.Config.MaxNodes * 2, 300))
+        while(++count < Math.Min(Runner.runInstance.Properties.Config.MaxNodes * 2, 300))
         {
             if (Runner.CancellationToken.IsCancellationRequested || Runner.Canceled)
             {
@@ -140,9 +140,10 @@ public class ExecuteFlow : Node
 
                 if (part.FlowElementUid?.EndsWith("FlowInput") == true)
                     part.Name = Flow.Name; // entering this flow
-                    
-                
-                if (Runner.StepChanged(GetStepName(part), DontCountStep(part)).Failed(out var stepChangeError))
+
+
+                if (Runner.runInstance.RpcClient.RunnerInfoHandler.StepChanged(GetStepName(part), DontCountStep(part))
+                    .Result.Failed(out var stepChangeError))
                 {
                     args.FailureReason = stepChangeError;
                     args.Logger?.ELog(stepChangeError);
@@ -160,9 +161,9 @@ public class ExecuteFlow : Node
                 if (LogFlowPart(part))
                 {
                     args.Logger?.ILog(new string('=', 70));
-                    Runner.Info.LibraryFile.ExecutedNodes ??= new();
+                    Runner.runInstance.LibraryFile.ExecutedNodes ??= new();
                     args.Logger?.ILog(
-                        $"Executing Flow Element {(Runner.Info.LibraryFile.ExecutedNodes.Count + 1)}: {part.Label?.EmptyAsNull() ?? part.Name?.EmptyAsNull() ?? currentFlowElement.Name} [{currentFlowElement.GetType().FullName}]");
+                        $"Executing Flow Element {(Runner.runInstance.LibraryFile.ExecutedNodes.Count + 1)}: {part.Label?.EmptyAsNull() ?? part.Name?.EmptyAsNull() ?? currentFlowElement.Name} [{currentFlowElement.GetType().FullName}]");
                     args.Logger?.ILog(new string('=', 70));
                     args.Logger?.ILog("Working File: " + args.WorkingFile);
                     loadFELogger.WriteToLog(args.Logger);
@@ -241,7 +242,7 @@ public class ExecuteFlow : Node
                 
                 args.Result = NodeResult.Failure;
                 args.Logger?.ELog("Execution error: " + ex.Message + Environment.NewLine + ex.StackTrace);
-                Runner.runInstance.Logger?.ELog("Execution error: " + ex.Message + Environment.NewLine + ex.StackTrace);
+                Runner.runInstance.Properties.Logger?.ELog("Execution error: " + ex.Message + Environment.NewLine + ex.StackTrace);
                 if(currentFlowElement != null)
                     RecordFlowElementFinish(args, nodeStartTime, RunnerCodes.Failure, part, currentFlowElement);
                 return RunnerCodes.Failure;
@@ -328,7 +329,7 @@ public class ExecuteFlow : Node
             // this is the input for a Failure Flow
             // in this case we want to record the name of the failure flow as the feName
             var failureFlow =
-                Runner.runInstance.Config.Flows?.FirstOrDefault(x => x is { Type: FlowType.Failure, Default: true });
+                Runner.runInstance.Properties.Config.Flows?.FirstOrDefault(x => x is { Type: FlowType.Failure, Default: true });
             if (failureFlow != null)
                 feName = failureFlow.Name;
             // so the failure elements appear 'beneath this one'
@@ -339,7 +340,7 @@ public class ExecuteFlow : Node
             feName = "Script: " + feName;
         }
 
-        Runner.RecordNodeExecution(feName, feElementUid, output, executionTime, part, FlowDepthLevel + depthAdjustment);
+        Runner.runInstance.RpcClient.RunnerInfoHandler.RecordNodeExecution(feName, feElementUid, output, executionTime, part, FlowDepthLevel + depthAdjustment).Wait();
 
         if (LogFlowPart(part) && part.FlowElementUid?.StartsWith("SubFlow:") != true)
         {

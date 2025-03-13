@@ -7,7 +7,7 @@ namespace FileFlows.WebServer.Hubs;
 /// <summary>
 /// Represents a SignalR hub for managing node connections.
 /// </summary>
-public class NodeHub : Hub
+public partial class NodeHub : Hub
 {
     private readonly NodeService _nodeService;
     private readonly ISettingsService _settingsService;

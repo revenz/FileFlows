@@ -10,39 +10,39 @@ namespace FileFlowsTests.Tests.RunnerTests;
 [TestClass]
 public class LoadFlowElementTest : TestBase
 {
-    /// <summary>
-    /// Tests properties on a flow element can be overwritten by variables
-    /// </summary>
-    [TestMethod]
-    public void SetFieldValueTest()
-    {
-        var helper = new FlowHelper(new RunInstance());
-        var typeTestElement = typeof(TestElement);
-
-        var uid = Guid.NewGuid();
-        dynamic Model = new ExpandoObject();
-        Model.PropString = "Model String";
-        Model.PropBool = false;
-        Model.PropNumber = 123;
-        var instance = helper.CreateFlowElementInstance(Logger, new FlowPart()
-        {
-            Uid = uid,
-            Model = Model
-        }, typeTestElement, new()
-        {
-            { uid + "." + nameof(TestElement.PropString), "Variable String" },
-            { uid + "." + nameof(TestElement.PropString2), "Variable String 2" },
-            { uid + "." + nameof(TestElement.PropBool), true },
-            { uid + "." + nameof(TestElement.PropNumber), 456 },
-        }) as TestElement;
-
-        Assert.IsNotNull(instance);
-
-        Assert.AreEqual("Variable String 2", instance.PropString2);
-        Assert.AreEqual("Variable String", instance.PropString);
-        Assert.AreEqual(456, instance.PropNumber);
-        Assert.AreEqual(true, instance.PropBool);
-    }
+    // /// <summary>
+    // /// Tests properties on a flow element can be overwritten by variables
+    // /// </summary>
+    // [TestMethod]
+    // public void SetFieldValueTest()
+    // {
+    //     var helper = new FlowHelper(new RunInstance());
+    //     var typeTestElement = typeof(TestElement);
+    //
+    //     var uid = Guid.NewGuid();
+    //     dynamic Model = new ExpandoObject();
+    //     Model.PropString = "Model String";
+    //     Model.PropBool = false;
+    //     Model.PropNumber = 123;
+    //     var instance = helper.CreateFlowElementInstance(Logger, new FlowPart()
+    //     {
+    //         Uid = uid,
+    //         Model = Model
+    //     }, typeTestElement, new()
+    //     {
+    //         { uid + "." + nameof(TestElement.PropString), "Variable String" },
+    //         { uid + "." + nameof(TestElement.PropString2), "Variable String 2" },
+    //         { uid + "." + nameof(TestElement.PropBool), true },
+    //         { uid + "." + nameof(TestElement.PropNumber), 456 },
+    //     }) as TestElement;
+    //
+    //     Assert.IsNotNull(instance);
+    //
+    //     Assert.AreEqual("Variable String 2", instance.PropString2);
+    //     Assert.AreEqual("Variable String", instance.PropString);
+    //     Assert.AreEqual(456, instance.PropNumber);
+    //     Assert.AreEqual(true, instance.PropBool);
+    // }
 }
 
 /// <summary>

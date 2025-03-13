@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using System.Reflection;
+using FileFlows.FlowRunner.JsonRpc;
+using FileFlows.Shared.Models;
 
 namespace FileFlows.FlowRunner;
 
@@ -13,16 +15,16 @@ public class Program
     /// Main entry point for the flow runner
     /// </summary>
     /// <param name="args">the command line arguments</param>
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
         
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
 
-        instance = new();
-        int exitCode = instance.Run(args);
-        instance.LogInfo("Exit Code: " + exitCode);
+
+        int exitCode = (int) await RunInternal(args[0]);
+        Console.WriteLine("Exit Code: " + exitCode);
         Environment.ExitCode = exitCode;
     }
     
@@ -63,14 +65,37 @@ public class Program
         return null;
     }
 
+    /// <summary>
+    /// Used for debugging to capture full log and test the full log update method
+    /// </summary>
+    /// <param name="pipeName">the pipeName</param>
+    /// <returns>the exit code </returns>
+    public static async Task<FileStatus> Run(string pipeName)
+    {
+        JsonRpcClient jsonRpcClient = new ();
+        try
+        {
+            if(await jsonRpcClient.Initialize(pipeName) == false)
+                throw new Exception("Failed to initialize RPC Client");
+            instance = new RunInstance(new (jsonRpcClient));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            return FileStatus.ProcessingFailed;
+        }
+
+        return await instance.Run();
+    }
+    
 #if(DEBUG)
     private static bool assemblyResolverDone = false;
     /// <summary>
     /// Used for debugging to capture full log and test the full log update method
     /// </summary>
-    /// <param name="args">the args</param>
-    /// <returns>the exit code and full log</returns>
-    public static (int ExitCode, string Log) RunWithLog(string[] args)
+    /// <param name="pipeName">the pipeName</param>
+    /// <returns>the exit code </returns>
+    public static async Task<FileStatus> RunInternal(string pipeName)
     {
         if (assemblyResolverDone == false)
         {
@@ -85,9 +110,7 @@ public class Program
             };
         }
 
-        RunInstance instance = new();
-        int exitCode = instance.Run(args);
-        return (exitCode,instance.Logger.ToString());
+        return await Run(pipeName);
     }
     #endif
     

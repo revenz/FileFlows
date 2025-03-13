@@ -86,7 +86,7 @@ public class FlowHelper
         
         // connect the failure flow up to these so any sub flow will trigger a failure flow
         var failureFlow =
-            runInstance.Config.Flows?.FirstOrDefault(x => x is { Type: FlowType.Failure, Default: true });
+            runInstance.Properties.Config.Flows?.FirstOrDefault(x => x is { Type: FlowType.Failure, Default: true });
         if (failureFlow != null)
         {
             FlowPart fpFailure = new()
@@ -157,7 +157,7 @@ public class FlowHelper
             if (Guid.TryParse(part.FlowElementUid[7..], out Guid scriptUid) == false) // 7 to remove "Scripts."
                 return Result<Node>.Fail("Failed to parse script UID: " + part.FlowElementUid[7..]);
 
-            var flowScript = runInstance.Config.FlowScripts.FirstOrDefault(x => x.Uid == scriptUid);
+            var flowScript = runInstance.Properties.Config.FlowScripts.FirstOrDefault(x => x.Uid == scriptUid);
             if (flowScript == null)
                 return Result<Node>.Fail("Script not found");
 
@@ -193,13 +193,13 @@ public class FlowHelper
                 return Result<Node>.Fail("Failed to load GotoFlow model from: " + json);
 
 
-            var gotoFlow = runInstance.Config.Flows.FirstOrDefault(x => x.Uid == orFlow.Uid);
+            var gotoFlow = runInstance.Properties.Config.Flows.FirstOrDefault(x => x.Uid == orFlow.Uid);
             if(gotoFlow == null)
                 return Result<Node>.Fail("Failed to locate Flow defined in the GotoFlow flow element.");
 
             if (dictModel.TryGetValue("UpdateFlowUsed", out object? oUpdateFlowUsed) && oUpdateFlowUsed?.ToString()?.ToLowerInvariant() == "true")
             {
-                runner.Info.LibraryFile.Flow = new()
+                runner.runInstance.LibraryFile.Flow = new()
                 {
                     Uid = gotoFlow.Uid,
                     Name = gotoFlow.Name
@@ -215,7 +215,7 @@ public class FlowHelper
         if (part.Type == FlowElementType.SubFlow)
         {
             string sUid = part.FlowElementUid[8..]; // remove SubFlow:
-            var subFlow = runInstance.Config.Flows.FirstOrDefault(x => x.Uid.ToString() == sUid);
+            var subFlow = runInstance.Properties.Config.Flows.FirstOrDefault(x => x.Uid.ToString() == sUid);
             if (subFlow == null)
                 return Result<Node>.Fail($"Failed to locate sub flow '{sUid}'.");
             // add all the fields into the variables 
@@ -255,7 +255,7 @@ public class FlowHelper
         var instance = CreateFlowElementInstance(logger, part, nt, variables);
         if (instance == null)
             return instance;
-        if ((int)instance.LicenseLevel > (int)runner.runInstance.Config.LicenseLevel)
+        if ((int)instance.LicenseLevel > (int)runner.runInstance.Properties.Config.LicenseLevel)
             return Result<Node>.Fail(
                 $"The flow element {instance.GetType().Name} requires a {instance.LicenseLevel} license.");
         return instance;
@@ -323,8 +323,8 @@ public class FlowHelper
                 }
                 catch (Exception ex)
                 {
-                    runInstance.Logger?.ELog("Failed setting property: " + ex.Message + Environment.NewLine + ex.StackTrace);
-                    runInstance.Logger?.ELog("Type: " + flowElementType.Name + ", Property: " + k);
+                    runInstance.Properties.Logger?.ELog("Failed setting property: " + ex.Message + Environment.NewLine + ex.StackTrace);
+                    runInstance.Properties.Logger?.ELog("Type: " + flowElementType.Name + ", Property: " + k);
                 }
             }
         }
@@ -391,7 +391,7 @@ public class FlowHelper
     /// <returns>the code of the script</returns>
     private string GetScriptCode(Guid scriptUid)
     {
-        var file = new FileInfo(Path.Combine(runInstance.ConfigDirectory, "Scripts", "Flow", scriptUid + ".js"));
+        var file = new FileInfo(Path.Combine(runInstance.Properties.ConfigDirectory, "Scripts", "Flow", scriptUid + ".js"));
         if (file.Exists == false)
             return string.Empty;
         return File.ReadAllText(file.FullName);
@@ -417,7 +417,7 @@ public class FlowHelper
         if (fullName.EndsWith(nameof(SubFlowOutput)) || fullName.StartsWith(nameof(SubFlowOutput)))
             return typeof(SubFlowOutput);
 
-        var dlls = new DirectoryInfo(runInstance.WorkingDirectory).GetFiles("*.dll", SearchOption.AllDirectories);
+        var dlls = new DirectoryInfo(runInstance.Properties.WorkingDirectory).GetFiles("*.dll", SearchOption.AllDirectories);
         foreach (var dll in dlls)
         {
             try
@@ -431,11 +431,11 @@ public class FlowHelper
             }
             catch (Exception ex)
             {
-                runInstance.Logger.WLog("Failed to load assembly: " + dll.FullName + " > " + ex.Message);
+                runInstance.Properties.Logger.WLog("Failed to load assembly: " + dll.FullName + " > " + ex.Message);
             }
         }
 
-        runInstance.Logger.WLog(
+        runInstance.Properties.Logger.WLog(
             $"Failed to load '{fullName}' from any of the following DLLs:{Environment.NewLine} {string.Join(Environment.NewLine, dlls.Select(x => " - " + x.FullName))}");
         
         return null;

@@ -207,23 +207,11 @@
                         {
                             <div class="right processing">
                                 @{
-                                    var worker = WorkerStatus?.FirstOrDefault(x => x.LibraryFile?.Uid == item.Uid);
+                                    var worker = WorkerStatus?.FirstOrDefault(x => x.Uid == item.Uid);
                                     if (worker != null)
                                     {
                                         <span class="top-right">@worker.CurrentPartName</span>
                                         <FlowProgress TotalParts="worker.TotalParts" CurrentPart="worker.CurrentPart" CurrentPartPercent="worker.CurrentPartPercent" />
-                                        @* @if (false) *@
-                                        @* { *@
-                                        @*     var overall = worker.TotalParts == 0 ? 100 : ((worker.CurrentPart / (double)worker.TotalParts)) * 100; *@
-                                        @*     var current = worker.CurrentPartPercent; *@
-                                        @*     <div class="flow-bar worker-progress @(current > 0 ? "has-current" : "")"> *@
-                                        @*         @if (current > 0) *@
-                                        @*         { *@
-                                        @*             <div class="current-progress bar-value" style="width:@current%"></div> *@
-                                        @*         } *@
-                                        @*         <div class="overall-progress  bar-value" style="width:@overall%"></div> *@
-                                        @*     </div> *@
-                                        @* } *@
                                     }
                                 }
                             </div>

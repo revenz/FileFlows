@@ -1,3 +1,4 @@
+using FileFlows.Services.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using FileFlows.WebServer.Hubs;
 
@@ -47,7 +48,7 @@ public class WorkerController : Controller
         var results = liveExecutors.Select(x => new FlowExecutorInfo
         {
             // have to create a new object, otherwise if we change the log we change the log on the shared object
-            LibraryFile = x.LibraryFile,
+            //LibraryFile = x.LibraryFile,
             CurrentPart = x.CurrentPart,
             CurrentPartName = x.CurrentPartName,
             CurrentPartPercent = x.CurrentPartPercent,
@@ -81,32 +82,19 @@ public class WorkerController : Controller
     [HttpDelete("by-file/{uid}")]
     public async Task AbortByFile(Guid uid)
     {
-        // get the runner that processing this file
-        var service = ServiceLoader.Load<FlowRunnerService>();
-        var runner = await service.FindRunner(uid);
-        if (runner.IsFailed)
-        {
-            Logger.Instance.WLog("Failed to find runner to cancel file: " + uid);
-            // fall back abort, shouldn't happen, but this is a way to abort
-            await service.AbortByFile(uid);
-        }
-        else
-        {
-            // call the same abort as from the dashboard
-            await Abort(runner.Value, uid);
-        }
+        var service = ServiceLoader.Load<INodeHubService>();
+        await service.AbortFile(uid);
     }
 
     /// <summary>
     /// Abort work 
     /// </summary>
     /// <param name="uid">The UID of the executor</param>
-    /// <param name="libraryFileUid">the UID of the library file</param>
     /// <returns>an awaited task</returns>
     [HttpDelete("{uid}")]
-    public async Task Abort([FromRoute] Guid uid, [FromQuery] Guid libraryFileUid)
+    public async Task Abort([FromRoute] Guid uid)
     {
-        await ServiceLoader.Load<FlowRunnerService>().Abort(uid, libraryFileUid);
+        await ServiceLoader.Load<FlowRunnerService>().Abort(uid);
         try
         {
             await this.Context?.Clients?.All?.SendAsync("AbortFlow", uid);
@@ -117,7 +105,7 @@ public class WorkerController : Controller
         }
         try
         {
-            await this.Context?.Clients?.All?.SendAsync("AbortFlow", libraryFileUid);
+            await this.Context?.Clients?.All?.SendAsync("AbortFlow", uid);
         }
         catch (Exception ex)
         {
@@ -125,11 +113,11 @@ public class WorkerController : Controller
         }
     }
 
-    /// <summary>
-    /// Receives a hello from the flow runner, indicating its still alive and executing
-    /// </summary>
-    /// <param name="runnerUid">the UID of the flow runner</param>
-    /// <param name="info">the flow execution info</param>
-    internal Task<bool> Hello(Guid runnerUid, FlowExecutorInfo info)
-        => ServiceLoader.Load<FlowRunnerService>().Hello(runnerUid, info);
+    // /// <summary>
+    // /// Receives a hello from the flow runner, indicating its still alive and executing
+    // /// </summary>
+    // /// <param name="runnerUid">the UID of the flow runner</param>
+    // /// <param name="info">the flow execution info</param>
+    // internal Task<bool> Hello(Guid runnerUid, FlowExecutorInfo info)
+    //     => ServiceLoader.Load<FlowRunnerService>().Hello(runnerUid, info);
 }

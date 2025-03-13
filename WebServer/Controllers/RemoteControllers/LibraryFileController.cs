@@ -46,20 +46,6 @@ public class LibraryFileController : Controller
         return file;
     }
 
-    /// <summary>
-    /// Gets the next library file for processing, and puts it into progress
-    /// </summary>
-    /// <param name="args">The arguments for the call</param>
-    /// <returns>the next library file to process</returns>
-    [HttpPost("next-file")]
-    public Task<NextLibraryFileResult> GetNextLibraryFile([FromBody] NextLibraryFileArgs args)
-    {
-        // don't add any logic here to clear the file etc.  
-        // the internal processing node bypasses this call and call the service directly (as does debug testing)
-        // only remote processing nodes make this call
-        var service = ServiceLoader.Load<LibraryFileService>();
-        return service.GetNext(args.NodeName, args.NodeUid, args.NodeVersion, args.WorkerUid);
-    }
 
     /// <summary>
     /// Tells the server not to check this node for number of seconds when checking for load balancing as it will

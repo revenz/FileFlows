@@ -24,7 +24,7 @@ public partial class Client : IDisposable
     private readonly CancellationTokenSource _cts;
     
     private TaskCompletionSource<bool> _registrationCompletion = new(TaskCreationOptions.RunContinuationsAsynchronously);
-    private readonly HubConnection _connection;
+    internal readonly HubConnection _connection;
     private bool _disposed;
 
     /// <summary>

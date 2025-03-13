@@ -31,11 +31,12 @@ public class RunnerManager
     /// <summary>
     /// Attempts to start a new runner if the maximum allowed runners has not been reached.
     /// </summary>
+    /// <param name="client">the client starting this run instance</param>
     /// <param name="args">The arguments for the runner execution.</param>
     /// <param name="node">the processing node</param>
     /// <param name="config">the current configuration</param>
     /// <returns>True if the runner was started, otherwise false.</returns>
-    public bool TryStartRunner(RunFileArguments args, ProcessingNode node, ConfigurationRevision config)
+    public bool TryStartRunner(Client client, RunFileArguments args, ProcessingNode node, ConfigurationRevision config)
     {
         lock (_lock)
         {
@@ -60,7 +61,7 @@ public class RunnerManager
                 return false;
             }
 
-            var runner = new Runner(args, node, tempPath, OnRunnerCompleted);
+            var runner = new Runner(client, args, node, tempPath, OnRunnerCompleted);
             if (_activeRunners.TryAdd(runner.Id, runner))
             {
                 Logger.Instance.ILog("Starting runner!!!");

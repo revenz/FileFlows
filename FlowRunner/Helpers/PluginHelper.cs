@@ -19,10 +19,10 @@ public class PluginHelper
     /// <returns>the result from the invoked method</returns>
     internal static object PluginMethodInvoker(RunInstance runInstance, NodeParameters nodeParameters, string plugin, string method, object[] args)
     {
-        var dll = new DirectoryInfo(runInstance.WorkingDirectory).GetFiles(plugin + ".dll", SearchOption.AllDirectories).FirstOrDefault();
+        var dll = new DirectoryInfo(runInstance.Properties.WorkingDirectory).GetFiles(plugin + ".dll", SearchOption.AllDirectories).FirstOrDefault();
         if (dll == null)
         {
-            runInstance.Logger.ELog("Failed to locate plugin: " + plugin);
+            runInstance.Properties.Logger.ELog("Failed to locate plugin: " + plugin);
             return null;
         }
 
@@ -33,14 +33,14 @@ public class PluginHelper
             var type = assembly.GetTypes().FirstOrDefault(x => x.Name == "StaticMethods");
             if (type == null)
             {
-                runInstance.Logger.ELog("No static methods found in plugin: " + plugin);
+                runInstance.Properties.Logger.ELog("No static methods found in plugin: " + plugin);
                 return null;
             }
 
             var methodInfo = type.GetMethod(method, BindingFlags.Public | BindingFlags.Static);
             if (methodInfo == null)
             {
-                runInstance.Logger.ELog($"Method not found in plugin: {plugin}.{method}");
+                runInstance.Properties.Logger.ELog($"Method not found in plugin: {plugin}.{method}");
                 return null;
             }
 
@@ -52,7 +52,7 @@ public class PluginHelper
         }
         catch (Exception ex)
         {
-            runInstance.Logger.ELog($"Error executing plugin method [{plugin}.{method}]: " + ex.Message);
+            runInstance.Properties.Logger.ELog($"Error executing plugin method [{plugin}.{method}]: " + ex.Message);
             return null;
         }
     }

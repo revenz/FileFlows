@@ -32,7 +32,7 @@ public class NodeHubBridge : INodeHubService
     }
 
     /// <inheritdoc/>
-    public async Task<Result<bool>> ProcessFile(Guid nodeUid, LibraryFile file, string connectionId)
+    public async Task<Result<bool>> ProcessFile(Guid nodeUid, LibraryFile file, Guid flowUid, string connectionId)
     {
         try
         {
@@ -41,6 +41,7 @@ public class NodeHubBridge : INodeHubService
                 .InvokeAsync<bool>("ClientProcessFile", new RunFileArguments()
                 {
                     LibraryFile = file,
+                    FlowUid = flowUid,
                     KeepFailedFiles = settings.KeepFailedFlowTempFiles,
                     CanRunPreExecuteCheck = LicenseService.IsLicensed(LicenseFlags.Tasks)
                 }, CancellationToken.None);
@@ -93,5 +94,18 @@ public class NodeHubBridge : INodeHubService
         // {
         //     // Ignored
         // }
+    }
+
+    /// <inheritdoc/>
+    public async Task AbortFile(Guid uid)
+    {
+        try
+        {
+            await _hubContext.Clients.All.SendAsync("AbortFile", uid);
+        }
+        catch (Exception)
+        {
+            // Ignored
+        }
     }
 }

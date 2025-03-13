@@ -21,6 +21,10 @@ public partial class Client
     private readonly string _hostname;
     private readonly RunnerManager _runnerManager;
     private ProcessingNode? _node;
+    /// <summary>
+    /// Gets the node
+    /// </summary>
+    public ProcessingNode? Node => _node;
     public Guid? NodeUid => _node?.Uid;
     private ClientParameters _parameters;
 
@@ -259,7 +263,7 @@ public partial class Client
             }
 
             _logger.ILog($"Trying to start runner for: {args.LibraryFile.Name}");
-            bool result = _runnerManager.TryStartRunner(args, _node, _configurationService.CurrentConfig!);
+            bool result = _runnerManager.TryStartRunner(this, args, _node, _configurationService.CurrentConfig!);
             _logger.ILog($"Process file result: {result}");
             return result;
         }
@@ -269,4 +273,27 @@ public partial class Client
             return false;
         }
     }
+
+    /// <summary>
+    /// Checks if the file exists on the server
+    /// </summary>
+    /// <param name="uid">the UID of the library file</param>
+    /// <returns>true if exists otherwise false</returns>
+    public async Task<bool> ExistsOnServer(Guid uid)
+        => await _connection.InvokeAsync<bool>("ExistsOnServer", uid);
+
+    /// <summary>
+    /// Starts processing a file
+    /// </summary>
+    /// <param name="libraryFileUid">the UID of the file</param>
+    public async Task FileStartProcessing(Guid libraryFileUid)
+        => await _connection.SendAsync("FileStartProcessing", libraryFileUid);
+
+    /// <summary>
+    /// Called when the file finishes processing
+    /// </summary>
+    /// <param name="libraryFile">the library file</param>
+    /// <param name="log">the complete log of the file processing</param>
+    public async Task FileFinishProcessing(LibraryFile libraryFile, string log)
+        => await _connection.SendAsync("FileFinishProcessing", libraryFile, log);
 }

@@ -13,6 +13,11 @@ public class RunFileArguments
     public LibraryFile LibraryFile { get; set; } = null!;
     
     /// <summary>
+    /// Gets or sets the UID of the flow to execute
+    /// </summary>
+    public Guid FlowUid { get; set; }
+    
+    /// <summary>
     /// Gets or sets if this node cna run a pre-execute check
     /// </summary>
     public bool CanRunPreExecuteCheck { get; set; }
