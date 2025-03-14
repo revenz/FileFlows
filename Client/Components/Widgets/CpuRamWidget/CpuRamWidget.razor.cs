@@ -1,4 +1,5 @@
 using FileFlows.Client.Helpers;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -12,6 +13,10 @@ public partial class CpuRamWidget : ComponentBase, IDisposable
     /// Gets or sets the client service
     /// </summary>
     [Inject] public ClientService ClientService { get; set; }
+    /// <summary>
+    /// Gets or sets the front end service
+    /// </summary>
+    [Inject] public FrontendService feService { get; set; }
     
     private int _Mode = 0;
     private string Color = "yellow";
@@ -57,7 +62,7 @@ public partial class CpuRamWidget : ComponentBase, IDisposable
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        ClientService.SystemInfoUpdated += OnSystemInfoUpdated;
+        feService.Dashboard.SystemInfoUpdated += OnSystemInfoUpdated;
         _Mode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 1);
         var status = await ClientService.GetCurrentSystemInfo();
         if(status != null)
@@ -109,6 +114,6 @@ public partial class CpuRamWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.SystemInfoUpdated -= OnSystemInfoUpdated;
+        feService.Dashboard.SystemInfoUpdated -= OnSystemInfoUpdated;
     }
 }

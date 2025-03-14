@@ -12,6 +12,10 @@ public class DashboardFrontend(FrontendService feService)
     public List<NodeStatusSummary> CurrentNodeStatusSummaries { get; private set; }
     public List<Tag> Tags { get; private set; } = new List<Tag>();
     
+    /// <summary>
+    /// Event raised when the system info has bene updated
+    /// </summary>
+    public event Action<SystemInfo> SystemInfoUpdated;
 
     public async Task Initialize()
     {
@@ -25,6 +29,10 @@ public class DashboardFrontend(FrontendService feService)
         feService.Registry.Register<bool>("Paused", (bool paused) =>
         {
             Logger.Instance.ILog("Paused: " + paused);
+        });
+        feService.Registry.Register<SystemInfo>(nameof(SystemInfo), (se) =>
+        {
+            SystemInfoUpdated?.Invoke(se);
         });
     }
 }

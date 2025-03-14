@@ -35,7 +35,10 @@ public class FrontendService : IAsyncDisposable
     /// </summary>
     public event Action? OnInitialized;
 
-    private DashboardFrontend? _dashboard;
+    /// <summary>
+    /// Gets or sets the dashboard handler
+    /// </summary>
+    public DashboardFrontend Dashboard { get;private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FrontendService"/> class.
@@ -136,8 +139,8 @@ public class FrontendService : IAsyncDisposable
     {
         Logger.Instance.ILog("FrontendService initialized after first successful SSE connection.");
         // Add any initialization logic here
-        _dashboard = new(this);
-        await _dashboard.Initialize();
+        Dashboard = new(this);
+        await Dashboard.Initialize();
         IsInitialized = true;
         OnInitialized?.Invoke();
     }

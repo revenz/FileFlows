@@ -101,8 +101,8 @@ public class SystemMonitor:Worker, ISystemMonitorService
         var nodes = _nodeService.GetAllAsync().Result;
 
         var settings = settingsService.Get().Result;
-        var service = ServiceLoader.Load<IClientService>();
-        service.UpdateSystemInfo(new()
+        var service = ServiceLoader.Load<SseEventBroker>();
+        _ = service.BroadcastEvent(nameof(SystemInfo), new SystemInfo()
         {
             CpuUsage = LatestCpuUsage,
             MemoryUsage = LatestMemoryUsage,
