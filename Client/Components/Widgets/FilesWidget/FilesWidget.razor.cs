@@ -1,5 +1,6 @@
 using System.IO;
 using FileFlows.Client.Helpers;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Shared.Formatters;
 using Microsoft.AspNetCore.Components;
 
@@ -61,7 +62,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// <summary>
     /// Gets or sets the profile service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets the profile
@@ -79,7 +80,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     
     protected override async Task OnInitializedAsync()
     {
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         lblTitle = Translater.Instant("Pages.Dashboard.Widgets.Files.Title");
         lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = 0});
         lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = 0});

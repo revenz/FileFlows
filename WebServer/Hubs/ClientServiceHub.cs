@@ -2,6 +2,7 @@
 using FileFlows.Services;
 using FileFlows.Shared.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.CodeAnalysis.Operations;
 using FileHelper = FileFlows.ServerShared.Helpers.FileHelper;
 
 namespace FileFlows.WebServer.Hubs;
@@ -79,13 +80,14 @@ public class ClientServiceManager : IClientService
 
         try
         {
+            var broker = ServiceLoader.Load<SseEventBroker>();
             foreach (var executor in executors)
             {
                 executor.Value.HasThumbnail = File.Exists(Path.Combine(DirectoryHelper.LibraryFilesLoggingDirectory,
                     executor.Value.LibraryFileUid + ".webp"));
             }
-            
-            await _hubContext.Clients.All.SendAsync("UpdateExecutors", executors);
+            await broker.BroadcastEvent(nameof(FlowExecutorInfoMinified), executors);
+            // await _hubContext.Clients.All.SendAsync("UpdateExecutors", executors);
             await Task.Delay(500); // creates a 500 ms delay between messages to the client
         }
         catch (Exception ex)
@@ -105,6 +107,7 @@ public class ClientServiceManager : IClientService
     {
         var status = await ServiceLoader.Load<LibraryFileService>().GetStatus();
         await _hubContext.Clients.All.SendAsync("UpdateFileStatus", status);
+        //await ServiceLoader.Load<SseEventBroker>().BroadcastEvent(nameof(LibraryStatus), status);
     }
     
     /// <summary>
@@ -113,7 +116,7 @@ public class ClientServiceManager : IClientService
     public async Task UpdateNodeStatusSummaries()
     {
         var status = await ServiceLoader.Load<NodeService>().GetStatusSummaries();
-        await _hubContext.Clients.All.SendAsync("UpdateNodeStatusSummaries", status);
+        await ServiceLoader.Load<SseEventBroker>().BroadcastEvent(nameof(NodeStatusSummary), status);
     }
     
     /// <summary>
@@ -150,13 +153,6 @@ public class ClientServiceManager : IClientService
     /// <param name="data">the update data</param>
     public void FileOverviewUpdate(FileOverviewData data)
         => _hubContext.Clients.All.SendAsync("FileOverviewUpdate", data);
-
-    /// <summary>
-    /// Sends a update about updates available to the system
-    /// </summary>
-    /// <param name="data">the update data</param>
-    public void UpdatesUpdate(UpdateInfo data)
-        => _hubContext.Clients.All.SendAsync("UpdatesUpdateInfo", data);
     
     /// <summary>
     /// Sends a update about tags available int the system

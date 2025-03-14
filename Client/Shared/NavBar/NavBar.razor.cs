@@ -1,5 +1,6 @@
 using Microsoft.JSInterop;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 
@@ -51,6 +52,10 @@ public partial class NavBar
     /// Gets or sets the profile service
     /// </summary>
     [Inject] private ProfileService ProfileService { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] FrontendService feService { get; set; }
 
     private List<NavMenuItem> UserMenu = new();
     /// <summary>
@@ -59,7 +64,7 @@ public partial class NavBar
     private Profile Profile;
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         lblVersion = Translater.Instant("Labels.Version");
         lblHelp = Translater.Instant("Labels.Help");
@@ -71,7 +76,7 @@ public partial class NavBar
         NavigationManager.LocationChanged += NavigationManagerOnLocationChanged;
 
         ProfileService.OnRefresh += ProfileServiceOnOnRefresh; 
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         
         this.LoadMenu();
         BottomNavBarItems.Add(new(lblReddit, "fab fa-reddit-alien", "https://reddit.com/r/FileFlows"));

@@ -196,7 +196,7 @@ public partial class ClientService
     /// <param name="data">The notification data.</param>
     private void HandleNotification(NotificationData data)
     {
-        _ = _profileService.Refresh();
+        // _ = _profileService.Refresh();
         switch (data.Severity)
         {
             case NotificationSeverity.Critical:

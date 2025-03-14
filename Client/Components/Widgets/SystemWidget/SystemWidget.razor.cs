@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -8,9 +9,9 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class SystemWidget : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets or sets the Local Storage instance
@@ -59,9 +60,13 @@ public partial class SystemWidget : ComponentBase, IDisposable
         lblSavings = Translater.Instant("Pages.Dashboard.Tabs.Savings");
         if(App.Instance.IsMobile)
             Mode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
-        var info = await ClientService.GetCurrentExecutorInfoMinifed();
-        OnExecutorsUpdated(info ?? []);
-        ClientService.ExecutorsUpdated += OnExecutorsUpdated;
+        OnExecutorsUpdated(feService.Dashboard.CurrentExecutorInfoMinified ?? []);
+        feService.Dashboard.RunnerInfoUpdated += OnExecutorsUpdated;
+    }
+
+    private void DashboardOnRunnerInfoUpdated(List<FlowExecutorInfoMinified> obj)
+    {
+        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -93,6 +98,6 @@ public partial class SystemWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.ExecutorsUpdated -= OnExecutorsUpdated;
+        feService.Dashboard.RunnerInfoUpdated -= OnExecutorsUpdated;
     }
 }

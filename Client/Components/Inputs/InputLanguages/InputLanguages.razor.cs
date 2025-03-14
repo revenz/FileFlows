@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -36,16 +37,16 @@ public partial class InputLanguages : Input<List<string>>
     /// <summary>
     /// Gets or sets the profile service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await base.OnInitializedAsync();
+        base.OnInitialized();
         Logger.Instance.ILog("Value: " , this.Value);
         MutliselectValue = this.Value?.Select(object (x) => x)?.ToArray() ?? [];
         Logger.Instance.ILog("MutliselectValue: " , this.Value);
-        var profile = await ProfileService.Get();
+        var profile = feService.Profile.Profile;
         LanguageOptions = LanguageHelper.Languages.DistinctBy(x => x.Iso2).Select(x =>
         {
             var name = profile.UseFrench ? x.French :

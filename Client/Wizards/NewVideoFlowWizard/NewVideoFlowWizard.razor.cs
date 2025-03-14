@@ -1,6 +1,7 @@
 using System.Reflection.Emit;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -11,6 +12,11 @@ namespace FileFlows.Client.Wizards;
 /// </summary>
 public partial class NewVideoFlowWizard 
 {
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] public FrontendService feService { get; set; }
+    
     /// <summary>
     /// Translation strings
     /// </summary>
@@ -160,9 +166,9 @@ public partial class NewVideoFlowWizard
     }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        var profile = await ProfileService.Get(); 
+        var profile = feService.Profile.Profile; 
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
 
         if (Options is NewVideoFlowWizardOptions options)

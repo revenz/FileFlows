@@ -43,26 +43,11 @@ public partial class MainLayout : LayoutComponentBase
         HttpHelper.On401 = On401;
         HttpHelper.OnRedirect = OnRedirect;
         App.Instance.NavMenuCollapsed = await LocalStorage.GetItemAsync<bool>("NavMenuCollapsed");
-        FrontendService.OnInitialized += FrontendServiceOnOnInitialized;
-        var authToken = await LocalStorage.GetAccessToken();
-        #if(DEBUG)
-        FrontendService.StartListening("http://localhost:6868/api/sse", authToken);
-        #else
-        FrontendService.StartListening("/api/sse", authToken);
-        #endif
             
         this.ClientService.Connected += ClientServiceOnConnected;
         this.ClientService.Disconnected += ClientServiceOnDisconnected;
     }
 
-    /// <summary>
-    /// Called when the front end service has initialized
-    /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    private void FrontendServiceOnOnInitialized()
-    {
-        StateHasChanged();
-    }
 
     private void On401()
     {

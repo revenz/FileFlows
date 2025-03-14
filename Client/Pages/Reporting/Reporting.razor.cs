@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -16,9 +17,9 @@ public partial class Reporting  : ComponentBase
     [Inject] public NavigationManager NavigationManager { get; set; }
 
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
 
     /// <summary>
     /// If scheduled reports is selected
@@ -32,9 +33,9 @@ public partial class Reporting  : ComponentBase
     
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        var profile = await ProfileService.Get();
+        var profile = feService.Profile.Profile;
         if (profile.LicensedFor(LicenseFlags.Reporting) == false)
         {
             NavigationManager.NavigateTo("/");

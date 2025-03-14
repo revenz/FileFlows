@@ -3,6 +3,7 @@ using FileFlows.Client.Models;
 using FileFlows.Client.Components.Dialogs;
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.JSInterop;
 using FileFlows.Plugin;
 
@@ -30,9 +31,9 @@ public partial class Settings : InputRegister
     
 
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets the profile
@@ -153,7 +154,7 @@ public partial class Settings : InputRegister
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         lblTitle = Translater.Instant("Pages.Settings.Title");
         lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
@@ -319,6 +320,9 @@ public partial class Settings : InputRegister
             Blocker.Hide();
     }
 
+    /// <summary>
+    /// Saves the settings
+    /// </summary>
     private async Task Save()
     {
         this.Blocker.Show(lblSaving);
@@ -331,9 +335,10 @@ public partial class Settings : InputRegister
             
             await HttpHelper.Put<string>("/api/settings/ui-settings", this.Model);
             if (Model.Security == SecurityMode.Off)
-                await ProfileService.ClearAccessToken();
+                await feService.Profile.ClearAccessToken();
 
-            await ProfileService.Refresh();
+            // todo: refresh profile, or will sse just send the updated profile? or is that even needed?
+            //await feService.Refresh();
             InitSecurityModes();
 
             if (initialLannguage != Model.Language)

@@ -1,6 +1,6 @@
 @namespace FileFlows.Client
 
-@if (LanguageLoaded)
+@if (feService.IsInitialized)
 {
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">

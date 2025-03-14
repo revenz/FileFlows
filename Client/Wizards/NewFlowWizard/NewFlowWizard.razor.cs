@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -43,11 +44,6 @@ public partial class NewFlowWizard : IModal
         }
     }
     
-    /// <summary>
-    /// Gets or sets the profile service
-    /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
-    
     /// <inheritdoc />
     [Parameter]
     public IModalOptions Options { get; set; }
@@ -82,8 +78,7 @@ public partial class NewFlowWizard : IModal
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
-    {
-        var profile = await ProfileService.Get(); 
+    { 
         var elementsResult = await HttpHelper.Get<FlowElement[]>("/api/flow/elements");
         if (elementsResult.Success)
             AvailableElements = elementsResult.Data.ToDictionary(x => x.Uid);

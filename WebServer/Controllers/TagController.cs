@@ -18,7 +18,7 @@ public class TagController : BaseController
     /// <returns>A list of all configured tags</returns>
     [HttpGet]
     public async Task<IEnumerable<Tag>> GetAll() 
-        => (await ServiceLoader.Load<TagService>().GetAllAsync()).OrderBy(x => x.Name.ToLowerInvariant());
+        => (await ServiceLoader.Load<TagService>().GetAllAsync() ?? []).OrderBy(x => x.Name.ToLowerInvariant());
 
     /// <summary>
     /// Get tag

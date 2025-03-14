@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -29,9 +30,9 @@ public partial class NewLibraryWizard : IModal
     }
     
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
+    [Inject] private FrontendService feService { get; set; }
     
     /// <inheritdoc />
     [Parameter]
@@ -183,7 +184,7 @@ public partial class NewLibraryWizard : IModal
             return;
         }
         
-        IsWindows = (await ProfileService.Get()).ServerOS == OperatingSystemType.Windows;
+        IsWindows = feService.Profile.Profile.ServerOS == OperatingSystemType.Windows;
         
         lblTitle = Translater.Instant("Dialogs.NewLibraryWizard.Title");
         lblLibraryType = Translater.Instant("Dialogs.NewLibraryWizard.Labels.LibraryType");

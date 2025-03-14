@@ -1,5 +1,6 @@
 using System.Diagnostics.Tracing;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
@@ -10,14 +11,10 @@ namespace FileFlows.Client.Pages;
 public partial class NewDashboard : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
     
-    /// <summary>
-    /// Gets or sets the profile service
-    /// </summary>
-    [Inject] public ProfileService ProfileService { get; set; }
     /// <summary>
     /// Gets or sets the paused service
     /// </summary>
@@ -43,19 +40,18 @@ public partial class NewDashboard : ComponentBase, IDisposable
     private bool loaded = false;
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         lblDashboard = Translater.Instant("Pages.Dashboard.Tabs.Dashboard");
         lblSavings = Translater.Instant("Pages.Dashboard.Tabs.Savings");
         lblStatistics = Translater.Instant("Pages.Dashboard.Tabs.Statistics");
         lblNodes = Translater.Instant("Pages.Nodes.Title");
         lblRunners = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = 0});
-        UpdateInfoData = await ClientService.GetCurrentUpdatesInfo();
+        UpdateInfoData = feService.Dashboard.CurrentUpdatesInfo;
         OnUpdatesUpdateInfo(UpdateInfoData);
-        _ = await ClientService.GetCurrentFileOverData();
         
-        ClientService.UpdatesUpdateInfo += OnUpdatesUpdateInfo;
-        Profile = await ProfileService.Get();
+        feService.Dashboard.UpdateInfoUpdated += OnUpdatesUpdateInfo;
+        Profile = feService.Profile.Profile;
 
         if(App.Instance.IsMobile)
             PausedService.OnPausedLabelChanged += OnPausedLabelChanged;
@@ -106,7 +102,7 @@ public partial class NewDashboard : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.UpdatesUpdateInfo -= OnUpdatesUpdateInfo;
+        feService.Dashboard.UpdateInfoUpdated-= OnUpdatesUpdateInfo;
 
         if(App.Instance.IsMobile)
             PausedService.OnPausedLabelChanged -= OnPausedLabelChanged;

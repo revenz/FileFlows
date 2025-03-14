@@ -17,7 +17,14 @@ public partial class Blocker : ComponentBase
         set => _Visible = value;
     }
 
-    public string Message { get; set; } = "";
+    [Parameter]
+    public string Message
+    {
+        get => _Message;
+        set => _Message = value;
+    }
+
+    private string _Message = string.Empty;
 
     public void Show(string message = "")
     {

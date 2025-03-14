@@ -1,4 +1,5 @@
 using FileFlows.Client.Components;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -10,9 +11,9 @@ namespace FileFlows.Client.Wizards;
 public partial class WizardOutput : ComponentBase
 {
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frotend service
     /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
+    [Inject] private FrontendService feService { get; set; }
     /// <summary>
     /// Gets or sets if this is a file drop flow
     /// </summary>
@@ -23,9 +24,9 @@ public partial class WizardOutput : ComponentBase
     private int OutputMode = 0;
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        var profile = await ProfileService.Get();
+        var profile = feService.Profile.Profile;
         IsWindows = profile.ServerOS == OperatingSystemType.Windows;
         IsFileDrop = profile.LicensedFor(LicenseFlags.FileDrop);
         if (IsFileDrop && FileDropFlow)

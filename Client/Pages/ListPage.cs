@@ -4,6 +4,7 @@ using FileFlows.Client.Components.Dialogs;
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Helpers;
+using FileFlows.Client.Services.Frontend;
 
 namespace FileFlows.Client.Pages;
 
@@ -55,9 +56,9 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     protected bool HasData { get; set; }
 
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets the profile
@@ -76,9 +77,9 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         if (Licensed() == false)
         {
             NavigationManager.NavigateTo("/");

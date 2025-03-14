@@ -7,11 +7,6 @@ namespace FileFlows.Client.Components.Dialogs;
 /// </summary>
 public partial class FileBrowser : IModal
 {
-    /// <summary>
-    /// Gets or sets the profile service
-    /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
-    
     /// <inheritdoc />
     [Parameter]
     public IModalOptions Options { get; set; }

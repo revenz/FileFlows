@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -23,9 +24,9 @@ public partial class LargestSavingsWidget : ComponentBase
     [Inject] private FFLocalStorageService LocalStorage { get; set; }
     
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
+    [Inject] private FrontendService feService { get; set; }
 
     /// <summary>
     /// The users profile
@@ -68,7 +69,7 @@ public partial class LargestSavingsWidget : ComponentBase
         lblAll = Translater.Instant("Labels.All");
         lblMonth = Translater.Instant("Labels.MonthShort");
         lblTitle = Translater.Instant("Pages.Dashboard.Widgets.LargestSavings.Title");
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         Mode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 1);
         await Refresh();
     }

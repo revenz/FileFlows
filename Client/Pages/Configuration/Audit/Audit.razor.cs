@@ -1,6 +1,7 @@
 using System.Threading;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.ServerShared.Models;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
@@ -27,9 +28,9 @@ public partial class Audit : ComponentBase
     [CascadingParameter] public Blocker Blocker { get; set; }
 
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets the profile
@@ -57,9 +58,9 @@ public partial class Audit : ComponentBase
     private Dictionary<AuditAction, string> AuditActionTranslations = new();
     
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         if (Profile.LicensedFor(LicenseFlags.Auditing) == false)
         {
             NavigationManager.NavigateTo("/");

@@ -2,6 +2,7 @@ using System.Collections;
 using BlazorContextMenu;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.JSInterop;
 using ffPart = FileFlows.Shared.Models.FlowPart;
@@ -17,9 +18,9 @@ public class FlowEditor : IDisposable
     private IBlazorContextMenuService ContextMenuService => FlowPage.ContextMenuService;
     
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    private ProfileService ProfileService { get; set; }
+    private FrontendService feService { get; set; }
     /// <summary>
     /// The users profile
     /// </summary>
@@ -39,11 +40,11 @@ public class FlowEditor : IDisposable
     const string API_URL = "/api/flow";
     private DateTime LoadedAt;
 
-    public FlowEditor(Flow flowPage, FFlow flow, ProfileService profileService)
+    public FlowEditor(Flow flowPage, FFlow flow, FrontendService feService)
     {
         this.FlowPage = flowPage;
         this.Flow = flow;
-        this.ProfileService = profileService;
+        this.feService = feService;
     }
 
     /// <summary>
@@ -54,7 +55,7 @@ public class FlowEditor : IDisposable
         LoadedAt = DateTime.UtcNow;
         if (Flow.Uid == Guid.Empty)
             Flow.Uid = Guid.NewGuid();
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         ffFlow = await ffFlowWrapper.Create(jsRuntime, Flow.Uid, Flow.ReadOnly);
         ffFlow.OnAddElement = AddElement;
         ffFlow.OnOpenContextMenu = OpenContextMenu;
@@ -167,11 +168,11 @@ public class FlowEditor : IDisposable
             var result = await HttpHelper.Put<FFlow>(API_URL, Flow);
             if (result.Success)
             {
-                if ((Profile.ConfigurationStatus & ConfigurationStatus.Flows) != ConfigurationStatus.Flows)
-                {
-                    // refresh the app configuration status
-                    await ProfileService.Refresh();
-                }
+                // if ((Profile.ConfigurationStatus & ConfigurationStatus.Flows) != ConfigurationStatus.Flows)
+                // {
+                //     // refresh the app configuration status
+                //     await ProfileService.Refresh();
+                // }
 
                 Flow = result.Data;
                 //IsDirty = false;

@@ -2,11 +2,14 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
+using FileFlows.Client.Services.Frontend.Handlers;
+using Jint.Native.Json;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using HttpMethod = System.Net.Http.HttpMethod;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace FileFlows.Client.Services.Frontend;
 
@@ -20,6 +23,7 @@ public class FrontendService : IAsyncDisposable
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly NavigationManager _navigationManager;
+    private readonly FFLocalStorageService _ffLocalStorage;
     private CancellationTokenSource _cts;
     private Task _listeningTask;
     private bool _isFirstConnection = true; // Track first connection
@@ -38,17 +42,27 @@ public class FrontendService : IAsyncDisposable
     /// <summary>
     /// Gets or sets the dashboard handler
     /// </summary>
-    public DashboardFrontend Dashboard { get;private set; }
+    public DashboardHandler Dashboard { get;private set; }
+    /// <summary>
+    /// Gets or sets the node handler
+    /// </summary>
+    public NodeHandler Node { get;private set; }
+    /// <summary>
+    /// Gets or sets the profile handler
+    /// </summary>
+    public ProfileHandler Profile { get;private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FrontendService"/> class.
     /// </summary>
     /// <param name="serviceProvider">The service provider for resolving dependencies.</param>
     /// <param name="navigationManager">The Blazor navigation manager.</param>
-    public FrontendService(IServiceProvider serviceProvider, NavigationManager navigationManager)
+    /// <param name="ffLocalStorageService">the local storage service</param>
+    public FrontendService(IServiceProvider serviceProvider, NavigationManager navigationManager, FFLocalStorageService ffLocalStorageService)
     {
         _serviceProvider = serviceProvider;
         _navigationManager = navigationManager;
+        _ffLocalStorage = ffLocalStorageService;
     }
 
     /// <summary>
@@ -83,7 +97,8 @@ public class FrontendService : IAsyncDisposable
                 using var scope = _serviceProvider.CreateScope();
                 var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
 
-                using var request = new HttpRequestMessage(HttpMethod.Get, url);
+                using var request = new HttpRequestMessage(HttpMethod.Get,
+                    url + (_isFirstConnection ? "?initialData=true" : ""));
                 request.SetBrowserResponseStreamingEnabled(true);
                 request.Headers.Add("Accept", "text/event-stream");
                 if(string.IsNullOrWhiteSpace(authToken) == false)
@@ -91,12 +106,6 @@ public class FrontendService : IAsyncDisposable
                     
                 using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
                 response.EnsureSuccessStatusCode();
-
-                if (_isFirstConnection)
-                {
-                    _isFirstConnection = false;
-                    await Initialize();
-                }
 
                 await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
                 using var reader = new StreamReader(stream);
@@ -111,13 +120,21 @@ public class FrontendService : IAsyncDisposable
                         break;
                     }
 
-                    Console.WriteLine("Line: " + line);
-
                     if (string.IsNullOrWhiteSpace(line) || !line.StartsWith("data:"))
                         continue;
 
                     var message = line[5..].Trim();
-                    await Registry.HandleRequest(message);
+                    try
+                    {
+                        if (message.StartsWith("id:"))
+                            Initialize(message[3..]);
+                        else
+                            await Registry.HandleRequest(message);
+                    }
+                    catch (Exception)
+                    {
+                        // ignore, keep reading
+                    }
                 }
             }
             catch (Exception ex)
@@ -135,12 +152,17 @@ public class FrontendService : IAsyncDisposable
     /// Called only once, after the first successful SSE connection.
     /// Override this method in a derived class if needed.
     /// </summary>
-    protected async Task Initialize()
+    protected void Initialize(string idJson)
     {
         Logger.Instance.ILog("FrontendService initialized after first successful SSE connection.");
+        var data = JsonSerializer.Deserialize<InitialClientData>(idJson);
         // Add any initialization logic here
+        Profile = new(_ffLocalStorage);
+        Profile.Initialize(data);
         Dashboard = new(this);
-        await Dashboard.Initialize();
+        Dashboard.Initialize(data);
+        Node = new(this);
+        Node.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }

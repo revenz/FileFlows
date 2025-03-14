@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -8,9 +9,9 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class StatusWidget : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
     /// <summary>
     /// Gets or sets the paused service
     /// </summary>
@@ -40,16 +41,16 @@ public partial class StatusWidget : ComponentBase, IDisposable
     }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         lblTitle = Translater.Instant("Labels.Status");
         lblPause = Translater.Instant("Labels.Pause");
         lblResume = Translater.Instant("Labels.Resume");
-        _updateInfo = await ClientService.GetCurrentUpdatesInfo();
+        _updateInfo = feService.Dashboard.CurrentUpdatesInfo;
         PausedService.OnPausedLabelChanged += OnPausedLabelChanged;
-        ClientService.ExecutorsUpdated += OnExecutorsUpdated;
-        ClientService.UpdatesUpdateInfo += OnUpdatesUpdateInfo;
-        ClientService.SystemInfoUpdated += OnSystemInfoUpdated;
+        feService.Dashboard.RunnerInfoUpdated += OnExecutorsUpdated;
+        feService.Dashboard.UpdateInfoUpdated += OnUpdatesUpdateInfo;
+        feService.Dashboard.SystemInfoUpdated += OnSystemInfoUpdated;
         OnPausedLabelChanged(PausedService.PausedLabel);
     }
 
@@ -125,7 +126,9 @@ public partial class StatusWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.ExecutorsUpdated -= OnExecutorsUpdated;
+        feService.Dashboard.RunnerInfoUpdated -= OnExecutorsUpdated;
+        feService.Dashboard.UpdateInfoUpdated -= OnUpdatesUpdateInfo;
+        feService.Dashboard.SystemInfoUpdated -= OnSystemInfoUpdated;
         PausedService.OnPausedLabelChanged -= OnPausedLabelChanged;
     }
 }

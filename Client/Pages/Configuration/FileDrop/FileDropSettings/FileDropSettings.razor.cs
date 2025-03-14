@@ -1,4 +1,5 @@
 using FileFlows.Client.Components;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -20,9 +21,9 @@ public partial class FileDropSettings
     [CascadingParameter] Blocker Blocker { get; set; }
 
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frotnend service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets the profile
@@ -40,7 +41,7 @@ public partial class FileDropSettings
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         if (Profile.LicensedFor(LicenseFlags.FileDrop) == false)
         {
             NavigationManager.NavigateTo("/");
@@ -97,24 +98,25 @@ public partial class FileDropSettings
     private void OpenHelp()
         => _ = App.Instance.OpenHelp("https://fileflows.com/docs/file-drop/settings");
     
+    /// <summary>
+    /// Saves the FileDrop settings
+    /// </summary>
     private async Task Save()
     {
-        this.Blocker.Show(lblSaving);
-        this.IsSaving = true;
+        Blocker.Show(lblSaving);
+        IsSaving = true;
         try
         {
-            bool valid = await this.Validate();
+            bool valid = await Validate();
             if (valid == false)
                 return;
             
-            await HttpHelper.Put<string>("/api/file-drop/settings", this.Model);
-
-            await ProfileService.Refresh();
+            await HttpHelper.Put<string>("/api/file-drop/settings", Model);
         }
         finally
         {
-            this.IsSaving = false;
-            this.Blocker.Hide();
+            IsSaving = false;
+            Blocker.Hide();
         }
     }
 

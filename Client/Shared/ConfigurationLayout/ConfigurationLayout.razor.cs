@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Shared;
@@ -17,11 +18,15 @@ public partial class ConfigurationLayout : LayoutComponentBase
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
     
-    [Inject] ProfileService ProfileService { get; set; } = default!;
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] FrontendService feService { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    /// <inheritdoc />
+    protected override void OnInitialized()
     {
-        var profile = await ProfileService.Get();
+        var profile = feService.Profile.Profile;
         MenuItems = GetMenu(profile);
         try
         {

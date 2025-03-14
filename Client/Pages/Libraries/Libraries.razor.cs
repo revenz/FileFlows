@@ -197,12 +197,12 @@ public partial class Libraries : ListPage<Guid, Library>
     /// <param name="library">the saved library</param>
     private async Task ItemSaved(Library library)
     {
-        if ((Profile.ConfigurationStatus & ConfigurationStatus.Libraries) !=
-            ConfigurationStatus.Libraries)
-        {
-            // refresh the app configuration status
-            await ProfileService.Refresh();
-        }
+        // if ((Profile.ConfigurationStatus & ConfigurationStatus.Libraries) !=
+        //     ConfigurationStatus.Libraries)
+        // {
+        //     // refresh the app configuration status
+        //     await feService.Refresh();
+        // }
 
         int index = this.Data.FindIndex(x => x.Uid == library.Uid);
         if (index < 0)

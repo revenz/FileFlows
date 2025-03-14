@@ -290,8 +290,9 @@ public partial class InitialConfig : ComponentBase
     /// <param name="language">Optional new language to load</param>
     private async Task UpdateLabels(string? language = null)
     {
-        if(language != null)
-            await App.Instance.LoadLanguage(language);
+        // if(language != null)
+        //     await App.Instance.LoadLanguage(language);
+        await Task.CompletedTask;
         lblWelcomeMessage = Translater.Instant("Pages.InitialConfig.Messages.Welcome");
         lblWelcomeMessageUpdate = Translater.Instant("Pages.InitialConfig.Messages.WelcomeUpdate"); 
         lblWelcome = Translater.Instant("Pages.InitialConfig.Tabs.Welcome");

@@ -51,21 +51,14 @@ public partial class ClientService
     private System.Timers.Timer PausedTimer;
 
     /// <summary>
-    /// The profile service
-    /// </summary>
-    private readonly ProfileService _profileService;
-
-    /// <summary>
     /// Initializes a new instance of the ClientService class.
     /// </summary>
     /// <param name="navigationManager">The navigation manager instance.</param>
-    /// <param name="profileService">The profile service</param>
     /// <param name="memoryCache">The memory cache instance used for caching.</param>
     /// <param name="jsRuntime">The javascript runtime.</param>
     /// <param name="cacheService">The cache service instance.</param>
-    public ClientService(NavigationManager navigationManager, ProfileService profileService, IMemoryCache memoryCache, IJSRuntime jsRuntime, CacheService cacheService)
+    public ClientService(NavigationManager navigationManager, IMemoryCache memoryCache, IJSRuntime jsRuntime, CacheService cacheService)
     {
-        this._profileService = profileService;
         _jsRuntime = jsRuntime;
         _cacheService = cacheService;
         _navigationManager = navigationManager; 
@@ -180,44 +173,44 @@ public partial class ClientService
     {
         SystemPausedUpdated(false);
     }
+    //
+    // /// <summary>
+    // /// Gets the current update info
+    // /// </summary>
+    // /// <returns>the update info</returns>
+    // public async Task<UpdateInfo?> GetCurrentUpdatesInfo()
+    // {
+    //     if (CurrentUpdatesInfo != null) return CurrentUpdatesInfo;
+    //     var result = await HttpHelper.Get<UpdateInfo>("/api/dashboard/updates");
+    //     if (result.Success)
+    //         CurrentUpdatesInfo ??= result.Data;
+    //     return CurrentUpdatesInfo;
+    // }
 
-    /// <summary>
-    /// Gets the current update info
-    /// </summary>
-    /// <returns>the update info</returns>
-    public async Task<UpdateInfo?> GetCurrentUpdatesInfo()
-    {
-        if (CurrentUpdatesInfo != null) return CurrentUpdatesInfo;
-        var result = await HttpHelper.Get<UpdateInfo>("/api/dashboard/updates");
-        if (result.Success)
-            CurrentUpdatesInfo ??= result.Data;
-        return CurrentUpdatesInfo;
-    }
-
-    /// <summary>
-    /// Gets the current update info
-    /// </summary>
-    /// <returns>the update info</returns>
-    public async Task<List<FlowExecutorInfoMinified>> GetCurrentExecutorInfoMinifed()
-    {
-        if (CurrentExecutorInfoMinified != null) return CurrentExecutorInfoMinified;
-        var result = await HttpHelper.Get<List<FlowExecutorInfoMinified>>("/api/dashboard/executors-info-minified");
-        if (result.Success)
-            CurrentExecutorInfoMinified ??= result.Data;
-        return CurrentExecutorInfoMinified ?? [];
-    }
-    /// <summary>
-    /// Gets the current node status summaries
-    /// </summary>
-    /// <returns>the current node status summaries</returns>
-    public async Task<List<NodeStatusSummary>> GetCurrentNodeStatusSummaries()
-    {
-        if (CurrentNodeStatusSummaries != null) return CurrentNodeStatusSummaries;
-        var result = await HttpHelper.Get<List<NodeStatusSummary>>("/api/dashboard/node-summary");
-        if (result.Success)
-            CurrentNodeStatusSummaries ??= result.Data;
-        return CurrentNodeStatusSummaries;
-    }
+    // /// <summary>
+    // /// Gets the current update info
+    // /// </summary>
+    // /// <returns>the update info</returns>
+    // public async Task<List<FlowExecutorInfoMinified>> GetCurrentExecutorInfoMinifed()
+    // {
+    //     if (CurrentExecutorInfoMinified != null) return CurrentExecutorInfoMinified;
+    //     var result = await HttpHelper.Get<List<FlowExecutorInfoMinified>>("/api/dashboard/executors-info-minified");
+    //     if (result.Success)
+    //         CurrentExecutorInfoMinified ??= result.Data;
+    //     return CurrentExecutorInfoMinified ?? [];
+    // }
+    // /// <summary>
+    // /// Gets the current node status summaries
+    // /// </summary>
+    // /// <returns>the current node status summaries</returns>
+    // public async Task<List<NodeStatusSummary>> GetCurrentNodeStatusSummaries()
+    // {
+    //     if (CurrentNodeStatusSummaries != null) return CurrentNodeStatusSummaries;
+    //     var result = await HttpHelper.Get<List<NodeStatusSummary>>("/api/dashboard/node-summary");
+    //     if (result.Success)
+    //         CurrentNodeStatusSummaries ??= result.Data;
+    //     return CurrentNodeStatusSummaries;
+    // }
 
     /// <summary>
     /// Gets the current file overview data

@@ -62,7 +62,8 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>
 
     async Task PluginsUpdated()
     {
-        await App.Instance.LoadLanguage();
+        // todo: Need to have the server send an update to refresh the languages when a plugin is updated
+        //await App.Instance.LoadLanguage();
         await this.Load(default);
     }
 
