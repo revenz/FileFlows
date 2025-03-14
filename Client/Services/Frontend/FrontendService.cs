@@ -1,0 +1,177 @@
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.WebAssembly.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using HttpMethod = System.Net.Http.HttpMethod;
+
+namespace FileFlows.Client.Services.Frontend;
+
+/// <summary>
+/// Service used to store all front end data
+/// All queues, recently finished, paused status etc, is stored in here
+/// and the server will pipe updates directly to this service.
+/// This service will broadcast events which components can subscribe to update
+/// </summary>
+public class FrontendService : IAsyncDisposable
+{
+    private readonly IServiceProvider _serviceProvider;
+    private readonly NavigationManager _navigationManager;
+    private CancellationTokenSource _cts;
+    private Task _listeningTask;
+    private bool _isFirstConnection = true; // Track first connection
+    /// <summary>
+    /// Gets the register that is called when a event is received
+    /// </summary>
+    public FrontendRegister Registry { get; init; } = new ();
+    
+    public bool IsInitialized { get; private set; }
+    /// <summary>
+    /// Event triggered when the service is initialized for the first time.
+    /// Multiple subscribers can listen to this.
+    /// </summary>
+    public event Action? OnInitialized;
+
+    private DashboardFrontend? _dashboard;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FrontendService"/> class.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider for resolving dependencies.</param>
+    /// <param name="navigationManager">The Blazor navigation manager.</param>
+    public FrontendService(IServiceProvider serviceProvider, NavigationManager navigationManager)
+    {
+        _serviceProvider = serviceProvider;
+        _navigationManager = navigationManager;
+    }
+
+    /// <summary>
+    /// Starts listening to the specified SSE endpoint.
+    /// </summary>
+    /// <param name="endpoint">The relative URL of the SSE endpoint.</param>
+    /// <param name="authToken">The authorization token</param>
+    public void StartListening(string endpoint, string authToken)
+    {
+        if (_cts != null)
+            return; // Already listening
+
+        _cts = new CancellationTokenSource();
+        _listeningTask = Task.Run(() => ListenToSSE(endpoint, authToken, _cts.Token));
+    }
+
+    /// <summary>
+    /// Listens to the SSE stream and handles reconnection attempts.
+    /// </summary>
+    /// <param name="endpoint">The SSE endpoint to connect to.</param>
+    /// <param name="authToken">The authorization token</param>
+    /// <param name="cancellationToken">The cancellation token for stopping the connection.</param>
+    private async Task ListenToSSE(string endpoint, string authToken, CancellationToken cancellationToken)
+    {
+        var url = _navigationManager.ToAbsoluteUri(endpoint);
+        int retryDelay = 1000; // Start with 1 second delay
+
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                using var scope = _serviceProvider.CreateScope();
+                var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
+
+                using var request = new HttpRequestMessage(HttpMethod.Get, url);
+                request.SetBrowserResponseStreamingEnabled(true);
+                request.Headers.Add("Accept", "text/event-stream");
+                if(string.IsNullOrWhiteSpace(authToken) == false)
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+                    
+                using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                response.EnsureSuccessStatusCode();
+
+                if (_isFirstConnection)
+                {
+                    _isFirstConnection = false;
+                    await Initialize();
+                }
+
+                await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+                using var reader = new StreamReader(stream);
+
+                // Read the stream asynchronously, line by line
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    var line = await reader.ReadLineAsync(cancellationToken);
+                    if (line == null)
+                    {
+                        // End of stream
+                        break;
+                    }
+
+                    Console.WriteLine("Line: " + line);
+
+                    if (string.IsNullOrWhiteSpace(line) || !line.StartsWith("data:"))
+                        continue;
+
+                    var message = line[5..].Trim();
+                    await Registry.HandleRequest(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.WLog($"SSE connection lost: {ex.Message}. Retrying in {retryDelay} ms");
+            }
+
+            // Exponential backoff (max 60s)
+            await Task.Delay(retryDelay, cancellationToken);
+            retryDelay = Math.Min(retryDelay * 2, 60000);
+        }
+    }
+
+    /// <summary>
+    /// Called only once, after the first successful SSE connection.
+    /// Override this method in a derived class if needed.
+    /// </summary>
+    protected async Task Initialize()
+    {
+        Logger.Instance.ILog("FrontendService initialized after first successful SSE connection.");
+        // Add any initialization logic here
+        _dashboard = new(this);
+        await _dashboard.Initialize();
+        IsInitialized = true;
+        OnInitialized?.Invoke();
+    }
+
+    
+    /// <summary>
+    /// Disposes of the service and cancels the SSE connection.
+    /// </summary>
+    /// <returns>A task representing the asynchronous dispose operation.</returns>
+    public async ValueTask DisposeAsync()
+    {
+        await _cts?.CancelAsync();
+        await (_listeningTask ?? Task.CompletedTask);
+        _cts?.Dispose();
+    }
+
+    /// <summary>
+    /// Gets initial data from a specific end point
+    /// </summary>
+    /// <param name="url">the URL of the end point</param>
+    /// <typeparam name="T">the type of data to get</typeparam>
+    /// <returns>the data</returns>
+    public async Task<T> GetInitialData<T>(string url)
+    {
+        try
+        {
+            var result = await HttpHelper.Get<T>("/api/" + url);
+            if (result.Success)
+                return result.Data;
+            return default(T);
+        }
+        catch (Exception)
+        {
+            return default(T);
+        }
+    }
+}

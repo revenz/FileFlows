@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components;
+using FileFlows.Client.Services.Frontend;
 
 namespace FileFlows.Client.Shared;
 
@@ -15,6 +16,12 @@ public partial class MainLayout : LayoutComponentBase
     /// Gets or sets the editor
     /// </summary>
     public Editor Editor { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the main front end service that proxies all live data from the server
+    /// </summary>
+    [Inject] private FrontendService FrontendService { get; set; }
+    
     [Inject] private ClientService ClientService { get; set; }
     [Inject] private FFLocalStorageService LocalStorage { get; set; }
     /// <summary>
@@ -36,9 +43,25 @@ public partial class MainLayout : LayoutComponentBase
         HttpHelper.On401 = On401;
         HttpHelper.OnRedirect = OnRedirect;
         App.Instance.NavMenuCollapsed = await LocalStorage.GetItemAsync<bool>("NavMenuCollapsed");
+        FrontendService.OnInitialized += FrontendServiceOnOnInitialized;
+        var authToken = await LocalStorage.GetAccessToken();
+        #if(DEBUG)
+        FrontendService.StartListening("http://localhost:6868/api/sse", authToken);
+        #else
+        FrontendService.StartListening("/api/sse", authToken);
+        #endif
             
         this.ClientService.Connected += ClientServiceOnConnected;
         this.ClientService.Disconnected += ClientServiceOnDisconnected;
+    }
+
+    /// <summary>
+    /// Called when the front end service has initialized
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    private void FrontendServiceOnOnInitialized()
+    {
+        StateHasChanged();
     }
 
     private void On401()

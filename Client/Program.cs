@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using BlazorContextMenu;
 using FileFlows.Client;
+using FileFlows.Client.Services.Frontend;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -29,5 +30,6 @@ builder.Services.AddBlazorContextMenu(options =>
 
 builder.Services.AddSingleton<FFLocalStorageService>();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddSingleton<FrontendService>();
 
 await builder.Build().RunAsync();
