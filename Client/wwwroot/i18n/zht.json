@@ -949,6 +949,7 @@
   },
   "MenuGroups": {
     "Admin": "管理",
+    "Config": "",
     "Configuration": "配置",
     "Extensions": "擴展",
     "FileDrop": "FileDrop",

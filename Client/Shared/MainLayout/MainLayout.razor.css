@@ -29,10 +29,6 @@
   }
   .main {
     position: relative;
-    max-width: calc(100% - 250px);
-  }
-  .collapsed .main {
-    max-width: calc(100% - 3.5rem);
   }
 }
 .expand-collapse {

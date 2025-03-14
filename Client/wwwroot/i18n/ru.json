@@ -949,6 +949,7 @@
   },
   "MenuGroups": {
     "Admin": "Администратор",
+    "Config": "",
     "Configuration": "Конфигурация",
     "Extensions": "Расширения",
     "FileDrop": "FileDrop",

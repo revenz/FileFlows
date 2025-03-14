@@ -1,8 +1,8 @@
 body {
-  --base-darkest: rgb(7, 7, 7);
-  --base-darkest-rgb: 7, 7, 7;
-  --base-darker: rgb(14, 14, 14);
-  --base-darker-rgb: 14, 14, 14;
+  --base-darkest: rgb(14, 14, 14);
+  --base-darkest-rgb: 14, 14, 14;
+  --base-darker: rgb(19, 19, 19);
+  --base-darker-rgb: 19, 19, 19;
   --base: rgb(21, 21, 21);
   --base-rgb: 21, 21, 21;
   --base-lighter: rgb(28, 28, 28);
@@ -32,7 +32,7 @@ body {
   --nav-menu-background: var(--widget-background);
   --main-background:#060606;
   --widget-background:#0d0d0d;
-  --border-color: #1c1c1c;
+  --border-color: #2b2b2b;
   --button-border-radius:0.25rem;
   --container-border-radius:0.5rem;
   --scroller-width:6px;

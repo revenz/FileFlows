@@ -5,7 +5,7 @@ namespace FileFlows.Client.Shared;
 
 public partial class MainLayout : LayoutComponentBase
 {
-    public NavMenu Menu { get; set; }
+    public NavBar Menu { get; set; }
     /// <summary>
     /// Gets or sets the blocker
     /// </summary>
@@ -67,13 +67,6 @@ public partial class MainLayout : LayoutComponentBase
     private void ClientServiceOnConnected()
     {
         DisconnectedBlocker.Hide();
-    }
-
-    private void ToggleExpand()
-    {
-        App.Instance.NavMenuCollapsed = !App.Instance.NavMenuCollapsed;
-        _ = LocalStorage.SetItemAsync("NavMenuCollapsed", App.Instance.NavMenuCollapsed);
-        Menu.NavMenuCollapsedUpdated(App.Instance.NavMenuCollapsed);
     }
 
     public void ShowSearch()

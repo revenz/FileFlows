@@ -1,0 +1,41 @@
+@inherits LayoutComponentBase
+@layout MainLayout
+
+@namespace FileFlows.Client.Shared
+
+<div class="configuration-page">
+    <div class="config-menu">
+
+        <ul id="ul-nav-menu" class="nav flex-column">
+            @foreach (var group in MenuItems)
+            {
+                if (group.Items.Any(x => x != null) == false)
+                {
+                    continue;
+                }
+
+                <li class="nav-menu-group">
+                    @if(string.IsNullOrEmpty(group.Icon) == false)
+                    {
+                        <span class="icon @group.Icon" aria-hidden="true"></span>
+                    }
+                    <span class="text-label">@group.Name</span>
+                </li>
+                @foreach (var item in group.Items)
+                {
+                    <li class="nav-item @(item.Url == ""  ? "dashboard" : item.Url.Replace("/", ""))">
+                        <a class="nav-link @(Active == item  ? "active": "")" href="@item.Url" @onclick:preventDefault @onclick:stopPropagation
+                           @onclick="() => Click(item)">
+                            <span class="icon @item.Icon" aria-hidden="true"></span>
+                            <span class="text-label">@item.Title</span>
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+
+    </div>
+    <div class="config-content">
+        @Body
+    </div>
+</div>

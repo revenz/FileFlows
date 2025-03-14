@@ -9,8 +9,8 @@
 }
 
 .side-search {
-  background: var(--base-lighter);
-  border-left: solid 1px var(--border-color);
+  background: var(--base-darker);
+  border-right: solid 1px var(--border-color);
   padding: 1rem;
   width: 20rem;
   min-width: 20rem;
@@ -82,3 +82,5 @@
 .log ::deep .log-severity.debug {
   color: var(--green);
 }
+
+/*# sourceMappingURL=Log.razor.css.map */

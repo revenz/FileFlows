@@ -1,0 +1,88 @@
+.navbar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0;
+  min-width: 5rem;
+  border-right: solid 1px var(--border-color);
+  background: var(--base);
+}
+
+.navbar-brand {
+  margin: unset !important;
+}
+.navbar-brand svg {
+  width: 3.5rem;
+  margin: 1rem auto 1rem;
+}
+
+.main-nav {
+  flex-grow: 1;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-item {
+  opacity: 0.7;
+  position: relative;
+  overflow: hidden;
+}
+.nav-item a {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 0.75rem;
+  color: var(--color) !important;
+  text-decoration: none !important;
+}
+.nav-item a i {
+  font-size: 2rem;
+}
+.nav-item a span {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+}
+.nav-item:not(.active):hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.075);
+  border-right: solid 1px var(--accent);
+  opacity: 1;
+}
+.nav-item.active:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  animation: ripple 0.3s linear;
+}
+
+.paused-indicator {
+  width: 100%;
+  text-align: center;
+  font-size: 3.25rem;
+  margin-bottom: 0.75rem;
+}
+.paused-indicator > span {
+  cursor: pointer;
+}
+.paused-indicator .paused {
+  color: var(--accent);
+}
+.paused-indicator .not-paused {
+  color: var(--color);
+  opacity: 0.15;
+}
+
+/*# sourceMappingURL=NavBar.razor.css.map */

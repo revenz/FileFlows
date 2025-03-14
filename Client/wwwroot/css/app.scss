@@ -26,7 +26,6 @@ html {
     overflow: hidden;
 }
 
-
 body {
     --bold:600;
     --nav-menu-bold:700;
@@ -1330,4 +1329,17 @@ input[type=file]{
 
 .wizard-page-help {
     margin:0 1rem 2rem;
+}
+
+
+/* Animation for the ripple effect */
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0;
+    }
 }

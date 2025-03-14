@@ -3,26 +3,6 @@
 @using FileFlows.Plugin
 
 <div class="log-view">
-    
-    <div class="log html-log">
-        @if (HasError)
-        {
-            <div class="error-message">@ErrorMessage</div>
-        }else if (FilteredLogEntries.Count == 0)
-        {
-            <div class="no-matching-data">@lblNoMatchingData</div>
-        }
-        else
-        {
-            <Virtualize Items="@FilteredLines" Context="logLine" OverscanCount="10">
-                <div>@logLine</div>
-            </Virtualize>
-            
-            @* <Virtualize Items="@FilteredLogEntries" Context="logLine" OverscanCount="10"> *@
-            @*     <div><span class="log-date">@logLine.Date</span> [<span class="log-severity @(logLine.Severity.ToString().ToLowerInvariant())">@logLine.SeverityText</span>] <span class="log-message">@logLine.Message</span></div> *@
-            @* </Virtualize> *@
-        }
-    </div>
 
     <div class="side-search">
         <div class="title">
@@ -58,7 +38,7 @@
                                         }
                                         <option selected="@(key == SelectedSource ? "selected" : null)" value="@key">@key[5..]</option>
                                     }
-                                    
+
                                 </optgroup>
                             }
                         }
@@ -78,7 +58,7 @@
                                 }
                             }
                         </select>
-                        
+
                         <button @onclick="DownloadLog" title="@lblDownload">
                             <i class="fas fa-download" />
                         </button>
@@ -113,4 +93,25 @@
 
         <button class="btn" @onclick="Search">@lblSearch</button>
     </div>
+    
+    <div class="log html-log">
+        @if (HasError)
+        {
+            <div class="error-message">@ErrorMessage</div>
+        }else if (FilteredLogEntries.Count == 0)
+        {
+            <div class="no-matching-data">@lblNoMatchingData</div>
+        }
+        else
+        {
+            <Virtualize Items="@FilteredLines" Context="logLine" OverscanCount="10">
+                <div>@logLine</div>
+            </Virtualize>
+            
+            @* <Virtualize Items="@FilteredLogEntries" Context="logLine" OverscanCount="10"> *@
+            @*     <div><span class="log-date">@logLine.Date</span> [<span class="log-severity @(logLine.Severity.ToString().ToLowerInvariant())">@logLine.SeverityText</span>] <span class="log-message">@logLine.Message</span></div> *@
+            @* </Virtualize> *@
+        }
+    </div>
+
 </div>

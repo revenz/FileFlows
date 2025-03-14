@@ -11,7 +11,7 @@ public partial class PageView
     /// <summary>
     /// Gets or sets the nav menu component
     /// </summary>
-    [CascadingParameter] public NavMenu Menu { get; set; }
+    [CascadingParameter] public NavBar Menu { get; set; }
 
     /// <summary>
     /// Gets or sets any head fragment to render

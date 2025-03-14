@@ -1,0 +1,71 @@
+@layout ConfigurationLayout
+
+@namespace FileFlows.Client.Pages
+@using FileFlows.Shared.Models
+
+@inherits ListPage<Guid, User>
+
+@page "/config/users"
+
+<PageView Title="@lblTitle" Icon="fas fa-users">
+
+    <Head>
+    </Head>
+
+    <Body>
+        
+    <FlowTable @ref="Table" Data="@Data" TItem="User" Selection="SelectionMode.Multiple" DoubleClick="@OnDoubleClick" TableIdentifier="Users">
+        <ToolBar>      
+            <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+            <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
+            <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />      
+            <FlowTableButtonSeparator />                    
+            <FlowTableHelpButton HelpUrl="security/users" />
+        </ToolBar>
+            
+        <Columns>
+            <FlowTableColumn TItem="User">
+                <Header>
+                    @Globals.lblName
+                </Header>
+                <Cell Context="item">
+                    <span>@item.Name</span>
+                </Cell>
+            </FlowTableColumn>
+            <FlowTableColumn TItem="User" Width="12rem" Align="FlowTableAlignment.Center">
+                <Header>
+                    @lblAdministrator
+                </Header>
+                <Cell Context="item">
+                    @if ((item.Role & UserRole.Admin) == UserRole.Admin)
+                    {
+                        <i class="fas fa-check"></i>
+                    }
+                </Cell>
+            </FlowTableColumn>
+            <FlowTableColumn TItem="User" Width="14rem" MobileWidth="0" Align="FlowTableAlignment.Center">
+                <Header>
+                    @lblLastLoggedIn
+                </Header>
+                <Cell Context="item">
+                    @if (item.LastLoggedIn < new DateTime(2020, 1, 1))
+                    {
+                        @lblNever
+                    }
+                    else
+                    {
+                        @DateString(item.LastLoggedIn)
+                    }
+                </Cell>
+            </FlowTableColumn>
+            <FlowTableColumn TItem="User" Width="14rem" MobileWidth="0" Align="FlowTableAlignment.Center">
+                <Header>
+                    @lblAddress
+                </Header>
+                <Cell Context="item">@item.LastLoggedInAddress</Cell>
+            </FlowTableColumn>
+        </Columns>
+    </FlowTable>
+    </Body>
+
+</PageView>
