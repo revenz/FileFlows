@@ -17,6 +17,8 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
 
     private string lblInternal, lblAddress, lblRunners, lblVersion, lblDownloadNode, lblUpgradeRequired, 
         lblUpgradeRequiredHint, lblRunning, lblDisconnected, lblPossiblyDisconnected, lblPriority;
+
+    private List<Guid> sortOrder;
      
 #if(DEBUG)
     string DownloadUrl = "http://localhost:6868/download";
@@ -43,7 +45,11 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
         lblPossiblyDisconnected = Translater.Instant("Pages.Nodes.Labels.PossiblyDisconnected");
         lblDisconnected = Translater.Instant("Pages.Nodes.Labels.Disconnected");
 
-        Data = feService.Node.NodeStatusSummaries;
+        Data = feService.Node.NodeStatusSummaries.OrderBy(x => x.Enabled ? 0 : 1)
+            .ThenByDescending(x => x.Priority)
+            .ThenBy(x => x.Name.ToLowerInvariant())
+            .ToList();
+        sortOrder = Data.Select(x => x.Uid).ToList();
         feService.Node.NodeStatusUpdated += NodeOnNodeStatusUpdated;
     }
 
@@ -54,7 +60,14 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
     /// <exception cref="NotImplementedException"></exception>
     private void NodeOnNodeStatusUpdated(List<NodeStatusSummary> obj)
     {
-        Data = obj;
+        Data = obj.OrderBy(x =>
+            {
+                int index = sortOrder.IndexOf(x.Uid);
+                return index > 0 ? index : int.MaxValue;
+            }).ThenBy(x => x.Enabled ? 0 : 1)
+            .ThenByDescending(x => x.Priority)
+            .ThenBy(x => x.Name.ToLowerInvariant())
+            .ToList();
         StateHasChanged();
     }
 

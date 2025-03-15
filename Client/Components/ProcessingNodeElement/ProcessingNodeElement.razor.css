@@ -100,6 +100,11 @@
   width: 100%;
   border-radius: 0;
 }
+.list-page-item .center {
+  width: 100%;
+  min-height: 8rem;
+  align-content: center;
+}
 .list-page-item .hardware-info-item {
   padding: 0 !important;
 }
