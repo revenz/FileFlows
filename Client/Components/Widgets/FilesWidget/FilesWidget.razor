@@ -1,4 +1,5 @@
 @using FileFlows.Client.Helpers
+@using Humanizer
 @namespace FileFlows.Client.Components.Widgets
 
 <ContainerWidget Title="@lblTitle" Scroll="true">
@@ -54,7 +55,7 @@
             {
                 foreach (var file in list ?? [])
                 {
-                    <div class="file-table-row fm-@FileMode @(file.Message != null ? "has-message" : "no-message")">
+                    <div class="file-table-row fm-@FileMode @(file.FailureReason != null ? "has-message" : "no-message")">
                         @if (FileMode == 0)
                         {
                             var percentage = Math.Min(100, (file.FinalSize / (double)file.OriginalSize) * 100);
@@ -64,7 +65,7 @@
                             @if (FileMode == 0)
                             {
                                 <img id="thumb-@file.Uid" class="icon thumbnail" src="@GetThumbUrl(file)" @onclick="() => OpenFile(file)" 
-                                     alt="@file.Name" />
+                                     alt="@file.DisplayName" />
                             }
                             else
                             {
@@ -76,7 +77,7 @@
                                 <span @onclick="() => OpenFile(file)">@file.DisplayName</span>
                             </span>
                             <span class="time">
-                                <span @onclick="() => OpenFile(file)">@file.When</span>
+                                <span @onclick="() => OpenFile(file)">@(DateTime.UtcNow.Subtract(file.Date).Humanize())</span>
                             </span>
                             @if (FileMode == 0)
                             {
@@ -93,9 +94,9 @@
                                     </div>
                                 }
                             }
-                            @if (file.Message != null)
+                            @if (file.FailureReason != null)
                             {
-                                <div class="message" @onclick="() => OpenFile(file)"><span>@file.Message</span></div>
+                                <div class="message" @onclick="() => OpenFile(file)"><span>@file.FailureReason</span></div>
                             }
                         </div>
                     </div>

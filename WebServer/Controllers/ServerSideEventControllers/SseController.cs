@@ -1,3 +1,5 @@
+using FileFlows.Services.SystemOverview;
+
 namespace FileFlows.WebServer.Controllers.ServerSideEventControllers;
 
 /// <summary>
@@ -63,7 +65,7 @@ public class SseController : Controller
         var executorsTask = ServiceLoader.Load<FlowRunnerService>().GetExecutors();
         var nodeStatusesTask = ServiceLoader.Load<NodeService>().GetStatusSummaries();
         var tagsTask = ServiceLoader.Load<TagService>().GetAllAsync();
-        var profileTask = context.GetProfile(); 
+        var profileTask = context.GetProfile();
 
         await Task.WhenAll(flowsTask, librariesTask, executorsTask, nodeStatusesTask, tagsTask, profileTask);
 
@@ -73,17 +75,36 @@ public class SseController : Controller
         
         var lang = await ServiceLoader.Load<LanguageService>().GetLanguageJson(profile.Language);
         
+        var storageSavedMonth = new StatisticService().GetStorageSaved(Globals.STAT_STORAGE_SAVED_MONTH);
+        var storageSavedTotal = new StatisticService().GetStorageSaved(Globals.STAT_STORAGE_SAVED);
+        
+        var service = ServiceLoader.Load<SystemOverviewService>();
+        var failed = service.GetFailedFiles();
+        var successful  = service.GetRecentlyFinishedFiles();
+        var upcoming = service.GetUpcomingFiles();
+
+        var savingsService = ServiceLoader.Load<SavingsService>();
+        var savings31  = savingsService.GetLast31DaysData();
+        var savingsAll = savingsService.GetOverallData();
+            
         return new InitialClientData
         {
             Profile = profile,
             LanguageJson = lang,
-            CurrentSystemInfo = ServiceLoader.Load<DashboardService>().GetSystemInfo(),
+            CurrentSystemInfo = ServiceLoader.Load<SystemOverviewService>().GetSystemInfo(),
             CurrentFileOverData = ServiceLoader.Load<DashboardFileOverviewService>().GetData(),
             CurrentUpdatesInfo = ServiceLoader.Load<UpdateService>().Info,
             FlowList = flowsTask.Result.ToDictionary(x => x.Uid, x => x.Name),
             LibraryList = librariesTask.Result.ToDictionary(x => x.Uid, x => x.Name),
             CurrentExecutorInfoMinified = executorsTask.Result.Values.ToList(),
             NodeStatusSummaries = nodeStatusesTask.Result,
+            StorageSavedTotalData = storageSavedTotal,
+            StorageSavedMonthData = storageSavedMonth,
+            FailedFiles = failed.Select(x => (LibraryFileMinimal)x).ToList(),
+            RecentlyFinished = successful.Select(x => (LibraryFileMinimal)x).ToList(),
+            UpcomingFiles = upcoming.Select(x => (LibraryFileMinimal)x).ToList(),
+            TopSavingsAll = savings31,
+            TopSavings31Days = savings31,
             Tags = (tagsTask.Result ?? Enumerable.Empty<Tag>())
                 .OrderBy(x => x.Name.ToLowerInvariant())
                 .ToList()

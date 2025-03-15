@@ -23,10 +23,14 @@
         <div class="savings-bar" style="width:@(percent)%"></div>
         <div class="library-saving-content">
             <span class="icon">
-                <img class="icon" src="@IconHelper.GetExtensionImage(item.Name.ToLowerInvariant())"/>
+                @{
+                    var path = item.DisplayName + (item.Extension == null ? ".folder" : item.Extension);
+                    var icon = IconHelper.GetExtensionImage(path);
+                }
+                <img class="icon" src="@icon"/>
             </span>
             <div class="center">
-                <span class="name path">@item.RelativePath</span>
+                <span class="name path">@item.DisplayName</span>
                 <div class="info">
                     <FlowIconValue Icon="node" Color="dark" Value="@item.NodeName"></FlowIconValue>
                     <FlowIconValue Icon="library" Color="dark" Value="@item.LibraryName"></FlowIconValue>
@@ -36,7 +40,7 @@
 
             <div class="right savings">
                 <span class="top-right">@saved</span>
-                <span class="time">@item.ProcessingEnded.Humanize(false)</span>
+                <span class="time">@(DateTime.UtcNow.Subtract(item.Date).Humanize())</span>
             </div>
         </div>
 

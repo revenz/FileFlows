@@ -64,9 +64,7 @@ public partial class CpuRamWidget : ComponentBase, IDisposable
     {
         feService.Dashboard.SystemInfoUpdated += OnSystemInfoUpdated;
         _Mode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 1);
-        var status = await ClientService.GetCurrentSystemInfo();
-        if(status != null)
-            OnSystemInfoUpdated(status);
+        OnSystemInfoUpdated(feService.Dashboard.CurrentSystemInfo);
     }
 
     /// <summary>

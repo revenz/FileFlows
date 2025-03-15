@@ -3,7 +3,6 @@
 @using FileFlows.Plugin
 @using FileFlows.Shared
 @using FileFlows.Client.Helpers
-@using FileFlows.Shared.Widgets
 @using Microsoft.Extensions.Logging
 @using System.Collections
 @using FileFlows.Plugin.Models
@@ -244,13 +243,6 @@
                 bool inverse = GetParameter<bool>(field, nameof(InputSwitch.Inverse));
                 <InputSwitch Field=@field Label="@label" Value="@value" Inverse=@inverse ReadOnly=@readOnly Disabled="@readOnly" ValueChanged="@(x => UpdateValue(field, x))"
                              Validators=@field.Validators Placeholder="@field.Placeholder" HideLabel=@hideLabel OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
-            }
-            break;
-        case FormInputType.Widget:
-            {
-                var value = GetValue<bool>(field.Name);
-                var pType = GetParameter<WidgetType>(field, nameof(InputWidget.Type));
-                <InputWidget Field=@field Label="@label"  HideLabel=@hideLabel Type=@pType Value=@value ValueChanged="@(x => UpdateValue(field, x))" Help=@field.HelpText />
             }
             break;
         case FormInputType.StringArray:

@@ -65,4 +65,46 @@ public class InitialClientData
     /// </summary>
     [JsonPropertyName("in")]
     public string LanguageJson { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the total storage saved data
+    /// </summary>
+    [JsonPropertyName("sst")]
+    public List<StorageSavedData> StorageSavedTotalData { get; set; }
+
+    /// <summary>
+    /// Gets or sets the total storage saved in a month
+    /// </summary>
+    [JsonPropertyName("ssm")]
+    public List<StorageSavedData> StorageSavedMonthData { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the upcoming files to process
+    /// </summary>
+    [JsonPropertyName("fu")]
+    public List<LibraryFileMinimal> UpcomingFiles { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the most successfully processed files
+    /// </summary>
+    [JsonPropertyName("fs")]
+    public List<LibraryFileMinimal> RecentlyFinished { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the most recent failed files
+    /// </summary>
+    [JsonPropertyName("ff")]
+    public List<LibraryFileMinimal> FailedFiles { get; set; }
+
+    /// <summary>
+    /// Gets or sets the top savings of all time
+    /// </summary>
+    [JsonPropertyName("tsa")]
+    public List<LibraryFileMinimal> TopSavingsAll { get; set; }
+
+    /// <summary>
+    /// Gets or sets the top savings for the last 31 days
+    /// </summary>
+    [JsonPropertyName("ts31")]
+    public List<LibraryFileMinimal> TopSavings31Days { get; set; }
 }

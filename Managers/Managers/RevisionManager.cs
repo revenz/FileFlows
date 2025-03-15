@@ -80,8 +80,6 @@ public class RevisionManager
             await new LibraryManager().Refresh();
         else if (dbo.Type == typeof(Flow).FullName)
             await new FlowManager().Refresh();
-        else if (dbo.Type == typeof(Dashboard).FullName)
-            await new DashboardManager().Refresh();
 
         return true;
     }

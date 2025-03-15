@@ -1,4 +1,5 @@
 using FileFlows.Client.Helpers;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -9,9 +10,9 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class FileOverviewWidget : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets if this is for the files processed, or the storage saved
@@ -65,9 +66,9 @@ public partial class FileOverviewWidget : ComponentBase, IDisposable
         Label = Translater.Instant("Pages.Dashboard.Widgets.FilesOverview." + (IsFilesProcessed ? "FilesProcessed" : "StorageSaved"));
         Icon = IsFilesProcessed ? "far fa-checked-circle" : "fas fa-hdd";
         
-        CurrentData = await ClientService.GetCurrentFileOverData();
-        ClientService.FileOverviewUpdated += OnFileOverviewUpdated;
-        if (ClientService != null)
+        CurrentData = feService.Dashboard.CurrentFileOverData;
+        feService.Dashboard.FileOverviewDataUpdated += OnFileOverviewUpdated;
+        if (feService != null)
             SetValues();
     }
 
@@ -148,6 +149,6 @@ public partial class FileOverviewWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.FileOverviewUpdated -= OnFileOverviewUpdated;
+        feService.Dashboard.FileOverviewDataUpdated -= OnFileOverviewUpdated;
     }
 }

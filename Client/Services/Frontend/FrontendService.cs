@@ -51,6 +51,10 @@ public class FrontendService : IAsyncDisposable
     /// Gets or sets the profile handler
     /// </summary>
     public ProfileHandler Profile { get;private set; }
+    /// <summary>
+    /// Gets or sets the file handler
+    /// </summary>
+    public FileHandler Files { get;private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FrontendService"/> class.
@@ -163,6 +167,8 @@ public class FrontendService : IAsyncDisposable
         Dashboard.Initialize(data);
         Node = new(this);
         Node.Initialize(data);
+        Files = new();
+        Files.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }
@@ -177,26 +183,5 @@ public class FrontendService : IAsyncDisposable
         await _cts?.CancelAsync();
         await (_listeningTask ?? Task.CompletedTask);
         _cts?.Dispose();
-    }
-
-    /// <summary>
-    /// Gets initial data from a specific end point
-    /// </summary>
-    /// <param name="url">the URL of the end point</param>
-    /// <typeparam name="T">the type of data to get</typeparam>
-    /// <returns>the data</returns>
-    public async Task<T> GetInitialData<T>(string url)
-    {
-        try
-        {
-            var result = await HttpHelper.Get<T>("/api/" + url);
-            if (result.Success)
-                return result.Data;
-            return default(T);
-        }
-        catch (Exception)
-        {
-            return default(T);
-        }
     }
 }

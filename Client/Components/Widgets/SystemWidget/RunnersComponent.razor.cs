@@ -1,4 +1,5 @@
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -6,9 +7,9 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class RunnersComponent : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
     /// <summary>
     /// Gets or sets the blocker
     /// </summary>
@@ -45,64 +46,10 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        await Refresh();
+        Runners = feService.Dashboard.CurrentExecutorInfoMinified;
         if(Runners.Count == 0)
             await NoneOnLoad.InvokeAsync();
-#if(DEBUG)
-        // Runners = GenerateRandomExecutors(10);
-#endif
-        ClientService.ExecutorsUpdated += ExecutorsUpdated;
-    }
-    
-#if(DEBUG)
-    
-    public static List<FlowExecutorInfoMinified> GenerateRandomExecutors(int count)
-    {
-        var random = new Random();
-        var executors = new List<FlowExecutorInfoMinified>();
-
-        for (int i = 0; i < count; i++)
-        {
-            // Generate random file name and GUID
-            string fileName = $"file-{i + 1}.mkv";
-            Guid uid = Guid.NewGuid();
-            int totalParts = random.Next(5, 20); // Random total parts between 5 and 20
-            int currentPart = random.Next(1, totalParts + 1); // Random current part within total parts
-
-            executors.Add(new FlowExecutorInfoMinified
-            {
-                Uid = uid,
-                DisplayName = fileName,
-                NodeName = "FileFlowsServer",
-                LibraryFileUid = uid,
-                LibraryFileName = $"/home/user/videos/{fileName}",
-                RelativeFile = fileName,
-                LibraryName = "Video Library",
-                TotalParts = totalParts,
-                CurrentPart = currentPart,
-                CurrentPartName = $"Part {currentPart} Processing",
-                CurrentPartPercent = random.Next(0, 100), // Random percentage 0-100
-                LastUpdate = DateTime.UtcNow.AddSeconds(-random.Next(0, 60 * 60)), // Random last update within the last hour
-                StartedAt = DateTime.UtcNow.AddMinutes(-random.Next(1, 120)), // Started between 1 and 120 minutes ago
-                //ProcessingTime = TimeSpan.FromSeconds(random.Next(30, 3600)), // Random processing time 30 seconds to 1 hour
-                FramesPerSecond = random.Next(20, 300), // Random FPS between 20.0 and 60.0
-                //Additional = new List<string>() // Optionally populate with random additional data
-                Additional = Enumerable.Range(1, 6).Select(x => new object[] { "Label", random.Next(20, 3000)}).ToArray()
-            });
-        }
-
-        return executors;
-    }
-    #endif
-
-    /// <summary>
-    /// Refreshes the runners
-    /// </summary>
-    private async Task Refresh()
-    {
-        var result = await HttpHelper.Get<List<FlowExecutorInfoMinified>>("/api/worker");
-        if (result.Success && Runners.Count == 0)
-            Runners = result.Data ?? [];
+        feService.Dashboard.RunnerInfoUpdated += ExecutorsUpdated;
     }
     
 
@@ -111,7 +58,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.ExecutorsUpdated -= ExecutorsUpdated;
+        feService.Dashboard.RunnerInfoUpdated-= ExecutorsUpdated;
     }
     
     /// <summary>

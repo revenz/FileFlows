@@ -12,10 +12,6 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class FilesWidget : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
-    /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
-    /// <summary>
     /// Gets or sets the blocker
     /// </summary>
     [CascadingParameter] public Blocker Blocker { get; set; }
@@ -74,7 +70,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     private bool _needsRendering = false;
 
 
-    private List<DashboardFile> UpcomingFiles, RecentlyFinished, FailedFiles;
+    private List<LibraryFileMinimal> UpcomingFiles, RecentlyFinished, FailedFiles;
     private int TotalUpcoming, TotalFinished, TotalFailed;
     private bool initialized = false;
     
@@ -89,27 +85,19 @@ public partial class FilesWidget : ComponentBase, IDisposable
         lblNoRecentlyFinishedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoRecentlyFinishedFiles");
         lblNoFailedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoFailedFiles");
         _FileMode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
-        await RefreshData();
-        ClientService.FileStatusUpdated += OnFileStatusUpdated;
-    }
-
-    /// <summary>
-    /// File status updated
-    /// </summary>
-    /// <param name="obj">the files updated</param>
-    private void OnFileStatusUpdated(List<LibraryStatus> obj)
-    {
-        _ = RefreshData();
+        //await RefreshData();
+        //feService.FileStatusUpdated += OnFileStatusUpdated;
+        InitializeData();
     }
 
     /// <summary>
     /// Refreshes the data
     /// </summary>
-    private async Task RefreshData()
+    private void InitializeData()
     {
-        UpcomingFiles = await LoadData<List<DashboardFile>>("/api/library-file/upcoming");
-        RecentlyFinished = await LoadData<List<DashboardFile>>("/api/library-file/recently-finished?failedFiles=false");
-        FailedFiles = await LoadData<List<DashboardFile>>("/api/library-file/recently-finished?failedFiles=true");
+        UpcomingFiles = feService.Files.UpcomingFiles;
+        RecentlyFinished = feService.Files.RecentlyFinished;
+        FailedFiles = feService.Files.FailedFiles;
         TotalUpcoming = UpcomingFiles.Count;
         TotalFailed = FailedFiles.Count;
         TotalFinished = RecentlyFinished.Count;
@@ -125,8 +113,8 @@ public partial class FilesWidget : ComponentBase, IDisposable
                 {
                     if (TotalFailed > 0 && TotalFinished > 0)
                     {
-                        var failed = FailedFiles.Max(x => x.ProcessingEnded);
-                        var success = RecentlyFinished.Max(x => x.ProcessingEnded);
+                        var failed = FailedFiles.Max(x => x.Date);
+                        var success = RecentlyFinished.Max(x => x.Date);
                         FileMode = failed > success ? MODE_FAILED : MODE_FINISHED;
                     }
                     else if (TotalFinished > 0)
@@ -157,7 +145,6 @@ public partial class FilesWidget : ComponentBase, IDisposable
             initialized = true;
         }
         StateHasChanged();
-        await WaitForRender();
         OptionButtons?.TriggerStateHasChanged();
     }
 
@@ -212,7 +199,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// Opens the file for viewing
     /// </summary>
     /// <param name="file">the file</param>
-    private void OpenFile(DashboardFile file)
+    private void OpenFile(LibraryFileMinimal file)
         => _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile);
     
     /// <summary>
@@ -220,7 +207,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.FileStatusUpdated -= OnFileStatusUpdated;
+//        ClientService.FileStatusUpdated -= OnFileStatusUpdated;
     }
 
     /// <summary>
@@ -228,15 +215,14 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     /// <param name="file">the file</param>
     /// <returns>the thumbnail url</returns>
-    private string GetThumbUrl(DashboardFile file)
-        => IconHelper.GetThumbnail(file.Uid,
-            file.Name?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.DisplayName, file.IsDirectory);
+    private string GetThumbUrl(LibraryFileMinimal file)
+        => IconHelper.GetThumbnail(file.Uid, file.DisplayName, file.Extension == null);
     
     /// <summary>
     /// Gets the extension image
     /// </summary>
     /// <param name="file">the file</param>
     /// <returns>the extension image</returns>
-    private string GetExtensionImage(DashboardFile file)
-        => IconHelper.GetExtensionImage(file.Name?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.DisplayName);
+    private string GetExtensionImage(LibraryFileMinimal file)
+        => IconHelper.GetExtensionImage(file.DisplayName);
 }

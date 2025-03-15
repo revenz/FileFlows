@@ -37,12 +37,12 @@ public partial class LargestSavingsWidget : ComponentBase
     /// </summary>
     private const string LocalStorageKey = "LargestSavingsWidget";
 
-    private List<LibraryFile> MonthData = [], AllData = [];
+    private List<LibraryFileMinimal> MonthData = [], AllData = [];
     
     /// <summary>
     /// Gets the current data
     /// </summary>
-    private List<LibraryFile> Data => Mode == 0 ? MonthData : AllData;
+    private List<LibraryFileMinimal> Data => Mode == 0 ? MonthData : AllData;
     private string lblTitle, lblAll, lblMonth;
     
     /// <summary>
@@ -70,31 +70,11 @@ public partial class LargestSavingsWidget : ComponentBase
         lblMonth = Translater.Instant("Labels.MonthShort");
         lblTitle = Translater.Instant("Pages.Dashboard.Widgets.LargestSavings.Title");
         Profile = feService.Profile.Profile;
+        AllData = feService.Files.TopSavingsAll;
+        MonthData = feService.Files.TopSavings31Days;
         Mode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 1);
-        await Refresh();
     }
 
-    /// <summary>
-    /// Refreshes the data
-    /// </summary>
-    private async Task Refresh()
-    {
-        AllData = await GetData(0);
-        MonthData = await GetData(31);
-        StateHasChanged();
-    }
-    
-    private async Task<List<LibraryFile>> GetData(int days)
-    {
-        var result = await HttpHelper.Post<List<LibraryFile>>("/api/library-file/search", new
-        {
-            FinishedProcessingFrom = days == 0 ? null : DateTime.UtcNow.AddDays(-days) as DateTime?,
-            Status = FileStatus.Processed,
-            Limit = 20,
-            OrderBy = LibraryFileSearchOrderBy.Savings
-        });
-        return result.Success ? result.Data ?? [] : [];
-    }
 
     /// <summary>
     /// Formats a <see cref="TimeSpan"/> value based on its duration.
@@ -115,7 +95,7 @@ public partial class LargestSavingsWidget : ComponentBase
     /// Opens the file for viewing
     /// </summary>
     /// <param name="file">the file</param>
-    private void OpenFile(LibraryFile file)
+    private void OpenFile(LibraryFileMinimal file)
     {
         _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile);
     }

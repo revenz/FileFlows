@@ -113,10 +113,6 @@ public enum FormInputType
     /// </summary>
     Table = 23,
     /// <summary>
-    /// Widget
-    /// </summary>
-    Widget = 24,
-    /// <summary>
     /// Metadata
     /// </summary>
     Metadata = 25,

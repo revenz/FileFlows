@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using FileFlows.Server.Workers;
 using FileFlows.ServerShared.Models.StatisticModels;
+using FileFlows.Services.SystemOverview;
 using FileHelper = FileFlows.ServerShared.Helpers.FileHelper;
 using LibraryFileService = FileFlows.Services.LibraryFileService;
 using StatisticService = FileFlows.Services.StatisticService;
@@ -56,7 +57,7 @@ public class SystemController:BaseController
     /// <returns></returns>
     [HttpGet("info")]
     public SystemInfo GetSystemInfo()
-        => ServiceLoader.Load<DashboardService>().GetSystemInfo();
+        => ServiceLoader.Load<SystemOverviewService>().GetSystemInfo();
 
     /// <summary>
     /// Gets history CPU data of system information

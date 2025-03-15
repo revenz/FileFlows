@@ -10,6 +10,15 @@ public class DashboardHandler(FrontendService feService)
     public UpdateInfo CurrentUpdatesInfo { get; private set; }
     public List<FlowExecutorInfoMinified> CurrentExecutorInfoMinified { get; private set; }
     public List<Tag> Tags { get; private set; } = new List<Tag>();
+    /// <summary>
+    /// Gets or sets the total storage saved data
+    /// </summary>
+    public List<StorageSavedData> StorageSavedTotalData { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the total storage saved in a month
+    /// </summary>
+    public List<StorageSavedData> StorageSavedMonthData { get; private set; }
     
     /// <summary>
     /// Event raised when the system info has been updated
@@ -25,6 +34,11 @@ public class DashboardHandler(FrontendService feService)
     /// Event raised when the update info has been updated
     /// </summary>
     public event Action<UpdateInfo> UpdateInfoUpdated;
+    
+    /// <summary>
+    /// Event raised when the file overview data is updated info has been updated
+    /// </summary>
+    public event Action<FileOverviewData> FileOverviewDataUpdated;
 
     public void Initialize(InitialClientData data)
     {
@@ -32,6 +46,8 @@ public class DashboardHandler(FrontendService feService)
         CurrentSystemInfo = data.CurrentSystemInfo;
         CurrentUpdatesInfo = data.CurrentUpdatesInfo;
         CurrentExecutorInfoMinified = data.CurrentExecutorInfoMinified;
+        StorageSavedMonthData = data.StorageSavedMonthData;
+        StorageSavedTotalData = data.StorageSavedTotalData;
         Tags = data.Tags;
         
         feService.Registry.Register<bool>("Paused", (bool paused) =>
@@ -52,6 +68,11 @@ public class DashboardHandler(FrontendService feService)
         {
             CurrentUpdatesInfo = ed;
             UpdateInfoUpdated?.Invoke(ed);
+        });
+        feService.Registry.Register<FileOverviewData>(nameof(FileOverviewData), (ed) =>
+        {
+            CurrentFileOverData = ed;
+            FileOverviewDataUpdated?.Invoke(ed);
         });
     }
 }

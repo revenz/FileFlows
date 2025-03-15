@@ -1,8 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Plugin;
-using FileFlows.Shared.Widgets;
-using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Wizards;
 

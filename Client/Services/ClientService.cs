@@ -212,31 +212,19 @@ public partial class ClientService
     //     return CurrentNodeStatusSummaries;
     // }
 
-    /// <summary>
-    /// Gets the current file overview data
-    /// </summary>
-    /// <returns>the current file overview data</returns>
-    public async Task<FileOverviewData?> GetCurrentFileOverData()
-    {
-        if (CurrentFileOverData != null) return CurrentFileOverData;
-        var result = await HttpHelper.Get<FileOverviewData>("/api/dashboard/file-overview");
-        if (result.Success)
-            CurrentFileOverData ??= result.Data;
-        return CurrentFileOverData;
-    }
+    // /// <summary>
+    // /// Gets the current file overview data
+    // /// </summary>
+    // /// <returns>the current file overview data</returns>
+    // public async Task<FileOverviewData?> GetCurrentFileOverData()
+    // {
+    //     if (CurrentFileOverData != null) return CurrentFileOverData;
+    //     var result = await HttpHelper.Get<FileOverviewData>("/api/dashboard/file-overview");
+    //     if (result.Success)
+    //         CurrentFileOverData ??= result.Data;
+    //     return CurrentFileOverData;
+    // }
 
-    /// <summary>
-    /// Gets the current system info
-    /// </summary>
-    /// <returns>the current system info</returns>
-    public async Task<SystemInfo?> GetCurrentSystemInfo()
-    {
-        if (CurrentSystemInfo != null) return CurrentSystemInfo;
-        var result = await HttpHelper.Get<SystemInfo>("/api/dashboard/info");
-        if (result.Success)
-            CurrentSystemInfo ??= result.Data;
-        return CurrentSystemInfo;
-    }
 
     /// <summary>
     /// Gets the tags in the system

@@ -43,10 +43,6 @@ public partial class ClientService
     /// </summary>
     public event Action<bool> SystemPausedUpdated;
 
-    /// <summary>
-    /// Event raised when the file overview has bene updated
-    /// </summary>
-    public event Action<FileOverviewData> FileOverviewUpdated;
     
     /// <summary>
     /// Event raised when the file overview has bene updated
@@ -132,13 +128,6 @@ public partial class ClientService
                 {
                     CurrentNodeStatusSummaries = info;
                     NodeStatusSummaryUpdated?.Invoke(info);
-                });
-                _hubConnection.On<FileOverviewData>("FileOverviewUpdate", (data) =>
-                {
-                    CurrentFileOverData = data;
-                    _cacheService.Clear("LibraryFilesAllData");
-                    _cacheService.Clear("LibraryFilesMonthData");
-                    FileOverviewUpdated?.Invoke(data);
                 });
                 _hubConnection.On<UpdateInfo>("UpdatesUpdateInfo", (data) =>
                 {

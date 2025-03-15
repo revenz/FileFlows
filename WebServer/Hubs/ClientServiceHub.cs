@@ -146,13 +146,6 @@ public class ClientServiceManager : IClientService
     /// <param name="file">the file that's finished processing</param>
     public void FinishProcessing(LibraryFile file)
         => _hubContext.Clients.All.SendAsync("FinishProcessing", file);
-
-    /// <summary>
-    /// Sends a update to the file overview
-    /// </summary>
-    /// <param name="data">the update data</param>
-    public void FileOverviewUpdate(FileOverviewData data)
-        => _hubContext.Clients.All.SendAsync("FileOverviewUpdate", data);
     
     /// <summary>
     /// Sends a update about tags available int the system
