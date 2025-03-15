@@ -55,44 +55,46 @@
         margin-left: 0.5rem;
       }
     }
-    .priority,.runners {
-      position: absolute;
-      background: var(--border-color);
-      left: 0;
-      font-weight: var(--bold, 600);
-      padding: 0.25rem 0.75rem;
-      user-select: none;
-      display: flex;
-      align-items: center;
-      i {
-        font-size:1rem;
-        margin-right:0.25rem;
-      }
-    }
-    .priority
-    {
-      top: 0;
-      border-bottom-right-radius: 0.5rem;
-    }
-    .runners {
-      bottom: 0;
-      border-top-right-radius: 0.5rem;
-    }
-    .top-right {
-      font-size: 1rem;
-      &.status-version-mismatch {
-        background-color: var(--warning);
-      }
-      &.status-out-of-schedule {
-        background-color: var(--purple);
-      }
-      &.status-maximum-runners-reached {
-        background-color: var(--green);
-      }
-      &.status-installing-docker-mods {
-        background-color: var(--blue);
-      }
-    }
+  }
+}
+
+.priority,.runners {
+  position: absolute;
+  background: var(--border-color);
+  left: 0;
+  font-weight: var(--bold, 600);
+  padding: 0.25rem 0.75rem;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  i {
+    font-size:1rem;
+    margin-right:0.25rem;
+  }
+}
+
+.priority
+{
+  top: 0;
+  border-bottom-right-radius: 0.5rem;
+}
+.runners {
+  bottom: 0;
+  border-top-right-radius: 0.5rem;
+}
+.top-right {
+  font-size: 1rem;
+  &.status-version-mismatch {
+    background-color: var(--warning);
+  }
+  &.status-out-of-schedule {
+    background-color: var(--purple);
+  }
+  &.status-maximum-runners-reached {
+    background-color: var(--green);
+  }
+  &.status-installing-docker-mods {
+    background-color: var(--blue);
   }
 }
 

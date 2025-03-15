@@ -55,7 +55,8 @@
 .processing-node .summary .hardware-info-item .value, .processing-node .center .hardware-info-item .value {
   margin-left: 0.5rem;
 }
-.processing-node .summary .priority, .processing-node .summary .runners, .processing-node .center .priority, .processing-node .center .runners {
+
+.priority, .runners {
   position: absolute;
   background: var(--border-color);
   left: 0;
@@ -65,31 +66,34 @@
   display: flex;
   align-items: center;
 }
-.processing-node .summary .priority i, .processing-node .summary .runners i, .processing-node .center .priority i, .processing-node .center .runners i {
+.priority i, .runners i {
   font-size: 1rem;
   margin-right: 0.25rem;
 }
-.processing-node .summary .priority, .processing-node .center .priority {
+
+.priority {
   top: 0;
   border-bottom-right-radius: 0.5rem;
 }
-.processing-node .summary .runners, .processing-node .center .runners {
+
+.runners {
   bottom: 0;
   border-top-right-radius: 0.5rem;
 }
-.processing-node .summary .top-right, .processing-node .center .top-right {
+
+.top-right {
   font-size: 1rem;
 }
-.processing-node .summary .top-right.status-version-mismatch, .processing-node .center .top-right.status-version-mismatch {
+.top-right.status-version-mismatch {
   background-color: var(--warning);
 }
-.processing-node .summary .top-right.status-out-of-schedule, .processing-node .center .top-right.status-out-of-schedule {
+.top-right.status-out-of-schedule {
   background-color: var(--purple);
 }
-.processing-node .summary .top-right.status-maximum-runners-reached, .processing-node .center .top-right.status-maximum-runners-reached {
+.top-right.status-maximum-runners-reached {
   background-color: var(--green);
 }
-.processing-node .summary .top-right.status-installing-docker-mods, .processing-node .center .top-right.status-installing-docker-mods {
+.top-right.status-installing-docker-mods {
   background-color: var(--blue);
 }
 
