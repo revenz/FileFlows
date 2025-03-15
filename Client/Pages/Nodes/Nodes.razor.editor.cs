@@ -12,43 +12,57 @@ namespace FileFlows.Client.Pages;
 public partial class Nodes : ListPage<Guid, NodeStatusSummary>
 {
 
-    public override async Task<bool> Edit(NodeStatusSummary node)
+    /// <inheritdoc />
+    public override async Task<bool> Edit(NodeStatusSummary nss)
     {
-        await Task.CompletedTask;
+        
+        Dictionary<Guid, string> scripts;
+        var tabs = new Dictionary<string, List<IFlowField>>();
+        
+        ProcessingNode node;
+        Blocker.Show();
+        try
+        {
+            var nodeResult = await HttpHelper.Get<ProcessingNode>($"{ApiUrl}/{nss.Uid}");
+            if (nodeResult.Success == false || nodeResult.Data == null)
+                return false;
+            
+            node = nodeResult.Data!;
+
+            bool isServerProcessingNode = node.Address == FileFlowsServer;
+            node.Mappings ??= new();
+            if (node.ProcessingOrder == null)
+                node.ProcessingOrder = (ProcessingOrder)1000;
+            scripts = (await HttpHelper.Get<Dictionary<Guid, string>>("/api/script/basic-list?type=System")).Data ??
+                      new();
+            tabs.Add("General", TabGeneral(node, isServerProcessingNode, scripts));
+            tabs.Add("Schedule", TabSchedule(node, isServerProcessingNode));
+            if (isServerProcessingNode == false)
+                tabs.Add("Mappings", TabMappings(node));
+            tabs.Add("Processing", await TabProcessing(node));
+            if (node.OperatingSystem != OperatingSystemType.Windows)
+                tabs.Add("Advanced", TabAdvanced(node));
+            tabs.Add("Variables", TabVariables(node));
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+        finally
+        {
+            Blocker.Hide();
+        }
+
+        if (node == null)
+            return false;
+
+        await Editor.Open(new()
+        {
+            TypeName = "Pages.ProcessingNode", Title = "Pages.ProcessingNode.Title", Model = node, Tabs = tabs,
+            Large = true,
+            SaveCallback = Save, HelpUrl = "https://fileflows.com/docs/webconsole/configuration/nodes",
+        });
         return false;
-        // bool isServerProcessingNode = node.Address == FileFlowsServer;
-        // node.Mappings ??= new();
-        // this.EditingItem = node;
-        // if (node.ProcessingOrder == null)
-        //     node.ProcessingOrder = (ProcessingOrder)1000;
-        //
-        // Dictionary<Guid, string> scripts;
-        // var tabs = new Dictionary<string, List<IFlowField>>();
-        // Blocker.Show();
-        // try
-        // {
-        //     scripts = (await HttpHelper.Get<Dictionary<Guid, string>>("/api/script/basic-list?type=System")).Data ?? new ();
-        //     tabs.Add("General", TabGeneral(node, isServerProcessingNode, scripts));
-        //     tabs.Add("Schedule", TabSchedule(node, isServerProcessingNode));
-        //     if (isServerProcessingNode == false)
-        //         tabs.Add("Mappings", TabMappings(node));
-        //     tabs.Add("Processing", await TabProcessing(node));
-        //     if (node.OperatingSystem != OperatingSystemType.Windows)
-        //         tabs.Add("Advanced", TabAdvanced(node));
-        //     tabs.Add("Variables", TabVariables(node));
-        // }
-        // finally
-        // {
-        //     Blocker.Hide();
-        // }
-        //
-        // await Editor.Open(new()
-        // {
-        //     TypeName = "Pages.ProcessingNode", Title = "Pages.ProcessingNode.Title", Model = node, Tabs = tabs,
-        //     Large = true,
-        //     SaveCallback = Save, HelpUrl = "https://fileflows.com/docs/webconsole/configuration/nodes",
-        // });
-        // return false;
     }
 
     private List<IFlowField> TabGeneral(ProcessingNode node, bool isServerProcessingNode, Dictionary<Guid, string> scripts)

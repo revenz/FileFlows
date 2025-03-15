@@ -2,7 +2,7 @@
 @using Humanizer
 @namespace FileFlows.Client.Components
 
-<div class="processing-node @(Node.Enabled == false ? "disabled" : "") @(ListPage ? "list-page-item" : "")" @key="Node.Uid">
+<div class="processing-node @(Node.Enabled == false ? "disabled" : "") @(ListPage ? "list-page-item" : "")" @key="Node.Uid" >
     <span class="icon">
         <TableItemIcon Icon="@Node.Icon" DefaultIcon="@GetDefaultIcon(Node)" />
         <div class="architecture @(Node.Architecture is ArchitectureType.Arm32 or ArchitectureType.Arm64 ? "arm" : "")">@Node.Architecture</div>

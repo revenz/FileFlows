@@ -31,6 +31,7 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
 #endif
     protected override void OnInitialized()
     {
+        Profile ??= feService.Profile.Profile;
         lblAdd = Translater.Instant("Labels.Add");
         lblEdit = Translater.Instant("Labels.Edit");
         lblDelete = Translater.Instant("Labels.Delete");
@@ -87,33 +88,7 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
     /// </summary>
     void OpenHelp()
         => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/configuration/nodes");
-
-    /// <summary>
-    /// if currently enabling, this prevents double calls to this method during the updated list binding
-    /// </summary>
-    private bool enabling = false;
-    new EventCallback Enable(bool enabled, NodeStatusSummary node)
-    {
-        if(enabling || node.Enabled == enabled)
-            return EventCallback.Empty;
-        _ = Task.Run(async () =>
-        {
-            Blocker.Show();
-            enabling = true;
-            try
-            {
-                await HttpHelper.Put<ProcessingNode>($"{ApiUrl}/state/{node.Uid}?enable={enabled}");
-                await Refresh();
-            }
-            finally
-            {
-                enabling = false;
-                Blocker.Hide();
-            }
-        });
-        return EventCallback.Empty;
-    }
-
+    
     async Task<bool> Save(ExpandoObject model)
     {
         Blocker.Show();
