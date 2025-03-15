@@ -1665,20 +1665,23 @@ end ");
     /// Gets status for every file in the system
     /// </summary>
     /// <returns>status for every file in the system</returns>
-    public async Task<Dictionary<Guid, FileStatus>> GetFileStatuses()
+    public async Task<List<(Guid Uid, FileStatus Status, Guid LibraryUid, DateTime HoldUntil)>> GetFileStatuses()
     {
         if (UseCache)
-            return Cache.Values.ToDictionary(x => x.Uid, x=>x.Status);
+            return Cache.Values.Select(x => (x.Uid, x.Status, x.LibraryUid ?? Guid.Empty, x.HoldUntil)).ToList();
+
         
         string sql = @$"select 
 {Wrap(nameof(LibraryFile.Uid))},
-{Wrap(nameof(LibraryFile.Status))} 
+{Wrap(nameof(LibraryFile.Status))},
+{Wrap(nameof(LibraryFile.LibraryUid))},
+{Wrap(nameof(LibraryFile.HoldUntil))} 
 from {Wrap(nameof(LibraryFile))} 
 ";
 
         using var db = await DbConnector.GetDb();
-        var statuses = await db.Db.FetchAsync<(Guid, FileStatus)>(sql);
-        return statuses.ToDictionary(x => x.Item1, x => x.Item2);
+        var statuses = await db.Db.FetchAsync<(Guid Uid, FileStatus Status, Guid LibraryUid, DateTime HoldUntil)>(sql);
+        return statuses;
     }
     
     /// <summary>

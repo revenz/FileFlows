@@ -315,6 +315,6 @@ public class LibraryFileManager
     /// Gets status for every file in the system
     /// </summary>
     /// <returns>status for every file in the system</returns>
-    public async Task<Dictionary<Guid, FileStatus>> GetFileStatuses()
+    public async Task<List<(Guid Uid, FileStatus Status, Guid LibraryUid, DateTime HoldUntil)>> GetFileStatuses()
         => await DatabaseAccessManager.Instance.LibraryFileManager.GetFileStatuses();
 }
