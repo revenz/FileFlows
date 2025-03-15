@@ -153,7 +153,7 @@ public class SseController : Controller
             FailedFiles = failed.Select(x => (LibraryFileMinimal)x).ToList(),
             RecentlyFinished = successful.Select(x => (LibraryFileMinimal)x).ToList(),
             UpcomingFiles = upcoming.Select(x => (LibraryFileMinimal)x).ToList(),
-            TopSavingsAll = savings31,
+            TopSavingsAll = savingsAll,
             TopSavings31Days = savings31,
             Tags = (tagsTask.Result ?? Enumerable.Empty<Tag>())
                 .OrderBy(x => x.Name.ToLowerInvariant())
@@ -161,7 +161,7 @@ public class SseController : Controller
         };
 
         // Log summary to Logger.Instance
-        Logger.Instance.ILog($"Task Execution Summary:\n{logSummary.ToString()}");
+        Logger.Instance.ILog($"Task Execution Summary:\n{logSummary}");
 
         return result;
     }

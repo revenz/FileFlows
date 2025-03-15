@@ -26,12 +26,13 @@ public class FrontendService : IAsyncDisposable
     private readonly FFLocalStorageService _ffLocalStorage;
     private CancellationTokenSource _cts;
     private Task _listeningTask;
-    private bool _isFirstConnection = true; // Track first connection
     /// <summary>
     /// Gets the register that is called when a event is received
     /// </summary>
     public FrontendRegister Registry { get; init; } = new ();
-    
+    /// <summary>
+    /// Gets or sets if this has been initialized
+    /// </summary>
     public bool IsInitialized { get; private set; }
     /// <summary>
     /// Event triggered when the service is initialized for the first time.
@@ -102,7 +103,7 @@ public class FrontendService : IAsyncDisposable
                 var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
 
                 using var request = new HttpRequestMessage(HttpMethod.Get,
-                    url + (_isFirstConnection ? "?initialData=true" : ""));
+                    url + (IsInitialized ? "?initialData=true" : ""));
                 request.SetBrowserResponseStreamingEnabled(true);
                 request.Headers.Add("Accept", "text/event-stream");
                 if(string.IsNullOrWhiteSpace(authToken) == false)
