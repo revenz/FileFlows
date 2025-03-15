@@ -9,44 +9,46 @@ using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
 
-public partial class Nodes : ListPage<Guid, ProcessingNode>
+public partial class Nodes : ListPage<Guid, NodeStatusSummary>
 {
 
-    public override async Task<bool> Edit(ProcessingNode node)
+    public override async Task<bool> Edit(NodeStatusSummary node)
     {
-        bool isServerProcessingNode = node.Address == FileFlowsServer;
-        node.Mappings ??= new();
-        this.EditingItem = node;
-        if (node.ProcessingOrder == null)
-            node.ProcessingOrder = (ProcessingOrder)1000;
-
-        Dictionary<Guid, string> scripts;
-        var tabs = new Dictionary<string, List<IFlowField>>();
-        Blocker.Show();
-        try
-        {
-            scripts = (await HttpHelper.Get<Dictionary<Guid, string>>("/api/script/basic-list?type=System")).Data ?? new ();
-            tabs.Add("General", TabGeneral(node, isServerProcessingNode, scripts));
-            tabs.Add("Schedule", TabSchedule(node, isServerProcessingNode));
-            if (isServerProcessingNode == false)
-                tabs.Add("Mappings", TabMappings(node));
-            tabs.Add("Processing", await TabProcessing(node));
-            if (node.OperatingSystem != OperatingSystemType.Windows)
-                tabs.Add("Advanced", TabAdvanced(node));
-            tabs.Add("Variables", TabVariables(node));
-        }
-        finally
-        {
-            Blocker.Hide();
-        }
-
-        await Editor.Open(new()
-        {
-            TypeName = "Pages.ProcessingNode", Title = "Pages.ProcessingNode.Title", Model = node, Tabs = tabs,
-            Large = true,
-            SaveCallback = Save, HelpUrl = "https://fileflows.com/docs/webconsole/configuration/nodes",
-        });
+        await Task.CompletedTask;
         return false;
+        // bool isServerProcessingNode = node.Address == FileFlowsServer;
+        // node.Mappings ??= new();
+        // this.EditingItem = node;
+        // if (node.ProcessingOrder == null)
+        //     node.ProcessingOrder = (ProcessingOrder)1000;
+        //
+        // Dictionary<Guid, string> scripts;
+        // var tabs = new Dictionary<string, List<IFlowField>>();
+        // Blocker.Show();
+        // try
+        // {
+        //     scripts = (await HttpHelper.Get<Dictionary<Guid, string>>("/api/script/basic-list?type=System")).Data ?? new ();
+        //     tabs.Add("General", TabGeneral(node, isServerProcessingNode, scripts));
+        //     tabs.Add("Schedule", TabSchedule(node, isServerProcessingNode));
+        //     if (isServerProcessingNode == false)
+        //         tabs.Add("Mappings", TabMappings(node));
+        //     tabs.Add("Processing", await TabProcessing(node));
+        //     if (node.OperatingSystem != OperatingSystemType.Windows)
+        //         tabs.Add("Advanced", TabAdvanced(node));
+        //     tabs.Add("Variables", TabVariables(node));
+        // }
+        // finally
+        // {
+        //     Blocker.Hide();
+        // }
+        //
+        // await Editor.Open(new()
+        // {
+        //     TypeName = "Pages.ProcessingNode", Title = "Pages.ProcessingNode.Title", Model = node, Tabs = tabs,
+        //     Large = true,
+        //     SaveCallback = Save, HelpUrl = "https://fileflows.com/docs/webconsole/configuration/nodes",
+        // });
+        // return false;
     }
 
     private List<IFlowField> TabGeneral(ProcessingNode node, bool isServerProcessingNode, Dictionary<Guid, string> scripts)
@@ -192,21 +194,21 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
                 { "HideLabel", true }
             }
         };
-        var otherNodes = this.Data.Where(x => x.Uid != node.Uid && x.Mappings?.Any() == true).ToList();
-        if (otherNodes.Any() == true)
-        {
-            var onClickCallback = EventCallback.Factory.Create(this, () => { _ = CopyMappingsDialog(node, otherNodes, efMappings); });
-            fields.Add(new ElementField()
-            {
-                Name = "CopyMappings",
-                HideLabel = true,
-                InputType = FormInputType.Button,
-                Parameters = new()
-                {
-                    { nameof(InputButton.OnClick), onClickCallback }
-                }
-            });
-        }
+        // var otherNodes = this.Data.Where(x => x.Uid != node.Uid && x.Mappings?.Any() == true).ToList();
+        // if (otherNodes.Any() == true)
+        // {
+        //     var onClickCallback = EventCallback.Factory.Create(this, () => { _ = CopyMappingsDialog(node, otherNodes, efMappings); });
+        //     fields.Add(new ElementField()
+        //     {
+        //         Name = "CopyMappings",
+        //         HideLabel = true,
+        //         InputType = FormInputType.Button,
+        //         Parameters = new()
+        //         {
+        //             { nameof(InputButton.OnClick), onClickCallback }
+        //         }
+        //     });
+        // }
 
         fields.Add(efMappings);
         return fields;

@@ -3,7 +3,7 @@ namespace FileFlows.Shared.Models;
 /// <summary>
 /// The Node status summary
 /// </summary>
-public class NodeStatusSummary
+public class NodeStatusSummary : IUniqueObject<Guid>
 {
     /// <summary>
     /// Gets or sets the UID of the item

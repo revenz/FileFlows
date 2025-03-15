@@ -8,12 +8,12 @@ namespace FileFlows.Client.Pages;
 /// <summary>
 /// Page for processing nodes
 /// </summary>
-public partial class Nodes : ListPage<Guid, ProcessingNode>
+public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
 {
     public override string ApiUrl => "/api/node";
     const string FileFlowsServer = "FileFlowsServer";
 
-    private ProcessingNode EditingItem = null;
+    // private NodeStatusSummary EditingItem = null;
 
     private string lblInternal, lblAddress, lblRunners, lblVersion, lblDownloadNode, lblUpgradeRequired, 
         lblUpgradeRequiredHint, lblRunning, lblDisconnected, lblPossiblyDisconnected, lblPriority;
@@ -25,7 +25,11 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
 #endif
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        lblAdd = Translater.Instant("Labels.Add");
+        lblEdit = Translater.Instant("Labels.Edit");
+        lblDelete = Translater.Instant("Labels.Delete");
+        lblDeleting = Translater.Instant("Labels.Deleting");
+        lblRefresh = Translater.Instant("Labels.Refresh");
         lblInternal= Translater.Instant("Pages.Nodes.Labels.Internal");
         lblAddress = Translater.Instant("Pages.Nodes.Labels.Address");
         lblRunners = Translater.Instant("Pages.Nodes.Labels.Runners");
@@ -38,6 +42,25 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
         lblRunning = Translater.Instant("Labels.Running");
         lblPossiblyDisconnected = Translater.Instant("Pages.Nodes.Labels.PossiblyDisconnected");
         lblDisconnected = Translater.Instant("Pages.Nodes.Labels.Disconnected");
+
+        Data = feService.Node.NodeStatusSummaries;
+        feService.Node.NodeStatusUpdated += NodeOnNodeStatusUpdated;
+    }
+
+    /// <summary>
+    /// Called when the node statuses are updated
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    private void NodeOnNodeStatusUpdated(List<NodeStatusSummary> obj)
+    {
+        Data = obj;
+        StateHasChanged();
+    }
+
+    public override Task Refresh(bool showBlocker = true)
+    {
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -87,7 +110,7 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
     /// if currently enabling, this prevents double calls to this method during the updated list binding
     /// </summary>
     private bool enabling = false;
-    new EventCallback Enable(bool enabled, ProcessingNode node)
+    new EventCallback Enable(bool enabled, NodeStatusSummary node)
     {
         if(enabling || node.Enabled == enabled)
             return EventCallback.Empty;
@@ -123,12 +146,12 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
                 return false;
             }
 
-            int index = this.Data.FindIndex(x => x.Uid == saveResult.Data.Uid);
-            if (index < 0)
-                this.Data.Add(saveResult.Data);
-            else
-                this.Data[index] = saveResult.Data;
-            await this.Load(saveResult.Data.Uid);
+            // int index = this.Data.FindIndex(x => x.Uid == saveResult.Data.Uid);
+            // if (index < 0)
+            //     this.Data.Add(saveResult.Data);
+            // else
+            //     this.Data[index] = saveResult.Data;
+            // await this.Load(saveResult.Data.Uid);
 
             return true;
         }
@@ -159,7 +182,7 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
                     Toast.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
                 return;
             }
-            this.Data.Remove(item);
+            //this.Data.Remove(item);
         }
         finally
         {
@@ -205,5 +228,13 @@ public partial class Nodes : ListPage<Guid, ProcessingNode>
         if (node.OperatingSystem == OperatingSystemType.Linux)
             return "svg:linux";
         return "fas fa-desktop";
+    }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        feService.Node.NodeStatusUpdated -= NodeOnNodeStatusUpdated;
     }
 }

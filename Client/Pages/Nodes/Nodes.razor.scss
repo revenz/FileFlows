@@ -1,94 +1,32 @@
-.table-item {
-  min-height: 7rem;
-  height: 7rem;
-}
-@media screen and (max-width:650px){
-  .info {
-    display:none !important;
-  }
-}
-
-span.icon {
-  margin-right: 2rem;
-  margin-left:1rem;
-  position: relative;
-  height: 6rem;
-  width:5rem;
-  min-width:5rem;
-  display: flex;
-  justify-content: center;
-  ::deep
-  {
-    img {
-      width: 4rem;
-      min-width: 4rem;
-      margin-right: 0;
-    }
-  }
-  .architecture
-  {
-    position: absolute;
-    bottom: 0.35rem;
-    font-size: 0.9rem;
-    border-radius: 0.5rem;
-    padding: 0 0.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    line-height: 1.25;
-    font-weight: var(--bold, 600);
-    color: white;
-  }
-
-  .architecture {
-    background-color: var(--primary);
-  }
-  .architecture.arm {
-    background-color: var(--pink);
-  }
-}
-
 .btn-download-node {
   width:auto !important;
 }
-.priority {
-  align-self: center;
-  text-align: center;
-  font-size: 1.35rem;
-  font-weight: var(--bold, 600);
-  padding-top: 1rem;
-  span {
-    --item-size:3.5rem;
-    border: solid 2px var(--accent);
-    border-radius: 3rem;
-    width: var(--item-size);
-    height: var(--item-size);
-    line-height: var(--item-size); 
-    margin-top: 1rem;
-    display: inline-flex;
-    place-items: center;
-    justify-content: center;
-  }
-}
 
-@media screen and (max-width:660px){
-  .table-item {
-    min-height: 5.5rem;
-    height: 5.5rem;
-  }
-  .flow-switch-wrapper
-  {
-    position:absolute;
-    top: 2.5rem;
-  }
-  span.icon {
-    min-width:3.5rem;
-    width:3.5rem;
-    height: 5rem;
-  }
-  .architecture {
-    font-size:0.7rem;
-  }
-  .priority {
-    display: none;
+.page-node-list {
+  height:100%;
+
+  ::deep .flowtable-body {
+    .flowtable-row {
+      position: relative;
+      padding-left: 0;
+      border-left: solid 3px transparent;
+      left:-3px;
+      &.selected {
+        border-left-color: var(--accent);
+      }
+
+      .flowtable-select {
+        position: absolute;
+        left: 1rem;
+      }
+    }
+    
+    .processing-node {
+      padding-left: 3.5rem;
+    }
+
+    span.no-height {
+      padding: 0 !important;
+    }
   }
 }

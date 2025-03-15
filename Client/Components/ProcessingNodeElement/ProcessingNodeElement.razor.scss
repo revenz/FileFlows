@@ -1,0 +1,108 @@
+.processing-node {
+  display:flex;
+  flex-direction: row;
+  padding-bottom: 0.75rem;
+  font-size: 0.8rem;
+  position: relative;
+  margin: 0.75rem;
+  border-radius: var(--container-border-radius);
+  overflow: hidden;
+  border: solid 1px var(--border-color);
+  &.disabled {
+    opacity: 0.5;
+  }
+  span.icon {
+    position: relative;
+    align-self: center;
+    margin-right:1rem;
+    ::deep img {
+      height: 4rem;
+      object-fit: contain;
+      padding: 0 1rem;
+      max-width: 5rem;
+    }
+    .architecture {
+      position: absolute;
+      bottom: -0.2rem;
+      font-size: 0.9rem;
+      border-radius: 0.5rem;
+      padding: 0 0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      line-height: 1.25;
+      font-weight: var(--bold, 600);
+      color: white;
+      background-color: var(--primary);
+    }
+  }
+  .summary, .center {
+    .name {
+      font-size:1.2rem;
+      font-weight: var(--bold, 600);
+      padding-bottom: 0.25rem;
+      display: inline-block;
+    }
+    .hardware-info-item {
+      display:flex;
+      flex-direction: row;
+      padding: 0.2rem 0;
+      .label {
+        font-weight: var(--bold, 600);
+        width: 10rem;
+        min-width: 10rem;
+      }
+      .value {
+        margin-left: 0.5rem;
+      }
+    }
+    .priority,.runners {
+      position: absolute;
+      background: var(--border-color);
+      left: 0;
+      font-weight: var(--bold, 600);
+      padding: 0.25rem 0.75rem;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      i {
+        font-size:1rem;
+        margin-right:0.25rem;
+      }
+    }
+    .priority
+    {
+      top: 0;
+      border-bottom-right-radius: 0.5rem;
+    }
+    .runners {
+      bottom: 0;
+      border-top-right-radius: 0.5rem;
+    }
+    .top-right {
+      font-size: 1rem;
+      &.status-version-mismatch {
+        background-color: var(--warning);
+      }
+      &.status-out-of-schedule {
+        background-color: var(--purple);
+      }
+      &.status-maximum-runners-reached {
+        background-color: var(--green);
+      }
+      &.status-installing-docker-mods {
+        background-color: var(--blue);
+      }
+    }
+  }
+}
+
+.list-page-item {
+  border: unset;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  border-radius: 0;
+  .hardware-info-item {
+    padding: 0 !important;
+  }
+}
