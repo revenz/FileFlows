@@ -23,7 +23,7 @@ public class Program
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
 
 
-        int exitCode = (int) await RunInternal(args[0]);
+        int exitCode = (int) await Run(args[0]);
         Console.WriteLine("Exit Code: " + exitCode);
         Environment.ExitCode = exitCode;
     }
