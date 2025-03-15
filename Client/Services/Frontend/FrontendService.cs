@@ -103,7 +103,7 @@ public class FrontendService : IAsyncDisposable
                 var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
 
                 using var request = new HttpRequestMessage(HttpMethod.Get,
-                    url + (IsInitialized ? "?initialData=true" : ""));
+                    url + (IsInitialized == false ? "?initialData=true" : ""));
                 request.SetBrowserResponseStreamingEnabled(true);
                 request.Headers.Add("Accept", "text/event-stream");
                 if(string.IsNullOrWhiteSpace(authToken) == false)
