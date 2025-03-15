@@ -1,10 +1,8 @@
 @namespace FileFlows.Client.Pages
 @using FileFlows.Client.Components.Dialogs
 @using FileFlows.Shared.Models
-@using Microsoft.AspNetCore.Components
-@using Humanizer
 @using FileFlows.Client.Helpers
-@inherits ListPage<Guid, LibaryFileListModel>
+@inherits ListPage<Guid, LibraryFileListModel>
 
 @page "/library-files"
 
@@ -25,18 +23,17 @@
         </div>
     }
 
-    <FlowTable @ref="Table" Data="@Data" TItem="LibaryFileListModel" Selection="SelectionMode.Multiple"
+    <FlowTable @ref="Table" Data="@Data" TItem="LibraryFileListModel" Selection="SelectionMode.Multiple"
                TableIdentifier=@TableIdentifier DoubleClick="@OnDoubleClick"
                ShowPager=@true TotalItems=@TotalItems OnPageChange=@PageChange OnPageSizeChange=@PageSizeChange
-               OnFilter="OnFilter" 
-    >
+               OnFilter="OnFilter">
         <ToolBar>
             @if (App.Instance.IsMobile == false)
             {
-                <FlowTableButton Visible="@(Skybox?.SelectedItem?.Value == FileStatus.Unprocessed)" Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+                <FlowTableButton Visible="@(Skybox?.SelectedItem?.Value == FileStatus.Unprocessed)" Clicked=Add Icon="fas fa-plus" Label="Labels.Add"/>
             }
             <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-file" Label="Labels.View"/>
-            <FlowTableButton Visible="@(Skybox?.SelectedItem?.Value == FileStatus.Duplicate)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process" />
+            <FlowTableButton Visible="@(Skybox?.SelectedItem?.Value == FileStatus.Duplicate)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process"/>
             <FlowTableButton Visible="@(SelectedStatus == FileStatus.OutOfSchedule || SelectedStatus == FileStatus.Disabled)" Clicked=ForceProcessing SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process"/>
             <FlowTableButton Visible="@(SelectedStatus == FileStatus.Processing)" Clicked=Cancel SelectedOneOrMore="true" Icon="fas fa-window-close" Label="Labels.Cancel"/>
             <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Remove"/>
@@ -62,7 +59,7 @@
         </ToolBar>
 
         <Columns>
-            <FlowTableColumn TItem="LibaryFileListModel" NoHeight="true">
+            <FlowTableColumn TItem="LibraryFileListModel" NoHeight="true">
                 <Header>
                     <div class="header">
                         <span class="column-header"></span>
@@ -89,8 +86,8 @@
                             }
                             @if (optionsTags?.Any() == true)
                             {
-                            <FlowDropDown Options="optionsTags" OnSelected="SelectTag" SelectedValue="@SelectedTag"
-                                          Placeholder="@lblTag" PlaceholderIcon="fas fa-tag"/>
+                                <FlowDropDown Options="optionsTags" OnSelected="SelectTag" SelectedValue="@SelectedTag"
+                                              Placeholder="@lblTag" PlaceholderIcon="fas fa-tag"/>
                             }
                         </div>
                     </div>
@@ -120,11 +117,11 @@
                                     <span class="output-path">@item.OutputPath</span>
                                 }
                             </span>
-                    
+
                             <div class="info">
                                 @if (item.FileDropFile)
                                 {
-                                    <IconValue Color="IconValueColor.Pink" Icon="fas fa-tint" Value="FileDrop" />
+                                    <IconValue Color="IconValueColor.Pink" Icon="fas fa-tint" Value="FileDrop"/>
                                 }
                                 else if (string.IsNullOrWhiteSpace(item.Library) == false)
                                 {
@@ -195,7 +192,7 @@
                                         <FlowSavings FinalSize="@item.FinalSize.Value" OriginalSize="@item.OriginalSize.Value"/>
                                     </div>
                                 }
-                                else if(item.OriginalSize != null)
+                                else if (item.OriginalSize != null)
                                 {
                                     <div class="right-inner">
                                         <span class="file-size">@(item.OriginalSize.Value > 0 ? FileSizeHelper.Humanize(item.OriginalSize.Value) : "")</span>
@@ -211,7 +208,7 @@
                                     if (worker != null)
                                     {
                                         <span class="top-right">@worker.CurrentPartName</span>
-                                        <FlowProgress TotalParts="worker.TotalParts" CurrentPart="worker.CurrentPart" CurrentPartPercent="worker.CurrentPartPercent" />
+                                        <FlowProgress TotalParts="worker.TotalParts" CurrentPart="worker.CurrentPart" CurrentPartPercent="worker.CurrentPartPercent"/>
                                     }
                                 }
                             </div>

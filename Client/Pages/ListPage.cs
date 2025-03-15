@@ -63,7 +63,7 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     /// <summary>
     /// Gets the profile
     /// </summary>
-    protected Profile Profile { get; private set; }
+    protected Profile Profile { get; set; }
 
     private List<T> _Data = new ();
     

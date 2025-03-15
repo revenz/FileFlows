@@ -1,4 +1,5 @@
 using System.Text;
+using FileFlows.Services.FileProcessing;
 
 namespace FileFlows.WebServer.Controllers;
 

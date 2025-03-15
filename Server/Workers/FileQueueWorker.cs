@@ -1,5 +1,6 @@
 using FileFlows.ServerShared.Workers;
 using FileFlows.Services;
+using FileFlows.Services.FileProcessing;
 
 namespace FileFlows.Server.Workers;
 

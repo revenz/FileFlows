@@ -4,7 +4,7 @@
 /// A model of the library file used in the UI
 /// This model is used to reduce the data sent to the client browser
 /// </summary>
-public class LibaryFileListModel: IUniqueObject<Guid>
+public class LibraryFileListModel: IUniqueObject<Guid>
 {
     /// <summary>
     /// Gets or sets the UID of the library file

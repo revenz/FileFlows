@@ -1,4 +1,5 @@
 using System.Text;
+using FileFlows.Services.FileProcessing;
 using FileFlows.Services.SystemOverview;
 
 namespace FileFlows.WebServer.Controllers.ServerSideEventControllers;
@@ -141,6 +142,8 @@ public class SseController : Controller
         logSummary.AppendLine(
             $"Completed SavingsService calls at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
 
+        var lfStatuss  = ServiceLoader.Load<LibraryFileStatusOverviewService>().GetStatuses();
+        
         var result = new InitialClientData
         {
             Profile = profile,
@@ -159,6 +162,7 @@ public class SseController : Controller
             UpcomingFiles = upcoming.Select(x => (LibraryFileMinimal)x).ToList(),
             TopSavingsAll = savingsAll,
             TopSavings31Days = savings31,
+            LibraryFileCounts = lfStatuss,
             FlowElements = flowElementsTask.Result.ToList(),
             Tags = (tagsTask.Result ?? Enumerable.Empty<Tag>())
                 .OrderBy(x => x.Name.ToLowerInvariant())

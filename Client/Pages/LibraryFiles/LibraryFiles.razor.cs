@@ -13,7 +13,7 @@ namespace FileFlows.Client.Pages;
 /// <summary>
 /// Library Files Page
 /// </summary>
-public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDisposable
+public partial class LibraryFiles : ListPage<Guid, LibraryFileListModel>
 {
     private string filter = string.Empty;
     private FileStatus? filterStatus;
@@ -40,7 +40,7 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
     /// <summary>
     /// The skybox to select the current file status
     /// </summary>
-    private FlowSkyBox<FileStatus> Skybox;
+    private FlowSkyBox<FileStatus> Skybox { get; set; }
 
     private FileFlows.Shared.Models.FileStatus SelectedStatus;
 
@@ -72,7 +72,6 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
     /// </summary>
     private int TotalItems;
     private List<FlowExecutorInfo> WorkerStatus = new ();
-    private Timer AutoRefreshTimer;
     private Dictionary<string, NodeInfo> Nodes = new();
     private Dictionary<Guid, string> Libraries = new();
     private Dictionary<Guid, string>  Flows = new();
@@ -103,21 +102,15 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
         await jsRuntime.InvokeVoidAsync("ff.scrollTableToTop");
     }
 
-    protected override async Task PostDelete()
+    /// <inheritdoc />
+    protected override void OnInitialized()
     {
-        await RefreshStatus();
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
         this.SelectedStatus = FileFlows.Shared.Models.FileStatus.Unprocessed;
         lblForcedProcessing = Translater.Instant("Labels.ForceProcessing");
         lblMoveToTop = Translater.Instant("Pages.LibraryFiles.Buttons.MoveToTop");
         lblLibraryFiles = Translater.Instant("Pages.LibraryFiles.Title");
         lblFileFlowsServer = Translater.Instant("Pages.Nodes.Labels.FileFlowsServer");
-        Title = lblLibraryFiles;// + ": " + Translater.Instant("Enums.FileStatus." + FileStatus.Unprocessed);
+        Title = lblLibraryFiles; // + ": " + Translater.Instant("Enums.FileStatus." + FileStatus.Unprocessed);
         this.lblSearch = Translater.Instant("Labels.Search");
         this.lblDeleteSwitch = Translater.Instant("Labels.DeleteLibraryFilesPhysicallySwitch");
         lblSortBy = Translater.Instant("Labels.SortBy");
@@ -125,6 +118,8 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
         lblFlow = Translater.Instant("Labels.Flow");
         lblLibrary = Translater.Instant("Pages.Library.Title");
         lblTag = Translater.Instant("Labels.Tag");
+
+        Profile ??= feService.Profile.Profile;
 
         if (Profile.LicenseLevel != FileFlows.Common.LicenseLevel.Free)
         {
@@ -135,123 +130,82 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
                 Label = x.Name
             }).ToList();
         }
-        
-        optionsSortBy = new ()
+
+        optionsSortBy = new()
         {
-            new () { Icon = "fas fa-sort-numeric-up", Label = Translater.Instant("Enums.FilesSortBy.Size"), Value = FilesSortBy.Size },
-            new () { Icon = "fas fa-sort-numeric-down-alt", Label = Translater.Instant("Enums.FilesSortBy.SizeDesc"), Value = FilesSortBy.SizeDesc },
-            new () { Icon = "fas fa-sort-amount-down-alt", Label = Translater.Instant("Enums.FilesSortBy.Savings"), Value = FilesSortBy.Savings },
-            new () { Icon = "fas fa-sort-amount-up", Label = Translater.Instant("Enums.FilesSortBy.SavingsDesc"), Value = FilesSortBy.SavingsDesc },
-            new () { Icon = "fas fa-hourglass-start", Label = Translater.Instant("Enums.FilesSortBy.Time"), Value = FilesSortBy.Time },
-            new () { Icon = "fas fa-hourglass-end", Label = Translater.Instant("Enums.FilesSortBy.TimeDesc"), Value = FilesSortBy.TimeDesc }
+            new()
+            {
+                Icon = "fas fa-sort-numeric-up", Label = Translater.Instant("Enums.FilesSortBy.Size"),
+                Value = FilesSortBy.Size
+            },
+            new()
+            {
+                Icon = "fas fa-sort-numeric-down-alt", Label = Translater.Instant("Enums.FilesSortBy.SizeDesc"),
+                Value = FilesSortBy.SizeDesc
+            },
+            new()
+            {
+                Icon = "fas fa-sort-amount-down-alt", Label = Translater.Instant("Enums.FilesSortBy.Savings"),
+                Value = FilesSortBy.Savings
+            },
+            new()
+            {
+                Icon = "fas fa-sort-amount-up", Label = Translater.Instant("Enums.FilesSortBy.SavingsDesc"),
+                Value = FilesSortBy.SavingsDesc
+            },
+            new()
+            {
+                Icon = "fas fa-hourglass-start", Label = Translater.Instant("Enums.FilesSortBy.Time"),
+                Value = FilesSortBy.Time
+            },
+            new()
+            {
+                Icon = "fas fa-hourglass-end", Label = Translater.Instant("Enums.FilesSortBy.TimeDesc"),
+                Value = FilesSortBy.TimeDesc
+            }
         };
 
-        var nodesResult = await HttpHelper.Get<List<NodeInfo>>("/api/library-file/node-list");
-        if (nodesResult.Success)
+        Nodes = feService.Node.NodeStatusSummaries.ToDictionary(x => x.Name.ToLowerInvariant(), x => new NodeInfo()
         {
-            Nodes = nodesResult.Data.DistinctBy(x => x.Name.ToLowerInvariant())
-                .ToDictionary(x => x.Name.ToLowerInvariant(), x => x);
-            optionsNodes = nodesResult.Data.OrderBy(x => x.Name.ToLowerInvariant()).Select(x => new DropDownOption()
+            Name = x.Name,
+            Uid = x.Uid,
+            OperatingSystem = x.OperatingSystem,
+        });
+        optionsNodes = Nodes.Values.OrderBy(x => x.Name.ToLowerInvariant()).Select(x => new DropDownOption()
+        {
+            Icon = x.OperatingSystem switch
             {
-                Icon = x.OperatingSystem switch
-                {
-                    OperatingSystemType.Docker => "/icons/docker.svg",
-                    OperatingSystemType.Linux => "/icons/linux.svg",
-                    OperatingSystemType.Mac => "/icons/apple.svg",
-                    OperatingSystemType.Windows => "/icons/windows.svg",
-                    _ => ""
-                },
-                Value = x.Uid,
-                Label = x.Name == "FileFlowsServer" ? "Internal Node" : x.Name
-            }).ToList();
-        }
-        
-        var libraryResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/library/basic-list");
-        if (libraryResult.Success)
-        {
-            Libraries = libraryResult.Data;
-            optionsLibraries = libraryResult.Data.OrderBy(x => x.Value.ToLowerInvariant()).Select(x => new DropDownOption()
-            {
-                Icon = "fas fa-folder",
-                Value = x.Key,
-                Label = x.Value
-            }).ToList();
-        }
-        var flowResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list");
-        if (flowResult.Success)
-        {
-            Flows = flowResult.Data;
-            optionsFlows = flowResult.Data.OrderBy(x => x.Value.ToLowerInvariant()).Select(x => new DropDownOption()
-            {
-                Icon = "fas fa-sitemap",
-                Value = x.Key,
-                Label = x.Value
-            }).ToList();
-        }
+                OperatingSystemType.Docker => "/icons/docker.svg",
+                OperatingSystemType.Linux => "/icons/linux.svg",
+                OperatingSystemType.Mac => "/icons/apple.svg",
+                OperatingSystemType.Windows => "/icons/windows.svg",
+                _ => ""
+            },
+            Value = x.Uid,
+            Label = x.Name == "FileFlowsServer" ? "Internal Node" : x.Name
+        }).ToList();
 
-        AutoRefreshTimer = new Timer();
-        AutoRefreshTimer.Elapsed += AutoRefreshTimerElapsed!;
-        AutoRefreshTimer.Interval = 10_000;
-        AutoRefreshTimer.AutoReset = false;
-        AutoRefreshTimer.Start();
-    }
-
-    /// <summary>
-    /// Auto refresh timer elapsed
-    /// </summary>
-    /// <param name="sender">the sender</param>
-    /// <param name="e">the event args</param>
-    void AutoRefreshTimerElapsed(object sender, ElapsedEventArgs e)
-    {
-        if(SelectedStatus == FileStatus.Processing)
-            _ = Refresh(false);
-    }
-        
-
-    /// <summary>
-    /// Refreshes the page
-    /// </summary>
-    /// <param name="showBlocker">if the blocker should be shown or not</param>
-    public override async Task Refresh(bool showBlocker = true)
-    {
-        AutoRefreshTimer?.Stop();
-        try
+        Libraries = feService.Library.LibraryList;
+        optionsLibraries = Libraries.OrderBy(x => x.Value.ToLowerInvariant()).Select(x => new DropDownOption()
         {
-            await base.Refresh(showBlocker);
-        }
-        finally
-        {
-            AutoRefreshTimer?.Start();
-        }
-    }
+            Icon = "fas fa-folder",
+            Value = x.Key,
+            Label = x.Value
+        }).ToList();
 
-    /// <summary>
-    /// Disposes of the component
-    /// </summary>
-    public void Dispose()
-    {
-        if (AutoRefreshTimer != null)
+        Flows = feService.Flow.FlowList;
+        optionsFlows = Flows.OrderBy(x => x.Value.ToLowerInvariant()).Select(x => new DropDownOption()
         {
-            AutoRefreshTimer.Stop();
-            AutoRefreshTimer.Elapsed -= AutoRefreshTimerElapsed!;
-            AutoRefreshTimer.Dispose();
-            AutoRefreshTimer = null;
-        }
+            Icon = "fas fa-sitemap",
+            Value = x.Key,
+            Label = x.Value
+        }).ToList();
+
+        RefreshStatus(feService.Files.LibraryFileCounts);
     }
 
     private Task<RequestResult<List<LibraryStatus>>> GetStatus() => HttpHelper.Get<List<LibraryStatus>>(ApiUrl + "/status");
 
-    /// <summary>
-    /// Refreshes the top status bar
-    /// This is needed when deleting items, as the list will not be refreshed, just items removed from it
-    /// </summary>
-    /// <returns></returns>
-    private async Task RefreshStatus()
-    {
-        var result = await GetStatus();
-        if (result.Success)
-            RefreshStatus(result.Data.ToList());
-    }
     
     private void RefreshStatus(List<LibraryStatus> data)
     {
@@ -263,7 +217,7 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
        }
 
        foreach (var s in data)
-           s.Name = Translater.Instant("Enums.FileStatus." + s.Status.ToString());
+           s.Name = Translater.Instant("Enums.FileStatus." + s.Status);
 
        var sbItems = new List<FlowSkyBoxItem<FileStatus>>();
        foreach (var status in data.OrderBy(x =>
@@ -299,9 +253,23 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
            });
         }
 
-        Skybox.SetItems(sbItems, SelectedStatus);
-        this.Count = sbItems.Where(x => x.Value == SelectedStatus).Select(x => x.Count).FirstOrDefault();
-        this.StateHasChanged();
+       if (Skybox == null)
+       {
+           _ = Task.Run(async () =>
+           {
+               await WaitForRender();
+               Skybox.SetItems(sbItems, SelectedStatus);
+               Count = sbItems.Where(x => x.Value == SelectedStatus).Select(x => x.Count).FirstOrDefault();
+               StateHasChanged();
+           });
+       }
+       else
+       {
+           Skybox.SetItems(sbItems, SelectedStatus);
+           Count = sbItems.Where(x => x.Value == SelectedStatus).Select(x => x.Count).FirstOrDefault();
+           StateHasChanged();
+           
+       }
     }
 
     // /// <summary>
@@ -314,7 +282,7 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
     //         this.StateHasChanged();
     // }
 
-    public override async Task<bool> Edit(LibaryFileListModel item)
+    public override async Task<bool> Edit(LibraryFileListModel item)
     {
         await Helpers.LibraryFileEditor.Open(Blocker, Editor, item.Uid, Profile, feService);
         return false;
@@ -404,13 +372,13 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
     }
 
     /// <inheritdoc />
-    protected override async Task<RequestResult<List<LibaryFileListModel>>> FetchData()
+    protected override async Task<RequestResult<List<LibraryFileListModel>>> FetchData()
     {
         var request = await HttpHelper.Get<LibraryFileDatalistModel>(FetchUrl);
 
         if (request.Success == false)
         {
-            return new RequestResult<List<LibaryFileListModel>>
+            return new RequestResult<List<LibraryFileListModel>>
             {
                 Body = request.Body,
                 Success = request.Success
@@ -432,7 +400,7 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
             this.TotalItems = status?.Count ?? 0;
         }
         
-        var result = new RequestResult<List<LibaryFileListModel>>
+        var result = new RequestResult<List<LibraryFileListModel>>
         {
             Body = request.Body,
             Success = request.Success,
@@ -488,7 +456,7 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
     /// Sets the table data, virtual so a filter can be set if needed
     /// </summary>
     /// <param name="data">the data to set</param>
-    protected override void SetTableData(List<LibaryFileListModel> data)
+    protected override void SetTableData(List<LibraryFileListModel> data)
     {
         if(string.IsNullOrWhiteSpace(this.filter) || SelectedStatus  != filterStatus)
             Table.SetData(data);
@@ -688,6 +656,7 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
         SelectedSortBy = sortBy as FilesSortBy?;
         _ = Refresh();
     }
+    
     /// <summary>
     /// Sets the selected library
     /// </summary>
@@ -745,17 +714,6 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
     {
         var nodes = Nodes.ToDictionary(x => x.Value.Uid, x => x.Value.Name);
         var result = await AddDialog.Show(Blocker, Flows, nodes);
-        // if (result.Files?.Any() != true)
-        //     return;
-        // Blocker.Show();
-        // try
-        // {
-        //     await HttpHelper.Post(ApiUrl + $"/manually-add", result);
-        // }
-        // finally
-        // {
-        //     Blocker.Hide();
-        // }
         if(result)
             await Refresh();
     }

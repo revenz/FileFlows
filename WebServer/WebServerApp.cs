@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using System.Runtime.InteropServices;
 using FileFlows.NodeClient;
+using FileFlows.Services.FileProcessing;
 using FileFlows.Services.Interfaces;
 using FileFlows.WebServer.Filters;
 using FileFlows.WebServer.Hubs;

@@ -109,6 +109,12 @@ public class InitialClientData
     public List<LibraryFileMinimal> TopSavings31Days { get; set; }
     
     /// <summary>
+    /// Gets or sets the file counts
+    /// </summary>
+    [JsonPropertyName("fc")]
+    public  List<LibraryStatus> LibraryFileCounts { get; set; }
+    
+    /// <summary>
     /// Gets or sets all the flow elements in the system
     /// </summary>
     [JsonPropertyName("fe")]

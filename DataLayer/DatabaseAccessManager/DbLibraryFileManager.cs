@@ -1660,6 +1660,27 @@ end ");
     #endregion
     
     #region get overview
+    
+    /// <summary>
+    /// Gets status for every file in the system
+    /// </summary>
+    /// <returns>status for every file in the system</returns>
+    public async Task<Dictionary<Guid, FileStatus>> GetFileStatuses()
+    {
+        if (UseCache)
+            return Cache.Values.ToDictionary(x => x.Uid, x=>x.Status);
+        
+        string sql = @$"select 
+{Wrap(nameof(LibraryFile.Uid))},
+{Wrap(nameof(LibraryFile.Status))} 
+from {Wrap(nameof(LibraryFile))} 
+";
+
+        using var db = await DbConnector.GetDb();
+        var statuses = await db.Db.FetchAsync<(Guid, FileStatus)>(sql);
+        return statuses.ToDictionary(x => x.Item1, x => x.Item2);
+    }
+    
     /// <summary>
     /// Gets the library status overview
     /// </summary>

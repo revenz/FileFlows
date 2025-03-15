@@ -310,4 +310,11 @@ public class LibraryFileManager
     /// <param name="auditDetails">the audit details</param>
     public async Task DeleteTags(Guid[] uids, AuditDetails auditDetails)
         => await DatabaseAccessManager.Instance.LibraryFileManager.DeleteTags(uids, auditDetails);
+
+    /// <summary>
+    /// Gets status for every file in the system
+    /// </summary>
+    /// <returns>status for every file in the system</returns>
+    public async Task<Dictionary<Guid, FileStatus>> GetFileStatuses()
+        => await DatabaseAccessManager.Instance.LibraryFileManager.GetFileStatuses();
 }

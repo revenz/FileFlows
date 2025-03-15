@@ -3,7 +3,8 @@ namespace FileFlows.Client.Services.Frontend.Handlers;
 /// <summary>
 /// Handler for files
 /// </summary>
-public class FileHandler
+/// <param name="feService">the frontend service</param>
+public class FileHandler(FrontendService feService)
 {
     /// <summary>
     /// Gets the upcoming files to process
@@ -25,6 +26,16 @@ public class FileHandler
     /// Gets or sets the top savings for the last 31 days
     /// </summary>
     public List<LibraryFileMinimal> TopSavings31Days { get; private set; }
+    
+    /// <summary>
+    /// Gets or sets the file counts
+    /// </summary>
+    public List<LibraryStatus> LibraryFileCounts { get; set; }
+    
+    /// <summary>
+    /// Event raised when the node status is updated
+    /// </summary>
+    public event Action<List<LibraryStatus>> LibraryFileCountsUpdated; 
 
     /// <summary>
     /// Initializes the handler
@@ -37,5 +48,12 @@ public class FileHandler
         FailedFiles = data.FailedFiles;
         TopSavingsAll = data.TopSavingsAll;
         TopSavings31Days = data.TopSavings31Days;
+        LibraryFileCounts = data.LibraryFileCounts;
+        
+        feService.Registry.Register<List<LibraryStatus>>(nameof(LibraryFileCounts), (ed) =>
+        {
+            LibraryFileCounts = ed;
+            LibraryFileCountsUpdated?.Invoke(ed);
+        });
     }
 }

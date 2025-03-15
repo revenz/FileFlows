@@ -31,7 +31,7 @@ public partial class ReprocessDialog : VisibleEscapableComponent
     /// <summary>
     /// Gets or sets the files to reprocess
     /// </summary>
-    private List<LibaryFileListModel> Files { get; set; }
+    private List<LibraryFileListModel> Files { get; set; }
     /// <summary>
     /// Gets or sets the Node to run against
     /// </summary>
@@ -110,7 +110,7 @@ public partial class ReprocessDialog : VisibleEscapableComponent
     /// <param name="files">the files to reprocessed</param>
     /// <param name="processOptionsMode">if this is in the process options mode for unprocessed files</param>
     /// <returns>the task to await</returns>
-    public Task<bool> Show(Dictionary<Guid, string> flows, Dictionary<Guid, string> nodes, List<LibaryFileListModel> files, bool processOptionsMode = false)
+    public Task<bool> Show(Dictionary<Guid, string> flows, Dictionary<Guid, string> nodes, List<LibraryFileListModel> files, bool processOptionsMode = false)
     {
         ProcessOptionsMode = processOptionsMode;
         lblDescription = processOptionsMode ? lblProcessOptionsDescription : lblReprocessDescription;
