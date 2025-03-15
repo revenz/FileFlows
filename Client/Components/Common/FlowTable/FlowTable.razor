@@ -107,7 +107,7 @@
                 <div class="flowtable-row flowtable-header-row">
                     @if (Selection != SelectionMode.None)
                     {
-                        <label class="flowtable-select" style="width:2rem;min-width:2rem;max-width:2rem">
+                        <label class="flowtable-select" style="width:2rem;min-width:2rem;max-width:2rem;margin: 0 0 1em 0;">
                             <input type="checkbox" @onchange="(e) => SelectAll(e)" checked="@(DisplayData.Any(i => SelectedItems != null && SelectedItems.Contains(i.Key)))"/>
                         </label>
                     }

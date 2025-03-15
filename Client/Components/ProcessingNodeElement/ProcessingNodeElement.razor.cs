@@ -62,4 +62,16 @@ public partial class ProcessingNodeElement : ComponentBase
             return "svg:linux";
         return "fas fa-desktop";
     }
+
+    /// <summary>
+    /// Called when the enable state changes
+    /// </summary>
+    /// <param name="state">the new state</param>
+    private void EnableChanged(bool state)
+    {
+        if(Node.Enabled == state)
+            return;
+        Node.Enabled = state;
+        _ = HttpHelper.Put<ProcessingNode>($"/api/node/state/{Node.Uid}?enable={state}");
+    }
 }

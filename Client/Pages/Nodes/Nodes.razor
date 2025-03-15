@@ -5,11 +5,6 @@
 
 @page "/nodes"
 
-@{
-    // string lowestColor = "#ea0000"; // Red
-    // string highestColor = "#00ca00"; // Green
-}
-
 <PageView ClassName="flex" Title="@lblTitle" Icon="fas fa-desktop">
 
     <Head>
@@ -41,90 +36,9 @@
                     @Globals.lblName
                 </Header>
                 <Cell Context="item">
-
                     <ProcessingNodeElement Node="item" ListPage="true"/>
-                    @* @{<//d *@
-                    @*     bool internalNode = item.Address == FileFlowsServer; *@
-                    @*     string statusTitle = lblRunning; *@
-                    @*     bool offline = false; *@
-                    @* *@
-                    @*     if (internalNode == false && item.IsOnline == false) *@
-                    @*     { *@
-                    @*         statusTitle = lblDisconnected; *@
-                    @*         offline = true; *@
-                    @*     } *@
-                    @* } *@
-                    @* *@
-                    @* *@
-                    @* <div class="table-item"> *@
-                    @*     <span class="icon"> *@
-                    @*         <TableItemIcon Icon="@item.Icon" DefaultIcon="@GetDefaultIcon(item)" /> *@
-                    @*         <div class="architecture @(item.Architecture is ArchitectureType.Arm32 or ArchitectureType.Arm64 ? "arm" : "")">@item.Architecture</div> *@
-                    @*     </span> *@
-                    @*     <div class="center"> *@
-                    @*         <span class="name"> *@
-                    @*             <span>@item.Name</span> *@
-                    @*         </span> *@
-                    @*         <div class="info"> *@
-                    @*             <IconValue Color="IconValueColor.Green" Icon="fas fa-running" Value="@item.FlowRunners.ToString()" Tooltip="Pages.Nodes.Fields.FlowRunners"  /> *@
-                    @*             @if (item.ProcessedFiles > 0) *@
-                    @*             { *@
-                    @*                 <IconValue Color="IconValueColor.Blue" Icon="fas fa-check" Value="@item.ProcessedFiles.ToString("#,##0")" Tooltip="Pages.Nodes.Labels.FilesProcessed" /> *@
-                    @*             } *@
-                    @*             @if (offline) *@
-                    @*             { *@
-                    @*                 <IconValue Color="IconValueColor.Red" Icon="fas fa-ethernet" Value="@statusTitle"/> *@
-                    @*             } *@
-                    @* *@
-                    @*             @if (internalNode == false && item.Status == ProcessingNodeStatus.VersionMismatch) *@
-                    @*             { *@
-                    @*                 <IconValue Color="IconValueColor.Purple" Icon="fas fa-code-branch" Value="@lblUpgradeRequired"/> *@
-                    @*             } *@
-                    @*         </div> *@
-                    @*     </div> *@
-                    @* </div> *@
                 </Cell>
             </FlowTableColumn>
-            @* <FlowTableColumn TItem="ProcessingNode" Width="8rem" MobileWidth="4rem"> *@
-            @*     <Header> *@
-            @*         @Globals.lblEnabled *@
-            @*     </Header> *@
-            @*     <Cell Context="item"> *@
-            @*         <span class="flow-switch-wrapper"> *@
-            @*             <FlowSwitch Value="@item.Enabled" ValueChanged="@(args => { Enable(args, item); })"/> *@
-            @*         </span> *@
-            @*     </Cell> *@
-            @* </FlowTableColumn> *@
-            @* <FlowTableColumn TItem="ProcessingNode" Width="8rem" MobileWidth="0" NoHeight="true"> *@
-            @*     <Header>@lblPriority</Header> *@
-            @*     <Cell Context="item"> *@
-            @*         @{ *@
-            @*             bool internalNode = item.Address == FileFlowsServer; *@
-            @*             string color; *@
-            @*             if (item.Priority <= LowestPriority) *@
-            @*             { *@
-            @*                 color = lowestColor; *@
-            @*             } *@
-            @*             else if (item.Priority >= HighestPriority) *@
-            @*             { *@
-            @*                 color = highestColor; *@
-            @*             } *@
-            @*             else *@
-            @*             { *@
-            @*                 // Interpolate between lowestColor and highestColor based on priority value *@
-            @*                 double ratio = (double)(item.Priority - LowestPriority) / (HighestPriority - LowestPriority); *@
-            @*                 int red = (int)(255 * (1 - ratio) + 255 * ratio); *@
-            @*                 int green = (int)(255 * ratio + 255 * (1 - ratio) * 0.75); // Adjusted to make more orange *@
-            @*                 int blue = 0; // Assuming no blue component for simplicity *@
-            @*                 color = $"#{red:X2}{green:X2}{blue:X2}"; *@
-            @*             } *@
-            @*         } *@
-            @*         <span class="top-right @(internalNode || VersionsAreSame(item.Version, Globals.Version) ? "" : "warning")">@item.Version</span> *@
-            @*         <div class="priority"> *@
-            @*             <span style="border-color: @color">@item.Priority</span> *@
-            @*         </div> *@
-            @*     </Cell> *@
-            @* </FlowTableColumn> *@
         </Columns>
     </FlowTable>
     </div>

@@ -56,16 +56,24 @@
                 }
             </div>
         }
-        <span class="top-right status-@(Node.Status.ToString().Kebaberize())">
+    </div>
+
+    @if (ListPage)
+    {
+        <div class="enable-switch">
+            <FlowSwitch Value="@Node.Enabled" ValueChanged="@EnableChanged" />
+        </div>
+    }
+
+    <span class="top-right status-@(Node.Status.ToString().Kebaberize())">
             @Translater.Instant("Enums.ProcessingNodeStatus." + Node.Status)
         </span>
-        @if (Node.Priority > 0)
-        {
-            <span class="priority" title="@lblPriority">@Node.Priority</span>
-        }
-        @if (Node.FlowRunners > 0)
-        {
-            <span class="runners" title="@lblRunners"><i class="fas fa-running"></i> @Node.FlowRunners</span>
-        }
-    </div>  
+    @if (Node.Priority > 0)
+    {
+        <span class="priority" title="@lblPriority">@Node.Priority</span>
+    }
+    @if (Node.FlowRunners > 0)
+    {
+        <span class="runners" title="@lblRunners"><i class="fas fa-running"></i> @Node.FlowRunners</span>
+    }
 </div>

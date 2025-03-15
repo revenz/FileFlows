@@ -1,6 +1,7 @@
 using BlazorContextMenu;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Components;
+using FileFlows.Client.Components.Common;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
@@ -15,10 +16,13 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
 
     // private NodeStatusSummary EditingItem = null;
 
-    private string lblTitle, lblInternal, lblAddress, lblRunners, lblVersion, lblDownloadNode, lblUpgradeRequired, 
-        lblUpgradeRequiredHint, lblRunning, lblDisconnected, lblPossiblyDisconnected, lblPriority;
+    private string lblTitle, lblDownloadNode;
 
-    private List<Guid> sortOrder;
+
+    /// <summary>
+    /// we only want to do the sort the first time, otherwise the list will jump around for the user
+    /// </summary>
+    private List<Guid> initialSortOrder;
      
 #if(DEBUG)
     string DownloadUrl = "http://localhost:6868/download";
@@ -33,24 +37,13 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
         lblDeleting = Translater.Instant("Labels.Deleting");
         lblRefresh = Translater.Instant("Labels.Refresh");
         lblTitle = Translater.Instant("Pages.Nodes.Title");
-        lblInternal= Translater.Instant("Pages.Nodes.Labels.Internal");
-        lblAddress = Translater.Instant("Pages.Nodes.Labels.Address");
-        lblRunners = Translater.Instant("Pages.Nodes.Labels.Runners");
-        lblVersion = Translater.Instant("Pages.Nodes.Labels.Version");
         lblDownloadNode = Translater.Instant("Pages.Nodes.Labels.DownloadNode");
-        lblUpgradeRequired = Translater.Instant("Pages.Nodes.Labels.UpgradeRequired");
-        lblUpgradeRequiredHint = Translater.Instant("Pages.Nodes.Labels.UpgradeRequiredHint");
-        lblPriority = Translater.Instant("Pages.ProcessingNode.Fields.Priority");
-
-        lblRunning = Translater.Instant("Labels.Running");
-        lblPossiblyDisconnected = Translater.Instant("Pages.Nodes.Labels.PossiblyDisconnected");
-        lblDisconnected = Translater.Instant("Pages.Nodes.Labels.Disconnected");
 
         Data = feService.Node.NodeStatusSummaries.OrderBy(x => x.Enabled ? 0 : 1)
             .ThenByDescending(x => x.Priority)
             .ThenBy(x => x.Name.ToLowerInvariant())
             .ToList();
-        sortOrder = Data.Select(x => x.Uid).ToList();
+        initialSortOrder = Data.Select(x => x.Uid).ToList();
         feService.Node.NodeStatusUpdated += NodeOnNodeStatusUpdated;
     }
 
@@ -63,57 +56,32 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
     {
         Data = obj.OrderBy(x =>
             {
-                int index = sortOrder.IndexOf(x.Uid);
+                int index = initialSortOrder.IndexOf(x.Uid);
                 return index >= 0 ? index : int.MaxValue;
             }).ThenBy(x => x.Enabled ? 0 : 1)
             .ThenByDescending(x => x.Priority)
             .ThenBy(x => x.Name.ToLowerInvariant())
             .ToList();
         StateHasChanged();
+        Table?.TriggerStateHasChanged();
     }
 
-    public override Task Refresh(bool showBlocker = true)
-    {
-        return Task.CompletedTask;
-    }
+    // public override Task Refresh(bool showBlocker = true)
+    // {
+    //     return Task.CompletedTask;
+    // }
 
-    /// <summary>
-    /// we only want to do the sort the first time, otherwise the list will jump around for the user
-    /// </summary>
-    private List<Guid> initialSortOrder;
-
-    /// <summary>
-    /// The highest and lowest priorities in the data
-    /// </summary>
-    private int HighestPriority, LowestPriority;
-    
     /// <inheritdoc />
-    public override Task PostLoad()
+    protected override void OnAfterRender(bool firstRender)
     {
-        var serverNode = this.Data?.Where(x => x.Address == FileFlowsServer).FirstOrDefault();
-        HighestPriority = Data?.Max(x => x.Priority) ?? 0;
-        LowestPriority = Data?.Min(x => x.Priority) ?? 0;
-        if(serverNode != null)
-        {
-            serverNode.Name = Translater.Instant("Pages.Nodes.Labels.FileFlowsServer");                
-        }
-
-        if (initialSortOrder == null)
-        {
-            Data = Data?.OrderByDescending(x => x.Enabled)?.ThenByDescending(x => x.Priority).ThenBy(x => x.Name)
-                ?.ToList();
-            initialSortOrder = Data?.Select(x => x.Uid)?.ToList();
-        }
-        else
-        {
-            Data = Data?.OrderBy(x => initialSortOrder.Contains(x.Uid) ? initialSortOrder.IndexOf(x.Uid) : 1000000)
-                .ThenByDescending(x => x.Priority).ThenBy(x => x.Name)
-                ?.ToList();
-        }
-
-        return base.PostLoad();
+        base.OnAfterRender(firstRender);
+        
+        // fixes an issue with the table column heade rnot shown
+        if(firstRender)
+            Table.TriggerStateHasChanged();
+        
     }
-    
+
     /// <summary>
     /// Opens the help page
     /// </summary>
@@ -203,45 +171,6 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
             Blocker.Hide();
             this.StateHasChanged();
         }
-    }
-
-    /// <summary>
-    /// Checks if two versions are the same
-    /// </summary>
-    /// <param name="versionA">the first version</param>
-    /// <param name="versionB">the second version</param>
-    /// <returns>true if same, otherwise false</returns>
-    private bool VersionsAreSame(string versionA, string versionB)
-    {
-        if (versionA == versionB)
-            return true;
-        if(versionA == null || versionB == null)
-            return false;
-        if (string.Equals(versionA, versionB, StringComparison.InvariantCultureIgnoreCase))
-            return true;
-        if (Version.TryParse(versionA, out var va) == false)
-            return false;
-        if (Version.TryParse(versionB, out var vb) == false)
-            return false;
-        return va == vb;
-    }
-
-    /// <summary>
-    /// Gets the default icon for a node
-    /// </summary>
-    /// <param name="node">the node</param>
-    /// <returns>the default icon</returns>
-    private string GetDefaultIcon(ProcessingNode node)
-    {
-        if (node.OperatingSystem == OperatingSystemType.Mac)
-            return "svg:apple";
-        if (node.OperatingSystem == OperatingSystemType.Docker)
-            return "svg:docker";
-        if (node.OperatingSystem == OperatingSystemType.Windows)
-            return "svg:windows";
-        if (node.OperatingSystem == OperatingSystemType.Linux)
-            return "svg:linux";
-        return "fas fa-desktop";
     }
 
     /// <summary>

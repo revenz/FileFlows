@@ -108,5 +108,10 @@
 .list-page-item .hardware-info-item {
   padding: 0 !important;
 }
+.list-page-item .enable-switch {
+  align-self: center;
+  padding-top: 2rem;
+  padding-right: 3rem;
+}
 
 /*# sourceMappingURL=ProcessingNodeElement.razor.css.map */
