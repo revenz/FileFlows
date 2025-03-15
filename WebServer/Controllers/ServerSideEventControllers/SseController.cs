@@ -1,3 +1,4 @@
+using System.Text;
 using FileFlows.Services.SystemOverview;
 
 namespace FileFlows.WebServer.Controllers.ServerSideEventControllers;
@@ -60,6 +61,10 @@ public class SseController : Controller
     /// </summary>
     private async Task<InitialClientData> GetInitialData(HttpContext context)
     {
+        var logSummary = new StringBuilder();
+        var stopwatch = new System.Diagnostics.Stopwatch();
+
+        // Prepare all tasks
         var flowsTask = ServiceLoader.Load<FlowService>().GetAllAsync();
         var librariesTask = ServiceLoader.Load<LibraryService>().GetAllAsync();
         var executorsTask = ServiceLoader.Load<FlowRunnerService>().GetExecutors();
@@ -67,27 +72,72 @@ public class SseController : Controller
         var tagsTask = ServiceLoader.Load<TagService>().GetAllAsync();
         var profileTask = context.GetProfile();
 
-        await Task.WhenAll(flowsTask, librariesTask, executorsTask, nodeStatusesTask, tagsTask, profileTask);
+        var allTasks = new List<Task>
+        {
+            flowsTask,
+            librariesTask,
+            executorsTask,
+            nodeStatusesTask,
+            tagsTask,
+            profileTask
+        };
 
+        // Log the start time for all tasks
+        foreach (var task in allTasks)
+        {
+            logSummary.AppendLine($"Started {task.GetType().Name} at {DateTime.UtcNow}");
+        }
+
+        var completedTasks = new List<Task>();
+
+        // Process tasks as they complete
+        while (completedTasks.Count < allTasks.Count)
+        {
+            // Wait for any task to complete
+            var completedTask = await Task.WhenAny(allTasks);
+
+            // Measure the time taken for this completed task
+            stopwatch.Restart();
+            await completedTask; // Ensure the task is finished and results are available
+
+            logSummary.AppendLine(
+                $"{completedTask.GetType().Name} completed at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
+
+            completedTasks.Add(completedTask); // Track that this task is completed
+        }
+
+        // After all tasks have completed, now perform the remaining logic
         var profile = profileTask.Result;
         if (profile == null)
             throw new Exception("User is not logged in");
-        
+
+        stopwatch.Restart();
         var lang = await ServiceLoader.Load<LanguageService>().GetLanguageJson(profile.Language);
-        
+        logSummary.AppendLine(
+            $"Completed GetLanguageJson (LanguageService) at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
+
+        stopwatch.Restart();
         var storageSavedMonth = new StatisticService().GetStorageSaved(Globals.STAT_STORAGE_SAVED_MONTH);
         var storageSavedTotal = new StatisticService().GetStorageSaved(Globals.STAT_STORAGE_SAVED);
-        
+        logSummary.AppendLine(
+            $"Completed GetStorageSaved (StatisticService) at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
+
+        stopwatch.Restart();
         var service = ServiceLoader.Load<SystemOverviewService>();
         var failed = service.GetFailedFiles();
-        var successful  = service.GetRecentlyFinishedFiles();
+        var successful = service.GetRecentlyFinishedFiles();
         var upcoming = service.GetUpcomingFiles();
+        logSummary.AppendLine(
+            $"Completed SystemOverviewService calls at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
 
+        stopwatch.Restart();
         var savingsService = ServiceLoader.Load<SavingsService>();
-        var savings31  = savingsService.GetLast31DaysData();
+        var savings31 = savingsService.GetLast31DaysData();
         var savingsAll = savingsService.GetOverallData();
-            
-        return new InitialClientData
+        logSummary.AppendLine(
+            $"Completed SavingsService calls at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
+
+        var result = new InitialClientData
         {
             Profile = profile,
             LanguageJson = lang,
@@ -109,5 +159,10 @@ public class SseController : Controller
                 .OrderBy(x => x.Name.ToLowerInvariant())
                 .ToList()
         };
+
+        // Log summary to Logger.Instance
+        Logger.Instance.ILog($"Task Execution Summary:\n{logSummary.ToString()}");
+
+        return result;
     }
 }
