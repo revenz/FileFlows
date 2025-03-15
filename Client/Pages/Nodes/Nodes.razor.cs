@@ -15,7 +15,7 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
 
     // private NodeStatusSummary EditingItem = null;
 
-    private string lblInternal, lblAddress, lblRunners, lblVersion, lblDownloadNode, lblUpgradeRequired, 
+    private string lblTitle, lblInternal, lblAddress, lblRunners, lblVersion, lblDownloadNode, lblUpgradeRequired, 
         lblUpgradeRequiredHint, lblRunning, lblDisconnected, lblPossiblyDisconnected, lblPriority;
 
     private List<Guid> sortOrder;
@@ -32,6 +32,7 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
         lblDelete = Translater.Instant("Labels.Delete");
         lblDeleting = Translater.Instant("Labels.Deleting");
         lblRefresh = Translater.Instant("Labels.Refresh");
+        lblTitle = Translater.Instant("Pages.Nodes.Title");
         lblInternal= Translater.Instant("Pages.Nodes.Labels.Internal");
         lblAddress = Translater.Instant("Pages.Nodes.Labels.Address");
         lblRunners = Translater.Instant("Pages.Nodes.Labels.Runners");
