@@ -90,6 +90,18 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     }
 
     /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        lblAdd = Translater.Instant("Labels.Add");
+        lblEdit = Translater.Instant("Labels.Edit");
+        lblDelete = Translater.Instant("Labels.Delete");
+        lblDeleting = Translater.Instant("Labels.Deleting");
+        lblRefresh = Translater.Instant("Labels.Refresh");
+        // do not call base here! we dont want to load the data via a call
+        // we load the initial data from the upcoming files
+    }
+
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -189,11 +201,10 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
             Label = x.Value
         }).ToList();
 
-        
+        Data = feService.Files.UpcomingFiles;
         RefreshStatus(feService.Files.LibraryFileCounts);
-        SetTableData(feService.Files.UpcomingFiles);
     }
-
+    
     private void RefreshStatus(List<LibraryStatus> data)
     {
        var order = new List<FileStatus> { FileStatus.Unprocessed, FileStatus.OutOfSchedule, FileStatus.Processing, FileStatus.Processed, FileStatus.FlowNotFound, FileStatus.ProcessingFailed };
@@ -270,6 +281,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     /// <inheritdoc />
     protected override async Task<RequestResult<List<LibraryFileMinimal>>> FetchData()
     {
+        
         var request = await HttpHelper.Get<List<LibraryFileMinimal>>(FetchUrl);
 
         if (request.Success == false)
