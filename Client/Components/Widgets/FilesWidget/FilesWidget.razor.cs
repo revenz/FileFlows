@@ -200,7 +200,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     /// <param name="file">the file</param>
     private void OpenFile(LibraryFileMinimal file)
-        => _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile);
+        => _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile, feService);
     
     /// <summary>
     /// Disposes of the component

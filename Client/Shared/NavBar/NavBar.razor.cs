@@ -25,9 +25,9 @@ public partial class NavBar
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
     /// <summary>
-    /// Gets or sets teh client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] private ClientService ClientService { get; set; }
+    [Inject] private FrontendService feService { get; set; }
     
     
     private List<NavBarItem> MenuItems = new ();
@@ -52,10 +52,6 @@ public partial class NavBar
     /// Gets or sets the profile service
     /// </summary>
     [Inject] private ProfileService ProfileService { get; set; }
-    /// <summary>
-    /// Gets or sets the frontend service
-    /// </summary>
-    [Inject] FrontendService feService { get; set; }
 
     private List<NavMenuItem> UserMenu = new();
     /// <summary>

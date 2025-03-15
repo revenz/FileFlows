@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Inputs;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.JSInterop;
 
@@ -20,10 +21,10 @@ public class LibraryFileEditor
         return await HttpHelper.Get<string>(url);
     }
 
-    public static async Task Open(Blocker blocker, Editor editor, Guid libraryItemUid, Profile profile)
+    public static async Task Open(Blocker blocker, Editor editor, Guid libraryItemUid, Profile profile, FrontendService feService)
     {
         LibraryFileModel? model = null;
-        Tags = await App.Instance.ClientService.GetTags();
+        Tags = feService.Dashboard.Tags;
         foreach(var tag in Tags)
             Logger.Instance.ILog("Known Tag: " + tag.Name);
         string logUrl = ApIUrl + "/" + libraryItemUid + "/log";

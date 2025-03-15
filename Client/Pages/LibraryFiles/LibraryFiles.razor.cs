@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 
 namespace FileFlows.Client.Pages;
@@ -20,11 +21,6 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
     public override string ApiUrl => "/api/library-file";
     [Inject] private INavigationService NavigationService { get; set; }
     [Inject] private FFLocalStorageService LocalStorage { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the client service
-    /// </summary>
-    [Inject] private ClientService ClientService { get; set; }
     
     /// <summary>
     /// Gets or sets the JavaScript runtime
@@ -132,7 +128,7 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
 
         if (Profile.LicenseLevel != FileFlows.Common.LicenseLevel.Free)
         {
-            optionsTags = (await ClientService.GetTags()).Select(x => new DropDownOption()
+            optionsTags = feService.Dashboard.Tags.Select(x => new DropDownOption()
             {
                 Icon = x.Icon?.EmptyAsNull() ?? "fas fa-tag",
                 Value = x.Uid,
@@ -308,19 +304,19 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
         this.StateHasChanged();
     }
 
-    /// <summary>
-    /// Refreshes the worker status
-    /// </summary>
-    private async Task RefreshWorkerStatus()
-    {
-        this.WorkerStatus = await ClientService.GetExecutorInfo();
-        if(this.SelectedStatus == FileStatus.Processing)
-            this.StateHasChanged();
-    }
+    // /// <summary>
+    // /// Refreshes the worker status
+    // /// </summary>
+    // private async Task RefreshWorkerStatus()
+    // {
+    //     this.WorkerStatus = await ClientService.GetExecutorInfo();
+    //     if(this.SelectedStatus == FileStatus.Processing)
+    //         this.StateHasChanged();
+    // }
 
     public override async Task<bool> Edit(LibaryFileListModel item)
     {
-        await Helpers.LibraryFileEditor.Open(Blocker, Editor, item.Uid, Profile);
+        await Helpers.LibraryFileEditor.Open(Blocker, Editor, item.Uid, Profile, feService);
         return false;
     }
 
@@ -421,8 +417,8 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
             };
         }
 
-        await RefreshWorkerStatus();
-        RefreshStatus(request.Data?.Status?.ToList() ?? new List<LibraryStatus>());
+        // await RefreshWorkerStatus();
+        // RefreshStatus(request.Data?.Status?.ToList() ?? new List<LibraryStatus>());
 
         if (request.Headers.ContainsKey("x-total-items") &&
             int.TryParse(request.Headers["x-total-items"], out int totalItems))

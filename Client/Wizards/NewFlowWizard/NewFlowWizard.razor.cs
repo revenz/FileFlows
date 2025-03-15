@@ -11,7 +11,10 @@ namespace FileFlows.Client.Wizards;
 /// </summary>
 public partial class NewFlowWizard : IModal
 {
-    
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
     /// <summary>
     /// Gets or sets the navigation manager used
     /// </summary>
@@ -78,10 +81,8 @@ public partial class NewFlowWizard : IModal
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
-    { 
-        var elementsResult = await HttpHelper.Get<FlowElement[]>("/api/flow/elements");
-        if (elementsResult.Success)
-            AvailableElements = elementsResult.Data.ToDictionary(x => x.Uid);
+    {
+        AvailableElements =  feService.Flow.FlowElements.ToDictionary(x => x.Uid);
 
         if (Options is NewFlowWizardOptions options)
         {

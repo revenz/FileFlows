@@ -1,6 +1,7 @@
 using System.Text.Json;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Inputs;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
@@ -24,9 +25,9 @@ public partial class Report : ComponentBase
     [Inject] public NavigationManager NavigationManager { get; set; }
     
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets or sets the blocker
@@ -150,7 +151,7 @@ public partial class Report : ComponentBase
             var nodesResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/node/basic-list");
             var nodes = nodesResult.Success ? nodesResult.Data ?? new() : new();
 
-            var tags = (await ClientService.GetTags()).ToDictionary(x => x.Uid, x => x.Name);
+            var tags = feService.Dashboard.Tags.ToDictionary(x => x.Uid, x => x.Name);
 
             if (rd.DefaultReportPeriod != null)
             {

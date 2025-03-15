@@ -1,4 +1,6 @@
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Services.Frontend;
+
 namespace FileFlows.Client.Services;
 /// <summary>
 /// Represents the method that handles the PausedLabelChanged event.
@@ -78,20 +80,17 @@ public class PausedService : IPausedService, IDisposable
     public bool IsPaused => SystemInfo?.IsPaused == true;
 
     private bool translated = false;
-    private ClientService clientService;
+    private FrontendService feService;
     /// <summary>
     /// Constructs an instance of the paused worker
     /// </summary>
-    public PausedService(ClientService clientService)
+    public PausedService(FrontendService feService)
     {
-        this.clientService = clientService;
+        this.feService = feService;
         var bkgTask = new BackgroundTask(TimeSpan.FromMilliseconds(1_000), () => _ = DoWork());
         bkgTask.Start();
-        SystemInfo = new SystemInfo()
-        {
-            IsPaused = clientService.IsPaused == true
-        };
-        clientService.SystemInfoUpdated += OnSystemInfoUpdated;
+        SystemInfo = feService.Dashboard.CurrentSystemInfo;
+        feService.Dashboard.SystemInfoUpdated += OnSystemInfoUpdated;
         
         // translated a little later on
         lblPause = "Pause Processing";
@@ -214,6 +213,6 @@ public class PausedService : IPausedService, IDisposable
     /// </summary>
     public void Dispose()
     {
-        clientService.SystemInfoUpdated -= OnSystemInfoUpdated;
+        feService.Dashboard.SystemInfoUpdated -= OnSystemInfoUpdated;
     }
 }

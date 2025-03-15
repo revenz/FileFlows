@@ -83,12 +83,6 @@ public partial class App : ComponentBase
     /// </summary>
     public bool NavMenuCollapsed { get; set; }
 
-    
-    /// <summary>
-    /// Gest the client service that can be used by helper methods like LibraryFileEditor
-    /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
-
     //
     // /// <summary>
     // /// Loads the language files from the server

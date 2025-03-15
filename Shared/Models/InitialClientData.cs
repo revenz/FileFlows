@@ -107,4 +107,10 @@ public class InitialClientData
     /// </summary>
     [JsonPropertyName("ts31")]
     public List<LibraryFileMinimal> TopSavings31Days { get; set; }
+    
+    /// <summary>
+    /// Gets or sets all the flow elements in the system
+    /// </summary>
+    [JsonPropertyName("fe")]
+    public List<FlowElement> FlowElements { get; set; }
 }

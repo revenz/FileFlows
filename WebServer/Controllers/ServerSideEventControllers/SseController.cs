@@ -70,6 +70,7 @@ public class SseController : Controller
         var executorsTask = ServiceLoader.Load<FlowRunnerService>().GetExecutors();
         var nodeStatusesTask = ServiceLoader.Load<NodeService>().GetStatusSummaries();
         var tagsTask = ServiceLoader.Load<TagService>().GetAllAsync();
+        var flowElementsTask = FlowController.GetFlowElements(Guid.Empty, null);
         var profileTask = context.GetProfile();
 
         var allTasks = new List<Task>
@@ -79,7 +80,8 @@ public class SseController : Controller
             executorsTask,
             nodeStatusesTask,
             tagsTask,
-            profileTask
+            profileTask,
+            flowElementsTask
         };
 
         // Log the start time for all tasks
@@ -155,6 +157,7 @@ public class SseController : Controller
             UpcomingFiles = upcoming.Select(x => (LibraryFileMinimal)x).ToList(),
             TopSavingsAll = savingsAll,
             TopSavings31Days = savings31,
+            FlowElements = flowElementsTask.Result.ToList(),
             Tags = (tagsTask.Result ?? Enumerable.Empty<Tag>())
                 .OrderBy(x => x.Name.ToLowerInvariant())
                 .ToList()

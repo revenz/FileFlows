@@ -233,7 +233,7 @@ public partial class Flow : ComponentBase, IDisposable
         StateHasChanged();
         try
         {
-            await LoadFlowElements();
+            LoadFlowElements();
             
             if (Uid == Guid.Empty)
             {
@@ -316,14 +316,9 @@ public partial class Flow : ComponentBase, IDisposable
         }
     }
 
-    private async Task LoadFlowElements()
+    private void LoadFlowElements()
     {
-        var elementsResult =
-            await GetElements(API_URL + "/elements"); //"?type=" + (int)_FlowType + "&flowUid=" + modelUid);
-        if (elementsResult.Success == false)
-            return;
-
-        Available = elementsResult.Data;
+        Available = feService.Flow.FlowElements.ToArray();
     }
 
     private async Task UpdateFlowElementLists()
@@ -1098,7 +1093,7 @@ public partial class Flow : ComponentBase, IDisposable
         AvailableScripts = null;
         //StateHasChanged();
 
-        await LoadFlowElements();
+        //await LoadFlowElements();
         await InitializeFlowElements();
         await UpdateFlowElementLists();
         StateHasChanged();
@@ -1117,7 +1112,7 @@ public partial class Flow : ComponentBase, IDisposable
         AvailableSubFlows = null;
         //StateHasChanged();
 
-        await LoadFlowElements();
+        //await LoadFlowElements();
         await InitializeFlowElements();
         await UpdateFlowElementLists();
         StateHasChanged();
@@ -1182,7 +1177,7 @@ public partial class Flow : ComponentBase, IDisposable
                 if (model.Type == FlowType.SubFlow)
                 {
                     // need to refresh the sub flows as their options may have changed
-                    await LoadFlowElements();
+                   // await LoadFlowElements();
                 }
             }
             else

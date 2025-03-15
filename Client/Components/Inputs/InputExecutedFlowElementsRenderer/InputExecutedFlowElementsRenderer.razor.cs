@@ -1,5 +1,6 @@
 using System.Text.Json;
 using FileFlows.Client.Pages;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -18,9 +19,9 @@ public partial class InputExecutedFlowElementsRenderer : ExecuteFlowElementView,
     [Parameter] public ExpandoObject Model { get; set; }
     
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] private ClientService ClientService { get; set; }
+    [Inject] private FrontendService feService { get; set; }
     
     private List<ExecutedNode> ExecutedNodes = [];
     private List<FlowElement> FlowElements = [];
@@ -54,7 +55,7 @@ public partial class InputExecutedFlowElementsRenderer : ExecuteFlowElementView,
             ExecutedNodes = jsonElement.Deserialize<List<ExecutedNode>>();
         else if(oExecutedNodes is List<ExecutedNode> list)
             ExecutedNodes = list;
-        FlowElements = await ClientService.GetAllFlowElements();
+        FlowElements = feService.Flow.FlowElements;
 
         var dotNetObjRef = DotNetObjectReference.Create(this);
         var js = await jsRuntime.InvokeAsync<IJSObjectReference>("import",

@@ -10,10 +10,6 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class CpuRamWidget : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
-    /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
-    /// <summary>
     /// Gets or sets the front end service
     /// </summary>
     [Inject] public FrontendService feService { get; set; }

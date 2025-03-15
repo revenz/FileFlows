@@ -1,5 +1,6 @@
 using Microsoft.JSInterop;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 
@@ -19,9 +20,9 @@ public partial class NavMenu : IDisposable
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
     /// <summary>
-    /// Gets or sets teh client service
+    /// Gets or sets teh frontend service
     /// </summary>
-    [Inject] private ClientService ClientService { get; set; }
+    [Inject] private FrontendService feervice { get; set; }
     /// <summary>
     /// Gets or sets the JavaScript runtime
     /// </summary>
@@ -88,7 +89,7 @@ public partial class NavMenu : IDisposable
         
         _ = RefreshBubbles();
         
-        ClientService.FileStatusUpdated += ClientServiceOnFileStatusUpdated;
+        //feervice.Dashboard.FileOverviewDataUpdated.FileStatusUpdated += ClientServiceOnFileStatusUpdated;
         PausedService.OnPausedLabelChanged += PausedServiceOnOnPausedLabelChanged;
 
         ProfileService.OnRefresh += ProfileServiceOnOnRefresh; 

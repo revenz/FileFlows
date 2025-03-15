@@ -112,7 +112,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// </summary>
     /// <param name="runner">the runner</param>
     private async Task OpenRunner(FlowExecutorInfoMinified runner)
-        => await Helpers.LibraryFileEditor.Open(Blocker, Editor, runner.LibraryFileUid, Profile);
+        => await Helpers.LibraryFileEditor.Open(Blocker, Editor, runner.LibraryFileUid, Profile, feService);
 
     /// <summary>
     /// Toggle the expand state of a runner

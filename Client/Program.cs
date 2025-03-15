@@ -16,7 +16,6 @@ builder.Services.AddSingleton<IClipboardService, ClipboardService>();
 builder.Services.AddSingleton<ProfileService>();
 builder.Services.AddSingleton<IModalService, ModalService>();
 builder.Services.AddMemoryCache();
-builder.Services.AddSingleton<ClientService>();
 builder.Services.AddSingleton<IPausedService, PausedService>();
 builder.Services.AddBlazorContextMenu(options =>
 {

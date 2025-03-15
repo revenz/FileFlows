@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Inputs;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -14,12 +15,6 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
     /// Gets or sets the report form editor component
     /// </summary>
     private Editor ReportFormEditor { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the client service
-    /// </summary>
-    [Inject]
-    private ClientService ClientService { get; set; }
 
     /// <inheritdoc />
     public override string ApiUrl => "/api/scheduled-report";
@@ -125,7 +120,7 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
                     Value = x.Key
                 }).OrderBy(x => x.Label?.ToLowerInvariant())?.ToList() ?? [];
 
-                Tags = (await ClientService.GetTags() ?? []).Select(x => new ListOption()
+                Tags = feService.Dashboard.Tags.Select(x => new ListOption()
                 {
                     Label = x.Name,
                     Value = x.Uid

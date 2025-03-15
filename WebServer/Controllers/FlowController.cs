@@ -555,7 +555,7 @@ public class FlowController : BaseController
         // get scripts 
         var scripts = (await ServiceLoader.Load<ScriptService>().GetAll())?
             .Where(x => x.Type == ScriptType.Flow)
-            .Select(x => ScriptToFlowElement(x))
+            .Select(ScriptToFlowElement)
             .Where(x => x != null)
             .OrderBy(x => x!.Name); // can be null if failed to parse
         results.AddRange(scripts!);

@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -17,9 +18,9 @@ public partial class ExtensionUpdatesWidget : ComponentBase, IDisposable
     private const int MODE_DOCKERMODS = 2;
     
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
 
     private UpdateInfo _Data;
 
@@ -59,7 +60,8 @@ public partial class ExtensionUpdatesWidget : ComponentBase, IDisposable
         lblUpdateAll = Translater.Instant("Labels.UpdateAll");
         lblUpdate = Translater.Instant("Labels.Update");
         DataRefreshed();
-        ClientService.UpdatesUpdateInfo += OnUpdatesUpdateInfo;
+        feService.Dashboard.UpdateInfoUpdated += OnUpdatesUpdateInfo;
+        _Data = feService.Dashboard.CurrentUpdatesInfo;
         CheckMode();
     }
 
@@ -260,6 +262,6 @@ public partial class ExtensionUpdatesWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.UpdatesUpdateInfo -= OnUpdatesUpdateInfo;
+        feService.Dashboard.UpdateInfoUpdated -= OnUpdatesUpdateInfo;
     }
 }

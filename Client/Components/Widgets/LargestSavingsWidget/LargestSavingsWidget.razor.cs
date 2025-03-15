@@ -6,10 +6,6 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class LargestSavingsWidget : ComponentBase
 {
     /// <summary>
-    /// Gets or sets the client service
-    /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
-    /// <summary>
     /// Gets or sets the blocker
     /// </summary>
     [CascadingParameter] public Blocker Blocker { get; set; }
@@ -97,6 +93,6 @@ public partial class LargestSavingsWidget : ComponentBase
     /// <param name="file">the file</param>
     private void OpenFile(LibraryFileMinimal file)
     {
-        _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile);
+        _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile, feService);
     }
 }

@@ -56,6 +56,10 @@ public class FrontendService : IAsyncDisposable
     /// Gets or sets the file handler
     /// </summary>
     public FileHandler Files { get;private set; }
+    /// <summary>
+    /// Gets or sets the flow handler
+    /// </summary>
+    public FlowHandler Flow { get;private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FrontendService"/> class.
@@ -170,6 +174,8 @@ public class FrontendService : IAsyncDisposable
         Node.Initialize(data);
         Files = new();
         Files.Initialize(data);
+        Flow = new();
+        Flow.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }
