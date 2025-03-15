@@ -23,9 +23,15 @@ public partial class ConfigurationLayout : LayoutComponentBase
     /// </summary>
     [Inject] FrontendService feService { get; set; }
 
+    /// <summary>
+    /// Translations
+    /// </summary>
+    private string lblVersion;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        lblVersion = Translater.Instant("Labels.Version");
         var profile = feService.Profile.Profile;
         MenuItems = GetMenu(profile);
         try

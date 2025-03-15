@@ -9,8 +9,11 @@
   background: var(--base-darker);
   border-right: solid 1px var(--border-color);
   min-width: 17rem;
+  display: flex;
+  flex-direction: column;
 }
 .config-menu ul {
+  flex-grow: 1;
   list-style: none;
   margin: 0;
   padding: 1rem 0 0;
@@ -88,6 +91,18 @@
 }
 .nav-item a:hover {
   background-color: rgba(104, 104, 104, 0.075);
+}
+
+.version-info {
+  text-align: center;
+  padding: 1rem;
+}
+.version-info a {
+  font-weight: unset !important;
+  color: rgba(var(--color-rgb), 0.4) !important;
+}
+.version-info a:hover {
+  color: var(--accent);
 }
 
 /*# sourceMappingURL=ConfigurationLayout.razor.css.map */
