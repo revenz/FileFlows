@@ -52,23 +52,11 @@ public partial class ConfigurationLayout : LayoutComponentBase
         
         menuItems.Add(new NavMenuGroup
         {
-            Name = Translater.Instant("MenuGroups.System"),
-            Icon = "fas fa-desktop",
-            Items = new NavMenuItem[]
-            {
-                profile.IsAdmin ? new ("Pages.Settings.Title", "fas fa-cogs", "config/settings") : null,
-                profile.HasRole(UserRole.Revisions) && profile.LicensedFor(LicenseFlags.Revisions) ? new ("Pages.Revisions.Title", "fas fa-history", "config/revisions") : null,
-                profile.HasRole(UserRole.Tasks) && profile.LicensedFor(LicenseFlags.Tasks) ? new ("Pages.Tasks.Title", "fas fa-clock", "config/tasks") : null,
-                profile.HasRole(UserRole.Webhooks) && profile.LicensedFor(LicenseFlags.Webhooks) ? new ("Pages.Webhooks.Title", "fas fa-handshake", "config/webhooks") : null,
-            }.Where(x => x != null).ToList()
-        });
-        
-        menuItems.Add(new NavMenuGroup
-        {
             Name = Translater.Instant("MenuGroups.Configuration"),
             Icon = "fas fa-code-branch",
             Items = new List<NavMenuItem>
             {
+                profile.IsAdmin ? new ("Pages.Settings.Title", "fas fa-cogs", "config/settings") : null,
                 profile.HasRole(UserRole.Tags) ? new("Pages.Tags.Title", "fas fa-tags", "config/tags") : null,
                 profile.HasRole(UserRole.Variables)
                     ? new("Pages.Variables.Title", "fas fa-at", "config/variables")
@@ -94,6 +82,18 @@ public partial class ConfigurationLayout : LayoutComponentBase
                 profile.HasDockerInstances && profile.HasRole(UserRole.DockerMods)
                     ? new("Pages.DockerMod.Plural", "fab fa-docker", "config/dockermods")
                     : null,
+            }.Where(x => x != null).ToList()
+        });
+        
+        menuItems.Add(new NavMenuGroup
+        {
+            Name = Translater.Instant("MenuGroups.System"),
+            Icon = "fas fa-desktop",
+            Items = new NavMenuItem[]
+            {
+                profile.HasRole(UserRole.Revisions) && profile.LicensedFor(LicenseFlags.Revisions) ? new ("Pages.Revisions.Title", "fas fa-history", "config/revisions") : null,
+                profile.HasRole(UserRole.Tasks) && profile.LicensedFor(LicenseFlags.Tasks) ? new ("Pages.Tasks.Title", "fas fa-clock", "config/tasks") : null,
+                profile.HasRole(UserRole.Webhooks) && profile.LicensedFor(LicenseFlags.Webhooks) ? new ("Pages.Webhooks.Title", "fas fa-handshake", "config/webhooks") : null,
             }.Where(x => x != null).ToList()
         });
         
