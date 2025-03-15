@@ -150,7 +150,9 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             string error = string.Empty;
             if (debugMode)
             {
+                #if(DEBUG)
                 _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName).Result;
+                #endif
             }
             else
             {
