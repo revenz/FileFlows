@@ -69,13 +69,19 @@ public partial class CpuRamWidget : ComponentBase, IDisposable
     /// <param name="info">the system info</param>
     private void OnSystemInfoUpdated(SystemInfo info)
     {
-        CpuValue = info.CpuUsage.Last();
-        RamValue = info.MemoryUsage.Last();
-        CpuValues = info.CpuUsage.Select(x => (double)x).ToArray();
-        MemoryValues = info.MemoryUsage.Select(x => (double)x).ToArray();
-        
-        CpuMax = info.CpuUsage.Length > 0 ? info.CpuUsage.Max() : 0;
-        RamMax = info.MemoryUsage.Length > 0 ? info.MemoryUsage.Max() : 0;
+        if (info.CpuUsage.Length > 0)
+        {
+            CpuValue = info.CpuUsage.Last();
+            CpuValues = info.CpuUsage.Select(x => (double)x).ToArray();
+            CpuMax = info.CpuUsage.Max();
+        }
+
+        if (info.MemoryUsage.Length > 0)
+        {
+            RamValue = info.MemoryUsage.Last();
+            MemoryValues = info.MemoryUsage.Select(x => (double)x).ToArray();
+            RamMax = info.MemoryUsage.Max();
+        }
 
         SetValues();
 

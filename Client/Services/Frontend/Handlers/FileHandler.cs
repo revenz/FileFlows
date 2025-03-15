@@ -52,6 +52,7 @@ public class FileHandler(FrontendService feService)
         
         feService.Registry.Register<List<LibraryStatus>>(nameof(LibraryFileCounts), (ed) =>
         {
+            Logger.Instance.ILog("LibraryFileCounts", LibraryFileCounts);
             LibraryFileCounts = ed;
             LibraryFileCountsUpdated?.Invoke(ed);
         });

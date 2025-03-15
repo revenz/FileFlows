@@ -1,0 +1,20 @@
+@namespace FileFlows.Client.Components.Common
+@using Humanizer
+@typeparam TItem
+
+
+<div class="skybox v2">
+    @foreach (var item in Items)
+    {
+        <div class="skybox-item @(NoCount ? "no-count": "") @item.ClassName @(item == SelectedItem ? "active" : "") @item.Name.Dehumanize()"
+             @onclick="() => SetSelected(item)">
+            
+            <span class="icon @item.Icon"></span>
+            @if (NoCount == false)
+            {
+                <span class="count">@item.Count.ToString("N0")</span>
+            }
+            <span class="name">@item.Name</span>
+        </div>
+    }
+</div>

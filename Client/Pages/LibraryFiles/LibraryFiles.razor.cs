@@ -33,11 +33,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     /// </summary>
     private ReprocessDialog ReprocessDialog { get; set; }
 
-    /// <summary>
-    /// The skybox to select the current file status
-    /// </summary>
-    private FlowSkyBox<FileStatus> Skybox { get; set; }
-
     private FileFlows.Shared.Models.FileStatus SelectedStatus;
 
     /// <summary>
@@ -66,13 +61,12 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
 
     protected override string DeleteMessage => "Labels.DeleteLibraryFiles";
     
-    private async Task SetSelected(FlowSkyBoxItem<FileStatus> status)
+    private void OnStatusChanged(FileStatus status)
     {
-        SelectedStatus = status.Value;
+        SelectedStatus = status;
         PageIndex = 0;
         Title = lblLibraryFiles;// + ": " + status.Name;
-        await Refresh();
-        StateHasChanged();
+        _ = Refresh();
     }
 
     /// <inheritdoc />
@@ -202,70 +196,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         }).ToList();
 
         Data = feService.Files.UpcomingFiles;
-        RefreshStatus(feService.Files.LibraryFileCounts);
-    }
-    
-    private void RefreshStatus(List<LibraryStatus> data)
-    {
-       var order = new List<FileStatus> { FileStatus.Unprocessed, FileStatus.OutOfSchedule, FileStatus.Processing, FileStatus.Processed, FileStatus.FlowNotFound, FileStatus.ProcessingFailed };
-       foreach (var s in order)
-       {
-           if (data.Any(x => x.Status == s) == false && s != FileStatus.FlowNotFound)
-               data.Add(new LibraryStatus { Status = s });
-       }
-
-       foreach (var s in data)
-           s.Name = Translater.Instant("Enums.FileStatus." + s.Status);
-
-       var sbItems = new List<FlowSkyBoxItem<FileStatus>>();
-       foreach (var status in data.OrderBy(x =>
-                {
-                    int index = order.IndexOf(x.Status);
-                    return index >= 0 ? index : 100;
-                }))
-       {
-           string icon = status.Status switch
-           {
-               FileStatus.Unprocessed => "far fa-hourglass",
-               FileStatus.Disabled => "fas fa-toggle-off",
-               FileStatus.Processed => "far fa-check-circle",
-               FileStatus.Processing => "fas fa-file-medical-alt",
-               FileStatus.FlowNotFound => "fas fa-exclamation",
-               FileStatus.ProcessingFailed => "far fa-times-circle",
-               FileStatus.OutOfSchedule => "far fa-calendar-times",
-               FileStatus.Duplicate => "far fa-copy",
-               FileStatus.MappingIssue => "fas fa-map-marked-alt",
-               FileStatus.MissingLibrary => "fas fa-trash",
-               FileStatus.OnHold => "fas fa-hand-paper",
-               FileStatus.ReprocessByFlow => "fas fa-redo",
-               _ => ""
-           };
-           if (status.Status != FileStatus.Unprocessed && status.Status != FileStatus.Processing && status.Status != FileStatus.Processed && status.Count == 0)
-               continue;
-           sbItems.Add(new ()
-           {
-               Count = status.Count,
-               Icon = icon,
-               Name = status.Name,
-               Value = status.Status
-           });
-        }
-
-       if (Skybox == null)
-       {
-           _ = Task.Run(async () =>
-           {
-               await WaitForRender();
-               Skybox.SetItems(sbItems, SelectedStatus);
-               StateHasChanged();
-           });
-       }
-       else
-       {
-           Skybox.SetItems(sbItems, SelectedStatus);
-           StateHasChanged();
-           
-       }
     }
 
     // /// <summary>
@@ -301,11 +231,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         {
             Logger.Instance.ILog("### Total items from header: " + totalItems);
             this.TotalItems = totalItems;
-        }
-        else
-        {
-            var status = Skybox.SelectedItem;
-            this.TotalItems = status?.Count ?? 0;
         }
         
         var result = new RequestResult<List<LibraryFileMinimal>>

@@ -4,6 +4,7 @@
 @using FileFlows.Client.Helpers
 @inherits ListPage<Guid, LibraryFileMinimal>
 
+
 @page "/library-files"
 
 <PageView Flex="@true" Title="@Title">
@@ -14,7 +15,7 @@
 
     <Body>
 
-    <FlowSkyBox TItem="FileStatus" @ref=Skybox OnSelected=@SetSelected />
+    <LibraryFilePageTabs OnStatusChanged="OnStatusChanged"  />
 
     @if (SelectedStatus == FileStatus.MissingLibrary)
     {
@@ -30,10 +31,10 @@
         <ToolBar>
             @if (App.Instance.IsMobile == false)
             {
-                <FlowTableButton Visible="@(Skybox?.SelectedItem?.Value == FileStatus.Unprocessed)" Clicked=Add Icon="fas fa-plus" Label="Labels.Add"/>
+                <FlowTableButton Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=Add Icon="fas fa-plus" Label="Labels.Add"/>
             }
             <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-file" Label="Labels.View"/>
-            <FlowTableButton Visible="@(Skybox?.SelectedItem?.Value == FileStatus.Duplicate)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process"/>
+            <FlowTableButton Visible="@(SelectedStatus == FileStatus.Duplicate)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process"/>
             <FlowTableButton Visible="@(SelectedStatus == FileStatus.OutOfSchedule || SelectedStatus == FileStatus.Disabled)" Clicked=ForceProcessing SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process"/>
             <FlowTableButton Visible="@(SelectedStatus == FileStatus.Processing)" Clicked=Cancel SelectedOneOrMore="true" Icon="fas fa-window-close" Label="Labels.Cancel"/>
             <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Remove"/>

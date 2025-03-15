@@ -34,17 +34,18 @@ public partial class LibraryFiles
             return;
         }
 
-        int totalItems = Skybox.SelectedItem.Count;
-        if (totalItems <= args.PageSize)
+        // int totalItems = Skybox.SelectedItem.Count;
+        // if (totalItems <= args.PageSize)
+        await Task.CompletedTask;
             return;
-        this.filterStatus = this.SelectedStatus;
-        // need to filter on the server side
-        args.Handled = true;
-        args.PageIndex = 0;
-        this.PageIndex = 0;
-        this.filter = args.Text;
-        await this.Refresh();
-        this.filter = args.Text; // ensures refresh didnt change the filter
+        // this.filterStatus = this.SelectedStatus;
+        // // need to filter on the server side
+        // args.Handled = true;
+        // args.PageIndex = 0;
+        // this.PageIndex = 0;
+        // this.filter = args.Text;
+        // await this.Refresh();
+        // this.filter = args.Text; // ensures refresh didnt change the filter
     }
 
 
