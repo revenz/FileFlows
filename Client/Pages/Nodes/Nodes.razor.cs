@@ -63,7 +63,7 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
         Data = obj.OrderBy(x =>
             {
                 int index = sortOrder.IndexOf(x.Uid);
-                return index > 0 ? index : int.MaxValue;
+                return index >= 0 ? index : int.MaxValue;
             }).ThenBy(x => x.Enabled ? 0 : 1)
             .ThenByDescending(x => x.Priority)
             .ThenBy(x => x.Name.ToLowerInvariant())
