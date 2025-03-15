@@ -949,7 +949,7 @@
   },
   "MenuGroups": {
     "Admin": "Admin",
-    "Config": "",
+    "Config": "Config",
     "Configuration": "Configuration",
     "Extensions": "Extensions",
     "FileDrop": "FileDrop",

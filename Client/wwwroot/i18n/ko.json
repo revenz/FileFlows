@@ -949,7 +949,7 @@
   },
   "MenuGroups": {
     "Admin": "관리",
-    "Config": "",
+    "Config": "설정",
     "Configuration": "구성",
     "Extensions": "확장",
     "FileDrop": "FileDrop",

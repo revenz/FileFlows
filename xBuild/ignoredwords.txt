@@ -228,3 +228,4 @@ upmixing
 Lossy
 FileDrop
 afterward
+Config
