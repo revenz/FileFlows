@@ -36,7 +36,11 @@ public partial class NavBar
     public NavBarItem Active { get; private set; }
 
     private string lblVersion, lblHelp, lblReddit, lblDiscord, lblChangePassword, lblLogout;
-    
+
+    /// <summary>
+    /// Totals for the bubbles
+    /// </summary>
+    private int TotalUnprocessed, TotalFailed, TotalProcessing;
 
     /// <summary>
     /// If the user menu is opened or closed
@@ -78,6 +82,8 @@ public partial class NavBar
         BottomNavBarItems.Add(new(lblReddit, "fab fa-reddit-alien", "https://reddit.com/r/FileFlows"));
         BottomNavBarItems.Add(new(lblDiscord, "fab fa-discord", "https://fileflows.com/discord"));
         
+        FilesOnLibraryFileCountsUpdated(feService.Files.LibraryFileCounts);
+        feService.Files.LibraryFileCountsUpdated += FilesOnLibraryFileCountsUpdated;
         
         try
         {
@@ -101,6 +107,26 @@ public partial class NavBar
         {
             // ignored
         }
+    }
+
+    /// <summary>
+    /// Called when the counts were updated
+    /// </summary>
+    /// <param name="counts">the updated counts</param>
+    private void FilesOnLibraryFileCountsUpdated(List<LibraryStatus> counts)
+    {
+        int newTotalUnprocessed = counts.FirstOrDefault(x => x.Status == FileStatus.Unprocessed)?.Count ?? 0;
+        int newTotalFailed = counts.FirstOrDefault(x => x.Status == FileStatus.ProcessingFailed)?.Count ?? 0;
+        int newTotalProcessing = counts.FirstOrDefault(x => x.Status == FileStatus.Processing)?.Count ?? 0;
+
+        if (newTotalFailed == TotalFailed && newTotalProcessing == TotalUnprocessed &&
+            newTotalUnprocessed == TotalProcessing)
+            return;
+        
+        TotalUnprocessed = newTotalUnprocessed;
+        TotalFailed = newTotalFailed;
+        TotalProcessing = newTotalProcessing;
+        StateHasChanged();
     }
 
     private void ProfileServiceOnOnRefresh()

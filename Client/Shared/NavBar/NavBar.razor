@@ -25,6 +25,22 @@
                         <i class="icon @item.Icon"></i>
                         <span class="name">@item.Title</span>
                     </a>
+                    
+                    @if (item.Url == "library-files")
+                    {
+                        @if (TotalProcessing > 0)
+                        {
+                            <span class="bubble processing">@TotalProcessing</span>
+                        }
+                        else if (TotalUnprocessed > 0)
+                        {
+                            <span class="bubble unprocessed">@TotalUnprocessed</span>
+                        }
+                        else if (TotalFailed > 0)
+                        {
+                            <span class="bubble failed">@TotalFailed</span>
+                        }
+                    }
                 </li>
             }
         </ul>

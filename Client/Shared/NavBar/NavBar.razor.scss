@@ -85,3 +85,22 @@ ul {
     opacity:0.15;
   }
 }
+
+.bubble {
+  font-weight:var(--bold, 600);
+  border-radius: 1rem;
+  position: absolute;
+  top: 1.75rem;    
+  right: 1.25rem;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.8rem;
+  &.unprocessed {
+    background: #024560;
+  }
+  &.processing {
+    background: var(--success);
+  }
+  &.failed {
+    background: var(--red);
+  }
+}
