@@ -62,6 +62,8 @@ public class SseController : Controller
     private async Task<InitialClientData> GetInitialData(HttpContext context)
     {
         var logSummary = new StringBuilder();
+        var swAll = new System.Diagnostics.Stopwatch();
+        swAll.Start();
         var stopwatch = new System.Diagnostics.Stopwatch();
 
         // Prepare all tasks
@@ -164,7 +166,8 @@ public class SseController : Controller
         };
 
         // Log summary to Logger.Instance
-        Logger.Instance.ILog($"Task Execution Summary:\n{logSummary}");
+        swAll.Stop();
+        Logger.Instance.ILog($"Task Execution Summary:\nTotal Time: {swAll.Elapsed}\n{logSummary}");
 
         return result;
     }
