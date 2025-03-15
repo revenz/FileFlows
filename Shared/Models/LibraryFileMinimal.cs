@@ -5,7 +5,7 @@ namespace FileFlows.Shared.Models;
 /// <summary>
 /// Minimal representation of a library
 /// </summary>
-public class LibraryFileMinimal
+public class LibraryFileMinimal : IUniqueObject<Guid>
 {
     /// <summary>
     /// Gets or sets the UID of the item
@@ -82,6 +82,12 @@ public class LibraryFileMinimal
     public List<string> Traits { get; set; }
 
     /// <summary>
+    /// Gets or sets the tags on the file
+    /// </summary>
+    [JsonPropertyName("tg")]
+    public List<Guid> Tags { get; set; }
+
+    /// <summary>
     /// Implicitly converts a <see cref="LibraryFile"/> to a <see cref="LibraryFileMinimal"/>.
     /// </summary>
     /// <param name="file">The full library file object to convert.</param>
@@ -97,6 +103,7 @@ public class LibraryFileMinimal
             OriginalSize = file.OriginalSize,
             FinalSize = file.FinalSize,
             NodeName = file.NodeName,
+            Tags = file.Tags,
             Date = file.Status == FileStatus.Unprocessed ? file.DateCreated :
                 file.ProcessingEnded.Year > 2000 ? file.ProcessingEnded :
                 file.DateCreated,
