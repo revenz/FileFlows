@@ -50,6 +50,18 @@ public partial class ConfigurationLayout : LayoutComponentBase
     {
         List<NavMenuGroup> menuItems = new();
         
+        menuItems.Add(new NavMenuGroup
+        {
+            Name = Translater.Instant("MenuGroups.System"),
+            Icon = "fas fa-desktop",
+            Items = new NavMenuItem[]
+            {
+                profile.IsAdmin ? new ("Pages.Settings.Title", "fas fa-cogs", "config/settings") : null,
+                profile.HasRole(UserRole.Revisions) && profile.LicensedFor(LicenseFlags.Revisions) ? new ("Pages.Revisions.Title", "fas fa-history", "config/revisions") : null,
+                profile.HasRole(UserRole.Tasks) && profile.LicensedFor(LicenseFlags.Tasks) ? new ("Pages.Tasks.Title", "fas fa-clock", "config/tasks") : null,
+                profile.HasRole(UserRole.Webhooks) && profile.LicensedFor(LicenseFlags.Webhooks) ? new ("Pages.Webhooks.Title", "fas fa-handshake", "config/webhooks") : null,
+            }.Where(x => x != null).ToList()
+        });
         
         menuItems.Add(new NavMenuGroup
         {
@@ -58,7 +70,13 @@ public partial class ConfigurationLayout : LayoutComponentBase
             Items = new List<NavMenuItem>
             {
                 profile.HasRole(UserRole.Tags) ? new("Pages.Tags.Title", "fas fa-tags", "config/tags") : null,
-            }
+                profile.HasRole(UserRole.Variables)
+                    ? new("Pages.Variables.Title", "fas fa-at", "config/variables")
+                    : null,
+                profile.HasRole(UserRole.Resources) && profile.LicensedFor(LicenseFlags.AutoUpdates)
+                    ? new("Pages.Resources.Title", "fas fa-box-open", "config/resources")
+                    : null,
+            }.Where(x => x != null).ToList()
         });
 
         menuItems.Add(new NavMenuGroup
@@ -73,17 +91,26 @@ public partial class ConfigurationLayout : LayoutComponentBase
                 profile.HasRole(UserRole.Scripts)
                     ? new("Pages.Scripts.Title", "fas fa-scroll", "config/scripts")
                     : null,
-                profile.HasRole(UserRole.Variables)
-                    ? new("Pages.Variables.Title", "fas fa-at", "config/variables")
-                    : null,
-                profile.HasRole(UserRole.Resources) && profile.LicensedFor(LicenseFlags.AutoUpdates)
-                    ? new("Pages.Resources.Title", "fas fa-box-open", "config/resources")
-                    : null,
                 profile.HasDockerInstances && profile.HasRole(UserRole.DockerMods)
                     ? new("Pages.DockerMod.Plural", "fab fa-docker", "config/dockermods")
                     : null,
             }.Where(x => x != null).ToList()
         });
+        
+        if(profile.IsAdmin)
+        {
+            menuItems.Add(new NavMenuGroup
+            {
+                Name = Translater.Instant("MenuGroups.Security"),
+                Icon = "fas fa-user-shield",
+                Items = new List<NavMenuItem>
+                {
+                    profile.LicensedFor(LicenseFlags.Auditing) && profile.UsersEnabled ? new ("Pages.Audit.Title", "fas fa-clipboard-list", "config/audit") : null,
+                    profile.LicensedFor(LicenseFlags.AccessControl) ? new ("Pages.AccessControl.Title", "fas fa-shield-alt", "config/access-control") : null,
+                    profile.LicensedFor(LicenseFlags.UserSecurity) ? new ("Pages.Users.Title", "fas fa-users", "config/users") : null
+                }.Where(x => x != null).ToList()
+            });
+        }
 
         if (profile.LicensedFor(LicenseFlags.FileDrop))
         {
@@ -99,42 +126,6 @@ public partial class ConfigurationLayout : LayoutComponentBase
             });
         }
         
-        menuItems.Add(new NavMenuGroup
-        {
-            Name = Translater.Instant("MenuGroups.System"),
-            Icon = "fas fa-desktop",
-            Items = new NavMenuItem[]
-            {
-                profile.HasRole(UserRole.Revisions) && profile.LicensedFor(LicenseFlags.Revisions) ? new ("Pages.Revisions.Title", "fas fa-history", "config/revisions") : null,
-                profile.HasRole(UserRole.Tasks) && profile.LicensedFor(LicenseFlags.Tasks) ? new ("Pages.Tasks.Title", "fas fa-clock", "config/tasks") : null,
-                profile.HasRole(UserRole.Webhooks) && profile.LicensedFor(LicenseFlags.Webhooks) ? new ("Pages.Webhooks.Title", "fas fa-handshake", "config/webhooks") : null,
-            }.Where(x => x != null).ToList()
-        });
-        if(profile.IsAdmin)
-        {
-            menuItems.Add(new NavMenuGroup
-            {
-                Name = Translater.Instant("MenuGroups.Admin"),
-                Icon = "fas fa-user-shield",
-                Items = new List<NavMenuItem>
-                {
-                    new ("Pages.Settings.Title", "fas fa-cogs", "config/settings"),
-                }
-            });
-            
-            menuItems.Add(new NavMenuGroup
-            {
-                Name = Translater.Instant("MenuGroups.Security"),
-                Icon = "fas fa-user-shield",
-                Items = new List<NavMenuItem>
-                {
-                    profile.LicensedFor(LicenseFlags.Auditing) && profile.UsersEnabled ? new ("Pages.Audit.Title", "fas fa-clipboard-list", "config/audit") : null,
-                    profile.LicensedFor(LicenseFlags.AccessControl) ? new ("Pages.AccessControl.Title", "fas fa-shield-alt", "config/access-control") : null,
-                    profile.LicensedFor(LicenseFlags.UserSecurity) ? new ("Pages.Users.Title", "fas fa-users", "config/users") : null
-                }.Where(x => x != null).ToList()
-            });
-        }
-
         menuItems = menuItems.Where(x => x.Items.Count > 0).ToList();
         
         return menuItems;
