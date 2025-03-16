@@ -99,8 +99,16 @@ public abstract class RegisterHandler
             if (parameters.Length != 1)
                 throw new InvalidOperationException($"Handler '{name}' expects exactly one parameter.");
 
+            var value = parameters[0];
+            
+            if(value is JsonElement je && Guid.TryParse(value.ToString(), out var jeGuid))
+                value = jeGuid;
+            
+            if(value is string str && Guid.TryParse(value.ToString(), out var strGuid))
+               value = strGuid;
+
             // Ensure the parameter is a Guid
-            if (parameters[0] is Guid guid)
+            if (value is Guid guid)
             {
                 // Invoke the handler and convert the result to Task<object>
                 T result = await handler(guid);
