@@ -47,6 +47,10 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             {
                 lf = await Execute(_cancellationTokenSource.Token);
             }
+            catch (Exception ex)
+            {
+                Logger.Instance.ELog("Error in file: " + ex);
+            }
             finally
             {
                 try
@@ -164,73 +168,98 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
 
         try
         {
-            string error = string.Empty;
+            // Determine the correct directory based on the environment
+            string workingDirectory = DirectoryHelper.FlowRunnerDirectory;
             if (debugMode)
             {
+                // Adjust this as per your project's target framework
+                workingDirectory = Path.Combine(Directory.GetCurrentDirectory().Replace("Server", "FlowRunner"), "bin", "Debug", "net8.0");
 #if(DEBUG)
-                _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
-                libFile = rpcServer.GetProcessedFile();
-                libFile.Status = (FileStatus)_exitCode;
-                return libFile;
+                // _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
+                // libFile = rpcServer.GetProcessedFile();
+                // libFile.Status = (FileStatus)_exitCode;
+                // return libFile;
 #endif
             }
-            else
+
+            // Start process
+            using Process process = new Process();
+            process.StartInfo = new ProcessStartInfo
             {
-                // Start process
-                using Process process = new Process();
-                process.StartInfo = new ProcessStartInfo
+                FileName = GetDotnetLocation(),
+                WorkingDirectory = workingDirectory,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            process.StartInfo.ArgumentList.Add("FileFlows.FlowRunner.dll");
+            process.StartInfo.ArgumentList.Add(rpcServer.PipeName);
+            // If in debug mode, add a flag to signal FlowRunner to wait for a debugger
+            if (debugMode)
+            {
+                process.StartInfo.ArgumentList.Add("--debug");
+                
+                // Attach event handlers to capture output
+                process.OutputDataReceived += (sender, args) =>
                 {
-                    FileName = GetDotnetLocation(),
-                    WorkingDirectory = DirectoryHelper.FlowRunnerDirectory,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true
-                };
-
-                process.StartInfo.ArgumentList.Add("FileFlows.FlowRunner.dll");
-                process.StartInfo.ArgumentList.Add(rpcServer.PipeName);
-
-                process.Start();
-
-                // Wait for the cancellation token to be triggered (abort request)
-                var abortCancellationTask = WaitForAbortAsync(ctx, rpcServer, process);
-
-                // Continue the process while it's running or until cancellation happens
-                var processExitTask = process.WaitForExitAsync();
-
-                // Wait for either the process to exit or the cancellation to occur
-                await Task.WhenAny(processExitTask, abortCancellationTask);
-
-                // If the cancellation task completes, attempt graceful shutdown
-                if (abortCancellationTask.IsCompleted)
-                {
-                    // Gracefully attempt to abort the process
-                    var taskDelay = Task.Delay(TimeSpan.FromSeconds(20));
-                    var completedTask = await Task.WhenAny(processExitTask, taskDelay);
-
-                    // If the taskDelay completes first, kill the process
-                    if (completedTask == taskDelay)
+                    if (args.Data != null)
                     {
-                        process.Kill(); // Kill process if not exiting gracefully after 20 seconds
-                        runLog.AppendLine("Process killed after 20 seconds due to failure to exit gracefully.");
+                        Console.WriteLine(args.Data); // Write to the console
                     }
+                };
+                process.ErrorDataReceived += (sender, args) =>
+                {
+                    if (args.Data != null)
+                    {
+                        Console.Error.WriteLine(args.Data); // Write error to the console
+                    }
+                };
+            }
 
-                    // Ensure the process exits
-                    await processExitTask;
+            process.Start();
+
+            // Wait for the cancellation token to be triggered (abort request)
+            var abortCancellationTask = WaitForAbortAsync(ctx, rpcServer, process);
+
+            // Continue the process while it's running or until cancellation happens
+            var processExitTask = process.WaitForExitAsync();
+
+            // Wait for either the process to exit or the cancellation to occur
+            await Task.WhenAny(processExitTask, abortCancellationTask);
+
+            // If the cancellation task completes, attempt graceful shutdown
+            if (abortCancellationTask.IsCompleted)
+            {
+                // Gracefully attempt to abort the process
+                var taskDelay = Task.Delay(TimeSpan.FromSeconds(20));
+                var completedTask = await Task.WhenAny(processExitTask, taskDelay);
+
+                // If the taskDelay completes first, kill the process
+                if (completedTask == taskDelay)
+                {
+                    process.Kill(); // Kill process if not exiting gracefully after 20 seconds
+                    runLog.AppendLine("Process killed after 20 seconds due to failure to exit gracefully.");
                 }
 
-                // After process exits, handle result
-                return rpcServer.GetProcessedFile();
+                // Ensure the process exits
+                await processExitTask;
             }
+
+            // After process exits, handle result
+            var lf = rpcServer.GetProcessedFile();
+            if(lf.Status == FileStatus.Processing)
+                lf.Status = (FileStatus)_exitCode;
+            return lf;
         }
         catch (Exception ex)
         {
             runLog.AppendLine($"Error: {ex.Message}");
             libFile.Status = FileStatus.ProcessingFailed;
+            return libFile;
         }
 
-        return libFile;
     }
 
     // This method will be called when the cancellation token is triggered
@@ -303,7 +332,12 @@ Failed to create working directory, this is likely caused by the mapped '/temp' 
              else if (Globals.IsWindows == false && File.Exists("/root/.dotnet/dotnet"))
                  Dotnet = "/root/.dotnet/dotnet"; // location of legacy docker
              else
-                 Dotnet = "dotnet";// assume in PATH
+             {
+                 #if(DEBUG)
+                 return "/usr/bin/dotnet";
+                 #endif
+                 Dotnet = "dotnet"; // assume in PATH
+             }
          }
          return Dotnet;
      }

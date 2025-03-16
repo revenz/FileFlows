@@ -103,6 +103,7 @@ ul {
   text-align: center;
   line-height: 1;
   padding: 0.25rem 0.25rem 0;
+  pointer-events: none;
 
   &.unprocessed {
     background: #024560;

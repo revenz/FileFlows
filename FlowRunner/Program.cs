@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
 using FileFlows.FlowRunner.JsonRpc;
 using FileFlows.Shared.Models;
@@ -17,12 +18,22 @@ public class Program
     /// <param name="args">the command line arguments</param>
     public static async Task Main(string[] args)
     {
+        // if (args.Contains("--debug"))
+        // {
+        //     Console.WriteLine("Waiting for debugger to attach...");
+        //     while (!Debugger.IsAttached)
+        //     {
+        //         Thread.Sleep(500);
+        //     }
+        //     Debugger.Break(); // Break when debugger attaches
+        // }
+        
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
         
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
 
-
+        Console.WriteLine("FlowRunner Pipe: " + args[0]);
         int exitCode = (int) await Run(args[0]);
         Console.WriteLine("Exit Code: " + exitCode);
         Environment.ExitCode = exitCode;
