@@ -160,7 +160,6 @@ public partial class Client
             
             if (!result.Success)
                 return;
-
             
             _node = result.Node;
             _logger.ILog("Node successfully registered.");

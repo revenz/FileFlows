@@ -36,6 +36,11 @@ public class FileHandler(FrontendService feService)
     /// Event raised when the node status is updated
     /// </summary>
     public event Action<List<LibraryStatus>> LibraryFileCountsUpdated; 
+    
+    /// <summary>
+    /// Event raised when the file queue is updated
+    /// </summary>
+    public event Action<List<LibraryFileMinimal>> UpcomingFilesUpdated; 
 
     /// <summary>
     /// Initializes the handler
@@ -55,6 +60,12 @@ public class FileHandler(FrontendService feService)
             Logger.Instance.ILog("LibraryFileCounts", LibraryFileCounts);
             LibraryFileCounts = ed;
             LibraryFileCountsUpdated?.Invoke(ed);
+        });
+        feService.Registry.Register<List<LibraryFileMinimal>>("FileQueue", (ed) =>
+        {
+            Logger.Instance.ILog("FileQueue", ed);
+            UpcomingFiles = ed;
+            UpcomingFilesUpdated?.Invoke(ed);
         });
     }
 }

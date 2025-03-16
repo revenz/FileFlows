@@ -69,7 +69,11 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
                FileStatus.ReprocessByFlow => "fas fa-redo",
                _ => ""
            };
-           if (status.Status != FileStatus.Unprocessed && status.Status != FileStatus.Processing && status.Status != FileStatus.Processed && status.Count == 0)
+           if (status.Status != FileStatus.Unprocessed && 
+               status.Status != FileStatus.Processing && 
+               status.Status != FileStatus.Processed && 
+               status.Status != FileStatus.ProcessingFailed && 
+               status.Count == 0)
                continue;
            
            var sbItem = Items.FirstOrDefault(x => ((LibraryFilePageTabItem)x).Status == status.Status);
