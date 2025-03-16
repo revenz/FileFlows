@@ -174,7 +174,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         });
 
         rpcServer.Start();
-
+        
         try
         {
             // Determine the correct directory based on the environment
@@ -209,23 +209,23 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             if (debugMode)
             {
                 process.StartInfo.ArgumentList.Add("--debug");
-                
-                // Attach event handlers to capture output
-                process.OutputDataReceived += (sender, args) =>
-                {
-                    if (args.Data != null)
-                    {
-                        Console.WriteLine(args.Data); // Write to the console
-                    }
-                };
-                process.ErrorDataReceived += (sender, args) =>
-                {
-                    if (args.Data != null)
-                    {
-                        Console.Error.WriteLine(args.Data); // Write error to the console
-                    }
-                };
             }
+            
+            // Attach event handlers to capture output
+            process.OutputDataReceived += (sender, args) =>
+            {
+                if (args.Data != null)
+                {
+                    Console.WriteLine(args.Data); // Write to the console
+                }
+            };
+            process.ErrorDataReceived += (sender, args) =>
+            {
+                if (args.Data != null)
+                {
+                    Console.Error.WriteLine(args.Data); // Write error to the console
+                }
+            };
 
             process.Start();
 

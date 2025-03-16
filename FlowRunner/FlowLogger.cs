@@ -73,12 +73,10 @@ public class FlowLogger : ILogger
 
             string message = "data:image/jpeg;base64," + base64Image + ":640x480";
             
-            #if(DEBUG)
             if(_rpcClient.BasicHandler != null)
                 _rpcClient.BasicHandler.LogMessage(message).Wait();
-            #else
-            Console.WriteLine(message);
-            #endif
+            else
+                Console.WriteLine(message);
 
             //_ = Flush();
         }
@@ -169,10 +167,8 @@ public class FlowLogger : ILogger
                              JsonSerializer.Serialize(x)));
         //log.Add(message);
         Console.WriteLine(message);
-        #if(DEBUG)
         if(_rpcClient.BasicHandler != null)
             _rpcClient.BasicHandler.LogMessage(message).Wait();
-        #endif
     }
     /// <summary>
     /// Gets the last number of log lines

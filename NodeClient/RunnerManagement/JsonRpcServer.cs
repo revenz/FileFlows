@@ -22,11 +22,7 @@ public class JsonRpcServer : IDisposable
     private Task serverTask;
     private SemaphoreSlim writeLock = new(1, 1); // Semaphore for writing messages
 
-    #if(DEBUG)
     internal Action<string> _logMessage;
-    #else
-    private Action<string> _logMessage;
-    #endif
 
     internal LibraryFile _libraryFile;
     internal Client _client;
