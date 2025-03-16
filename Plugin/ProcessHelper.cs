@@ -168,7 +168,7 @@ public interface IProcessHelper
 /// </summary>
 public class ProcessHelper : IProcessHelper
 {
-    private Process process;
+    private Process? process;
     private readonly ILogger Logger;
     private ExecuteArgs Args;
 
@@ -199,6 +199,18 @@ public class ProcessHelper : IProcessHelper
         this.Logger = logger;
         this.Fake = fake;
         _cancellationToken = cancellationToken;
+    }
+
+    /// <summary>
+    /// Kills the process if its running
+    /// </summary>
+    public void Kill()
+    {
+        if (this.process != null)
+        {
+            this.process.Kill();
+            this.process = null;
+        }
     }
 
     /// <summary>
