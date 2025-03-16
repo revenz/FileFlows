@@ -29,10 +29,11 @@ public class RunInstance(RunnerProperties properties)
     /// Runs the runner
     /// </summary>
     /// <returns>the exit code of the runner</returns>
-    public async Task<FileStatus> Run()
+    public FileStatus Run()
     {
-        RunnerParameters parameters = await RpcClient.BasicHandler.GetRunnerParameters();
+        RunnerParameters parameters = RpcClient.Parameters;
         properties.StartingFlow = parameters.Flow;
+        properties.ProcessingNode = RpcClient.Node;
         
         ServicePointManager.DefaultConnectionLimit = 50;
         try
@@ -120,7 +121,10 @@ public class RunInstance(RunnerProperties properties)
     (FileStatus result, bool KeepFiles) Execute(ExecuteArgs args)
     {
         ProcessingNode node = RpcClient.BasicHandler.GetNode().Result;
-        
+
+        properties.ProcessingNode = node;
+        properties.WorkingDirectory = args.WorkingDirectory;
+            
         string workingFile = properties.LibraryFile.Name;
         
         if (properties.StartingFlow == null || properties.StartingFlow.Uid == Guid.Empty)

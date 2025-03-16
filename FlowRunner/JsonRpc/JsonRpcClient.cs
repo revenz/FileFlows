@@ -67,25 +67,37 @@ public class JsonRpcClient
                 if (string.IsNullOrWhiteSpace(message))
                     continue;
 
-                var rpcMessage = JsonSerializer.Deserialize<RpcMessage>(message);
-                if (rpcMessage?.Method == "Abort")
+                _ = Task.Run(() =>
                 {
-                    Logger.Instance.ILog("Received Abort request from server.");
-                    HandleAbort();
-                }
-
-                // Deserialize the response to get the correlation ID
-                var response = JsonSerializer.Deserialize<RpcResponse<object>>(message);
-                if (response != null && response.Id != null)
-                {
-                    var requestId = (int)response.Id;
-                    if (responseTasks.TryGetValue(requestId, out var tcs))
+                    try
                     {
-                        // Complete the task with the response
-                        tcs.SetResult(message);
-                        responseTasks.Remove(requestId);
+                        _ = BasicHandler.LogMessage("Json Message Received: " + message);
+
+                        var rpcMessage = JsonSerializer.Deserialize<RpcMessage>(message);
+                        if (rpcMessage?.Method == "Abort")
+                        {
+                            Logger.Instance.ILog("Received Abort request from server.");
+                            HandleAbort();
+                        }
+
+                        // Deserialize the response to get the correlation ID
+                        var response = JsonSerializer.Deserialize<RpcResponse<object>>(message);
+                        if (response != null && response.Id != null)
+                        {
+                            var requestId = (int)response.Id;
+                            if (responseTasks.TryGetValue(requestId, out var tcs))
+                            {
+                                // Complete the task with the response
+                                tcs.SetResult(message);
+                                responseTasks.Remove(requestId);
+                            }
+                        }
                     }
-                }
+                    catch (Exception ex)
+                    {
+                        Logger.Instance.ELog("Failed with JSON RPC message: " + ex);
+                    }
+                });
             }
         }
         catch (Exception ex)
@@ -135,17 +147,11 @@ public class JsonRpcClient
     /// </summary>
     internal async Task SendRequest(string method, params object[] parameters)
     {
-        var requestId = Interlocked.Increment(ref currentRequestId);  // Unique request ID
         var request = new
         {
-            Id = requestId,
             Method = method,
             Params = parameters
         };
-
-        // Create a TaskCompletionSource to await the response
-        var tcs = new TaskCompletionSource<string>();
-        responseTasks.Add(requestId, tcs);
 
         // Ensure no other task is reading or writing at the same time
         await streamLock.WaitAsync();

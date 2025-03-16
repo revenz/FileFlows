@@ -3,6 +3,7 @@ using System.Text.Json;
 using FileFlows.NodeClient.Handlers;
 using FileFlows.ServerShared.Models;
 using FileFlows.Shared.Models;
+using System.Threading;
 
 namespace FileFlows.NodeClient;
 
@@ -19,13 +20,14 @@ public class JsonRpcServer : IDisposable
     internal readonly RunnerParameters runnerParameters;
     private CancellationTokenSource cts;
     private Task serverTask;
-    
+    private SemaphoreSlim writeLock = new(1, 1); // Semaphore for writing messages
+
     #if(DEBUG)
     internal Action<string> _logMessage;
     #else
     private Action<string> _logMessage;
     #endif
-    
+
     internal LibraryFile _libraryFile;
     internal Client _client;
     internal FlowExecutorInfo _flowExecutorInfo;
@@ -54,7 +56,7 @@ public class JsonRpcServer : IDisposable
         _libraryFileHandler = new(this, _rpcRegister);
         _basicHandler = new(this, _rpcRegister);
         _runnerInfoHandler = new(this, _rpcRegister);
-        
+
         _logMessage = logMessage;
         _flowExecutorInfo = new()
         {
@@ -93,8 +95,12 @@ public class JsonRpcServer : IDisposable
                         var requestJson = await reader.ReadLineAsync();
                         if (requestJson == null) break;
 
-                        var responseJson = await _rpcRegister.HandleRequest(requestJson);
-                        await writer.WriteLineAsync(responseJson);
+                        _ = Task.Run(async () =>
+                        {
+                            var responseJson = await _rpcRegister.HandleRequest(requestJson);
+                            if (responseJson != null)
+                                await SendMessageToClient(writer, responseJson); // Use semaphore-locked writer
+                        });
                     }
                 }
                 catch (Exception ex)
@@ -105,7 +111,6 @@ public class JsonRpcServer : IDisposable
                 {
                     try
                     {
-                        // Ensure cleanup of server after connection closes
                         server?.Dispose();
                     }
                     catch (Exception disposeEx)
@@ -138,6 +143,7 @@ public class JsonRpcServer : IDisposable
         Stop();
         serverTask?.Wait();
         serverTask?.Dispose();
+        writeLock?.Dispose();
     }
 
     /// <summary>
@@ -152,40 +158,47 @@ public class JsonRpcServer : IDisposable
     /// </summary>
     public void Abort()
     {
-        // Create a message to signal abort (in this case, sending JSON with an "Abort" key)
         var abortMessage = new { action = "Abort" };
         string jsonMessage = JsonSerializer.Serialize(abortMessage);
 
-        // Send the abort message to the connected client
-        SendMessageToClient(jsonMessage);
+        _ = Task.Run(async () =>
+        {
+            if (server?.IsConnected == true)
+            {
+                using var writer = new StreamWriter(server) { AutoFlush = true };
+                await SendMessageToClient(writer, jsonMessage);
+            }
+        });
     }
 
     /// <summary>
     /// Sends a message to the connected client through the named pipe.
+    /// Uses a semaphore to prevent concurrent writes.
     /// </summary>
+    /// <param name="writer">The StreamWriter instance.</param>
     /// <param name="message">The message to be sent.</param>
-    private async void SendMessageToClient(string message)
+    private async Task SendMessageToClient(StreamWriter writer, string message)
     {
+        await writeLock.WaitAsync(); // Acquire semaphore lock
         try
         {
-            // Ensure the server is connected before writing to it
-            if (server != null && server.IsConnected)
+            if (server?.IsConnected == true)
             {
-                // Write the abort message to the pipe
-                using (var writer = new StreamWriter(server) { AutoFlush = true })
-                {
-                    await writer.WriteLineAsync(message);
-                    Console.WriteLine("Abort message sent.");
-                }
+                await writer.WriteLineAsync(message);
+                Console.WriteLine("Message sent.");
             }
             else
             {
-                Console.WriteLine("Server is not connected, unable to send abort message.");
+                Console.WriteLine("Server is not connected, unable to send message.");
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error sending abort message: " + ex);
+            Console.WriteLine("Error sending message: " + ex);
+        }
+        finally
+        {
+            writeLock.Release(); // Release semaphore lock
         }
     }
 }

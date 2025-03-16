@@ -133,13 +133,13 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         runnerParameters.RunnerTempPath = "ff-debug-mode";
 #endif
 
-        bool overwrite = true;
         runLog.AppendLine(
             "==============================================================================" +
             Environment.NewLine +
             "===                      PROCESSING NODE OUTPUT START                      ===" +
             Environment.NewLine +
             "==============================================================================");
+        await client.FileLogAppend(libFile.Uid, runLog.ToString(), true);
 
         var logSemaphore = new SemaphoreSlim(1, 1);
         using JsonRpcServer rpcServer = new(client, runnerParameters, (message) =>
@@ -151,8 +151,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 await logSemaphore.WaitAsync(ctx);
                 try
                 {
-                    await client.FileLogAppend(libFile.Uid, message, overwrite);
-                    overwrite = false;
+                    await client.FileLogAppend(libFile.Uid, message);
                 }
                 finally
                 {

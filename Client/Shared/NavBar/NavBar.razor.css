@@ -92,17 +92,28 @@ ul {
   position: absolute;
   top: 1.75rem;
   right: 1.25rem;
-  padding: 0.1rem 0.35rem;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.8rem;
+  border: solid 2px transparent;
+  text-align: center;
+  line-height: 1;
+  padding: 0.25rem 0.25rem 0;
 }
 .bubble.unprocessed {
   background: #024560;
+  border-color: #0074a2;
 }
 .bubble.processing {
   background: var(--success);
+  border-color: #1f8236;
 }
 .bubble.failed {
   background: var(--red);
+  border-color: #f94c5c;
 }
 
 /*# sourceMappingURL=NavBar.razor.css.map */

@@ -13,7 +13,7 @@ public class RpcRegister : RegisterHandler
     /// </summary>
     /// <param name="json">The JSON string representing the request.</param>
     /// <returns>A JSON string containing the result.</returns>
-    public async Task<string> HandleRequest(string json)
+    public async Task<string?> HandleRequest(string json)
     {
         var request = JsonSerializer.Deserialize<RpcRequest>(json);
         if (request == null || !_handlers.TryGetValue(request.Method, out var handler))
@@ -31,7 +31,10 @@ public class RpcRegister : RegisterHandler
             return JsonSerializer.Serialize(new { Result = "Error", Error = ex.Message });
         }
 
-        return JsonSerializer.Serialize(new { Result = result, Id = request.Id });
+        if (result == null && request.Id == 0)
+            return null; // no response
+
+        return JsonSerializer.Serialize(new { request.Id, Result = result });
     }
 }
 

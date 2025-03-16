@@ -22,7 +22,7 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
             return Result<bool>.Fail("Exceeded maximum number of flow elements to process");
 
         // remove old additional info
-        var aiKeys = runInfo.AdditionalInfos.Keys.ToArray();
+        var aiKeys = runInfo.AdditionalInfos?.Keys?.ToArray() ?? [];
         foreach (var kv in aiKeys)
         {
             if (--runInfo.AdditionalInfos[kv].Steps < 1)

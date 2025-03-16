@@ -85,7 +85,7 @@ public class Program
             return FileStatus.ProcessingFailed;
         }
 
-        return await instance.Run();
+        return instance.Run();
     }
     
 #if(DEBUG)
