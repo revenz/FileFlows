@@ -24,8 +24,6 @@ public class FlowLogger : ILogger
     /// <param name="args">the arguments for the log message</param>
     public void ELog(params object[] args) => Log(LogType.Error, args);
 
-    
-    #if(DEBUG)
     /// <summary>
     /// The communicator used to send messages to the server
     /// </summary>
@@ -39,7 +37,6 @@ public class FlowLogger : ILogger
     {
         this._rpcClient = rpcClient;
     }
-    #endif
 
     /// <summary>
     /// Logs an image

@@ -15,11 +15,7 @@ public class RunnerProperties
     public RunnerProperties(JsonRpcClient rpcClient)
     {
         RpcClient = rpcClient;
-#if(DEBUG)
         Logger = new ( rpcClient);
-#else
-        Logger = new ();
-#endif
         Logger.ILog("Flow Runner Version: " + Globals.Version);
     }
     
