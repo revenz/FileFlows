@@ -111,6 +111,7 @@ public class Runner
             systemHelper.Stop();
         }
 
+        logger.ILog($"Run status: {status}");
         return (status, status == FileStatus.ProcessingFailed);
     }
 
@@ -457,6 +458,7 @@ public class Runner
         };
 
         int result = flowExecutor.Execute(nodeParameters);
+        logger.ILog("flowExecutor result: " + result);
         runInstance.LibraryFile.Additional ??= new();
         runInstance.LibraryFile.Additional.Version = Globals.Version;
         
@@ -465,6 +467,7 @@ public class Runner
         
         if (result == RunnerCodes.Completed)
         {
+            logger.ILog("flowExecutor result was completed");
             if (nodeParameters.Reprocess is { HoldForMinutes: > 0 })
             {
                 logger.ILog($"Setting Hold For Minutes = {nodeParameters.Reprocess.HoldForMinutes}");
@@ -480,6 +483,7 @@ public class Runner
             if (nodeParameters.Reprocess is { HoldForMinutes: > 0 })
                 return FileStatus.Unprocessed;
             
+            logger.ILog("flowExecutor processed successfully");
             return FileStatus.Processed;
         }
         if(result is RunnerCodes.Failure or RunnerCodes.TerminalExit)

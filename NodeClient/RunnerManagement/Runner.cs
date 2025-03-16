@@ -251,6 +251,9 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             var lf = rpcServer.GetProcessedFile();
             if(lf.Status == FileStatus.Processing)
                 lf.Status = (FileStatus)_exitCode;
+            if (lf.Status == FileStatus.Processing || lf.Status == FileStatus.Unprocessed)
+                lf.Status = FileStatus.ProcessingFailed;
+            
             return lf;
         }
         catch (Exception ex)
