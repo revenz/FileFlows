@@ -999,14 +999,6 @@ public class NodeParameters
     }
 
     /// <summary>
-    /// Cancels the flow execution
-    /// </summary>
-    public void Cancel()
-    {
-        this.Process?.Cancel();
-    }
-
-    /// <summary>
     /// Updates the variables in the flow execution
     /// This is so the remaining nodes can now use these variable values.
     /// Note: if a value is null, that item will be removed from the Variable list
