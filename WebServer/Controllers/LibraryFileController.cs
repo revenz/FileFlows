@@ -1,7 +1,9 @@
+using System.Data;
 using FileFlows.LibraryUtils;
 using FileFlows.ServerShared.Models;
 using FileFlows.Services.ServiceHelpers;
 using FileFlows.Services.SystemOverview;
+using FileFlows.WebServer.Hubs;
 using Humanizer;
 using Swashbuckle.AspNetCore.Annotations;
 using LibraryFileService = FileFlows.Services.LibraryFileService;
@@ -299,6 +301,23 @@ public class LibraryFileController : Controller
         await ServiceLoader.Load<LibraryFileService>().MoveToTop(list);
     }
 
+
+    /// <summary>
+    /// Cancels running files
+    /// </summary>
+    /// <param name="model">A reference model containing UIDs to abort</param>
+    /// <returns>an awaited task</returns>
+    [HttpDelete("abort")]
+    public async Task Cancel([FromBody] ReferenceModel<Guid> model)
+    {
+        await ServiceLoader.Load<LibraryFileService>().AbortFiles(model.Uids);
+        foreach (var uid in model.Uids)
+        {
+            await ServiceLoader.Load<NodeHubBridge>().AbortFile(uid);
+        }
+    }
+    
+    
     /// <summary>
     /// Delete library files from the system
     /// </summary>

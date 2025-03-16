@@ -1,5 +1,6 @@
 .navbar {
   display:flex;
+  user-select: none;
   flex-direction: column;
   height: 100vh;
   padding:0;

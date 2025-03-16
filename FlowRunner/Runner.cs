@@ -44,9 +44,16 @@ public class Runner
     public Runner(RunInstance runInstance, Flow flow, ProcessingNode node, string workingDir)
     {
         this.runInstance = runInstance;
+        runInstance.RpcClient.OnAbort += Abort;
         this.Flow = flow;
         this.Node = node;
         this.WorkingDir = workingDir;
+    }
+
+    private void Abort()
+    {
+        this.Canceled = true;
+        CancellationToken.Cancel();
     }
 
     private NodeParameters nodeParameters;

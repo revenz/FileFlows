@@ -80,6 +80,7 @@ public partial class Client : IDisposable
         _connection.On<RunFileArguments, bool>("ClientProcessFile", HandleClientProcessFile);
         _connection.On<ProcessingNode>("NodeUpdated", UpdateNode);
         _connection.On<int>("ConfigUpdated", UpdateConfiguration);
+        _connection.On<Guid>("AbortFile", AbortFile);
 
         _connection.Reconnecting += error =>
         {

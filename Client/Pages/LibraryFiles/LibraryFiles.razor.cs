@@ -195,6 +195,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
             Label = x.Value
         }).ToList();
 
+        var libraries = feService.Library.LibraryList;
         Data = feService.Files.UpcomingFiles;
     }
 

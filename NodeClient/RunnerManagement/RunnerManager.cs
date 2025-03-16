@@ -241,4 +241,15 @@ public class RunnerManager
     /// <returns>the active runner UIDs</returns>
     public List<Guid> GetActiveRunnerUids()
         => _activeRunners.Select(x => x.Key).ToList();
+
+    /// <summary>
+    /// Aborts a runner if it is running
+    /// </summary>
+    /// <param name="uid">the UID of the runner</param>
+    public async Task AbortRunner(Guid uid)
+    {
+        if (_activeRunners.TryGetValue(uid, out var runner) == false)
+            return;
+        runner.Abort();
+    }
 }

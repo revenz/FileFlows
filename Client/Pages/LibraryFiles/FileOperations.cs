@@ -39,20 +39,19 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     public async Task Cancel()
     {
         var selected = Table.GetSelected().ToArray();
-        if (selected.Length == 0)
-            return; // nothing to cancel
+        var uids = selected.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
+        if (uids.Length == 0)
+            return; // nothing to move
 
         if (await Confirm.Show("Labels.Cancel",
-            Translater.Instant("Labels.CancelItems", new { count = selected.Length })) == false)
+            Translater.Instant("Labels.CancelItems", new { count = uids.Length })) == false)
             return; // rejected the confirmation
 
         Blocker.Show();
         this.StateHasChanged();
         try
         {
-            foreach (var item in selected)
-                await HttpHelper.Delete($"/api/worker/by-file/{item.Uid}");
-
+            await HttpHelper.Delete($"/api/library-file/abort",  new ReferenceModel<Guid> { Uids = uids });
         }
         finally
         {

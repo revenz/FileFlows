@@ -25,6 +25,8 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     StringBuilder runLog = new StringBuilder();
     private int _exitCode;
     private bool _keepFiles;
+    private CancellationTokenSource? _cancellationTokenSource;
+    private Task? _runnerTask;
 
 
     /// <summary>
@@ -32,6 +34,8 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     /// </summary>
     public void Start()
     {
+        _cancellationTokenSource = new CancellationTokenSource();
+        
         _ = Task.Run(async () =>
         {
             // move the file as Processing
@@ -40,7 +44,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             await client.FileStartProcessing(lf.Uid);
             try
             {
-                lf = Execute();
+                lf = await Execute(_cancellationTokenSource.Token);
             }
             finally
             {
@@ -73,15 +77,11 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         });
     }
 
-    /// <summary>
-    /// Executes the runner task
-    /// </summary>
-    private LibraryFile Execute()
+    private async Task<LibraryFile> Execute(CancellationToken ctx)
     {
         var cfgService = ServiceLoader.Load<ConfigurationService>();
-
         var libFile = args.LibraryFile;
-        
+
         bool isServer = node.Uid == CommonVariables.InternalNodeUid;
         var node2 = node;
 
@@ -101,7 +101,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             libFile.Status = FileStatus.FlowNotFound;
             return libFile;
         }
-        
+
         var runnerParameters = new RunnerParameters()
         {
             LibraryFile = libFile,
@@ -113,10 +113,11 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         runnerParameters.TempPath = tempPath;
         runnerParameters.WorkingDirectory = Path.Combine(tempPath, "Runner-" + args.LibraryFile.Uid);
         if (CreateWorkingDirectory(runnerParameters.WorkingDirectory) == false)
-        { 
+        {
             libFile.Status = FileStatus.ProcessingFailed;
             return libFile;
         }
+
         runnerParameters.ConfigPath = cfgService.GetConfigurationDirectory();
         runnerParameters.BaseUrl = RemoteService.ServiceBaseUrl;
         runnerParameters.AccessToken = RemoteService.AccessToken;
@@ -137,27 +138,28 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             "===                      PROCESSING NODE OUTPUT START                      ===" +
             Environment.NewLine +
             "==============================================================================");
-        
+
         using JsonRpcServer rpcServer = new(client, runnerParameters, (message) =>
         {
-            if(string.IsNullOrEmpty(message) == false)
+            if (string.IsNullOrEmpty(message) == false)
                 runLog.AppendLine(message);
         });
-        
+
         rpcServer.Start();
+
         try
         {
             string error = string.Empty;
             if (debugMode)
             {
-                #if(DEBUG)
+#if(DEBUG)
                 _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName).Result;
-                #endif
+#endif
             }
             else
             {
+                // Start process
                 using Process process = new Process();
-
                 process.StartInfo = new ProcessStartInfo
                 {
                     FileName = GetDotnetLocation(),
@@ -168,96 +170,74 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                     CreateNoWindow = true
                 };
 
-                // Add arguments
                 process.StartInfo.ArgumentList.Add("FileFlows.FlowRunner.dll");
                 process.StartInfo.ArgumentList.Add(rpcServer.PipeName);
 
-                Logger.Instance?.ILog("Executing: " + process.StartInfo.FileName + " " + 
-                                      String.Join(" ", process.StartInfo.ArgumentList.Select(x => "\"" + x + "\"")));
-                Logger.Instance?.ILog("Working Directory: " + process.StartInfo.WorkingDirectory);
-
-                // Capture output asynchronously
-                process.OutputDataReceived += (sender, e) => 
-                { 
-                    if (string.IsNullOrEmpty(e.Data) == false) 
-                        runLog.AppendLine(e.Data); 
-                };
-
-                StringBuilder errorOutput = new StringBuilder();
-                process.ErrorDataReceived += (sender, e) => 
-                { 
-                    if (string.IsNullOrEmpty(e.Data) == false) 
-                        errorOutput.AppendLine(e.Data); 
-                };
-                error = errorOutput.ToString();
-
                 process.Start();
 
-                // Begin async read operations
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
+                // Wait for the cancellation token to be triggered (abort request)
+                var abortCancellationTask = WaitForAbortAsync(ctx, rpcServer, process);
 
-                // Wait for process exit
-                process.WaitForExit();
+                // Continue the process while it's running or until cancellation happens
+                var processExitTask = process.WaitForExitAsync();
 
-                _exitCode = process.ExitCode;
-            }
-            if (_exitCode == 100)
-            {
-                _exitCode = 0; // special case
-                _keepFiles = true;
-            }
+                // Wait for either the process to exit or the cancellation to occur
+                await Task.WhenAny(processExitTask, abortCancellationTask);
 
-            runLog.AppendLine(
-                "==============================================================================" +
-                Environment.NewLine +
-                "===                       PROCESSING NODE OUTPUT END                       ===" +
-                Environment.NewLine +
-                "==============================================================================");
+                // If the cancellation task completes, attempt graceful shutdown
+                if (abortCancellationTask.IsCompleted)
+                {
+                    // Gracefully attempt to abort the process
+                    var taskDelay = Task.Delay(TimeSpan.FromSeconds(20));
+                    var completedTask = await Task.WhenAny(processExitTask, taskDelay);
 
-            if (string.IsNullOrEmpty(error) == false)
-            {
-                runLog.AppendLine(
-                    "==============================================================================" +
-                    Environment.NewLine +
-                    "===                   PROCESSING NODE ERROR OUTPUT START                   ===" +
-                    Environment.NewLine +
-                    "==============================================================================" +
-                    Environment.NewLine +
-                    error + Environment.NewLine +
-                    "==============================================================================" +
-                    Environment.NewLine +
-                    "===                    PROCESSING NODE ERROR OUTPUT END                    ===" +
-                    Environment.NewLine +
-                    "==============================================================================");
-            }
+                    // If the taskDelay completes first, kill the process
+                    if (completedTask == taskDelay)
+                    {
+                        process.Kill(); // Kill process if not exiting gracefully after 20 seconds
+                        runLog.AppendLine("Process killed after 20 seconds due to failure to exit gracefully.");
+                    }
 
-            if (_exitCode is 0 or (int)FileStatus.ReprocessByFlow)
-                return rpcServer.GetProcessedFile();
+                    // Ensure the process exits
+                    await processExitTask;
+                }
 
-            runLog.AppendLine("Error executing runner: Exit code: " + _exitCode);
-            if (Enum.IsDefined(typeof(FileStatus), _exitCode))
-                libFile.Status = (FileStatus)_exitCode;
-            else
-            {
-                libFile.Status = FileStatus.ProcessingFailed;
-                runLog.AppendLine("Invalid exit code, setting file as failed");
+                // After process exits, handle result
+                if (process.ExitCode == 0)
+                {
+                    return rpcServer.GetProcessedFile();
+                }
+                else
+                {
+                    libFile.Status = FileStatus.ProcessingFailed;
+                    runLog.AppendLine($"Error: Exit code {process.ExitCode}");
+                }
             }
         }
         catch (Exception ex)
         {
-            AppendToRunLog(
-                "Error executing runner: " + ex.Message + Environment.NewLine + ex.StackTrace, type: "ERR");
+            runLog.AppendLine($"Error: {ex.Message}");
             libFile.Status = FileStatus.ProcessingFailed;
-            _exitCode = (int)FileStatus.ProcessingFailed;
         }
         finally
         {
-            rpcServer.Stop();
+            rpcServer.Stop(); // Always stop the rpc server after process completes
         }
 
-        return rpcServer.GetProcessedFile();
+        return libFile;
     }
+
+    // This method will be called when the cancellation token is triggered
+    private async Task WaitForAbortAsync(CancellationToken ctx, JsonRpcServer rpcServer, Process process)
+    {
+        await Task.WhenAny(Task.Delay(Timeout.Infinite, ctx), process.WaitForExitAsync());
+        if (ctx.IsCancellationRequested)
+        {
+            runLog.AppendLine("Abort triggered.");
+            rpcServer.Abort(); // Attempt graceful shutdown via the rpc server
+        }
+    }
+
 
     /// <summary>
     /// Creates the runners working directory
@@ -320,5 +300,14 @@ Failed to create working directory, this is likely caused by the mapped '/temp' 
                  Dotnet = "dotnet";// assume in PATH
          }
          return Dotnet;
+     }
+
+     /// <summary>
+     /// Aborts the runner
+     /// </summary>
+     public void Abort()
+     {
+         // Abort the run
+         _cancellationTokenSource?.Cancel();
      }
 }

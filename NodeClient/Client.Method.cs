@@ -188,6 +188,15 @@ public partial class Client
             _registrationCompletion.TrySetResult(false);
         }
     }
+
+    /// <summary>
+    /// Aborts a file
+    /// </summary>
+    /// <param name="uid">the UID of the file to abort</param>
+    private async Task AbortFile(Guid uid)
+    {
+        await _runnerManager.AbortRunner(uid);
+    }
     
     private CancellationTokenSource _delayCts = new();
 

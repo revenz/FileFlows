@@ -96,9 +96,15 @@ public class JsonRpcClient
     private void HandleAbort()
     {
         Logger.Instance.WLog("Aborting client operations as requested by server.");
-        cts.Cancel(); // Cancel ongoing tasks
-        client?.Dispose(); // Close the connection
+        //cts.Cancel(); // Cancel ongoing tasks
+        //client?.Dispose(); // Close the connection
+        OnAbort?.Invoke();
     }
+    
+    /// <summary>
+    /// Action called when aborting a run
+    /// </summary>
+    public Action OnAbort { get; set; }
 
     
     /// <summary>

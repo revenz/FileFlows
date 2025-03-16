@@ -151,8 +151,8 @@ public abstract class RegisterHandler
                 return await objFunc(parameters);
             case Func<Guid, Task<object>> guidFunc when parameters.Length == 1 && parameters[0] is string guidStr:
                 return await guidFunc(Guid.Parse(guidStr));
-            case Action<string> stringAction when parameters.Length == 1 && parameters[0] is string str:
-                stringAction(str);
+            case Action<string> stringAction when parameters.Length == 1:
+                stringAction( parameters[0].ToString());
                 return null;
             case Action<object[]> objAction:
                 objAction(parameters);
