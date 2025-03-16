@@ -68,4 +68,12 @@ public partial class NodeHub
         await libraryFileService.SaveFullLog(libraryFile.Uid, log);
         flowExecutors.TryRemove(libraryFile.Uid, out _);
     }
+    /// <summary>
+    /// Prepends the text to the log file on the server
+    /// </summary>
+    /// <param name="libFileUid">the UID of the file</param>
+    /// <param name="lines">the lines of the log</param>
+    /// <param name="overwrite">if the file should be overwritten or appended to</param>
+    public async Task FileLogAppend(Guid libFileUid, string lines, bool overwrite)
+        => await LibraryFileLogHelper.AppendToLog(libFileUid, lines, overwrite);
 }

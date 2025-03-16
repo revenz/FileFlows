@@ -95,7 +95,7 @@ public class Program
     /// </summary>
     /// <param name="pipeName">the pipeName</param>
     /// <returns>the exit code </returns>
-    public static async Task<FileStatus> RunInternal(string pipeName)
+    public static FileStatus RunInternal(string pipeName)
     {
         if (assemblyResolverDone == false)
         {
@@ -110,7 +110,17 @@ public class Program
             };
         }
 
-        return await Run(pipeName);
+        try
+        {
+            var task = Run(pipeName);
+            task.Wait();
+            return task.Result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
     }
     #endif
     

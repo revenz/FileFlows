@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
@@ -132,6 +133,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         runnerParameters.RunnerTempPath = "ff-debug-mode";
 #endif
 
+        bool overwrite = true;
         runLog.AppendLine(
             "==============================================================================" +
             Environment.NewLine +
@@ -139,10 +141,24 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             Environment.NewLine +
             "==============================================================================");
 
+        var logSemaphore = new SemaphoreSlim(1, 1);
         using JsonRpcServer rpcServer = new(client, runnerParameters, (message) =>
         {
             if (string.IsNullOrEmpty(message) == false)
                 runLog.AppendLine(message);
+            _ = Task.Run(async () =>
+            {
+                await logSemaphore.WaitAsync(ctx);
+                try
+                {
+                    await client.FileLogAppend(libFile.Uid, message, overwrite);
+                    overwrite = false;
+                }
+                finally
+                {
+                    logSemaphore.Release();
+                }
+            }, ctx);
         });
 
         rpcServer.Start();
@@ -153,7 +169,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             if (debugMode)
             {
 #if(DEBUG)
-                _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName).Result;
+                _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
 #endif
             }
             else

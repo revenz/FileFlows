@@ -16,26 +16,20 @@ public class JsonRpcClient
     private StreamWriter writer;
     private CancellationTokenSource cts = new();
     private Task listeningTask;
+    private SemaphoreSlim streamLock = new SemaphoreSlim(1, 1);
+
+    // A dictionary to store TaskCompletionSource for each request
+    private readonly Dictionary<int, TaskCompletionSource<string>> responseTasks = new();
+    private int currentRequestId = 0;  // To generate unique IDs for each request
+
     public RunnerParameters Parameters { get; private set; }
-    
-    public BasicHandler BasicHandler {get;private set;}
-    public LibraryFileHandler LibraryFileHandler {get;private set;}
-    public RunnerInfoHandler RunnerInfoHandler {get;private set;}
-    
-    /// <summary>
-    /// Gets or sets the library file being processed
-    /// </summary>
+    public BasicHandler BasicHandler { get; private set; }
+    public LibraryFileHandler LibraryFileHandler { get; private set; }
+    public RunnerInfoHandler RunnerInfoHandler { get; private set; }
+
     public LibraryFile LibraryFile { get; internal set; }
-    
-    /// <summary>
-    /// Gets or sets the processing node this is executing on
-    /// </summary>
     public ProcessingNode? Node { get; internal set; }
 
-    /// <summary>
-    /// Initializes the JSON-RPC client and connects to the specified named pipe.
-    /// </summary>
-    /// <param name="pipeName">The name of the named pipe to connect to.</param>
     public async Task<bool> Initialize(string pipeName)
     {
         try
@@ -63,9 +57,6 @@ public class JsonRpcClient
         }
     }
 
-    /// <summary>
-    /// Continuously listens for messages from the server.
-    /// </summary>
     private async Task ListenForServerMessages()
     {
         try
@@ -82,6 +73,19 @@ public class JsonRpcClient
                     Logger.Instance.ILog("Received Abort request from server.");
                     HandleAbort();
                 }
+
+                // Deserialize the response to get the correlation ID
+                var response = JsonSerializer.Deserialize<RpcResponse<object>>(message);
+                if (response != null && response.Id != null)
+                {
+                    var requestId = (int)response.Id;
+                    if (responseTasks.TryGetValue(requestId, out var tcs))
+                    {
+                        // Complete the task with the response
+                        tcs.SetResult(message);
+                        responseTasks.Remove(requestId);
+                    }
+                }
             }
         }
         catch (Exception ex)
@@ -91,43 +95,79 @@ public class JsonRpcClient
     }
 
     /// <summary>
-    /// Handles the "Abort" request from the server.
+    /// Sends a request to the server and waits for a response.
     /// </summary>
-    private void HandleAbort()
+    internal async Task<T> SendRequest<T>(string method, params object[] parameters)
     {
-        Logger.Instance.WLog("Aborting client operations as requested by server.");
-        //cts.Cancel(); // Cancel ongoing tasks
-        //client?.Dispose(); // Close the connection
-        OnAbort?.Invoke();
-    }
-    
-    /// <summary>
-    /// Action called when aborting a run
-    /// </summary>
-    public Action OnAbort { get; set; }
+        var requestId = Interlocked.Increment(ref currentRequestId);  // Unique request ID
+        var request = new
+        {
+            Id = requestId,
+            Method = method,
+            Params = parameters
+        };
 
-    
+        // Create a TaskCompletionSource to await the response
+        var tcs = new TaskCompletionSource<string>();
+        responseTasks.Add(requestId, tcs);
+
+        // Ensure no other task is reading or writing at the same time
+        await streamLock.WaitAsync();
+        try
+        {
+            // Write the request to the server
+            var requestJson = JsonSerializer.Serialize(request);
+            await writer.WriteLineAsync(requestJson);
+
+            // Wait for the response and return the deserialized result
+            var responseJson = await tcs.Task;
+            var response = JsonSerializer.Deserialize<RpcResponse<T>>(responseJson);
+            return response.Result;
+        }
+        finally
+        {
+            streamLock.Release();
+        }
+    }
+
     /// <summary>
     /// Sends a request to the server without expecting a response.
     /// </summary>
     internal async Task SendRequest(string method, params object[] parameters)
     {
-        var request = JsonSerializer.Serialize(new { Method = method, Params = parameters });
-        await writer.WriteLineAsync(request);
-    }
+        var requestId = Interlocked.Increment(ref currentRequestId);  // Unique request ID
+        var request = new
+        {
+            Id = requestId,
+            Method = method,
+            Params = parameters
+        };
 
-    /// <summary>
-    /// Sends a request to the server and waits for a response.
-    /// </summary>
-    internal async Task<T> SendRequest<T>(string method, params object[] parameters)
+        // Create a TaskCompletionSource to await the response
+        var tcs = new TaskCompletionSource<string>();
+        responseTasks.Add(requestId, tcs);
+
+        // Ensure no other task is reading or writing at the same time
+        await streamLock.WaitAsync();
+        try
+        {
+            // Write the request to the server
+            var requestJson = JsonSerializer.Serialize(request);
+            await writer.WriteLineAsync(requestJson);
+        }
+        finally
+        {
+            streamLock.Release();
+        }
+    }
+    
+    private void HandleAbort()
     {
-        var request = JsonSerializer.Serialize(new { Method = method, Params = parameters });
-        await writer.WriteLineAsync(request);
-
-        var responseJson = await reader.ReadLineAsync();
-        var response = JsonSerializer.Deserialize<RpcResponse<T>>(responseJson);
-        return response.Result;
+        Logger.Instance.WLog("Aborting client operations as requested by server.");
+        OnAbort?.Invoke();
     }
+
+    public Action OnAbort { get; set; }
 }
 
 /// <summary>
@@ -144,6 +184,11 @@ class RpcMessage
 /// <typeparam name="T">The type of the result contained in the response.</typeparam>
 class RpcResponse<T>
 {
+    /// <summary>
+    /// Gets or sets the ID of the request this response is associated with.
+    /// </summary>
+    public int? Id { get; set; }
+    
     /// <summary>
     /// Gets or sets the result of the RPC call.
     /// </summary>

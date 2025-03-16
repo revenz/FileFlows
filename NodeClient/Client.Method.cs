@@ -305,4 +305,13 @@ public partial class Client
     /// <param name="log">the complete log of the file processing</param>
     public async Task FileFinishProcessing(LibraryFile libraryFile, string log)
         => await _connection.SendAsync("FileFinishProcessing", libraryFile, log);
+
+    /// <summary>
+    /// Prepends the text to the log file on the server
+    /// </summary>
+    /// <param name="libFileUid">the UID of the file</param>
+    /// <param name="lines">the lines of the log</param>
+    /// <param name="overwrite">if the file should be overwritten or appended to</param>
+    public async Task FileLogAppend(Guid libFileUid, string lines, bool overwrite = false)
+        => await _connection.SendAsync(nameof(FileLogAppend), libFileUid, lines, overwrite);
 }

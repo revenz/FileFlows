@@ -31,7 +31,7 @@ public class RpcRegister : RegisterHandler
             return JsonSerializer.Serialize(new { Result = "Error", Error = ex.Message });
         }
 
-        return JsonSerializer.Serialize(new { Result = result });
+        return JsonSerializer.Serialize(new { Result = result, Id = request.Id });
     }
 }
 
@@ -40,6 +40,11 @@ public class RpcRegister : RegisterHandler
 /// </summary>
 public class RpcRequest
 {
+    /// <summary>
+    /// Gets or sets the ID of the request
+    /// </summary>
+    public int Id { get; set; }
+    
     /// <summary>
     /// The name of the method to be called.
     /// </summary>
