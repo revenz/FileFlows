@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using Acornima.Ast;
 using FileFlows.Common;
 using FileFlows.Helpers;
 using FileFlows.RemoteServices;
@@ -153,8 +154,11 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         var logSemaphore = new SemaphoreSlim(1, 1);
         using JsonRpcServer rpcServer = new(client, runnerParameters, (message) =>
         {
-            if (string.IsNullOrEmpty(message) == false)
-                runLog.AppendLine(message);
+            if (string.IsNullOrEmpty(message))
+                return;
+            Console.WriteLine("Runner: " + message);
+            Logger.Instance.ILog("Runner: " + message);
+            runLog.AppendLine(message);
             _ = Task.Run(async () =>
             {
                 await logSemaphore.WaitAsync(ctx);

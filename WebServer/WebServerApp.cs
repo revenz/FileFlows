@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using FileFlows.NodeClient;
 using FileFlows.Services.FileProcessing;
 using FileFlows.Services.Interfaces;
+using FileFlows.Services.SystemOverview;
 using FileFlows.WebServer.Filters;
 using FileFlows.WebServer.Hubs;
 using FileFlows.WebServer.Middleware;
@@ -325,7 +326,7 @@ public class WebServerApp
         ServiceLoader.AddSpecialCase<INodeHubService>(new NodeHubBridge(_nodeHub));
 
         // just to start up the file queue service
-        _ = ServiceLoader.Load<FileQueueService>();
+        InitializeServices();
         
         var client = new Client(new ()
         {
@@ -339,6 +340,17 @@ public class WebServerApp
         //client.StopAsync().Wait();
         Logger.Instance.ILog("Finished running FileFlows Server");
         WorkerManager.StopWorkers();
+    }
+
+    /// <summary>
+    /// Initialises some startup services
+    /// </summary>
+    private static void InitializeServices()
+    {
+        _ = ServiceLoader.Load<SystemOverviewService>();
+        _ = ServiceLoader.Load<SystemOverviewService>();
+        _ = ServiceLoader.Load<FileQueueService>();
+        _ = ServiceLoader.Load<LibraryFileStatusOverviewService>();
     }
 
     /// <summary>
