@@ -25,6 +25,11 @@ public class NodeParameters
     /// Gets or sets the file relative to the library path
     /// </summary>
     public string RelativeFile { get; set; }
+    
+    /// <summary>
+    /// Gets or seta a cancellation token to listen for
+    /// </summary>
+    public CancellationToken CancellationToken { get; init; }
 
     /// <summary>
     /// The current working file as it is being processed in the flow, 
@@ -388,7 +393,8 @@ public class NodeParameters
     /// <param name="isDirectory">if this is executing against a directory instead of a file</param>
     /// <param name="libraryPath">the path of the library this file exists in</param>
     /// <param name="fileService">the FileService to user</param>
-    public NodeParameters(string? filename, ILogger logger, bool isDirectory, string? libraryPath, IFileService fileService)
+    /// <param name="cancellationToken">the cancellation token</param>
+    public NodeParameters(string? filename, ILogger logger, bool isDirectory, string? libraryPath, IFileService fileService, CancellationToken cancellationToken = default)
     {
         Fake = string.IsNullOrEmpty(filename);
         this.IsDirectory = isDirectory;
@@ -411,7 +417,7 @@ public class NodeParameters
         this.TempPath = string.Empty;
         this.Logger = logger;
         //InitFile(filename);
-        this.Process = new ProcessHelper(logger, this.Fake);
+        this.Process = new ProcessHelper(logger, cancellationToken, this.Fake);
     }
 
     /// <summary>
@@ -421,7 +427,7 @@ public class NodeParameters
     public NodeParameters(ILogger logger)
     {
         this.Logger = logger;
-        this.Process = new ProcessHelper(logger, false);
+        this.Process = new ProcessHelper(logger, CancellationToken.None, false);
     }
 
 

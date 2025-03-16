@@ -167,9 +167,13 @@ public class JsonRpcClient
         }
     }
     
+    /// <summary>
+    /// The server requested this process be aborted
+    /// </summary>
     private void HandleAbort()
     {
         Logger.Instance.WLog("Aborting client operations as requested by server.");
+        Console.WriteLine("Aborting client operations as requested by server.");
         OnAbort?.Invoke();
     }
 

@@ -257,10 +257,12 @@ public class RunnerManager
     /// Aborts a runner if it is running
     /// </summary>
     /// <param name="uid">the UID of the runner</param>
-    public async Task AbortRunner(Guid uid)
+    /// <returns>true if the runner was requested to cancel</returns>
+    public async Task<bool> AbortRunner(Guid uid)
     {
         if (_activeRunners.TryGetValue(uid, out var runner) == false)
-            return;
-        runner.Abort();
+            return false;
+        await runner.Abort();
+        return true;
     }
 }

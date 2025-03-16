@@ -97,15 +97,32 @@ public class NodeHubBridge : INodeHubService
     }
 
     /// <inheritdoc/>
-    public async Task AbortFile(Guid uid)
+    public async Task<bool> AbortFile(Guid uid)
     {
         try
         {
-            await _hubContext.Clients.All.SendAsync("AbortFile", uid);
+            var nodes = ServiceLoader.Load<NodeService>().GetOnlineNodes();
+            foreach (var node in nodes)
+            {
+                try
+                {
+                    bool canceled = await _hubContext.Clients.Client(node.ConnectionId)
+                    .InvokeAsync<bool>("AbortFile", uid, CancellationToken.None);
+
+                    if (canceled)
+                        return true;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.ELog($"Failed aborting file: {ex}");
+                }
+            }
         }
         catch (Exception)
         {
             // Ignored
         }
+
+        return false;
     }
 }

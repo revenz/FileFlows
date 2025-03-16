@@ -23,12 +23,15 @@ namespace FileFlows.NodeClient;
 /// <param name="onCompleted">The callback to execute when the runner completes, this removes the active runnner</param>
 public class Runner(Client client, RunFileArguments args, ProcessingNode node, string tempPath, Action<Guid> onCompleted)
 {
-    public Guid Id { get; } = Guid.NewGuid();
+    public readonly Guid Id = args.LibraryFile.Uid;
+    
     StringBuilder runLog = new StringBuilder();
     private int _exitCode;
     private bool _keepFiles;
     private CancellationTokenSource? _cancellationTokenSource;
     private Task? _runnerTask;
+    private bool _isRunning;
+    private bool _aborted = false;
 
 
     /// <summary>
@@ -37,7 +40,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     public void Start()
     {
         _cancellationTokenSource = new CancellationTokenSource();
-        
+        _isRunning = true;
         _ = Task.Run(async () =>
         {
             // move the file as Processing
@@ -83,6 +86,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 finally
                 {
                     onCompleted(Id);
+                    _isRunning = false;
                 }
             }
         });
@@ -287,11 +291,20 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
 
             // After process exits, handle result
             var lf = rpcServer.GetProcessedFile();
-            if(lf.Status == FileStatus.Processing)
-                lf.Status = (FileStatus)_exitCode;
-            if (lf.Status == FileStatus.Processing || lf.Status == FileStatus.Unprocessed)
+
+            if (_aborted && lf.Status != FileStatus.Processed)
+            {
                 lf.Status = FileStatus.ProcessingFailed;
-            
+                lf.FailureReason = "Aborted by user";
+            }
+            else
+            {
+                if (lf.Status == FileStatus.Processing)
+                    lf.Status = (FileStatus)_exitCode;
+                if (lf.Status == FileStatus.Processing || lf.Status == FileStatus.Unprocessed)
+                    lf.Status = FileStatus.ProcessingFailed;
+            }
+
             return lf;
         }
         catch (Exception ex)
@@ -386,9 +399,17 @@ Failed to create working directory, this is likely caused by the mapped '/temp' 
      /// <summary>
      /// Aborts the runner
      /// </summary>
-     public void Abort()
+     public async Task Abort()
      {
+         _aborted = true;
          // Abort the run
          _cancellationTokenSource?.Cancel();
+         
+         // Wait for the runner to finish if it's still running
+         while (_isRunning)
+         {
+             await Task.Delay(100);  // You can adjust the delay as needed to avoid tight looping
+         }
+         
      }
 }

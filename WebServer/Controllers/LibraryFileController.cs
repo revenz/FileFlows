@@ -1,6 +1,7 @@
 using System.Data;
 using FileFlows.LibraryUtils;
 using FileFlows.ServerShared.Models;
+using FileFlows.Services.Interfaces;
 using FileFlows.Services.ServiceHelpers;
 using FileFlows.Services.SystemOverview;
 using FileFlows.WebServer.Hubs;
@@ -303,18 +304,26 @@ public class LibraryFileController : Controller
 
 
     /// <summary>
-    /// Cancels running files
+    /// Aborts running files
     /// </summary>
     /// <param name="model">A reference model containing UIDs to abort</param>
     /// <returns>an awaited task</returns>
     [HttpDelete("abort")]
-    public async Task Cancel([FromBody] ReferenceModel<Guid> model)
+    public async Task Abort([FromBody] ReferenceModel<Guid> model)
     {
-        await ServiceLoader.Load<LibraryFileService>().AbortFiles(model.Uids);
+        // await ServiceLoader.Load<LibraryFileService>().AbortFiles(model.Uids);
+        List<Guid> failed = new();
         foreach (var uid in model.Uids)
         {
-            await ServiceLoader.Load<NodeHubBridge>().AbortFile(uid);
+            if (await ServiceLoader.Load<INodeHubService>().AbortFile(uid) == false)
+            {
+                // wasn't able to cancel the file, likely the node isnt connected
+                failed.Add(uid);
+            }
         }
+
+        if (failed.Count > 0)
+            await SetStatus(FileStatus.ProcessingFailed, new () { Uids = failed.ToArray() });
     }
     
     

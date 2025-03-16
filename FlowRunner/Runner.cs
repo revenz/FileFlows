@@ -50,6 +50,9 @@ public class Runner
         this.WorkingDir = workingDir;
     }
 
+    /// <summary>
+    /// Aborts the runner
+    /// </summary>
     private void Abort()
     {
         this.Canceled = true;
@@ -185,7 +188,8 @@ public class Runner
         });
         
         nodeParameters = new NodeParameters(runInstance.LibraryFile.Name, logger,
-            runInstance.Properties.IsDirectory, runInstance.Properties.LibraryPath, fileService: FileService.Instance)
+            runInstance.Properties.IsDirectory, runInstance.Properties.LibraryPath, fileService: FileService.Instance,
+            cancellationToken: CancellationToken.Token)
         {
             Node = new () { Uid = Node.Uid, Name = Node.Name, Type = Node.Address },
             Library = runInstance.LibraryFile.Library ?? new () { Uid = runInstance.LibraryFile.LibraryUid!.Value, 

@@ -170,16 +170,19 @@ public class ProcessHelper : IProcessHelper
     TaskCompletionSource<bool> outputCloseEvent, errorCloseEvent;
 
     private bool Fake;
+    private CancellationToken _cancellationToken;
 
     /// <summary>
     /// Constructs an instance of the process helper
     /// </summary>
     /// <param name="logger">the logger used in the process helper</param>
+    /// <param name="cancellationToken">the cancellation token to use on any spawned processes</param>
     /// <param name="fake">if this is a fake process helper, used in unit test or a demo system</param>
-    public ProcessHelper(ILogger logger, bool fake)
+    public ProcessHelper(ILogger logger, CancellationToken cancellationToken, bool fake)
     {
         this.Logger = logger;
         this.Fake = fake;
+        _cancellationToken = cancellationToken;
     }
 
     /// <summary>
@@ -287,7 +290,7 @@ public class ProcessHelper : IProcessHelper
                 var timeoutMilliseconds = args.Timeout * 1000;
 
                 // Creates task to wait for process exit using timeout
-                var waitForExit = WaitForExitAsync(process, timeoutMilliseconds);
+                var waitForExit = WaitForExitAsync(process, timeoutMilliseconds, _cancellationToken);
 
                 // Create task to wait for process exit and closing all output streams
                 var processTask = Task.WhenAll(waitForExit, outputCloseEvent.Task, errorCloseEvent.Task);
@@ -320,8 +323,9 @@ public class ProcessHelper : IProcessHelper
                 {
                     try
                     {
-                        // Kill hung process
-                        process.Kill();
+                        // Kill hung process if cancellation was requested or process exceeded timeout
+                        if (!_cancellationToken.IsCancellationRequested)
+                            process.Kill();
                         result.StandardError = errorBuilder.ToString();
                         result.StandardOutput = outputBuilder.ToString();  
                         result.Output = result.StandardOutput?.EmptyAsNull() ?? result.StandardError;
@@ -395,21 +399,27 @@ public class ProcessHelper : IProcessHelper
         }
     }
 
-
     /// <summary>
     /// Waits for a process to exit
     /// </summary>
     /// <param name="process">the process to wait for</param>
     /// <param name="timeoutMilliseconds">how long to wait before failing</param>
+    /// <param name="cancellationToken">the cancellation token to support cancellation</param>
     /// <returns>if the process completed before the timeout</returns>
-    private static Task<bool> WaitForExitAsync(Process process, int timeoutMilliseconds)
+    private static async Task<bool> WaitForExitAsync(Process process, int timeoutMilliseconds, CancellationToken cancellationToken)
     {
-        if (timeoutMilliseconds > 0)
-            return Task.Run(() => process.WaitForExit(timeoutMilliseconds));
-        return Task.Run(() =>
+        var tcs = new TaskCompletionSource<bool>();
+        process.EnableRaisingEvents = true;
+        process.Exited += (sender, e) => tcs.TrySetResult(true);
+
+        using (cancellationToken.Register(() => tcs.TrySetResult(false)))
         {
-            process.WaitForExit();
-            return Task.FromResult<bool>(true);
-        });
+            var delayTask = Task.Delay(timeoutMilliseconds, cancellationToken);
+            var exitTask = tcs.Task;
+
+            var completedTask = await Task.WhenAny(exitTask, delayTask);
+            return completedTask == exitTask && process.HasExited;
+        }
     }
 }
+

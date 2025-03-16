@@ -192,10 +192,9 @@ public partial class Client
     /// Aborts a file
     /// </summary>
     /// <param name="uid">the UID of the file to abort</param>
-    private async Task AbortFile(Guid uid)
-    {
-        await _runnerManager.AbortRunner(uid);
-    }
+    /// <returns>true if the runner was requested to cancel</returns>
+    private async Task<bool> AbortFile(Guid uid)
+        => await _runnerManager.AbortRunner(uid);
     
     private CancellationTokenSource _delayCts = new();
 
