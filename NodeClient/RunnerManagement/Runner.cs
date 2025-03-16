@@ -19,7 +19,7 @@ namespace FileFlows.NodeClient;
 /// <param name="args">The arguments for runner execution.</param>
 /// <param name="node">The node this is running on</param>
 /// <param name="tempPath">The temp path for this run</param>
-/// <param name="onCompleted">The callback to execute when the runner completes.</param>
+/// <param name="onCompleted">The callback to execute when the runner completes, this removes the active runnner</param>
 public class Runner(Client client, RunFileArguments args, ProcessingNode node, string tempPath, Action<Guid> onCompleted)
 {
     public Guid Id { get; } = Guid.NewGuid();
@@ -73,11 +73,16 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 {
                     AppendToRunLog("Failed to clean up runner directory: " + ex.Message, type: "ERR");
                 }
-                
-                // Finish the file processing.
-                await client.FileFinishProcessing(lf, runLog.ToString());
-                
-                onCompleted(Id);
+
+                try
+                {
+                    // Finish the file processing.
+                    await client.FileFinishProcessing(lf, runLog.ToString());
+                }
+                finally
+                {
+                    onCompleted(Id);
+                }
             }
         });
     }
