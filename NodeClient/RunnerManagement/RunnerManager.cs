@@ -28,6 +28,17 @@ public class RunnerManager
         _configService = ServiceLoader.Load<ConfigurationService>();
     }
 
+    private ILogger _Logger;
+
+    /// <summary>
+    /// Gets or sets the logger
+    /// </summary>
+    public ILogger Logger
+    {
+        get => _Logger ?? FileFlows.Shared.Logger.Instance; 
+        set => _Logger = value;
+    }
+
     /// <summary>
     /// Attempts to start a new runner if the maximum allowed runners has not been reached.
     /// </summary>
@@ -44,33 +55,33 @@ public class RunnerManager
 
             if (_activeRunners.Count >= maxRunners)
             {
-                Logger.Instance.ILog($"At maximum number of runners reached ({_activeRunners.Count} vs {maxRunners}).");
+                Logger.ILog($"At maximum number of runners reached ({_activeRunners.Count} vs {maxRunners}).");
                 return false;
             }
 
             if (args.CanRunPreExecuteCheck && PreExecuteScriptTest(node, _activeRunners.Count, config) == false)
             {
-                Logger.Instance.ILog("Pre-execute check failed");
+                Logger.ILog("Pre-execute check failed");
                 return false;
             }
 
             var tempPath = GetTempPath(node);
             if (tempPath == null)
             {
-                Logger.Instance.ILog("Failed to locate temp path.");
+                Logger.ILog("Failed to locate temp path.");
                 return false;
             }
 
             var runner = new Runner(client, args, node, tempPath, OnRunnerCompleted);
             if (_activeRunners.TryAdd(runner.Id, runner))
             {
-                Logger.Instance.ILog("Starting runner!!!");
+                Logger.ILog("Starting runner!!!");
                 runner.Start();
                 EventManager.Broadcast(EventNames.RUNNERS_UPDATED,  _activeRunners.Count);
                 return true;
             }
 
-            Logger.Instance.ILog("Failed to add runner");
+            Logger.ILog("Failed to add runner");
             return false;
         }
     }
@@ -81,7 +92,7 @@ public class RunnerManager
         string tempPath = node.TempPath?.EmptyAsNull() ?? string.Empty;
         if (string.IsNullOrEmpty(tempPath))
         {
-            Logger.Instance?.ELog($"Temp Path not set on node '{node.Name}', cannot process");
+            Logger?.ELog($"Temp Path not set on node '{node.Name}', cannot process");
             return null;
         }
 
@@ -93,7 +104,7 @@ public class RunnerManager
             }
             catch (Exception)
             {
-                Logger.Instance?.ELog(
+                Logger?.ELog(
                     $"Temp Path does not exist on on node '{node.Name}', and failed to create it: {tempPath}");
                 return null;
             }
@@ -159,15 +170,15 @@ public class RunnerManager
                 _ = ServiceLoader.Load<INotificationService>().Record(NotificationSeverity.Warning,
                     $"Failed executing pre-execute script '{script.Name}'",
                     $"Failed to execute on node '{node.Name}': {error}");
-                Logger.Instance.WLog("Failed running pre-execute script: " + error + "\n" + logger);
+                Logger.WLog("Failed running pre-execute script: " + error + "\n" + logger);
                 return false;
             }
             bool preExecuteResult = seResult.Value == 1;
             
             if(preExecuteResult == false)
-                Logger.Instance.ILog("Pre-Execute Script Returned False:\n" + logger);
+                Logger.ILog("Pre-Execute Script Returned False:\n" + logger);
             else
-                Logger.Instance.ILog("Pre-Execute Script Successful:\n" + logger);
+                Logger.ILog("Pre-Execute Script Successful:\n" + logger);
             
             return preExecuteResult;
         }
@@ -176,15 +187,15 @@ public class RunnerManager
         string jsFile = Path.Combine(scriptDir, "System", node.PreExecuteScript + ".js");
         if (File.Exists(jsFile) == false)
         {
-            Logger.Instance.ELog("Failed to locate pre-execute script: " + node.PreExecuteScript);
+            Logger.ELog("Failed to locate pre-execute script: " + node.PreExecuteScript);
             return false;
         }
 
-        Logger.Instance.ILog("Loading Pre-Execute Script: " + jsFile);
+        Logger.ILog("Loading Pre-Execute Script: " + jsFile);
         string code = File.ReadAllText(jsFile);
         if (string.IsNullOrWhiteSpace(code))
         {
-            Logger.Instance.ELog("Failed to load pre-execute script code");
+            Logger.ELog("Failed to load pre-execute script code");
             return false;
         }
 
@@ -194,15 +205,15 @@ public class RunnerManager
         var result = ScriptExecutor.Execute(code, variables, sharedDirectory: sharedDir);
         if (result.Success == false)
         {
-            Logger.Instance.ELog("Pre-execute script failed: " + result.ReturnValue + "\n" + result.Log);
+            Logger.ELog("Pre-execute script failed: " + result.ReturnValue + "\n" + result.Log);
             return false;
         }
-        Logger.Instance.ILog("Pre-Execute script returned: " + (result.ReturnValue == null ? "" : System.Text.Json.JsonSerializer.Serialize(result.ReturnValue)));
+        Logger.ILog("Pre-Execute script returned: " + (result.ReturnValue == null ? "" : System.Text.Json.JsonSerializer.Serialize(result.ReturnValue)));
         
 
         if (result.ReturnValue?.ToString()?.ToLowerInvariant() == "exit")
         {
-            Logger.Instance.ILog("Exiting");
+            Logger.ILog("Exiting");
             return false;
         }
 
@@ -210,17 +221,17 @@ public class RunnerManager
         {
             if (Globals.IsDocker == false)
             {
-                Logger.Instance.WLog("Requested restart but not running inside docker");
+                Logger.WLog("Requested restart but not running inside docker");
                 return false;
             }
 
             if (currentRunners > 0)
             {
-                Logger.Instance.WLog("Requested restart, but there are executing runners");
+                Logger.WLog("Requested restart, but there are executing runners");
                 return false;
             }
             
-            Logger.Instance.ILog("Restarting...");
+            Logger.ILog("Restarting...");
             Thread.Sleep(5_000);
             Environment.Exit(0);
             return false;
@@ -228,10 +239,10 @@ public class RunnerManager
         
         if (result.ReturnValue as bool? == false)
         {
-            Logger.Instance.ELog("Output from pre-execute script failed: " + result.ReturnValue + "\n" + result.Log);
+            Logger.ELog("Output from pre-execute script failed: " + result.ReturnValue + "\n" + result.Log);
             return false;
         }
-        Logger.Instance.ILog("Pre-execute script passed: \n"+ result.Log.Replace("\\n", "\n"));
+        Logger.ILog("Pre-execute script passed: \n"+ result.Log.Replace("\\n", "\n"));
         return true;
     }
 

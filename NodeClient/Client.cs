@@ -55,6 +55,7 @@ public partial class Client : IDisposable
         _configurationService = ServiceLoader.Load<ConfigurationService>();
         _hostname = parameters.Hostname;
         _runnerManager = ServiceLoader.Load<RunnerManager>();
+        _runnerManager.Logger = _logger;
         _retryPolicyLoop = new RetryPolicyLoop(logger);
         _cts = new CancellationTokenSource();
         
