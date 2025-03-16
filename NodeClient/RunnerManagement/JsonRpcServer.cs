@@ -52,6 +52,7 @@ public class JsonRpcServer : IDisposable
     public JsonRpcServer(Client client, RunnerParameters runnerParameters, Action<string> logMessage)
     {
         _client = client;
+        this.cts = new CancellationTokenSource();
         this.runnerParameters = runnerParameters;
         _libraryFileHandler = new(this, _rpcRegister);
         _basicHandler = new(this, _rpcRegister);
@@ -64,7 +65,6 @@ public class JsonRpcServer : IDisposable
         };
         this._libraryFile = runnerParameters.LibraryFile;
         this.PipeName = "runner-" + _libraryFile.Uid;
-        this.cts = new CancellationTokenSource();
     }
 
     /// <summary>
@@ -139,8 +139,6 @@ public class JsonRpcServer : IDisposable
 
         Console.WriteLine("Stopping server...");
         cts.Cancel();
-        cts.Dispose();
-        cts = null;
     }
 
     /// <summary>
@@ -152,6 +150,8 @@ public class JsonRpcServer : IDisposable
         serverTask?.Wait();
         serverTask?.Dispose();
         writeLock?.Dispose();
+        cts.Dispose();
+        cts = null;
     }
 
     /// <summary>

@@ -256,6 +256,8 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 await processExitTask;
             }
 
+            _exitCode = process.ExitCode;
+
             // After process exits, handle result
             var lf = rpcServer.GetProcessedFile();
             if(lf.Status == FileStatus.Processing)
