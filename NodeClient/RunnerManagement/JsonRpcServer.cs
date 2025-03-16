@@ -80,7 +80,6 @@ public class JsonRpcServer : IDisposable
 
                 try
                 {
-                    // Create the NamedPipeServerStream and assign it to the class-level 'server' variable
                     server = new NamedPipeServerStream(PipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte);
                     Console.WriteLine("Waiting for child process...");
 
@@ -92,16 +91,24 @@ public class JsonRpcServer : IDisposable
 
                     while (server.IsConnected && !cts.Token.IsCancellationRequested)
                     {
-                        var requestJson = await reader.ReadLineAsync();
+                        if (cts.Token.IsCancellationRequested)
+                            break; // Ensure exit when stopping
+
+                        var requestJson = await reader.ReadLineAsync(cts.Token);
                         if (requestJson == null) break;
 
                         _ = Task.Run(async () =>
                         {
                             var responseJson = await _rpcRegister.HandleRequest(requestJson);
                             if (responseJson != null)
-                                await SendMessageToClient(writer, responseJson); // Use semaphore-locked writer
-                        });
+                                await SendMessageToClient(writer, responseJson);
+                        }, cts.Token);
                     }
+                }
+                catch (OperationCanceledException)
+                {
+                    Console.WriteLine("Server task canceled.");
+                    break; // Ensure exit
                 }
                 catch (Exception ex)
                 {
@@ -120,6 +127,7 @@ public class JsonRpcServer : IDisposable
                 }
             }
         }, cts.Token);
+
     }
 
     /// <summary>

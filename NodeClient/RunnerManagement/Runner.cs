@@ -169,6 +169,9 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             {
 #if(DEBUG)
                 _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
+                libFile = rpcServer.GetProcessedFile();
+                libFile.Status = (FileStatus)_exitCode;
+                return libFile;
 #endif
             }
             else
@@ -218,25 +221,13 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 }
 
                 // After process exits, handle result
-                if (process.ExitCode == 0)
-                {
-                    return rpcServer.GetProcessedFile();
-                }
-                else
-                {
-                    libFile.Status = FileStatus.ProcessingFailed;
-                    runLog.AppendLine($"Error: Exit code {process.ExitCode}");
-                }
+                return rpcServer.GetProcessedFile();
             }
         }
         catch (Exception ex)
         {
             runLog.AppendLine($"Error: {ex.Message}");
             libFile.Status = FileStatus.ProcessingFailed;
-        }
-        finally
-        {
-            rpcServer.Stop(); // Always stop the rpc server after process completes
         }
 
         return libFile;

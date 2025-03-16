@@ -143,7 +143,6 @@ public class Runner
         nodeParameters?.Logger?.ILog("Final Size: " + runInstance.LibraryFile.FinalSize);
         runInstance.LibraryFile.OutputPath = Node.UnMap(nodeParameters.WorkingFile);
         nodeParameters?.Logger?.ILog("Output Path: " + runInstance.LibraryFile.OutputPath);
-        nodeParameters?.Logger?.ILog("Final Status: " + runInstance.LibraryFile.Status);
         if (string.IsNullOrWhiteSpace(nodeParameters.FailureReason) == false)
         {
             nodeParameters?.Logger?.ILog("Final Failure Reason: " + nodeParameters.FailureReason);
