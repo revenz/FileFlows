@@ -53,6 +53,7 @@ public class _SignalrDebugController : Controller
         
         builder.AppendLine(await GetTopInfo());
         builder.AppendLine(GetNodeOverview());
+        builder.AppendLine(GetFileStatusCounts());
         builder.AppendLine(GetQueuedFiles());
         
         builder.AppendLine("</body></html>");
@@ -101,6 +102,35 @@ public class _SignalrDebugController : Controller
         return $"<span>Test File: {(FileDispatcher.TestFile?.Name ?? "None")}" + html;
     }
 
+    private string GetFileStatusCounts()
+    {
+        var service = ServiceLoader.Load<LibraryFileStatusOverviewService>();
+        var files = service.GetStatuses();
+        StringBuilder html = new ($"""
+                                   <table>
+                                       <tbody>
+                                           <thead>
+                                               <tr>
+                                                   <th>State</th>
+                                                   <th>Files ({files.Count})</th>
+                                               </tr>
+                                           </thead>
+                                       <tbody>
+                                   """);
+        foreach (var status in files)
+        {
+            html.AppendLine($"""
+                             <tr>
+                                 <td>{status.Status}</td>
+                                 <td>{status.Count}</td>
+                             </tr>
+                             """);
+        }
+
+        html.AppendLine("</tbody></table>");
+
+        return $"<h2>File Status Counts</h2>{html}";
+    }
     private string GetNodeOverview()
     {
         var service = ServiceLoader.Load<NodeService>();
