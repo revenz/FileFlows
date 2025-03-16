@@ -159,18 +159,18 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             Console.WriteLine("Runner: " + message);
             Logger.Instance.ILog("Runner: " + message);
             runLog.AppendLine(message);
-            _ = Task.Run(async () =>
-            {
-                await logSemaphore.WaitAsync(ctx);
-                try
-                {
-                    await client.FileLogAppend(libFile.Uid, message);
-                }
-                finally
-                {
-                    logSemaphore.Release();
-                }
-            }, ctx);
+            // _ = Task.Run(async () =>
+            // {
+            //     await logSemaphore.WaitAsync(ctx);
+            //     try
+            //     {
+            //         await client.FileLogAppend(libFile.Uid, message);
+            //     }
+            //     finally
+            //     {
+            //         logSemaphore.Release();
+            //     }
+            // }, ctx);
         });
 
         rpcServer.Start();
@@ -214,20 +214,47 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             // Attach event handlers to capture output
             process.OutputDataReceived += (sender, args) =>
             {
-                if (args.Data != null)
+                if (args.Data == null)
+                    return;
+                Console.Error.WriteLine(args.Data); // Write error to the console
+                
+                _ = Task.Run(async () =>
                 {
-                    Console.WriteLine(args.Data); // Write to the console
-                }
+                    await logSemaphore.WaitAsync(ctx);
+                    try
+                    {
+                        await client.FileLogAppend(libFile.Uid, args.Data);
+                    }
+                    finally
+                    {
+                        logSemaphore.Release();
+                    }
+                }, ctx);
             };
             process.ErrorDataReceived += (sender, args) =>
             {
-                if (args.Data != null)
+                if (args.Data == null)
+                    return;
+                Console.Error.WriteLine(args.Data); // Write error to the console
+                
+                _ = Task.Run(async () =>
                 {
-                    Console.Error.WriteLine(args.Data); // Write error to the console
-                }
+                    await logSemaphore.WaitAsync(ctx);
+                    try
+                    {
+                        await client.FileLogAppend(libFile.Uid, args.Data);
+                    }
+                    finally
+                    {
+                        logSemaphore.Release();
+                    }
+                }, ctx);
             };
 
             process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
 
             // Wait for the cancellation token to be triggered (abort request)
             var abortCancellationTask = WaitForAbortAsync(ctx, rpcServer, process);

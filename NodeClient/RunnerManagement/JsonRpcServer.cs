@@ -189,7 +189,7 @@ public class JsonRpcServer : IDisposable
             if (server?.IsConnected == true)
             {
                 await writer.WriteLineAsync(message);
-                Console.WriteLine("Message sent.");
+                Console.WriteLine("JSON RPC Message sent to client: " + message);
             }
             else
             {
