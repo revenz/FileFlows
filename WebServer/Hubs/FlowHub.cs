@@ -47,27 +47,27 @@ public class FlowHub : Hub
         }
     }
 
-    /// <summary>
-    /// Receives a hello from the flow runner, indicating its still alive and executing
-    /// </summary>
-    /// <param name="runnerUid">the UID of the flow runner</param>
-    /// <param name="infoJson">the flow execution info serialized</param>
-    /// <returns>if the hello was successful or not</returns>
-    public async Task<bool> Hello(Guid runnerUid, string infoJson)
-    {
-        try
-        {
-            FlowExecutorInfo? info = string.IsNullOrEmpty(infoJson)
-                ? null
-                : JsonSerializer.Deserialize<FlowExecutorInfo>(infoJson);
-            return await ServiceLoader.Load<FlowRunnerService>().Hello(runnerUid, info);
-        }
-        catch(Exception ex)
-        {
-            Logger.Instance.ELog("Error in hello: " + ex.Message + Environment.NewLine + ex.StackTrace);
-            return false;
-        }
-    }
+    // /// <summary>
+    // /// Receives a hello from the flow runner, indicating its still alive and executing
+    // /// </summary>
+    // /// <param name="runnerUid">the UID of the flow runner</param>
+    // /// <param name="infoJson">the flow execution info serialized</param>
+    // /// <returns>if the hello was successful or not</returns>
+    // public async Task<bool> Hello(Guid runnerUid, string infoJson)
+    // {
+    //     try
+    //     {
+    //         FlowExecutorInfo? info = string.IsNullOrEmpty(infoJson)
+    //             ? null
+    //             : JsonSerializer.Deserialize<FlowExecutorInfo>(infoJson);
+    //         return await ServiceLoader.Load<FlowRunnerService>().Hello(runnerUid, info);
+    //     }
+    //     catch(Exception ex)
+    //     {
+    //         Logger.Instance.ELog("Error in hello: " + ex.Message + Environment.NewLine + ex.StackTrace);
+    //         return false;
+    //     }
+    // }
 
     /// <summary>
     /// Tells the server to ignore the specified path when scanning

@@ -73,7 +73,7 @@ public class ClientServiceManager : IClientService
     /// Update executes
     /// </summary>
     /// <param name="executors">the executors</param>
-    public async Task UpdateExecutors(Dictionary<Guid, FlowExecutorInfoMinified> executors)
+    public async Task UpdateExecutors(List<FlowExecutorInfoMinified> executors)
     {
         if (await UpdateSemaphore.WaitAsync(50) == false)
             return;
@@ -83,8 +83,8 @@ public class ClientServiceManager : IClientService
             var broker = ServiceLoader.Load<SseEventBroker>();
             foreach (var executor in executors)
             {
-                executor.Value.HasThumbnail = File.Exists(Path.Combine(DirectoryHelper.LibraryFilesLoggingDirectory,
-                    executor.Value.LibraryFileUid + ".webp"));
+                executor.HasThumbnail = File.Exists(Path.Combine(DirectoryHelper.LibraryFilesLoggingDirectory,
+                    executor.LibraryFileUid + ".webp"));
             }
             await broker.BroadcastEvent(nameof(FlowExecutorInfoMinified), executors);
             // await _hubContext.Clients.All.SendAsync("UpdateExecutors", executors);
