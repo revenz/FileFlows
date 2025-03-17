@@ -163,18 +163,21 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             Console.WriteLine("Runner: " + message);
             Logger.Instance.ILog("Runner: " + message);
             runLog.AppendLine(message);
-            // _ = Task.Run(async () =>
-            // {
-            //     await logSemaphore.WaitAsync(ctx);
-            //     try
-            //     {
-            //         await client.FileLogAppend(libFile.Uid, message);
-            //     }
-            //     finally
-            //     {
-            //         logSemaphore.Release();
-            //     }
-            // }, ctx);
+            if (debugMode)
+            {
+                _ = Task.Run(async () =>
+                {
+                    await logSemaphore.WaitAsync(ctx);
+                    try
+                    {
+                        await client.FileLogAppend(libFile.Uid, message);
+                    }
+                    finally
+                    {
+                        logSemaphore.Release();
+                    }
+                }, ctx);
+            }
         });
 
         rpcServer.Start();
@@ -188,10 +191,10 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 // Adjust this as per your project's target framework
                 workingDirectory = Path.Combine(Directory.GetCurrentDirectory().Replace("Server", "FlowRunner"), "bin", "Debug", "net8.0");
 #if(DEBUG)
-                // _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
-                // libFile = rpcServer.GetProcessedFile();
-                // libFile.Status = (FileStatus)_exitCode;
-                // return libFile;
+                _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
+                libFile = rpcServer.GetProcessedFile();
+                libFile.Status = (FileStatus)_exitCode;
+                return libFile;
 #endif
             }
 

@@ -123,6 +123,8 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
             ProcessingTime = duration,
             Depth = flowDepth,
         });
+        
+        await client.LibraryFileHandler.UpdateLibraryFile(client.LibraryFile);
 
         await UpdateRunnerInfo();
     }
