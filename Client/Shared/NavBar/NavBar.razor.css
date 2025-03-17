@@ -28,7 +28,6 @@ ul {
 }
 
 .nav-item {
-  opacity: 0.7;
   position: relative;
   overflow: hidden;
 }
@@ -47,12 +46,17 @@ ul {
   margin-top: 0.75rem;
   font-size: 0.75rem;
 }
+.nav-item a .icon, .nav-item a .name {
+  opacity: 0.7;
+}
 .nav-item:not(.active):hover {
   background: rgba(255, 255, 255, 0.04);
 }
 .nav-item.active {
   background: rgba(255, 255, 255, 0.075);
   border-right: solid 1px var(--accent);
+}
+.nav-item.active .icon, .nav-item.active .name {
   opacity: 1;
 }
 .nav-item.active:after {

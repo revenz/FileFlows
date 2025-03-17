@@ -25,7 +25,6 @@ ul {
 }
 .nav-item
 {
-  opacity: 0.7;
   position: relative;
   overflow: hidden;
   a {
@@ -44,6 +43,10 @@ ul {
       margin-top:0.75rem;
       font-size: 0.75rem;
     }
+    
+    .icon, .name {
+      opacity: 0.7;
+    }
   }
   
   &:not(.active):hover {
@@ -53,7 +56,9 @@ ul {
   &.active {
     background: rgba(255, 255, 255, 0.075);
     border-right: solid 1px var(--accent);
-    opacity: 1;
+    .icon, .name {
+      opacity: 1;
+    }
     &:after {
       content: '';
       position: absolute;
