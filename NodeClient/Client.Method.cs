@@ -240,8 +240,13 @@ public partial class Client
                         InstallingDockerMods = _InstallingDockerMods
                     });
 
+                    _logger.ILog("SendNodeStatus Result: " + result);
+
                     if (result == NodeStatusUpdateResult.UpdateConfiguration)
+                    {
+                        _logger.ILog("Configuration out of date");
                         await UpdateConfiguration();
+                    }
                 }
             }
             catch (Exception ex)
