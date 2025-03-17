@@ -42,12 +42,6 @@ public partial class Client
         const string prefix = "UpdateConfiguration:";
         _logger.ILog($"{prefix} Update Configuration to '{revision}' requested");
 
-        if (await _configurationSemaphore.WaitAsync(20_000) == false)
-        {
-            _logger.ILog($"{prefix} Failed to acquire configuration update semaphore within 20 seconds.");
-            return;
-        }
-
         if (_configurationService.CurrentConfig?.Revision >= revision)
         {
             _logger.ILog($"{prefix} Configuration already updated to '{_configurationService.CurrentConfig?.Revision}'");
@@ -66,13 +60,13 @@ public partial class Client
             return;
         const string prefix = "UpdateConfiguration:";
 
+
+        bool updated = false;
         if (await _configurationSemaphore.WaitAsync(20_000) == false)
         {
             _logger.ILog($"{prefix} Failed to acquire configuration update semaphore within 20 seconds.");
             return;
         }
-
-        bool updated = false;
         try
         {
             _logger.ILog($"{prefix} Updating configuration...");
