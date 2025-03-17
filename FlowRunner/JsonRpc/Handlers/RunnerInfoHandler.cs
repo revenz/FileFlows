@@ -70,6 +70,7 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
     /// <param name="expiry">when this value will expire and should be removed if not updated again</param>
     public async Task RecordAdditionalInfo(string name, object value, int steps, TimeSpan? expiry)
     {
+        runInfo.AdditionalInfos ??= new();
         if (value == null)
         {
             if (runInfo.AdditionalInfos.ContainsKey(name) == false)
