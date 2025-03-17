@@ -18,6 +18,7 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         lblTitle = Translater.Instant("Pages.Plugins.Title");
         lblSettings = Translater.Instant("Labels.Settings");
         lblInUse = Translater.Instant("Labels.InUse");
