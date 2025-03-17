@@ -58,7 +58,7 @@ public partial class NodeHub : Hub
     /// Updates the status of a node.
     /// </summary>
     /// <param name="info">The node status information.</param>
-    public NodeStatusUpdateResult UpdateNodeStatus(NodeService.OnlineNodeInfo info)
+    public async Task<NodeStatusUpdateResult> UpdateNodeStatus(NodeService.OnlineNodeInfo info)
     {
         try
         {
@@ -66,9 +66,8 @@ public partial class NodeHub : Hub
                 return NodeStatusUpdateResult.InvalidModel;
             _logger.DLog($"Updating node status: {info.NodeUid}");
             _ = _nodeService.UpdateNodeStatusFromNode(info);
-            var _configurationService = ServiceLoader.Load<ConfigurationService>();
-            if (_configurationService.CurrentConfig != null &&
-                info.ConfigRevision != _configurationService.CurrentConfig?.Revision)
+            var configRevision = await ServiceLoader.Load<ISettingsService>().GetCurrentConfigurationRevision();
+            if (info.ConfigRevision != configRevision)
                 return NodeStatusUpdateResult.UpdateConfiguration;
             return NodeStatusUpdateResult.Success;
         }
