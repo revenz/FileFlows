@@ -327,6 +327,7 @@
   display: unset;
 }
 ::deep .flow-parts canvas {
+  background: var(--base-darker);
   position: absolute;
   top: 0;
   right: 0;
@@ -340,3 +341,5 @@
     display: none !important;
   }
 }
+
+/*# sourceMappingURL=Flow.razor.css.map */
