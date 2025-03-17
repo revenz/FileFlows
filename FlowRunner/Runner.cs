@@ -152,6 +152,8 @@ public class Runner
             nodeParameters?.Logger?.ILog("Final Failure Reason: " + nodeParameters.FailureReason);
             runInstance.LibraryFile.FailureReason = nodeParameters.FailureReason;
         }
+
+        runInstance.RpcClient.LibraryFileHandler.UpdateLibraryFile(runInstance.LibraryFile).Wait();
     }
 
     /// <summary>
