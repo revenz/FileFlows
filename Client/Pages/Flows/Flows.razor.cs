@@ -8,7 +8,7 @@ using ffFlow = FileFlows.Shared.Models.Flow;
 
 namespace FileFlows.Client.Pages;
 
-public partial class Flows : ListPage<Guid, FlowListModel>
+public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
 {
     /// <summary>
     /// Gets or sets the JavaScript runtime
@@ -36,11 +36,40 @@ public partial class Flows : ListPage<Guid, FlowListModel>
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        Profile = feService.Profile.Profile;
+        OnInitialized(false);
+        
         lblFailureFlowDescription = Translater.Instant("Pages.Flows.Messages.FailureFlowDescription");
         lblDefault = Translater.Instant("Labels.Default");
         lblReadOnly = Translater.Instant("Labels.ReadOnly");
         lblInUse = Translater.Instant("Labels.InUse");
+        
+        feService.Flow.FlowsUpdated += FlowOnFlowsUpdated;
+    }
+
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // so the skybox exists
+            UpdateData();
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+    private void FlowOnFlowsUpdated(List<FlowListModel> obj)
+    {
+        Data = feService.Flow.Flows;
+        UpdateTypeData();
+    }
+
+    private void UpdateData()
+    {
+        Data = feService.Flow.Flows;
+        UpdateTypeData();
     }
 
     /// <inheritdoc />
@@ -114,7 +143,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
             var newFlow = await HttpHelper.Post<ffFlow>("/api/flow/import", json);
             if (newFlow != null && newFlow.Success)
             {
-                await this.Refresh();
+                //await this.Refresh();
                 Toast.ShowSuccess(Translater.Instant("Pages.Flows.Messages.FlowImported", new { name = newFlow.Data.Name }));
             }
         }
@@ -144,7 +173,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
             var newItem = await HttpHelper.Get<Script>(url);
             if (newItem != null && newItem.Success)
             {
-                await this.Refresh();
+                //await this.Refresh();
                 Toast.ShowSuccess(Translater.Instant("Pages.Flows.Messages.Duplicated",
                     new { name = newItem.Data.Name }));
             }
@@ -159,14 +188,6 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         }
     }
 
-    protected override Task PostDelete() => Refresh();
-
-    public override Task PostLoad()
-    {
-        UpdateTypeData();
-        return Task.CompletedTask;
-    }
-    
     private void UpdateTypeData()
     {
         this.DataFailure = this.Data.Where(x => x.Type == FlowType.Failure).ToList();
@@ -224,7 +245,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         try
         {
             await HttpHelper.Put($"/api/flow/set-default/{item.Uid}?default={(!item.Default)}");
-            await this.Refresh();
+            //await this.Refresh();
         }
         finally
         {
@@ -249,5 +270,13 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         if (item?.UsedBy?.Any() != true)
             return;
         await UsedByDialog.Show(item.UsedBy);
+    }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        feService.Flow.FlowsUpdated -= FlowOnFlowsUpdated;
     }
 }

@@ -68,7 +68,7 @@ public class SseController : Controller
         var stopwatch = new System.Diagnostics.Stopwatch();
 
         // Prepare all tasks
-        var flowsTask = ServiceLoader.Load<FlowService>().GetAllAsync();
+        var flowsTask = ServiceLoader.Load<FlowService>().GetFlowsForBroker();
         var librariesTask = ServiceLoader.Load<LibraryService>().GetAllAsync();
         var executorsTask = ServiceLoader.Load<FlowRunnerService>().GetExecutors();
         var nodeStatusesTask = ServiceLoader.Load<NodeService>().GetStatusSummaries();
@@ -151,7 +151,7 @@ public class SseController : Controller
             CurrentSystemInfo = ServiceLoader.Load<SystemOverviewService>().GetSystemInfo(),
             CurrentFileOverData = ServiceLoader.Load<DashboardFileOverviewService>().GetData(),
             CurrentUpdatesInfo = ServiceLoader.Load<UpdateService>().Info,
-            FlowList = flowsTask.Result.ToDictionary(x => x.Uid, x => x.Name),
+            Flows = flowsTask.Result,
             LibraryList = librariesTask.Result.ToDictionary(x => x.Uid, x => x.Name),
             CurrentExecutorInfoMinified = executorsTask.Result.Values.ToList(),
             NodeStatusSummaries = nodeStatusesTask.Result,

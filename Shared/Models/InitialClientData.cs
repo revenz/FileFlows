@@ -16,7 +16,7 @@ public class InitialClientData
     /// Gets or sets a basic list of flows
     /// </summary>
     [JsonPropertyName("f")]
-    public Dictionary<Guid, string> FlowList { get; set; }
+    public List<FlowListModel> Flows { get; set; }
     
     /// <summary>
     /// Gets or sets the users profile
