@@ -17,7 +17,7 @@ public class RpcRegister : RegisterHandler
     {
         var request = JsonSerializer.Deserialize<RpcRequest>(json);
         if (request == null || !_handlers.TryGetValue(request.Method, out var handler))
-            return JsonSerializer.Serialize(new { Result = "Unknown method" });
+            return JsonSerializer.Serialize(new { Result = $"Unknown method '{request?.Method ?? "null"}'" });
 
         // Deserialize parameters into the expected types based on the registered handler
         object? result = null;

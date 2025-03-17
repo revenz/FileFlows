@@ -188,7 +188,8 @@ public class JsonRpcServer : IDisposable
         {
             if (server?.IsConnected == true)
             {
-                await writer.WriteLineAsync(message);
+                if(message.Contains("Unknown method", StringComparison.CurrentCultureIgnoreCase) == false)
+                    await writer.WriteLineAsync(message);
                 Console.WriteLine("JSON RPC Message sent to client: " + message);
             }
             else
