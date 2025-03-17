@@ -157,6 +157,9 @@ public partial class Client : IDisposable
             if(_connection.State == HubConnectionState.Disconnected)
                 await _connection.StartAsync(_cts.Token);
             _logger.ILog($"Starting client 2... (Connection {_connection.State})");
+            int count = 0;
+            while (_connection.State == HubConnectionState.Connecting && ++count < 20)
+                await Task.Delay(100);
             if (_connection.State == HubConnectionState.Connected)
             {
                 OnConnectionUpdated?.Invoke(ConnectionState.Connected);

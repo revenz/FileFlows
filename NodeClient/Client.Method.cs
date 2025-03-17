@@ -174,7 +174,13 @@ public partial class Client
                     Globals.IsFreeBsd ? OperatingSystemType.FreeBsd :
                     OperatingSystemType.Unknown,
             };
-            
+
+            if (_connection.State == HubConnectionState.Disconnected)
+            {
+                _registrationCompletion.TrySetResult(false);
+                return;
+            }
+
             var result = await _connection.InvokeAsync<NodeRegisterResult>("RegisterNode", parameters);
             
             if (!result.Success)
