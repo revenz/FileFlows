@@ -33,13 +33,7 @@ public class Program
             return;
 
         Application app = new Application();
-        ServerShared.Services.SharedServiceLoader.Loader = 
-            type =>
-            {
-                var method = typeof(ServiceLoader).GetMethod("Load", new Type[] { });
-                var genericMethod = method?.MakeGenericMethod(type);
-                return genericMethod?.Invoke(null, null)!;
-            };
+        ServerShared.Services.SharedServiceLoader.Loader = type => ServiceLoader.Provider.GetRequiredService(type);
         app.Run(args);
     }
 
