@@ -50,7 +50,7 @@ public class _SignalrDebugController : Controller
     </head>
     <body>
 """);
-        
+        builder.AppendLine($"<h1>FileFlows v{Globals.Version}</h1>");
         builder.AppendLine(await GetTopInfo());
         builder.AppendLine(GetNodeOverview());
         builder.AppendLine(GetFileStatusCounts());

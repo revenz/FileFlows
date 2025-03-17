@@ -388,16 +388,18 @@ public class ProcessHelper : IProcessHelper
     /// <returns>True if the process exited, false if it was canceled or timed out.</returns>
     private static async Task<bool> WaitForExitAsync(Process process, int timeoutMilliseconds, CancellationToken cancellationToken)
     {
-        var tcs = new TaskCompletionSource<bool>();
-        process.EnableRaisingEvents = true;
-        process.Exited += (sender, e) => tcs.TrySetResult(true);
+        var finishTask = process.WaitForExitAsync();
 
-        using (cancellationToken.Register(() => tcs.TrySetResult(false)))
-        {
-            var delayTask = Task.Delay(timeoutMilliseconds, cancellationToken);
-            var exitTask = tcs.Task;
-            return (await Task.WhenAny(exitTask, delayTask) == exitTask) && process.HasExited;
-        }
+        // If timeout is zero, create a "forever" task that can be canceled via cancellationToken
+        var delayTask = timeoutMilliseconds > 0 
+            ? Task.Delay(timeoutMilliseconds, cancellationToken) 
+            : Task.Delay(Timeout.Infinite, cancellationToken);
+
+        // Wait for either the process to exit or the timeout (if timeout is non-zero)
+        var completedTask = await Task.WhenAny(finishTask, delayTask);
+
+        // If the process has exited, we return true, otherwise false for timeout or cancellation
+        return completedTask == finishTask && process.HasExited;
     }
 
     /// <summary>
