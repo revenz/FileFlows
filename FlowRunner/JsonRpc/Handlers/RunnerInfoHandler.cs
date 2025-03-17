@@ -58,7 +58,12 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
             NodeName = client.Node.Name,
             RelativeFile = client.LibraryFile.RelativePath,
             Library = client.LibraryFile.Library,
-            AdditionalInfos = runInfo.AdditionalInfos
+            AdditionalInfos = runInfo.AdditionalInfos,
+            CurrentPart = runInfo.CurrentPart,
+            CurrentPartPercent = runInfo.CurrentPartPercent,
+            TotalParts = runInfo.TotalParts,
+            CurrentPartName = runInfo.CurrentPartName,
+            WorkingFile = client.LibraryFile.Name
         });
 
     /// <summary>

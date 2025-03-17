@@ -43,8 +43,9 @@ public partial class NodeHub
     public async Task FileUpdateInfo(FlowExecutorInfo info)
     {
         flowExecutors[info.Uid] = info;
+        var minified = FlowRunnerService.GetMinified(flowExecutors.ToDictionary());
+        await ClientServiceManager.Instance.UpdateExecutors(minified);
     }
-
 
     /// <summary>
     /// Starts processing a file
