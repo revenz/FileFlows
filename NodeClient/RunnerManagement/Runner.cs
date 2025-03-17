@@ -224,7 +224,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 if (args.Data == null)
                     return;
                 Console.Error.WriteLine(args.Data); // Write error to the console
-                
+                runLog.AppendLine(args.Data);
                 _ = Task.Run(async () =>
                 {
                     await logSemaphore.WaitAsync(ctx);
@@ -243,7 +243,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 if (args.Data == null)
                     return;
                 Console.Error.WriteLine(args.Data); // Write error to the console
-                
+                runLog.AppendLine(args.Data);
                 _ = Task.Run(async () =>
                 {
                     await logSemaphore.WaitAsync(ctx);
