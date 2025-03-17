@@ -18,7 +18,9 @@ public class BasicHandler
     public BasicHandler(JsonRpcServer rpcServer, RpcRegister rpcRegister)
     {
         this.rpcServer = rpcServer;
+        #if(DEBUG)
         rpcRegister.Register(nameof(LogMessage), LogMessage);
+        #endif
         rpcRegister.Register(nameof(GetRunnerParameters), GetRunnerParameters);
         rpcRegister.Register(nameof(GetNode), GetNode);
     }

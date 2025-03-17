@@ -51,26 +51,6 @@ public partial class Libraries : ListPage<Guid, Library>
         });
         if(result.Success(out var library))
             await ItemSaved(library);
-        // if (result.Success(out var uploadedFile))
-        // {
-        //     Files.Add(uploadedFile);
-        //     file = e.File;
-        // }
-        // else
-        // {
-        //     // remove the file from the InputFile
-        //     file = null;
-        // }
-        
-        // await Edit(new ()
-        // {  
-        //     Enabled = true, 
-        //     ScanInterval = 3 * 60 * 60, 
-        //     FileSizeDetectionInterval = 5,
-        //     // UseFingerprinting = false,
-        //     // UpdateMovedFiles = true,
-        //     Schedule = new string('1', 672)
-        // });
     }
 
     /// <summary>
