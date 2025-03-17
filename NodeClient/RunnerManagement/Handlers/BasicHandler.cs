@@ -37,6 +37,7 @@ public class BasicHandler
     public ProcessingNode GetNode()
         => rpcServer._client.Node!;
     
+    #if(DEBUG)
     /// <summary>
     /// Logs a message
     /// </summary>
@@ -46,4 +47,5 @@ public class BasicHandler
         if(string.IsNullOrEmpty(message) == false)
             rpcServer._logMessage(message);
     }
+    #endif
 }

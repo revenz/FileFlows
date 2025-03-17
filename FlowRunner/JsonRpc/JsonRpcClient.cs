@@ -71,7 +71,11 @@ public class JsonRpcClient
                 {
                     try
                     {
+                        #if(DEBUG)
                         _ = BasicHandler.LogMessage("Json Message Received: " + message);
+                        #else
+                        Console.WriteLine("Json Message Received: " + message);
+                        #endif
 
                         var rpcMessage = JsonSerializer.Deserialize<RpcMessage>(message);
                         if (rpcMessage?.Method == "Abort")

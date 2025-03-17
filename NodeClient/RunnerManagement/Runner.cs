@@ -160,8 +160,10 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         {
             if (string.IsNullOrEmpty(message))
                 return;
+            #if(DEBUG)
             Console.WriteLine("Runner: " + message);
             Logger.Instance.ILog("Runner: " + message);
+            #endif
             runLog.AppendLine(message);
             if (debugMode)
             {

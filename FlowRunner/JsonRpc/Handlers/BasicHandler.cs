@@ -28,6 +28,7 @@ public class BasicHandler(JsonRpcClient client)
         return client.Node;
     }
 
+    #if(DEBUG)
     /// <summary>
     /// Logs a message
     /// </summary>
@@ -35,4 +36,5 @@ public class BasicHandler(JsonRpcClient client)
     /// <returns>a task to await</returns>
     public async Task LogMessage(object message)
         => await client.SendRequest(nameof(LogMessage), message);
+    #endif
 }
