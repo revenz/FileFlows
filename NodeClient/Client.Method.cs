@@ -37,7 +37,7 @@ public partial class Client
     /// <param name="revision">the revision on the server</param>
     private async Task UpdateConfiguration(int revision)
     {
-        if (_node == null)
+        if (_node == null || _node.Enabled == false)
             return;
         const string prefix = "UpdateConfiguration:";
         _logger.ILog($"{prefix} Update Configuration to '{revision}' requested");
@@ -58,6 +58,9 @@ public partial class Client
     {
         if (_node == null)
             return;
+        if (_node.Enabled == false)
+            return; // not is not enabled, skip configuration
+        
         const string prefix = "UpdateConfiguration:";
 
 
@@ -191,7 +194,7 @@ public partial class Client
                 EventManager.Broadcast("NodeVersionMismatch", result.ServerVersion);
                 //Dispose();
             }
-            else if (result.CurrentConfigRevision != _configurationService.CurrentConfig?.Revision)
+            else if (_node.Enabled && result.CurrentConfigRevision != _configurationService.CurrentConfig?.Revision)
             {
                 _ = Task.Run(async () =>
                 {

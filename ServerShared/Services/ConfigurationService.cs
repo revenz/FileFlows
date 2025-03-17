@@ -266,7 +266,10 @@ public class ConfigurationService
             if (Globals.IsDocker)
             {
                 if (await WriteAndRunDockerMods(config.DockerMods ?? new(), node.Uid, node.Name) == false)
+                {
+                    Logger.Instance?.WLog("Failed to run DockerMods, configuration not saved");
                     return false;
+                }
             }
 
 
