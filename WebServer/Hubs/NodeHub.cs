@@ -12,6 +12,7 @@ public partial class NodeHub : Hub
     private readonly NodeService _nodeService;
     private readonly ISettingsService _settingsService;
     private readonly ILogger _logger;
+    private readonly ConfigurationService _configurationService;
     
     /// <summary>
     /// Special token just for internal use.
@@ -25,6 +26,7 @@ public partial class NodeHub : Hub
     {
         _nodeService = ServiceLoader.Load<NodeService>();
         _settingsService = ServiceLoader.Load<ISettingsService>();
+        _configurationService = ServiceLoader.Load<ConfigurationService>();
         _logger = Logger.Instance;
     }
     
@@ -58,12 +60,16 @@ public partial class NodeHub : Hub
     /// Updates the status of a node.
     /// </summary>
     /// <param name="info">The node status information.</param>
-    public void UpdateNodeStatus(NodeService.OnlineNodeInfo info)
+    public NodeStatusUpdateResult UpdateNodeStatus(NodeService.OnlineNodeInfo info)
     {
         if (info == null)
-            return;
+            return NodeStatusUpdateResult.InvalidModel;
         _logger.DLog($"Updating node status: {info.NodeUid}");
         _ = _nodeService.UpdateNodeStatusFromNode(info);
+        if (_configurationService.CurrentConfig != null &&
+            info.ConfigRevision != _configurationService.CurrentConfig?.Revision)
+            return NodeStatusUpdateResult.UpdateConfiguration;
+        return NodeStatusUpdateResult.Success;
     }
     
     /// <summary>

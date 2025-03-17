@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using FileFlows.Common;
 using FileFlows.Helpers;
 using FileFlows.RemoteServices;
+using FileFlows.ServerShared;
 using FileFlows.ServerShared.Models;
 using FileFlows.ServerShared.Services;
 using FileFlows.Shared.Models;
@@ -47,15 +48,33 @@ public partial class Client
             return;
         }
 
+        if (_configurationService.CurrentConfig?.Revision >= revision)
+        {
+            _logger.ILog($"{prefix} Configuration already updated to '{_configurationService.CurrentConfig?.Revision}'");
+            return; // already up to date
+        }
+
+        await UpdateConfiguration();
+    }
+
+    /// <summary>
+    /// Called when the configuration has to be updated
+    /// </summary>
+    public async Task UpdateConfiguration()
+    {
+        if (_node == null)
+            return;
+        const string prefix = "UpdateConfiguration:";
+
+        if (await _configurationSemaphore.WaitAsync(20_000) == false)
+        {
+            _logger.ILog($"{prefix} Failed to acquire configuration update semaphore within 20 seconds.");
+            return;
+        }
+
         bool updated = false;
         try
         {
-
-            if (_configurationService.CurrentConfig?.Revision >= revision)
-            {
-                _logger.ILog($"{prefix} Configuration already updated to  to '{_configurationService.CurrentConfig?.Revision}'");
-                return; // already up to date
-            }
             _logger.ILog($"{prefix} Updating configuration...");
             using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var cfg = await _connection.InvokeAsync<ConfigurationRevision>("GetConfiguration", cts2.Token);
@@ -206,7 +225,7 @@ public partial class Client
             {
                 if (_connection.State == HubConnectionState.Connected && _node != null)
                 {
-                    await _connection.SendAsync("UpdateNodeStatus", new
+                    var result = await _connection.InvokeAsync<NodeStatusUpdateResult>("UpdateNodeStatus", new
                     {
                         NodeUid = _nodeUid,
                         ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
@@ -214,6 +233,9 @@ public partial class Client
                         NodeVersion = Globals.Version,
                         InstallingDockerMods = _InstallingDockerMods
                     });
+
+                    if (result == NodeStatusUpdateResult.UpdateConfiguration)
+                        await UpdateConfiguration();
                 }
             }
             catch (Exception ex)
