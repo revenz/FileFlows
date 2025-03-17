@@ -16,5 +16,9 @@ public enum NodeStatusUpdateResult
     /// <summary>
     /// Called if the update include an invalid model
     /// </summary>
-    InvalidModel
+    InvalidModel,
+    /// <summary>
+    /// An exception occurred while updating
+    /// </summary>
+    Exception
 }

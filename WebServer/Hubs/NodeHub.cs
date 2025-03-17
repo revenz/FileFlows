@@ -60,15 +60,23 @@ public partial class NodeHub : Hub
     /// <param name="info">The node status information.</param>
     public NodeStatusUpdateResult UpdateNodeStatus(NodeService.OnlineNodeInfo info)
     {
-        if (info == null)
-            return NodeStatusUpdateResult.InvalidModel;
-        _logger.DLog($"Updating node status: {info.NodeUid}");
-        _ = _nodeService.UpdateNodeStatusFromNode(info);
-        var _configurationService = ServiceLoader.Load<ConfigurationService>();
-        if (_configurationService.CurrentConfig != null &&
-            info.ConfigRevision != _configurationService.CurrentConfig?.Revision)
-            return NodeStatusUpdateResult.UpdateConfiguration;
-        return NodeStatusUpdateResult.Success;
+        try
+        {
+            if (info == null)
+                return NodeStatusUpdateResult.InvalidModel;
+            _logger.DLog($"Updating node status: {info.NodeUid}");
+            _ = _nodeService.UpdateNodeStatusFromNode(info);
+            var _configurationService = ServiceLoader.Load<ConfigurationService>();
+            if (_configurationService.CurrentConfig != null &&
+                info.ConfigRevision != _configurationService.CurrentConfig?.Revision)
+                return NodeStatusUpdateResult.UpdateConfiguration;
+            return NodeStatusUpdateResult.Success;
+        }
+        catch (Exception ex)
+        {
+            _logger.ELog($"Failed updating node status: {ex}");
+            return NodeStatusUpdateResult.Exception;
+        }
     }
     
     /// <summary>
