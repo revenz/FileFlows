@@ -67,6 +67,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// <param name="obj">the updated executors</param>
     private void ExecutorsUpdated(List<FlowExecutorInfoMinified> obj)
     {
+        Logger.Instance.ILog("ExecutorsUpdated Received!", obj);
         Runners = obj ?? new();
         // remove the RunnersState that are no longer in the list
         // do not add the runners that arent in the list to the list
@@ -76,6 +77,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
         var first = Runners.FirstOrDefault();
         if(first != null)
             RunnersState.TryAdd(first.Uid, true);
+        Logger.Instance.ILog("ExecutorsUpdated RunnersState!", RunnersState);
         
         StateHasChanged();
     }
