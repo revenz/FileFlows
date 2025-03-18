@@ -2,10 +2,10 @@ import { Radarr } from 'Shared/Radarr';
 
 /**
  * @name Radarr - Movie Lookup
- * @help This script looks up a Movie from Radarr and retrieves its metadata
+ * @description This script looks up a Movie from Radarr and retrieves its metadata
  * @author iBuSH
  * @uid 1153e3fb-e7bb-4162-87ad-5c15cd9c081f
- * @revision 4
+ * @revision 5
  * @param {string} URL Radarr root URL and port (e.g., http://radarr:1234)
  * @param {string} ApiKey API Key for Radarr
  * @param {bool} UseFolderName Whether to use the folder name instead of the file name for search
