@@ -19,7 +19,7 @@ public partial class InputTagSelect : Input<List<Guid>>
     protected override void OnInitialized()
     {
         base.OnInitializedAsync();
-        Tags = feService.Dashboard.Tags;
+        Tags = feService.Tag.Tags;
         Value ??= [];
     }
 

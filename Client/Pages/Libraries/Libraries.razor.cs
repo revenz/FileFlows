@@ -134,6 +134,7 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
         }
     }
 
+    /// <inheritdoc />
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)

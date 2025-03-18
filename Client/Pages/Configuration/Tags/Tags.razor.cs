@@ -7,33 +7,61 @@ namespace FileFlows.Client.Pages;
 /// <summary>
 /// Page for Tags
 /// </summary>
-public partial class Tags : ListPage<Guid, Tag>
+public partial class Tags : ListPage<Guid, Tag>, IDisposable
 {
     /// <inheritdoc />
     public override string ApiUrl => "/api/tag";
     
+    /// <summary>
+    /// Translation strings
+    /// </summary>
     private string lblTitle;
         
     /// <summary>
     /// The item being edited
     /// </summary>
     private Tag EditingItem = null;
+    
     /// <inheritdoc />
     protected override string DeleteMessage => "Pages.Tags.Messages.DeleteItems";
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        Profile = feService.Profile.Profile;
+        base.OnInitialized(false);
         lblTitle = Translater.Instant("Pages.Tags.Title");
+        feService.Tag.TagsUpdated += TagOnTagsUpdated;
+        Data = feService.Tag.Tags;
+    }
+
+    /// <summary>
+    /// Called when the tags are updated
+    /// </summary>
+    /// <param name="obj">the updated tags</param>
+    private void TagOnTagsUpdated(List<Tag> obj)
+    {
+        Data = obj;
+        StateHasChanged();
+    }
+
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Table.SetData(Data);
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
     }
 
     /// <summary>
     /// Adds a new tag
     /// </summary>
     private async Task Add()
-    {
-        await Edit(new Tag());
-    }
+        => await Edit(new Tag());
 
     /// <inheritdoc />
     public override async Task<bool> Edit(Tag item)
@@ -72,7 +100,7 @@ public partial class Tags : ListPage<Guid, Tag>
     async Task<bool> Save(ExpandoObject model)
     {
         Blocker.Show();
-        this.StateHasChanged();
+        StateHasChanged();
 
         try
         {
@@ -83,20 +111,20 @@ public partial class Tags : ListPage<Guid, Tag>
                 return false;
             }
 
-            int index = this.Data.FindIndex(x => x.Uid == saveResult.Data.Uid);
-            if (index < 0)
-                this.Data.Add(saveResult.Data);
-            else
-                this.Data[index] = saveResult.Data;
-            await this.Load(saveResult.Data.Uid);
-
             return true;
         }
         finally
         {
             Blocker.Hide();
-            this.StateHasChanged();
+            StateHasChanged();
         }
     }
 
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        feService.Tag.TagsUpdated -= TagOnTagsUpdated;
+    }
 }

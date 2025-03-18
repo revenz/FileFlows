@@ -65,6 +65,10 @@ public class FrontendService : IAsyncDisposable
     /// Gets or sets the library handler
     /// </summary>
     public LibraryHandler Library { get;private set; }
+    /// <summary>
+    /// Gets or sets the tag handler
+    /// </summary>
+    public TagHandler Tag { get;private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FrontendService"/> class.
@@ -189,6 +193,8 @@ public class FrontendService : IAsyncDisposable
         Flow.Initialize(data);
         Library = new(this);
         Library.Initialize(data);
+        Tag = new(this);
+        Tag.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }

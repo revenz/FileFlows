@@ -9,7 +9,6 @@ public class DashboardHandler(FrontendService feService)
     public SystemInfo CurrentSystemInfo { get; private set; }
     public UpdateInfo CurrentUpdatesInfo { get; private set; }
     public List<FlowExecutorInfoMinified> CurrentExecutorInfoMinified { get; private set; }
-    public List<Tag> Tags { get; private set; } = new List<Tag>();
     /// <summary>
     /// Gets or sets the total storage saved data
     /// </summary>
@@ -48,7 +47,6 @@ public class DashboardHandler(FrontendService feService)
         CurrentExecutorInfoMinified = data.CurrentExecutorInfoMinified;
         StorageSavedMonthData = data.StorageSavedMonthData;
         StorageSavedTotalData = data.StorageSavedTotalData;
-        Tags = data.Tags;
         
         feService.Registry.Register<bool>("Paused", (bool paused) =>
         {

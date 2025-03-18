@@ -151,7 +151,7 @@ public partial class Report : ComponentBase
             var nodesResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/node/basic-list");
             var nodes = nodesResult.Success ? nodesResult.Data ?? new() : new();
 
-            var tags = feService.Dashboard.Tags.ToDictionary(x => x.Uid, x => x.Name);
+            var tags = feService.Tag.Tags.ToDictionary(x => x.Uid, x => x.Name);
 
             if (rd.DefaultReportPeriod != null)
             {

@@ -24,7 +24,7 @@ public class LibraryFileEditor
     public static async Task Open(Blocker blocker, Editor editor, Guid libraryItemUid, Profile profile, FrontendService feService)
     {
         LibraryFileModel? model = null;
-        Tags = feService.Dashboard.Tags;
+        Tags = feService.Tag.Tags;
         foreach(var tag in Tags)
             Logger.Instance.ILog("Known Tag: " + tag.Name);
         string logUrl = ApIUrl + "/" + libraryItemUid + "/log";

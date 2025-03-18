@@ -146,11 +146,4 @@ public class ClientServiceManager : IClientService
     /// <param name="file">the file that's finished processing</param>
     public void FinishProcessing(LibraryFile file)
         => _hubContext.Clients.All.SendAsync("FinishProcessing", file);
-    
-    /// <summary>
-    /// Sends a update about tags available int the system
-    /// </summary>
-    /// <param name="tags">the tags in the system</param>
-    public void TagsUpdated(List<Tag> tags)
-        => _hubContext.Clients.All.SendAsync("TagsUpdated", tags);
 }

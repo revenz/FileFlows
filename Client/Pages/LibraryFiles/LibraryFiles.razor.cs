@@ -117,7 +117,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
 
         if (Profile.LicenseLevel != FileFlows.Common.LicenseLevel.Free)
         {
-            optionsTags = feService.Dashboard.Tags.Select(x => new DropDownOption()
+            optionsTags = feService.Tag.Tags.Select(x => new DropDownOption()
             {
                 Icon = x.Icon?.EmptyAsNull() ?? "fas fa-tag",
                 Value = x.Uid,

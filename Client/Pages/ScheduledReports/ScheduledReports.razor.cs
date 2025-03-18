@@ -120,7 +120,7 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
                     Value = x.Key
                 }).OrderBy(x => x.Label?.ToLowerInvariant())?.ToList() ?? [];
 
-                Tags = feService.Dashboard.Tags.Select(x => new ListOption()
+                Tags = feService.Tag.Tags.Select(x => new ListOption()
                 {
                     Label = x.Name,
                     Value = x.Uid
