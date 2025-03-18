@@ -96,8 +96,8 @@ public partial class FilesWidget : ComponentBase, IDisposable
     private void InitializeData()
     {
         UpcomingFiles = feService.Files.UpcomingFiles;
-        RecentlyFinished = feService.Files.RecentlyFinished;
-        FailedFiles = feService.Files.FailedFiles;
+        RecentlyFinished = feService.Files.RecentlyFinished.OrderByDescending(x => x.Date).ToList();
+        FailedFiles = feService.Files.FailedFiles.OrderByDescending(x => x.Date).ToList();
         TotalUpcoming = UpcomingFiles.Count;
         TotalFailed = FailedFiles.Count;
         TotalFinished = RecentlyFinished.Count;
