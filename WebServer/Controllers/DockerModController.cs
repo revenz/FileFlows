@@ -14,6 +14,14 @@ namespace FileFlows.WebServer.Controllers;
 public class DockerModController : BaseController
 {
     /// <summary>
+    /// Gets a DockerMod by its UID
+    /// </summary>
+    /// <returns>The DockerMod if found</returns>
+    [HttpGet("{uid}")]
+    public async Task<DockerMod?> Get([FromRoute] Guid uid)
+        => await ServiceLoader.Load<DockerModService>().GetByUid(uid);
+    
+    /// <summary>
     /// Gets all DockerMods in the system
     /// </summary>
     /// <returns>a list of all DockerMods</returns>

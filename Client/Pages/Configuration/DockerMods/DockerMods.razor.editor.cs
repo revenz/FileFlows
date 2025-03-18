@@ -16,6 +16,18 @@ public partial class DockerMods
     /// <returns>true if successful, otherwise false</returns>
     private async Task<bool> OpenEditor(DockerMod item)
     {
+        Blocker.Show();
+        var dmResult = await HttpHelper.Get<DockerMod>($"{ApiUrl}/{item.Uid}");
+        Blocker.Hide();
+        
+        if (dmResult.Success == false || dmResult.Data == null)
+        {
+            ShowEditHttpError(dmResult, "DockerMod not found");
+            return false;
+        }
+
+        item = dmResult.Data;
+        
         var fields = new List<IFlowField>();
         fields.Add(new ElementField()
         {
