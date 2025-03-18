@@ -63,14 +63,14 @@ public static class HttpContextExtensions
             if (string.IsNullOrWhiteSpace(codeClaim))
                 return null;
             var code = DataLayer.Helpers.Decrypter.Decrypt(codeClaim);
-            if (string.IsNullOrWhiteSpace(code) || code.IndexOf(":", StringComparison.Ordinal) < 1)
+            if (string.IsNullOrWhiteSpace(code) || code.IndexOf(':') < 1)
                 return null;
 
             var parts = code.Split(':');
             if (parts.Length != 3)
                 return null;
 
-            if (Guid.TryParse(parts[0], out Guid uid) == false)
+            if (Guid.TryParse(parts[0], out var uid) == false)
                 return null;
 
             string expectedIp = parts[1].Replace("_", ":");

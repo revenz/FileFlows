@@ -9,7 +9,7 @@ namespace FileFlows.Client.Pages;
 /// <summary>
 /// Page the shows the system's DockerMods
 /// </summary>
-public partial class DockerMods : ListPage<Guid, DockerMod>
+public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
 {
     /// <summary>
     /// The API URL
@@ -26,6 +26,8 @@ public partial class DockerMods : ListPage<Guid, DockerMod>
     /// </summary>
     [Inject] protected IJSRuntime jsRuntime { get; set; }
 
+    private bool _Moving = false;
+
     /// <summary>
     /// Translated strings
     /// </summary>
@@ -34,10 +36,38 @@ public partial class DockerMods : ListPage<Guid, DockerMod>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        Profile = feService.Profile.Profile;
+        base.OnInitialized(false);
         lblTitle = Translater.Instant("Pages.DockerMod.Plural");
         lblUpdateAvailable = Translater.Instant("Pages.DockerMod.Labels.UpdateAvailable");
         lblRevision = Translater.Instant("Pages.DockerMod.Labels.Revision");
+        feService.DockerMod.DockerModsUpdated += DockerModOnDockerModsUpdated;
+        Data = feService.DockerMod.DockerMods;
+    }
+
+    /// <summary>
+    /// Called when the DockerMods are updated
+    /// </summary>
+    /// <param name="obj">the updated items</param>
+    private void DockerModOnDockerModsUpdated(List<DockerMod> obj)
+    {
+        if (_Moving)
+            return; // we manually refresh so the selected item isnt lost
+        
+        Data = obj;
+        StateHasChanged();
+    }
+
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Table.SetData(Data);
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
     }
 
 
@@ -78,7 +108,6 @@ public partial class DockerMods : ListPage<Guid, DockerMod>
         try
         {
             await HttpHelper.Post($"/api/repository/DockerMod/update", new ReferenceModel<Guid> { Uids = items });
-            await Refresh();
         }
         finally
         {
@@ -137,6 +166,7 @@ public partial class DockerMods : ListPage<Guid, DockerMod>
 
         try
         {
+            _Moving = true;
             var result = await HttpHelper.Post($"{ApiUrl}/move?up={up}", new ReferenceModel<Guid> { Uids = uids });
             if (result.Success == false)
             {
@@ -155,6 +185,15 @@ public partial class DockerMods : ListPage<Guid, DockerMod>
         {
             Blocker.Hide();
             this.StateHasChanged();
+            _Moving = false;
         }
+    }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        feService.DockerMod.DockerModsUpdated -= DockerModOnDockerModsUpdated;
     }
 }

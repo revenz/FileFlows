@@ -2,18 +2,44 @@ using FileFlows.Client.Components;
 
 namespace FileFlows.Client.Pages;
 
-public partial class Variables : ListPage<Guid, Variable>
+public partial class Variables : ListPage<Guid, Variable>, IDisposable
 {
     public override string ApiUrl => "/api/variable";
 
     private Variable EditingItem = null;
     private string lblValue, lblTitle;
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        Profile = feService.Profile.Profile;
+        base.OnInitialized(false);
         lblTitle = Translater.Instant("Pages.Variables.Title");
         lblValue = Translater.Instant("Pages.Flow.Fields.VariablesValue");
+        feService.Variable.VariablesUpdated += VariableOnVariablesUpdated ;
+        Data = feService.Variable.Variables;
+    }
+
+    /// <summary>
+    /// Called when the variables are updated
+    /// </summary>
+    /// <param name="obj"></param>
+    private void VariableOnVariablesUpdated(List<Variable> obj)
+    {
+        Data = obj;
+        StateHasChanged();
+    }
+
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Table.SetData(Data);
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
     }
 
     private async Task Add()
@@ -22,6 +48,7 @@ public partial class Variables : ListPage<Guid, Variable>
     }
 
 
+    /// <inheritdoc />
     public override async Task<bool> Edit(Variable variable)
     {
         this.EditingItem = variable;
@@ -67,13 +94,6 @@ public partial class Variables : ListPage<Guid, Variable>
                 return false;
             }
 
-            int index = this.Data.FindIndex(x => x.Uid == saveResult.Data.Uid);
-            if (index < 0)
-                this.Data.Add(saveResult.Data);
-            else
-                this.Data[index] = saveResult.Data;
-            await this.Load(saveResult.Data.Uid);
-
             return true;
         }
         finally
@@ -81,6 +101,14 @@ public partial class Variables : ListPage<Guid, Variable>
             Blocker.Hide();
             this.StateHasChanged();
         }
+    }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        feService.Variable.VariablesUpdated -= VariableOnVariablesUpdated;
     }
 
 }

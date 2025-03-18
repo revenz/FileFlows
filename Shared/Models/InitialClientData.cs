@@ -119,4 +119,22 @@ public class InitialClientData
     /// </summary>
     [JsonPropertyName("fe")]
     public List<FlowElement> FlowElements { get; set; }
+    
+    /// <summary>
+    /// Gets or sets all the scripts in the system
+    /// </summary>
+    [JsonPropertyName("sc")]
+    public List<Script> Scripts { get; set; }
+    
+    /// <summary>
+    /// Gets or sets all the variables in the system
+    /// </summary>
+    [JsonPropertyName("v")]
+    public List<Variable> Variables { get; set; }
+    
+    /// <summary>
+    /// Gets or sets all the DockerMods the system
+    /// </summary>
+    [JsonPropertyName("dm")]
+    public List<DockerMod> DockerMods { get; set; }
 }

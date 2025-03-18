@@ -1,6 +1,7 @@
 using System.Text;
 using FileFlows.Services.FileProcessing;
 using FileFlows.Services.SystemOverview;
+using FileFlows.WebServer.Helpers;
 
 namespace FileFlows.WebServer.Controllers.ServerSideEventControllers;
 
@@ -22,20 +23,29 @@ public class SseController : Controller
         Response.Headers.Append("Content-Type", "text/event-stream");
         Response.Headers.Append("Cache-Control", "no-cache");
         Response.Headers.Append("Connection", "keep-alive");
+        
+        var user = await HttpContext.GetLoggedInUser();
 
+
+        var userRole = AuthenticationHelper.GetSecurityMode() == SecurityMode.Off
+            ? UserRole.Admin
+            : user?.Role ?? (UserRole)0;
+        
         using var writer = new StreamWriter(Response.Body);
         var _broker = ServiceLoader.Load<SseEventBroker>();
-        var clientId = _broker.AddClient(writer);
+        var clientId = _broker.AddClient(writer, userRole);
         
         try
         {
             if (initialData)
             { 
-                var data = await GetInitialData(HttpContext);
+                var data = await GetInitialData(HttpContext, userRole);
                 if (HttpContext.RequestAborted.IsCancellationRequested)
                     return; // in case it took too long and the request was closed while waiting
+
+                var message = SseEventBroker.GetMessage("id", data);
                 
-                await writer.WriteLineAsync("data: id:" + JsonSerializer.Serialize(data) + "\n");
+                await writer.WriteLineAsync(message);
                 await writer.FlushAsync();
                 await Task.Delay(5000, HttpContext.RequestAborted);
             }
@@ -60,7 +70,7 @@ public class SseController : Controller
     /// <summary>
     /// Gets the initial data to send to the client
     /// </summary>
-    private async Task<InitialClientData> GetInitialData(HttpContext context)
+    private async Task<InitialClientData> GetInitialData(HttpContext context, UserRole userRole)
     {
         var logSummary = new StringBuilder();
         var swAll = new System.Diagnostics.Stopwatch();
@@ -74,6 +84,7 @@ public class SseController : Controller
         var tagsTask = ServiceLoader.Load<TagService>().GetAllAsync();
         var flowElementsTask = FlowController.GetFlowElements(Guid.Empty, null);
         var profileTask = context.GetProfile();
+        var variablesTask = ServiceLoader.Load<VariableService>().GetAllAsync();
 
         var allTasks = new List<Task>
         {
@@ -82,7 +93,8 @@ public class SseController : Controller
             nodeStatusesTask,
             tagsTask,
             profileTask,
-            flowElementsTask
+            flowElementsTask,
+            variablesTask
         };
 
         // Log the start time for all tasks
@@ -166,6 +178,13 @@ public class SseController : Controller
                 .OrderBy(x => x.Name.ToLowerInvariant())
                 .ToList()
         };
+        
+        if ((userRole & UserRole.Variables) == UserRole.Variables)
+            result.Variables = variablesTask.Result ?? [];
+        if ((userRole & UserRole.DockerMods) == UserRole.DockerMods)
+            result.DockerMods = ServiceLoader.Load<DockerModService>().GetForBroadcast();
+        if ((userRole & UserRole.Scripts) == UserRole.Scripts)
+            result.Scripts = ServiceLoader.Load<ScriptService>().GetForBroadcast();
 
         // Log summary to Logger.Instance
         swAll.Stop();

@@ -1,7 +1,9 @@
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using FileFlows.Client.Services.Frontend.Handlers;
 using Jint.Native.Json;
@@ -69,6 +71,14 @@ public class FrontendService : IAsyncDisposable
     /// Gets or sets the tag handler
     /// </summary>
     public TagHandler Tag { get;private set; }
+    /// <summary>
+    /// Gets or sets the variable handler
+    /// </summary>
+    public VariableHandler Variable { get;private set; }
+    /// <summary>
+    /// Gets or sets the DockerMod handler
+    /// </summary>
+    public DockerModHandler DockerMod { get;private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FrontendService"/> class.
@@ -144,12 +154,33 @@ public class FrontendService : IAsyncDisposable
                         break;
                     }
 
-                    if (string.IsNullOrWhiteSpace(line) || !line.StartsWith("data:"))
+                    if (string.IsNullOrWhiteSpace(line) || !line.StartsWith("data:") || line.Length <= 5)
                         continue;
 
                     var message = line[5..].Trim();
+                    string len = message.Length > 1024 ? $"{(message.Length / 1024):#.##} KB" : $"{message.Length} Bytes";
+                        
+                    Console.WriteLine($"SSE message: " + len); // 🔥 Log message size
                     try
                     {
+                        if (message.StartsWith("x:"))  // 🔥 Check if it's compressed
+                        {
+                            var payload = message[2..]; // Remove "x:"
+                            int firstColonIndex = payload.IndexOf(':');
+                            if (firstColonIndex > 0)
+                            {
+                                string eventName = payload[..firstColonIndex];
+                                string compressedBase64 = payload[(firstColonIndex + 1)..];
+
+                                // 🔥 Decode and decompress
+                                byte[] compressedBytes = Convert.FromBase64String(compressedBase64);
+                                string decompressedJson = DecompressDeflate(compressedBytes);
+
+                                // 🔥 Restore original format: "eventName:decompressedJson"
+                                message = $"{eventName}:{decompressedJson}";
+                            }
+                        }
+                        
                         if (message.StartsWith("id:"))
                             Initialize(message[3..]);
                         else
@@ -172,6 +203,19 @@ public class FrontendService : IAsyncDisposable
         }
     }
 
+
+    /// <summary>
+    /// Helper method to decompress Deflate
+    /// </summary>
+    /// <param name="compressedData">the compressed data</param>
+    /// <returns>the uncompressed string</returns>
+    static string DecompressDeflate(byte[] compressedData)
+    {
+        using var inputStream = new MemoryStream(compressedData);
+        using var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress);
+        using var reader = new StreamReader(deflateStream, Encoding.UTF8);
+        return reader.ReadToEnd();
+    }
     /// <summary>
     /// Called only once, after the first successful SSE connection.
     /// Override this method in a derived class if needed.
@@ -195,6 +239,10 @@ public class FrontendService : IAsyncDisposable
         Library.Initialize(data);
         Tag = new(this);
         Tag.Initialize(data);
+        Variable = new(this);
+        Variable.Initialize(data);
+        DockerMod = new(this);
+        DockerMod.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }
