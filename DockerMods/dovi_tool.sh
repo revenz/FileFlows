@@ -37,7 +37,7 @@ fi
 echo "dovi_tool is not installed. Installing..."
 
 # Update package lists and install dependencies
-if ! apt update || ! apt install -y libfontconfig-dev libdovi; then
+if ! apt update || ! apt install -y libfontconfig-dev; then
     handle_error
 fi
 
