@@ -30,7 +30,7 @@
 .file-table-row {
   @include row;
   position:relative;
-  &.has-message .center {
+  &.fm-2.has-message .center {
     display:grid;
     grid-template-columns: 1fr 8rem;
     .message {
