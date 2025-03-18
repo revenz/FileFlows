@@ -412,7 +412,7 @@
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Trigger Manual Import.js",
       "Name": "Sonarr - Trigger Manual Import",
       "Description": "Trigger Sonarr to manually import the media, run after last file in folder moved.\n/",
-      "Revision": 3,
+      "Revision": 4,
       "Uid": "8fe63a47-4a97-4b08-99f4-368d29279ad2"
     },
     {
@@ -447,7 +447,7 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Trigger Manual Import.js",
       "Name": "Radarr - Trigger Manual Import",
       "Description": "Trigger Radarr to manually import the media, run after last file in folder moved.\n/",
-      "Revision": 3,
+      "Revision": 4,
       "Uid": "0e522a46-ed76-4b40-bd1f-b3baac64264c"
     },
     {
