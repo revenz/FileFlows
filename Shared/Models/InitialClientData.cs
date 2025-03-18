@@ -7,10 +7,10 @@ namespace FileFlows.Shared.Models;
 public class InitialClientData
 {
     /// <summary>
-    /// Gets or sets a basic list of libraries
+    /// Gets or sets a list of libraries
     /// </summary>
     [JsonPropertyName("l")]
-    public Dictionary<Guid, string> LibraryList { get; set; }
+    public List<LibraryListModel> Libraries { get; set; }
     
     /// <summary>
     /// Gets or sets a basic list of flows

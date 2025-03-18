@@ -69,7 +69,6 @@ public class SseController : Controller
 
         // Prepare all tasks
         var flowsTask = ServiceLoader.Load<FlowService>().GetFlowsForBroker();
-        var librariesTask = ServiceLoader.Load<LibraryService>().GetAllAsync();
         var executorsTask = ServiceLoader.Load<FlowRunnerService>().GetExecutors();
         var nodeStatusesTask = ServiceLoader.Load<NodeService>().GetStatusSummaries();
         var tagsTask = ServiceLoader.Load<TagService>().GetAllAsync();
@@ -79,7 +78,6 @@ public class SseController : Controller
         var allTasks = new List<Task>
         {
             flowsTask,
-            librariesTask,
             executorsTask,
             nodeStatusesTask,
             tagsTask,
@@ -152,7 +150,7 @@ public class SseController : Controller
             CurrentFileOverData = ServiceLoader.Load<DashboardFileOverviewService>().GetData(),
             CurrentUpdatesInfo = ServiceLoader.Load<UpdateService>().Info,
             Flows = flowsTask.Result,
-            LibraryList = librariesTask.Result.ToDictionary(x => x.Uid, x => x.Name),
+            Libraries = ServiceLoader.Load<LibraryService>().GetListModels(),
             CurrentExecutorInfoMinified = executorsTask.Result.Values.ToList(),
             NodeStatusSummaries = nodeStatusesTask.Result,
             StorageSavedTotalData = storageSavedTotal,

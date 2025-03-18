@@ -6,33 +6,37 @@ namespace FileFlows.Client.Pages;
 /// <summary>
 /// Editor for Libraries
 /// </summary>
-public partial class Libraries : ListPage<Guid, Library>
+public partial class Libraries : ListPage<Guid, LibraryListModel>
 {
     ElementField efTemplate;
 
     /// <summary>
     /// Opens the editor
     /// </summary>
-    /// <param name="library">the library to edit</param>
+    /// <param name="libraryModel">the library to edit</param>
     /// <returns>true if the editor was saved, otherwise false</returns>
-    private async Task<bool> OpenEditor(Library library)
+    private async Task<bool> OpenEditor(LibraryListModel libraryModel)
     {
+        Blocker.Show();
+        var libraryResult = await HttpHelper.Get<Library>($"{ApiUrl}/{libraryModel.Uid}");
+        Blocker.Hide();
+        
+        if (libraryResult.Success == false)
+        {
+            ShowEditHttpError(libraryResult, "Library not found");
+            return false;
+        }
+
+        var library = libraryResult.Data;
+        
         if (library.Uid == CommonVariables.ManualLibraryUid)
             return await OpenManualLibraryEditor(library);
         
-        Blocker.Show();
-        var flowResult = await GetFlows();
-        Blocker.Hide();
-        if (flowResult.Success == false || flowResult.Data?.Any() != true)
-        {
-            ShowEditHttpError(flowResult, "Pages.Libraries.ErrorMessages.NoFlows");
-            return false;
-        }
-        var flowOptions = flowResult.Data
+        var flowOptions = feService.Flow.Flows
             .Select(x => new ListOption
             {
-                Value = new ObjectReference { Name = x.Value, Uid = x.Key, 
-                    Type = typeof(Flow).FullName! }, Label = x.Value
+                Value = new ObjectReference { Name = x.Name, Uid = x.Uid, 
+                    Type = typeof(Flow).FullName! }, Label = x.Name
             });
         efTemplate = null;
 

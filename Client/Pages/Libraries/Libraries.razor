@@ -1,6 +1,6 @@
 @namespace FileFlows.Client.Pages
 @using FileFlows.Shared.Models
-@inherits ListPage<Guid, Library>
+@inherits ListPage<Guid, LibraryListModel>
 
 @page "/libraries"
 
@@ -11,7 +11,7 @@
 
     <Body>
         
-        <FlowTable @ref="Table" Data="@Data" TItem="Library" Selection="SelectionMode.Multiple"
+        <FlowTable @ref="Table" Data="@Data" TItem="LibraryListModel" Selection="SelectionMode.Multiple"
             DoubleClick="@OnDoubleClick" TableIdentifier="Libraries" DisableColumn="(item) => !item.Enabled">
             <ToolBar>            
                 <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
@@ -35,7 +35,7 @@
             </ToolBar>
 
             <Columns>
-                <FlowTableColumn TItem="Library" NoHeight="true">
+                <FlowTableColumn TItem="LibraryListModel" NoHeight="true">
                     <Header>
                         @Translater.Instant("Pages.Libraries.Title")
                     </Header>
@@ -60,7 +60,7 @@
                         </div>
                     </Cell>
                 </FlowTableColumn>
-                <FlowTableColumn TItem="Library" Width="9rem" MobileWidth="0">
+                <FlowTableColumn TItem="LibraryListModel" Width="9rem" MobileWidth="0">
                     <Header>
                         @lblLastScanned
                     </Header>
@@ -68,7 +68,7 @@
                         <span>@TimeSpanToString(item)</span>
                     </Cell>
                 </FlowTableColumn>
-                <FlowTableColumn TItem="Library" Width="6rem" MobileWidth="4rem">
+                <FlowTableColumn TItem="LibraryListModel" Width="6rem" MobileWidth="4rem">
                     <Header>
                         @Globals.lblEnabled
                     </Header>
@@ -88,15 +88,15 @@
 
                     </Cell>
                 </FlowTableColumn>
-                <FlowTableColumn TItem="Library" Width="16rem" MobileWidth="0" NoHeight="true">
+                <FlowTableColumn TItem="LibraryListModel" Width="16rem" MobileWidth="0" NoHeight="true">
                     <Header>
                     </Header>
                     <Cell Context="item">
-                        @if (item.Uid != CommonVariables.ManualLibraryUid && GetStorageSaved(item.Name, out StorageSavedData saved) && saved.OriginalSize > 0)
+                        @if (item.Uid != CommonVariables.ManualLibraryUid && item.OriginalSize > 0)
                         {
-                            <span class="top-right">@Translater.Instant("Pages.Libraries.Labels.Files", new { saved.TotalFiles, TotalString = saved.TotalFiles.ToString("#,##0") })</span>
+                            <span class="top-right">@Translater.Instant("Pages.Libraries.Labels.Files", new { TotalFiles = item.Files, TotalString = item.Files.ToString("#,##0") })</span>
                             <div class="savings-bar">
-                                <FlowSavings FinalSize="saved.FinalSize" OriginalSize="saved.OriginalSize"/>
+                                <FlowSavings FinalSize="item.FinalSize" OriginalSize="item.OriginalSize"/>
                             </div>
                         }
                     </Cell>
