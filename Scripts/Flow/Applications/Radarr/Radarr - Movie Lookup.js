@@ -2,10 +2,10 @@ import { Radarr } from 'Shared/Radarr';
 
 /**
  * @name Radarr - Movie Lookup
- * @description This script looks up a Movie from Radarr and retrieves its metadata
+ * @help This script looks up a Movie from Radarr and retrieves its metadata
  * @author iBuSH
  * @uid 1153e3fb-e7bb-4162-87ad-5c15cd9c081f
- * @revision 3
+ * @revision 4
  * @param {string} URL Radarr root URL and port (e.g., http://radarr:1234)
  * @param {string} ApiKey API Key for Radarr
  * @param {bool} UseFolderName Whether to use the folder name instead of the file name for search
@@ -17,7 +17,6 @@ function Script(URL, ApiKey, UseFolderName) {
     ApiKey = ApiKey || Variables['Radarr.ApiKey'];
     const radarr = new Radarr(URL, ApiKey);
     const folderPath = Variables.folder.Orig.FullName;
-    const filePath = Variables.file.Orig.FullName;
     const searchPattern = UseFolderName ? getMovieFolderName(folderPath) : Variables.file.Orig.FileNameNoExtension;
 
     Logger.ILog(`Radarr URL: ${URL}`);
@@ -48,6 +47,16 @@ function updateMovieMetadata(movie) {
     Logger.ILog(`Detected Movie Title: ${movie.title}`);
     Variables["movie.Year"] = movie.year;
     Logger.ILog(`Detected Movie Year: ${movie.year}`);
+
+    // Extract the url of the poster image
+    const poster = movie.images?.find(image => image.coverType === 'poster');
+    if (poster && poster.remoteUrl) {
+        Variables["movie.PosterUrl"] = poster.remoteUrl;
+        Logger.ILog(`Detected Poster URL: ${poster.remoteUrl}`);
+        Flow.SetThumbnail(poster.remoteUrl); // Set the FileFlows Thumbnail
+    } else {
+        Logger.WLog("No poster image found.");
+    }
 
     Variables.VideoMetadata = {
         Title: movie.title,
@@ -96,7 +105,7 @@ function searchMovieByPath(searchPattern, radarr) {
  */
 function searchInQueue(searchPattern, radarr) {
     return searchRadarrAPI('queue', searchPattern, radarr, (item, sp) => {
-        return item.outputPath.toLowerCase().includes(sp);
+        return item.outputPath?.toLowerCase().includes(sp);
     });
 }
 

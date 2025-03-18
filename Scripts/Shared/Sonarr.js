@@ -2,7 +2,7 @@
  * @name Sonarr
  * @uid 0f5836c0-d20b-4740-9824-f81b5200ec3d
  * @description Class that interacts with Sonarr
- * @revision 9
+ * @revision 10
  * @minimumVersion 1.0.0.0
  */
 export class Sonarr
@@ -263,12 +263,13 @@ export class Sonarr
     /**
      * Sleeps, waiting for a command to complete
      * @param {int} commandId ID of command being run
+     * @param {int} timeOut time for waiting for cammand to complete before timeour, in milliseconds (30000 milliseconds is 30 seconds).
      * @returns bool whether the coommand ran successfully
      */
-    waitForCompletion(commandId) 
+    waitForCompletion(commandId, timeOut=30000) 
     {
         const startTime = new Date().getTime();
-        const timeout = 30000;
+        const timeout = timeOut;
         const endpoint = `command/${commandId}`;
 
         while (new Date().getTime() - startTime <= timeout) {
