@@ -41,6 +41,7 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
         lblSavings = Translater.Instant("Labels.Savings");
         feService.Library.LibrariesUpdated += LibrariesUpdated;
         Data = feService.Library.Libraries;
+        SortData();
     }
 
     /// <summary>
@@ -50,6 +51,7 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
     private void LibrariesUpdated(List<LibraryListModel> data)
     {
         Data = data;
+        SortData();
         StateHasChanged();
     }
 
@@ -331,26 +333,27 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
     /// we only want to do the sort the first time, otherwise the list will jump around for the user
     /// </summary>
     private List<Guid> initialSortOrder;
-    
-    /// <inheritdoc />
-    public override Task PostLoad()
+
+    /// <summary>
+    /// Sorts the data
+    /// </summary>
+    private void SortData()
     {
         // Data.RemoveAll(x => x.Uid == CommonVariables.ManualLibraryUid);
-        HasCreatedLibraries = Data?.Any(x => x.Uid != CommonVariables.ManualLibraryUid) == true;
+        HasCreatedLibraries = Data.Any(x => x.Uid != CommonVariables.ManualLibraryUid) == true;
         
         if (initialSortOrder == null)
         {
-            Data = Data?.OrderByDescending(x => x.Enabled)?.ThenBy(x => x.Name)
-                ?.ToList();
-            initialSortOrder = Data?.Select(x => x.Uid)?.ToList();
+            Data = Data.OrderByDescending(x => x.Enabled).ThenBy(x => x.Name)
+                .ToList();
+            initialSortOrder = Data.Select(x => x.Uid).ToList();
         }
         else
         {
-            Data = Data?.OrderBy(x => initialSortOrder.Contains(x.Uid) ? initialSortOrder.IndexOf(x.Uid) : 1000000)
+            Data = Data.OrderBy(x => initialSortOrder.Contains(x.Uid) ? initialSortOrder.IndexOf(x.Uid) : 1000000)
                 .ThenBy(x => x.Name)
-                ?.ToList();
+                .ToList();
         }
-        return base.PostLoad();
     }
 
     /// <summary>
