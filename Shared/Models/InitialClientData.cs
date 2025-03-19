@@ -19,6 +19,12 @@ public class InitialClientData
     public List<FlowListModel> Flows { get; set; }
     
     /// <summary>
+    /// Gets or sets all the Plugins the system
+    /// </summary>
+    [JsonPropertyName("u")]
+    public List<PluginInfoModel> Plugins { get; set; }
+    
+    /// <summary>
     /// Gets or sets the users profile
     /// </summary>
     [JsonPropertyName("p")]

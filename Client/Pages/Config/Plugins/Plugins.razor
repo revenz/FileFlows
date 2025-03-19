@@ -26,8 +26,7 @@
                 {  
                     <FlowTableButton Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
                 }
-                <FlowTableButtonSeparator />    
-                <FlowTableButton Clicked=AboutAction SelectedOne="true" Icon="fas fa-info-circle" Label="Labels.About" />                
+                <FlowTableButtonSeparator />                    
                 <FlowTableHelpButton HelpUrl="extensions/plugins" />
             </ToolBar>
 
@@ -66,7 +65,7 @@
                                 }
                                 <span class="name"><span class="name-actual">@label</span></span>
                                 <div class="info">
-                                    <IconValue Color="IconValueColor.Blue" OnClick="() => _ = About(item)" Icon="fas fa-sitemap" Value="@(item.Elements.Count + " " + (item.Elements.Count == 1 ? lblFlowElement : lblFlowElements))" />
+                                    <IconValue Color="IconValueColor.Blue" OnClick="() => _ = About(item)" Icon="fas fa-sitemap" Value="@(item.NumberOfElements + " " + (item.NumberOfElements == 1 ? lblFlowElement : lblFlowElements))" />
                                     @if (item.HasSettings)
                                     {
                                         <IconValue Color="IconValueColor.Orange" OnClick="() => _ = Edit(item)" Icon="fas fa-cog" Value="@lblSettings" />

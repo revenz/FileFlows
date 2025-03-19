@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace FileFlows.Client.Pages;
 
-public partial class Plugins : ListPage<Guid, PluginInfoModel>
+public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
 {
     public override string ApiUrl => "/api/plugin";
 
@@ -18,12 +18,37 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        Profile = feService.Profile.Profile;
+        base.OnInitialized(false);
         lblTitle = Translater.Instant("Pages.Plugins.Title");
         lblSettings = Translater.Instant("Labels.Settings");
         lblInUse = Translater.Instant("Labels.InUse");
         lblFlowElement = Translater.Instant("Labels.FlowElement");
         lblFlowElements = Translater.Instant("Labels.FlowElements");
+        feService.Plugin.PluginsUpdated += PluginOnPluginsUpdated;
+        Data = feService.Plugin.Plugins;
+    }
+
+    /// <summary>
+    /// Plugins have been updated
+    /// </summary>
+    /// <param name="data">the updated plugins</param>
+    private void PluginOnPluginsUpdated(List<PluginInfoModel> data)
+    {
+        Data = data;
+        StateHasChanged();
+    }
+    
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Table.SetData(Data);
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
     }
 
     protected override string DeleteMessage => "Pages.Plugins.Messages.DeletePlugins";
@@ -50,9 +75,7 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>
         Data.Clear();
         try
         {
-            var result = await HttpHelper.Post($"{ApiUrl}/update", new ReferenceModel<Guid> { Uids = plugins });
-            if (result.Success)
-                await PluginsUpdated();
+            await HttpHelper.Post($"{ApiUrl}/update", new ReferenceModel<Guid> { Uids = plugins });
         }
         finally
         {
@@ -140,8 +163,6 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>
     {
         if (plugin.Settings?.Any() == true)
             await Edit(plugin);
-        else
-            await About(plugin);
     }
 
     private async Task About(PluginInfoModel plugin)
@@ -157,22 +178,8 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>
                 },
                 new ElementField
                 {
-                    Name = nameof(plugin.Authors),
-                    InputType = FormInputType.TextLabel
-                },
-                new ElementField
-                {
                     Name = nameof(plugin.Version),
                     InputType = FormInputType.TextLabel
-                },
-                new ElementField
-                {
-                    Name = nameof(plugin.Url),
-                    InputType = FormInputType.TextLabel,
-                    Parameters = new Dictionary<string, object>
-                    {
-                        { nameof(InputTextLabel.Link), true }
-                    }
                 },
                 new ElementField
                 {
@@ -271,5 +278,13 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>
                 ?.ToList();
         }
         return base.PostLoad();
+    }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        feService.Plugin.PluginsUpdated -= PluginOnPluginsUpdated;
     }
 }

@@ -85,6 +85,7 @@ public class SseController : Controller
         var flowElementsTask = FlowController.GetFlowElements(Guid.Empty, null);
         var profileTask = context.GetProfile();
         var variablesTask = ServiceLoader.Load<VariableService>().GetAllAsync();
+        var pluginsTask = ServiceLoader.Load<PluginService>().GetForBroadcast();
 
         var allTasks = new List<Task>
         {
@@ -94,7 +95,8 @@ public class SseController : Controller
             tagsTask,
             profileTask,
             flowElementsTask,
-            variablesTask
+            variablesTask,
+            pluginsTask
         };
 
         // Log the start time for all tasks
@@ -152,8 +154,8 @@ public class SseController : Controller
         logSummary.AppendLine(
             $"Completed SavingsService calls at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
 
-        var lfStatuss  = ServiceLoader.Load<LibraryFileStatusOverviewService>().GetStatuses();
-        
+        var lfStatuses  = ServiceLoader.Load<LibraryFileStatusOverviewService>().GetStatuses();
+
         var result = new InitialClientData
         {
             Profile = profile,
@@ -162,6 +164,7 @@ public class SseController : Controller
             CurrentFileOverData = ServiceLoader.Load<DashboardFileOverviewService>().GetData(),
             CurrentUpdatesInfo = ServiceLoader.Load<UpdateService>().Info,
             Flows = flowsTask.Result,
+            Plugins = pluginsTask.Result,
             Libraries = ServiceLoader.Load<LibraryService>().GetListModels(),
             CurrentExecutorInfoMinified = executorsTask.Result.Values.ToList(),
             NodeStatusSummaries = nodeStatusesTask.Result,
@@ -172,7 +175,7 @@ public class SseController : Controller
             UpcomingFiles = upcoming.Select(x => (LibraryFileMinimal)x).ToList(),
             TopSavingsAll = savingsAll,
             TopSavings31Days = savings31,
-            LibraryFileCounts = lfStatuss,
+            LibraryFileCounts = lfStatuses,
             FlowElements = flowElementsTask.Result.ToList(),
             Tags = (tagsTask.Result ?? Enumerable.Empty<Tag>())
                 .OrderBy(x => x.Name.ToLowerInvariant())

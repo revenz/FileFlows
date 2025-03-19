@@ -68,6 +68,10 @@ public class FrontendService : IAsyncDisposable
     /// </summary>
     public LibraryHandler Library { get;private set; }
     /// <summary>
+    /// Gets or sets the plugin handler
+    /// </summary>
+    public PluginHandler Plugin { get;private set; }
+    /// <summary>
     /// Gets or sets the tag handler
     /// </summary>
     public TagHandler Tag { get;private set; }
@@ -243,6 +247,8 @@ public class FrontendService : IAsyncDisposable
         Variable.Initialize(data);
         DockerMod = new(this);
         DockerMod.Initialize(data);
+        Plugin = new(this);
+        Plugin.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }
