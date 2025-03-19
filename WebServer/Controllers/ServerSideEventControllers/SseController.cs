@@ -32,9 +32,9 @@ public class SseController : Controller
             : user?.Role ?? (UserRole)0;
         
         using var writer = new StreamWriter(Response.Body);
-        var _broker = ServiceLoader.Load<SseEventBroker>();
-        var clientId = _broker.AddClient(writer, userRole);
         
+        var _broker = ServiceLoader.Load<SseEventBroker>();
+        Guid? clientId = null;
         try
         {
             if (initialData)
@@ -49,6 +49,8 @@ public class SseController : Controller
                 await writer.FlushAsync();
                 await Task.Delay(5000, HttpContext.RequestAborted);
             }
+            
+            clientId = _broker.AddClient(writer, userRole);
 
             while (HttpContext.RequestAborted.IsCancellationRequested == false)
             {
@@ -63,7 +65,8 @@ public class SseController : Controller
         }
         finally
         {
-            _broker.RemoveClient(clientId);
+            if(clientId != null)
+                _broker.RemoveClient(clientId.Value);
         }
     }
 
