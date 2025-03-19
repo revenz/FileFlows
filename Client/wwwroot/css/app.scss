@@ -1343,3 +1343,21 @@ input[type=file]{
         opacity: 0;
     }
 }
+
+.vi-container.form-page.page-view
+{
+    .input-label {
+        width:18rem !important;
+        min-width: 18rem !important;;
+    }
+
+    .row + .row {
+        margin-top: 1rem;
+    }
+    .row {
+        margin:0;
+    }
+    .content {
+        padding-top:1rem;
+    }
+}

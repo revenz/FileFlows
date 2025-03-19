@@ -1,0 +1,40 @@
+@layout ConfigurationLayout
+
+@page "/config/logging"
+@inherits InputRegister
+@namespace FileFlows.Client.Pages.Config.Configuration.Settings
+
+<PageView Title="@lblTitle" Icon="fas fa-file-alt" FormPage="true">
+
+    <Head>
+        <button id="settings-save" class="btn" @onclick=@Save>
+            @if(IsSaving)
+            {
+                @lblSaving
+            }
+            else
+            {
+                @lblSave
+            }
+        </button>
+
+        <button @onclick=@OpenHelp  class="btn">
+            @lblHelp
+        </button>
+    </Head>
+
+    <Body>
+
+        <InputSwitch @bind-Value="@Model.LogQueueMessages" Label="Pages.Settings.Fields.LogQueueMessages"/>
+        @if (IsLicensed)
+        {
+            <InputSwitch @bind-Value="@Model.LogEveryRequest" Label="Pages.Settings.Fields.LogEveryRequest" />
+            <InputNumber @bind-Value="@Model.LogFileRetention" Label="Pages.Settings.Fields.LogFileRetention" Min=1 Max=100 />
+        }
+        <InputSwitch @bind-Value="@Model.ShowFileAddedNotifications" Inverse="false" Label="Pages.Settings.Fields.ShowFileAddedNotifications" />
+        <InputSwitch @bind-Value="@Model.HideProcessingStartedNotifications" Inverse="true" Label="Pages.Settings.Fields.HideProcessingStartedNotifications" />
+        <InputSwitch @bind-Value="@Model.HideProcessingFinishedNotifications" Inverse="true" Label="Pages.Settings.Fields.HideProcessingFinishedNotifications" />
+
+    </Body>
+
+</PageView>

@@ -181,7 +181,6 @@ public class SettingsController : BaseController
             EulaAccepted = model.EulaAccepted,
             InitialConfigDone = model.InitialConfigDone,
             
-            DelayBetweenNextFile = model.DelayBetweenNextFile,
             PausedUntil = model.PausedUntil,
             Language = model.Language,
             LogFileRetention = model.LogFileRetention,
@@ -196,7 +195,6 @@ public class SettingsController : BaseController
             ShowFileAddedNotifications = model.ShowFileAddedNotifications,
             HideProcessingStartedNotifications = model.HideProcessingStartedNotifications,
             HideProcessingFinishedNotifications = model.HideProcessingFinishedNotifications,
-            ProcessFileCheckInterval = model.ProcessFileCheckInterval,
             FileServerDisabled = model.FileServerDisabled,
             FileServerOwnerGroup = model.FileServerOwnerGroup,
             FileServerFilePermissions = model.FileServerFilePermissions,

@@ -1,0 +1,44 @@
+@layout ConfigurationLayout
+
+@namespace FileFlows.Client.Pages.Config.Configuration.Settings
+@inherits InputRegister
+
+@page "/config/settings"
+
+<PageView Title="@lblTitle" Icon="fas fa-cogs" FormPage="true">
+
+    <Head>
+        <button id="settings-save" class="btn" @onclick=@Save>
+            @if(IsSaving)
+            {
+                @lblSaving
+            }
+            else
+            {
+                @lblSave
+            }
+        </button>
+
+        <button @onclick=@OpenHelp  class="btn">
+            @lblHelp
+        </button>
+    </Head>
+
+    <Body>
+
+        <InputDropDown CustomXID="Language" @bind-Value="@Language" Options=@LanguageOptions
+                       Label="Pages.Settings.Fields.Language" AllowClear="false" />
+
+        <InputSwitch @bind-Value="@Model.KeepFailedFlowTempFiles" Label="Pages.Settings.Fields.KeepFailedFlowTempFiles"/>
+        <InputSwitch @bind-Value="@Model.DontUseTempFilesWhenMovingOrCopying" Label="Pages.Settings.Fields.DontUseTempFilesWhenMovingOrCopying" Inverse="true"/>
+        @if (Profile.ServerOS is OperatingSystemType.Docker)
+        {
+            <InputSwitch @bind-Value="@Model.DockerModsOnServer" Label="Pages.Settings.Fields.DockerModsOnServer"/>
+        }
+        @if (IsLicensed)
+        {
+            <InputSwitch @bind-Value="@Model.DisableTelemetry" Inverse="@true" Label="Pages.Settings.Fields.Telemetry" OnChangedValue="OnTelemetryChange"/>
+        }
+    </Body>
+
+</PageView>

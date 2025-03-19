@@ -3,7 +3,8 @@
 @{
     string? title = string.IsNullOrEmpty(Title) == false ? Title : Menu?.Active?.Title;
 }
-<ViContainer Title="@title" Icon="@(Icon?.EmptyAsNull() ?? Menu?.Active?.Icon)" FullWidth=@FullWidth Flex="Flex" ClassName=@ClassName PageView="true">
+<ViContainer Title="@title" Icon="@(Icon?.EmptyAsNull() ?? Menu?.Active?.Icon)" FullWidth=@FullWidth Flex="Flex" 
+             ClassName="@GetClassName()" PageView="true">
     <HeadLeft>
         @HeadLeft
     </HeadLeft>

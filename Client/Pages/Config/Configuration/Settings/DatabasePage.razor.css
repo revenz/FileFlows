@@ -1,0 +1,22 @@
+.btn-test {
+  margin: 2rem 0 0 18rem;
+}
+.btn-test .btn {
+  width: auto;
+  min-width: 9rem;
+}
+.btn-test .btn + .btn {
+  margin-left: 1rem;
+}
+
+@media (max-width: 577.9999px) {
+  .btn-test {
+    text-align: center;
+    margin: 2rem 0 0;
+  }
+  .btn-test .btn {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=DatabasePage.razor.css.map */

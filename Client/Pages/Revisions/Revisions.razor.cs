@@ -11,6 +11,15 @@ public partial class Revisions: ListPage<Guid, RevisionedObject>
 
     public override string FetchUrl => $"{ApiUrl}/list";
 
+    private string lblTitle;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        lblTitle = Translater.Instant("Pages.Revisions.Title");
+    }
+
     /// <summary>
     /// Gets if they are licensed for this page
     /// </summary>

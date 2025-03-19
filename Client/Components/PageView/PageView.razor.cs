@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Shared;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace FileFlows.Client.Components;
 
@@ -52,5 +53,13 @@ public partial class PageView
     /// Gets or sets the icon to use, if not set the icon from the nav menu will be used
     /// </summary>
     [Parameter] public string? Icon { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this is a form page
+    /// </summary>
+    [Parameter] public bool FormPage { get; set; }
+
+    private string GetClassName()
+        => $"{(ClassName ?? string.Empty)} {(FormPage ? "form-page" : "")}";
 
 }

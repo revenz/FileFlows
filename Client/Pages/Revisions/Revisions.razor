@@ -1,12 +1,14 @@
+@layout ConfigurationLayout
+
 @namespace FileFlows.Client.Pages
 @using FileFlows.Shared.Models
 @using Humanizer
 @inherits ListPage<Guid, RevisionedObject>
 
 
-@page "/revisions"
+@page "/config/revisions"
 
-<PageView>
+<PageView Title="@lblTitle" Icon="fas fa-history" FormPage="true">
 
     <Head>
     </Head>

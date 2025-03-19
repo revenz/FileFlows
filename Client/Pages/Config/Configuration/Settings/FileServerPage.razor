@@ -1,0 +1,40 @@
+@layout ConfigurationLayout
+
+@page "/config/file-server"
+@inherits InputRegister
+@namespace FileFlows.Client.Pages.Config.Configuration.Settings
+
+<PageView Title="@lblTitle" Icon="fas fa-server" FormPage="true">
+
+    <Head>
+        <button id="settings-save" class="btn" @onclick=@Save>
+            @if(IsSaving)
+            {
+                @lblSaving
+            }
+            else
+            {
+                @lblSave
+            }
+        </button>
+
+        <button @onclick=@OpenHelp  class="btn">
+            @lblHelp
+        </button>
+    </Head>
+
+    <Body>
+        <p style="white-space: pre-wrap">@lblFileServerDescription</p>
+        <hr/>
+        <InputSwitch @bind-Value="@Model.FileServerDisabled" Inverse="true" Label="Pages.Settings.Fields.FileServer.Enabled"/>
+        @if (Profile.ServerOS is OperatingSystemType.Linux or OperatingSystemType.Docker)
+        {
+            <InputNumber @bind-Value="@Model.FileServerFilePermissions" Label="Pages.Settings.Fields.FileServer.FilePermissions" Disabled="Model.FileServerDisabled" Max="777" ZeroAsEmpty="true" Placeholder="@FileFlows.Common.Globals.DefaultPermissionsFile.ToString("D3")"/>
+            <InputNumber @bind-Value="@Model.FileServerFolderPermissions" Label="Pages.Settings.Fields.FileServer.FolderPermissions" Disabled="Model.FileServerDisabled" Max="777" ZeroAsEmpty="true" Placeholder="@FileFlows.Common.Globals.DefaultPermissionsFolder.ToString("D3")"/>
+            <InputText @bind-Value="@Model.FileServerOwnerGroup" Label="Pages.Settings.Fields.FileServer.OwnerGroup" Disabled="Model.FileServerDisabled"/>
+        }
+        <InputTextArea @bind-Value="@Model.FileServerAllowedPathsString" Label="Pages.Settings.Fields.FileServer.AllowList" Disabled="Model.FileServerDisabled"/>
+
+    </Body>
+
+</PageView>
