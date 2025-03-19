@@ -1,11 +1,15 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
+using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace FileFlows.Client.Pages.Config.Configuration.Settings;
 
+/// <summary>
+/// Email Page
+/// </summary>
 public partial class EmailPage : InputRegister
 {
     /// <summary>
@@ -38,7 +42,7 @@ public partial class EmailPage : InputRegister
 
     private string lblTitle, lblSave, lblSaving, lblHelp, lblEmailDescription;
 
-    private SettingsUiModel Model { get; set; } = new ();
+    private EmailModel Model { get; set; } = new ();
     
     /// <summary>
     /// the SMTP security types
@@ -81,9 +85,13 @@ public partial class EmailPage : InputRegister
         if(blocker)
             Blocker.Show();
         
-        var response = await HttpHelper.Get<SettingsUiModel>("/api/settings/ui-settings");
+        var response = await HttpHelper.Get<EmailModel>("/api/configuration/email");
         if (response.Success)
+        {
             this.Model = response.Data;
+            if (this.Model.SmtpPort is < 1 or > 65535)
+                this.Model.SmtpPort = 25;
+        }
 
         this.StateHasChanged();
         
@@ -104,7 +112,7 @@ public partial class EmailPage : InputRegister
             if (valid == false)
                 return;
             
-            await HttpHelper.Put<string>("/api/settings/ui-settings", this.Model);
+            await HttpHelper.Put<string>("/api/configuration/email", this.Model);
         }
         finally
         {

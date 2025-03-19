@@ -36,11 +36,14 @@
   flex: 1;
 }
 
+.nav .icon {
+  text-align: center;
+  margin-right: 0.5rem;
+  display: inline-flex;
+}
 .nav .fas, .nav .far, .nav .fab {
-  width: 2rem;
+  width: 1.5rem;
   font-size: 0.9rem;
-  vertical-align: text-top;
-  padding-top: 1px;
 }
 
 .nav-menu-group a, .nav-item a {

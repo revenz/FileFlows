@@ -1,6 +1,7 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -38,7 +39,7 @@ public partial class UpdatesPage : InputRegister
 
     private string lblTitle, lblSave, lblSaving, lblHelp, lblCheckNow;
 
-    private SettingsUiModel Model { get; set; } = new ();
+    private UpdatesModel Model { get; set; } = new ();
     
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -76,7 +77,7 @@ public partial class UpdatesPage : InputRegister
         if(blocker)
             Blocker.Show();
         
-        var response = await HttpHelper.Get<SettingsUiModel>("/api/settings/ui-settings");
+        var response = await HttpHelper.Get<UpdatesModel>("/api/configuration/updates");
         if (response.Success)
             this.Model = response.Data;
 
@@ -99,7 +100,7 @@ public partial class UpdatesPage : InputRegister
             if (valid == false)
                 return;
             
-            await HttpHelper.Put<string>("/api/settings/ui-settings", this.Model);
+            await HttpHelper.Put<string>("/api/configuration/updates", this.Model);
         }
         finally
         {
@@ -121,7 +122,7 @@ public partial class UpdatesPage : InputRegister
     private async Task CheckForUpdateNow()
     {
         Blocker.Show();
-        var available = await HttpHelper.Post<bool>("/api/settings/check-for-update-now");
+        var available = await HttpHelper.Post<bool>("/api/configuration/updates/check-for-update-now");
         Blocker.Hide();
         if (available.Success == false)
         {
@@ -138,7 +139,7 @@ public partial class UpdatesPage : InputRegister
         if (await Confirm.Show("Pages.Settings.Messages.Update.Title",
                 "Pages.Settings.Messages.Update.Message") == false)
             return;
-        await HttpHelper.Post("/api/settings/upgrade-now");
+        await HttpHelper.Post("/api/configuration/updates/upgrade-now");
         Toast.ShowInfo("Pages.Settings.Messages.Update.Downloading");
 
     }

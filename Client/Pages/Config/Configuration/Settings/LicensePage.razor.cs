@@ -1,7 +1,7 @@
 using System.Text;
-using FileFlows.Client;
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -38,11 +38,9 @@ public partial class LicensePage : InputRegister
 
     private string lblTitle, lblSave, lblSaving, lblHelp;
 
-    private SettingsUiModel Model { get; set; } = new ();
+    private LicenseModel Model { get; set; } = new ();
 
     private string LicenseFlagsString = string.Empty;
-    // indicates if the page has rendered or not
-    private DateTime firstRenderedAt = DateTime.MaxValue;
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -63,16 +61,7 @@ public partial class LicensePage : InputRegister
             Blocker.Hide();
         }
     }
-
-
-    /// <inheritdoc />
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-            firstRenderedAt = DateTime.UtcNow;
-        base.OnAfterRender(firstRender);
-    }
-
+    
     /// <summary>
     /// Loads the settings
     /// </summary>
@@ -82,7 +71,7 @@ public partial class LicensePage : InputRegister
         if(blocker)
             Blocker.Show();
         
-        var response = await HttpHelper.Get<SettingsUiModel>("/api/settings/ui-settings");
+        var response = await HttpHelper.Get<LicenseModel>("/api/configuration/license");
         if (response.Success)
         {
             this.Model = response.Data;
@@ -108,7 +97,9 @@ public partial class LicensePage : InputRegister
             if (valid == false)
                 return;
             
-            await HttpHelper.Put<string>("/api/settings/ui-settings", this.Model);
+            await HttpHelper.Put<string>("/api/configuration/license", this.Model);
+            
+            await Refresh();
         }
         finally
         {

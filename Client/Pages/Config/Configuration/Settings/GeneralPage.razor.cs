@@ -3,6 +3,7 @@ using FileFlows.Client.Components.Dialogs;
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Shared.Models.Configuration;
 using Microsoft.JSInterop;
 
 namespace FileFlows.Client.Pages.Config.Configuration.Settings;
@@ -42,7 +43,7 @@ public partial class GeneralPage : InputRegister
 
     private string lblTitle, lblSave, lblSaving, lblHelp, lblTestingDatabase;
 
-    private SettingsUiModel Model { get; set; } = new ();
+    private GeneralModel Model { get; set; } = new ();
 
     /// <summary>
     /// The language options
@@ -115,7 +116,7 @@ public partial class GeneralPage : InputRegister
         if(blocker)
             Blocker.Show();
         
-        var response = await HttpHelper.Get<SettingsUiModel>("/api/settings/ui-settings");
+        var response = await HttpHelper.Get<GeneralModel>("/api/configuration/general");
         if (response.Success)
             this.Model = response.Data;
         this.StateHasChanged();
@@ -137,16 +138,12 @@ public partial class GeneralPage : InputRegister
             if (valid == false)
                 return;
             
-            await HttpHelper.Put<string>("/api/settings/ui-settings", this.Model);
+            await HttpHelper.Put<string>("/api/configuration/general", this.Model);
             
             if (initialLannguage != Model.Language)
             {
                 // need to do a full page reload
                 NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
-            }
-            else
-            {
-                await this.Refresh();
             }
         }
         finally
@@ -163,9 +160,6 @@ public partial class GeneralPage : InputRegister
         => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/config/general");
 
 
-    private bool IsLicensed => string.IsNullOrEmpty(Model?.LicenseStatus) == false && Model.LicenseStatus != "Unlicensed" && Model.LicenseStatus != "Invalid";
-
-    
     /// <summary>
     /// When the user changes the telemetry value
     /// </summary>

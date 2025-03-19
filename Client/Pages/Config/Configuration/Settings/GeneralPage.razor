@@ -35,7 +35,7 @@
         {
             <InputSwitch @bind-Value="@Model.DockerModsOnServer" Label="Pages.Settings.Fields.DockerModsOnServer"/>
         }
-        @if (IsLicensed)
+        @if (Model.IsLicensed)
         {
             <InputSwitch @bind-Value="@Model.DisableTelemetry" Inverse="@true" Label="Pages.Settings.Fields.Telemetry" OnChangedValue="OnTelemetryChange"/>
         }

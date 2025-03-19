@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -37,7 +38,7 @@ public partial class LoggingPage : InputRegister
 
     private string lblTitle, lblSave, lblSaving, lblHelp;
 
-    private SettingsUiModel Model { get; set; } = new ();
+    private LoggingModel Model { get; set; } = new ();
 
     private bool IsLicensed;
 
@@ -71,7 +72,7 @@ public partial class LoggingPage : InputRegister
         if(blocker)
             Blocker.Show();
         
-        var response = await HttpHelper.Get<SettingsUiModel>("/api/settings/ui-settings");
+        var response = await HttpHelper.Get<LoggingModel>("/api/configuration/logging");
         if (response.Success)
             this.Model = response.Data;
 
@@ -94,7 +95,7 @@ public partial class LoggingPage : InputRegister
             if (valid == false)
                 return;
             
-            await HttpHelper.Put<string>("/api/settings/ui-settings", this.Model);
+            await HttpHelper.Put<string>("/api/configuration/logging", this.Model);
         }
         finally
         {

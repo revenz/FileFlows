@@ -14,11 +14,6 @@ namespace FileFlows.WebServer.Controllers;
 public class SettingsController : BaseController
 {
     /// <summary>
-    /// Dummy password to use in place of passwords
-    /// </summary>
-    private const string DUMMY_PASSWORD = "************";
-    
-    /// <summary>
     /// The settings for the application
     /// </summary>
     private AppSettings Settings;
@@ -86,7 +81,7 @@ public class SettingsController : BaseController
         string json = JsonSerializer.Serialize(settings);
         var uiModel = JsonSerializer.Deserialize<SettingsUiModel>(json) ?? new ();
         if (string.IsNullOrWhiteSpace(settings.SmtpPassword) == false)
-            uiModel.SmtpPassword = DUMMY_PASSWORD;
+            uiModel.SmtpPassword = CommonVariables.DUMMY_PASSWORD;
         
         SetLicenseFields(uiModel, license);
         uiModel.FileServerAllowedPathsString = uiModel.FileServerAllowedPaths?.Any() == true
@@ -128,7 +123,7 @@ public class SettingsController : BaseController
         {
             string json = JsonSerializer.Serialize(settings);
             settings = JsonSerializer.Deserialize<Settings>(json) ?? new ();
-            settings.SmtpPassword = DUMMY_PASSWORD;
+            settings.SmtpPassword = CommonVariables.DUMMY_PASSWORD;
         }
         return settings;
     }
@@ -162,7 +157,7 @@ public class SettingsController : BaseController
             return;
 
         var existing = await ServiceLoader.Load<ISettingsService>().Get() ?? new ();
-        if (model.SmtpPassword == DUMMY_PASSWORD)
+        if (model.SmtpPassword == CommonVariables.DUMMY_PASSWORD)
         {
             // need to get the existing password
             model.SmtpPassword = existing.SmtpPassword;
@@ -185,8 +180,8 @@ public class SettingsController : BaseController
             Language = model.Language,
             LogFileRetention = model.LogFileRetention,
             LogEveryRequest = model.LogEveryRequest,
-            AutoUpdate = model.AutoUpdate,
             DisableTelemetry = model.DisableTelemetry,
+            AutoUpdate = model.AutoUpdate,
             AutoUpdateNodes = model.AutoUpdateNodes,
             AutoUpdatePlugins = model.AutoUpdatePlugins,
             LogQueueMessages = model.LogQueueMessages,

@@ -68,38 +68,38 @@ public partial class ConfigurationLayout : LayoutComponentBase
                     profile.HasRole(UserRole.Variables)
                         ? new("Pages.Variables.Title", "fas fa-at", "config/variables")
                         : null,
-                }.Where(x =>
-                {
-                    if (x == null)
-                        return false;
-                    x.Title = Translater.Instant(x.Title);
-                    return true;
-                })
+                }.Where(x => x != null)
                 .OrderBy(x => x.Title.ToLowerInvariant()).ToList()
         });
-        
-        menuItems.Add(new NavMenuGroup
+
+        var nmgConfig = new NavMenuGroup
         {
             Name = Translater.Instant("MenuGroups.Configuration"),
             Icon = "fas fa-code-branch",
             Items = new List<NavMenuItem>
-            {
-                profile.IsAdmin ? new ("Pages.Settings.Labels.General", "fas fa-cogs", "config/settings") : null,
-                profile.IsAdmin ? new ("Pages.Settings.Labels.License", "fas fa-money-check", "config/license") : null,
-                profile.IsAdmin ? new ("Pages.Settings.Labels.Logging", "fas fa-file-alt", "config/logging") : null,
-                profile.IsAdmin && profile.LicensedFor(LicenseFlags.AutoUpdates) ? new ("Pages.Settings.Labels.Updates", "fas fa-cloud", "config/updates") : null,
-                profile.IsAdmin && profile.LicensedFor(LicenseFlags.FileServer) ? new ("Pages.Settings.Labels.FileServer", "fas fa-server", "config/file-server") : null,
-                profile.IsAdmin && profile.LicensedFor(LicenseFlags.ExternalDatabase)  ? new ("Pages.Settings.Labels.Database", "fas fa-database", "config/database") : null,
-                profile.IsAdmin ? new ("Pages.Settings.Labels.Email", "fas fa-envelope", "config/email") : null,
-            }.Where(x =>
-            {
-                if (x == null)
-                    return false;
-                x.Title = Translater.Instant(x.Title);
-                return true;
-            })
-            .OrderBy(x => x.Title.ToLowerInvariant()).ToList()
-        });
+                {
+                    profile.IsAdmin
+                        ? new("Pages.Settings.Labels.License", "fas fa-money-check", "config/license")
+                        : null,
+                    profile.IsAdmin ? new("Pages.Settings.Labels.Logging", "fas fa-file-alt", "config/logging") : null,
+                    profile.IsAdmin && profile.LicensedFor(LicenseFlags.AutoUpdates)
+                        ? new("Pages.Settings.Labels.Updates", "fas fa-cloud", "config/updates")
+                        : null,
+                    profile.IsAdmin && profile.LicensedFor(LicenseFlags.FileServer)
+                        ? new("Pages.Settings.Labels.FileServer", "fas fa-server", "config/file-server")
+                        : null,
+                    profile.IsAdmin && profile.LicensedFor(LicenseFlags.ExternalDatabase)
+                        ? new("Pages.Settings.Labels.Database", "fas fa-database", "config/database")
+                        : null,
+                    profile.IsAdmin ? new("Pages.Settings.Labels.Email", "fas fa-envelope", "config/email") : null,
+                }.Where(x => x != null)
+                .OrderBy(x => x.Title.ToLowerInvariant()).ToList()
+        };
+        if (profile.IsAdmin)
+            nmgConfig.Items.Insert(0,
+                new(Translater.Instant("Pages.Settings.Labels.General"), "fas fa-cogs", "config/settings"));
+        
+        menuItems.Add(nmgConfig);
 
         menuItems.Add(new NavMenuGroup
         {
@@ -114,13 +114,7 @@ public partial class ConfigurationLayout : LayoutComponentBase
                 profile.HasRole(UserRole.Tags) ? new("Pages.Tags.Title", "fas fa-tags", "config/tags") : null,
                 profile.HasRole(UserRole.Tasks) && profile.LicensedFor(LicenseFlags.Tasks) ? new ("Pages.Tasks.Title", "fas fa-clock", "config/tasks") : null,
               profile.HasRole(UserRole.Webhooks) && profile.LicensedFor(LicenseFlags.Webhooks) ? new ("Pages.Webhooks.Title", "fas fa-handshake", "config/webhooks") : null
-            }.Where(x =>
-            {
-                if (x == null)
-                    return false;
-                x.Title = Translater.Instant(x.Title);
-                return true;
-            })
+            }.Where(x => x != null)
             .OrderBy(x => x.Title.ToLowerInvariant()).ToList()
         });
         
@@ -136,13 +130,7 @@ public partial class ConfigurationLayout : LayoutComponentBase
                     profile.LicensedFor(LicenseFlags.Auditing) && profile.UsersEnabled ? new ("Pages.Audit.Title", "fas fa-clipboard-list", "config/audit") : null,
                     profile.LicensedFor(LicenseFlags.AccessControl) ? new ("Pages.AccessControl.Title", "fas fa-shield-alt", "config/access-control") : null,
                     profile.LicensedFor(LicenseFlags.UserSecurity) ? new ("Pages.Users.Title", "fas fa-users", "config/users") : null
-                }.Where(x =>
-                {
-                    if (x == null)
-                        return false;
-                    x.Title = Translater.Instant(x.Title);
-                    return true;
-                })
+                }.Where(x => x != null)
                 .OrderBy(x => x.Title.ToLowerInvariant()).ToList()
             });
         }

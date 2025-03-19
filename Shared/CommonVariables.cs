@@ -38,4 +38,8 @@ public class CommonVariables
     /// </summary>
     public static readonly Guid OperatorFileFlowsServerUid = new Guid("07ecd8bd-79a6-454d-8033-e64693fc2f7b");
     
+    /// <summary>
+    /// Dummy password to use in place of passwords
+    /// </summary>
+    public const string DUMMY_PASSWORD = "************";
 }

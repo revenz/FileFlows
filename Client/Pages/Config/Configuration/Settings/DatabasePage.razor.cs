@@ -5,6 +5,7 @@ using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Models;
 using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
+using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -45,7 +46,7 @@ public partial class DatabasePage : InputRegister
     private string OriginalDatabase, OriginalServer;
     private DatabaseType OriginalDbType;
 
-    private SettingsUiModel Model { get; set; } = new ();
+    private DatabaseModel Model { get; set; } = new ();
     // indicates if the page has rendered or not
     private DateTime firstRenderedAt = DateTime.MaxValue;
 
@@ -120,7 +121,7 @@ public partial class DatabasePage : InputRegister
         if(blocker)
             Blocker.Show();
         
-        var response = await HttpHelper.Get<SettingsUiModel>("/api/settings/ui-settings");
+        var response = await HttpHelper.Get<DatabaseModel>("/api/configuration/database");
         if (response.Success)
         {
             this.Model = response.Data;
@@ -130,7 +131,7 @@ public partial class DatabasePage : InputRegister
             if (this.Model is { DbPort: < 1 })
                 this.Model.DbPort = 3306;
             
-            if(LicensedFor(LicenseFlags.ExternalDatabase))
+            if(Profile.LicensedFor(LicenseFlags.ExternalDatabase))
             {
                 DbTypes =
                 [
@@ -170,7 +171,7 @@ public partial class DatabasePage : InputRegister
             if (valid == false)
                 return;
             
-            await HttpHelper.Put<string>("/api/settings/ui-settings", this.Model);
+            await HttpHelper.Put("/api/configuration/database", this.Model);
         }
         finally
         {
@@ -246,19 +247,6 @@ public partial class DatabasePage : InputRegister
         await HttpHelper.Post("/api/system/restart");
     }
 
-    private bool IsLicensed => string.IsNullOrEmpty(Model?.LicenseStatus) == false && Model.LicenseStatus != "Unlicensed" && Model.LicenseStatus != "Invalid";
-
-    /// <summary>
-    /// Checks if the user is licensed for a feature
-    /// </summary>
-    /// <param name="feature">the feature to check</param>
-    /// <returns>If the user is licensed for a feature</returns>
-    private bool LicensedFor(LicenseFlags feature)
-    {
-        if (IsLicensed == false)
-            return false;
-        return (Model.LicenseFlags & feature) == feature;
-    }
 
     /// <summary>
     /// When the user changes the DB backup value

@@ -26,7 +26,7 @@
                     <li class="nav-item @(item.Url == ""  ? "dashboard" : item.Url.Replace("/", ""))">
                         <a class="nav-link @(Active == item  ? "active": "")" href="@item.Url" @onclick:preventDefault @onclick:stopPropagation
                            @onclick="() => Click(item)">
-                            <span class="icon @item.Icon" aria-hidden="true"></span>
+                            <span class="icon"><span class="@item.Icon" aria-hidden="true"></span></span>
                             <span class="text-label">@item.Title</span>
                         </a>
                     </li>
