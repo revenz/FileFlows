@@ -237,7 +237,7 @@ public class WebServerApp
             c.InjectStylesheet("/css/swagger.min.css");
         });
 
-        app.UseDefaultFiles();
+        // app.UseDefaultFiles();
 
         var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
         provider.Mappings[".br"] = "text/plain";
@@ -280,7 +280,7 @@ public class WebServerApp
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
+            
             app.MapControllerRoute(
                 name: "Spa",
                 pattern: "{*url}",

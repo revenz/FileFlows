@@ -1,5 +1,6 @@
 ﻿@use 'blocker';
 @use 'inputs';
+@use 'dropdown';
 @use 'buttons';
 @use 'modal';
 @use 'pointer';
@@ -13,9 +14,9 @@
 @use 'safari';
 @use 'photino';
 @use 'report';
+@use 'wizard';
 
 $mobile_width: 850px;
-
 
 @font-face {
     font-family: 'Montserrat';

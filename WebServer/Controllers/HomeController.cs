@@ -17,8 +17,13 @@ public class HomeController : Controller
     /// <returns>the index page</returns>
     [ApiExplorerSettings(IgnoreApi = true)]
     [ResponseCache(NoStore = true, Duration = 0)]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        var settingsService = ServiceLoader.Load<ISettingsService>();
+        var settings = await settingsService.Get();
+        if(settings.InitialConfigDone == false)
+            return Redirect("/initial-config");
+        
         return File("~/index.html", "text/html");
     }
 

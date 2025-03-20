@@ -103,7 +103,7 @@ public partial class NavMenu : IDisposable
                 await ProfileService.Logout("Labels.AdminRequired");
                 return;
             }
-            NavigationManager.NavigateTo("/initial-config");
+            NavigationManager.NavigateTo("/initial-config", true);
             return;
         }
         

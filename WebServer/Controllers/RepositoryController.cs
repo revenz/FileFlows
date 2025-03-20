@@ -73,7 +73,7 @@ public class RepositoryController : BaseController
                     throw new UnauthorizedAccessException();
 
                 var dmService = ServiceLoader.Load<DockerModService>();
-                processor = dmService.ImportFromRepository;
+                processor = (ro, content, auditDetails) => dmService.ImportFromRepository(content, auditDetails);
             }
             break;
             case "script:flow":
@@ -278,7 +278,7 @@ public class RepositoryController : BaseController
                         return null;
                     return repoObject;
                 }).Where(x => x != null).Select(x => x!).ToList();
-                updater = dmService.ImportFromRepository;
+                updater = (ro, content, auditDetails) => dmService.ImportFromRepository(content, auditDetails);
                 break;
         }
 

@@ -14,6 +14,7 @@
   align-items: center;
   height: var(--input-height);
   display: flex;
+  color: var(--color);
 }
 .dropdown .dropdown-button img {
   width: 1.5rem;
@@ -39,6 +40,9 @@
   max-height: 20rem;
   overflow-y: auto;
   display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 .dropdown .dropdown-menu.open {
   display: block;
@@ -68,3 +72,5 @@
   background-color: var(--optgroup-background);
   border-bottom: 0.1rem solid var(--border-color);
 }
+
+/*# sourceMappingURL=dropdown.css.map */
