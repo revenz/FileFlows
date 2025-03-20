@@ -13,6 +13,11 @@ public class InitialConfigController : BaseController
     [HttpGet]
     public async Task<IActionResult> Get()
     {
+        var service = (SettingsService)ServiceLoader.Load<ISettingsService>();
+        var settings = await service.Get();
+        if (settings.InitialConfigDone)
+            return Redirect("/");
+        
         InitialConfigViewModel model = new ();
         var langService = ServiceLoader.Load<LanguageService>();
         model.Languages = langService.GetLanguageOptions();
@@ -94,13 +99,18 @@ public class InitialConfigController : BaseController
                                x.Package.Contains("Web", StringComparison.InvariantCultureIgnoreCase);
                 item.Value = x.Package;
                 return item;
-            }).OrderBy(x => x.Checked ? 0 : 1)
+            })
+            .OrderBy(x => x.ReadOnly ? 0 : 1)
+            .ThenBy(x => x.Checked ? 0 : 1)
             .ThenBy(x => x.Name.ToLowerInvariant())
             .ToList();
     }
 
     private async Task<List<ChecklistItem>> GetDockerMods()
     {
+        if (Globals.IsDocker == false)
+            return [];
+        
         var repo = await ServiceLoader.Load<RepositoryService>().GetRepository();
 
         return repo.DockerMods.Select(x =>
@@ -182,9 +192,14 @@ public class InitialConfigController : BaseController
     /// </summary>
     /// <param name="model">the model</param>
     /// <returns>the response</returns>
-    [HttpPost("initial-config")]
+    [HttpPost]
     public async Task<IActionResult> Save([FromBody] InitialConfigurationModel model)
     {
+        var service = (SettingsService)ServiceLoader.Load<ISettingsService>();
+        var settings = await service.Get();
+        if (settings.InitialConfigDone)
+            return BadRequest("Initial configuration is already complete");
+        
         if (model.Plugins?.Any() == true)
         {
             var pluginService = ServiceLoader.Load<PluginService>();
@@ -197,8 +212,6 @@ public class InitialConfigController : BaseController
             }
         }
 
-        var service = (SettingsService)ServiceLoader.Load<ISettingsService>();
-        var settings = await service.Get();
         settings.EulaAccepted = true;
         settings.InitialConfigDone = true;
         settings.Language = model.Language?.EmptyAsNull() ?? "en";

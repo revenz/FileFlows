@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/css/initial-config.css?v=@Globals.Version" />
     <link href="css/fontawesome/fontawesome.min.css?v=#VERSION#" rel="stylesheet" />
     <link href="css/fontawesome/all.min.css?v=#VERSION#" rel="stylesheet" />
+    <script src="scripts/toast.js?v=#VERSION#"></script>
 </head>
 <body class="initial-config">
 
@@ -131,7 +132,7 @@
                         {
                             <label class="table-item">
                                 <input type="checkbox" disabled="@item.ReadOnly"
-                                       @(item.ReadOnly ? "checked" : "")
+                                       @(item.Checked ? "checked" : "")
                                        value="@item.Value"/>
 
                                 <span class="icon">
@@ -385,9 +386,14 @@
             });
 
             setTimeout(() => {
-                document.getElementById('blocker').remove();                
+                this.setBlockState(false);             
             }, 250);
         }    
+        
+        setBlockState(state)
+        {
+            document.getElementById('blocker').style.display = state ? '' : 'none';
+        }
         
         initializeLanguage(lang) {
             this.language = lang;
@@ -511,7 +517,8 @@
             for (let chk of document.querySelectorAll('.page-dockermods input:checked')){
                 model.DockerMods.push(chk.value);
             }
-            console.log('model', model);
+            this.saving = true;
+            this.setBlockState(true);
 
             try {
                 let result = await fetch('/initial-config', {
@@ -521,17 +528,22 @@
                     },
                     body: JSON.stringify(model)
                 });
+                
+                console.log('status code: ' + result.status);
 
                 if (result.status === 200) {
                     window.location.href = '/'; // Redirect on success
+                    return;
                 } else {
                     let responseBody = await result.text(); // Read response text
-                    alert(responseBody || 'Failed to save configuration');
+                    Toast.error(responseBody || 'Failed to save configuration');
                 }
             } catch (error) {
                 console.error('Error submitting form:', error);
-                alert('An error occurred while submitting the form.');
+                Toast.error('An error occurred while submitting the form.');
             }
+            this.saving = false;
+            this.setBlockState(false);
         }
             
     }

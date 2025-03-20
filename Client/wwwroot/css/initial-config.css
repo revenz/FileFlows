@@ -241,6 +241,95 @@ body {
   border-bottom: 0.1rem solid var(--border-color);
 }
 
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+}
+
+.ff-toast {
+  position: relative;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  color: var(--color);
+  background-color: var(--base-lighter);
+  border-top: 4px solid;
+  box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transform: translateX(100%);
+  opacity: 0;
+}
+.ff-toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+.ff-toast.hide {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.ff-toast.info, .ff-toast.Info {
+  border-color: var(--info);
+}
+.ff-toast.info .toast-icon, .ff-toast.Info .toast-icon {
+  color: var(--info);
+}
+.ff-toast.error, .ff-toast.Error {
+  border-color: var(--error);
+}
+.ff-toast.error .toast-icon, .ff-toast.Error .toast-icon {
+  color: var(--error);
+}
+.ff-toast.warn, .ff-toast.Warning {
+  border-color: var(--warning);
+}
+.ff-toast.warn .toast-icon, .ff-toast.Warning .toast-icon {
+  color: var(--warning);
+}
+.ff-toast.success, .ff-toast.Success {
+  border-color: var(--success);
+}
+.ff-toast.success .toast-icon, .ff-toast.Success .toast-icon {
+  color: var(--success);
+}
+.ff-toast .toast-icon, .ff-toast .toast-close {
+  position: absolute;
+  top: 1rem;
+}
+.ff-toast .toast-icon {
+  left: 10px;
+}
+.ff-toast .toast-content {
+  display: flex;
+  align-items: center;
+}
+.ff-toast .toast-message {
+  margin: 0 1.5rem;
+  width: 20rem;
+}
+.ff-toast i, .ff-toast svg {
+  margin-right: 0.75rem;
+  color: inherit;
+}
+.ff-toast svg {
+  width: 1rem;
+  position: relative;
+  top: 0.1rem;
+  left: 0.15rem;
+}
+.ff-toast .toast-close {
+  right: 0.75rem;
+  color: var(--color) !important;
+  opacity: 0.5;
+  cursor: pointer;
+}
+.ff-toast .toast-close:hover {
+  opacity: 1;
+}
+
 .blocker {
   background: rgba(var(--base-darkest-rgb), 0.9);
   z-index: 1000;
