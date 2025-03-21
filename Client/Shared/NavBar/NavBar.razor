@@ -45,27 +45,39 @@
             }
         </ul>
     </div>
+
     
-    @if (App.Instance.IsMobile == false && Profile?.HasRole(UserRole.PauseProcessing) == true)
+    @{
+        bool showPause = App.Instance.IsMobile == false && Profile?.HasRole(UserRole.PauseProcessing) == true;
+    }
+    @if (showPause || BottomNavBarItems.Count > 0)
     {
         <div class="bottom-nav">
-            <div class="paused-indicator">
-                <span class="@(PausedService.IsPaused ? "paused" : "not-paused")" @onclick="() => PausedService.Toggle()" title="@PausedService.PausedLabel">
-                    <i class="far fa-pause-circle"/>
-                </span>
-            </div>
+
+            @if (BottomNavBarItems.Count > 0)
+            {
+                <ul>
+                    @foreach (var item in BottomNavBarItems)
+                    {
+                        <li class="nav-item @(item == Active ? "active" : "")">
+                            <a href="@item.Url" @onclick="() => Click(item)">
+                                <i class="icon @item.Icon"></i>
+                                <span class="name">@item.Title</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+            
+            @if (showPause)
+            {
+                <div class="paused-indicator">
+                    <span class="@(PausedService.IsPaused ? "paused" : "not-paused")" @onclick="() => PausedService.Toggle()" title="@PausedService.PausedLabel">
+                        <i class="far fa-pause-circle"/>
+                    </span>
+                </div>
+            }
         </div>
     }
-        @* <ul> *@
-        @*     @foreach (var item in BottomNavBarItems) *@
-        @*     { *@
-        @*         <li class="nav-item"> *@
-        @*             <a href="@item.Url" rel="noreferrer" target="_blank"> *@
-        @*                 <i class="icon @item.Icon"></i> *@
-        @*                 <span class="name">@item.Title</span> *@
-        @*             </a> *@
-        @*         </li> *@
-        @*     } *@
-        @* </ul> *@
     
 </div>

@@ -35,7 +35,7 @@ public partial class NavBar
     
     public NavBarItem Active { get; private set; }
 
-    private string lblVersion, lblHelp, lblReddit, lblDiscord, lblChangePassword, lblLogout;
+    private string lblVersion, lblHelp, lblDiscord, lblChangePassword, lblLogout; //, lblReddit;
 
     /// <summary>
     /// Totals for the bubbles
@@ -68,7 +68,7 @@ public partial class NavBar
     {
         lblVersion = Translater.Instant("Labels.Version");
         lblHelp = Translater.Instant("Labels.Help");
-        lblReddit = "Reddit";
+        //lblReddit = "Reddit";
         lblDiscord = Translater.Instant("Labels.Discord");
         lblChangePassword = Translater.Instant("Labels.ChangePassword");
         lblLogout = Translater.Instant("Labels.Logout");
@@ -79,8 +79,8 @@ public partial class NavBar
         Profile = feService.Profile.Profile;
         
         this.LoadMenu();
-        BottomNavBarItems.Add(new(lblReddit, "fab fa-reddit-alien", "https://reddit.com/r/FileFlows"));
-        BottomNavBarItems.Add(new(lblDiscord, "fab fa-discord", "https://fileflows.com/discord"));
+        //BottomNavBarItems.Add(new(lblReddit, "fab fa-reddit-alien", "https://reddit.com/r/FileFlows"));
+        //BottomNavBarItems.Add(new(lblDiscord, "fab fa-discord", "https://fileflows.com/discord"));
         
         FilesOnLibraryFileCountsUpdated(feService.Files.LibraryFileCounts);
         feService.Files.LibraryFileCountsUpdated += FilesOnLibraryFileCountsUpdated;
@@ -175,11 +175,17 @@ public partial class NavBar
             MenuItems.Add(new (Translater.Instant("Pages.Reporting.Title"), "fas fa-chart-pie", "reporting"));
 
         if(Profile.HasRole(UserRole.Log))
-            MenuItems.Add(new (Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", "log"));
+            BottomNavBarItems.Add(new (Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", "log"));
 
-        var firstConfig = ConfigurationLayout.GetFirstAvailableItem(Profile);
+        var firstConfig = ConfigLayout.GetFirstAvailableItem(Profile);
         if(string.IsNullOrEmpty(firstConfig) == false)
-            MenuItems.Add(new (Translater.Instant("MenuGroups.Config"), "fas fa-cogs", firstConfig));
+            BottomNavBarItems.Add(new (Translater.Instant("MenuGroups.Config"), "fas fa-cogs", firstConfig));
+        
+
+        if (Profile.LicensedFor(LicenseFlags.FileDrop))
+        {
+            BottomNavBarItems.Add(new ("FileDrop", "fas fa-tint", "/file-drop/settings"));
+        }        
     }
     
     async Task Click(NavBarItem item)

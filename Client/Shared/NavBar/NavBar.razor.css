@@ -74,11 +74,19 @@ ul {
   animation: ripple 0.3s linear;
 }
 
+.bottom-nav {
+  width: 100%;
+}
+.bottom-nav .nav-item i {
+  font-size: 1.3rem;
+  opacity: 0.15;
+}
+
 .paused-indicator {
   width: 100%;
   text-align: center;
   font-size: 3.25rem;
-  margin-bottom: 0.75rem;
+  margin: 0.75rem 0;
 }
 .paused-indicator > span {
   cursor: pointer;
