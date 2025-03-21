@@ -186,6 +186,11 @@ public partial class NavBar
         {
             BottomNavBarItems.Add(new ("FileDrop", "fas fa-tint", "/file-drop/settings"));
         }        
+        
+        if(Profile.Security == SecurityMode.Local)
+            BottomNavBarItems.Add(new (lblChangePassword, "fas fa-key", "#change-password"));
+        if(Profile.Security != SecurityMode.Off)
+            BottomNavBarItems.Add(new (lblLogout, "fas fa-unlock", "/logout"));
     }
     
     async Task Click(NavBarItem item)

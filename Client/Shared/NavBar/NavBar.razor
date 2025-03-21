@@ -60,10 +60,21 @@
                     @foreach (var item in BottomNavBarItems)
                     {
                         <li class="nav-item @(item == Active ? "active" : "")">
-                            <a href="@item.Url" @onclick="() => Click(item)">
-                                <i class="icon @item.Icon"></i>
-                                <span class="name">@item.Title</span>
-                            </a>
+                            
+                            @if (item.Url == "/logout")
+                            {
+                                <a href="@item.Url">
+                                    <i class="icon @item.Icon"></i>
+                                    <span class="name">@item.Title</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@item.Url" @onclick="() => Click(item)">
+                                    <i class="icon @item.Icon"></i>
+                                    <span class="name">@item.Title</span>
+                                </a>
+                            }
                         </li>
                     }
                 </ul>

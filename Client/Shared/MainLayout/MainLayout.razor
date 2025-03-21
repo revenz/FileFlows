@@ -7,6 +7,10 @@
     <NavBar @ref="Menu"/>
 
     <div class="main">
+        <div class="top-bar">
+            <i class="fas fa-chart-pie"></i>
+            <span class="title">Dashboard</span>
+        </div>
         @if (Blocker != null && Menu != null && Editor != null)
         {
             <CascadingValue Value="Menu" IsFixed="true">
