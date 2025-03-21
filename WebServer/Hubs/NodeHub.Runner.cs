@@ -8,8 +8,6 @@ namespace FileFlows.WebServer.Hubs;
 /// </summary>
 public partial class NodeHub
 {
-    private ConcurrentDictionary<Guid, FlowExecutorInfo> flowExecutors = new();
-
     /// <summary>
     /// Tells the server to ignore the specified path when scanning
     /// </summary>
@@ -36,25 +34,27 @@ public partial class NodeHub
     public async Task<bool> ExistsOnServer(Guid libraryFileUid)
         => await ServiceLoader.Load<LibraryFileService>().ExistsOnServer(libraryFileUid);
 
-    /// <summary>
-    /// Gets updated file processing info from the node
-    /// </summary>
-    /// <param name="info">the updated processing info</param>
-    public async Task FileUpdateInfo(FlowExecutorInfo info)
-    {
-        flowExecutors[info.Uid] = info;
-        var minified = FlowRunnerService.GetMinified(flowExecutors.ToDictionary()).Values.ToList();
-        await ClientServiceManager.Instance.UpdateExecutors(minified);
-    }
+    // /// <summary>
+    // /// Gets updated file processing info from the node
+    // /// </summary>
+    // /// <param name="info">the updated processing info</param>
+    // public async Task FileUpdateInfo(FlowExecutorInfo info)
+    // {
+    //     flowExecutors[info.Uid] = info;
+    //     var minified = FlowRunnerService.GetMinified(flowExecutors.ToDictionary()).Values.ToList();
+    //     await ClientServiceManager.Instance.UpdateExecutors(minified);
+    // }
 
     /// <summary>
     /// Starts processing a file
     /// </summary>
-    /// <param name="libraryFileUid">the UID of the file</param>
-    public async Task FileStartProcessing(Guid libraryFileUid)
+    /// <param name="libraryFile">the library file </param>
+    public async Task FileStartProcessing(LibraryFile libraryFile)
     {
         var libraryFileService = ServiceLoader.Load<LibraryFileService>();
-        await libraryFileService.SetStatus(FileStatus.Processing, libraryFileUid);
+        await libraryFileService.SetStatus(FileStatus.Processing, libraryFile.Uid);
+        var nodeService = ServiceLoader.Load<NodeService>();
+        nodeService.StartProcessing(libraryFile);
     }
 
     /// <summary>
@@ -67,7 +67,8 @@ public partial class NodeHub
         var libraryFileService = ServiceLoader.Load<LibraryFileService>();
         await libraryFileService.Update(libraryFile);
         await libraryFileService.SaveFullLog(libraryFile.Uid, log);
-        flowExecutors.TryRemove(libraryFile.Uid, out _);
+        var nodeService = ServiceLoader.Load<NodeService>();
+        nodeService.FinishProcess(libraryFile);
     }
     /// <summary>
     /// Prepends the text to the log file on the server

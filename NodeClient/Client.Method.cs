@@ -23,6 +23,10 @@ public partial class Client
     private Guid _nodeUid => _node?.Uid ?? Guid.Empty;
     private readonly string _hostname;
     private readonly RunnerManager _runnerManager;
+    /// <summary>
+    /// Gets the runner manager
+    /// </summary>
+    public RunnerManager Manager => _runnerManager;
     private ProcessingNode? _node;
     /// <summary>
     /// Gets the node
@@ -234,9 +238,9 @@ public partial class Client
                     {
                         NodeUid = _nodeUid,
                         ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
-                        ActiveRunners = _runnerManager.GetActiveRunnerUids(),
                         NodeVersion = Globals.Version,
-                        InstallingDockerMods = _InstallingDockerMods
+                        InstallingDockerMods = _InstallingDockerMods,
+                        Runners
                     };
                     var result = await _connection.InvokeAsync<NodeStatusUpdateResult>("UpdateNodeStatus", info);
 
@@ -325,9 +329,9 @@ public partial class Client
     /// <summary>
     /// Starts processing a file
     /// </summary>
-    /// <param name="libraryFileUid">the UID of the file</param>
-    public async Task FileStartProcessing(Guid libraryFileUid)
-        => await _connection.SendAsync("FileStartProcessing", libraryFileUid);
+    /// <param name="libraryFile">the library file</param>
+    public async Task FileStartProcessing(LibraryFile libraryFile)
+        => await _connection.SendAsync("FileStartProcessing", libraryFile);
 
     /// <summary>
     /// Called when the file finishes processing
@@ -345,4 +349,14 @@ public partial class Client
     /// <param name="overwrite">if the file should be overwritten or appended to</param>
     public async Task FileLogAppend(Guid libFileUid, string lines, bool overwrite = false)
         => await _connection.SendAsync(nameof(FileLogAppend), libFileUid, lines, overwrite);
+    //
+    // /// <summary>
+    // /// Updates a runner
+    // /// </summary>
+    // /// <param name="info"></param>
+    // public void UpdateRunner(FlowExecutorInfo info)
+    // {
+    //     Runners[info.Uid] = info;
+    //     _connection.InvokeAsync("FileUpdateInfo", info);
+    // }
 }

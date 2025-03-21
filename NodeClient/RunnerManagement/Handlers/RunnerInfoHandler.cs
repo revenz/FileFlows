@@ -6,9 +6,11 @@ namespace FileFlows.NodeClient.Handlers;
 public class RunnerInfoHandler
 {
     private JsonRpcServer rpcServer;
-    public RunnerInfoHandler(JsonRpcServer rpcServer, RpcRegister rpcRegister)
+    private RunnerManager runnerManager;
+    public RunnerInfoHandler(RunnerManager runnerManager, JsonRpcServer rpcServer, RpcRegister rpcRegister)
     {
         this.rpcServer = rpcServer;
+        this.runnerManager = runnerManager;
         rpcRegister.Register<FlowExecutorInfo>(nameof(UpdateRunnerInfo), UpdateRunnerInfo);
     }
     
@@ -22,7 +24,7 @@ public class RunnerInfoHandler
             return;
         
         rpcServer._flowExecutorInfo = info;
-        rpcServer._client._connection.InvokeAsync("FileUpdateInfo", info);
+        runnerManager.UpdateRunner(info);
     }
     
 }

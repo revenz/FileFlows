@@ -42,11 +42,12 @@ public class LibraryFileController : Controller
         var service = ServiceLoader.Load<LibraryFileService>();
         
         var allLibraries = (await ServiceLoader.Load<LibraryService>().GetAllAsync());
+        var nodeService = ServiceLoader.Load<NodeService>();
         
         var sysInfo = new LibraryFilterSystemInfo()
         {
             AllLibraries = allLibraries.ToDictionary(x => x.Uid, x => x),
-            Executors = FlowRunnerService.Executors.Values.ToList(),
+            Executors = nodeService.GetRunners(),
             LicensedForProcessingOrder = LicenseService.IsLicensed(LicenseFlags.ProcessingOrder)
         };
         var lfFilter = new LibraryFileFilter()
@@ -242,8 +243,7 @@ public class LibraryFileController : Controller
     public async Task<LibraryFile?> Get(Guid uid)
     {
         // first see if the file is currently processing, if it is, return that in memory 
-        var file = await ServiceLoader.Load<FlowRunnerService>().TryGetFile(uid) ?? 
-                   await ServiceLoader.Load<LibraryFileService>().Get(uid);
+        var file = await ServiceLoader.Load<LibraryFileService>().Get(uid);
         
         if(file != null && (file.Status == FileStatus.ProcessingFailed || file.Status == FileStatus.Processed))
         {

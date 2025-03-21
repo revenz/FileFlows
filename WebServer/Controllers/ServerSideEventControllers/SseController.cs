@@ -83,7 +83,6 @@ public class SseController : Controller
 
         // Prepare all tasks
         var flowsTask = ServiceLoader.Load<FlowService>().GetFlowsForBroker();
-        var executorsTask = ServiceLoader.Load<FlowRunnerService>().GetExecutors();
         var nodeStatusesTask = ServiceLoader.Load<NodeService>().GetStatusSummaries();
         var tagsTask = ServiceLoader.Load<TagService>().GetAllAsync();
         var flowElementsTask = FlowController.GetFlowElements(Guid.Empty, null);
@@ -95,7 +94,6 @@ public class SseController : Controller
         var allTasks = new List<Task>
         {
             flowsTask,
-            executorsTask,
             nodeStatusesTask,
             tagsTask,
             profileTask,
@@ -162,6 +160,8 @@ public class SseController : Controller
 
         var lfStatuses  = ServiceLoader.Load<LibraryFileStatusOverviewService>().GetStatuses();
 
+        var runners  = ServiceLoader.Load<NodeService>().GetRunnersMinified();
+        
         var result = new InitialClientData
         {
             Profile = profile,
@@ -172,7 +172,7 @@ public class SseController : Controller
             Flows = flowsTask.Result,
             Plugins = pluginsTask.Result,
             Libraries = ServiceLoader.Load<LibraryService>().GetListModels(),
-            CurrentExecutorInfoMinified = executorsTask.Result.Values.ToList(),
+            CurrentExecutorInfoMinified = runners,
             NodeStatusSummaries = nodeStatusesTask.Result,
             StorageSavedTotalData = storageSavedTotal,
             StorageSavedMonthData = storageSavedMonth,

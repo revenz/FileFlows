@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using FileFlows.Common;
 using FileFlows.Helpers;
@@ -28,6 +29,11 @@ public partial class Client : IDisposable
     private bool _disposed;
 
     /// <summary>
+    /// The active runners processing files
+    /// </summary>
+    public ConcurrentDictionary<Guid, FlowExecutorInfo> Runners { get; } = new();
+
+    /// <summary>
     /// Connection updated event
     /// </summary>
     public delegate void ConnectionUpdated(ConnectionState state);
@@ -55,10 +61,10 @@ public partial class Client : IDisposable
         _configurationService = ServiceLoader.Load<ConfigurationService>();
         _hostname = parameters.Hostname;
         _runnerManager = ServiceLoader.Load<RunnerManager>();
+        _runnerManager.RunnerUpdated += OnRunnerUpdated;
         _runnerManager.Logger = _logger;
         _retryPolicyLoop = new RetryPolicyLoop(logger);
         _cts = new CancellationTokenSource();
-        
         
         EventManager.Subscribe("InstallingDockerMods", (bool installing) =>
         {
@@ -110,6 +116,13 @@ public partial class Client : IDisposable
 
         _ = TryStartConnectionAsync();
     }
+
+
+    /// <summary>
+    /// Called when a runner is updated
+    /// </summary>
+    private void OnRunnerUpdated()
+        => TriggerStatusUpdate();
 
     /// <summary>
     /// Attempts to start the connection and retry if it fails initially.

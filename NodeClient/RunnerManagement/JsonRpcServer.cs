@@ -3,7 +3,6 @@ using System.Text.Json;
 using FileFlows.NodeClient.Handlers;
 using FileFlows.ServerShared.Models;
 using FileFlows.Shared.Models;
-using System.Threading;
 
 namespace FileFlows.NodeClient;
 
@@ -52,14 +51,18 @@ public class JsonRpcServer : IDisposable
         this.runnerParameters = runnerParameters;
         _libraryFileHandler = new(this, _rpcRegister);
         _basicHandler = new(this, _rpcRegister);
-        _runnerInfoHandler = new(this, _rpcRegister);
+        _runnerInfoHandler = new(client.Manager, this, _rpcRegister);
 
         _logMessage = logMessage;
+        this._libraryFile = runnerParameters.LibraryFile;
         _flowExecutorInfo = new()
         {
-            Uid = runnerParameters.LibraryFile.Uid
+            Uid = runnerParameters.LibraryFile.Uid,
+            LibraryFileName = _libraryFile.Name,
+            RelativeFile = _libraryFile.RelativePath,
+            Library = _libraryFile.Library,
+            InitialSize = _libraryFile.OriginalSize
         };
-        this._libraryFile = runnerParameters.LibraryFile;
         this.PipeName = "runner-" + _libraryFile.Uid;
     }
 

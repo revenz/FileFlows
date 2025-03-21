@@ -21,6 +21,11 @@ public class RunnerManager
     private readonly ConfigurationService _configService;
 
     /// <summary>
+    /// Action that is called when the runner is updated
+    /// </summary>
+    public event Action RunnerUpdated;
+
+    /// <summary>
     /// Constructs a new instance of the runner manager
     /// </summary>
     public RunnerManager()
@@ -78,6 +83,7 @@ public class RunnerManager
                 Logger.ILog("Starting runner!!!");
                 runner.Start();
                 EventManager.Broadcast(EventNames.RUNNERS_UPDATED,  _activeRunners.Count);
+                RunnerUpdated?.Invoke();
                 return true;
             }
 
@@ -122,6 +128,7 @@ public class RunnerManager
         _activeRunners.TryRemove(runnerId, out _);
         Logger?.ILog("Runner completed: " + runnerId + ", total runners remaining: " + _activeRunners.Count);
         EventManager.Broadcast(EventNames.RUNNERS_UPDATED,  _activeRunners.Count);
+        RunnerUpdated?.Invoke();
     }
 
     /// <summary>
@@ -265,5 +272,17 @@ public class RunnerManager
             return false;
         await runner.Abort();
         return true;
+    }
+
+    /// <summary>
+    /// Update the runner info
+    /// </summary>
+    /// <param name="info">the runner info</param>
+    public void UpdateRunner(FlowExecutorInfo info)
+    {
+        if (_activeRunners.TryGetValue(info.Uid, out var runner) == false)
+            return;
+        runner.Info = info;
+        RunnerUpdated?.Invoke();
     }
 }

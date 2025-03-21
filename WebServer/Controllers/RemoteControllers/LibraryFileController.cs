@@ -34,8 +34,7 @@ public class LibraryFileController : Controller
     public async Task<LibraryFile?> GetLibraryFile(Guid uid)
     {
         // first see if the file is currently processing, if it is, return that in memory 
-        var file = await ServiceLoader.Load<FlowRunnerService>().TryGetFile(uid) ?? 
-                   await ServiceLoader.Load<LibraryFileService>().Get(uid);
+        var file = await ServiceLoader.Load<LibraryFileService>().Get(uid);
         
         if(file != null && (file.Status == FileStatus.ProcessingFailed || file.Status == FileStatus.Processed))
         {

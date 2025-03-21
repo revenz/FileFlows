@@ -251,6 +251,7 @@ public class RunInstance(RunnerProperties properties)
         var info = new FlowExecutorInfo
         {
             Uid = properties.Uid,
+            LibraryFileName = properties.LibraryFile.Name,
             NodeUid = node.Uid,
             NodeName = node.Name,
             RelativeFile = properties.LibraryFile.RelativePath,

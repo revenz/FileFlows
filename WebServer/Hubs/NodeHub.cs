@@ -78,6 +78,7 @@ public partial class NodeHub : Hub
         }
     }
     
+    
     /// <summary>
     /// Validates the access token.
     /// </summary>

@@ -54,6 +54,7 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
         => await client.SendRequest(nameof(UpdateRunnerInfo), new FlowExecutorInfo()
         {
             Uid = client.LibraryFile.Uid,
+            LibraryFileName = client.LibraryFile.Name,
             NodeUid = client.Node.Uid,
             NodeName = client.Node.Name,
             RelativeFile = client.LibraryFile.RelativePath,

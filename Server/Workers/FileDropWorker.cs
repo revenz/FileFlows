@@ -15,7 +15,7 @@ public class FileDropWorker : Worker
     /// </summary>
     public FileDropWorker() : base(ScheduleType.Hourly, 1, false)
     {
-        var service = ServiceLoader.Load<FlowRunnerService>();
+        var service = ServiceLoader.Load<NodeService>();
         service.OnFileFinished += ServiceOnOnFileFinished;
     }
 

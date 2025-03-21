@@ -106,7 +106,10 @@ public partial class RunnersComponent : ComponentBase, IDisposable
         if (await Confirm.Show("Labels.Cancel",
                 Translater.Instant("Pages.Dashboard.Messages.CancelMessage", new { runner.RelativeFile })) == false)
             return; // rejected the confirmation
-        await HttpHelper.Delete($"/api/worker/by-file/{runner.Uid}");
+        await HttpHelper.Delete($"/api/library-file/abort", new ReferenceModel<Guid>()
+        {
+            Uids = [runner.Uid]
+        });
     }
     
     /// <summary>

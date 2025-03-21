@@ -109,9 +109,8 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
     /// <returns>if an update can run now</returns>
     protected override bool CanUpdate()
     {
-        var service = ServiceLoader.Load<FlowRunnerService>();
-        var workers = service.GetExecutors()?.Result;
-        return workers?.Any() != true;
+        var service = ServiceLoader.Load<NodeService>();
+        return service.GetRunners().Count == 0;
     }
 
     /// <summary>

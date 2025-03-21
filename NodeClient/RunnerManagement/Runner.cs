@@ -31,8 +31,21 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     private CancellationTokenSource? _cancellationTokenSource;
     private Task? _runnerTask;
     private bool _isRunning;
+    /// <summary>
+    /// Gets if the runner is running
+    /// </summary>
+    public bool IsRunning => _isRunning;
     private bool _aborted = false;
 
+    public FlowExecutorInfo Info { get; set; } = new()
+    {
+        Uid = args.LibraryFile.Uid,
+        Library = args.LibraryFile.Library,
+        LibraryFileName = args.LibraryFile.Name,
+        NodeUid = node.Uid,
+        NodeName = node.Name,
+        CurrentPartName = "Startup"
+    };
 
     /// <summary>
     /// Starts execution of the runner.
@@ -46,7 +59,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             // move the file as Processing
             var lf = args.LibraryFile;
             lf.Status = FileStatus.Processing;
-            await client.FileStartProcessing(lf.Uid);
+            await client.FileStartProcessing(lf);
             try
             {
                 lf = await Execute(_cancellationTokenSource.Token);

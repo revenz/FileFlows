@@ -13,6 +13,11 @@ public class FlowExecutorInfo
     public Guid Uid { get; set; }
     
     /// <summary>
+    /// Gets or sets the original file name of the file
+    /// </summary>
+    public string LibraryFileName { get; set; }
+    
+    /// <summary>
     /// Gets or sets the UID of the node execution this flow
     /// </summary>
     public Guid NodeUid { get; set; }
