@@ -553,7 +553,9 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>, IDispos
     /// </summary>
     public void Dispose()
     {
-        ReportFormEditor.Dispose();
+        if(ReportFormEditor != null)
+            ReportFormEditor.Dispose();
+        
         feService.Report.ScheduledReportsUpdated -= ReportOnScheduledReportsUpdated;
     }
 }
