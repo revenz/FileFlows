@@ -34,24 +34,23 @@
         {
             <InputAccessToken @bind-Value="Model.AccessToken" Label="Pages.Settings.Fields.Security.AccessToken"/>
             <InputPeriod @bind-Value="Model.TokenExpiryMinutes" Label="Pages.Settings.Fields.Security.TokenExpiryMinutes" ShowWeeks="false"/>
-        }
+            @if (Model.Security == SecurityMode.OpenIdConnect)
+            {
+                <hr/>
 
-        @if (Model.Security == SecurityMode.OpenIdConnect)
-        {
-            <hr/>
+                <InputText @bind-Value="@Model.OidcAuthority" Label="Pages.Settings.Fields.Security.Authority"/>
+                <InputText @bind-Value="@Model.OidcClientId" Label="Pages.Settings.Fields.Security.ClientId"/>
+                <InputText @bind-Value="@Model.OidcClientSecret" Label="Pages.Settings.Fields.Security.ClientSecret"/>
+                <InputText @bind-Value="@Model.OidcCallbackAddress" Label="Pages.Settings.Fields.Security.CallbackAddress" Placeholder="@Model.OidcCallbackAddressPlaceholder"/>
+            }
+            else
+            {
+                <hr/>
 
-            <InputText @bind-Value="@Model.OidcAuthority" Label="Pages.Settings.Fields.Security.Authority"/>
-            <InputText @bind-Value="@Model.OidcClientId" Label="Pages.Settings.Fields.Security.ClientId"/>
-            <InputText @bind-Value="@Model.OidcClientSecret" Label="Pages.Settings.Fields.Security.ClientSecret"/>
-            <InputText @bind-Value="@Model.OidcCallbackAddress" Label="Pages.Settings.Fields.Security.CallbackAddress" Placeholder="@Model.OidcCallbackAddressPlaceholder"/>
+                <InputNumber @bind-Value="@Model.LoginMaxAttempts" Label="Pages.Settings.Fields.Security.MaxAttempts"/>
+                <InputNumber @bind-Value="@Model.LoginLockoutMinutes" Label="Pages.Settings.Fields.Security.LockoutMinutes"/>
+            }
         }
-        else
-        {
-            <hr/>
-
-            <InputNumber @bind-Value="@Model.LoginMaxAttempts" Label="Pages.Settings.Fields.Security.MaxAttempts"/>
-            <InputNumber @bind-Value="@Model.LoginLockoutMinutes" Label="Pages.Settings.Fields.Security.LockoutMinutes"/>
-        }
-    </Body>
+        </Body>
 
 </PageView>

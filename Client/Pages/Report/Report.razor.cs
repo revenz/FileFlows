@@ -118,16 +118,14 @@ public partial class Report : ComponentBase
         jsReports = await jsObjectReference.InvokeAsync<IJSObjectReference>("createReporting",
             [DotNetObjectReference.Create(this)]);
 
-        var result = await HttpHelper.Get<ReportDefinition>($"/api/report/definition/{Uid}");
-        if (result.Success == false)
+        var rd = feService.Report.ReportDefinitions.FirstOrDefault(x => x.Uid == Uid);
+        if (rd == null)
         {
-            Toast.ShowError(Translater.TranslateIfNeeded(result.Body?.EmptyAsNull() ??
-                                                         "Pages.Report.Messages.FailedToFindReport"));
+            Toast.ShowError(Translater.Instant("Pages.Report.Messages.FailedToFindReport"));
             NavigationManager.NavigateTo("/reporting");
             return;
         }
-
-        var rd = result.Data;
+        
         ReportName = Translater.Instant($"Reports.{rd.Type}.Name");
         ReportDescription = Translater.Instant($"Reports.{rd.Type}.Description");;
         ReportIcon = rd.Icon;
@@ -142,17 +140,6 @@ public partial class Report : ComponentBase
         var model = Model as IDictionary<string, object>;
         try
         {
-            var flowsResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/flow/basic-list");
-            var flows = flowsResult.Success ? flowsResult.Data ?? new() : new();
-
-            var librariesResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/library/basic-list");
-            var libraries = librariesResult.Success ? librariesResult.Data ?? new() : new();
-
-            var nodesResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/node/basic-list");
-            var nodes = nodesResult.Success ? nodesResult.Data ?? new() : new();
-
-            var tags = feService.Tag.Tags.ToDictionary(x => x.Uid, x => x.Name);
-
             if (rd.DefaultReportPeriod != null)
             {
                 if (InputDateRange.DateRanges.TryGetValue(
@@ -172,10 +159,10 @@ public partial class Report : ComponentBase
                 Name = "Email"
             });
 
-            AddSelectField("Flow", flows, rd.FlowSelection, ref fields, model);
-            AddSelectField("Library", libraries, rd.LibrarySelection, ref fields, model);
-            AddSelectField("Node", nodes, rd.NodeSelection, ref fields, model);
-            AddSelectField("Tags", tags, rd.TagSelection, ref fields, model, anyLabel: "Labels.Any", defaultToAny: true);
+            AddSelectField("Flow", feService.Flow.FlowList, rd.FlowSelection, ref fields, model);
+            AddSelectField("Library",feService.Library.LibraryList, rd.LibrarySelection, ref fields, model);
+            AddSelectField("Node", feService.Node.NodeList, rd.NodeSelection, ref fields, model);
+            AddSelectField("Tags", feService.Tag.TagList, rd.TagSelection, ref fields, model, anyLabel: "Labels.Any", defaultToAny: true);
 
             if (rd.Direction)
             {

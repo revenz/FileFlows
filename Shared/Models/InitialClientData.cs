@@ -143,4 +143,16 @@ public class InitialClientData
     /// </summary>
     [JsonPropertyName("dm")]
     public List<DockerMod> DockerMods { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the report definitions
+    /// </summary>
+    [JsonPropertyName("rd")]
+    public List<ReportDefinition> ReportDefinitions { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the scheduled reports
+    /// </summary>
+    [JsonPropertyName("sr")]
+    public List<ScheduledReport> ScheduledReports { get; set; }
 }

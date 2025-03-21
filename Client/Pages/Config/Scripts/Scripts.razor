@@ -46,19 +46,7 @@
                </Header>
                <Cell Context="item">
                    <div class="table-item">
-                       <span class="icon">
-                           @{
-                               string icon = GetIcon(item);
-                           }
-                           @if(icon.EndsWith(".svg"))
-                           {
-                               <img src="@icon"/>
-                           }
-                           else
-                           {
-                               <i class="icon @icon"></i>
-                           }
-                       </span>
+                       <TableItemIcon Icon="@GetIcon(item)" DefaultIcon="fas fa-scroll" />
                        <div class="center">
                            <span class="name">
                                @if (item.Name == CommonVariables.FILE_DISPLAY_NAME)

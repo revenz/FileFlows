@@ -170,7 +170,10 @@ public partial class NavBar
 
         if(Profile.HasRole(UserRole.Nodes))
             MenuItems.Add(new (Translater.Instant("Pages.Nodes.Title"), "fas fa-desktop", "nodes"));
-        
+         
+        if(Profile.LicensedFor(LicenseFlags.Reporting) && Profile.HasRole(UserRole.Reports))
+            MenuItems.Add(new (Translater.Instant("Pages.Reporting.Title"), "fas fa-chart-pie", "reporting"));
+
         if(Profile.HasRole(UserRole.Log))
             MenuItems.Add(new (Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", "log"));
 

@@ -1,4 +1,5 @@
 using System.Text;
+using FileFlows.Managers;
 using FileFlows.Services.FileProcessing;
 using FileFlows.Services.SystemOverview;
 using FileFlows.WebServer.Helpers;
@@ -89,6 +90,7 @@ public class SseController : Controller
         var profileTask = context.GetProfile();
         var variablesTask = ServiceLoader.Load<VariableService>().GetAllAsync();
         var pluginsTask = ServiceLoader.Load<PluginService>().GetForBroadcast();
+        var scheduledReportsTask = ServiceLoader.Load<ScheduledReportService>().GetAll();
 
         var allTasks = new List<Task>
         {
@@ -99,7 +101,8 @@ public class SseController : Controller
             profileTask,
             flowElementsTask,
             variablesTask,
-            pluginsTask
+            pluginsTask,
+            scheduledReportsTask
         };
 
         // Log the start time for all tasks
@@ -191,6 +194,11 @@ public class SseController : Controller
             result.DockerMods = ServiceLoader.Load<DockerModService>().GetForBroadcast();
         if ((userRole & UserRole.Scripts) == UserRole.Scripts)
             result.Scripts = ServiceLoader.Load<ScriptService>().GetForBroadcast();
+        if (LicenseService.IsLicensed(LicenseFlags.Reporting) && (userRole & UserRole.Reports) == UserRole.Reports)
+        {
+            result.ScheduledReports = scheduledReportsTask.Result.OrderBy(x => x.Name.ToLowerInvariant()).ToList();
+            result.ReportDefinitions = new ReportManager().GetReports();
+        }
 
         // Log summary to Logger.Instance
         swAll.Stop();

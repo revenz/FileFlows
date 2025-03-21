@@ -37,28 +37,7 @@
                     </Header>
                     <Cell Context="item">
                         <div class="table-item">
-                            <span class="icon">
-                                @if(string.IsNullOrWhiteSpace(item.Icon))
-                                {
-                                    <i class="icon fas fa-puzzle-piece"></i>
-                                }
-                                else if (item.Icon.StartsWith("svg:"))
-                                {
-                                    <img src="/icons/@(item.Icon[4..]).svg"/>
-                                }
-                                else
-                                {
-                                    var parts = item.Icon.Split(':');
-                                    if (parts.Length == 2)
-                                    {
-                                        <i class="icon @parts[0]" style="color:@parts[1]"></i>
-                                    }
-                                    else
-                                    {
-                                        <i class="icon @item.Icon"></i>
-                                    }
-                                }
-                            </span>
+                            <TableItemIcon Icon="@item.Icon" DefaultIcon="fas fa-puzzle-piece" />
                             <div class="center">
                                 @{
                                 string label = Translater.TranslateIfHasTranslation($"Plugins.{item.PackageName.Replace(".", "")}.Label", item.Name);

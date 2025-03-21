@@ -76,6 +76,10 @@ public class FrontendService : IAsyncDisposable
     /// </summary>
     public ScriptHandler Script { get;private set; }
     /// <summary>
+    /// Gets or sets the report handler
+    /// </summary>
+    public ReportHandler Report { get;private set; }
+    /// <summary>
     /// Gets or sets the tag handler
     /// </summary>
     public TagHandler Tag { get;private set; }
@@ -255,6 +259,8 @@ public class FrontendService : IAsyncDisposable
         Plugin.Initialize(data);
         Script = new(this);
         Script.Initialize(data);
+        Report = new(this);
+        Report.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }

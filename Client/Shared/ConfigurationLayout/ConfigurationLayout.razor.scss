@@ -7,6 +7,7 @@
 
 .config-menu {
   height: 100vh;
+  overflow: auto;
   background: var(--base-darker);
   border-right: solid 1px var(--border-color);
   min-width: 17rem;

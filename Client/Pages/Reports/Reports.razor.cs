@@ -18,21 +18,17 @@ public partial class Reports : ListPage<Guid, ReportUiModel>
     /// <inheritdoc />
     public override string ApiUrl => "/api/report";
 
-    /// <inheritdoc />
-    public override string FetchUrl => $"{ApiUrl}/definitions";
-
-    /// <inheritdoc />
-    public override Task PostLoad()
+    protected override void OnInitialized()
     {
-        foreach (var report in this.Data ?? [])
+        Profile = feService.Profile.Profile;
+        base.OnInitialized(false);
+        Data = feService.Report.ReportDefinitions.Select(x => new ReportUiModel()
         {
-            report.Name = Translater.Instant($"Reports.{report.Type}.Name");
-            report.Description = Translater.Instant($"Reports.{report.Type}.Description");
-        }
-
-        Data = Data.OrderBy(x => x.Name.ToLowerInvariant()).ToList();
-
-        return Task.CompletedTask;
+            Uid = x.Uid,
+            Icon = x.Icon,
+            Name = Translater.Instant($"Reports.{x.Type}.Name"),
+            Description = Translater.Instant($"Reports.{x.Type}.Description")
+        }).OrderBy(x => x.Name.ToLowerInvariant()).ToList();
     }
 
     /// <summary>
