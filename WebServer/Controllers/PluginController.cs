@@ -1,4 +1,5 @@
 using System.Dynamic;
+using Acornima.Ast;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FileFlows.WebServer.Controllers;
@@ -154,7 +155,7 @@ public class PluginController : BaseController
     /// <returns>an awaited task</returns>
     [HttpDelete]
     public async Task Delete([FromBody] ReferenceModel<Guid> model)
-        => await new PluginService().Delete(model.Uids, await GetAuditDetails());
+        => await ServiceLoader.Load<PluginService>().Delete(model.Uids, await GetAuditDetails());
 
     /// <summary>
     /// Download plugins into the FileFlows system
@@ -269,7 +270,7 @@ public class PluginController : BaseController
     /// <returns>the plugin settings json</returns>
     [HttpGet("{packageName}/settings")]
     public Task<string> GetPluginSettings([FromRoute] string packageName)
-        => new PluginService().GetSettingsJson(packageName);
+        => ServiceLoader.Load<PluginService>().GetSettingsJson(packageName);
 
     /// <summary>
     /// Sets the json plugin settings for a plugin

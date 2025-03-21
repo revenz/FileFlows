@@ -82,7 +82,6 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
     /// </summary>
     private void Add()
     {
-        //NavigationManager.NavigateTo("flows/" + Guid.Empty);
         _ = ModalService.ShowModal<NewFlowWizard, Flow>(new NewFlowWizardOptions()
         {
             FileDropFlow = Profile.LicensedFor(LicenseFlags.FileDrop) && Skybox.SelectedItem.Value is FlowType.FileDrop 

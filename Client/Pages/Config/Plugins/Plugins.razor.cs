@@ -54,11 +54,7 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
     protected override string DeleteMessage => "Pages.Plugins.Messages.DeletePlugins";
 
     async Task Add()
-    {
-        bool result = await PluginBrowser.Open();
-        if (result)
-            await PluginsUpdated();
-    }
+        => await PluginBrowser.Open();
 
     async Task Update()
     {
@@ -82,13 +78,6 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
             Blocker.Hide();
             this.StateHasChanged();
         }
-    }
-
-    async Task PluginsUpdated()
-    {
-        // todo: Need to have the server send an update to refresh the languages when a plugin is updated
-        //await App.Instance.LoadLanguage();
-        await this.Load(default);
     }
 
     private PluginInfo EditingPlugin = null;
@@ -254,7 +243,6 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
     /// <returns>a task to await</returns>
     private Task OpenUsedBy(PluginInfoModel item)
         => UsedByDialog.Show(item.UsedBy);
-    
     
 
     /// <summary>

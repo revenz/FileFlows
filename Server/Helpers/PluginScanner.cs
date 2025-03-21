@@ -28,7 +28,7 @@ public class PluginScanner : IPluginScanner
         if (FileFlows.Common.Globals.IsDocker)
             EnsureDefaultsExist(pluginDir);
 
-        var service = new PluginService();
+        var service = ServiceLoader.Load<PluginService>();
         var dbPluginInfos = service.GetAllAsync().Result.OrderBy(x => x.Name).ToList();
 
         List<string> installed = new List<string>();
@@ -260,6 +260,7 @@ public class PluginScanner : IPluginScanner
             CreateLanguageFile(langFiles[key], key);
 
         Logger.Instance.ILog("Finished scanning for plugins");
+        _ = ServiceLoader.Load<PluginService>().RefreshAndBroadcastUpdate();
     }
 
     /// <summary>

@@ -42,7 +42,7 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
         lblUpdateAvailable = Translater.Instant("Pages.DockerMod.Labels.UpdateAvailable");
         lblRevision = Translater.Instant("Pages.DockerMod.Labels.Revision");
         feService.DockerMod.DockerModsUpdated += DockerModOnDockerModsUpdated;
-        Data = feService.DockerMod.DockerMods;
+        Data = feService.DockerMod.DockerMods.OrderBy(x => x.Order).ThenBy(x => x.Name).ToList();
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
         if (_Moving)
             return; // we manually refresh so the selected item isnt lost
         
-        Data = obj;
+        Data = obj.OrderBy(x => x.Order).ThenBy(x => x.Name).ToList();
         StateHasChanged();
     }
 

@@ -3,10 +3,31 @@ window.createffFlow = function(csharp, uid, readOnly) {
     let div = document.createElement('div');
     div.className = 'flow-parts';
     div.setAttribute('id', `flow-parts-${uid}`);
-    div.innerHTML = '<canvas width="8000" height="4000" tabindex="1" oncontextmenu="return false"></canvas>';    
-    document.querySelector('.flows-tabs-contents').appendChild(div);
+    div.innerHTML = '<canvas width="8000" height="4000" tabindex="1" oncontextmenu="return false"></canvas>';
+    waitForElement('.flows-tabs-contents', (ele) => {
+        ele.appendChild(div);
+    });
     return new ffFlow(csharp, div, uid, readOnly);
 };
+
+function waitForElement(selector, callback) {
+    const element = document.querySelector(selector);
+    if (element) {
+        callback(element);
+        return;
+    }
+
+    const observer = new MutationObserver((mutations, obs) => {
+        const target = document.querySelector(selector);
+        if (target) {
+            obs.disconnect(); // Stop observing once found
+            callback(target);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+}
+
 class ffFlow 
 {
     constructor(csharp, eleFlowParts, uid, readOnly)
