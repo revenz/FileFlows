@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using FileFlows.Common;
 using FileFlows.Helpers;
 using FileFlows.RemoteServices;
@@ -8,6 +9,7 @@ using FileFlows.ServerShared.Services;
 using FileFlows.Shared.Models;
 using FileFlows.Shared.Models.SignalAre;
 using Microsoft.AspNetCore.SignalR.Client;
+using NPoco.fastJSON;
 using ZstdSharp.Unsafe;
 
 namespace FileFlows.NodeClient;
@@ -228,16 +230,17 @@ public partial class Client
             {
                 if (_connection.State == HubConnectionState.Connected && _node != null)
                 {
-                    var result = await _connection.InvokeAsync<NodeStatusUpdateResult>("UpdateNodeStatus", new
+                    var info = new
                     {
                         NodeUid = _nodeUid,
                         ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
                         ActiveRunners = _runnerManager.GetActiveRunnerUids(),
                         NodeVersion = Globals.Version,
                         InstallingDockerMods = _InstallingDockerMods
-                    });
+                    };
+                    var result = await _connection.InvokeAsync<NodeStatusUpdateResult>("UpdateNodeStatus", info);
 
-                    _logger.ILog("SendNodeStatus Result: " + result);
+                    _logger.ILog("SendNodeStatus Result: " + result + " => " + JsonSerializer.Serialize(info));
 
                     if (result == NodeStatusUpdateResult.UpdateConfiguration)
                     {

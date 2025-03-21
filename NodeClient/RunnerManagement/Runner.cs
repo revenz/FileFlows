@@ -20,7 +20,7 @@ namespace FileFlows.NodeClient;
 /// <param name="args">The arguments for runner execution.</param>
 /// <param name="node">The node this is running on</param>
 /// <param name="tempPath">The temp path for this run</param>
-/// <param name="onCompleted">The callback to execute when the runner completes, this removes the active runnner</param>
+/// <param name="onCompleted">The callback to execute when the runner completes, this removes the active runner</param>
 public class Runner(Client client, RunFileArguments args, ProcessingNode node, string tempPath, Action<Guid> onCompleted)
 {
     public readonly Guid Id = args.LibraryFile.Uid;
@@ -55,39 +55,38 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             {
                 Logger.Instance.ELog("Error in file: " + ex);
             }
+            
+            try
+            {
+                string dir = Path.Combine(tempPath, "Runner-" + args.LibraryFile.Uid);
+                if (args.KeepFailedFiles == false && _keepFiles == false)
+                {
+                    if (Directory.Exists(dir))
+                    {
+                        Directory.Delete(dir, true);
+                        AppendToRunLog("Deleted temporary directory: " + dir);
+                    }
+                }
+                else
+                {
+                    AppendToRunLog("Flow failed keeping temporary files in: " + dir);
+                }
+            }
+            catch (Exception ex)
+            {
+                AppendToRunLog("Failed to clean up runner directory: " + ex.Message, type: "ERR");
+            }
+
+            try
+            {
+                // Finish the file processing.
+                await client.FileFinishProcessing(lf, runLog.ToString());
+            }
             finally
             {
-                try
-                {
-                    string dir = Path.Combine(tempPath, "Runner-" + args.LibraryFile.Uid);
-                    if (args.KeepFailedFiles == false && _keepFiles == false)
-                    {
-                        if (Directory.Exists(dir))
-                        {
-                            Directory.Delete(dir, true);
-                            AppendToRunLog("Deleted temporary directory: " + dir);
-                        }
-                    }
-                    else
-                    {
-                        AppendToRunLog("Flow failed keeping temporary files in: " + dir);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    AppendToRunLog("Failed to clean up runner directory: " + ex.Message, type: "ERR");
-                }
-
-                try
-                {
-                    // Finish the file processing.
-                    await client.FileFinishProcessing(lf, runLog.ToString());
-                }
-                finally
-                {
-                    onCompleted(Id);
-                    _isRunning = false;
-                }
+                Logger.Instance.WLog("Finishing Runner: " + Id);
+                onCompleted(Id);
+                _isRunning = false;
             }
         });
     }
@@ -415,6 +414,5 @@ Failed to create working directory, this is likely caused by the mapped '/temp' 
          {
              await Task.Delay(100);  // You can adjust the delay as needed to avoid tight looping
          }
-         
      }
 }
