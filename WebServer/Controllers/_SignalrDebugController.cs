@@ -143,6 +143,7 @@ public class _SignalrDebugController : Controller
                 <th>UID</th>
                 <th>Config</th>
                 <th>ConnID</th>
+                <th>Max Runners</th>
                 <th>Runners</th>
             </tr>
         </thead>
@@ -152,10 +153,11 @@ public class _SignalrDebugController : Controller
         {
             html.AppendLine($$"""
                               <tr>
-                                  <td>{{node.Node.Name}} [{{node.Node.FlowRunners}}]</td>
+                                  <td>{{node.Node.Name}}</td>
                                   <td>{{node.ConfigRevision}}</td>
                                   <td>{{node.ConnectionId}}</td>
-                                  <td style="white-space:pre">{{string.Join("\n", node.ActiveRunners ?? []).Select(x => x.ToString())}}</td>
+                                  <td>{{node.Node.FlowRunners}}</td>
+                                  <td style="white-space:pre">{{string.Join("\n", (node.ActiveRunners ?? []).Select(x => x.ToString()))}}</td>
                               </tr>
                               """);
         }
