@@ -150,14 +150,14 @@ public class _SignalrDebugController : Controller
 """);
         foreach (var node in nodes)
         {
-            html.AppendLine($"""
-                             <tr>
-                                 <td>{node.Node.Name}</td>
-                                 <td>{node.ConfigRevision}</td>
-                                 <td>{node.ConnectionId}</td>
-                                 <td>{node.ActiveRunners?.Count} / {node.Node.FlowRunners}</td>
-                             </tr>
-                             """);
+            html.AppendLine($$"""
+                              <tr>
+                                  <td>{{node.Node.Name}} [{{node.Node.FlowRunners}}]</td>
+                                  <td>{{node.ConfigRevision}}</td>
+                                  <td>{{node.ConnectionId}}</td>
+                                  <td style="white-space:pre">{{string.Join("\n", node.ActiveRunners ?? []).Select(x => x.ToString())}}</td>
+                              </tr>
+                              """);
         }
 
         html.AppendLine("</tbody></table>");
