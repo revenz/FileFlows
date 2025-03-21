@@ -13,7 +13,7 @@ using FileFlows.Client.Components;
 /// <summary>
 /// Page for processing nodes
 /// </summary>
-public partial class Scripts : ListPage<Guid, Script>
+public partial class Scripts : ListPage<Guid, Script>, IDisposable
 {
     public override string ApiUrl => "/api/script";
 
@@ -47,7 +47,8 @@ public partial class Scripts : ListPage<Guid, Script>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        Profile = feService.Profile.Profile;
+        base.OnInitialized(false);
         lblTitle = Translater.Instant("Pages.Scripts.Title");
         lblUpdateScripts = Translater.Instant("Pages.Scripts.Buttons.UpdateAllScripts");
         lblUpdatingScripts = Translater.Instant("Pages.Scripts.Labels.UpdatingScripts");
@@ -56,6 +57,31 @@ public partial class Scripts : ListPage<Guid, Script>
         lblInUse = Translater.Instant("Labels.InUse");
         lblReadOnly = Translater.Instant("Labels.ReadOnly");
         lblUpdateAvailable = Translater.Instant("Pages.Scripts.Labels.UpdateAvailable");
+        feService.Script.ScriptsUpdated += ScriptOnScriptsUpdated;
+        Data = feService.Script.Scripts;
+    }
+
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            UpdateTypeData();
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+    /// <summary>
+    /// Called when script are updated
+    /// </summary>
+    /// <param name="data">the updated scripts</param>
+    private void ScriptOnScriptsUpdated(List<Script> data)
+    {
+        Data = data;
+        UpdateTypeData();
+        StateHasChanged();
     }
 
 
@@ -82,14 +108,6 @@ public partial class Scripts : ListPage<Guid, Script>
                 ? null
                 : [new(1, "Truthy"), new(2, "Falsy")]
         };
-        
-        if ((int)language == 99)
-        {
-            // special case for FILE_DISPLAY_NAME
-            script.Name = CommonVariables.FILE_DISPLAY_NAME;
-            script.Language = ScriptLanguage.JavaScript;
-            script.Code = DEFAULT_FILE_DISPLAY_NAME_SCRIPT;
-        }
 
         await Edit(script);
     }
@@ -108,13 +126,6 @@ public partial class Scripts : ListPage<Guid, Script>
                 Toast.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
-
-            int index = this.Data.FindIndex(x => x.Uid == saveResult.Data.Uid);
-            if (index < 0)
-                this.Data.Add(saveResult.Data);
-            else
-                this.Data[index] = saveResult.Data;
-            await this.Load(saveResult.Data.Uid);
 
             return true;
         }
@@ -166,7 +177,6 @@ public partial class Scripts : ListPage<Guid, Script>
             var newItem = await HttpHelper.Post<Script>("/api/script/import?filename=" + UrlEncoder.Create().Encode(idResult.filename) + "&type=" + SelectedType, js);
             if (newItem != null && newItem.Success)
             {
-                await this.Refresh();
                 Toast.ShowSuccess(Translater.Instant("Pages.Scripts.Messages.Imported",
                     new { name = newItem.Data.Name }));
             }
@@ -197,7 +207,6 @@ public partial class Scripts : ListPage<Guid, Script>
             var newItem = await HttpHelper.Get<Script>(url);
             if (newItem != null && newItem.Success)
             {
-                await this.Refresh();
                 Toast.ShowSuccess(Translater.Instant("Pages.Script.Messages.Duplicated",
                     new { name = newItem.Data.Name }));
             }
@@ -224,7 +233,6 @@ public partial class Scripts : ListPage<Guid, Script>
         }
 
         await base.Delete();
-        await Refresh();
     }
 
 
@@ -235,6 +243,7 @@ public partial class Scripts : ListPage<Guid, Script>
             return;
         await UsedByDialog.Show(item.UsedBy);
     }
+    
     /// <summary>
     /// Opens the used by dialog
     /// </summary>
@@ -242,8 +251,6 @@ public partial class Scripts : ListPage<Guid, Script>
     /// <returns>a task to await</returns>
     private Task OpenUsedBy(Script item)
         => UsedByDialog.Show(item.UsedBy);
-
-    
     
     public override Task PostLoad()
     {
@@ -261,6 +268,9 @@ public partial class Scripts : ListPage<Guid, Script>
             if (script.Code?.StartsWith("// path: ") == true)
                 script.Code = Regex.Replace(script.Code, @"^\/\/ path:(.*?)$", string.Empty, RegexOptions.Multiline).Trim();
         }
+
+        if (Skybox == null)
+            return;
         this.Skybox.SetItems(new List<FlowSkyBoxItem<ScriptType>>()
         {
             new ()
@@ -288,11 +298,7 @@ public partial class Scripts : ListPage<Guid, Script>
     }
     
     async Task Browser()
-    {
-        bool result = await ScriptBrowser.Open();//this.SelectedType);
-        if (result)
-            await this.Refresh();
-    }
+        => await ScriptBrowser.Open();//this.SelectedType);
 
     async Task Update()
     {
@@ -308,9 +314,7 @@ public partial class Scripts : ListPage<Guid, Script>
         Data.Clear();
         try
         {
-            var result = await HttpHelper.Post($"/api/repository/update-specific-scripts", new ReferenceModel<Guid> { Uids = uids });
-            if (result.Success)
-                await Refresh();
+            await HttpHelper.Post($"/api/repository/update-specific-scripts", new ReferenceModel<Guid> { Uids = uids });
         }
         finally
         {
@@ -334,7 +338,7 @@ public partial class Scripts : ListPage<Guid, Script>
         try
         {
             await HttpHelper.Post("/api/repository/update-scripts");
-            await Refresh();
+            await Task.Delay(1000); // give it time for broadcast to finish
         }
         finally
         {
@@ -386,68 +390,13 @@ public partial class Scripts : ListPage<Guid, Script>
             return $"/icons/csharp.svg";
 
         return "/icons/javascript.svg";
-        //return "fas fa-scroll";
-
     }
 
-
-    private const string DEFAULT_FILE_DISPLAY_NAME_SCRIPT = @"
-function getDisplayName(fullName, relativePath, libraryName) 
-{
-    if(/(movies|tv)/i.test(libraryName) === false)
-        return relativePath;
-
-    let extension = relativePath.substring(relativePath.lastIndexOf('.') + 1);
-
-    if(/([/])[\w\d]+\.[\w\d]{2,6}$/i.test(relativePath))
-        relativePath = relativePath.substring(0, relativePath.lastIndexOf('/'));
-    else if(/([\\])[\w\d]+\.[\w\d]{2,6}$/i.test(relativePath))
-        relativePath = relativePath.substring(0, relativePath.lastIndexOf('\\'));
-
-    let hdr = /[\.\s\-]hdr/i.test(relativePath) === true;
-    let tenbit = /[\.\s\-]10(\-)?bit/i.test(relativePath) === true;
-    let twelvebit = /[\.\s\-]12(\-)?bit/i.test(relativePath) === true;
-    let resolution = ((resolutionMatch = /[\.\s\-](1080p|1080i|720p|420p|4k)/i.exec(relativePath)) && resolutionMatch[1]) || '';
-    let year = ((yearMatch = /[\.\s\-]((19|20)[\d]{2})[\.\s\-]/.exec(relativePath)) && yearMatch[1]) || '';
-
-    let yearIndex = year ? relativePath.indexOf(year) : -1;
-    let resolutionIndex = resolution ? relativePath.indexOf(resolution) : -1;
-
-    if(yearIndex > 0 || resolutionIndex > 0)
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
     {
-      let closest = Math.min(yearIndex === -1 ? 9999999 : yearIndex, resolutionIndex === -1 ? 9999999 : resolutionIndex);
-      relativePath = relativePath.substring(0, closest);
-      relativePath = relativePath.replace(/\./g, ' ').replace(/.*[\/\\]/, '').trim();
+        feService.Script.ScriptsUpdated -= ScriptOnScriptsUpdated;
     }
-
-    relativePath = relativePath.replace(/(S\d+E\d+)/, ' - $1 - ');
-    if(relativePath.indexOf(' - .') > 0){
-        relativePath = relativePath.substring(0, relativePath.indexOf(' - .'));
-        relativePath = relativePath.replace(/\./g, ' ').replace(/.*[\/\\]/, '').trim();
-    }
-    relativePath = relativePath.replace(/\s{2,}/g, ' ');
-    
-    let additional = [];
-    if(year)
-      additional.push(year);
-    if(resolution)
-      additional.push(resolution);
-    if(tenbit)
-      additional.push('10-Bit');
-    else if(twelvebit)
-      additional.push('12-Bit');
-    if(hdr)
-      additional.push('HDR');
-
-    relativePath = relativePath.trim();
-
-    if(relativePath.trim().endsWith(' -'))
-      relativePath = relativePath.substring(0, relativePath.length - 2);
-
-    if(additional.length)
-      relativePath += ' - ' + additional.join(' / ');
-
-    return relativePath + '.' + extension;
-}
-";
 }

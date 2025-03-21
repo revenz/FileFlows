@@ -3,8 +3,9 @@ namespace FileFlows.Client.Services.Frontend.Handlers;
 /// <summary>
 /// Profile handler data
 /// </summary>
+/// <param name="feService">The frontend service</param>
 /// <param name="localStorageService">the local storage service</param>
-public class ProfileHandler(FFLocalStorageService localStorageService)
+public class ProfileHandler(FrontendService feService, FFLocalStorageService localStorageService)
 {
     public Profile Profile { get; private set; }
 
@@ -16,6 +17,12 @@ public class ProfileHandler(FFLocalStorageService localStorageService)
     {
         Profile = data.Profile;
         Translater.Init(data.LanguageJson);
+        
+        feService.Registry.Register<string>("LanguageUpdated", (json) =>
+        {
+            if(string.IsNullOrWhiteSpace(json) == false)
+                Translater.Init(json);
+        });
     }
 
     /// <summary>

@@ -79,7 +79,7 @@ public partial class ConfigurationLayout : LayoutComponentBase
             Items = new List<NavMenuItem>
                 {
                     profile.IsAdmin
-                        ? new("Pages.Settings.Labels.License", "fas fa-money-check", "config/license")
+                        ? new("Labels.License", "fas fa-money-check", "config/license")
                         : null,
                     profile.IsAdmin ? new("Pages.Settings.Labels.Logging", "fas fa-file-alt", "config/logging") : null,
                     profile.IsAdmin && profile.LicensedFor(LicenseFlags.AutoUpdates)
@@ -126,7 +126,7 @@ public partial class ConfigurationLayout : LayoutComponentBase
                 Icon = "fas fa-user-shield",
                 Items = new List<NavMenuItem>
                 {
-                    profile.LicensedFor(LicenseFlags.UserSecurity) && profile.IsAdmin ? new ("Pages.Settings.Labels.Security", "fas fa-shield-alt", "config/security") : null,
+                    profile.LicensedFor(LicenseFlags.UserSecurity) && profile.IsAdmin ? new ("Pages.Settings.Fields.Security.Title", "fas fa-shield-alt", "config/security") : null,
                     profile.LicensedFor(LicenseFlags.Auditing) && profile.UsersEnabled ? new ("Pages.Audit.Title", "fas fa-clipboard-list", "config/audit") : null,
                     profile.LicensedFor(LicenseFlags.AccessControl) ? new ("Pages.AccessControl.Title", "fas fa-shield-alt", "config/access-control") : null,
                     profile.LicensedFor(LicenseFlags.UserSecurity) ? new ("Pages.Users.Title", "fas fa-users", "config/users") : null

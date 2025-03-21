@@ -1,6 +1,7 @@
 ﻿using System.IO.Compression;
 using FileFlows.Services;
 using FileFlows.ServerShared.Models;
+using FileFlows.Shared.Helpers;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.Server.Helpers;
@@ -40,14 +41,14 @@ public class PluginScanner : IPluginScanner
         // dictionary of languages index by their language code
         Dictionary<string, List<string>> langFiles = new();
 
-        if(Directory.Exists(pluginDir) == false)
+        if (Directory.Exists(pluginDir) == false)
         {
             Logger.Instance?.WLog("Plugin directory does not exist: " + pluginDir);
             try
             {
                 Directory.CreateDirectory(pluginDir);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Logger.Instance?.WLog("Failed to create plugin directory: " + pluginDir);
                 return;
@@ -66,6 +67,7 @@ public class PluginScanner : IPluginScanner
                     Logger.Instance?.WLog("Unable to find .plugininfo file");
                     continue;
                 }
+
                 using var sr = new StreamReader(entry.Open());
                 string json = sr.ReadToEnd();
 
@@ -81,7 +83,7 @@ public class PluginScanner : IPluginScanner
                     // older plugin
                     using var srLang = new StreamReader(langEntry.Open());
                     if (langFiles.ContainsKey("en") == false)
-                        langFiles["en"] = new ();
+                        langFiles["en"] = new();
                     langFiles["en"].Add(srLang.ReadToEnd());
                 }
                 else
@@ -105,8 +107,8 @@ public class PluginScanner : IPluginScanner
                     string pipn = pi.PackageName.Replace(".ffplugin", string.Empty).ToLower();
                     if (xpn == pipn)
                         return true;
-                    
-                    if(string.Equals(x.Name, pi.Name, StringComparison.CurrentCultureIgnoreCase))
+
+                    if (string.Equals(x.Name, pi.Name, StringComparison.CurrentCultureIgnoreCase))
                         return true;
                     return false;
                 });
@@ -115,58 +117,67 @@ public class PluginScanner : IPluginScanner
                 installed.Add(pi.Name);
 
                 bool isDifferent = false;
-                
+
                 plugin.Uid = pi.Uid;
                 if (isNew || plugin.PackageName != pi.PackageName)
                 {
                     plugin.PackageName = pi.PackageName;
                     isDifferent = true;
                 }
+
                 if (isNew || plugin.Name != pi.Name)
                 {
                     plugin.Name = pi.Name;
                     isDifferent = true;
                 }
+
                 if (isNew || plugin.Version != pi.Version)
                 {
                     plugin.Version = pi.Version;
                     isDifferent = true;
                 }
+
                 if (isNew || plugin.Deleted)
                 {
                     plugin.Deleted = false;
                     isDifferent = true;
                 }
-                if (isNew || 
-                    JsonSerializer.Serialize(plugin.Elements ?? new ()) != 
-                    JsonSerializer.Serialize(pi.Elements ?? new ()))
+
+                if (isNew ||
+                    JsonSerializer.Serialize(plugin.Elements ?? new()) !=
+                    JsonSerializer.Serialize(pi.Elements ?? new()))
                 {
                     plugin.Elements = pi.Elements;
                     isDifferent = true;
                 }
+
                 if (isNew || plugin.Authors != pi.Authors)
                 {
                     plugin.Authors = pi.Authors;
                     isDifferent = true;
                 }
+
                 if (isNew || plugin.Url != pi.Url)
                 {
                     plugin.Url = pi.Url;
                     isDifferent = true;
                 }
+
                 if (isNew || plugin.Description != pi.Description)
                 {
                     plugin.Description = pi.Description;
                     isDifferent = true;
                 }
+
                 if (isNew || plugin.Icon != pi.Icon)
                 {
                     plugin.Icon = pi.Icon;
                     isDifferent = true;
                 }
-                if (isNew || 
-                    JsonSerializer.Serialize(plugin.Settings ?? new ()) != 
-                    JsonSerializer.Serialize(pi.Settings ?? new ()))
+
+                if (isNew ||
+                    JsonSerializer.Serialize(plugin.Settings ?? new()) !=
+                    JsonSerializer.Serialize(pi.Settings ?? new()))
                 {
                     plugin.Settings = pi.Settings;
                     plugin.HasSettings = pi.Settings?.Any() == true;
@@ -234,7 +245,8 @@ public class PluginScanner : IPluginScanner
             }
             catch (Exception ex)
             {
-                Logger.Instance?.ELog($"Failed to scan plugin {ffplugin}: " + ex.Message + Environment.NewLine + ex.StackTrace);
+                Logger.Instance?.ELog($"Failed to scan plugin {ffplugin}: " + ex.Message + Environment.NewLine +
+                                      ex.StackTrace);
             }
         }
 
@@ -256,11 +268,22 @@ public class PluginScanner : IPluginScanner
             }
         }
 
-        foreach(var key in langFiles.Keys)
-            CreateLanguageFile(langFiles[key], key);
+        bool langChanged = false;
+        foreach (var key in langFiles.Keys)
+            langChanged |= CreateLanguageFile(langFiles[key], key);
 
         Logger.Instance.ILog("Finished scanning for plugins");
         _ = ServiceLoader.Load<PluginService>().RefreshAndBroadcastUpdate();
+
+        if (langChanged && ServiceLoader.TryLoad<SseEventBroker>(out var broker))
+        {
+            DebounceHelper.Debounce("PluginScannerLangUpdate", TimeSpan.FromSeconds(10), async () =>
+            {
+                var langCode = (await ServiceLoader.Load<ISettingsService>().Get()).Language?.EmptyAsNull() ?? "en";
+                var lang = await ServiceLoader.Load<LanguageService>().GetLanguageJson(langCode);
+                await broker.BroadcastEvent("LanguageUpdated", lang);
+            });
+        }
     }
 
     /// <summary>
@@ -435,7 +458,8 @@ public class PluginScanner : IPluginScanner
     /// </summary>
     /// <param name="jsonFiles">the individual plugin language files</param>
     /// <param name="langCode">the language code for the file</param>
-    static void CreateLanguageFile(List<string> jsonFiles, string langCode)
+    /// <returns><c>true</c> if the file was created or updated; otherwise, <c>false</c>.</returns>
+    static bool CreateLanguageFile(List<string> jsonFiles, string langCode)
     {
         var json = "{}";
         try
@@ -466,6 +490,31 @@ public class PluginScanner : IPluginScanner
         if (Directory.Exists(dir) == false)
             Directory.CreateDirectory(dir);
 
-        File.WriteAllText(Path.Combine(dir, $"plugins.{langCode}.json"), json);        
+        return WriteIfChanged(dir, langCode, json);    
+    }
+    
+    
+    /// <summary>
+    /// Writes the specified JSON content to a file if the file does not exist or if its content has changed.
+    /// </summary>
+    /// <param name="dir">The directory where the file should be stored.</param>
+    /// <param name="langCode">The language code used to generate the file name.</param>
+    /// <param name="json">The JSON content to write to the file.</param>
+    /// <returns><c>true</c> if the file was created or updated; otherwise, <c>false</c>.</returns>
+    public static bool WriteIfChanged(string dir, string langCode, string json)
+    {
+        string filePath = Path.Combine(dir, $"plugins.{langCode}.json");
+
+        // Check if file exists and content is the same
+        if (File.Exists(filePath))
+        {
+            string existingContent = File.ReadAllText(filePath);
+            if (existingContent == json)
+                return false; // No change, so do nothing
+        }
+
+        // Write new content if different or file does not exist
+        File.WriteAllText(filePath, json);
+        return true;
     }
 }

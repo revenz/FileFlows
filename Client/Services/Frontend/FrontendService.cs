@@ -72,6 +72,10 @@ public class FrontendService : IAsyncDisposable
     /// </summary>
     public PluginHandler Plugin { get;private set; }
     /// <summary>
+    /// Gets or sets the script handler
+    /// </summary>
+    public ScriptHandler Script { get;private set; }
+    /// <summary>
     /// Gets or sets the tag handler
     /// </summary>
     public TagHandler Tag { get;private set; }
@@ -229,7 +233,7 @@ public class FrontendService : IAsyncDisposable
         Logger.Instance.ILog("FrontendService initialized after first successful SSE connection.");
         var data = JsonSerializer.Deserialize<InitialClientData>(idJson);
         // Add any initialization logic here
-        Profile = new(_ffLocalStorage);
+        Profile = new(this, _ffLocalStorage);
         Profile.Initialize(data);
         Dashboard = new(this);
         Dashboard.Initialize(data);
@@ -249,6 +253,8 @@ public class FrontendService : IAsyncDisposable
         DockerMod.Initialize(data);
         Plugin = new(this);
         Plugin.Initialize(data);
+        Script = new(this);
+        Script.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }

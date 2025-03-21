@@ -107,15 +107,24 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
 
     public override async Task<bool> Edit(PluginInfoModel plugin)
     {
-        if (plugin?.Settings?.Any() != true)
+        if (plugin?.HasSettings != true)
             return false;
+        
         Blocker.Show();
         this.StateHasChanged();
         Data.Clear();
 
+        PluginInfo? pluginInfo = null;
+
         ExpandoObject model = new ExpandoObject();
         try
         {
+            var pluginInfoResult = await HttpHelper.Get<PluginInfo>($"{ApiUrl}/{plugin.Uid}");
+            if (pluginInfoResult.Success == false)
+                return false;
+
+            pluginInfo = pluginInfoResult.Data;
+        
             var pluginResult = await HttpHelper.Get<string>($"{ApiUrl}/{plugin.PackageName}/settings");
             if (pluginResult.Success == false)
                 return false;
@@ -130,11 +139,11 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
         this.EditingPlugin = plugin;
 
         // clone the fields as they get wiped
-        var fields = plugin.Settings.Select(x => (IFlowField)x).ToList();
+        var fields = pluginInfo.Settings.Select(x => (IFlowField)x).ToList();
 
         await Editor.Open(new()
         {
-            TypeName = "Plugins." + plugin.PackageName, Title = plugin.Name, Fields = fields, Model = model,
+            TypeName = "Plugins." + pluginInfo.PackageName, Title = pluginInfo.Name, Fields = fields, Model = model,
             HelpUrl = GetPluginHelpUrl(plugin, true),
             SaveCallback = SaveSettings
         });
@@ -150,7 +159,7 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
     }
     private async Task DoubleClick(PluginInfoModel plugin)
     {
-        if (plugin.Settings?.Any() == true)
+        if (plugin.HasSettings == true)
             await Edit(plugin);
     }
 
