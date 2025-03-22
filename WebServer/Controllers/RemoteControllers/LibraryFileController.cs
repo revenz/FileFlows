@@ -45,20 +45,6 @@ public class LibraryFileController : Controller
         return file;
     }
 
-
-    /// <summary>
-    /// Tells the server not to check this node for number of seconds when checking for load balancing as it will
-    /// be unavailable for this amount of time
-    /// </summary>
-    /// <param name="nodeUid">the UID of the node</param>
-    /// <param name="forSeconds">the time in seconds</param>
-    [HttpPost("node-cannot-run/{nodeUid}/{forSeconds}")]
-    public void NodeCannotRun([FromRoute] Guid nodeUid, [FromRoute] int forSeconds)
-    {
-        var service = ServiceLoader.Load<LibraryFileService>();
-        service.NodeCannotRun(nodeUid, forSeconds);
-    } 
-
     /// <summary>
     /// Saves the full log for a library file
     /// Call this after processing has completed for a library file

@@ -209,8 +209,7 @@ public class Runner
             Cache = cacheHelper,
             SetThumbnailActual = (binaryData) =>
             {
-                var service = ServiceLoader.Load<IFlowRunnerService>();
-                service.SetThumbnail(runInstance.LibraryFile.Uid, binaryData).Wait();
+                runInstance.RpcClient.LibraryFileHandler.SetThumbnail(runInstance.LibraryFile.Uid, binaryData).Wait();
             },
             SetDisplayNameActual = (displayName) =>
             {

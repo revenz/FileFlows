@@ -34,8 +34,8 @@ public static class ServiceLoader
     {
         // Add to WebServer to if needed
         Provider = new CustomServiceProvider()
-            .AddSingleton<IFlowRunnerService>(() => new FlowRunnerService())
-            .AddSingleton<ILibraryFileService>(() => new LibraryFileService())
+            // .AddSingleton<IFlowRunnerService>(() => new FlowRunnerService())
+            //.AddSingleton<ILibraryFileService>(() => new LibraryFileService())
             .AddSingleton<ILogService>(() => new LogService())
             .AddSingleton<INodeService>(() => new NodeService())
             .AddSingleton<ISettingsService>(() => new SettingsService())

@@ -46,10 +46,10 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        Runners = feService.Dashboard.CurrentExecutorInfoMinified;
+        Runners = feService.Runner.Runners;
         if(Runners.Count == 0)
             await NoneOnLoad.InvokeAsync();
-        feService.Dashboard.RunnerInfoUpdated += ExecutorsUpdated;
+        feService.Runner.RunnerInfoUpdated += ExecutorsUpdated;
     }
     
 
@@ -58,7 +58,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Dashboard.RunnerInfoUpdated-= ExecutorsUpdated;
+        feService.Runner.RunnerInfoUpdated-= ExecutorsUpdated;
     }
     
     /// <summary>

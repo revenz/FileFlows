@@ -25,7 +25,6 @@ public class JsonRpcServer : IDisposable
 
     internal LibraryFile _libraryFile;
     internal Client _client;
-    internal FlowExecutorInfo _flowExecutorInfo;
 
     private readonly RpcRegister _rpcRegister = new();
 
@@ -55,14 +54,6 @@ public class JsonRpcServer : IDisposable
 
         _logMessage = logMessage;
         this._libraryFile = runnerParameters.LibraryFile;
-        _flowExecutorInfo = new()
-        {
-            Uid = runnerParameters.LibraryFile.Uid,
-            LibraryFileName = _libraryFile.Name,
-            RelativeFile = _libraryFile.RelativePath,
-            Library = _libraryFile.Library,
-            InitialSize = _libraryFile.OriginalSize
-        };
         this.PipeName = "runner-" + _libraryFile.Uid;
     }
 

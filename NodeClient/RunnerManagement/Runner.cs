@@ -39,9 +39,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
 
     public FlowExecutorInfo Info { get; set; } = new()
     {
-        Uid = args.LibraryFile.Uid,
-        Library = args.LibraryFile.Library,
-        LibraryFileName = args.LibraryFile.Name,
+        LibraryFile = args.LibraryFile,
         NodeUid = node.Uid,
         NodeName = node.Name,
         CurrentPartName = "Startup"

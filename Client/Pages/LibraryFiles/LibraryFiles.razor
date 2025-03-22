@@ -206,7 +206,7 @@
                         {
                             <div class="right processing">
                                 @{
-                                    var worker = WorkerStatus?.FirstOrDefault(x => x.Uid == item.Uid);
+                                    var worker = WorkerStatus?.FirstOrDefault(x => x.LibraryFile.Uid == item.Uid);
                                     if (worker != null)
                                     {
                                         <span class="top-right">@worker.CurrentPartName</span>

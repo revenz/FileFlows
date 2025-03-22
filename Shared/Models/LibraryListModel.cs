@@ -41,7 +41,7 @@ public class LibraryListModel : IUniqueObject<Guid>
     /// Gets or sets the flow this library uses
     /// </summary>
     [JsonPropertyName("f")]
-    public ObjectReference Flow { get; set; }
+    public ObjectReference? Flow { get; set; }
 
     /// <summary>
     /// When the library was last scanned

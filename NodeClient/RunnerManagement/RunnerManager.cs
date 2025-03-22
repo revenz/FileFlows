@@ -21,6 +21,11 @@ public class RunnerManager
     private readonly ConfigurationService _configService;
 
     /// <summary>
+    /// Gets the active runnners
+    /// </summary>
+    public Dictionary<Guid, Runner> ActiveRunners => _activeRunners.ToDictionary();
+
+    /// <summary>
     /// Action that is called when the runner is updated
     /// </summary>
     public event Action RunnerUpdated;
@@ -280,7 +285,7 @@ public class RunnerManager
     /// <param name="info">the runner info</param>
     public void UpdateRunner(FlowExecutorInfo info)
     {
-        if (_activeRunners.TryGetValue(info.Uid, out var runner) == false)
+        if (_activeRunners.TryGetValue(info.LibraryFile.Uid, out var runner) == false)
             return;
         runner.Info = info;
         RunnerUpdated?.Invoke();

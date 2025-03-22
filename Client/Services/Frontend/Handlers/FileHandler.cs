@@ -41,6 +41,15 @@ public class FileHandler(FrontendService feService)
     /// Event raised when the file queue is updated
     /// </summary>
     public event Action<List<LibraryFileMinimal>> UpcomingFilesUpdated; 
+    
+    /// <summary>
+    /// Called when recently finished files have been updated
+    /// </summary>
+    public event Action<List<LibraryFileMinimal>> RecentlyFinishedUpdated;
+    /// <summary>
+    /// Called when failed files have been updated
+    /// </summary>
+    public event Action<List<LibraryFileMinimal>> FailedFilesUpdated;
 
     /// <summary>
     /// Initializes the handler
@@ -66,6 +75,36 @@ public class FileHandler(FrontendService feService)
             Logger.Instance.ILog("FileQueue", ed);
             UpcomingFiles = ed;
             UpcomingFilesUpdated?.Invoke(ed);
+        });
+        feService.Registry.Register<LibraryFileMinimal>("FileFinished", (ed) =>
+        {
+            Logger.Instance.ILog("FileFinished", ed);
+            if (ed.Status == FileStatus.Processed)
+            {
+                RecentlyFinished.Add(ed);
+                RecentlyFinished = RecentlyFinished.OrderByDescending(x => x.Date).ToList();
+                if(RecentlyFinished.Count > 50)
+                    RecentlyFinished = RecentlyFinished.Take(50).ToList();
+                RecentlyFinishedUpdated?.Invoke(RecentlyFinished);
+            }
+            else if (ed.Status == FileStatus.ProcessingFailed)
+            {
+                FailedFiles.Add(ed);
+                FailedFiles = FailedFiles.OrderByDescending(x => x.Date).ToList();
+                if(FailedFiles.Count > 50)
+                    FailedFiles = FailedFiles.Take(50).ToList();
+                FailedFilesUpdated?.Invoke(FailedFiles);
+            }
+        });
+
+        feService.Registry.Register<Guid[]>("FilesDeleted", (uids) =>
+        {
+            if (FailedFiles.RemoveAll(x => uids.Contains(x.Uid)) > 0)
+                FailedFilesUpdated?.Invoke(FailedFiles);
+            if (RecentlyFinished.RemoveAll(x => uids.Contains(x.Uid)) > 0)
+                RecentlyFinishedUpdated?.Invoke(RecentlyFinished);
+            if (UpcomingFiles.RemoveAll(x => uids.Contains(x.Uid)) > 0)
+                UpcomingFilesUpdated?.Invoke(UpcomingFiles);
         });
     }
 }

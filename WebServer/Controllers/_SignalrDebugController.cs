@@ -157,7 +157,7 @@ public class _SignalrDebugController : Controller
                                   <td>{{node.ConfigRevision}}</td>
                                   <td>{{node.ConnectionId}}</td>
                                   <td>{{node.Node.FlowRunners}}</td>
-                                  <td style="white-space:pre">{{string.Join("\n", (node.Runners ?? []).Select(x => x.Value.RelativeFile.ToString()))}}</td>
+                                  <td style="white-space:pre">{{string.Join("\n", (node.Runners ?? []).Select(x => x.Value.LibraryFile.Name.ToString()))}}</td>
                               </tr>
                               """);
         }

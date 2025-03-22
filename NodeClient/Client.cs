@@ -29,11 +29,6 @@ public partial class Client : IDisposable
     private bool _disposed;
 
     /// <summary>
-    /// The active runners processing files
-    /// </summary>
-    public ConcurrentDictionary<Guid, FlowExecutorInfo> Runners { get; } = new();
-
-    /// <summary>
     /// Connection updated event
     /// </summary>
     public delegate void ConnectionUpdated(ConnectionState state);

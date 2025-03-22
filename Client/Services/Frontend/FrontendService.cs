@@ -80,6 +80,10 @@ public class FrontendService : IAsyncDisposable
     /// </summary>
     public ReportHandler Report { get;private set; }
     /// <summary>
+    /// Gets or sets the runner handler
+    /// </summary>
+    public RunnerHandler Runner { get;private set; }
+    /// <summary>
     /// Gets or sets the tag handler
     /// </summary>
     public TagHandler Tag { get;private set; }
@@ -172,7 +176,6 @@ public class FrontendService : IAsyncDisposable
                     var message = line[5..].Trim();
                     string len = message.Length > 1024 ? $"{(message.Length / 1024):#.##} KB" : $"{message.Length} Bytes";
                         
-                    Console.WriteLine($"SSE message: " + len); // 🔥 Log message size
                     try
                     {
                         if (message.StartsWith("x:"))  // 🔥 Check if it's compressed
@@ -192,6 +195,7 @@ public class FrontendService : IAsyncDisposable
                                 message = $"{eventName}:{decompressedJson}";
                             }
                         }
+                        Console.WriteLine($"SSE message: {message.Split(':')[0]} : {len}"); 
                         
                         if (message.StartsWith("id:"))
                             Initialize(message[3..]);
@@ -261,6 +265,8 @@ public class FrontendService : IAsyncDisposable
         Script.Initialize(data);
         Report = new(this);
         Report.Initialize(data);
+        Runner = new(this);
+        Runner.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }

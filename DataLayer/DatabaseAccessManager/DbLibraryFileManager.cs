@@ -1418,7 +1418,7 @@ internal class DbLibraryFileManager : BaseManager
                         return false;
                     if (lib.Value.MaxRunners < 1)
                         return false; // no limit
-                    int count = args.SysInfo.Executors.Count(exe => exe.Library.Uid == lib.Value.Uid);
+                    int count = args.SysInfo.Executors.Count(exe => exe.LibraryFile.Library.Uid == lib.Value.Uid);
                     return count >= lib.Value.MaxRunners;
                 }).Select(x => x.Value.Uid).ToList()
                 : new();

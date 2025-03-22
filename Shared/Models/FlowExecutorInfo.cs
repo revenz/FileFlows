@@ -8,14 +8,9 @@ namespace FileFlows.Shared.Models;
 public class FlowExecutorInfo
 {
     /// <summary>
-    /// Gets or sets the UID of the runner, which is the library file UID
+    /// Gets or sets the library file being processed
     /// </summary>
-    public Guid Uid { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the original file name of the file
-    /// </summary>
-    public string LibraryFileName { get; set; }
+    public LibraryFile LibraryFile { get; set; }
     
     /// <summary>
     /// Gets or sets the UID of the node execution this flow
@@ -26,11 +21,6 @@ public class FlowExecutorInfo
     /// Gets or sets the name of the Node executing this flow
     /// </summary>
     public string NodeName { get; set; }
-
-    /// <summary>
-    /// Gets or sets the relative file being executed
-    /// </summary>
-    public string RelativeFile { get; set; }
     
     /// <summary>
     /// Gets or sets if this is a remote file from the server
@@ -38,21 +28,10 @@ public class FlowExecutorInfo
     public bool IsRemote { get; set; }
     
     /// <summary>
-    /// Gets or sets an object reference of the library
-    /// that the library file belongs
-    /// </summary>
-    public ObjectReference Library { get; set; }
-    
-    /// <summary>
     /// Gets or sets the path of the library
     /// </summary>
     public string LibraryPath { get; set; }
     
-    // /// <summary>
-    // /// Gets or sets if a fingerprint should be taken of the final file
-    // /// </summary>
-    // public bool Fingerprint { get; set; }
-
     /// <summary>
     /// Gets or sets the size of the original file being processed
     /// </summary>

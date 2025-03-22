@@ -78,4 +78,13 @@ public partial class NodeHub
     /// <param name="overwrite">if the file should be overwritten or appended to</param>
     public async Task FileLogAppend(Guid libFileUid, string lines, bool overwrite)
         => await LibraryFileLogHelper.AppendToLog(libFileUid, lines, overwrite);
+    
+    /// <summary>
+    /// Sets a thumbnail for a file
+    /// </summary>
+    /// <param name="libraryFileUid">the UID of the library file</param>
+    /// <param name="binaryData">the binary data for the thumbnail</param>
+    /// <returns>a completed task</returns>
+    public async Task SetThumbnail(Guid libraryFileUid, byte[] binaryData)
+        => await ServiceLoader.Load<LibraryFileService>().SetThumbnail(libraryFileUid, binaryData);
 }

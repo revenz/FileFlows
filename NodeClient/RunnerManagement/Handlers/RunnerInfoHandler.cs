@@ -23,7 +23,6 @@ public class RunnerInfoHandler
         if (info == null)
             return;
         
-        rpcServer._flowExecutorInfo = info;
         runnerManager.UpdateRunner(info);
     }
     

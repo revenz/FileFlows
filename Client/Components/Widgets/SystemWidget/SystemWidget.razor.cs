@@ -60,8 +60,8 @@ public partial class SystemWidget : ComponentBase, IDisposable
         lblSavings = Translater.Instant("Pages.Dashboard.Tabs.Savings");
         if(App.Instance.IsMobile)
             Mode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
-        OnExecutorsUpdated(feService.Dashboard.CurrentExecutorInfoMinified ?? []);
-        feService.Dashboard.RunnerInfoUpdated += OnExecutorsUpdated;
+        OnExecutorsUpdated(feService.Runner.Runners ?? []);
+        feService.Runner.RunnerInfoUpdated += OnExecutorsUpdated;
     }
 
     private void DashboardOnRunnerInfoUpdated(List<FlowExecutorInfoMinified> obj)
@@ -98,6 +98,6 @@ public partial class SystemWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Dashboard.RunnerInfoUpdated -= OnExecutorsUpdated;
+        feService.Runner.RunnerInfoUpdated -= OnExecutorsUpdated;
     }
 }

@@ -64,11 +64,11 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// Gets the profile
     /// </summary>
     protected Profile Profile { get; private set; }
+
     /// <summary>
     /// If this component needs rendering
     /// </summary>
     private bool _needsRendering = false;
-
 
     private List<LibraryFileMinimal> UpcomingFiles, RecentlyFinished, FailedFiles;
     private int TotalUpcoming, TotalFinished, TotalFailed;
@@ -85,9 +85,43 @@ public partial class FilesWidget : ComponentBase, IDisposable
         lblNoRecentlyFinishedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoRecentlyFinishedFiles");
         lblNoFailedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoFailedFiles");
         _FileMode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
-        //await RefreshData();
-        //feService.FileStatusUpdated += OnFileStatusUpdated;
+        feService.Files.UpcomingFilesUpdated += OnUpcomingFilesUpdated;
+        feService.Files.RecentlyFinishedUpdated += OnRecentlyFinishedUpdated;
+        feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
         InitializeData();
+    }
+
+    /// <summary>
+    /// Called when the failed files list has been updated
+    /// </summary>
+    /// <param name="list">the updated list</param>
+    private void OnFailedFilesUpdated(List<LibraryFileMinimal> list)
+    {
+        FailedFiles = list;
+        TotalFailed = list.Count;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Called when the recently finished files list has been updated
+    /// </summary>
+    /// <param name="list">the updated list</param>
+    private void OnRecentlyFinishedUpdated(List<LibraryFileMinimal> list)
+    {
+        RecentlyFinished = list;
+        TotalFinished = list.Count;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Upcoming files have changed
+    /// </summary>
+    /// <param name="files">the updated files</param>
+    private void OnUpcomingFilesUpdated(List<LibraryFileMinimal> files)
+    {
+        UpcomingFiles = files;
+        TotalUpcoming = files.Count;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -168,20 +202,6 @@ public partial class FilesWidget : ComponentBase, IDisposable
     }
 
     
-    /// <summary>
-    /// Loads the data from the server
-    /// </summary>
-    /// <param name="url">the URL to call</param>
-    /// <typeparam name="T">the type of data</typeparam>
-    /// <returns>the returned ata</returns>
-    private async Task<T> LoadData<T>(string url)
-    {
-        var result = await HttpHelper.Get<T>(url);
-        if(result.Success == false || result.Data == null)
-            return default;
-        return result.Data;
-    }
-    
     public record DashboardFile(Guid Uid, string Name, string DisplayName,
         string RelativePath,
         DateTime ProcessingEnded,
@@ -207,7 +227,9 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-//        ClientService.FileStatusUpdated -= OnFileStatusUpdated;
+        feService.Files.UpcomingFilesUpdated -= OnUpcomingFilesUpdated;
+        feService.Files.RecentlyFinishedUpdated -= OnRecentlyFinishedUpdated;
+        feService.Files.FailedFilesUpdated -= OnFailedFilesUpdated;
     }
 
     /// <summary>

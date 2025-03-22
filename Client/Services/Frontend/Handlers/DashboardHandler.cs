@@ -3,12 +3,12 @@ namespace FileFlows.Client.Services.Frontend.Handlers;
 /// <summary>
 /// Front end related data
 /// </summary>
+/// <param name="feService">the frontend service</param>
 public class DashboardHandler(FrontendService feService)
 {
     public FileOverviewData CurrentFileOverData { get; private set; }
     public SystemInfo CurrentSystemInfo { get; private set; }
     public UpdateInfo CurrentUpdatesInfo { get; private set; }
-    public List<FlowExecutorInfoMinified> CurrentExecutorInfoMinified { get; private set; }
     /// <summary>
     /// Gets or sets the total storage saved data
     /// </summary>
@@ -25,11 +25,6 @@ public class DashboardHandler(FrontendService feService)
     public event Action<SystemInfo> SystemInfoUpdated;
     
     /// <summary>
-    /// Event raised when the runner info has been updated
-    /// </summary>
-    public event Action<List<FlowExecutorInfoMinified>> RunnerInfoUpdated;
-    
-    /// <summary>
     /// Event raised when the update info has been updated
     /// </summary>
     public event Action<UpdateInfo> UpdateInfoUpdated;
@@ -39,12 +34,15 @@ public class DashboardHandler(FrontendService feService)
     /// </summary>
     public event Action<FileOverviewData> FileOverviewDataUpdated;
 
+    /// <summary>
+    /// Initializes the handler
+    /// </summary>
+    /// <param name="data">the initial client data</param>
     public void Initialize(InitialClientData data)
     {
         CurrentFileOverData = data.CurrentFileOverData;
         CurrentSystemInfo = data.CurrentSystemInfo;
         CurrentUpdatesInfo = data.CurrentUpdatesInfo;
-        CurrentExecutorInfoMinified = data.CurrentExecutorInfoMinified;
         StorageSavedMonthData = data.StorageSavedMonthData;
         StorageSavedTotalData = data.StorageSavedTotalData;
         
@@ -56,11 +54,6 @@ public class DashboardHandler(FrontendService feService)
         {
             CurrentSystemInfo = se;
             SystemInfoUpdated?.Invoke(se);
-        });
-        feService.Registry.Register<List<FlowExecutorInfoMinified>>(nameof(FlowExecutorInfoMinified), (ed) =>
-        {
-            CurrentExecutorInfoMinified = ed;
-            RunnerInfoUpdated?.Invoke(ed);
         });
         feService.Registry.Register<UpdateInfo>(nameof(UpdateInfo), (ed) =>
         {

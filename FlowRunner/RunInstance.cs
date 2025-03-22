@@ -250,12 +250,9 @@ public class RunInstance(RunnerProperties properties)
 
         var info = new FlowExecutorInfo
         {
-            Uid = properties.Uid,
-            LibraryFileName = properties.LibraryFile.Name,
+            LibraryFile = properties.LibraryFile,
             NodeUid = node.Uid,
             NodeName = node.Name,
-            RelativeFile = properties.LibraryFile.RelativePath,
-            Library = properties.LibraryFile.Library,
             IsRemote = properties.IsRemote,
             TotalParts = properties.StartingFlow.Parts.Count,
             CurrentPart = 0,
@@ -265,7 +262,6 @@ public class RunInstance(RunnerProperties properties)
             WorkingFile = workingFile,
             IsDirectory = properties.IsDirectory,
             LibraryPath = libPath, 
-            //Fingerprint = lib.UseFingerprinting,
             InitialSize = initialSize,
             AdditionalInfos = new ()
         };

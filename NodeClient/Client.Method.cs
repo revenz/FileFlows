@@ -240,7 +240,7 @@ public partial class Client
                         ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
                         NodeVersion = Globals.Version,
                         InstallingDockerMods = _InstallingDockerMods,
-                        Runners
+                        Runners = _runnerManager.ActiveRunners.Where(x => x.Value.IsRunning && x.Value.Info.LibraryFile != null).ToDictionary(x => x.Key, x => x.Value.Info),
                     };
                     var result = await _connection.InvokeAsync<NodeStatusUpdateResult>("UpdateNodeStatus", info);
 
@@ -349,14 +349,13 @@ public partial class Client
     /// <param name="overwrite">if the file should be overwritten or appended to</param>
     public async Task FileLogAppend(Guid libFileUid, string lines, bool overwrite = false)
         => await _connection.SendAsync(nameof(FileLogAppend), libFileUid, lines, overwrite);
-    //
-    // /// <summary>
-    // /// Updates a runner
-    // /// </summary>
-    // /// <param name="info"></param>
-    // public void UpdateRunner(FlowExecutorInfo info)
-    // {
-    //     Runners[info.Uid] = info;
-    //     _connection.InvokeAsync("FileUpdateInfo", info);
-    // }
+
+    /// <summary>
+    /// Sets a thumbnail for a file
+    /// </summary>
+    /// <param name="libraryFileUid">the UID of the library file</param>
+    /// <param name="binaryData">the binary data for the thumbnail</param>
+    /// <returns>a completed task</returns>
+    public async Task SetThumbnail(Guid libraryFileUid, byte[] binaryData)
+        => await _connection.SendAsync(nameof(SetThumbnail), libraryFileUid, binaryData);
 }

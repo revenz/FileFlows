@@ -48,7 +48,7 @@ public partial class StatusWidget : ComponentBase, IDisposable
         lblResume = Translater.Instant("Labels.Resume");
         _updateInfo = feService.Dashboard.CurrentUpdatesInfo;
         PausedService.OnPausedLabelChanged += OnPausedLabelChanged;
-        feService.Dashboard.RunnerInfoUpdated += OnExecutorsUpdated;
+        feService.Runner.RunnerInfoUpdated += OnExecutorsUpdated;
         feService.Dashboard.UpdateInfoUpdated += OnUpdatesUpdateInfo;
         feService.Dashboard.SystemInfoUpdated += OnSystemInfoUpdated;
         OnPausedLabelChanged(PausedService.PausedLabel);
@@ -126,7 +126,7 @@ public partial class StatusWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Dashboard.RunnerInfoUpdated -= OnExecutorsUpdated;
+        feService.Runner.RunnerInfoUpdated -= OnExecutorsUpdated;
         feService.Dashboard.UpdateInfoUpdated -= OnUpdatesUpdateInfo;
         feService.Dashboard.SystemInfoUpdated -= OnSystemInfoUpdated;
         PausedService.OnPausedLabelChanged -= OnPausedLabelChanged;

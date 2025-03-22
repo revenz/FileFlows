@@ -53,12 +53,9 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
     public async Task UpdateRunnerInfo()
         => await client.SendRequest(nameof(UpdateRunnerInfo), new FlowExecutorInfo()
         {
-            Uid = client.LibraryFile.Uid,
-            LibraryFileName = client.LibraryFile.Name,
+            LibraryFile = client.LibraryFile,
             NodeUid = client.Node.Uid,
             NodeName = client.Node.Name,
-            RelativeFile = client.LibraryFile.RelativePath,
-            Library = client.LibraryFile.Library,
             AdditionalInfos = runInfo.AdditionalInfos,
             CurrentPart = runInfo.CurrentPart,
             CurrentPartPercent = runInfo.CurrentPartPercent,
