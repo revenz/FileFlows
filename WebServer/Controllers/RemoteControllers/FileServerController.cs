@@ -102,7 +102,8 @@ public class FileServerController : Controller
             return false;
         }
 
-        if (FlowRunnerService.Executors.ContainsKey(executorUid) == false)
+        var nodeService = ServiceLoader.Load<NodeService>();
+        if (nodeService.GetRunners().Any(x => x.LibraryFile.Uid == executorUid) == false)
         {
             message = "Unknown executor identifier given.";
             Logger.ELog(message);
