@@ -589,6 +589,48 @@ internal class DbLibraryFileManager : BaseManager
         return updated;
     }
     
+
+    /// <summary>
+    /// Fails files with the given reason
+    /// </summary>
+    /// <param name="uids">the UIDs of the files to fail</param>
+    /// <param name="reason">the reason of the failure</param>
+    /// <returns>the UIDs of the files that were failed</returns>
+    public async Task<Guid[]> FailProcessingFiles(Guid[] uids, string reason)
+    {
+        if (uids.Length == 0)
+            return [];
+        
+        List<Guid> failed = new List<Guid>();
+        using var db = await DbConnector.GetDb();
+        foreach (var uid in uids)
+        {
+            string sql = $"update {Wrap(nameof(LibraryFile))} " +
+                         $" set {Wrap(nameof(LibraryFile.Status))} = {(int)FileStatus.ProcessingFailed} " +
+                         $" set {Wrap(nameof(LibraryFile.FailureReason))} = @0" +
+                         $" where {Wrap(nameof(LibraryFile.Uid))} = '{uid}' and " +
+                         $" {Wrap(nameof(LibraryFile.Status))} =  = {(int)FileStatus.ProcessingFailed}";
+
+            if(await db.Db.ExecuteAsync(sql, reason) > 0)
+                failed.Add(uid);
+        }
+
+        if(failed.Count > 0 && UseCache)
+        {
+            // update cache
+            foreach (var uid in failed)
+            {
+                if (Cache.TryGetValue(uid, out var file))
+                {
+                    file.Status = FileStatus.ProcessingFailed;
+                    file.FailureReason = reason;
+                }
+            }
+        }
+
+        return failed.ToArray();
+    }
+    
     /// <summary>
     /// Clears the executed nodes, metadata, final size etc for a file
     /// </summary>

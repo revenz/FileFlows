@@ -176,6 +176,7 @@ public partial class Client
                     Globals.IsMac ? OperatingSystemType.Mac :
                     Globals.IsFreeBsd ? OperatingSystemType.FreeBsd :
                     OperatingSystemType.Unknown,
+                ActiveRunners = _runnerManager?.ActiveRunners?.Keys?.ToArray() ?? []  
             };
 
             if (_connection.State == HubConnectionState.Disconnected)

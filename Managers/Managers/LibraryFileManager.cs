@@ -224,6 +224,15 @@ public class LibraryFileManager
         => DatabaseAccessManager.Instance.LibraryFileManager.SetStatus(status, uids);
 
     /// <summary>
+    /// Fails files with the given reason
+    /// </summary>
+    /// <param name="uids">the UIDs of the files to fail</param>
+    /// <param name="reason">the reason of the failure</param>
+    /// <returns>the UIDs of the files that were failed</returns>
+    public async Task<Guid[]> FailProcessingFiles(Guid[] uids, string reason)
+        => await DatabaseAccessManager.Instance.LibraryFileManager.FailProcessingFiles(uids, reason);
+
+    /// <summary>
     /// Toggles a flag on files
     /// </summary>
     /// <param name="flag">the flag to toggle</param>

@@ -66,4 +66,8 @@ public class NodeRegisterParameters
     /// Gets tthe nodes architecture
     /// </summary>
     public ArchitectureType Architecture { get; init; }
+    /// <summary>
+    /// Gets or sets the active runners
+    /// </summary>
+    public Guid[] ActiveRunners { get; init; }
 }

@@ -49,7 +49,7 @@ public class NodeController : BaseController
     [HttpGet("basic-list")]
     public async Task<Dictionary<Guid, string>> GetNodeList()
     {
-        var items = await new NodeService().GetAllAsync();
+        var items = await ServiceLoader.Load<NodeService>().GetAllAsync();
         return items.Where(x => x.Enabled)
             .OrderBy(x => (x.Name == CommonVariables.InternalNodeName ? "Internal Processing Node" : x.Name).ToLowerInvariant())
             .ToDictionary(x => x.Uid, x => x.Name == CommonVariables.InternalNodeName ? "Internal Processing Node" : x.Name);

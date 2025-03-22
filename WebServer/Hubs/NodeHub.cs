@@ -164,7 +164,7 @@ public partial class NodeHub : Hub
             node = await _nodeService.Update(node, null);
         }
 
-        _nodeService.SetConnectionId(Context.ConnectionId, parameters.ConfigRevision, node);
+        _nodeService.SetConnectionId(Context.ConnectionId, parameters.ConfigRevision, node, parameters.ActiveRunners);
         _logger.ILog($"Node registered: {node.Name} ({node.Uid})");
         await ServiceLoader.Load<IClientService>().UpdateNodeStatusSummaries();
         return new NodeRegisterResult()
@@ -199,7 +199,7 @@ public partial class NodeHub : Hub
     public override async Task OnDisconnectedAsync(Exception exception)
     {
         _logger.ILog($"Node disconnected: {Context.ConnectionId}");
-        _nodeService.RemoveOnlineNodeByConnection(Context.ConnectionId);
+        _nodeService.SetPendingDisconnect(Context.ConnectionId);
         await base.OnDisconnectedAsync(exception);
         await ServiceLoader.Load<IClientService>().UpdateNodeStatusSummaries();
     }

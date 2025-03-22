@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
+using FileHelper = FileFlows.Plugin.Helpers.FileHelper;
 
 namespace FileFlows.Client.Pages;
 
@@ -208,6 +209,48 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     //     if(this.SelectedStatus == FileStatus.Processing)
     //         this.StateHasChanged();
     // }
+
+    public override async Task Load(Guid selectedUid, bool showBlocker = true)
+    {
+        if (SelectedStatus is FileStatus.Unprocessed or FileStatus.Processing)
+        {
+            this.Data = SelectedStatus == FileStatus.Unprocessed
+                ? feService.Files.UpcomingFiles
+                : feService.Runner.Runners.Select(x => new LibraryFileMinimal()
+                {
+                    Uid = x.Uid,
+                    Status = FileStatus.Processing,
+                    Date = x.StartedAt,
+                    Extension = FileHelper.GetExtension(x.WorkingFile),
+                    Traits = x.Traits,
+                    DisplayName = x.DisplayName,
+                    LibraryName = x.LibraryName,
+                    NodeName = x.NodeName
+                }).OrderBy(x => x.Date).ToList();
+            if (Table != null)
+            {
+                SetTableData(this.Data);
+                var item = this.Data.FirstOrDefault(x => x.Uid.Equals(selectedUid));
+                if (item != null)
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        // need a delay here since setdata and the inner works of FlowTable will clear this without it
+                        await Task.Delay(50);
+                        Table.SelectItem(item);
+                    });
+                }
+            }
+
+            HasData = this.Data?.Any() == true;
+            this.Loaded = true;
+            await this.WaitForRender();
+            return;
+        }
+
+        await base.Load(selectedUid, showBlocker);
+    }
+
 
     /// <inheritdoc />
     protected override async Task<RequestResult<List<LibraryFileMinimal>>> FetchData()
