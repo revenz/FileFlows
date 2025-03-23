@@ -1,0 +1,34 @@
+@layout FileDropLayout
+
+@namespace FileFlows.Client.Pages.FileDrop
+@inherits InputRegister
+
+@page "/file-drop/hcaptcha"
+
+<PageView Title="@lblTitle" Icon="fas fa-key" FormPage="true">
+
+    <Head>
+        <button id="settings-save" class="btn" @onclick=@Save>
+            @if(IsSaving)
+            {
+                @lblSaving
+            }
+            else
+            {
+                @lblSave
+            }
+        </button>
+
+        <button @onclick=@OpenHelp class="btn">
+            @lblHelp
+        </button>
+    </Head>
+
+    <Body>
+    @if (initDone)
+    {
+        <InputText @bind-Value="Model.hCaptchaSiteId" Label="hCaptcha Site ID" Help="An optional Site ID for hCaptcha. When provided, users must successfully complete the hCaptcha test to register."/>
+        <InputText @bind-Value="Model.hCaptchaSecret" Label="hCaptcha Secret" Help="The secret key to verify hCaptcha results."/>
+    }
+    </Body>
+</PageView>

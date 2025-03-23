@@ -3,16 +3,16 @@ using FileFlows.Services.FileDropServices;
 namespace FileFlows.WebServer.Controllers.FileDropControllers;
 
 /// <summary>
-/// File drop Settings Controller
+/// File drop General Settings Controller
 /// </summary>
-[Route("/api/file-drop/settings")]
+[Route("/api/file-drop/general")]
 [FileFlowsAuthorize(UserRole.Admin)]
 public class FileDropSettingsController : BaseController
 {
     /// <summary>
-    /// Gets the file drop settings
+    /// Gets the file drop general settings
     /// </summary>
-    /// <returns>the file drop settings</returns>
+    /// <returns>the file drop general settings</returns>
     [HttpGet]
     public IActionResult Get()
     {
@@ -21,7 +21,14 @@ public class FileDropSettingsController : BaseController
         
         var service = ServiceLoader.Load<FileDropSettingsService>();
         var settings = service.Get();
-        return Ok(settings);
+        return Ok(new
+        {
+            settings.Enabled,
+            settings.CustomPort,
+            settings.SessionExpireInMinutes,
+            settings.AllowRegistrations,
+            settings.RequireEmailVerification
+        });
     }
 
     /// <summary>
@@ -44,22 +51,19 @@ public class FileDropSettingsController : BaseController
         var existing = service.Get();
         bool changed = existing.Enabled != model.Enabled ||
                        existing.SessionExpireInMinutes != model.SessionExpireInMinutes ||
-                       existing.GoogleClientId?.EmptyAsNull() != model.GoogleClientId?.EmptyAsNull() ||
-                       existing.GoogleClientSecret?.EmptyAsNull() != model.GoogleClientSecret?.EmptyAsNull() ||
-                       existing.MicrosoftClientId?.EmptyAsNull() != model.MicrosoftClientId?.EmptyAsNull() ||
-                       existing.MicrosoftClientSecret?.EmptyAsNull() != model.MicrosoftClientSecret?.EmptyAsNull() ||
-                       existing.CustomProviderAuthority?.EmptyAsNull() !=
-                       model.CustomProviderAuthority?.EmptyAsNull() ||
-                       existing.CustomProviderClientId?.EmptyAsNull() != model.CustomProviderClientId?.EmptyAsNull() ||
-                       existing.CustomProviderClientSecret?.EmptyAsNull() !=
-                       model.CustomProviderClientSecret?.EmptyAsNull() ||
                        existing.CustomPort != model.CustomPort;
         
-        await service.Save(model, await GetAuditDetails());
+        existing.Enabled = model.Enabled;
+        existing.CustomPort = model.CustomPort;
+        existing.SessionExpireInMinutes = model.SessionExpireInMinutes;
+        existing.AllowRegistrations = model.AllowRegistrations;
+        existing.RequireEmailVerification = model.RequireEmailVerification;        
+        
+        await service.Save(existing, await GetAuditDetails());
 
         if (ServiceLoader.TryLoad<IFileDropWebServerService>(out var webService))
         {
-            if (model.Enabled)
+            if (existing.Enabled)
             {
                 if(changed)
                     webService.Restart();

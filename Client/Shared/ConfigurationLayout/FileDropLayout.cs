@@ -27,7 +27,7 @@ public class FileDropLayout : ConfigurationLayout
             Name = Translater.Instant("MenuGroups.Configuration"),
             Items =
             [
-                new(Translater.Instant("Pages.Settings.Labels.General"), "fas fa-cogs", "file-drop/settings"),
+                new(Translater.Instant("Pages.Settings.Labels.General"), "fas fa-cogs", "file-drop/general"),
                 new("Home Page", "fas fa-home", "file-drop/home-page"),
                 new("Custom CSS", "fab fa-css3-alt", "file-drop/custom-css"),
             ]

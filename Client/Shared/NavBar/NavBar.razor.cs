@@ -184,7 +184,7 @@ public partial class NavBar
 
         if (Profile.LicensedFor(LicenseFlags.FileDrop))
         {
-            BottomNavBarItems.Add(new ("FileDrop", "fas fa-tint", "/file-drop/settings"));
+            BottomNavBarItems.Add(new ("FileDrop", "fas fa-tint", "/file-drop/general"));
         }        
         
         if(Profile.Security == SecurityMode.Local)

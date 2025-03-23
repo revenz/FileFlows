@@ -8,7 +8,7 @@ namespace FileFlows.Client.Pages.FileDrop;
 /// <summary>
 /// File Drop settings
 /// </summary>
-public partial class FileDropSettings
+public partial class General
 {
     /// <summary>
     /// Gets or sets the navigation manager used
@@ -32,10 +32,8 @@ public partial class FileDropSettings
     private bool IsSaving { get; set; }
 
     private string lblTitle, lblSave, lblSaving, lblHelp;
-    private string FileFlowsCallbackUrl;
 
     private FileFlows.Shared.Models.FileDropSettings Model { get; set; } = new ();
-    private List<ListOption> openInOptions;
     private bool initDone = false;
     
     /// <inheritdoc />
@@ -48,15 +46,7 @@ public partial class FileDropSettings
             return;
         }
 
-        openInOptions =
-        [
-            new () {Label = "A New Window", Value = false},
-            new () {Label = "A Popup Dialog", Value = true}
-        ];
-
-        FileFlowsCallbackUrl = NavigationManager.BaseUri + "api/file-drop/user/{uuid}/";
-        
-        lblTitle = Translater.Instant("Pages.FileDrop.Settings.Title");
+        lblTitle = "General";
         lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
         lblHelp = Translater.Instant("Labels.Help");
@@ -82,7 +72,7 @@ public partial class FileDropSettings
         if(blocker)
             Blocker.Show();
         
-        var response = await HttpHelper.Get<FileFlows.Shared.Models.FileDropSettings>("/api/file-drop/settings");
+        var response = await HttpHelper.Get<FileFlows.Shared.Models.FileDropSettings>("/api/file-drop/general");
         if (response.Success)
         {
             this.Model = response.Data;
@@ -96,7 +86,7 @@ public partial class FileDropSettings
     /// Opens the help page
     /// </summary>
     private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/file-drop/settings");
+        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/file-drop/config/general");
     
     /// <summary>
     /// Saves the FileDrop settings
@@ -111,26 +101,12 @@ public partial class FileDropSettings
             if (valid == false)
                 return;
             
-            await HttpHelper.Put<string>("/api/file-drop/settings", Model);
+            await HttpHelper.Put<string>("/api/file-drop/general", Model);
         }
         finally
         {
             IsSaving = false;
             Blocker.Hide();
-        }
-    }
-
-    
-    /// <summary>
-    /// Gets or sets Open Url In Popup
-    /// </summary>
-    private object BoundTokenPurchaseInPopup
-    {
-        get => Model.TokenPurchaseInPopup;
-        set
-        {
-            if (value is bool v)
-                Model.TokenPurchaseInPopup = v;
         }
     }
 }
