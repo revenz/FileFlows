@@ -24,6 +24,7 @@ internal class DbMigrator
     public DbMigrator(ILogger logger)
     {
         Logger = logger;
+        FileFlowsDb.Logger = logger;
     }
     
     /// <summary>

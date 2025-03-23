@@ -49,6 +49,7 @@ internal  class DatabaseAccessManager
     public DatabaseAccessManager(ILogger logger, DatabaseType type, string connectionString)
     {
         Logger = logger;
+        FileFlowsDb.Logger = logger;
         Type = type;
         DbConnector = DatabaseConnectorLoader.LoadConnector(logger, type, connectionString);
         // if (type == DatabaseType.Sqlite)

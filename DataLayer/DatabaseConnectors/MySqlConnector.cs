@@ -57,7 +57,7 @@ public class MySqlConnector : IDatabaseConnector
     /// <returns>the new connection</returns>
     private DatabaseConnection CreateConnection()
     {
-        var db = new NPoco.Database(ConnectionString, new MySqlDatabaseType(), MySqlConnectorFactory.Instance);
+        var db = new FileFlowsDb(ConnectionString, new MySqlDatabaseType(), MySqlConnectorFactory.Instance);
         db.Mappers = new()
         {
             GuidNullableConverter.UseInstance(),

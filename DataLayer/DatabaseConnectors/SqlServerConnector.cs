@@ -63,7 +63,7 @@ public class SqlServerConnector : IDatabaseConnector
     /// <returns>the new connection</returns>
     private DatabaseConnection CreateConnection()
     {
-        var db = new Database(ConnectionString, new SqlServerDatabaseType(), SqlClientFactory.Instance);
+        var db = new FileFlowsDb(ConnectionString, new SqlServerDatabaseType(), SqlClientFactory.Instance);
         db.Mappers = new()
         {
             GuidNullableConverter.UseInstance(),

@@ -68,7 +68,7 @@ public class PostgresConnector : IDatabaseConnector
     /// <returns>the new connection</returns>
     private DatabaseConnection CreateConnection()
     {
-        var db = new Database(ConnectionString, new PostgreSQLDatabaseType(),  Npgsql.NpgsqlFactory.Instance);
+        var db = new FileFlowsDb(ConnectionString, new PostgreSQLDatabaseType(),  Npgsql.NpgsqlFactory.Instance);
         db.Mappers = new()
         {
             GuidNullableConverter.UseInstance(),

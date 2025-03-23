@@ -81,7 +81,7 @@ public class SQLiteConnectorNewConnection : IDatabaseConnector
     /// <returns>the new connection</returns>
     private DatabaseConnection CreateConnection()
     {
-        var db = new NPoco.Database(ConnectionString, new SQLiteDatabaseType(),
+        var db = new FileFlowsDb(ConnectionString, new SQLiteDatabaseType(),
             PlatformHelper.IsArm ? Microsoft.Data.Sqlite.SqliteFactory.Instance : System.Data.SQLite.SQLiteFactory.Instance);
         db.Mappers = new()
         {

@@ -2,7 +2,7 @@ namespace FileFlows.DataLayer.DatabaseConnectors;
 
 public class DatabaseConnection : IDisposable
 {
-    public NPoco.Database Db { get; private set; }
+    public FileFlowsDb Db { get; private set; }
     private bool Disposable;
     public bool IsDisposed { get;private set; }
 
@@ -13,7 +13,7 @@ public class DatabaseConnection : IDisposable
     /// </summary>
     /// <param name="db">The database</param>
     /// <param name="disposable">if this database is disposable</param>
-    public DatabaseConnection(NPoco.Database db, bool disposable)
+    public DatabaseConnection(FileFlowsDb db, bool disposable)
     {
         Db = db;
         Disposable = disposable;

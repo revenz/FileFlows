@@ -52,7 +52,7 @@ public class SqlServerDatabaseCreator : IDatabaseCreator
 
         Logger.ILog("Creating Database");
         var sql = "create database " + dbName + " COLLATE Latin1_General_100_CI_AS_SC_UTF8";
-        Logger.ILog("SQL: " + sql);
+        Logger.ILog("SQL: " + sql.Replace("\n", " "));
         try
         {
             db.Execute(sql);
@@ -79,7 +79,7 @@ public class SqlServerDatabaseCreator : IDatabaseCreator
     {
         Logger.ILog("Creating Database Structure");
         
-        using var db = new NPoco.Database(ConnectionString, new SqlServerDatabaseType(), SqlClientFactory.Instance);
+        using var db = new FileFlowsDb(ConnectionString, new SqlServerDatabaseType(), SqlClientFactory.Instance);
         string sqlTables = ScriptHelper.GetSqlScript("SqlServer", "Tables.sql", clean: true);
         //Logger.ILog("SQL Tables:\n" + sqlTables);
         db.Execute(sqlTables);

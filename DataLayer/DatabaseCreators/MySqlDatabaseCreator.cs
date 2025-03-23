@@ -97,7 +97,7 @@ public class MySqlDatabaseCreator : IDatabaseCreator
     {
         Logger.ILog("Creating Database Structure");
         
-        using var db = new NPoco.Database(ConnectionString, new MySqlDatabaseType(), MySqlConnector.MySqlConnectorFactory.Instance);
+        using var db = new FileFlowsDb(ConnectionString, new MySqlDatabaseType(), MySqlConnector.MySqlConnectorFactory.Instance);
         string sqlTables = ScriptHelper.GetSqlScript("MySql", "Tables.sql", clean: true);
         db.Execute(sqlTables);
         

@@ -1097,7 +1097,7 @@ internal class DbLibraryFileManager : BaseManager
             };
         }
         
-        Logger.ILog("SQL: " + sql);
+        Logger.ILog("SQL: " + sql.Replace("\n", " "));
         
         using var db = await DbConnector.GetDb();
         return await db.Db.FetchAsync<LibraryFile>(sql);

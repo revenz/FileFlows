@@ -53,7 +53,7 @@ public class PostgresDatabaseCreator : IDatabaseCreator
 
         Logger.ILog("Creating Database");
         var sql = $"CREATE DATABASE \"{dbName}\"";
-        Logger.ILog("SQL: " + sql);
+        Logger.ILog("SQL: " + sql.Replace("\n", " "));
         try
         {
             db.Execute(sql);
@@ -80,7 +80,7 @@ public class PostgresDatabaseCreator : IDatabaseCreator
     {
         Logger.ILog("Creating Database Structure");
         
-        using var db = new NPoco.Database(ConnectionString, new PostgreSQLDatabaseType(), Npgsql.NpgsqlFactory.Instance);
+        using var db = new FileFlowsDb(ConnectionString, new PostgreSQLDatabaseType(), Npgsql.NpgsqlFactory.Instance);
         string sqlTables = ScriptHelper.GetSqlScript("Postgres", "Tables.sql", clean: true);
         db.Execute(sqlTables);
         
