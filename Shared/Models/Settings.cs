@@ -31,6 +31,11 @@ public class Settings : FileFlowObject
     public bool DisableTelemetry { get; set; }
 
     /// <summary>
+    /// Gets or sets if library scanning should still occur when the system is paused
+    /// </summary>
+    public bool ScanWhenPaused { get; set; }
+
+    /// <summary>
     /// Gets or sets if temporary files from a failed flow should be kept
     /// </summary>
     public bool KeepFailedFlowTempFiles { get; set; }

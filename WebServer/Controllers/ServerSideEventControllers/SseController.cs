@@ -147,7 +147,10 @@ public class SseController : Controller
         var service = ServiceLoader.Load<SystemOverviewService>();
         var failed = service.GetFailedFiles();
         var successful = service.GetRecentlyFinishedFiles();
-        var upcoming = service.GetUpcomingFiles();
+        var upcoming = ServiceLoader.Load<FileQueueService>().PeekList();
+        if ((userRole & UserRole.Files) != UserRole.Files && upcoming.Count > 50)
+            upcoming = upcoming.Take(50).ToList();
+        
         logSummary.AppendLine(
             $"Completed SystemOverviewService calls at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
 
@@ -178,7 +181,7 @@ public class SseController : Controller
             StorageSavedMonthData = storageSavedMonth,
             FailedFiles = failed.Select(x => (LibraryFileMinimal)x).ToList(),
             RecentlyFinished = successful.Select(x => (LibraryFileMinimal)x).ToList(),
-            UpcomingFiles = upcoming.Select(x => (LibraryFileMinimal)x).ToList(),
+            FileQueue = upcoming.Select(x => (LibraryFileMinimal)x).ToList(),
             TopSavingsAll = savingsAll,
             TopSavings31Days = savings31,
             LibraryFileCounts = lfStatuses,
@@ -199,6 +202,10 @@ public class SseController : Controller
             result.ScheduledReports = scheduledReportsTask.Result.OrderBy(x => x.Name.ToLowerInvariant()).ToList();
             result.ReportDefinitions = new ReportManager().GetReports();
         }
+
+        if ((userRole & UserRole.Files) == UserRole.Files)
+            result.OnHold = ServiceLoader.Load<FileOnHoldService>().GetData().Select(x => (LibraryFileMinimal)x)
+                .ToList();
 
         // Log summary to Logger.Instance
         swAll.Stop();

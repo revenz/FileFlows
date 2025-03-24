@@ -261,8 +261,8 @@ public class LibraryController : BaseController
     {
         await ServiceLoader.Load<LibraryFileService>().DeleteByLibrary(model.Uids);
         Rescan(model);
-        var service = ServiceLoader.Load<IClientService>();
-        await service.UpdateFileStatus();
+        // var service = ServiceLoader.Load<IClientService>();
+        // await service.UpdateFileStatus();
     }
 
     /// <summary>

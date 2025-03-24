@@ -195,7 +195,9 @@ public class FrontendService : IAsyncDisposable
                                 message = $"{eventName}:{decompressedJson}";
                             }
                         }
-                        Console.WriteLine($"SSE message: {message.Split(':')[0]} : {len}"); 
+                        
+                        if(message.Length > 30 * 1024) // only log bigger messsages
+                            Console.WriteLine($"SSE message: {message.Split(':')[0]} : {len}"); 
                         
                         if (message.StartsWith("id:"))
                             Initialize(message[3..]);

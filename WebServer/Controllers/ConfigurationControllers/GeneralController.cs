@@ -21,6 +21,7 @@ public class GeneralController : BaseController
 
         GeneralModel model = new();
         model.Language = settings.Language;
+        model.ScanWhenPaused = settings.ScanWhenPaused;
         model.KeepFailedFlowTempFiles = settings.KeepFailedFlowTempFiles;
         model.DontUseTempFilesWhenMovingOrCopying = settings.DontUseTempFilesWhenMovingOrCopying;
         model.DisableTelemetry = settings.DisableTelemetry;
@@ -42,6 +43,7 @@ public class GeneralController : BaseController
         var service = (SettingsService)ServiceLoader.Load<ISettingsService>();
         var settings = await service.Get() ?? new ();
         settings.Language = model.Language;
+        settings.ScanWhenPaused = model.ScanWhenPaused;
         settings.KeepFailedFlowTempFiles = model.KeepFailedFlowTempFiles;
         settings.DontUseTempFilesWhenMovingOrCopying = model.DontUseTempFilesWhenMovingOrCopying;
         settings.DisableTelemetry = LicenseService.IsLicensed() && model.DisableTelemetry;
@@ -50,5 +52,7 @@ public class GeneralController : BaseController
         var appSettingsService = ServiceLoader.Load<AppSettingsService>();
         appSettingsService.Settings.DockerModsOnServer = model.DockerModsOnServer;
         appSettingsService.Save();
+        
+        ServiceLoader.Load<PausedService>().ScanWhenPaused = model.ScanWhenPaused;
     }
 }

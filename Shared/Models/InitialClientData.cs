@@ -85,10 +85,10 @@ public class InitialClientData
     public List<StorageSavedData> StorageSavedMonthData { get; set; }
     
     /// <summary>
-    /// Gets or sets the upcoming files to process
+    /// Gets or sets the file queue
     /// </summary>
-    [JsonPropertyName("fu")]
-    public List<LibraryFileMinimal> UpcomingFiles { get; set; }
+    [JsonPropertyName("fq")]
+    public List<LibraryFileMinimal> FileQueue { get; set; }
     
     /// <summary>
     /// Gets or sets the most successfully processed files
@@ -107,6 +107,12 @@ public class InitialClientData
     /// </summary>
     [JsonPropertyName("tsa")]
     public List<LibraryFileMinimal> TopSavingsAll { get; set; }
+
+    /// <summary>
+    /// Gets or sets the on hold files
+    /// </summary>
+    [JsonPropertyName("oh")]
+    public List<LibraryFileMinimal> OnHold { get; set; }
 
     /// <summary>
     /// Gets or sets the top savings for the last 31 days

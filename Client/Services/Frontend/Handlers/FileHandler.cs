@@ -9,7 +9,7 @@ public class FileHandler(FrontendService feService)
     /// <summary>
     /// Gets the upcoming files to process
     /// </summary>
-    public List<LibraryFileMinimal> UpcomingFiles { get; private set; }
+    public List<LibraryFileMinimal> FileQueue { get; private set; } = [];
     /// <summary>
     /// Gets the most successfully processed files
     /// </summary>
@@ -26,6 +26,10 @@ public class FileHandler(FrontendService feService)
     /// Gets or sets the top savings for the last 31 days
     /// </summary>
     public List<LibraryFileMinimal> TopSavings31Days { get; private set; }
+    /// <summary>
+    /// Gets or sets the files that are on hold
+    /// </summary>
+    public List<LibraryFileMinimal> OnHold { get; private set; }
     
     /// <summary>
     /// Gets or sets the file counts
@@ -40,7 +44,12 @@ public class FileHandler(FrontendService feService)
     /// <summary>
     /// Event raised when the file queue is updated
     /// </summary>
-    public event Action<List<LibraryFileMinimal>> UpcomingFilesUpdated; 
+    public event Action<List<LibraryFileMinimal>> FileQueueUpdated; 
+    
+    /// <summary>
+    /// Event raised when the on hold queue is updated
+    /// </summary>
+    public event Action<List<LibraryFileMinimal>> OnHoldUpdated; 
     
     /// <summary>
     /// Called when recently finished files have been updated
@@ -57,12 +66,13 @@ public class FileHandler(FrontendService feService)
     /// <param name="data">the initial data</param>
     public void Initialize(InitialClientData data)
     {
-        UpcomingFiles = data.UpcomingFiles;
+        FileQueue = data.FileQueue;
         RecentlyFinished = data.RecentlyFinished;
         FailedFiles = data.FailedFiles;
         TopSavingsAll = data.TopSavingsAll;
         TopSavings31Days = data.TopSavings31Days;
         LibraryFileCounts = data.LibraryFileCounts;
+        OnHold = data.OnHold;
         
         feService.Registry.Register<List<LibraryStatus>>(nameof(LibraryFileCounts), (ed) =>
         {
@@ -73,8 +83,8 @@ public class FileHandler(FrontendService feService)
         feService.Registry.Register<List<LibraryFileMinimal>>("FileQueue", (ed) =>
         {
             Logger.Instance.ILog("FileQueue", ed);
-            UpcomingFiles = ed;
-            UpcomingFilesUpdated?.Invoke(ed);
+            FileQueue = ed;
+            FileQueueUpdated?.Invoke(ed);
         });
         feService.Registry.Register<LibraryFileMinimal>("FileFinished", (ed) =>
         {
@@ -103,8 +113,15 @@ public class FileHandler(FrontendService feService)
                 FailedFilesUpdated?.Invoke(FailedFiles);
             if (RecentlyFinished.RemoveAll(x => uids.Contains(x.Uid)) > 0)
                 RecentlyFinishedUpdated?.Invoke(RecentlyFinished);
-            if (UpcomingFiles.RemoveAll(x => uids.Contains(x.Uid)) > 0)
-                UpcomingFilesUpdated?.Invoke(UpcomingFiles);
+            if (FileQueue.RemoveAll(x => uids.Contains(x.Uid)) > 0)
+                FileQueueUpdated?.Invoke(FileQueue);
+            if (OnHold.RemoveAll(x => uids.Contains(x.Uid)) > 0)
+                OnHoldUpdated?.Invoke(OnHold);
+        });
+        feService.Registry.Register<List<LibraryFileMinimal>>("OnHold", (files) =>
+        {
+            OnHold = files;
+            OnHoldUpdated?.Invoke(OnHold);
         });
     }
 }

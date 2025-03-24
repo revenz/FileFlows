@@ -5,6 +5,7 @@ using FileFlows.Server.Workers;
 using FileFlows.ServerShared.Workers;
 using FileFlows.Services;
 using FileFlows.Services.FileDropServices;
+using FileFlows.Services.FileProcessing;
 using FileFlows.Shared.Models;
 using FileFlows.WebServer;
 
@@ -185,6 +186,7 @@ public class StartupService : IStartupService
     private void StartupWorkers()
     {
         UpdateStatus("Starting Workers");
+        
         WorkerManager.StartWorkers(
             new StartupWorker(),
             new LicenseValidatorWorker(),

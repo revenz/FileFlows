@@ -11,6 +11,7 @@ using FileFlows.Shared;
 using FileFlows.Shared.Json;
 using FileFlows.Shared.Models;
 using Jint.Runtime.Debugger;
+using Microsoft.CodeAnalysis.Operations;
 using FileHelper = FileFlows.Plugin.Helpers.FileHelper;
 
 namespace FileFlows.DataLayer;
@@ -520,15 +521,21 @@ internal class DbLibraryFileManager : BaseManager
     /// Deletes files from the database
     /// </summary>
     /// <param name="libraryUids">the UIDs of the libraries to remove</param>
-    public async Task DeleteByLibrary(params Guid[] libraryUids)
+    /// <returns>The deleted library files</returns>
+    public async Task<Guid[]> DeleteByLibrary(params Guid[] libraryUids)
     {
         if (libraryUids?.Any() != true)
-            return;   
+            return [];   
+        
+        
         string inStr = string.Join(",", libraryUids.Select(x => $"'{x}'"));
         string sql = $"delete from  {Wrap(nameof(LibraryFile))} " +
                      $" where {Wrap(nameof(LibraryFile.LibraryUid))} in ({inStr})";
         
         using var db = await DbConnector.GetDb();
+        var deleted = db.Db.Fetch<Guid>($"select {Wrap(nameof(LibraryFile.Uid))} " +
+                                        $" from  {Wrap(nameof(LibraryFile))} " +
+                                        $" where {Wrap(nameof(LibraryFile.LibraryUid))} in ({inStr})");
         await db.Db.ExecuteAsync(sql);
         
         // delete from cache
@@ -542,6 +549,8 @@ internal class DbLibraryFileManager : BaseManager
                 }
             }
         }
+
+        return deleted.ToArray();
     }
     #endregion
     

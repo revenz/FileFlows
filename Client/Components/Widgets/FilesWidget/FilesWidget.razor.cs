@@ -85,7 +85,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         lblNoRecentlyFinishedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoRecentlyFinishedFiles");
         lblNoFailedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoFailedFiles");
         _FileMode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
-        feService.Files.UpcomingFilesUpdated += OnUpcomingFilesUpdated;
+        feService.Files.FileQueueUpdated += OnFileQueueUpdated;
         feService.Files.RecentlyFinishedUpdated += OnRecentlyFinishedUpdated;
         feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
         InitializeData();
@@ -117,10 +117,10 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// Upcoming files have changed
     /// </summary>
     /// <param name="files">the updated files</param>
-    private void OnUpcomingFilesUpdated(List<LibraryFileMinimal> files)
+    private void OnFileQueueUpdated(List<LibraryFileMinimal> files)
     {
-        UpcomingFiles = files;
-        TotalUpcoming = files.Count;
+        UpcomingFiles = files.Count > 50 ? files.Take(50).ToList() : files;
+        TotalUpcoming = UpcomingFiles.Count;
         StateHasChanged();
     }
 
@@ -129,7 +129,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     private void InitializeData()
     {
-        UpcomingFiles = feService.Files.UpcomingFiles;
+        UpcomingFiles = feService.Files.FileQueue.Count > 50 ? feService.Files.FileQueue.Take(50).ToList() : feService.Files.FileQueue;
         RecentlyFinished = feService.Files.RecentlyFinished.OrderByDescending(x => x.Date).ToList();
         FailedFiles = feService.Files.FailedFiles.OrderByDescending(x => x.Date).ToList();
         TotalUpcoming = UpcomingFiles.Count;
@@ -227,7 +227,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Files.UpcomingFilesUpdated -= OnUpcomingFilesUpdated;
+        feService.Files.FileQueueUpdated -= OnFileQueueUpdated;
         feService.Files.RecentlyFinishedUpdated -= OnRecentlyFinishedUpdated;
         feService.Files.FailedFilesUpdated -= OnFailedFilesUpdated;
     }

@@ -104,7 +104,8 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
             FinalSize = file.FinalSize,
             NodeName = file.NodeName,
             Tags = file.Tags,
-            Date = file.Status == FileStatus.Unprocessed ? file.DateCreated :
+            Date = file.Status == FileStatus.Unprocessed ? 
+                file.HoldUntil > DateTime.UtcNow ? file.HoldUntil : file.DateCreated :
                 file.ProcessingEnded.Year > 2000 ? file.ProcessingEnded :
                 file.DateCreated,
             Extension = file.IsDirectory ? null : FileHelper.GetExtension(file.OutputPath?.EmptyAsNull() ?? file.Name),

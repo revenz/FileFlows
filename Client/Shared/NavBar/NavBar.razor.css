@@ -2,6 +2,7 @@
   display: flex;
   user-select: none;
   flex-direction: column;
+  flex-wrap: nowrap;
   height: 100vh;
   padding: 0;
   min-width: 6rem;
@@ -20,6 +21,7 @@
 
 .main-nav {
   flex-grow: 1;
+  width: 100%;
 }
 
 ul {
@@ -128,6 +130,17 @@ ul {
 .bubble.failed {
   background: var(--red);
   border-color: #f94c5c;
+}
+
+@media screen and (max-height: 900px) {
+  .bottom-nav .nav-item .name {
+    display: none;
+  }
+}
+@media screen and (max-height: 750px) {
+  .nav-item .name {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=NavBar.razor.css.map */

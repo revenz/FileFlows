@@ -2,6 +2,7 @@
 @using FileFlows.Client.Components.Dialogs
 @using FileFlows.Shared.Models
 @using FileFlows.Client.Helpers
+@using Humanizer
 @inherits ListPage<Guid, LibraryFileMinimal>
 
 
@@ -187,8 +188,19 @@
                         @if (SelectedStatus != FileStatus.Processing)
                         {
                             <div class="right savings">
-                                <span class="top-right">@DateString(item.Date)</span>
-                                @if (SelectedStatus is not FileStatus.ReprocessByFlow and not FileStatus.Unprocessed)
+                                @if (SelectedStatus == FileStatus.OnHold)
+                                {
+                                    <span class="top-right">
+                                        @item.Date.Subtract(DateTime.UtcNow).Humanize()
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="top-right">
+                                        @DateString(item.Date)
+                                    </span>
+                                }
+                                @if (SelectedStatus is not FileStatus.ReprocessByFlow and not FileStatus.Unprocessed and not FileStatus.OnHold)
                                 {
                                     <div class="right-inner">
                                         <FlowSavings FinalSize="@item.FinalSize" OriginalSize="@item.OriginalSize"/>

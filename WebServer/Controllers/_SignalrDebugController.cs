@@ -1,5 +1,6 @@
 using System.Text;
 using FileFlows.Services.FileProcessing;
+using Humanizer;
 
 namespace FileFlows.WebServer.Controllers;
 
@@ -55,6 +56,7 @@ public class _SignalrDebugController : Controller
         builder.AppendLine(GetNodeOverview());
         builder.AppendLine(GetFileStatusCounts());
         builder.AppendLine(GetQueuedFiles());
+        builder.AppendLine(GetOnHold());
         
         builder.AppendLine("</body></html>");
         return Content(builder.ToString(), "text/html");
@@ -102,6 +104,38 @@ public class _SignalrDebugController : Controller
         return $"<span>Test File: {(FileDispatcher.TestFile?.Name ?? "None")}" + html;
     }
 
+    private string GetOnHold()
+    {
+        var service = ServiceLoader.Load<FileOnHoldService>();
+        var files = service.GetData();
+        StringBuilder html = new ($"""
+                                   <h2>On Hold</h2>
+                                   <table>
+                                       <tbody>
+                                           <thead>
+                                               <tr>
+                                                   <th>UID</th>
+                                                   <th>Until</th>
+                                                   <th>File ({files.Count})</th>
+                                               </tr>
+                                           </thead>
+                                       <tbody>
+                                   """);
+        foreach (var file in files)
+        {
+            html.AppendLine($"""
+                             <tr>
+                                 <td>{file.Uid}</td>
+                                 <td>{file.HoldUntil.Subtract(DateTime.UtcNow).Humanize()}</td>
+                                 <td>{file.Name}</td>
+                             </tr>
+                             """);
+        }
+
+        html.AppendLine("</tbody></table>");
+
+        return html.ToString();
+    }
     private string GetFileStatusCounts()
     {
         var service = ServiceLoader.Load<LibraryFileStatusOverviewService>();

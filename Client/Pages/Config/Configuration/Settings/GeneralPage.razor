@@ -29,6 +29,7 @@
         <InputDropDown CustomXID="Language" @bind-Value="@Language" Options=@LanguageOptions
                        Label="Pages.Settings.Fields.Language" AllowClear="false" />
 
+        <InputSwitch @bind-Value="@Model.ScanWhenPaused" Label="Pages.Settings.Fields.ScanWhenPaused"/>
         <InputSwitch @bind-Value="@Model.KeepFailedFlowTempFiles" Label="Pages.Settings.Fields.KeepFailedFlowTempFiles"/>
         <InputSwitch @bind-Value="@Model.DontUseTempFilesWhenMovingOrCopying" Label="Pages.Settings.Fields.DontUseTempFilesWhenMovingOrCopying" Inverse="true"/>
         @if (Profile.ServerOS is OperatingSystemType.Docker)
