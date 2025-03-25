@@ -184,7 +184,8 @@ ul {
   }
   .navbar ul {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    grid-auto-flow: column;
     overflow: auto;
   }
   .navbar .main-nav {
@@ -199,3 +200,5 @@ ul {
     top: 20%;
   }
 }
+
+/*# sourceMappingURL=NavBar.razor.css.map */

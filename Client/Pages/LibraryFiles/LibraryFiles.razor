@@ -42,9 +42,9 @@
             <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Area="ButtonArea.ContextMenu" Clicked=DeleteFile SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete"/>
             <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Area="ButtonArea.ContextMenu" Clicked=DownloadFile SelectedOne="true" Icon="fas fa-download" Label="Labels.Download"/>
 
-            <FlowTableButtonSeparator Visible="@(SelectedStatus == FileStatus.Unprocessed)"/>
+            <FlowTableButtonSeparator Mobile="false" Visible="@(SelectedStatus == FileStatus.Unprocessed)"/>
             <FlowTableButton Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=MoveToTop SelectedOneOrMore="true" Icon="far fa-caret-square-up" Label="Pages.LibraryFiles.Buttons.MoveToTop"/>
-            <FlowTableButton Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=Rescan Icon="fas fa-search-plus" Label="Labels.Rescan"/>
+            <FlowTableButton Mobile="false" Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=Rescan Icon="fas fa-search-plus" Label="Labels.Rescan"/>
 
             <FlowTableButtonSeparator Visible="@(SelectedStatus == FileStatus.Processed || SelectedStatus == FileStatus.ProcessingFailed || SelectedStatus == FileStatus.MappingIssue)"/>
             <FlowTableButton Visible="@(SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-cogs" Label="Pages.LibraryFiles.Buttons.ProcessOptions"/>
@@ -56,8 +56,8 @@
             <FlowTableButton Visible=@(SelectedStatus == FileStatus.OnHold) Clicked=Unhold SelectedOneOrMore="true" Icon="fas fa-running" Label="Pages.LibraryFiles.Buttons.Unhold"/>
             <FlowTableButton Visible=@(SelectedStatus == FileStatus.Unprocessed) Area="ButtonArea.ContextMenu" Clicked=ToggleForce SelectedOneOrMore="true" Icon="fas fa-hammer" Label="Pages.LibraryFiles.Buttons.ToggleForce"/>
 
-            <FlowTableButtonSeparator/>
-            <FlowTableHelpButton HelpUrl="overview/files"/>
+            <FlowTableButtonSeparator Mobile="false" />
+            <FlowTableHelpButton Mobile="false" HelpUrl="overview/files"/>
         </ToolBar>
 
         <Columns>

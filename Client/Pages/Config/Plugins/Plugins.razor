@@ -19,15 +19,15 @@
                 <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
                 <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
                 <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
-                <FlowTableButtonSeparator />                    
+                <FlowTableButtonSeparator Mobile="false" />                    
                 <FlowTableButton Clicked=Update SelectedOneOrMore="true" Icon="fas fa-cloud-download-alt" Label="Labels.Update" />
-                <FlowTableButton Clicked=UsedBy SelectedOne="true" Icon="fas fa-info-circle" Label="Labels.UsedBy" />
+                <FlowTableButton Mobile="false" Clicked=UsedBy SelectedOne="true" Icon="fas fa-info-circle" Label="Labels.UsedBy" />
                 @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
                 {  
-                    <FlowTableButton Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
+                    <FlowTableButton Mobile="false" Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
                 }
-                <FlowTableButtonSeparator />                    
-                <FlowTableHelpButton HelpUrl="extensions/plugins" />
+                <FlowTableButtonSeparator Mobile="false" />                    
+                <FlowTableHelpButton Mobile="false" HelpUrl="extensions/plugins" />
             </ToolBar>
 
             <Columns>

@@ -2,31 +2,71 @@
   width:auto !important;
 }
 
-.page-node-list {
-  height:100%;
+@media (max-width: 849.99px) {
+  .btn-download-node {
+    display: none !important;
+  }
+  .page-node-list
+  {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
 
-  ::deep .flowtable-body {
-    .flowtable-row {
-      position: relative;
-      padding-left: 0;
-      border-left: solid 3px transparent;
-      left:-3px;
-      &.selected {
-        border-left-color: var(--accent);
+    ::deep {
+      .flowtable-toolbar, .flowtable-header {
+        display: none !important;
       }
 
       .flowtable-select {
-        position: absolute;
-        left: 1rem;
+        display: none;
+      }
+
+      .flowtable-row {
+        left: 0;
+        margin: 1rem;
+        border-radius: 0.5rem;
+        border: solid 1px var(--border-color);
+        overflow: hidden;
+        width: calc(100% - 2rem);
+      }
+
+      .flowtable-body {
+        border: none;
+        height: calc(100vh - 13rem) !important;
+        background: var(--main-background);
+        overflow: auto;
       }
     }
-    
-    .processing-node {
-      padding-left: 3.5rem;
-    }
+  }
+}
 
-    span.no-height {
-      padding: 0 !important;
+@media (min-width: 850px) {
+  .page-node-list {
+    height: 100%;
+
+    ::deep .flowtable-body {
+      .flowtable-row {
+        position: relative;
+        padding-left: 0;
+        border-left: solid 3px transparent;
+        left: -3px;
+
+        &.selected {
+          border-left-color: var(--accent);
+        }
+
+        .flowtable-select {
+          position: absolute;
+          left: 1rem;
+        }
+      }
+
+      .processing-node {
+        padding-left: 3.5rem;
+      }
+
+      span.no-height {
+        padding: 0 !important;
+      }
     }
   }
 }

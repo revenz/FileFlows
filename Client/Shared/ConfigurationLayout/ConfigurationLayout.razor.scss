@@ -161,6 +161,10 @@
   .configuration-layout {
     grid-template-rows: 1fr auto;
     display: grid;
+    height: calc(100vh - 7rem);
+  }
+  .config-content {
+    overflow: auto;
   }
   .configuration-layout-menu {
     height: unset;

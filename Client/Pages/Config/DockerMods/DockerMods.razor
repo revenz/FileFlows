@@ -17,21 +17,21 @@
         <FlowTable @ref="Table" Data="@Data" TItem="DockerMod" Selection="SelectionMode.Multiple"
             DoubleClick="@DoubleClick" TableIdentifier="DockerMods"  DisableColumn="(item) => !item.Enabled">
             <ToolBar>            
-                <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
-                <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
+                <FlowTableButton Mobile="false" Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+                <FlowTableButton Mobile="false" Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
                 <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
                 <FlowTableButton Clicked=Export SelectedOne="true" Icon="fas fa-file-export" Label="Labels.Export" Area="ButtonArea.ContextMenu" />
-                <FlowTableButtonSeparator />
-                <FlowTableButton Clicked=MoveUp Icon="fas fa-arrow-up" Label="Pages.AccessControl.Buttons.MoveUp" SelectedOneOrMore="true" />
-                <FlowTableButton Clicked=MoveDown Icon="fas fa-arrow-down" Label="Pages.AccessControl.Buttons.MoveDown" SelectedOneOrMore="true" />
-                <FlowTableButtonSeparator />
+                <FlowTableButtonSeparator Mobile="false" />
+                <FlowTableButton Mobile="false" Clicked=MoveUp Icon="fas fa-arrow-up" Label="Pages.AccessControl.Buttons.MoveUp" SelectedOneOrMore="true" />
+                <FlowTableButton Mobile="false" Clicked=MoveDown Icon="fas fa-arrow-down" Label="Pages.AccessControl.Buttons.MoveDown" SelectedOneOrMore="true" />
+                <FlowTableButtonSeparator Mobile="false" />
                 <FlowTableButton Clicked=OpenBrowser Icon="fas fa-code-branch" Label="Labels.Repository"/>
-                <FlowTableButton Clicked=Update SelectedOneOrMore="true" Icon="fas fa-cloud-download-alt" Label="Labels.Update" />
+                <FlowTableButton Mobile="false" Clicked=Update SelectedOneOrMore="true" Icon="fas fa-cloud-download-alt" Label="Labels.Update" />
                 @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
                 {  
-                    <FlowTableButton Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
+                    <FlowTableButton Mobile="false" Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
                 }
-                <FlowTableButtonSeparator />               
+                <FlowTableButtonSeparator Mobile="false" />               
                 <FlowTableHelpButton HelpUrl="extensions/dockermods" />
             </ToolBar>
 

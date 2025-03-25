@@ -36,7 +36,7 @@ public partial class App : ComponentBase
     /// <summary>
     /// Gets if being viewed on a mobile device
     /// </summary>
-    public bool IsMobile => DisplayWidth is > 0 and <= 850;
+    public bool IsMobile => DisplayWidth is > 0 and < 850;
     /// <summary>
     /// Gets if being viewed on a small mobile device
     /// </summary>

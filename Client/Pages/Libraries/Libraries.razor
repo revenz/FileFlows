@@ -14,24 +14,24 @@
         <FlowTable @ref="Table" Data="@Data" TItem="LibraryListModel" Selection="SelectionMode.Multiple"
             DoubleClick="@OnDoubleClick" TableIdentifier="Libraries" DisableColumn="(item) => !item.Enabled">
             <ToolBar>            
-                <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+                <FlowTableButton Mobile="false" Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
                 <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
-                <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
+                <FlowTableButton Mobile="false" Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
                 <FlowTableButtonSeparator />            
                 <FlowTableButton Clicked=Rescan SelectedOneOrMore=true Icon="fas fa-search-plus" Label="Labels.Rescan" />
-                <FlowTableButton Clicked=Duplicate SelectedOne="true" Icon="fas fa-clone" Label="Labels.Duplicate" />
+                <FlowTableButton Mobile="false" Clicked=Duplicate SelectedOne="true" Icon="fas fa-clone" Label="Labels.Duplicate" />
                 @if (Profile != null && Profile.LicensedFor(LicenseFlags.Revisions) && Profile.HasRole(UserRole.Revisions))
                 {
-                    <FlowTableButton Clicked=Revisions SelectedOne="true" Icon="fas fa-history" Label="Labels.Revisions" />
+                    <FlowTableButton Mobile="false" Clicked=Revisions SelectedOne="true" Icon="fas fa-history" Label="Labels.Revisions" />
                 }
                 @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
                 {
-                    <FlowTableButton Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
+                    <FlowTableButton Mobile="false" Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
                 }
                 <FlowTableButton Clicked=Reprocess SelectedOneOrMore=true Area="ButtonArea.ContextMenu" Icon="fas fa-running" Label="Labels.Reprocess" />
                 <FlowTableButton Clicked=Reset SelectedOneOrMore=true Area="ButtonArea.ContextMenu" Icon="fas fa-sync-alt" Label="Labels.Reset" />
-                <FlowTableButtonSeparator />
-                <FlowTableHelpButton HelpUrl="configuration/libraries" />
+                <FlowTableButtonSeparator Mobile="false" />
+                <FlowTableHelpButton Mobile="false" HelpUrl="configuration/libraries" />
             </ToolBar>
 
             <Columns>

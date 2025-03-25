@@ -44,17 +44,48 @@
       padding-bottom: 0.25rem;
       display: inline-block;
     }
+    @media (min-width: 850px) {
+      .hardware-info-item {
+        display: flex;
+        flex-direction: row;
+        padding: 0.2rem 0;
+
+        .label {
+          font-weight: var(--bold, 600);
+          width: 10rem;
+          min-width: 10rem;
+        }
+
+        .value {
+          margin-left: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 849.99px) {
+  .processing-node {
+    padding-left: 0 !important;
+    > .icon {
+      position: absolute !important;    
+      top: 0.5rem;
+      left: 0.5rem;
+      margin-right: 0 !important;
+      width: 5rem !important; 
+    }
+    .name {
+      padding: 1.5rem 0 2.5rem 5.5rem !important;
+    }
     .hardware-info-item {
-      display:flex;
-      flex-direction: row;
-      padding: 0.2rem 0;
+      display:grid;
+      grid-template-columns: min(8.5rem, 35vw) auto;
+      grid-gap: 0.5rem;
+      padding: 0 0 1rem 4rem;
       .label {
         font-weight: var(--bold, 600);
-        width: 10rem;
-        min-width: 10rem;
-      }
-      .value {
-        margin-left: 0.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }

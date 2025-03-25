@@ -4191,6 +4191,42 @@ hr {
   top: 0;
 }
 
+@media screen and (max-width: 849.99px) {
+  .page {
+    background: var(--main-background);
+  }
+  .flowtable-toolbar-filter {
+    display: none !important;
+  }
+  .bottom-buttons {
+    padding: 0.25rem 0.5rem 0 0 !important;
+  }
+  .bottom-buttons .btn-help {
+    display: none;
+  }
+  .table-item {
+    display: unset;
+  }
+  .table-item .icon {
+    position: absolute;
+    top: 0.25rem;
+    left: 0;
+    width: 2rem;
+  }
+  .table-item .center > .name {
+    font-weight: var(--bold, 600);
+    padding: 0.5rem 0 1rem 4rem;
+  }
+  .table-item .right {
+    width: unset;
+    min-width: unset;
+    padding: unset;
+    align-self: unset;
+  }
+  .table-item .info {
+    display: none !important;
+  }
+}
 .icon-value {
   border: solid 1px var(--iv-color);
   border-radius: 0.5rem;
@@ -4312,3 +4348,11 @@ hr {
 .vi-container.form-page.page-view .content {
   padding-top: 1rem;
 }
+
+@media screen and (max-width: 849.99px) {
+  .hidden-on-mobile {
+    display: none !important;
+  }
+}
+
+/*# sourceMappingURL=app.css.map */
