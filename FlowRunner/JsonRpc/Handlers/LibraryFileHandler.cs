@@ -35,8 +35,17 @@ public class LibraryFileHandler(JsonRpcClient client)
     /// </summary>
     /// <param name="uid">the UID of the library file</param>
     /// <returns>true if exists otherwise false</returns>
-    public async Task<bool> ExistsOnServer(Guid uid)
-        => await client.SendRequest<bool>(nameof(ExistsOnServer), uid);
+    public async Task<Result<bool>> ExistsOnServer(Guid uid)
+    {
+        try
+        {
+            return await client.SendRequest<bool>(nameof(ExistsOnServer), uid);
+        }
+        catch (Exception ex)
+        {
+            return Result<bool>.Fail("Failed to check for existing library file: " + ex);
+        }
+    }
 
     /// <summary>
     /// Retrieves a library file by its unique identifier.

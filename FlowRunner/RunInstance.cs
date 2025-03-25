@@ -184,16 +184,34 @@ public class RunInstance(RunnerProperties properties)
                     ? new LocalFileService(args.Config.DontUseTempFilesWhenMovingOrCopying) { Logger = properties.Logger }
                     : new MappedFileService(node, properties.Logger, args.Config.DontUseTempFilesWhenMovingOrCopying);
             }
-            else if (args.IsServer || RpcClient.LibraryFileHandler.ExistsOnServer(properties.LibraryFile.Uid).Result == false)
-            {
-                // doesnt exist
-                LogInfo("Library file does not exist, deleting from library files: " + file.FullName);
-                RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
-                return (FileStatus.Processed, false);
-            }
             else
             {
-                _fileService = new MappedFileService(node,properties.Logger, args.Config.DontUseTempFilesWhenMovingOrCopying);
+                if (args.IsServer)
+                {
+                    // doesnt exist
+                    LogInfo("Library file does not exist, deleting from library files: " + file.FullName);
+                    RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
+                    return (FileStatus.Processed, false);
+                }
+
+                var existsResult = RpcClient.LibraryFileHandler.ExistsOnServer(properties.LibraryFile.Uid).Result;
+                if (existsResult.Failed(out var error))
+                {
+                    properties.Logger.WLog(error);
+                    return (FileStatus.ProcessingFailed, false);
+                }
+
+                if (existsResult.Value == false)
+                {
+                    // doesnt exist
+                    LogInfo("Library file does not exist, deleting from library files: " + file.FullName);
+                    RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
+                    return (FileStatus.Processed, false);
+                }
+
+                _fileService = new MappedFileService(node, properties.Logger,
+                    args.Config.DontUseTempFilesWhenMovingOrCopying);
+                
                 bool exists = properties.IsDirectory
                     ? _fileService.DirectoryExists(workingFile)
                     : _fileService.FileExists(workingFile);
@@ -209,7 +227,7 @@ public class RunInstance(RunnerProperties properties)
                         properties.Logger.ILog("Mapped Path: " + mappedPath);
                         properties.Logger.ELog(properties.LibraryFile.FailureReason);
                         properties.LibraryFile.ExecutedNodes = new List<ExecutedNode>();
-                        return ( FileStatus.MappingIssue, false);
+                        return (FileStatus.MappingIssue, false);
                     }
 
                     if (properties.IsDirectory)
@@ -224,12 +242,15 @@ public class RunInstance(RunnerProperties properties)
                     }
 
                     properties.IsRemote = true;
-                    _fileService = new RemoteFileService(properties.Uid, RemoteService.ServiceBaseUrl, args.WorkingDirectory,
+                    _fileService = new RemoteFileService(properties.Uid, RemoteService.ServiceBaseUrl,
+                        args.WorkingDirectory,
                         properties.Logger,
-                        properties.LibraryFile.Name.Contains('/') ? '/' : '\\', RemoteService.AccessToken, RemoteService.NodeUid,
+                        properties.LibraryFile.Name.Contains('/') ? '/' : '\\', RemoteService.AccessToken,
+                        RemoteService.NodeUid,
                         args.Config.DontUseTempFilesWhenMovingOrCopying);
                 }
             }
+
 
             initialSize = properties.IsDirectory
                 ? FileHelper.GetDirectorySize(workingFile)
