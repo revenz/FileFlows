@@ -44,6 +44,11 @@
   bottom: 0;
   padding: 1rem;
 }
+@media screen and (max-width: 850px) {
+  .dashboard-wrapper ::deep .flow-tabs.style-new-style > .flow-tabs-content > .flow-tab.active {
+    overflow: auto;
+  }
+}
 .dashboard-wrapper .grid {
   display: grid;
   grid-gap: 0.5rem;

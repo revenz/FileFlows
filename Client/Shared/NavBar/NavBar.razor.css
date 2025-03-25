@@ -175,6 +175,9 @@ ul {
     border: none;
     border-top: solid 1px var(--border-color);
   }
+  .navbar .nav-item {
+    min-width: 7rem;
+  }
   .navbar .nav-item.active {
     border-top: solid 1px var(--accent);
     border-right: none;
@@ -182,6 +185,7 @@ ul {
   .navbar ul {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    overflow: auto;
   }
   .navbar .main-nav {
     flex-grow: unset;

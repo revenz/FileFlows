@@ -45,6 +45,9 @@
           top: 3.5rem;
           bottom: 0;
           padding:1rem;
+          @media screen and (max-width: 850px){
+            overflow: auto;
+          }
         }
       }
     }

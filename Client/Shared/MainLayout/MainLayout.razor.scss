@@ -150,10 +150,16 @@
 @media screen and (max-width:850px)
 {
     .page {
-        flex-direction: column-reverse;
+        display:grid;
+        grid-template-rows: 1fr auto;
+        grid-gap: 1rem;
         .main {
             overflow: hidden;
             position: relative;
+            grid-row-start: 1;
+        }
+        ::deep .nav-bar {
+            grid-row-start:2;
         }
     }
 }

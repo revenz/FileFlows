@@ -195,6 +195,7 @@ ul {
     border: none;
     border-top: solid 1px var(--border-color);
     .nav-item {
+      min-width:7rem;
       &.active {
         border-top:solid 1px var(--accent);
         border-right: none;
@@ -203,6 +204,7 @@ ul {
     ul {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      overflow: auto;
     }
     .main-nav {
       flex-grow:unset;
