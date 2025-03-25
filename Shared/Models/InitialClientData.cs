@@ -115,6 +115,18 @@ public class InitialClientData
     public List<LibraryFileMinimal> OnHold { get; set; }
 
     /// <summary>
+    /// Gets or sets the on hold files
+    /// </summary>
+    [JsonPropertyName("df")]
+    public List<LibraryFileMinimal> DisabledFiles { get; set; }
+
+    /// <summary>
+    /// Gets or sets the out of schedule files
+    /// </summary>
+    [JsonPropertyName("os")]
+    public List<LibraryFileMinimal> OutOfScheduleFiles { get; set; }
+
+    /// <summary>
     /// Gets or sets the top savings for the last 31 days
     /// </summary>
     [JsonPropertyName("ts31")]

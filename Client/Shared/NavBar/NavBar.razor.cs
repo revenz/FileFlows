@@ -77,6 +77,9 @@ public partial class NavBar
 
         ProfileService.OnRefresh += ProfileServiceOnOnRefresh; 
         Profile = feService.Profile.Profile;
+
+        TotalUnprocessed = feService.Files.FileQueue.Count;
+        TotalProcessing = feService.Runner.Runners.Count;
         
         this.LoadMenu();
         //BottomNavBarItems.Add(new(lblReddit, "fab fa-reddit-alien", "https://reddit.com/r/FileFlows"));
@@ -84,6 +87,8 @@ public partial class NavBar
         
         FilesOnLibraryFileCountsUpdated(feService.Files.LibraryFileCounts);
         feService.Files.LibraryFileCountsUpdated += FilesOnLibraryFileCountsUpdated;
+        feService.Files.FileQueueUpdated += FilesOnFileQueueUpdated;
+        feService.Runner.RunnerInfoUpdated += RunnerOnRunnerInfoUpdated; 
         
         try
         {
@@ -109,23 +114,34 @@ public partial class NavBar
         }
     }
 
+    private void RunnerOnRunnerInfoUpdated(List<FlowExecutorInfoMinified> obj)
+    {
+        if (TotalProcessing == obj.Count)
+            return;
+        TotalProcessing = obj.Count;
+        StateHasChanged();
+    }
+
+    private void FilesOnFileQueueUpdated(List<LibraryFileMinimal> obj)
+    {
+        if (TotalUnprocessed == obj.Count)
+            return;
+        TotalUnprocessed = obj.Count;
+        StateHasChanged();
+    }
+
     /// <summary>
     /// Called when the counts were updated
     /// </summary>
     /// <param name="counts">the updated counts</param>
     private void FilesOnLibraryFileCountsUpdated(List<LibraryStatus> counts)
     {
-        int newTotalUnprocessed = counts.FirstOrDefault(x => x.Status == FileStatus.Unprocessed)?.Count ?? 0;
         int newTotalFailed = counts.FirstOrDefault(x => x.Status == FileStatus.ProcessingFailed)?.Count ?? 0;
-        int newTotalProcessing = counts.FirstOrDefault(x => x.Status == FileStatus.Processing)?.Count ?? 0;
 
-        if (newTotalFailed == TotalFailed && newTotalProcessing == TotalUnprocessed &&
-            newTotalUnprocessed == TotalProcessing)
+        if (newTotalFailed == TotalFailed)
             return;
         
-        TotalUnprocessed = newTotalUnprocessed;
         TotalFailed = newTotalFailed;
-        TotalProcessing = newTotalProcessing;
         StateHasChanged();
     }
 

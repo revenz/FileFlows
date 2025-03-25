@@ -30,6 +30,14 @@ public class FileHandler(FrontendService feService)
     /// Gets or sets the files that are on hold
     /// </summary>
     public List<LibraryFileMinimal> OnHold { get; private set; }
+    /// <summary>
+    /// Gets or sets the files that are out of schedule
+    /// </summary>
+    public List<LibraryFileMinimal> OutOfSchedule { get; private set; }
+    /// <summary>
+    /// Gets or sets the files that are disabled
+    /// </summary>
+    public List<LibraryFileMinimal> Disabled { get; private set; }
     
     /// <summary>
     /// Gets or sets the file counts
@@ -50,6 +58,16 @@ public class FileHandler(FrontendService feService)
     /// Event raised when the on hold queue is updated
     /// </summary>
     public event Action<List<LibraryFileMinimal>> OnHoldUpdated; 
+    
+    /// <summary>
+    /// Event raised when the on out of schedule queue is updated
+    /// </summary>
+    public event Action<List<LibraryFileMinimal>> OutOfScheduleUpdated; 
+    
+    /// <summary>
+    /// Event raised when the disabled files are updated
+    /// </summary>
+    public event Action<List<LibraryFileMinimal>> DisabledUpdated; 
     
     /// <summary>
     /// Called when recently finished files have been updated
@@ -73,22 +91,21 @@ public class FileHandler(FrontendService feService)
         TopSavings31Days = data.TopSavings31Days;
         LibraryFileCounts = data.LibraryFileCounts;
         OnHold = data.OnHold;
+        OutOfSchedule = data.OutOfScheduleFiles;
+        Disabled = data.DisabledFiles;
         
         feService.Registry.Register<List<LibraryStatus>>(nameof(LibraryFileCounts), (ed) =>
         {
-            Logger.Instance.ILog("LibraryFileCounts", LibraryFileCounts);
             LibraryFileCounts = ed;
             LibraryFileCountsUpdated?.Invoke(ed);
         });
         feService.Registry.Register<List<LibraryFileMinimal>>("FileQueue", (ed) =>
         {
-            Logger.Instance.ILog("FileQueue", ed);
             FileQueue = ed;
             FileQueueUpdated?.Invoke(ed);
         });
         feService.Registry.Register<LibraryFileMinimal>("FileFinished", (ed) =>
         {
-            Logger.Instance.ILog("FileFinished", ed);
             if (ed.Status == FileStatus.Processed)
             {
                 RecentlyFinished.Add(ed);
@@ -122,6 +139,16 @@ public class FileHandler(FrontendService feService)
         {
             OnHold = files;
             OnHoldUpdated?.Invoke(OnHold);
+        });
+        feService.Registry.Register<List<LibraryFileMinimal>>("OutOfSchedule", (files) =>
+        {
+            OutOfSchedule = files;
+            OutOfScheduleUpdated?.Invoke(OutOfSchedule);
+        });
+        feService.Registry.Register<List<LibraryFileMinimal>>("DisabledFiles", (files) =>
+        {
+            Disabled = files;
+            DisabledUpdated?.Invoke(Disabled);
         });
     }
 }

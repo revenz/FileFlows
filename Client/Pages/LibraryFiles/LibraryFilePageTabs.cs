@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using FileFlows.Client.Components.Common;
 using Microsoft.AspNetCore.Components;
 
@@ -15,7 +14,7 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
     [Parameter]
     public Action<FileStatus> OnStatusChanged { get; set; }
 
-    private LibraryFilePageTabItem Unprocessed, Processing, OnHold;
+    private LibraryFilePageTabItem Unprocessed, Processing, OnHold, Disabled, OutOfSchedule;
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -41,13 +40,30 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
             Count = feService.Files.OnHold.Count,
             Name = Translater.Instant("Enums.FileStatus.OnHold")
         };
+        Disabled = new LibraryFilePageTabItem()
+        {
+            Status = FileStatus.Disabled,
+            Icon = "fas fa-toggle-off",
+            Count = feService.Files.Disabled.Count,
+            Name = Translater.Instant("Enums.FileStatus.Disabled")
+        };
+        OutOfSchedule = new LibraryFilePageTabItem()
+        {
+            Status = FileStatus.OutOfSchedule,
+            Icon = "fas fa-clock",
+            Count = feService.Files.OutOfSchedule.Count,
+            Name = Translater.Instant("Enums.FileStatus.OutOfSchedule")
+        };
         
-        RefreshStatus(feService.Files.LibraryFileCounts);
-        SelectedItem = Unprocessed;
         feService.Files.FileQueueUpdated += FilesOnFileQueueUpdated;
         feService.Files.LibraryFileCountsUpdated += FilesOnLibraryFileCountsUpdated;
         feService.Files.OnHoldUpdated += FilesOnOnHoldUpdated;
+        feService.Files.OutOfScheduleUpdated += FilesOutOfScheduleUpdated;
+        feService.Files.DisabledUpdated += FilesDisabledUpdated;
         feService.Runner.RunnerInfoUpdated += RunnerOnRunnerInfoUpdated;
+        
+        RefreshStatus(feService.Files.LibraryFileCounts);
+        SelectedItem = Unprocessed;
     }
 
     private void FilesOnFileQueueUpdated(List<LibraryFileMinimal> obj)
@@ -64,14 +80,34 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
         StateHasChanged();
     }
 
-    private void FilesOnOnHoldUpdated(List<LibraryFileMinimal> onHoldItems)
+    private void FilesOnOnHoldUpdated(List<LibraryFileMinimal> items)
     {
-        if (OnHold.Count == onHoldItems.Count) return;
-        OnHold.Count = onHoldItems.Count;
+        if (OnHold.Count == items.Count) return;
+        OnHold.Count = items.Count;
         if (OnHold.Count == 0)
             Items.Remove(OnHold);
         else if (Items.Contains(OnHold) == false)
             Items.Add(OnHold);
+        StateHasChanged();
+    }
+    private void FilesOutOfScheduleUpdated(List<LibraryFileMinimal> items)
+    {
+        if (OutOfSchedule.Count == items.Count) return;
+        OutOfSchedule.Count = items.Count;
+        if (OutOfSchedule.Count == 0)
+            Items.Remove(OutOfSchedule);
+        else if (Items.Contains(OutOfSchedule) == false)
+            Items.Add(OutOfSchedule);
+        StateHasChanged();
+    }
+    private void FilesDisabledUpdated(List<LibraryFileMinimal> items)
+    {
+        if (Disabled.Count == items.Count) return;
+        Disabled.Count = items.Count;
+        if (Disabled.Count == 0)
+            Items.Remove(Disabled);
+        else if (Items.Contains(Disabled) == false)
+            Items.Add(Disabled);
         StateHasChanged();
     }
 
@@ -97,7 +133,7 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
         };
         foreach (var s in order)
         {
-            if (s is FileStatus.Unprocessed or FileStatus.Processing or FileStatus.OnHold)
+            if ((int)s < 1 || s == FileStatus.Processing)
                 continue; // we track these separately 
 
             if (data.Any(x => x.Status == s) == false && s != FileStatus.FlowNotFound)
@@ -113,12 +149,11 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
                      return index >= 0 ? index : 100;
                  }))
         {
-            if (status.Status is FileStatus.Unprocessed or FileStatus.Processing or FileStatus.OnHold)
+            if ((int)status.Status < 1 || status.Status == FileStatus.Processing)
                 continue; // we track these separately
 
             string icon = status.Status switch
             {
-                FileStatus.Disabled => "fas fa-toggle-off",
                 FileStatus.Processed => "far fa-check-circle",
                 FileStatus.FlowNotFound => "fas fa-exclamation",
                 FileStatus.ProcessingFailed => "far fa-times-circle",
@@ -154,6 +189,10 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
             Items.Insert(0, Unprocessed);
         if (Items.Contains(Processing) == false)
             Items.Insert(1, Processing);
+        if (Disabled.Count > 0 && Items.Contains(Disabled) == false)
+            Items.Add(Disabled);
+        if (OutOfSchedule.Count > 0 && Items.Contains(OutOfSchedule) == false)
+            Items.Add(OutOfSchedule);
         if (OnHold.Count > 0 && Items.Contains(OnHold) == false)
             Items.Add(OnHold);
 
@@ -176,7 +215,11 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Files.LibraryFileCountsUpdated -= FilesOnLibraryFileCountsUpdated;;
+        feService.Files.FileQueueUpdated -= FilesOnFileQueueUpdated;
+        feService.Files.LibraryFileCountsUpdated -= FilesOnLibraryFileCountsUpdated;
         feService.Files.OnHoldUpdated -= FilesOnOnHoldUpdated;
+        feService.Files.OutOfScheduleUpdated -= FilesOutOfScheduleUpdated;
+        feService.Files.DisabledUpdated -= FilesDisabledUpdated;
+        feService.Runner.RunnerInfoUpdated -= RunnerOnRunnerInfoUpdated;
     }
 }

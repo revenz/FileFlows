@@ -204,8 +204,16 @@ public class SseController : Controller
         }
 
         if ((userRole & UserRole.Files) == UserRole.Files)
+        {
             result.OnHold = ServiceLoader.Load<FileOnHoldService>().GetData().Select(x => (LibraryFileMinimal)x)
                 .ToList();
+            
+            result.DisabledFiles = ServiceLoader.Load<FileDisabledService>().GetData().Select(x => (LibraryFileMinimal)x)
+                .ToList();
+            
+            result.OutOfScheduleFiles = ServiceLoader.Load<FileOutOfScheduleService>().GetData().Select(x => (LibraryFileMinimal)x)
+                .ToList();
+        }
 
         // Log summary to Logger.Instance
         swAll.Stop();

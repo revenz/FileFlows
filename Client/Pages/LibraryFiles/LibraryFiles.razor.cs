@@ -212,11 +212,11 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
 
     public override async Task Load(Guid selectedUid, bool showBlocker = true)
     {
-        if (SelectedStatus is FileStatus.Unprocessed or FileStatus.Processing or FileStatus.OnHold)
+        if (SelectedStatus is FileStatus.Unprocessed or FileStatus.Processing or FileStatus.OnHold or FileStatus.OutOfSchedule)
         {
-            this.Data = SelectedStatus == FileStatus.Unprocessed  ? 
-                feService.Files.FileQueue :
-                SelectedStatus == FileStatus.OnHold ? feService.Files.OnHold : 
+            this.Data = SelectedStatus == FileStatus.Unprocessed ? feService.Files.FileQueue :
+                SelectedStatus == FileStatus.OnHold ? feService.Files.OnHold :
+                SelectedStatus == FileStatus.OutOfSchedule ? feService.Files.OutOfSchedule :
                 feService.Runner.Runners.Select(x => new LibraryFileMinimal()
                 {
                     Uid = x.Uid,
@@ -256,7 +256,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     /// <inheritdoc />
     protected override async Task<RequestResult<List<LibraryFileMinimal>>> FetchData()
     {
-        
         var request = await HttpHelper.Get<List<LibraryFileMinimal>>(FetchUrl);
 
         if (request.Success == false)
