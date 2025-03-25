@@ -15,7 +15,7 @@
   z-index: 3;
 }
 
-@media (min-width: 850px) {
+@media (min-width: 850.001px) {
   .page {
     flex-direction: row;
   }
@@ -35,7 +35,7 @@
   display: none;
 }
 
-@media screen and (min-width: 850px) {
+@media screen and (min-width: 850.001px) {
   .expand-collapse {
     display: unset;
     position: absolute;
@@ -125,5 +125,12 @@
     display: none !important;
   }
 }
-
-/*# sourceMappingURL=MainLayout.razor.css.map */
+@media screen and (max-width: 850px) {
+  .page {
+    flex-direction: column-reverse;
+  }
+  .page .main {
+    overflow: hidden;
+    position: relative;
+  }
+}

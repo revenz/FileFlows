@@ -76,14 +76,21 @@ ul {
   animation: ripple 0.3s linear;
 }
 
-.bottom-nav {
-  width: 100%;
+@media screen and (min-width: 850.001px) {
+  .main-nav ul {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .nav-separator {
+    flex-grow: 1;
+  }
+  .nav-item-bottom i {
+    font-size: 1.3rem;
+    opacity: 0.15;
+  }
 }
-.bottom-nav .nav-item i {
-  font-size: 1.3rem;
-  opacity: 0.15;
-}
-
 .paused-indicator {
   width: 100%;
   text-align: center;
@@ -132,15 +139,59 @@ ul {
   border-color: #f94c5c;
 }
 
-@media screen and (max-height: 900px) {
-  .bottom-nav .nav-item .name {
+@media screen and (max-height: 900px) and (min-width: 850.001px) {
+  .main-nav .nav-item a {
+    padding: 0.75rem 0.75rem 0.5rem;
+  }
+  .main-nav .nav-item i {
+    font-size: 1.5rem;
+  }
+  .main-nav .nav-item .name {
+    margin-top: 0.4rem;
+  }
+  .main-nav .nav-item .bubble {
+    top: 0.25rem;
+    font-size: 0.6rem;
+    min-width: 1.2rem;
+    height: 1.4rem;
+  }
+  .nav-item-bottom .name {
     display: none;
   }
 }
-@media screen and (max-height: 750px) {
+@media screen and (max-height: 750px) and (min-width: 850.001px) {
   .nav-item .name {
     display: none;
   }
 }
-
-/*# sourceMappingURL=NavBar.razor.css.map */
+@media screen and (max-width: 850px) {
+  .navbar-brand {
+    display: none;
+  }
+  .navbar {
+    height: unset;
+    flex-direction: row;
+    width: 100vw;
+    border: none;
+    border-top: solid 1px var(--border-color);
+  }
+  .navbar .nav-item.active {
+    border-top: solid 1px var(--accent);
+    border-right: none;
+  }
+  .navbar ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+  .navbar .main-nav {
+    flex-grow: unset;
+    width: 100vw;
+  }
+  .navbar .nav-separator, .navbar .no-mobile, .navbar .paused-indicator {
+    display: none;
+  }
+  .navbar .bubble {
+    right: 30%;
+    top: 20%;
+  }
+}

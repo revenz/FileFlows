@@ -179,7 +179,7 @@ public partial class NavBar
         MenuItems.Add(new (Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-copy", "library-files"));
         
         if(Profile.HasRole(UserRole.Flows))
-            MenuItems.Add(new (Translater.Instant("Pages.Flows.Title"), "fas fa-sitemap", "flows"));
+            MenuItems.Add(new (Translater.Instant("Pages.Flows.Title"), "fas fa-sitemap", "flows", false));
         
         if(Profile.HasRole(UserRole.Libraries))
             MenuItems.Add(new (Translater.Instant("Pages.Libraries.Title"), "fas fa-folder", "libraries"));
@@ -188,7 +188,7 @@ public partial class NavBar
             MenuItems.Add(new (Translater.Instant("Pages.Nodes.Title"), "fas fa-desktop", "nodes"));
          
         if(Profile.LicensedFor(LicenseFlags.Reporting) && Profile.HasRole(UserRole.Reports))
-            MenuItems.Add(new (Translater.Instant("Pages.Reporting.Title"), "fas fa-chart-pie", "reporting"));
+            MenuItems.Add(new (Translater.Instant("Pages.Reporting.Title"), "fas fa-chart-pie", "reporting", false));
 
         if(Profile.HasRole(UserRole.Log))
             BottomNavBarItems.Add(new (Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", "log"));
@@ -196,11 +196,10 @@ public partial class NavBar
         var firstConfig = ConfigLayout.GetFirstAvailableItem(Profile);
         if(string.IsNullOrEmpty(firstConfig) == false)
             BottomNavBarItems.Add(new (Translater.Instant("MenuGroups.Config"), "fas fa-cogs", firstConfig));
-        
 
         if (Profile.LicensedFor(LicenseFlags.FileDrop))
         {
-            BottomNavBarItems.Add(new ("FileDrop", "fas fa-tint", "/file-drop/general"));
+            BottomNavBarItems.Add(new ("FileDrop", "fas fa-tint", "/file-drop/general", false));
         }        
         
         if(Profile.Security == SecurityMode.Local)
@@ -248,4 +247,4 @@ public partial class NavBar
 }
 
 
-public record NavBarItem(string Title, string Icon, string Url);
+public record NavBarItem(string Title, string Icon, string Url, bool Mobile = true);
