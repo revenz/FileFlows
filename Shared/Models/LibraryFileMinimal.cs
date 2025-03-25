@@ -106,8 +106,8 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
             Tags = file.Tags,
             Date = file.Status == FileStatus.Unprocessed ? 
                 file.HoldUntil > DateTime.UtcNow ? file.HoldUntil : file.DateCreated :
-                file.ProcessingEnded.Year > 2000 ? file.ProcessingEnded :
-                file.DateCreated,
+                file.Status is FileStatus.Processed or FileStatus.ProcessingFailed or FileStatus.FlowNotFound or FileStatus.ReprocessByFlow ?
+                    file.ProcessingEnded : file.DateCreated,
             Extension = file.IsDirectory ? null : FileHelper.GetExtension(file.OutputPath?.EmptyAsNull() ?? file.Name),
             DisplayName = file.Additional?.DisplayName?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.Name,
         };
