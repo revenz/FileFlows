@@ -16,6 +16,8 @@
   position: relative;
   align-self: center;
   margin-right: 1rem;
+  width: 7rem;
+  text-align: center;
 }
 .processing-node span.icon ::deep img {
   height: 4rem;

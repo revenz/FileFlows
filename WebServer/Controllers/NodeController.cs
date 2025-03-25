@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace FileFlows.WebServer.Controllers;
@@ -39,6 +40,36 @@ public class NodeController : BaseController
         }
         
         return nodes.OrderBy(x => x.Name.ToLowerInvariant());
+    }
+    
+    /// <summary>
+    /// Gets a node icon
+    /// </summary>
+    /// <param name="uid">the UID of the node</param>
+    /// <returns>the icon</returns>
+    [HttpGet("{uid}/icon")]
+    [AllowAnonymous]
+    public async Task<IActionResult> NodeIcon(Guid uid)
+    {
+        var node = await ServiceLoader.Load<NodeService>().GetByUidAsync(uid);
+        if (string.IsNullOrWhiteSpace(node?.Icon) || node.Icon.StartsWith("data:", StringComparison.InvariantCultureIgnoreCase) == false)
+            return NotFound();
+        try
+        {
+            // Remove the "data:" prefix and decode the base64 data
+            var base64Data = node.Icon.Substring(node.Icon.IndexOf(',', StringComparison.Ordinal) + 1);
+            var imageData = Convert.FromBase64String(base64Data);
+
+            // Determine the MIME type from the data URL (e.g., "data:image/png;base64,")
+            var mimeType = node.Icon[5..node.Icon.IndexOf(';', StringComparison.Ordinal)];
+        
+            // Return the image data as a file with the appropriate MIME type
+            return File(imageData, mimeType);
+        }
+        catch (FormatException)
+        {
+            return BadRequest("Invalid base64 image data.");
+        }
     }
     
     /// <summary>
