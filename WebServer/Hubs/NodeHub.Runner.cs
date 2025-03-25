@@ -65,10 +65,9 @@ public partial class NodeHub
     public async Task FileFinishProcessing(LibraryFile libraryFile, string log)
     {
         var libraryFileService = ServiceLoader.Load<LibraryFileService>();
-        await libraryFileService.Update(libraryFile);
-        await libraryFileService.SaveFullLog(libraryFile.Uid, log);
+        await libraryFileService.FinishProcessing(libraryFile, log);
         var nodeService = ServiceLoader.Load<NodeService>();
-        nodeService.FinishProcess(libraryFile);
+        nodeService.FinishProcessing(libraryFile);
     }
     /// <summary>
     /// Prepends the text to the log file on the server

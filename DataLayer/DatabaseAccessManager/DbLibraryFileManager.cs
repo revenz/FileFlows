@@ -2470,4 +2470,21 @@ FROM {Wrap(nameof(LibraryFile))} GROUP BY {Wrap(nameof(LibraryFile.NodeUid))};";
                                                    $" where {Wrap(nameof(LibraryFile.LibraryUid))} = @0", libraryUid) >
                0;
     }
+
+    /// <summary>
+    /// Gets the total items by a status, does not work for computed status, only for status > 0
+    /// </summary>
+    /// <param name="status">the status</param>
+    /// <returns>the total items</returns>
+    public async Task<int> GetCountByStatus(FileStatus status)
+    {
+        if (UseCache)
+            return Cache.Count(x => x.Value.Status == status);
+
+        string sql =
+            $"select count(*) from {Wrap(nameof(LibraryFile))} where {Wrap(nameof(LibraryFile.Status))} = {(int)status}";
+        using var db = await DbConnector.GetDb();
+        return await db.Db.ExecuteScalarAsync<int>(sql);
+
+    }
 }

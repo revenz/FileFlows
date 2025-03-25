@@ -91,16 +91,28 @@ public class InitialClientData
     public List<LibraryFileMinimal> FileQueue { get; set; }
     
     /// <summary>
-    /// Gets or sets the most successfully processed files
+    /// Gets or sets the successfully processed files
     /// </summary>
-    [JsonPropertyName("fs")]
-    public List<LibraryFileMinimal> RecentlyFinished { get; set; }
+    [JsonPropertyName("sf")]
+    public List<LibraryFileMinimal> Successful { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the total successfully processed files
+    /// </summary>
+    [JsonPropertyName("sft")]
+    public int SuccessfulTotal { get; set; }
     
     /// <summary>
     /// Gets or sets the most recent failed files
     /// </summary>
     [JsonPropertyName("ff")]
     public List<LibraryFileMinimal> FailedFiles { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the total failed files
+    /// </summary>
+    [JsonPropertyName("fft")]
+    public int FailedFilesTotal { get; set; }
 
     /// <summary>
     /// Gets or sets the top savings of all time

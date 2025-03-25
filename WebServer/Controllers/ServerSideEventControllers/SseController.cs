@@ -144,9 +144,19 @@ public class SseController : Controller
             $"Completed GetStorageSaved (StatisticService) at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
 
         stopwatch.Restart();
-        var service = ServiceLoader.Load<SystemOverviewService>();
-        var failed = service.GetFailedFiles();
-        var successful = service.GetRecentlyFinishedFiles();
+        
+        var serviceFileProcessed = ServiceLoader.Load<FileProcessed>();
+        var successful = serviceFileProcessed.GetData();
+        var successfulTotal = serviceFileProcessed.Total;
+        if ((userRole & UserRole.Files) != UserRole.Files && successful.Count > 50)
+            successful = successful.Take(50).ToList();
+        
+        var serviceFileFailed = ServiceLoader.Load<FileProcessingFailed>();
+        var failed = serviceFileFailed.GetData();
+        var failedTotal = serviceFileFailed.Total;
+        if ((userRole & UserRole.Files) != UserRole.Files && failed.Count > 50)
+            failed = failed.Take(50).ToList();
+
         var upcoming = ServiceLoader.Load<FileQueueService>().PeekList();
         if ((userRole & UserRole.Files) != UserRole.Files && upcoming.Count > 50)
             upcoming = upcoming.Take(50).ToList();
@@ -180,7 +190,9 @@ public class SseController : Controller
             StorageSavedTotalData = storageSavedTotal,
             StorageSavedMonthData = storageSavedMonth,
             FailedFiles = failed.Select(x => (LibraryFileMinimal)x).ToList(),
-            RecentlyFinished = successful.Select(x => (LibraryFileMinimal)x).ToList(),
+            FailedFilesTotal = failedTotal,
+            Successful = successful.Select(x => (LibraryFileMinimal)x).ToList(),
+            SuccessfulTotal = successfulTotal,
             FileQueue = upcoming.Select(x => (LibraryFileMinimal)x).ToList(),
             TopSavingsAll = savingsAll,
             TopSavings31Days = savings31,

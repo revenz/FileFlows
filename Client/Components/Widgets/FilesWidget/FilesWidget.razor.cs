@@ -1,6 +1,7 @@
 using System.IO;
 using FileFlows.Client.Helpers;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Services.Frontend.Handlers;
 using FileFlows.Shared.Formatters;
 using Microsoft.AspNetCore.Components;
 
@@ -86,7 +87,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         lblNoFailedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoFailedFiles");
         _FileMode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
         feService.Files.FileQueueUpdated += OnFileQueueUpdated;
-        feService.Files.RecentlyFinishedUpdated += OnRecentlyFinishedUpdated;
+        feService.Files.SuccessfulUpdated += OnRecentlyFinishedUpdated;
         feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
         InitializeData();
     }
@@ -94,22 +95,22 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// <summary>
     /// Called when the failed files list has been updated
     /// </summary>
-    /// <param name="list">the updated list</param>
-    private void OnFailedFilesUpdated(List<LibraryFileMinimal> list)
+    /// <param name="lat">the updated list</param>
+    private void OnFailedFilesUpdated(FileHandler.ListAndCount lat)
     {
-        FailedFiles = list;
-        TotalFailed = list.Count;
+        FailedFiles = lat.Files.Count > 50 ? lat.Files.Take(50).ToList() : lat.Files;
+        TotalFailed = lat.Total;
         StateHasChanged();
     }
 
     /// <summary>
     /// Called when the recently finished files list has been updated
     /// </summary>
-    /// <param name="list">the updated list</param>
-    private void OnRecentlyFinishedUpdated(List<LibraryFileMinimal> list)
+    /// <param name="lat">the updated list</param>
+    private void OnRecentlyFinishedUpdated(FileHandler.ListAndCount lat)
     {
-        RecentlyFinished = list;
-        TotalFinished = list.Count;
+        RecentlyFinished = lat.Files.Count > 50 ? lat.Files.Take(50).ToList() : lat.Files;
+        TotalFinished = lat.Total;
         StateHasChanged();
     }
 
@@ -130,7 +131,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     private void InitializeData()
     {
         UpcomingFiles = feService.Files.FileQueue.Count > 50 ? feService.Files.FileQueue.Take(50).ToList() : feService.Files.FileQueue;
-        RecentlyFinished = feService.Files.RecentlyFinished.OrderByDescending(x => x.Date).ToList();
+        RecentlyFinished = feService.Files.Successful.OrderByDescending(x => x.Date).ToList();
         FailedFiles = feService.Files.FailedFiles.OrderByDescending(x => x.Date).ToList();
         TotalUpcoming = UpcomingFiles.Count;
         TotalFailed = FailedFiles.Count;
@@ -228,7 +229,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     public void Dispose()
     {
         feService.Files.FileQueueUpdated -= OnFileQueueUpdated;
-        feService.Files.RecentlyFinishedUpdated -= OnRecentlyFinishedUpdated;
+        feService.Files.SuccessfulUpdated -= OnRecentlyFinishedUpdated;
         feService.Files.FailedFilesUpdated -= OnFailedFilesUpdated;
     }
 

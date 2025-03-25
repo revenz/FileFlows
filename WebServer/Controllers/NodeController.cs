@@ -162,7 +162,7 @@ public class NodeController : BaseController
             }).DistinctBy(x => x.Uid).ToList();
         }
         
-        var clientService = ServiceLoader.Load<IClientService>();
+        var nodeService = ServiceLoader.Load<NodeService>();
 
         if(node.Uid == CommonVariables.InternalNodeUid)
         {
@@ -190,7 +190,7 @@ public class NodeController : BaseController
                 internalNode.Libraries = node.Libraries ?? [];
                 internalNode = await service.Update(internalNode, await GetAuditDetails());
                 await CheckLicensedNodes(internalNode.Uid, internalNode.Enabled);
-                _ = clientService?.UpdateNodeStatusSummaries();
+                _ = nodeService?.UpdateNodeStatusSummaries();
                 await RevisionIncrement();
                 return Ok(internalNode);
             }
@@ -205,7 +205,7 @@ public class NodeController : BaseController
             node = await service.Update(node, await GetAuditDetails());
             await CheckLicensedNodes(node.Uid, node.Enabled);
             await RevisionIncrement();
-            _ = clientService?.UpdateNodeStatusSummaries();
+            _ = nodeService?.UpdateNodeStatusSummaries();
             return Ok(node);
         }
         else
@@ -219,7 +219,7 @@ public class NodeController : BaseController
             Logger.Instance.ILog("Updated external processing node: " + node.Name);
             await CheckLicensedNodes(node.Uid, node.Enabled);
             await RevisionIncrement();
-            _ = clientService?.UpdateNodeStatusSummaries();
+            _ = nodeService.UpdateNodeStatusSummaries();
             return Ok(node);
         }
     }
@@ -243,9 +243,9 @@ public class NodeController : BaseController
             .FirstOrDefault(x => x.Address == CommonVariables.InternalNodeName)?.Uid ?? Guid.Empty;
         if (model.Uids.Contains(internalNode))
             throw new Exception("ErrorMessages.CannotDeleteInternalNode");
-        await ServiceLoader.Load<NodeService>().Delete(model.Uids, await GetAuditDetails());
-        var clientService = ServiceLoader.Load<IClientService>();
-        _ = clientService?.UpdateNodeStatusSummaries();
+        var nodeService = ServiceLoader.Load<NodeService>();
+        await nodeService.Delete(model.Uids, await GetAuditDetails());
+        _ = nodeService?.UpdateNodeStatusSummaries();
     }
 
     /// <summary>
@@ -267,8 +267,7 @@ public class NodeController : BaseController
             node = await service.Update(node, await GetAuditDetails());
         }
         await CheckLicensedNodes(uid, enable == true);
-        var clientService = ServiceLoader.Load<IClientService>();
-        _ = clientService?.UpdateNodeStatusSummaries();
+        _ = service.UpdateNodeStatusSummaries();
         return Ok(node);
     }
 
@@ -315,7 +314,6 @@ public class NodeController : BaseController
         if(string.IsNullOrWhiteSpace(address))
             throw new ArgumentNullException(nameof(address));
 
-        var clientService = ServiceLoader.Load<IClientService>();
         address = address.Trim();
         var service = ServiceLoader.Load<NodeService>();
         var data = await service.GetAllAsync();
@@ -323,7 +321,7 @@ public class NodeController : BaseController
         if (existing != null)
         {
             existing.SignalrUrl = "flow";
-            _ = clientService?.UpdateNodeStatusSummaries();
+            _ = service.UpdateNodeStatusSummaries();
             return existing;
         }
 
@@ -347,7 +345,7 @@ public class NodeController : BaseController
         node = await service.Update(node, await GetAuditDetails());
         node.SignalrUrl = "flow";
         await CheckLicensedNodes(Guid.Empty, false);
-        _ = clientService?.UpdateNodeStatusSummaries();
+        _ = service.UpdateNodeStatusSummaries();
         return node;
     }
 

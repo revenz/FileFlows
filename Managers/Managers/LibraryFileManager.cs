@@ -327,4 +327,12 @@ public class LibraryFileManager
     /// <returns>status for every file in the system</returns>
     public async Task<List<(Guid Uid, FileStatus Status, Guid LibraryUid, DateTime HoldUntil)>> GetFileStatuses()
         => await DatabaseAccessManager.Instance.LibraryFileManager.GetFileStatuses();
+
+    /// <summary>
+    /// Gets the total items by a status, does not work for computed status, only for status > 0
+    /// </summary>
+    /// <param name="status">the status</param>
+    /// <returns>the total items</returns>
+    public async Task<int> GetCountByStatus(FileStatus status)
+        => await DatabaseAccessManager.Instance.LibraryFileManager.GetCountByStatus(status);
 }

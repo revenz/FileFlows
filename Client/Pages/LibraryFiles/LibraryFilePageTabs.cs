@@ -1,4 +1,5 @@
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend.Handlers;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
@@ -14,7 +15,7 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
     [Parameter]
     public Action<FileStatus> OnStatusChanged { get; set; }
 
-    private LibraryFilePageTabItem Unprocessed, Processing, OnHold, Disabled, OutOfSchedule;
+    private LibraryFilePageTabItem Unprocessed, Processing, OnHold, Disabled, OutOfSchedule, Failed, Successful;
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -54,16 +55,46 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
             Count = feService.Files.OutOfSchedule.Count,
             Name = Translater.Instant("Enums.FileStatus.OutOfSchedule")
         };
+        Failed = new LibraryFilePageTabItem()
+        {
+            Status = FileStatus.ProcessingFailed,
+            Icon = "far far fa-times-circle",
+            Count = feService.Files.FailedFilesTotal,
+            Name = Translater.Instant("Enums.FileStatus.ProcessingFailed")
+        };
+        Successful = new LibraryFilePageTabItem()
+        {
+            Status = FileStatus.Processed,
+            Icon = "far fa-check-circle",
+            Count = feService.Files.SuccessfulTotal,
+            Name = Translater.Instant("Enums.FileStatus.Processed")
+        };
         
         feService.Files.FileQueueUpdated += FilesOnFileQueueUpdated;
         feService.Files.LibraryFileCountsUpdated += FilesOnLibraryFileCountsUpdated;
         feService.Files.OnHoldUpdated += FilesOnOnHoldUpdated;
         feService.Files.OutOfScheduleUpdated += FilesOutOfScheduleUpdated;
         feService.Files.DisabledUpdated += FilesDisabledUpdated;
+        feService.Files.SuccessfulUpdated += FilesOnSuccessfulUpdated;
+        feService.Files.FailedFilesUpdated += FilesOnFailedFilesUpdated;
         feService.Runner.RunnerInfoUpdated += RunnerOnRunnerInfoUpdated;
         
         RefreshStatus(feService.Files.LibraryFileCounts);
         SelectedItem = Unprocessed;
+    }
+
+    private void FilesOnFailedFilesUpdated(FileHandler.ListAndCount obj)
+    {
+        if (Failed.Count == obj.Total) return;
+        Failed.Count = obj.Total;
+        StateHasChanged();
+    }
+
+    private void FilesOnSuccessfulUpdated(FileHandler.ListAndCount obj)
+    {
+        if (Successful.Count == obj.Total) return;
+        Successful.Count = obj.Total;
+        StateHasChanged();
     }
 
     private void FilesOnFileQueueUpdated(List<LibraryFileMinimal> obj)
@@ -133,7 +164,7 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
         };
         foreach (var s in order)
         {
-            if ((int)s < 1 || s == FileStatus.Processing)
+            if ((int)s < 1 || s is FileStatus.Processing or FileStatus.ProcessingFailed or FileStatus.Processed)
                 continue; // we track these separately 
 
             if (data.Any(x => x.Status == s) == false && s != FileStatus.FlowNotFound)
@@ -149,7 +180,7 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
                      return index >= 0 ? index : 100;
                  }))
         {
-            if ((int)status.Status < 1 || status.Status == FileStatus.Processing)
+            if ((int)status.Status < 1 || status.Status is FileStatus.Processing or FileStatus.ProcessingFailed or FileStatus.Processed)
                 continue; // we track these separately
 
             string icon = status.Status switch
@@ -189,6 +220,11 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
             Items.Insert(0, Unprocessed);
         if (Items.Contains(Processing) == false)
             Items.Insert(1, Processing);
+        if (Items.Contains(Successful) == false)
+            Items.Insert(2, Successful);
+        if (Items.Contains(Failed) == false)
+            Items.Insert(3, Failed);
+        
         if (Disabled.Count > 0 && Items.Contains(Disabled) == false)
             Items.Add(Disabled);
         if (OutOfSchedule.Count > 0 && Items.Contains(OutOfSchedule) == false)

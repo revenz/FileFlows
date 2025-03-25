@@ -209,13 +209,24 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     //     if(this.SelectedStatus == FileStatus.Processing)
     //         this.StateHasChanged();
     // }
+    
+    /// <summary>
+    /// Checks if a filter is being used, and if so, the list will be forcible fetched
+    /// </summary>
+    /// <returns>true if using a filter</returns>
+    private bool HasFilter()
+        => SelectedFlow != null || SelectedNode != null || SelectedLibrary != null || SelectedTag != null || 
+           (SelectedStatus == FileStatus.Processed && SelectedSortBy != null);
 
     public override async Task Load(Guid selectedUid, bool showBlocker = true)
     {
-        if (SelectedStatus is FileStatus.Unprocessed or FileStatus.Processing or FileStatus.OnHold or FileStatus.OutOfSchedule)
+        if (HasFilter() == false && SelectedStatus is FileStatus.Unprocessed or FileStatus.Processing or FileStatus.OnHold 
+            or FileStatus.OutOfSchedule or FileStatus.Processed or FileStatus.ProcessingFailed)
         {
             this.Data = SelectedStatus == FileStatus.Unprocessed ? feService.Files.FileQueue :
                 SelectedStatus == FileStatus.OnHold ? feService.Files.OnHold :
+                SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFiles :
+                SelectedStatus == FileStatus.Processed ? feService.Files.Successful :
                 SelectedStatus == FileStatus.OutOfSchedule ? feService.Files.OutOfSchedule :
                 feService.Runner.Runners.Select(x => new LibraryFileMinimal()
                 {

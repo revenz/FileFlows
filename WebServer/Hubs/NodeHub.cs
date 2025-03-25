@@ -166,7 +166,7 @@ public partial class NodeHub : Hub
 
         _nodeService.SetConnectionId(Context.ConnectionId, parameters.ConfigRevision, node, parameters.ActiveRunners);
         _logger.ILog($"Node registered: {node.Name} ({node.Uid})");
-        await ServiceLoader.Load<IClientService>().UpdateNodeStatusSummaries();
+        await ServiceLoader.Load<NodeService>().UpdateNodeStatusSummaries();
         return new NodeRegisterResult()
         {
             Success = true,
@@ -201,7 +201,7 @@ public partial class NodeHub : Hub
         _logger.ILog($"Node disconnected: {Context.ConnectionId}");
         _nodeService.SetPendingDisconnect(Context.ConnectionId);
         await base.OnDisconnectedAsync(exception);
-        await ServiceLoader.Load<IClientService>().UpdateNodeStatusSummaries();
+        await ServiceLoader.Load<NodeService>().UpdateNodeStatusSummaries();
     }
     
     /// <summary>

@@ -291,15 +291,11 @@ public class WebServerApp
         
         app.MapHub<FlowHub>("/flow");
         app.MapHub<NodeHub>("/node");
-        app.MapHub<ClientServiceHub>("/client-service");
 
         app.UseResponseCompression();
 
         // this will run the asp.net app and wait until it is killed
         Logger.Instance.ILog("Running FileFlows Server");
-
-        var _clientServiceHub = app.Services.GetRequiredService<IHubContext<ClientServiceHub>>();
-        ServiceLoader.AddSpecialCase<IClientService>(new ClientServiceManager(_clientServiceHub));
 
         app.MapBlazorHub(); // This is necessary for Blazor Server-Side
         

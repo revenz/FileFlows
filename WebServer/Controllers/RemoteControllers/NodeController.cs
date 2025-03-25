@@ -83,19 +83,6 @@ public class NodeController : BaseController
         node.SignalrUrl = "flow";
         return node;
     }
-
-    /// <summary>
-    /// Sets the status of a node
-    /// </summary>
-    /// <param name="uid">the UID of the node</param>
-    /// <param name="status">the status</param>
-    [HttpPost("{uid}/status/{status?}")]
-    public void SetStatus(Guid uid, [FromRoute] ProcessingNodeStatus? status)
-    {
-        var service = ServiceLoader.Load<NodeService>();
-        service.UpdateStatus(uid, status);
-    }
-
     /// <summary>
     /// Gets the version an node update available
     /// </summary>
