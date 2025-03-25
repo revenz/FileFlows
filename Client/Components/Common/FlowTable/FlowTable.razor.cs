@@ -41,7 +41,6 @@ public abstract class FlowTableBase: ComponentBase
 
 public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropertyChanged where TItem : notnull
 {
-    
     private FlowContextMenu TableContextMenu { get; set; }
     
     private readonly string Uid = Guid.NewGuid().ToString();
@@ -59,7 +58,7 @@ public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropert
     /// <summary>
     /// Gets if the pager is visible
     /// </summary>
-    public bool PagerVisible => ShowPager && TotalItems > Math.Min(250, App.PageSize);
+    public bool PagerVisible => ShowPager && TotalItems > 1000;
 
     /// <summary>
     /// Gets or sets the callback for the filter
@@ -406,7 +405,6 @@ public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropert
             Text = filter,
             FlowTable = this,
             PageIndex = this.Pager?.PageIndex ?? -1,
-            PageSize = App.PageSize,
             HasPager = this.PagerVisible
         };
         await this.OnFilter.InvokeAsync(filterEvent);
@@ -627,11 +625,6 @@ public class FilterEventArgs
     /// Gets if there is a pager
     /// </summary>
     public bool HasPager { get; init; }
-
-    /// <summary>
-    /// Gets or sets the number of items per page
-    /// </summary>
-    public int PageSize { get; init; }
 
     /// <summary>
     /// Gets the filter text

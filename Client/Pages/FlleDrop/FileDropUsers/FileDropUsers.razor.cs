@@ -29,7 +29,7 @@ public partial class FileDropUsers : ListPage<Guid, FileDropUser>
     }
 
     /// <inheritdoc />
-    public override string FetchUrl => $"{ApiUrl}?page={PageIndex}&pageSize={App.PageSize}";
+    public override string FetchUrl => $"{ApiUrl}?page={PageIndex}";
     
     /// <inheritdoc />
     protected override async Task<RequestResult<List<FileDropUser>>> FetchData()

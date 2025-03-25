@@ -41,7 +41,6 @@ public partial class App : ComponentBase
     /// Gets if being viewed on a small mobile device
     /// </summary>
     public bool IsSmallMobile => DisplayWidth is > 0 and <= 600;
-    public static int PageSize { get; set; }
 
     /// <summary>
     /// Delegate for the on escape event
@@ -100,21 +99,12 @@ public partial class App : ComponentBase
     //     return (await HttpHelper.Get<string>(url)).Data ?? "";
     // }
 
-    public async Task SetPageSize(int pageSize)
-    {
-        PageSize = pageSize;
-        await LocalStorage.SetItemAsync(nameof(PageSize), pageSize);
-    }
-
     protected override async Task OnInitializedAsync()
     {
         Instance = this;
         ClientConsoleLogger.jsRuntime = jsRuntime;
         new ClientConsoleLogger();
         HttpHelper.Client = Client;
-        PageSize = await LocalStorage.GetItemAsync<int>(nameof(PageSize));
-        if (PageSize is < 100 or > 5000)
-            PageSize = 1000;
 
         var dimensions = await jsRuntime.InvokeAsync<Dimensions>("ff.deviceDimensions");
         DisplayWidth = dimensions.width;

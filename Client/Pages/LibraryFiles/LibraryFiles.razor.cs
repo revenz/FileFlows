@@ -71,7 +71,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     }
 
     /// <inheritdoc />
-    public override string FetchUrl => $"{ApiUrl}/list-all?status={(int)SelectedStatus}&page={PageIndex}&pageSize={App.PageSize}" +
+    public override string FetchUrl => $"{ApiUrl}/list-all?status={(int)SelectedStatus}&page={PageIndex}" +
                                        $"&filter={Uri.EscapeDataString(filterStatus == SelectedStatus ? filter ?? string.Empty : string.Empty)}" +
                                        (SelectedNode == null ? "" : $"&node={SelectedNode}") + 
                                        (SelectedFlow == null ? "" : $"&flow={SelectedFlow}") + 
@@ -239,6 +239,12 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
                     LibraryName = x.LibraryName,
                     NodeName = x.NodeName
                 }).OrderBy(x => x.Date).ToList();
+            
+            TotalItems =
+                SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFilesTotal :
+                SelectedStatus == FileStatus.Processed ? feService.Files.SuccessfulTotal :
+                this.Data.Count;
+            
             if (Table != null)
             {
                 SetTableData(this.Data);

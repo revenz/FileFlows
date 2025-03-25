@@ -25,7 +25,6 @@ public class LibraryFileController : Controller
     /// </summary>
     /// <param name="status">The status to list</param>
     /// <param name="page">The page to get</param>
-    /// <param name="pageSize">The number of items to fetch</param>
     /// <param name="filter">[Optional] filter text</param>
     /// <param name="node">[Optional] node to filter by</param>
     /// <param name="library">[Optional] library to filter by</param>
@@ -35,7 +34,7 @@ public class LibraryFileController : Controller
     /// <returns>a slimmed down list of files with only needed information</returns>
     [HttpGet("list-all")]
     public async Task<List<LibraryFileMinimal>> ListAll([FromQuery] int status, [FromQuery] int page = 0, 
-        [FromQuery] int pageSize = 0, [FromQuery] string? filter = null, [FromQuery] Guid? node = null, 
+        [FromQuery] string? filter = null, [FromQuery] Guid? node = null, 
         [FromQuery] Guid? library = null, [FromQuery] Guid? flow = null, [FromQuery] FilesSortBy? sortBy = null,
         [FromQuery] Guid? tag = null)
     {
@@ -53,8 +52,8 @@ public class LibraryFileController : Controller
         var lfFilter = new LibraryFileFilter()
         {
             Status = (FileStatus)status,
-            Skip = page * pageSize,
-            Rows = pageSize,
+            Skip = page * 1000,
+            Rows = 1000,
             Filter = filter,
             NodeUid = node,
             LibraryUid = library,
