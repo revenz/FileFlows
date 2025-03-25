@@ -17,7 +17,7 @@
     position: fixed;
     top: 0.75rem;
     z-index: 1000000;
-    right: 4.5rem;
+    right: 0.5rem;
     width: 9rem;
     border-color: var(--border-color);
   }

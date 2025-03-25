@@ -78,7 +78,7 @@ ul {
   }
 }
 
-@media screen and (min-width: 850.001px) {
+@media screen and (min-width: 850px) {
   .main-nav {
     ul {
       flex-grow: 1;
@@ -148,7 +148,7 @@ ul {
   }
 }
 
-@media screen and (max-height: 900px) and (min-width: 850.001px)
+@media screen and (max-height: 900px) and (min-width: 850px)
 {
   .main-nav .nav-item {
     a {
@@ -174,7 +174,7 @@ ul {
   }
 }
 
-@media screen and (max-height: 750px) and (min-width: 850.001px)
+@media screen and (max-height: 750px) and (min-width: 850px)
 {
   .nav-item{
     .name {
@@ -183,7 +183,7 @@ ul {
   }
 }
 
-@media screen and (max-width:850px)
+@media screen and (max-width:849.99px)
 {
   .navbar-brand {
     display: none;

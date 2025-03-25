@@ -15,7 +15,7 @@
   z-index: 3;
 }
 
-@media (min-width: 850.001px) {
+@media (min-width: 850px) {
   .page {
     flex-direction: row;
   }
@@ -35,7 +35,7 @@
   display: none;
 }
 
-@media screen and (min-width: 850.001px) {
+@media screen and (min-width: 850px) {
   .expand-collapse {
     display: unset;
     position: absolute;
@@ -125,7 +125,7 @@
     display: none !important;
   }
 }
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 849.99px) {
   .page {
     display: grid;
     grid-template-rows: 1fr auto;
@@ -138,5 +138,11 @@
   }
   .page ::deep .nav-bar {
     grid-row-start: 2;
+  }
+  .page ::deep .top-row {
+    display: unset;
+    background: var(--base);
+    border-bottom: solid 1px var(--border-color);
+    padding: 0.5rem;
   }
 }

@@ -12,6 +12,11 @@ public abstract partial class ConfigurationLayout : LayoutComponentBase
     /// The menu items
     /// </summary>
     private List<NavMenuGroup> MenuItems = new List<NavMenuGroup>();
+    
+    /// <summary>
+    /// Gets or sets if they are opened
+    /// </summary>
+    private bool Opened { get; set; }
 
     public NavMenuItem Active { get; private set; }
     /// <summary>
@@ -61,6 +66,7 @@ public abstract partial class ConfigurationLayout : LayoutComponentBase
 
     async Task Click(NavMenuItem item)
     {
+        Opened = false;
         bool ok = await NavigationService.NavigateTo(item.Url);
         if (ok)
         {
@@ -76,6 +82,14 @@ public abstract partial class ConfigurationLayout : LayoutComponentBase
     {
         Active = item;
         this.StateHasChanged();
+    }
+
+    /// <summary>
+    /// Toggles the menu opened
+    /// </summary>
+    private void ToggleOpen()
+    {
+        Opened = !Opened;
     }
 }
 

@@ -4007,7 +4007,7 @@ hr {
   .vi-container .bottom-buttons {
     position: fixed;
     top: 0.75rem;
-    right: 2.5rem;
+    right: 0;
     z-index: 3;
   }
   .vi-container .bottom-buttons button {
@@ -4312,5 +4312,3 @@ hr {
 .vi-container.form-page.page-view .content {
   padding-top: 1rem;
 }
-
-/*# sourceMappingURL=app.css.map */

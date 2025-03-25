@@ -76,7 +76,7 @@ ul {
   animation: ripple 0.3s linear;
 }
 
-@media screen and (min-width: 850.001px) {
+@media screen and (min-width: 850px) {
   .main-nav ul {
     flex-grow: 1;
     display: flex;
@@ -139,7 +139,7 @@ ul {
   border-color: #f94c5c;
 }
 
-@media screen and (max-height: 900px) and (min-width: 850.001px) {
+@media screen and (max-height: 900px) and (min-width: 850px) {
   .main-nav .nav-item a {
     padding: 0.75rem 0.75rem 0.5rem;
   }
@@ -159,12 +159,12 @@ ul {
     display: none;
   }
 }
-@media screen and (max-height: 750px) and (min-width: 850.001px) {
+@media screen and (max-height: 750px) and (min-width: 850px) {
   .nav-item .name {
     display: none;
   }
 }
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 849.99px) {
   .navbar-brand {
     display: none;
   }

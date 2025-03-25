@@ -16,7 +16,7 @@
 }
 
 
-@media (min-width: 850.001px) {
+@media (min-width: 850px) {
     .page {
         flex-direction: row;
     }
@@ -37,7 +37,7 @@
 .expand-collapse {
     display:none;
 }
-@media screen and (min-width:850.001px) 
+@media screen and (min-width:850px) 
 {
     .expand-collapse {
         display:unset;
@@ -147,7 +147,7 @@
 }
 
 
-@media screen and (max-width:850px)
+@media screen and (max-width:849.99px)
 {
     .page {
         display:grid;
@@ -158,8 +158,16 @@
             position: relative;
             grid-row-start: 1;
         }
-        ::deep .nav-bar {
-            grid-row-start:2;
+        ::deep {
+            .nav-bar {
+                grid-row-start: 2;
+            }
+            .top-row {
+                display: unset;
+                background:var(--base);
+                border-bottom:solid 1px var(--border-color);
+                padding:0.5rem;
+            }
         }
     }
 }

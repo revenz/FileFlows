@@ -3,23 +3,24 @@
   width: 100%;
   height: 100vh;
 }
-.configuration-layout .configuration-layout-menu {
-  height: 100vh;
-  overflow: auto;
-  background: var(--base-darker);
-  border-right: solid 1px var(--border-color);
-  min-width: 17rem;
-  display: flex;
-  flex-direction: column;
-}
-.configuration-layout .configuration-layout-menu ul {
-  flex-grow: 1;
-  list-style: none;
-  margin: 0;
-  padding: 1rem 0 0;
-}
-.configuration-layout .configuration-layout-menu ul a {
-  color: var(--color) !important;
+@media (min-width: 850px) {
+  .configuration-layout .configuration-layout-menu {
+    overflow: auto;
+    background: var(--base-darker);
+    border-right: solid 1px var(--border-color);
+    min-width: 17rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .configuration-layout .configuration-layout-menu ul {
+    flex-grow: 1;
+    list-style: none;
+    margin: 0;
+    padding: 1rem 0 0;
+  }
+  .configuration-layout .configuration-layout-menu ul a {
+    color: var(--color) !important;
+  }
 }
 .configuration-layout .config-content {
   flex-grow: 1;
@@ -101,4 +102,57 @@
   color: var(--accent);
 }
 
-/*# sourceMappingURL=ConfigurationLayout.razor.css.map */
+@media screen and (min-width: 850px) {
+  .active-item {
+    display: none;
+  }
+  .configuration-layout-menu {
+    height: 100vh;
+  }
+}
+@media screen and (max-width: 849.99px) {
+  .version-info {
+    display: none;
+  }
+  ::deep .top-row {
+    display: none !important;
+  }
+  .active-item {
+    padding: 1rem;
+    background: var(--base);
+    font-size: 1.5rem;
+    width: 100vw;
+    display: block;
+    border-bottom: solid 1px var(--border-color);
+  }
+  .active-item i {
+    margin-right: 0.5rem;
+  }
+  .active-item i + i {
+    color: var(--accent);
+  }
+  .configuration-layout {
+    grid-template-rows: 1fr auto;
+    display: grid;
+  }
+  .configuration-layout-menu {
+    height: unset;
+  }
+  #ul-nav-menu {
+    z-index: 10;
+    position: absolute;
+    background: var(--base-darker);
+    top: 4rem;
+    left: 0;
+    right: 0;
+    bottom: -1rem;
+    display: none;
+    overflow: auto;
+  }
+  #ul-nav-menu.opened {
+    display: unset;
+  }
+  .nav-menu-group, .nav-item {
+    width: 100%;
+  }
+}
