@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Common;
@@ -7,8 +8,10 @@ public partial class FlowPager<TItem> where TItem : notnull
 {
     [CascadingParameter] private FlowTable<TItem> Table { get; set; }
 
-    private const int PageSize = 1000;
-    
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
     /// <summary>
     /// Gets the total items in the datalist
     /// </summary>
@@ -23,9 +26,9 @@ public partial class FlowPager<TItem> where TItem : notnull
         get
         {
             if (TotalItems == 0) return 0;
-            if (TotalItems <= PageSize) return 1;
-            int pages = TotalItems / PageSize;
-            if (TotalItems % PageSize > 0)
+            if (TotalItems <= feService.PageSize) return 1;
+            int pages = TotalItems / feService.PageSize;
+            if (TotalItems % feService.PageSize > 0)
                 ++pages;
             return pages;
         }

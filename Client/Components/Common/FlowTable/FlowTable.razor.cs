@@ -51,6 +51,9 @@ public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropert
 
     [Inject] private IBlazorContextMenuService ContextMenuService { get; set; }
 
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
     [Inject] private FrontendService feService { get; set; }
 
     /// <summary>

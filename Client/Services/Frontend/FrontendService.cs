@@ -99,7 +99,7 @@ public class FrontendService : IAsyncDisposable
     /// <summary>
     /// Gets or sets the page size
     /// </summary>
-    public int PageSize { get; set; }
+    public int PageSize { get; set; } = 500;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FrontendService"/> class.
