@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "File Check Interval",
         "ProcessFileCheckInterval-Help": "How often to check for a new file to processing in the processing nodes.",
         "ProcessFileCheckInterval-Suffix": "seconds",
+        "ScanWhenPaused": "Scan While Paused",
+        "ScanWhenPaused-Help": "When enabled, libraries will continue scanning even when the system is paused.",
         "ShowFileAddedNotifications": "File Added Notifications",
         "ShowFileAddedNotifications-Help": "If a toast notification should be shown in the web console when a file has been found and added to the queue.",
         "Telemetry": "Telemetry",

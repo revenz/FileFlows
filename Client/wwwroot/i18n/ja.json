@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "ファイルチェック間隔",
         "ProcessFileCheckInterval-Help": "処理ノードで新しいファイルを処理するためにチェックする頻度。",
         "ProcessFileCheckInterval-Suffix": "秒",
+        "ScanWhenPaused": "一時停止中にスキャン",
+        "ScanWhenPaused-Help": "有効にすると、システムが一時停止していてもライブラリのスキャンが続行されます。",
         "ShowFileAddedNotifications": "ファイル追加通知",
         "ShowFileAddedNotifications-Help": "ファイルが見つかってキューに追加されたときにWebコンソールにトースト通知を表示する必要があるかどうか。",
         "Telemetry": "テレメトリ",

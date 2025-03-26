@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "파일 검사 간격",
         "ProcessFileCheckInterval-Help": "처리 노드에서 새 파일을 처리하기 위해 얼마나 자주 검사할지를 설정합니다.",
         "ProcessFileCheckInterval-Suffix": "초",
+        "ScanWhenPaused": "일시 정지 중 스캔",
+        "ScanWhenPaused-Help": "활성화하면 시스템이 일시 정지된 상태에서도 라이브러리가 계속 스캔됩니다.",
         "ShowFileAddedNotifications": "파일 추가 알림",
         "ShowFileAddedNotifications-Help": "파일이 발견되어 큐에 추가되었을 때 웹 콘솔에 토스트 알림을 표시해야 하는지 여부입니다.",
         "Telemetry": "원거리 측정",

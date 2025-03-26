@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "Intervalle de vérification des fichiers",
         "ProcessFileCheckInterval-Help": "À quelle fréquence vérifier un nouveau fichier à traiter dans les nœuds de traitement.",
         "ProcessFileCheckInterval-Suffix": "secondes",
+        "ScanWhenPaused": "Analyser en pause",
+        "ScanWhenPaused-Help": "Si activé, les bibliothèques continueront à analyser même lorsque le système est en pause.",
         "ShowFileAddedNotifications": "Notifications de fichier ajouté",
         "ShowFileAddedNotifications-Help": "Si une notification toast doit être affichée dans la console Web lorsqu'un fichier a été trouvé et ajouté à la file d'attente.",
         "Telemetry": "Télémétrie",

@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "Интервал проверки файла",
         "ProcessFileCheckInterval-Help": "Как часто проверять наличие нового файла для обработки в узлах обработки.",
         "ProcessFileCheckInterval-Suffix": "секунд",
+        "ScanWhenPaused": "Сканировать во время паузы",
+        "ScanWhenPaused-Help": "Если включено, библиотеки продолжат сканирование, даже когда система приостановлена.",
         "ShowFileAddedNotifications": "Уведомления о добавлении файла",
         "ShowFileAddedNotifications-Help": "Если уведомление должно отображаться в веб-консоли, когда файл был найден и добавлен в очередь.",
         "Telemetry": "Телеметрия",

@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "Intervalo de Verificação de Arquivos",
         "ProcessFileCheckInterval-Help": "Com que frequência verificar se há um novo arquivo para processamento nos nós de processamento.",
         "ProcessFileCheckInterval-Suffix": "segundos",
+        "ScanWhenPaused": "Escanear enquanto pausado",
+        "ScanWhenPaused-Help": "Se ativado, as bibliotecas continuarão a ser escaneadas mesmo quando o sistema estiver pausado.",
         "ShowFileAddedNotifications": "Notificações de Arquivo Adicionado",
         "ShowFileAddedNotifications-Help": "Se uma notificação de toast deve ser exibida no console da web quando um arquivo foi encontrado e adicionado à fila.",
         "Telemetry": "Telemetria",

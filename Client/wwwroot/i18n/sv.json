@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "Filkontrollintervall",
         "ProcessFileCheckInterval-Help": "Hur ofta som en ny fil ska kontrolleras för bearbetning i bearbetningsnoderna.",
         "ProcessFileCheckInterval-Suffix": "sekunder",
+        "ScanWhenPaused": "Skanna medan pausad",
+        "ScanWhenPaused-Help": "Om aktiverat fortsätter bibliotek att skanna även när systemet är pausat.",
         "ShowFileAddedNotifications": "Meddelanden om tillagd fil",
         "ShowFileAddedNotifications-Help": "Om en toast-notifikation ska visas i webbkonsolen när en fil har hittats och lagts till i kön.",
         "Telemetry": "Telemetri",

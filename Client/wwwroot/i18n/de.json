@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "Intervall für die Dateiprüfung",
         "ProcessFileCheckInterval-Help": "Wie oft wird geprüft, ob eine neue Datei zur Verarbeitung in den Verarbeitungsknoten vorliegt.",
         "ProcessFileCheckInterval-Suffix": "Sekunden",
+        "ScanWhenPaused": "Scannen während pausiert",
+        "ScanWhenPaused-Help": "Wenn aktiviert, werden Bibliotheken weiterhin gescannt, selbst wenn das System pausiert ist.",
         "ShowFileAddedNotifications": "Benachrichtigungen über hinzugefügte Dateien",
         "ShowFileAddedNotifications-Help": "Ob eine Benachrichtigung in der Web-Konsole angezeigt werden soll, wenn eine Datei gefunden und der Warteschlange hinzugefügt wurde.",
         "Telemetry": "Telemetrie",

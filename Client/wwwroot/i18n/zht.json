@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "文件檢查間隔",
         "ProcessFileCheckInterval-Help": "在處理節點中檢查新文件的頻率。",
         "ProcessFileCheckInterval-Suffix": "秒",
+        "ScanWhenPaused": "暫停時掃描",
+        "ScanWhenPaused-Help": "啟用後，即使系統暫停，庫仍會繼續掃描。",
         "ShowFileAddedNotifications": "文件添加通知",
         "ShowFileAddedNotifications-Help": "如果在找到並添加文件到隊列時應在網頁控制台顯示 toast 通知。",
         "Telemetry": "遙測",

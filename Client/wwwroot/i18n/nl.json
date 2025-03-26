@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "Bestand Controle Interval",
         "ProcessFileCheckInterval-Help": "Hoe vaak er moet worden gecontroleerd op een nieuw bestand om te verwerken in de verwerkingsnodes.",
         "ProcessFileCheckInterval-Suffix": "seconden",
+        "ScanWhenPaused": "Scannen terwijl gepauzeerd",
+        "ScanWhenPaused-Help": "Als deze optie is ingeschakeld, blijven bibliotheken scannen, zelfs wanneer het systeem is gepauzeerd.",
         "ShowFileAddedNotifications": "Bestand Toegevoegd Meldingen",
         "ShowFileAddedNotifications-Help": "Als er een toastmelding moet worden weergegeven in de webconsole wanneer een bestand is gevonden en aan de wachtrij is toegevoegd.",
         "Telemetry": "Telemetrie",

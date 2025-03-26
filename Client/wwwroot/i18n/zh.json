@@ -1716,6 +1716,8 @@
         "ProcessFileCheckInterval": "文件检查间隔",
         "ProcessFileCheckInterval-Help": "在处理节点中检查新文件的频率。",
         "ProcessFileCheckInterval-Suffix": "秒",
+        "ScanWhenPaused": "暂停时扫描",
+        "ScanWhenPaused-Help": "启用后，即使系统暂停，库仍会继续扫描。",
         "ShowFileAddedNotifications": "文件添加通知",
         "ShowFileAddedNotifications-Help": "当找到文件并将其添加到队列时，是否应该在 Web 控制台中显示通知。",
         "Telemetry": "遥测",
