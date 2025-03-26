@@ -90,6 +90,7 @@ public class SseController : Controller
         var variablesTask = ServiceLoader.Load<VariableService>().GetAllAsync();
         var pluginsTask = ServiceLoader.Load<PluginService>().GetForBroadcast();
         var scheduledReportsTask = ServiceLoader.Load<ScheduledReportService>().GetAll();
+        var settingsTask = ServiceLoader.Load<ISettingsService>().Get();
 
         var allTasks = new List<Task>
         {
@@ -100,7 +101,8 @@ public class SseController : Controller
             flowElementsTask,
             variablesTask,
             pluginsTask,
-            scheduledReportsTask
+            scheduledReportsTask,
+            settingsTask
         };
 
         // Log the start time for all tasks
@@ -178,6 +180,7 @@ public class SseController : Controller
         var result = new InitialClientData
         {
             Profile = profile,
+            PageSize = settingsTask.Result.MaxPageSize,
             LanguageJson = lang,
             CurrentSystemInfo = ServiceLoader.Load<SystemOverviewService>().GetSystemInfo(),
             CurrentFileOverData = ServiceLoader.Load<DashboardFileOverviewService>().GetData(),

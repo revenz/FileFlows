@@ -31,6 +31,12 @@ public class InitialClientData
     public Profile Profile { get; set; }
     
     /// <summary>
+    /// Gets or sets the page size
+    /// </summary>
+    [JsonPropertyName("ps")]
+    public int PageSize { get; set; }
+    
+    /// <summary>
     /// Gets or sets the node status summaries
     /// </summary>
     [JsonPropertyName("n")]

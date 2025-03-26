@@ -97,6 +97,11 @@ public class FrontendService : IAsyncDisposable
     public DockerModHandler DockerMod { get;private set; }
 
     /// <summary>
+    /// Gets or sets the page size
+    /// </summary>
+    public int PageSize { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="FrontendService"/> class.
     /// </summary>
     /// <param name="serviceProvider">The service provider for resolving dependencies.</param>
@@ -243,6 +248,7 @@ public class FrontendService : IAsyncDisposable
         Logger.Instance.ILog("FrontendService initialized after first successful SSE connection.");
         var data = JsonSerializer.Deserialize<InitialClientData>(idJson);
         // Add any initialization logic here
+        PageSize = data.PageSize;
         Profile = new(this, _ffLocalStorage);
         Profile.Initialize(data);
         Dashboard = new(this);

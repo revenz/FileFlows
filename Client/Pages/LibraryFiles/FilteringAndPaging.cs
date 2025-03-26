@@ -15,16 +15,6 @@ public partial class LibraryFiles
         await this.Refresh();
     }
 
-    /// <summary>
-    /// Updates the number of items shown on a page
-    /// </summary>
-    /// <param name="size">the number of items</param>
-    private async Task PageSizeChange(int size)
-    {
-        this.PageIndex = 0;
-        await this.Refresh();
-    }
-
     private async Task OnFilter(FilterEventArgs args)
     {
         if (this.filter?.EmptyAsNull() == args.Text?.EmptyAsNull())

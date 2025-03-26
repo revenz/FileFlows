@@ -27,7 +27,7 @@
 
     <FlowTable @ref="Table" Data="@Data" TItem="LibraryFileMinimal" Selection="SelectionMode.Multiple"
                TableIdentifier=@TableIdentifier DoubleClick="@OnDoubleClick"
-               ShowPager=@true TotalItems=@TotalItems OnPageChange=@PageChange OnPageSizeChange=@PageSizeChange
+               ShowPager=@true TotalItems=@TotalItems OnPageChange=@PageChange
                OnFilter="OnFilter">
         <ToolBar>
             @if (App.Instance.IsMobile == false)

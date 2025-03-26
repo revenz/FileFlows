@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Timers;
 using BlazorContextMenu;
+using FileFlows.Client.Services.Frontend;
 
 namespace FileFlows.Client.Components.Common;
 
@@ -50,6 +51,8 @@ public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropert
 
     [Inject] private IBlazorContextMenuService ContextMenuService { get; set; }
 
+    [Inject] private FrontendService feService { get; set; }
+
     /// <summary>
     /// Gets or sets if the pager should be shown
     /// </summary>
@@ -58,7 +61,7 @@ public partial class FlowTable<TItem>: FlowTableBase,IDisposable, INotifyPropert
     /// <summary>
     /// Gets if the pager is visible
     /// </summary>
-    public bool PagerVisible => ShowPager && TotalItems > 1000;
+    public bool PagerVisible => ShowPager && TotalItems > feService.PageSize;
 
     /// <summary>
     /// Gets or sets the callback for the filter

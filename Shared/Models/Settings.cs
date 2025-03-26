@@ -35,6 +35,28 @@ public class Settings : FileFlowObject
     /// </summary>
     public bool ScanWhenPaused { get; set; }
 
+    private int _QueueCapacity = 500;
+
+    /// <summary>
+    /// Gets or sets the queue capacity for unprocessed files
+    /// </summary>
+    public int QueueCapacity
+    {
+        get => _QueueCapacity; 
+        set => _QueueCapacity = value < 1 ? 500 : value > 10000 ? 10000 : value; 
+    }
+
+    private int _MaxPageSize = 500;
+
+    /// <summary>
+    /// Gets or sets the maximum page size for completed files
+    /// </summary>
+    public int MaxPageSize
+    {
+        get => _MaxPageSize; 
+        set => _MaxPageSize = value < 1 ? 500 : value > 10000 ? 10000 : value; 
+    }
+
     /// <summary>
     /// Gets or sets if temporary files from a failed flow should be kept
     /// </summary>
