@@ -245,8 +245,6 @@ public partial class Client
                     };
                     var result = await _connection.InvokeAsync<NodeStatusUpdateResult>("UpdateNodeStatus", info);
 
-                    _logger.ILog("SendNodeStatus Result: " + result + " => " + JsonSerializer.Serialize(info));
-
                     if (result == NodeStatusUpdateResult.UpdateConfiguration)
                     {
                         _logger.ILog("Configuration out of date");
