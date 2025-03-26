@@ -58,9 +58,11 @@ public class LibraryFileHandler(JsonRpcClient client)
     /// <summary>
     /// Sets a thumbnail for a file
     /// </summary>
-    /// <param name="libraryFileUid">the UID of the library file</param>
     /// <param name="binaryData">the binary data for the thumbnail</param>
     /// <returns>a completed task</returns>
-    public async Task SetThumbnail(Guid libraryFileUid, byte[] binaryData)
-        => await client.SendRequest("SetThumbnail", (LibraryFileUid: libraryFileUid, BinaryData: binaryData));
+    public async Task SetThumbnail(byte[] binaryData)
+    {
+        await client.SendRequest(nameof(SetThumbnail), Convert.ToBase64String(binaryData));
+        client.RunnerInfoHandler.HasThumbnail = true;
+    }
 }

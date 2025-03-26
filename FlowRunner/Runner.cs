@@ -209,7 +209,7 @@ public class Runner
             Cache = cacheHelper,
             SetThumbnailActual = (binaryData) =>
             {
-                runInstance.RpcClient.LibraryFileHandler.SetThumbnail(runInstance.LibraryFile.Uid, binaryData).Wait();
+                runInstance.RpcClient.LibraryFileHandler.SetThumbnail(binaryData).Wait();
             },
             SetDisplayNameActual = (displayName) =>
             {

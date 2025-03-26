@@ -86,6 +86,11 @@ public class FlowExecutorInfo
     /// Gets or sets any additional info to pass to the runner
     /// </summary>
     public Dictionary<string, AdditionalInfo> AdditionalInfos { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if the file has a thumbnail
+    /// </summary>
+    public bool HasThumbnail { get; set; }
 }
 
 

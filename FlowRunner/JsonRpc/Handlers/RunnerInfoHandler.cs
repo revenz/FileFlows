@@ -6,6 +6,7 @@ namespace FileFlows.FlowRunner.JsonRpc.Handlers;
 public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
 {
     private RunnerInfo runInfo = new();
+    public bool HasThumbnail { get; set; }
     
     /// <summary>
     /// Called when the current flow step changes, ie it moves to a different node to execute
@@ -61,7 +62,8 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
             CurrentPartPercent = runInfo.CurrentPartPercent,
             TotalParts = runInfo.TotalParts,
             CurrentPartName = runInfo.CurrentPartName,
-            WorkingFile = client.LibraryFile.Name
+            WorkingFile = client.LibraryFile.Name,
+            HasThumbnail = HasThumbnail
         });
 
     /// <summary>
