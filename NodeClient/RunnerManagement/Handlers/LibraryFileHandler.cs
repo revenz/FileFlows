@@ -16,6 +16,7 @@ public class LibraryFileHandler
         rpcRegister.Register(nameof(LibraryIgnorePath), LibraryIgnorePath);
         rpcRegister.Register(nameof(DeleteLibraryFile), DeleteLibraryFile);
         rpcRegister.Register(nameof(ExistsOnServer), ExistsOnServer);
+        rpcRegister.Register<(Guid, byte[])>(nameof(SetThumbnail), SetThumbnail);
     }
     
     public void UpdateLibraryFile(LibraryFile libraryFile)
@@ -50,4 +51,12 @@ public class LibraryFileHandler
     /// <returns>true if exists otherwise false</returns>
     public async Task<bool> ExistsOnServer(Guid uid)
         => await _connection.InvokeAsync<bool>("ExistsOnServer", uid);
+    
+    /// <summary>
+    /// Sets a thumbnail for a file
+    /// </summary>
+    /// <param name="parameters">the paramters to set the thumbnail</param>
+    /// <returns>a completed task</returns>
+    public void SetThumbnail((Guid LibraryFileUid, byte[] BinaryData) parameters)
+        => _ = _connection.InvokeAsync("SetThumbnail", parameters.LibraryFileUid, parameters.BinaryData);
 }
