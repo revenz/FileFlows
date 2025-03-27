@@ -60,22 +60,20 @@ public class SettingsManager
     public async Task RevisionIncrement()
     {
         await _semaphore.WaitAsync();
-        int revision = 0;
         try
         {
-            revision = Instance!.Revision + 1;
+            int revision = Instance!.Revision + 1;
             Instance!.Revision = revision;
             await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(Instance, null);
+            
+            RevisionUpdated?.Invoke(Instance.Revision);
         }
         catch (Exception ex)
         {
             Logger.Instance.WLog("Failed to increment revision: " + ex.Message);
-            revision = 0;
         }
         finally
         {
-            if(revision > 0)
-                RevisionUpdated?.Invoke(revision);
             _semaphore.Release();
         }
     }
@@ -95,12 +93,12 @@ public class SettingsManager
             
             Instance = model;
             await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(Instance, auditDetails);
+            
+            RevisionUpdated?.Invoke(Instance.Revision);
         }
         finally
         {
             _semaphore.Release();
-            if(Instance != null)
-                RevisionUpdated?.Invoke(Instance.Revision);
         }
     }
     
