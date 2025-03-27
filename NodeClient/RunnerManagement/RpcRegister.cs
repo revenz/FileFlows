@@ -28,7 +28,7 @@ public class RpcRegister : RegisterHandler
         }
         catch (Exception ex)
         {
-            return JsonSerializer.Serialize(new { Result = "Error", Error = ex.Message });
+            return JsonSerializer.Serialize(new { request.Id, Result = "Error", Error = ex.Message });
         }
 
         if (result == null && request.Id == 0)
