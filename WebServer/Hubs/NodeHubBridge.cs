@@ -32,7 +32,7 @@ public class NodeHubBridge : INodeHubService
     }
 
     /// <inheritdoc/>
-    public async Task<Result<bool>> ProcessFile(Guid nodeUid, LibraryFile file, Guid flowUid, string connectionId)
+    public async Task<Result<bool>> ProcessFile(Guid nodeUid, LibraryFile file, Guid flowUid, string connectionId, int maxNodeRunners)
     {
         try
         {
@@ -43,7 +43,8 @@ public class NodeHubBridge : INodeHubService
                     LibraryFile = file,
                     FlowUid = flowUid,
                     KeepFailedFiles = settings.KeepFailedFlowTempFiles,
-                    CanRunPreExecuteCheck = LicenseService.IsLicensed(LicenseFlags.Tasks)
+                    CanRunPreExecuteCheck = LicenseService.IsLicensed(LicenseFlags.Tasks),
+                    MaxRunnersOnNode = maxNodeRunners
                 }, CancellationToken.None);
         }
         catch (Exception ex)

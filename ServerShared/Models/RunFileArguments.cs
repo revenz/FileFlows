@@ -31,4 +31,9 @@ public class RunFileArguments
     /// Gets or sets if failed files should be kept
     /// </summary>
     public bool KeepFailedFiles { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the maximum runners on this node
+    /// </summary>
+    public int MaxRunnersOnNode { get; set; }
 }

@@ -187,7 +187,6 @@ internal  class DbObjectManager : BaseManager
     /// <param name="value">The value to set</param>
     public async Task SetDataValue(Guid uid, string? typeName, string field, object value)
     {
-        using var db = await DbConnector.GetDb(write: true);
         string sql = $"update {Wrap(nameof(DbObject))} set ";
         string dataColumnName = Wrap(nameof(DbObject.Data));
         if (DbType == DatabaseType.SqlServer)
@@ -213,7 +212,7 @@ internal  class DbObjectManager : BaseManager
         sql += $" where {Wrap(nameof(DbObject.Uid))} = '{uid}'" +
                $" and {Wrap(nameof(DbObject.Type))} = {SqlHelper.Escape(typeName!)}";
         
-
+        using var db = await DbConnector.GetDb(write: true);
         await db.Db.ExecuteAsync(sql, value, typeName);
     }
 
