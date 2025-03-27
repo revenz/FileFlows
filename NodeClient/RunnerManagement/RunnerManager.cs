@@ -61,14 +61,6 @@ public class RunnerManager
     {
         lock (_lock)
         {
-            int maxRunners = node.FlowRunners;
-
-            if (_activeRunners.Count >= maxRunners)
-            {
-                Logger.ILog($"At maximum number of runners reached ({_activeRunners.Count} vs {maxRunners}).");
-                return false;
-            }
-
             if (args.CanRunPreExecuteCheck && PreExecuteScriptTest(node, _activeRunners.Count, config) == false)
             {
                 Logger.ILog("Pre-execute check failed");
