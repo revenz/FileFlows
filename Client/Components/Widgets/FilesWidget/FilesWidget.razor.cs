@@ -87,11 +87,11 @@ public partial class FilesWidget : ComponentBase, IDisposable
         lblNoFailedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoFailedFiles");
         _FileMode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
         
+        InitializeData();
+        
         feService.Files.FileQueueUpdated += OnFileQueueUpdated;
         feService.Files.SuccessfulUpdated += OnRecentlyFinishedUpdated;
         feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
-        
-        InitializeData();
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     private void OnFailedFilesUpdated(FileHandler.ListAndCount lat)
     {
         FailedFiles = lat.Files.Count > 50 ? lat.Files.Take(50).ToList() : lat.Files;
-        TotalFailed = lat.Total;
+        TotalFailed = FailedFiles.Count;
         lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed });
         StateHasChanged();
     }
@@ -112,8 +112,8 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// <param name="lat">the updated list</param>
     private void OnRecentlyFinishedUpdated(FileHandler.ListAndCount lat)
     {
-        RecentlyFinished = lat.Files.Count > 50 ? lat.Files.Take(50).ToList() : lat.Files;
-        TotalFinished = lat.Total;
+        RecentlyFinished = TotalFinished > 50 ? lat.Files.Take(50).ToList() : lat.Files;
+        TotalFinished = RecentlyFinished.Count;
         lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished});
         StateHasChanged();
     }
@@ -126,7 +126,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     {
         UpcomingFiles = files.Count > 50 ? files.Take(50).ToList() : files;
         TotalUpcoming = UpcomingFiles.Count;
-        lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = TotalUpcoming});
+        lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = files.Count});
         StateHasChanged();
     }
 
@@ -210,20 +210,6 @@ public partial class FilesWidget : ComponentBase, IDisposable
     {
         _needsRendering = false;
     }
-
-    
-    public record DashboardFile(Guid Uid, string Name, string DisplayName,
-        string RelativePath,
-        DateTime ProcessingEnded,
-        string LibraryName,
-        bool IsDirectory,
-        string? When,
-        long OriginalSize,
-        long FinalSize,
-        string Message,
-        FileStatus Status,
-        string[] Traits
-    );
     
     /// <summary>
     /// Opens the file for viewing
