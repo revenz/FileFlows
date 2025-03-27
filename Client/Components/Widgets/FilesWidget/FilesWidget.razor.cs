@@ -104,6 +104,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         TotalFailed = FailedFiles.Count;
         lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed });
         StateHasChanged();
+        OptionButtons?.TriggerStateHasChanged();
     }
 
     /// <summary>
@@ -116,6 +117,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         TotalFinished = RecentlyFinished.Count;
         lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished});
         StateHasChanged();
+        OptionButtons?.TriggerStateHasChanged();
     }
 
     /// <summary>
@@ -128,6 +130,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         TotalUpcoming = UpcomingFiles.Count;
         lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = files.Count});
         StateHasChanged();
+        OptionButtons?.TriggerStateHasChanged();
     }
 
     /// <summary>
