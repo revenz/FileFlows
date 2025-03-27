@@ -1475,6 +1475,9 @@
         "Address": "Адрес",
         "Enabled": "Включено",
         "FlowRunners": "Запускающие потоки"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "Установка {message}"
       }
     },
     "Notifications": {

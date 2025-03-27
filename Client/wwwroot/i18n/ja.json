@@ -1475,6 +1475,9 @@
         "Address": "アドレス",
         "Enabled": "有効",
         "FlowRunners": "フローロンナー"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "{message} をインストール中"
       }
     },
     "Notifications": {

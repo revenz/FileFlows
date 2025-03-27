@@ -1475,6 +1475,9 @@
         "Address": "Adress",
         "Enabled": "Aktiverad",
         "FlowRunners": "Flödes Körare"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "Installerar {message}"
       }
     },
     "Notifications": {

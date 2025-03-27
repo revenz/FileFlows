@@ -1475,6 +1475,9 @@
         "Address": "주소",
         "Enabled": "활성화",
         "FlowRunners": "흐름 러너"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "{message} 설치 중"
       }
     },
     "Notifications": {

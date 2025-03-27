@@ -44,6 +44,11 @@ public partial class Client : IDisposable
     private bool _InstallingDockerMods;
 
     /// <summary>
+    /// The name of the DockerMod being installed
+    /// </summary>
+    private string _InstallingDockerMod;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="Client"/> class.
     /// </summary>
     /// <param name="parameters">The client parameters</param>
@@ -64,6 +69,11 @@ public partial class Client : IDisposable
         EventManager.Subscribe("InstallingDockerMods", (bool installing) =>
         {
             _InstallingDockerMods = installing;
+            TriggerStatusUpdate();
+        });
+        EventManager.Subscribe("InstallingDockerMod", (string dockerMod) =>
+        {
+            _InstallingDockerMod = dockerMod;
             TriggerStatusUpdate();
         });
 

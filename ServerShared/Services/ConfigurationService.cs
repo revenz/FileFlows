@@ -429,7 +429,9 @@ public class ConfigurationService
 
             foreach (var mod in mods)
             {
+                EventManager.Broadcast("InstallingDockerMod", mod.Name);
                 var result = await DockerModHelper.Execute(mod);
+                EventManager.Broadcast("InstallingDockerMod", string.Empty);
                 if (result.Failed(out string error))
                 {
                     _ = ServiceLoader.Load<INotificationService>().Record(NotificationSeverity.Critical,

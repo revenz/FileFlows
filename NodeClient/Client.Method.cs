@@ -241,6 +241,7 @@ public partial class Client
                         ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
                         NodeVersion = Globals.Version,
                         InstallingDockerMods = _InstallingDockerMods,
+                        InstallingDockerMod = _InstallingDockerMods ? _InstallingDockerMod?.EmptyAsNull() : null,
                         Runners = _runnerManager.ActiveRunners.Where(x => x.Value.IsRunning && x.Value.Info.LibraryFile != null).ToDictionary(x => x.Key, x => x.Value.Info),
                     };
                     var result = await _connection.InvokeAsync<NodeStatusUpdateResult>("UpdateNodeStatus", info);

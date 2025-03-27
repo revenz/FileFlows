@@ -20,7 +20,7 @@ public partial class ProcessingNodeElement : ComponentBase
     /// <summary>
     /// Translation strings
     /// </summary>
-    private string lblSchedule, lblOperatingSystem, lblArchitecture, lblMemory, lblStatus, lblInternalProcessingNode, lblRunners, lblPriority;
+    private string lblSchedule, lblOperatingSystem, lblArchitecture, lblMemory, lblVersion, lblStatus, lblInternalProcessingNode, lblRunners, lblPriority;
     
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -29,6 +29,7 @@ public partial class ProcessingNodeElement : ComponentBase
         lblOperatingSystem = Translater.Instant("Labels.OperatingSystem");
         lblArchitecture = Translater.Instant("Labels.Architecture");
         lblMemory = Translater.Instant("Labels.Memory");
+        lblVersion = Translater.Instant("Labels.Version");
         lblStatus = Translater.Instant("Labels.Status");
         lblRunners = Translater.Instant("Pages.Nodes.Labels.Runners");
         lblPriority = Translater.Instant("Pages.ProcessingNode.Fields.Priority");

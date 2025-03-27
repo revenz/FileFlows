@@ -1475,6 +1475,9 @@
         "Address": "Adresse",
         "Enabled": "Aktiviert",
         "FlowRunners": "Flow Runners"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "Installiere {message}"
       }
     },
     "Notifications": {

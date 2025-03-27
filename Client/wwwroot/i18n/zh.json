@@ -1475,6 +1475,9 @@
         "Address": "地址",
         "Enabled": "启用",
         "FlowRunners": "流程运行程序"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "正在安装 {message}"
       }
     },
     "Notifications": {

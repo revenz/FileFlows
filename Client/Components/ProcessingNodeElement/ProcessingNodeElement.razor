@@ -1,5 +1,6 @@
 @using FileFlows.Client.Helpers
 @using Humanizer
+@using Globals = FileFlows.Common.Globals
 @namespace FileFlows.Client.Components
 
 <div class="processing-node @(Node.Enabled == false ? "disabled" : "") @(ListPage ? "list-page-item" : "")" @key="Node.Uid" >
@@ -43,6 +44,10 @@
                         <span class="value">@FileFlows.Shared.Formatters.FileSizeFormatter.Format(Node.HardwareInfo.Memory, 0, useBinary: true)</span>
                     </div>
                 }
+                <div class="hardware-info-item">
+                    <span class="label">@lblVersion</span>
+                    <span class="value">@Node.Version</span>
+                </div>
                 @foreach(var gpu in Node.HardwareInfo.Gpus ?? [])
                 {
                     <div class="hardware-info-item">
@@ -65,9 +70,18 @@
         </div>
     }
 
-    <span class="top-right status-@(Node.Status.ToString().Kebaberize())">
+    @if (string.IsNullOrWhiteSpace(Node.StatusMessage) == false)
+    {
+        <span class="top-right status-@(Node.Status.ToString().Kebaberize())">
+            @Translater.Instant($"Pages.Nodes.StatusMessages.{Node.Status}", new { message = Node.StatusMessage })
+        </span>
+    }
+    else
+    {
+        <span class="top-right status-@(Node.Status.ToString().Kebaberize())">
             @Translater.Instant("Enums.ProcessingNodeStatus." + Node.Status)
         </span>
+    }
     @if (Node.Priority > 0)
     {
         <span class="priority" title="@lblPriority">@Node.Priority</span>
