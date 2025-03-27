@@ -144,7 +144,9 @@ public class JsonRpcClient : IDisposable
 
             // Wait for the response and return the deserialized result
             var responseJson = await tcs.Task;
-            var response = JsonSerializer.Deserialize<RpcResponse<T>>(responseJson);
+            var response = JsonSerializer.Deserialize<RpcResponse<T?>>(responseJson);
+            if(string.IsNullOrWhiteSpace(response.Error) == false)
+                throw new Exception("JSON RPC Error: " + response.Error);
             return response.Result;
         }
         finally
@@ -236,4 +238,9 @@ class RpcResponse<T>
     /// Gets or sets the result of the RPC call.
     /// </summary>
     public T Result { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the error from the call
+    /// </summary>
+    public string? Error { get; set; }
 }
