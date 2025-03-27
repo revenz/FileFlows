@@ -1,3 +1,4 @@
+using System.Text;
 using FileFlows.ServerModels;
 using FileFlows.Services.FileProcessing;
 
@@ -167,17 +168,34 @@ public class LibraryController : BaseController
     [HttpPut("state/{uid}")]
     public async Task<Library> SetState([FromRoute] Guid uid, [FromQuery] bool enable)
     {
-        var service = ServiceLoader.Load<LibraryService>();
-        var library = await service.GetByUidAsync(uid);
-        if (library == null)
-            throw new Exception("Library not found.");
-        
-        if (library.Enabled != enable)
+        StringBuilder log = new();
+        try
         {
-            library.Enabled = enable;
-            library = await service.Update(library, await GetAuditDetails());
+            log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Getting service");
+            var service = ServiceLoader.Load<LibraryService>();
+            log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Got service, getting library");
+            var library = await service.GetByUidAsync(uid);
+            log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Got library");
+            if (library == null)
+            {
+                log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Library not found");
+                throw new Exception("Library not found.");
+            }
+
+            if (library.Enabled != enable)
+            {
+                library.Enabled = enable;
+                log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Updating library");
+                library = await service.Update(library, await GetAuditDetails(), log);
+                log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Updated library");
+            }
+
+            return library;
         }
-        return library;
+        finally
+        {
+            Logger.Instance.ILog("Library Set State Log:\n" + log);
+        }
     }
 
     /// <summary>
