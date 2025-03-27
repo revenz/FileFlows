@@ -247,7 +247,7 @@ public partial class Client
 
                     if (result == NodeStatusUpdateResult.UpdateConfiguration)
                     {
-                        _logger.ILog("Configuration out of date");
+                        _logger.ILog($"Configuration out of date for {(_node?.Name?.EmptyAsNull() ?? _hostname)}");
                         await UpdateConfiguration();
                     }
                 }

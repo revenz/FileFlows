@@ -43,7 +43,7 @@ public class LibraryController : BaseController
     [FileFlowsAuthorize(UserRole.Files | UserRole.Nodes | UserRole.Reports | UserRole.Flows)]
     public async Task<Dictionary<Guid, string>> GetLibraryList()
     {
-        var items = await new LibraryService().GetAllAsync();
+        var items = await ServiceLoader.Load<LibraryService>().GetAllAsync();
         return items.ToDictionary(x => x.Uid, x => x.Name);
     }
 
