@@ -37,7 +37,7 @@ public class FileLogger : ILogWriter
     /// <summary>
     /// A queue to hold log messages before writing them to the log file.
     /// </summary>
-    private readonly ConcurrentQueue<string> logQueue = new();
+    private readonly ConcurrentQueue<(string, DateTime)> logQueue = new();
 
     /// <summary>
     /// Token source used to manage cancellation of the log processing task.
@@ -81,7 +81,8 @@ public class FileLogger : ILogWriter
     /// <returns>A task representing the asynchronous operation.</returns>
     public Task Log(LogType type, params object[] args)
     {
-        string date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
+        var dateValue = DateTime.Now;
+        string date = dateValue.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
         string prefix = type switch
         {
             LogType.Info => $"{date} [INFO] -> ",
@@ -121,7 +122,7 @@ public class FileLogger : ILogWriter
             message = message.Replace(new string((char)0, 1), string.Empty);
         }
 
-        logQueue.Enqueue(message);
+        logQueue.Enqueue((message, dateValue));
 
         // Signal that there's a new item in the queue
         logEvent.Set();
@@ -142,9 +143,11 @@ public class FileLogger : ILogWriter
             // Reset the event and try dequeueing a message
             logEvent.Reset();
 
-            if (logQueue.TryDequeue(out string? message))
+            if (logQueue.TryDequeue(out var data))
             {
-                string logFile = GetLogFilename();
+                string message = data.Item1;
+                DateTime date = data.Item2;
+                string logFile = GetLogFilename(date);
                 try
                 {
                     await semaphore.WaitAsync(cts.Token);
@@ -246,18 +249,20 @@ public class FileLogger : ILogWriter
     /// <summary>
     /// Gets the name of the filename to log to.
     /// </summary>
+    /// <param name="date">optional date to use</param>
     /// <returns>The name of the filename to log to.</returns>
-    public string GetLogFilename()
+    public string GetLogFilename(DateTime? date  = null)
     {
+        date ??= DateTime.Now;
         // Check if the date has changed or if the cached file is no longer valid
         if (cachedLogFile == string.Empty || 
             new FileInfo(cachedLogFile).Length >= 10_000_000 || 
-            DateTime.Now.Date != LogDate.ToDateTime(TimeOnly.MinValue).Date)
+            date != LogDate.ToDateTime(TimeOnly.MinValue).Date)
         {
-            string currentLogFile = Path.Combine(LoggingPath, LogPrefix + "-" + DateTime.Now.ToString("MMMdd"));
+            string currentLogFile = Path.Combine(LoggingPath, LogPrefix + "-" + date.Value.ToString("MMMdd"));
             // Update the cached log file and log date
             cachedLogFile = GetNewLogFile(currentLogFile);
-            LogDate = DateOnly.FromDateTime(DateTime.Now);
+            LogDate = DateOnly.FromDateTime(date.Value);
         }
         return cachedLogFile;
     }
