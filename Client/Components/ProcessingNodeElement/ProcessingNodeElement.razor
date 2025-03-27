@@ -24,6 +24,10 @@
         @if (Node.HardwareInfo != null)
         {
             <div class="hardware-info">
+                <div class="hardware-info-item">
+                    <span class="label">@lblVersion</span>
+                    <span class="value">@Node.Version</span>
+                </div>
                 @if(string.IsNullOrWhiteSpace(Node.HardwareInfo.OperatingSystem) == false)
                 {
                     <div class="hardware-info-item">
@@ -44,10 +48,6 @@
                         <span class="value">@FileFlows.Shared.Formatters.FileSizeFormatter.Format(Node.HardwareInfo.Memory, 0, useBinary: true)</span>
                     </div>
                 }
-                <div class="hardware-info-item">
-                    <span class="label">@lblVersion</span>
-                    <span class="value">@Node.Version</span>
-                </div>
                 @foreach(var gpu in Node.HardwareInfo.Gpus ?? [])
                 {
                     <div class="hardware-info-item">

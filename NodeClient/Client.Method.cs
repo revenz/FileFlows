@@ -62,12 +62,19 @@ public partial class Client
     /// </summary>
     public async Task UpdateConfiguration()
     {
-        if (_node == null)
-            return;
-        if (_node.Enabled == false)
-            return; // not is not enabled, skip configuration
-        
         const string prefix = "UpdateConfiguration:";
+        _logger.ILog($"{prefix} Updating configuration");
+        if (_node == null)
+        {
+            _logger.ILog($"{prefix} Updating configuration: Node is null");
+            return;
+        }
+
+        if (_node.Enabled == false)
+        {
+            _logger.ILog($"{prefix} Updating configuration: Node is not enabled");
+            return; // not is not enabled, skip configuration
+        }
 
 
         bool updated = false;
