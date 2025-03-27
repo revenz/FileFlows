@@ -50,10 +50,7 @@ public class LibraryFileHandler
     /// <param name="uid">the UID of the library file</param>
     /// <returns>true if exists otherwise false</returns>
     public async Task<bool> ExistsOnServer(Guid uid)
-    {
-        throw new Exception("This is failing cos i want it to ");
-        //=> await _connection.InvokeAsync<bool>("ExistsOnServer", uid);
-    }
+        => await _connection.InvokeAsync<bool>("ExistsOnServer", uid);
 
     /// <summary>
     /// Sets a thumbnail for a file

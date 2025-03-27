@@ -146,7 +146,7 @@ public class JsonRpcClient : IDisposable
             var responseJson = await tcs.Task;
             var response = JsonSerializer.Deserialize<RpcResponse<T?>>(responseJson);
             if(string.IsNullOrWhiteSpace(response.Error) == false)
-                throw new Exception("JSON RPC Error: " + response.Error);
+                throw new Exception(response.Error);
             return response.Result;
         }
         finally
