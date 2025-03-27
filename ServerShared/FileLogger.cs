@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.Json;
 using System.Collections.Concurrent;
+using System.Text;
 
 namespace FileFlows.ServerShared;
 
@@ -35,24 +36,16 @@ public class FileLogger : ILogWriter
     private readonly SemaphoreSlim semaphore = new(1);
 
     /// <summary>
-    /// A queue to hold log messages before writing them to the log file.
-    /// </summary>
-    private readonly ConcurrentQueue<(string, DateTime)> logQueue = new();
-
-    /// <summary>
-    /// Token source used to manage cancellation of the log processing task.
-    /// </summary>
-    private readonly CancellationTokenSource cts = new();
-
-    /// <summary>
-    /// Event used to signal when there are new items in the log queue.
-    /// </summary>
-    private readonly ManualResetEventSlim logEvent = new(false);
-
-    /// <summary>
     /// Gets an instance of the FileLogger.
     /// </summary>
     public static FileLogger Instance { get; private set; } = null!;
+    
+    private readonly ConcurrentQueue<(string, DateTime)> logMessages = new();
+    private readonly Timer logFlushTimer;
+    private long currentFileSize = 0;
+    private const int MaxFileSize = 10 * 1024 * 1024; // 10MB limit
+    private const int MaxFileSizeMargin = 2 * 1024; // Allow a margin of 2KB over 10MB
+
 
     /// <summary>
     /// Creates a file logger.
@@ -69,10 +62,64 @@ public class FileLogger : ILogWriter
             Shared.Logger.Instance.RegisterWriter(this);
             Instance = this;
         }
-
-        Task.Run(ProcessLogQueue, cts.Token);
+        // Flush logs every 5 seconds
+        logFlushTimer = new Timer(FlushLogBatch!, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
     }
 
+    private async void FlushLogBatch(object state)
+    {
+        // Collect logs that need to be written
+        var logsToWrite = new List<(string message, DateTime timestamp)>();
+        while (logMessages.TryDequeue(out var logMessage))
+        {
+            logsToWrite.Add(logMessage);
+        }
+
+        if (logsToWrite.Count == 0)
+            return;
+
+        // Determine the proper file for today
+        var dateString = DateTime.UtcNow.ToString("yyyy-MM-dd");
+        var logFileName = $"log_{dateString}.txt";
+
+        // Create or append to the log file
+        string logFilePath = Path.Combine("Logs", logFileName);
+        var logFileSize = currentFileSize;
+
+        try
+        {
+            // Check if file exists and determine current size
+            if (File.Exists(logFilePath))
+            {
+                var fileInfo = new FileInfo(logFilePath);
+                logFileSize = fileInfo.Length;
+            }
+
+            // If the current file size exceeds the limit, create a new file for the next day
+            if (logFileSize > MaxFileSize - MaxFileSizeMargin)
+            {
+                // New day file, or next file based on the date
+                dateString = DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-dd");
+                logFileName = $"log_{dateString}.txt";
+                logFilePath = Path.Combine("Logs", logFileName);
+                currentFileSize = 0; // Reset file size for the new log file
+            }
+
+            // Append messages to the log file
+            await using var fs = new FileStream(logFilePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+            await using var writer = new StreamWriter(fs, Encoding.UTF8);
+            foreach (var log in logsToWrite)
+            {
+                await writer.WriteLineAsync(log.message);
+                currentFileSize += Encoding.UTF8.GetByteCount(log.message + "\n");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error while writing to log file: {ex.Message}");
+        }
+    }
+    
     /// <summary>
     /// Logs a message.
     /// </summary>
@@ -121,59 +168,11 @@ public class FileLogger : ILogWriter
         {
             message = message.Replace(new string((char)0, 1), string.Empty);
         }
-
-        logQueue.Enqueue((message, dateValue));
-
-        // Signal that there's a new item in the queue
-        logEvent.Set();
-
+        logMessages.Enqueue((message, dateValue));
+        
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// Processes the log queue.
-    /// </summary>
-    private async Task ProcessLogQueue()
-    {
-        while (!cts.Token.IsCancellationRequested)
-        {
-            // Wait for the signal that the queue is not empty
-            logEvent.Wait(cts.Token);  // This blocks until a log is enqueued
-
-            // Reset the event and try dequeueing a message
-            logEvent.Reset();
-
-            if (logQueue.TryDequeue(out var data))
-            {
-                string message = data.Item1;
-                DateTime date = data.Item2;
-                string logFile = GetLogFilename(date);
-                try
-                {
-                    await semaphore.WaitAsync(cts.Token);
-                    if (File.Exists(logFile) == false)
-                    {
-                        await File.WriteAllTextAsync(logFile, message + Environment.NewLine);
-                    }
-                    else
-                    {
-                        using var fs = new FileStream(logFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
-                        using StreamWriter sr = new(fs);
-                        await sr.WriteLineAsync(message);
-                        await sr.FlushAsync();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-                finally
-                {
-                    semaphore.Release();
-                }
-            }
-        }
-    }
 
     /// <summary>
     /// Gets a tail of the log.
