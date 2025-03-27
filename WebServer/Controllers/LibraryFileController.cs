@@ -512,7 +512,7 @@ public class LibraryFileController : Controller
             {
                 if ((int)file.Status < 2)
                     return Ok(); // already in the queue or processing
-                await service.Reprocess(file.Uid);
+                await service.Reprocess(file);
                 return Ok();
             }
     

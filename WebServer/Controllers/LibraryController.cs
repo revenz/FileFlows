@@ -117,7 +117,6 @@ public class LibraryController : BaseController
 
         var service = ServiceLoader.Load<LibraryService>();
         bool nameUpdated = false;
-        bool requeue = false;
         if (library.Uid != Guid.Empty)
         {
             // existing, check for name change
@@ -125,7 +124,6 @@ public class LibraryController : BaseController
             if (existing != null)
             {
                 nameUpdated = existing.Name != library.Name;
-                requeue = existing.Priority != library.Priority || existing.ProcessingOrder != library.ProcessingOrder;
             }
         }
         
@@ -136,11 +134,6 @@ public class LibraryController : BaseController
         
         library = result.Value;
         
-        if (requeue && await service.HasUnprocessedFiles(library.Uid))
-        {
-            // this library has files not processed, have to update the queue
-            await ServiceLoader.Load<FileQueueService>().LoadQueue();
-        }
         
         _ = Task.Run(async () =>
         {
@@ -183,13 +176,6 @@ public class LibraryController : BaseController
         {
             library.Enabled = enable;
             library = await service.Update(library, await GetAuditDetails());
-            //RefreshCaches();
-            
-            if (await service.HasUnprocessedFiles(library.Uid))
-            {
-                // this library has files not processed, have to update the queue
-                await ServiceLoader.Load<FileQueueService>().LoadQueue();
-            }
         }
         return library;
     }
@@ -239,16 +225,6 @@ public class LibraryController : BaseController
         //     LibraryWorker.ScanNow();
         // });
     }
-
-    /// <summary>
-    /// Reprocess libraries.
-    /// All library files will have their status updated to unprocessed.
-    /// </summary>
-    /// <param name="model">A reference model containing UIDs to reprocessing</param>
-    /// <returns>an awaited task</returns>
-    [HttpPut("reprocess")]
-    public Task Reprocess([FromBody] ReferenceModel<Guid> model)
-        => ServiceLoader.Load<LibraryFileService>().ReprocessByLibraryUid(model.Uids);
 
     /// <summary>
     /// Reset libraries.

@@ -9,14 +9,14 @@ namespace FileFlows.FlowRunner.JsonRpc;
 /// <summary>
 /// A JSON-RPC client that communicates with a named pipe server.
 /// </summary>
-public class JsonRpcClient
+public class JsonRpcClient : IDisposable
 {
     private NamedPipeClientStream client;
     private StreamReader reader;
     private StreamWriter writer;
     private CancellationTokenSource cts = new();
     private Task listeningTask;
-    private SemaphoreSlim streamLock = new SemaphoreSlim(1, 1);
+    private SemaphoreSlim streamLock = new (1, 1);
 
     // A dictionary to store TaskCompletionSource for each request
     private readonly Dictionary<int, TaskCompletionSource<string>> responseTasks = new();
@@ -29,6 +29,8 @@ public class JsonRpcClient
 
     public LibraryFile LibraryFile { get; internal set; }
     public ProcessingNode? Node { get; internal set; }
+
+    private bool _disposed = false;
 
     public async Task<bool> Initialize(string pipeName)
     {
@@ -61,9 +63,9 @@ public class JsonRpcClient
     {
         try
         {
-            while (!cts.Token.IsCancellationRequested && client.IsConnected)
+            while (_disposed == false && !cts.Token.IsCancellationRequested && client.IsConnected)
             {
-                var message = await reader.ReadLineAsync();
+                var message = await reader.ReadLineAsync(cts.Token);
                 if (string.IsNullOrWhiteSpace(message))
                     continue;
 
@@ -99,6 +101,8 @@ public class JsonRpcClient
                     }
                     catch (Exception ex)
                     {
+                        if (_disposed)
+                            return;
                         Logger.Instance.ELog("Failed with JSON RPC message: " + ex);
                     }
                 });
@@ -106,6 +110,9 @@ public class JsonRpcClient
         }
         catch (Exception ex)
         {
+            if (_disposed)
+                return;
+            
             Logger.Instance.ELog("Error in server message listener: " + ex);
         }
     }
@@ -182,6 +189,28 @@ public class JsonRpcClient
     }
 
     public Action OnAbort { get; set; }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        _disposed = true;
+        foreach (var disposable in new IDisposable[]
+                 {
+                     client, reader, writer, cts, listeningTask, streamLock
+                 })
+        {
+            try
+            {
+                disposable.Dispose();
+            }
+            catch (Exception)
+            {
+                // Ignored
+            }
+        }
+    }
 }
 
 /// <summary>

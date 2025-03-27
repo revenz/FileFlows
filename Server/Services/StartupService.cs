@@ -209,8 +209,7 @@ public class StartupService : IStartupService
             new StatisticSyncer(),
             new UpdateWorker(),
             new FileDropWorker(),
-            new DistributedCacheCleanerWorker(),
-            new FileQueueWorker()
+            new DistributedCacheCleanerWorker()
             //new LibraryFileServiceUpdater()
         );
 

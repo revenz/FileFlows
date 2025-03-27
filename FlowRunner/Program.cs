@@ -83,7 +83,7 @@ public class Program
     /// <returns>the exit code </returns>
     public static async Task<FileStatus> Run(string pipeName)
     {
-        JsonRpcClient jsonRpcClient = new ();
+        using JsonRpcClient jsonRpcClient = new ();
         try
         {
             if(await jsonRpcClient.Initialize(pipeName) == false)

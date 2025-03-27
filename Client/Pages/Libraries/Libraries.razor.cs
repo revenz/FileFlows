@@ -211,36 +211,6 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
             this.StateHasChanged();
         }
     }
-
-    /// <summary>
-    /// Reprocess all files in a library
-    /// </summary>
-    private async Task Reprocess()
-    {
-        var uids = Table.GetSelected()?.Where(x => x.Uid != CommonVariables.ManualLibraryUid)
-            ?.Select(x => x.Uid)?.ToArray() ?? new System.Guid[] { };
-        if (uids.Length == 0)
-            return; // nothing to rescan
-
-        if (await Confirm.Show("Pages.Libraries.Messages.Reprocess.Title",
-                "Pages.Libraries.Messages.Reprocess.Message", defaultValue: false) == false)
-            return;
-
-        Blocker.Show();
-        this.StateHasChanged();
-
-        try
-        {
-            var result = await HttpHelper.Put($"{ApiUrl}/reprocess", new ReferenceModel<Guid> { Uids = uids });
-            if (result.Success == false)
-                return;
-        }
-        finally
-        {
-            Blocker.Hide();
-            this.StateHasChanged();
-        }
-    }
     /// <summary>
     /// Reset all files in a library
     /// </summary>

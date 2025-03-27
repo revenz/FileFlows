@@ -102,6 +102,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     {
         FailedFiles = lat.Files.Count > 50 ? lat.Files.Take(50).ToList() : lat.Files;
         TotalFailed = lat.Total;
+        lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed });
         StateHasChanged();
     }
 
@@ -113,6 +114,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     {
         RecentlyFinished = lat.Files.Count > 50 ? lat.Files.Take(50).ToList() : lat.Files;
         TotalFinished = lat.Total;
+        lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished});
         StateHasChanged();
     }
 
@@ -124,6 +126,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     {
         UpcomingFiles = files.Count > 50 ? files.Take(50).ToList() : files;
         TotalUpcoming = UpcomingFiles.Count;
+        lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = TotalUpcoming});
         StateHasChanged();
     }
 

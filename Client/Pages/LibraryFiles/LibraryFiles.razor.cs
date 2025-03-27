@@ -54,7 +54,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     /// The total number of items across all pages
     /// </summary>
     private int TotalItems;
-    private List<FlowExecutorInfo> WorkerStatus = new ();
     private Dictionary<string, NodeInfo> Nodes = new();
     private Dictionary<Guid, string> Libraries = new();
     private Dictionary<Guid, string>  Flows = new();
@@ -199,16 +198,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         var libraries = feService.Library.LibraryList;
         Data = feService.Files.FileQueue;
     }
-
-    // /// <summary>
-    // /// Refreshes the worker status
-    // /// </summary>
-    // private async Task RefreshWorkerStatus()
-    // {
-    //     this.WorkerStatus = await ClientService.GetExecutorInfo();
-    //     if(this.SelectedStatus == FileStatus.Processing)
-    //         this.StateHasChanged();
-    // }
     
     /// <summary>
     /// Checks if a filter is being used, and if so, the list will be forcible fetched
@@ -216,7 +205,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     /// <returns>true if using a filter</returns>
     private bool HasFilter()
         => SelectedFlow != null || SelectedNode != null || SelectedLibrary != null || SelectedTag != null || 
-           (SelectedStatus == FileStatus.Processed && SelectedSortBy != null);
+           (SelectedStatus == FileStatus.Processed && SelectedSortBy != null) || PageIndex > 0;
 
     public override async Task Load(Guid selectedUid, bool showBlocker = true)
     {
@@ -283,10 +272,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
                 Success = request.Success
             };
         }
-
-        // await RefreshWorkerStatus();
-        // RefreshStatus(request.Data?.Status?.ToList() ?? new List<LibraryStatus>());
-
         if (request.Headers.ContainsKey("x-total-items") &&
             int.TryParse(request.Headers["x-total-items"], out int totalItems))
         {
