@@ -44,4 +44,18 @@ public class License
         Status = LicenseStatus.Unlicensed,
         ProcessingNodes = 2
     };
+
+    /// <summary>
+    /// Checks if the user is licensed for a feature
+    /// </summary>
+    /// <param name="feature">the feature to check</param>
+    /// <returns>true if licensed, otherwise false</returns>
+    public bool IsLicensed(LicenseFlags feature)
+    {
+        if (Status != LicenseStatus.Valid)
+            return false;
+        if (ExpirationDateUtc < DateTime.UtcNow)
+            return false;
+        return (Flags & feature) == feature;
+    }
 }

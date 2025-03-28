@@ -293,25 +293,26 @@ public partial class Client
 
         try
         {
-            if (_configurationService.CurrentConfig?.Revision < args.ConfigRevision)
-            {
-                _logger.WLog(
-                    $"Configuration is out of date {_configurationService.CurrentConfig?.Revision}', needs updating: {args.ConfigRevision}");
-                var updateTask = _configurationService.UpdateConfiguration(args.ConfigRevision, _node);
-                if (await Task.WhenAny(updateTask, Task.Delay(TimeSpan.FromSeconds(10))) != updateTask)
-                {
-                    _logger.WLog("Configuration update timed out.");
-                    return false;
-                }
-
-                if (_configurationService.CurrentConfig?.Revision < args.ConfigRevision)
-                {
-                    _logger.WLog(
-                        $"Configuration failed to update {_configurationService.CurrentConfig?.Revision}', : {args.ConfigRevision}");
-
-                    return false;
-                }
-            }
+            // checked in Dispatcher
+            // if (_configurationService.CurrentConfig?.Revision < args.ConfigRevision)
+            // {
+            //     _logger.WLog(
+            //         $"Configuration is out of date {_configurationService.CurrentConfig?.Revision}', needs updating: {args.ConfigRevision}");
+            //     var updateTask = _configurationService.UpdateConfiguration(args.ConfigRevision, _node);
+            //     if (await Task.WhenAny(updateTask, Task.Delay(TimeSpan.FromSeconds(10))) != updateTask)
+            //     {
+            //         _logger.WLog("Configuration update timed out.");
+            //         return false;
+            //     }
+            //
+            //     if (_configurationService.CurrentConfig?.Revision < args.ConfigRevision)
+            //     {
+            //         _logger.WLog(
+            //             $"Configuration failed to update {_configurationService.CurrentConfig?.Revision}', : {args.ConfigRevision}");
+            //
+            //         return false;
+            //     }
+            // }
 
             _logger.ILog($"Trying to start runner for: {args.LibraryFile.Name}");
             bool result = _runnerManager.TryStartRunner(this, args, _node, _configurationService.CurrentConfig!);

@@ -17,6 +17,8 @@ public class NodeHubBridge : INodeHubService
     //private readonly NodeManagerService _nodeManager; 
     private readonly NodeService _nodeService; 
     private readonly SettingsService _settingsService;
+    private bool KeepFailedFlowTempFiles;
+    private bool LicensedForTasks;
     
 
     public NodeHubBridge(IHubContext<NodeHub> hubContext)
@@ -25,10 +27,23 @@ public class NodeHubBridge : INodeHubService
         //_nodeManager = nodeManager;
         _settingsService = (SettingsService) ServiceLoader.Load<ISettingsService>();
         _nodeService = ServiceLoader.Load<NodeService>();
+        var settings = _settingsService.Get().Result;
+        KeepFailedFlowTempFiles = settings.KeepFailedFlowTempFiles;
         _settingsService.RevisionUpdated += (revision) =>
         {
             _ = SettingsServiceOnRevisionUpdated();
         };
+        _settingsService.OnSettingsUpdated += (updatedSettings) =>
+        {
+            KeepFailedFlowTempFiles = updatedSettings.KeepFailedFlowTempFiles;
+        };
+        var licenseService = ServiceLoader.Load<LicenseService>();
+        LicensedForTasks = licenseService.GetLicense()?.IsLicensed(LicenseFlags.Tasks) == true;
+        licenseService.OnLicenseUpdated += (license) =>
+        {
+            LicensedForTasks = license?.IsLicensed(LicenseFlags.Tasks) == true;
+        };
+
     }
 
     /// <inheritdoc/>
@@ -36,14 +51,13 @@ public class NodeHubBridge : INodeHubService
     {
         try
         {
-            var settings = await _settingsService.Get();
             return await _hubContext.Clients.Client(connectionId)
                 .InvokeAsync<bool>("ClientProcessFile", new RunFileArguments()
                 {
                     LibraryFile = file,
                     FlowUid = flowUid,
-                    KeepFailedFiles = settings.KeepFailedFlowTempFiles,
-                    CanRunPreExecuteCheck = LicenseService.IsLicensed(LicenseFlags.Tasks),
+                    KeepFailedFiles = KeepFailedFlowTempFiles,
+                    CanRunPreExecuteCheck = LicensedForTasks,
                     MaxRunnersOnNode = maxNodeRunners
                 }, CancellationToken.None);
         }
