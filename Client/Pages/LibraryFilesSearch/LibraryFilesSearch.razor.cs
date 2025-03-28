@@ -15,7 +15,7 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
     [Inject] private INavigationService NavigationService { get; set; }
     public override string ApiUrl => "/api/library-file";
     private string Title;
-    private string lblSearch, lblSearching;
+    private string lblSearch, lblSearching, lblClose;
     private string NameMinWidth = "20ch";
     private bool Searched = false;
     [Inject] private IJSRuntime jsRuntime { get; set; }
@@ -39,6 +39,7 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
     {
         base.OnInitialized();
         this.lblSearch = Translater.Instant("Labels.Search");
+        this.lblClose = Translater.Instant("Labels.Close");
         this.Title = Translater.Instant("Pages.LibraryFiles.Title");
         this.lblSearching = Translater.Instant("Labels.Searching");
         StatusOptions = new List<ListOption>()
@@ -83,7 +84,7 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
         Blocker.Hide();
     }
 
-    async Task Closed()
+    async Task Close()
     {
         await NavigationService.NavigateTo("/library-files");
     }

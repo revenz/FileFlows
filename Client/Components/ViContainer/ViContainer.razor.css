@@ -81,6 +81,10 @@
   position: relative;
 }
 
+.content-no-padding .content {
+  padding: 0;
+}
+
 .bottom-buttons {
   padding: 0 1.5rem 1rem;
   display: flex;
@@ -108,3 +112,5 @@
 .fa-window-maximize:hover {
   color: var(--accent);
 }
+
+/*# sourceMappingURL=ViContainer.razor.css.map */

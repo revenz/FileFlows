@@ -15,6 +15,7 @@
 @use 'photino';
 @use 'report';
 @use 'wizard';
+@use 'search';
 
 $mobile_width: 850px;
 
@@ -23,9 +24,11 @@ $mobile_width: 850px;
     src: url("webfonts/Montserrat-VariableFont_wght.ttf") format("truetype-variations"); 
 }
 
+
 html {
     overflow: hidden;
 }
+
 
 body {
     --bold:600;

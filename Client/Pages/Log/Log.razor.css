@@ -1,68 +1,11 @@
-.log-view {
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-}
-
-.side-search {
-  background: var(--base-darker);
-  border-right: solid 1px var(--border-color);
-  padding: 1rem;
-  width: 20rem;
-  min-width: 20rem;
-}
-.side-search .title {
-  font-size: 1.1rem;
-  padding-bottom: 1rem;
-}
-.side-search .icon {
-  color: var(--accent);
-}
-.side-search button {
-  margin: 0 0 1rem;
-  width: 100%;
-}
-.side-search select {
-  border: none;
-  background: var(--input-background);
-}
-.side-search .select-button {
-  display: flex;
-  flex-direction: row;
-  background: var(--input-background);
-  height: var(--input-height);
-  border: solid 1px transparent;
-}
-.side-search .select-button:focus-within {
-  border-color: var(--accent);
-}
-.side-search .select-button select {
-  outline: none;
-  height: calc(var(--input-height) - 2px);
-}
-.side-search .select-button button {
-  width: 3rem;
-  margin-left: 0.5rem;
-  background: var(--base-lightest);
-  border: none;
-  height: calc(var(--input-height) - 2px);
-}
-.side-search .include-higher {
-  margin-bottom: 0 !important;
-}
-
 .log {
   overflow: auto;
   flex-grow: 1;
-  padding: 1rem 1rem 1rem 2rem;
   overflow-anchor: none;
   white-space: pre;
   font-family: monospace;
   font-size: 0.9rem;
+  margin: 1rem 0.5rem 1rem 0;
 }
 .log ::deep .log-date {
   color: var(--pink);

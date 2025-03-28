@@ -1,14 +1,15 @@
 @namespace FileFlows.Client.Pages
 @page "/log"
-@using FileFlows.Plugin
 
-<div class="log-view">
+<PageView Flex="@true" Title="@lblTitle" Icon="fas fa-file-alt" ClassName="content-no-padding">
+
+    <Head>
+    </Head>
+
+    <Body>
+<div class="log-view side-search-page">
 
     <div class="side-search">
-        <div class="title">
-            <span class="icon fas fa-file-alt"></span>
-            @lblTitle
-        </div>
         <div class="search-fields">
             <div class="search-field input">
                 <div class="label">@lblSource</div>
@@ -94,7 +95,7 @@
         <button class="btn" @onclick="Search">@lblSearch</button>
     </div>
     
-    <div class="log html-log">
+    <div class="log html-log search-content">
         @if (HasError)
         {
             <div class="error-message">@ErrorMessage</div>
@@ -107,11 +108,11 @@
             <Virtualize Items="@FilteredLines" Context="logLine" OverscanCount="10">
                 <div>@logLine</div>
             </Virtualize>
-            
-            @* <Virtualize Items="@FilteredLogEntries" Context="logLine" OverscanCount="10"> *@
-            @*     <div><span class="log-date">@logLine.Date</span> [<span class="log-severity @(logLine.Severity.ToString().ToLowerInvariant())">@logLine.SeverityText</span>] <span class="log-message">@logLine.Message</span></div> *@
-            @* </Virtualize> *@
         }
     </div>
 
 </div>
+
+    </Body>
+
+</PageView>

@@ -3099,6 +3099,61 @@ body.photino .paused-indicator {
   opacity: 0.7;
 }
 
+.side-search-page {
+  display: grid;
+  grid-template-columns: 20rem auto;
+  width: 100%;
+  height: 100%;
+  border-top: solid 1px var(--border-color);
+}
+.side-search-page .side-search {
+  background: var(--base-darker);
+  border-right: solid 1px var(--border-color);
+  padding: 1rem;
+}
+.side-search-page .side-search .title {
+  font-size: 1.1rem;
+  padding-bottom: 1rem;
+}
+.side-search-page .side-search .icon {
+  color: var(--accent);
+}
+.side-search-page .side-search button {
+  margin: 0 0 1rem;
+  width: 100%;
+}
+.side-search-page .side-search select {
+  border: none;
+  background: var(--input-background);
+}
+.side-search-page .side-search .select-button {
+  display: flex;
+  flex-direction: row;
+  background: var(--input-background);
+  height: var(--input-height);
+  border: solid 1px transparent;
+}
+.side-search-page .side-search .select-button:focus-within {
+  border-color: var(--accent);
+}
+.side-search-page .side-search .select-button select {
+  outline: none;
+  height: calc(var(--input-height) - 2px);
+}
+.side-search-page .side-search .select-button button {
+  width: 3rem;
+  margin-left: 0.5rem;
+  background: var(--base-lightest);
+  border: none;
+  height: calc(var(--input-height) - 2px);
+}
+.side-search-page .side-search .include-higher {
+  margin-bottom: 0 !important;
+}
+.side-search-page .search-content {
+  padding: 1rem 1rem 1rem 1rem;
+}
+
 @font-face {
   font-family: "Montserrat";
   src: url("webfonts/Montserrat-VariableFont_wght.ttf") format("truetype-variations");

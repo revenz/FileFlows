@@ -8,107 +8,119 @@
 
 @page "/library-files/search"
 
-<PageView Flex="@true" Title="@Title">
+<PageView Flex="@true" Title="@Title" ClassName="content-no-padding">
 
 <Head>
 </Head>
 
 <Body>
 
-<FlowTable @ref="Table" Data="@Data" TItem="LibraryFile" Selection="SelectionMode.Multiple" TableIdentifier="LibraryFilesSearch"
-           DoubleClick="@OnDoubleClick" MinWidth="@NameMinWidth">
-    <ToolBar>                    
-        <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-file" Label="Labels.View" />
-        <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Remove" />
-        <FlowTableHelpButton HelpUrl="overview/files" />
-    </ToolBar>
+<div class="library-file-search side-search-page">
+    <div class="side-search">
 
-    <Columns>
-        <FlowTableColumn TItem="LibraryFile">
-            <Header>
-                @Globals.lblName
-            </Header>
-            <Cell Context="item">
-                <span>@item.RelativePath</span>
-            </Cell>
-        </FlowTableColumn>
-        <FlowTableColumn TItem="LibraryFile" Width="10rem" MobileWidth="7rem">
-            <Header>
-                Status
-            </Header>
-            <Cell Context="item">
-                <span>@item.Status</span>
-            </Cell>
-        </FlowTableColumn>
-        <FlowTableColumn TItem="LibraryFile" Width="12rem" MobileWidth="0" Hidden="App.Instance.IsMobile">
-            <Header>
-                Library
-            </Header>
-            <Cell Context="item">
-                <span>@item.Library</span>
-            </Cell>
-        </FlowTableColumn>
-    </Columns>
-</FlowTable>
+        <div class="search-fields">
+            <div class="search-field input search-path">
+                <div class="label">Path</div>
+                <div class="value">
+                    <input id="lfs-path" type="text" @bind="SearchModel.Path">
+                </div>
+            </div>
+            <div class="search-field input">
+                <div class="label">Library Name</div>
+                <div class="value">
+                    <input type="text" @bind="SearchModel.LibraryName">
+                </div>
+            </div>
+            <div class="search-field input">
+                <div class="label">Status</div>
+                <div class="value">
+                    <select @bind="SearchModel.Status">
+                        @foreach (var opt in StatusOptions)
+                        {
+                            <option value=@opt.Value>@opt.Label</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="search-field input">
+                <div class="label">Date</div>
+                <div class="value">
+                    <DateRangePicker OnRangeSelect=@OnRangeSelect Ranges=@DateRangeHelper.DateRanges TimePicker="true" TimePicker24Hour="true" DateFormat="@($"d MMM HH:mm")">
+                        <PickerTemplate>
+                            <div id="@context.Id" @onclick="context.Toggle" class="daterangeinput">
+                                <i class="fas fa-calendar"></i>
+                                <span>
+                                    @if ((context.TStartDate == null && context.TEndDate == null) ||
+                                         (context.TStartDate < new DateTime(2000,1,1) && context.TEndDate > new DateTime(2100,1,1) ))
+                                    {
+                                        <span>Any Time</span>
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            @context.FormattedRange
+                                        </span>
+                                    }
+                                </span>
+                                <i class="fas fa-chevron-down float-right"></i>
+                            </div>
+                        </PickerTemplate>
+                    </DateRangePicker>
+                </div>
+            </div>
+            <div class="search-field input">
+                <div class="label">Limit</div>
+                <div class="value">
+                    <input type="number" @bind="SearchModel.Limit">
+                </div>
+            </div>
+        </div>
+
+        <button class="btn" @onclick="Search">@lblSearch</button>
+
+        <button class="btn" @onclick="Close">@lblClose</button>
+    </div>
+    <div class="search-content">
+
+        <FlowTable @ref="Table" Data="@Data" TItem="LibraryFile" Selection="SelectionMode.Multiple" TableIdentifier="LibraryFilesSearch"
+                   DoubleClick="@OnDoubleClick" MinWidth="@NameMinWidth">
+            <ToolBar>
+                <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-file" Label="Labels.View"/>
+                <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Remove"/>
+                <FlowTableHelpButton HelpUrl="overview/files"/>
+            </ToolBar>
+
+            <Columns>
+                <FlowTableColumn TItem="LibraryFile">
+                    <Header>
+                        @Globals.lblName
+                    </Header>
+                    <Cell Context="item">
+                        <span>@item.RelativePath</span>
+                    </Cell>
+                </FlowTableColumn>
+                <FlowTableColumn TItem="LibraryFile" Width="10rem" MobileWidth="7rem">
+                    <Header>
+                        Status
+                    </Header>
+                    <Cell Context="item">
+                        <span>@item.Status</span>
+                    </Cell>
+                </FlowTableColumn>
+                <FlowTableColumn TItem="LibraryFile" Width="12rem" MobileWidth="0" Hidden="App.Instance.IsMobile">
+                    <Header>
+                        Library
+                    </Header>
+                    <Cell Context="item">
+                        <span>@item.Library</span>
+                    </Cell>
+                </FlowTableColumn>
+            </Columns>
+        </FlowTable>
+    </div>
+</div>
+
 
 </Body>
 
 </PageView>
-
-<SearchPane @ref=SearchPane Searched=@Search Closed=@Closed InitialVisibleState="true">
-    <div class="search-field input search-path">
-        <div class="label">Path</div>
-        <div class="value">
-            <input id="lfs-path" type="text" @bind="SearchModel.Path">
-        </div>
-    </div>
-    <div class="search-field input">
-        <div class="label">Library Name</div>
-        <div class="value">
-            <input type="text" @bind="SearchModel.LibraryName">
-        </div>
-    </div>
-    <div class="search-field input">
-        <div class="label">Status</div>
-        <div class="value">
-            <select @bind="SearchModel.Status">
-                @foreach (var opt in StatusOptions)
-                {
-                    <option value=@opt.Value>@opt.Label</option>
-                }
-            </select>
-        </div>
-    </div>
-    <div class="search-field input">
-        <div class="label">Date</div>
-        <div class="value">
-            <DateRangePicker OnRangeSelect=@OnRangeSelect Ranges=@DateRangeHelper.DateRanges TimePicker="true" TimePicker24Hour="true" DateFormat="@($"d MMM HH:mm")">
-                  <PickerTemplate>
-                        <div id="@context.Id" @onclick="context.Toggle" class="daterangeinput">
-                            <i class="fas fa-calendar"></i>
-                            <span>
-                                @if ((context.TStartDate == null && context.TEndDate == null) ||
-                                     (context.TStartDate < new DateTime(2000,1,1) && context.TEndDate > new DateTime(2100,1,1) ))
-                                {
-                                    <span>Any Time</span>
-                                }
-                                else
-                                {
-                                    <span>
-                                        @context.FormattedRange
-                                    </span>
-                                }
-                            </span>
-                            <i class="fas fa-chevron-down float-right"></i>
-                        </div>
-                    </PickerTemplate>
-            </DateRangePicker>
-        </div>
-    </div>
-    <div class="search-field input">
-        <div class="label">Limit</div>
-        <div class="value">
-            <input type="number" @bind="SearchModel.Limit">
-        </div>
-    </div>
-</SearchPane>

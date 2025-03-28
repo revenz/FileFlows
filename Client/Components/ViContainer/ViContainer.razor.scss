@@ -92,6 +92,9 @@
     overflow: auto;
     position:relative;
 }
+.content-no-padding .content {
+    padding:0;
+}
 
 .bottom-buttons {
     padding: 0 1.5rem 1rem;
