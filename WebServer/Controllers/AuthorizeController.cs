@@ -85,7 +85,7 @@ public class AuthorizeController : Controller
         
         Response.Cookies.Append("AccessToken", jwt, new CookieOptions
         {
-            //HttpOnly = true, // means javascript cant access cookie, logout needs to clear the cookie
+            HttpOnly = true, 
             Secure = isHttps, // Localhost doesn't use HTTPS
             #if(DEBUG)
             SameSite = SameSiteMode.None, // Needed for cross-origin requests in dev
