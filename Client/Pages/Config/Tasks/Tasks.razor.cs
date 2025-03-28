@@ -66,6 +66,12 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
         lblFileProcessSuccess = Translater.Instant($"Enums.{nameof(TaskType)}.{nameof(TaskType.FileProcessSuccess)}");
         lblFileFlowsServerUpdating = Translater.Instant($"Enums.{nameof(TaskType)}.{nameof(TaskType.FileFlowsServerUpdating)}");
         lblFileFlowsServerUpdateAvailable = Translater.Instant($"Enums.{nameof(TaskType)}.{nameof(TaskType.FileFlowsServerUpdateAvailable)}");
+        
+        
+        Scripts = feService.Script.Scripts.Where(x =>
+                x.Type == ScriptType.System && x.Name != CommonVariables.FILE_DISPLAY_NAME)
+            .ToDictionary(x => x.Uid, x => x.Name);
+
         base.OnInitialized();
     }
 
@@ -73,22 +79,6 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
     /// we only want to do the sort the first time, otherwise the list will jump around for the user
     /// </summary>
     private List<Guid> initialSortOrder;
-
-
-    /// <inheritdoc />
-    public async override Task PostLoad()
-    {
-        try
-        {
-            var result = await HttpHelper.Get<Dictionary<Guid, string>>("/api/script/basic-list?type=system");
-            if (result.Success)
-                Scripts = result.Data.Where(x => x.Value != CommonVariables.FILE_DISPLAY_NAME).ToDictionary();
-        }
-        catch (Exception)
-        {
-            Toast.ShowError("Failed loading scripts");
-        }
-    }
 
     /// <inheritdoc />
     public override Task<List<FileFlowsTask>> PostLoadGotData(List<FileFlowsTask> data)
@@ -140,14 +130,6 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
     public override async Task<bool> Edit(FileFlowsTask item)
     {
         List<IFlowField> fields = new ();
-
-        // var scriptResponse = await HttpHelper.Get<Dictionary<string, string>>("/api/script/basic-list?type=system");
-        // if (scriptResponse.Success == false)
-        // {
-        //     Toast.ShowError(scriptResponse.Body);
-        //     return false;
-        // }
-
 
         if (Scripts.Any() != true)
         {

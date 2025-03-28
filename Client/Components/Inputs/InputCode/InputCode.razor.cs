@@ -44,8 +44,6 @@ public partial class InputCode : Input<string>, IDisposable
     {
         _ = Task.Run(async () =>
         {
-            // var shared = await HttpHelper.Get<Dictionary<string, string>>("/api/script/basic-list?type=Shared");
-            
             var jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>("import", $"./Components/Inputs/InputCode/InputCode.razor.js?v={Globals.Version}");
             jsInputCode = await jsObjectReference.InvokeAsync<IJSObjectReference>("createInputCode", new object[] { DotNetObjectReference.Create(this) });
             if (Language == "shell")

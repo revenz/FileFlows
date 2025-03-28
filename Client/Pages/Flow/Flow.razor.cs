@@ -611,23 +611,19 @@ public partial class Flow : ComponentBase, IDisposable
                         {
                             if (flowOptions == null)
                             {
-                                flowOptions = new List<ListOption>();
-                                var flowsResult = await HttpHelper.Get<Dictionary<Guid, string>>(
-                                    $"/api/flow/basic-list?type=" + (optp == "FLOW_LIST" ? "Standard" : "SubFlow"));
-                                if (flowsResult.Success)
-                                {
-                                    flowOptions = flowsResult.Data?.Where(x => x.Key != editor.Flow?.Uid)
-                                        ?.OrderBy(x => x.Value)?.Select(x => new ListOption
+                                var wanted = optp == "FLOW_LIST" ? FlowType.SubFlow : FlowType.Standard;
+                                flowOptions = feService.Flow.Flows
+                                    .Where(x => x.Uid != editor.Flow?.Uid && x.Type == wanted)
+                                    .OrderBy(x => x.Name.ToLowerInvariant())?.Select(x => new ListOption
+                                    {
+                                        Label = x.Name,
+                                        Value = new ObjectReference
                                         {
-                                            Label = x.Value,
-                                            Value = new ObjectReference
-                                            {
-                                                Name = x.Value,
-                                                Uid = x.Key,
-                                                Type = typeof(FFlow).FullName
-                                            }
-                                        })?.ToList() ?? new List<ListOption>();
-                                }
+                                            Name = x.Name,
+                                            Uid = x.Uid,
+                                            Type = typeof(FFlow).FullName
+                                        }
+                                    }).ToList();
                             }
 
                             field.Parameters["Options"] = flowOptions;
@@ -663,22 +659,17 @@ public partial class Flow : ComponentBase, IDisposable
                         {
                             if (nodeOptions == null)
                             {
-                                nodeOptions = new List<ListOption>();
-                                var nodesResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/node/basic-list?enabled=true");
-                                if (nodesResult.Success)
-                                {
-                                    nodeOptions = nodesResult.Data.OrderBy(x => x.Value.ToLowerInvariant()).Select(
-                                        x => new ListOption
+                                nodeOptions = feService.Node.NodeList.OrderBy(x => x.Value.ToLowerInvariant()).Select(
+                                    x => new ListOption
+                                    {
+                                        Label = x.Value == "FileFlowsServer" ? "Internal Processing Node" : x.Value,
+                                        Value = new ObjectReference
                                         {
-                                            Label = x.Value == "FileFlowsServer" ? "Internal Processing Node" : x.Value,
-                                            Value = new ObjectReference
-                                            {
-                                                Name = x.Value,
-                                                Uid = x.Key,
-                                                Type = typeof(FileFlows.Shared.Models.ProcessingNode).FullName
-                                            }
-                                        })?.ToList() ?? new List<ListOption>();
-                                }
+                                            Name = x.Value,
+                                            Uid = x.Key,
+                                            Type = typeof(FileFlows.Shared.Models.ProcessingNode).FullName
+                                        }
+                                    })?.ToList() ?? new List<ListOption>();
                             }
 
                             var list = nodeOptions.ToList();
@@ -698,14 +689,8 @@ public partial class Flow : ComponentBase, IDisposable
                         {
                             if (libraryOptions == null)
                             {
-                                libraryOptions = new List<ListOption>();
-                                var librariesResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/library/basic-list");
-                                if (librariesResult.Success)
-                                {
-                                    // if (librariesResult.Data.ContainsKey(CommonVariables.ManualLibraryUid) == false)
-                                    //     librariesResult.Data[CommonVariables.ManualLibraryUid] =
-                                    //         CommonVariables.ManualLibrary;
-                                    libraryOptions = librariesResult.Data.OrderBy(x => x.Value.ToLowerInvariant()).Select(
+                                libraryOptions = feService.Library.LibraryList.OrderBy(x => x.Value.ToLowerInvariant())
+                                    .Select(
                                         x => new ListOption
                                         {
                                             Label = x.Value,
@@ -716,7 +701,6 @@ public partial class Flow : ComponentBase, IDisposable
                                                 Type = typeof(FileFlows.Shared.Models.ProcessingNode).FullName
                                             }
                                         })?.ToList() ?? new List<ListOption>();
-                                }
                             }
 
                             field.Parameters["Options"] = libraryOptions;

@@ -91,21 +91,6 @@ public class NodeController : BaseController
     }
     
     /// <summary>
-    /// Basic node list
-    /// </summary>
-    /// <param name="enabled">if the nodes should be enabled, otherwise all are returned</param>
-    /// <returns>node list</returns>
-    [HttpGet("basic-list")]
-    [FileFlowsAuthorize(UserRole.Nodes | UserRole.Admin | UserRole.Reports | UserRole.Flows)]
-    public async Task<Dictionary<Guid, string>> GetNodeList([FromQuery] bool? enabled = null)
-    {
-        var items = await ServiceLoader.Load<NodeService>().GetAllAsync();
-        if (enabled == true)
-            items = items.Where(x => x.Enabled).ToList();
-        return items.ToDictionary(x => x.Uid, x => x.Name == CommonVariables.InternalNodeName ? "Internal Processing Node" : x.Name);
-    }
-
-    /// <summary>
     /// Gets an overview of the nodes
     /// </summary>
     /// <returns>the response</returns>

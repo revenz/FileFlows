@@ -183,4 +183,9 @@ public class FlowListModel: IInUse, IUniqueObject<Guid>
     /// Gets or sets the Icon of the flow
     /// </summary>
     public string Icon { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this is a folder flow
+    /// </summary>
+    public bool FolderFlow { get; set; }
 }

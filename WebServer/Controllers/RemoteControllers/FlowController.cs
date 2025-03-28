@@ -25,19 +25,6 @@ public class FlowController : Controller
         => ServiceLoader.Load<FlowService>().GetByUidAsync(uid);
     
     /// <summary>
-    /// Basic flow list
-    /// </summary>
-    /// <returns>flow list</returns>
-    [HttpGet("basic-list")]
-    public async Task<Dictionary<Guid, string>> GetFlowList([FromQuery] FlowType? type = FlowType.Standard)
-    {
-        IEnumerable<Flow> items = await new FlowService().GetAllAsync();
-        if (type != null)
-            items = items.Where(x => x.Type == type.Value);
-        return items.OrderBy(x => x.Name.ToLowerInvariant()).ToDictionary(x => x.Uid, x => x.Name);
-    }
-    
-    /// <summary>
     /// Gets the failure flow for a particular library
     /// </summary>
     /// <param name="libraryUid">the UID of the library</param>

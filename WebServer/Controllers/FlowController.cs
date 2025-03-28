@@ -36,25 +36,6 @@ public class FlowController : BaseController
     public async Task<IEnumerable<Flow>> GetAll() => 
         (await ServiceLoader.Load<FlowService>().GetAllAsync()).OrderBy(x => x.Name.ToLowerInvariant());
 
-    /// <summary>
-    /// Basic flow list
-    /// </summary>
-    /// <param name="type">the flow tyeps to get</param>
-    /// <param name="folderFlows">if folder flows should be feteched</param>
-    /// <returns>flow list</returns>
-    [HttpGet("basic-list")]
-    [FileFlowsAuthorize(UserRole.Flows | UserRole.Libraries | UserRole.Reports)]
-    public async Task<Dictionary<Guid, string>> GetFlowList([FromQuery] FlowType? type = null, [FromQuery] bool? folderFlows = null)
-    {
-        IEnumerable<Flow> items = await new FlowService().GetAllAsync();
-        if (type != null)
-            items = items.Where(x => x.Type == type.Value);
-        if (folderFlows == true)
-            items = items.Where(x => x.Type is FlowType.Standard && x.Parts.Any(x => x.Type == FlowElementType.Input && x.FlowElementUid.EndsWith("Folder")));
-        else if (folderFlows == false)
-            items = items.Where(x => x.Type is FlowType.Standard && x.Parts.Any(x => x.Type == FlowElementType.Input && x.FlowElementUid.EndsWith("Folder") == false));
-        return items.ToDictionary(x => x.Uid, x => x.Name);
-    }
 
     [HttpGet("list-all")]
     public async Task<IEnumerable<FlowListModel>> ListAll()

@@ -18,21 +18,6 @@ public class ScriptController : BaseController
         => ServiceLoader.Load<ScriptService>().GetAll();
 
     /// <summary>
-    /// Basic script list
-    /// </summary>
-    /// <param name="type">optional script type</param>
-    /// <returns>script list</returns>
-    [HttpGet("basic-list")]
-    [FileFlowsAuthorize(UserRole.Nodes | UserRole.Tasks)]
-    public async Task<Dictionary<Guid, string>> GetBasicList([FromQuery] ScriptType? type = null)
-    {
-        var items = await ServiceLoader.Load<ScriptService>().GetAll();
-        if (type != null)
-            items = items.Where(x => x.Type == type.Value).ToList();
-        return items.ToDictionary(x => x.Uid, x => x.Name);
-    }
-
-    /// <summary>
     /// Get script templates for the function editor
     /// </summary>
     /// <param name="language">the language to get the templates for</param>

@@ -61,7 +61,7 @@ public partial class NewLibraryWizard : IModal
     /// <summary>
     /// Translation strings
     /// </summary>
-    private string lblTitle, lblLibraryType, lblLibraryTypeDescription, lblGeneral, lblGeneralDescription,
+    private string lblLibraryType, lblLibraryTypeDescription, lblGeneral, lblGeneralDescription,
         lblFileTypes, lblFileTypesDescription, lblFileExtensions, lblFileExtensionsDescription;
 
     /// <summary>
@@ -150,32 +150,25 @@ public partial class NewLibraryWizard : IModal
     }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        var flowResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list?folderFlows=false");
-        if (flowResult.Success)
-        {
-            Flows = flowResult.Data;
-            FlowOptions = flowResult.Data
-                .OrderBy(x => x.Value.ToLowerInvariant())
-                .Select(x => new ListOption()
-                {
-                    Value = x.Key,
-                    Label = x.Value
-                }).ToList();
-        }
-        var flowResultFolders = await HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list?folderFlows=true");
-        if (flowResultFolders.Success)
-        {
-            FlowsFolders = flowResultFolders.Data;
-            FlowOptionsFolders = flowResultFolders.Data
-                .OrderBy(x => x.Value.ToLowerInvariant())
-                .Select(x => new ListOption()
-                {
-                    Value = x.Key,
-                    Label = x.Value
-                }).ToList();
-        }
+        Flows = feService.Flow.Flows.Where(x => x.Type == FlowType.Standard &&  x.FolderFlow == false).ToDictionary(x => x.Uid, x => x.Name);
+        FlowOptions = Flows
+            .OrderBy(x => x.Value.ToLowerInvariant())
+            .Select(x => new ListOption()
+            {
+                Value = x.Key,
+                Label = x.Value
+            }).ToList();
+        
+        FlowsFolders = feService.Flow.Flows.Where(x => x.Type == FlowType.Standard && x.FolderFlow).ToDictionary(x => x.Uid, x => x.Name);
+        FlowOptionsFolders = FlowsFolders
+            .OrderBy(x => x.Value.ToLowerInvariant())
+            .Select(x => new ListOption()
+            {
+                Value = x.Key,
+                Label = x.Value
+            }).ToList();
 
         if (FlowOptions.Count == 0)
         {
@@ -186,7 +179,6 @@ public partial class NewLibraryWizard : IModal
         
         IsWindows = feService.Profile.Profile.ServerOS == OperatingSystemType.Windows;
         
-        lblTitle = Translater.Instant("Dialogs.NewLibraryWizard.Title");
         lblLibraryType = Translater.Instant("Dialogs.NewLibraryWizard.Labels.LibraryType");
         lblLibraryTypeDescription = Translater.Instant("Dialogs.NewLibraryWizard.Labels.LibraryTypeDescription");
         lblGeneral = Translater.Instant("Dialogs.NewLibraryWizard.Labels.General");

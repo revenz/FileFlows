@@ -33,13 +33,14 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>
             node.Mappings ??= new();
             if (node.ProcessingOrder == null)
                 node.ProcessingOrder = (ProcessingOrder)1000;
-            scripts = (await HttpHelper.Get<Dictionary<Guid, string>>("/api/script/basic-list?type=System")).Data ??
-                      new();
+            
+            scripts = feService.Script.Scripts.Where(x => x.Type == ScriptType.System).ToDictionary(x => x.Uid, x => x.Name);
+            
             tabs.Add("General", TabGeneral(node, isServerProcessingNode, scripts));
             tabs.Add("Schedule", TabSchedule(node, isServerProcessingNode));
             if (isServerProcessingNode == false)
                 tabs.Add("Mappings", TabMappings(node));
-            tabs.Add("Processing", await TabProcessing(node));
+            tabs.Add("Processing", TabProcessing(node));
             if (node.OperatingSystem != OperatingSystemType.Windows)
                 tabs.Add("Advanced", TabAdvanced(node));
             tabs.Add("Variables", TabVariables(node));
@@ -254,19 +255,20 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>
     }
     
     
-    private async Task<List<IFlowField>> TabProcessing(ProcessingNode node)
+    private List<IFlowField> TabProcessing(ProcessingNode node)
     {
-        var librariesResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/library/basic-list");
-        var libraries = librariesResult?.Data?.Select(x => new ListOption
-        {
-            Label = x.Value,
-            Value = new ObjectReference
+        var libraries = feService.Library.Libraries
+            .OrderBy(x => x.Name.ToLowerInvariant()
+            ).Select(x => new ListOption
             {
-                Uid = x.Key,
-                Name = x.Value,
-                Type = typeof(Library)?.FullName ?? string.Empty
-            }
-        })?.OrderBy(x => x.Label)?.ToList() ?? new List<ListOption>();
+                Label = x.Name,
+                Value = new ObjectReference
+                {
+                    Uid = x.Uid,
+                    Name = x.Name,
+                    Type = typeof(Library)?.FullName ?? string.Empty
+                }
+            }).OrderBy(x => x.Label).ToList();
         List<IFlowField> fields = new ();
         fields.Add(new ElementField
         {

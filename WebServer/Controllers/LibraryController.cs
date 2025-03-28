@@ -35,19 +35,6 @@ public class LibraryController : BaseController
     public async Task<IEnumerable<Library>> GetAll() 
         => (await ServiceLoader.Load<LibraryService>().GetAllAsync()).OrderBy(x => x.Name.ToLowerInvariant());
 
-
-    /// <summary>
-    /// Basic library list
-    /// </summary>
-    /// <returns>library list</returns>
-    [HttpGet("basic-list")]
-    [FileFlowsAuthorize(UserRole.Files | UserRole.Nodes | UserRole.Reports | UserRole.Flows)]
-    public async Task<Dictionary<Guid, string>> GetLibraryList()
-    {
-        var items = await ServiceLoader.Load<LibraryService>().GetAllAsync();
-        return items.ToDictionary(x => x.Uid, x => x.Name);
-    }
-
     /// <summary>
     /// Get a library
     /// </summary>
