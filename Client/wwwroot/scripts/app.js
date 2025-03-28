@@ -23,7 +23,7 @@ window.ff = {
             return ACCESS_TOKEN = token;
         }
     },
-    clearAcessTokenCookie: function() {
+    clearAccessTokenCookie: function() {
         document.cookie = "AccessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     },
     doFetch: function(url) {

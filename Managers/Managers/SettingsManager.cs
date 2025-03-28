@@ -19,7 +19,7 @@ public class SettingsManager
     /// <summary>
     /// Called when the revision is updated
     /// </summary>
-    public event RevisionUpdatedHandler? RevisionUpdated;
+    public static event RevisionUpdatedHandler? RevisionUpdated;
 
     static SettingsManager()
     {

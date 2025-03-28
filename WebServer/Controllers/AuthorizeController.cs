@@ -80,14 +80,17 @@ public class AuthorizeController : Controller
 
         var jwt = AuthenticationHelper.CreateJwtToken(result.Value, ipAddress, settings.TokenExpiryMinutes);
         
+        // Determine if the request is HTTPS
+        bool isHttps = Request.IsHttps;
+        
         Response.Cookies.Append("AccessToken", jwt, new CookieOptions
         {
-            //HttpOnly = true,
-            //Secure = false, // Localhost doesn't use HTTPS
+            //HttpOnly = true, // means javascript cant access cookie, logout needs to clear the cookie
+            Secure = isHttps, // Localhost doesn't use HTTPS
             #if(DEBUG)
             SameSite = SameSiteMode.None, // Needed for cross-origin requests in dev
             #endif
-            //Path = "/"
+            Path = "/"
         });
         
         return Ok(jwt);

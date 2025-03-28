@@ -62,8 +62,7 @@
                         <span class="icon">
                             @if (FileMode == 0)
                             {
-                                <img id="thumb-@file.Uid" class="icon thumbnail" src="@GetThumbUrl(file)" @onclick="() => OpenFile(file)" 
-                                     alt="@file.DisplayName" />
+                                <img id="thumb-@file.Uid" class="icon thumbnail" src="@GetThumbUrl(file)" @onclick="() => OpenFile(file)" />
                             }
                             else
                             {

@@ -121,7 +121,7 @@ public class ProfileService(NavigationManager navigationManager, FFLocalStorageS
         await LocalStorageService.SetAccessToken(null);
         HttpHelper.Client.DefaultRequestHeaders.Authorization = null;
         // clera AccessToken coookie
-        await jsRuntime.InvokeVoidAsync("ff.clearAcessTokenCookie");
+        await jsRuntime.InvokeVoidAsync("ff.clearAccessTokenCookie");
         
         
         string suffix = string.IsNullOrWhiteSpace(message) ? string.Empty : "?msg=" + HttpUtility.UrlEncode(message);

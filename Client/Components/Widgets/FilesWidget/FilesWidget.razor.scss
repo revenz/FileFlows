@@ -129,7 +129,11 @@
   }
   .icon.thumbnail {
     height: 7rem;
-    width: 7rem;  
+    max-height: 7rem;
+    min-height: 7rem;
+    width: 7rem;
+    max-width: 7rem;
+    min-width: 7rem;
     cursor: pointer;
     position: relative;
     margin-right: 0.5rem;
