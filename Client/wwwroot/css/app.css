@@ -317,7 +317,7 @@ a.btn {
     position: fixed;
     z-index: 3;
     top: 4rem;
-    left: 191px;
+    left: 2rem;
     width: 75px;
     background: var(--accent);
     height: 25px;
@@ -4140,6 +4140,10 @@ hr {
 .table-item .icon {
   width: 3.25rem;
   min-width: 3.25rem;
+  max-width: 3.25rem;
+  height: 3.25rem;
+  min-height: 3.25rem;
+  max-height: 3.25rem;
   margin-right: 0.75rem;
   align-self: center;
   text-align: center;
