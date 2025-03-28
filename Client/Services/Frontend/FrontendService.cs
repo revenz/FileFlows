@@ -160,6 +160,19 @@ public class FrontendService : IAsyncDisposable
                     return;
                 }
 
+                if (response.StatusCode == HttpStatusCode.Redirect)
+                {
+                    if (response.Headers.Location != null)
+                    {
+                        string redirectUrl = response.Headers.Location.IsAbsoluteUri
+                            ? response.Headers.Location.ToString() // Convert absolute URI to string
+                            : new Uri(url, response.Headers.Location).ToString(); // Resolve relative URI
+
+                        _navigationManager.NavigateTo(redirectUrl, true);
+                        return; // Ensure we completely exit the SSE listener
+                    }
+                }
+
                 response.EnsureSuccessStatusCode();
 
                 await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);

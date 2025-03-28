@@ -343,7 +343,6 @@ public partial class NavMenu : IDisposable
             // ignored
         }
 
-        NavMenuCollapsedUpdated(App.Instance.NavMenuCollapsed);
         this.InitDone = false;
     }
 
@@ -443,20 +442,6 @@ public partial class NavMenu : IDisposable
     private void ToggleUserMenu()
     {
         UserMenuOpened = !UserMenuOpened;
-    }
-
-    /// <summary>
-    /// Updates if the nav menu is collapsed
-    /// </summary>
-    /// <param name="collapsed">if it is collapsed or not</param>
-    public void NavMenuCollapsedUpdated(bool collapsed)
-    {
-        _ = jsNavMenu.InvokeVoidAsync("menuSet", new object []
-        {
-            MenuItems.Count, 
-            MenuItems.SelectMany(x => x.Items).Count(x => x != nmiPause),
-            collapsed
-        });
     }
 }
 

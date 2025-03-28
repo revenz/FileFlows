@@ -8,7 +8,7 @@
     bool hideFields = ActiveFlow == null || ActiveFlow.Flow?.ReadOnly == true;
 }
 <div class="flow-wrapper @(hideFields ? "hide-flow-elements": "")">
-    <div class="flow-container @(App.Instance.NavMenuCollapsed ? "has-collapsed-menu" : "") @(App.Instance.IsMobile ? (ElementsVisible ? "elements-visible" : "elements-hidden") : "")">
+    <div class="flow-container @(App.Instance.IsMobile ? (ElementsVisible ? "elements-visible" : "elements-hidden") : "")">
         @if (App.Instance.IsMobile)
         {
             <i id="show-elements" class="show-elements fas fa-sitemap" @onclick="ShowElementsOnClick"></i>

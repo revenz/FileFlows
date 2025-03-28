@@ -21,12 +21,23 @@ public class SseController : Controller
     [HttpGet]
     public async Task Get([FromQuery] bool initialData = false)
     {
+        var settings = await ServiceLoader.Load<ISettingsService>().Get();
+
+        if (settings.InitialConfigDone == false)
+        {
+            Response.StatusCode = StatusCodes.Status302Found; // 302 Redirect
+            #if(DEBUG)
+            Response.Headers.Location = "http://loclahost:6868/initial-config"; // Set redirect URL
+            #else
+            Response.Headers.Location = "/initial-config"; // Set redirect URL
+            #endif
+            return;
+        }
+
         Response.Headers.Append("Content-Type", "text/event-stream");
         Response.Headers.Append("Cache-Control", "no-cache");
         Response.Headers.Append("Connection", "keep-alive");
-        
         var user = await HttpContext.GetLoggedInUser();
-
 
         var userRole = AuthenticationHelper.GetSecurityMode() == SecurityMode.Off
             ? UserRole.Admin
@@ -40,7 +51,7 @@ public class SseController : Controller
         {
             if (initialData)
             { 
-                var data = await GetInitialData(HttpContext, userRole);
+                var data = await GetInitialData(HttpContext, userRole, settings);
                 if (HttpContext.RequestAborted.IsCancellationRequested)
                     return; // in case it took too long and the request was closed while waiting
 
@@ -74,7 +85,7 @@ public class SseController : Controller
     /// <summary>
     /// Gets the initial data to send to the client
     /// </summary>
-    private async Task<InitialClientData> GetInitialData(HttpContext context, UserRole userRole)
+    private async Task<InitialClientData> GetInitialData(HttpContext context, UserRole userRole, Settings settings)
     {
         var logSummary = new StringBuilder();
         var swAll = new System.Diagnostics.Stopwatch();
@@ -90,7 +101,6 @@ public class SseController : Controller
         var variablesTask = ServiceLoader.Load<VariableService>().GetAllAsync();
         var pluginsTask = ServiceLoader.Load<PluginService>().GetForBroadcast();
         var scheduledReportsTask = ServiceLoader.Load<ScheduledReportService>().GetAll();
-        var settingsTask = ServiceLoader.Load<ISettingsService>().Get();
 
         var allTasks = new List<Task>
         {
@@ -101,8 +111,7 @@ public class SseController : Controller
             flowElementsTask,
             variablesTask,
             pluginsTask,
-            scheduledReportsTask,
-            settingsTask
+            scheduledReportsTask
         };
 
         // Log the start time for all tasks
@@ -133,6 +142,7 @@ public class SseController : Controller
         var profile = profileTask.Result;
         if (profile == null)
             throw new Exception("User is not logged in");
+        
 
         stopwatch.Restart();
         var lang = await ServiceLoader.Load<LanguageService>().GetLanguageJson(profile.Language);
@@ -180,7 +190,7 @@ public class SseController : Controller
         var result = new InitialClientData
         {
             Profile = profile,
-            PageSize = settingsTask.Result.MaxPageSize,
+            PageSize = settings.MaxPageSize,
             LanguageJson = lang,
             CurrentSystemInfo = ServiceLoader.Load<SystemOverviewService>().GetSystemInfo(),
             CurrentFileOverData = ServiceLoader.Load<DashboardFileOverviewService>().GetData(),

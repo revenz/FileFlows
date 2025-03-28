@@ -62,7 +62,6 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
                 Value = FileStatus.ReprocessByFlow, Label = Translater.Instant("Enums.FileStatus.ReprocessByFlow")
             },
         }.OrderBy(x => x.Label!.ToLowerInvariant())).ToList();
-        MainLayout.Instance.ShowSearch();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -86,7 +85,6 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
 
     async Task Closed()
     {
-        MainLayout.Instance.HideSearch();
         await NavigationService.NavigateTo("/library-files");
     }
 

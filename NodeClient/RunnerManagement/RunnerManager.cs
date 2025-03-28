@@ -8,6 +8,7 @@ using FileFlows.ServerShared.Models;
 using FileFlows.ServerShared.Services;
 using FileFlows.Shared;
 using FileFlows.Shared.Models;
+using NPoco.Expressions;
 
 namespace FileFlows.NodeClient;
 
@@ -287,6 +288,9 @@ public class RunnerManager
     {
         if (_activeRunners.TryGetValue(info.LibraryFile.Uid, out var runner) == false)
             return;
+        // started at isnt tracked in the runner it self
+        info.StartedAt = runner.Info.StartedAt;
+        
         runner.Info = info;
         RunnerUpdated?.Invoke();
     }

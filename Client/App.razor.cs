@@ -77,27 +77,6 @@ public partial class App : ComponentBase
         }
     }
     
-    /// <summary>
-    /// Gets or sets if the nav menu is collapsed
-    /// </summary>
-    public bool NavMenuCollapsed { get; set; }
-
-    //
-    // /// <summary>
-    // /// Loads the language files from the server
-    // /// </summary>
-    // /// <param name="language">Optional language to load</param>
-    // public async Task LoadLanguage(string? language = null)
-    // {
-    //     var langFile = await LoadLanguageFile($"/api/language?version={Globals.Version}&t={DateTime.Now.Ticks}&language={language}");;
-    //     Translater.Init(langFile);
-    // }
-
-    //
-    // private async Task<string> LoadLanguageFile(string url)
-    // {
-    //     return (await HttpHelper.Get<string>(url)).Data ?? "";
-    // }
 
     protected override async Task OnInitializedAsync()
     {

@@ -29,18 +29,15 @@ public partial class MainLayout : LayoutComponentBase
 
     public static MainLayout Instance { get; private set; }
 
-    private bool SearchVisible = false;
-
     public MainLayout()
     {
         Instance = this;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         HttpHelper.On401 = On401;
         HttpHelper.OnRedirect = OnRedirect;
-        App.Instance.NavMenuCollapsed = await LocalStorage.GetItemAsync<bool>("NavMenuCollapsed");
     }
 
 
@@ -60,18 +57,5 @@ public partial class MainLayout : LayoutComponentBase
     private void OnRedirect(string location)
     {
         NavigationManager.NavigateTo(location, true);
-    }
-
-    public void ShowSearch()
-    {
-        SearchVisible = true;
-        this.StateHasChanged();
-    }
-
-    public void HideSearch()
-    {
-        SearchVisible = false;
-        this.StateHasChanged();
-        
     }
 }
