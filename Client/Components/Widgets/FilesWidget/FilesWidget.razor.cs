@@ -113,7 +113,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// <param name="lat">the updated list</param>
     private void OnRecentlyFinishedUpdated(FileHandler.ListAndCount lat)
     {
-        RecentlyFinished = TotalFinished > 50 ? lat.Files.Take(50).ToList() : lat.Files;
+        RecentlyFinished = lat.Files.Count > 50 ? lat.Files.Take(50).ToList() : lat.Files;
         TotalFinished = RecentlyFinished.Count;
         lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished});
         StateHasChanged();

@@ -215,7 +215,17 @@ The FileFlows Team");
 
         return Redirect("/login?pr=1");
     }
-
+    
+    /// <summary>
+    /// Logs out of the UI
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("logout")]
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("AuthCookie");
+        return Redirect("/login");
+    }
 
 
     /// <summary>

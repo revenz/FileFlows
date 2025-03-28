@@ -26,6 +26,12 @@ window.ff = {
     clearAccessTokenCookie: function() {
         document.cookie = "AccessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     },
+    logout : function() {
+        ff.clearAccessTokenCookie();
+        try {
+            localStorage.removeItem('ACCESS_TOKEN');
+        }catch(err){}        
+    },
     doFetch: function(url) {
         let token = ff.getAccessToken();
         if(!token)
