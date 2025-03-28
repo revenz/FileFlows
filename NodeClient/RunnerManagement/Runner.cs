@@ -42,6 +42,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         LibraryFile = args.LibraryFile,
         NodeUid = node.Uid,
         NodeName = node.Name,
+        StartedAt = DateTime.UtcNow,
         CurrentPartName = "Startup"
     };
 
