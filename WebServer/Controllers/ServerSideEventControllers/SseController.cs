@@ -18,8 +18,9 @@ public class SseController : Controller
     /// Gets a SSE connection
     /// </summary>
     /// <param name="initialData">if the initial data should be sent</param>
+    /// <param name="mobile">if the client is a mobile device</param>
     [HttpGet]
-    public async Task Get([FromQuery] bool initialData = false)
+    public async Task Get([FromQuery] bool initialData = false, [FromQuery] bool mobile = false)
     {
         var settings = await ServiceLoader.Load<ISettingsService>().Get();
 
@@ -51,7 +52,7 @@ public class SseController : Controller
         {
             if (initialData)
             { 
-                var data = await GetInitialData(HttpContext, userRole, settings);
+                var data = await GetInitialData(HttpContext, userRole, mobile, settings);
                 if (HttpContext.RequestAborted.IsCancellationRequested)
                     return; // in case it took too long and the request was closed while waiting
 
@@ -62,7 +63,7 @@ public class SseController : Controller
                 await Task.Delay(5000, HttpContext.RequestAborted);
             }
             
-            clientId = _broker.AddClient(writer, userRole);
+            clientId = _broker.AddClient(writer, userRole, mobile);
 
             while (HttpContext.RequestAborted.IsCancellationRequested == false)
             {
@@ -85,7 +86,7 @@ public class SseController : Controller
     /// <summary>
     /// Gets the initial data to send to the client
     /// </summary>
-    private async Task<InitialClientData> GetInitialData(HttpContext context, UserRole userRole, Settings settings)
+    private async Task<InitialClientData> GetInitialData(HttpContext context, UserRole userRole, bool mobile, Settings settings)
     {
         var logSummary = new StringBuilder();
         var swAll = new System.Diagnostics.Stopwatch();
@@ -160,17 +161,17 @@ public class SseController : Controller
         var serviceFileProcessed = ServiceLoader.Load<FileProcessed>();
         var successful = serviceFileProcessed.GetData();
         var successfulTotal = serviceFileProcessed.Total;
-        if ((userRole & UserRole.Files) != UserRole.Files && successful.Count > 50)
+        if (mobile ||(userRole & UserRole.Files) != UserRole.Files && successful.Count > 50)
             successful = successful.Take(50).ToList();
         
         var serviceFileFailed = ServiceLoader.Load<FileProcessingFailed>();
         var failed = serviceFileFailed.GetData();
         var failedTotal = serviceFileFailed.Total;
-        if ((userRole & UserRole.Files) != UserRole.Files && failed.Count > 50)
+        if (mobile || (userRole & UserRole.Files) != UserRole.Files && failed.Count > 50)
             failed = failed.Take(50).ToList();
 
         var upcoming = ServiceLoader.Load<FileQueueService>().PeekList();
-        if ((userRole & UserRole.Files) != UserRole.Files && upcoming.Count > 50)
+        if (mobile ||(userRole & UserRole.Files) != UserRole.Files && upcoming.Count > 50)
             upcoming = upcoming.Take(50).ToList();
         
         logSummary.AppendLine(

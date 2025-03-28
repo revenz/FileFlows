@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using FileFlows.Client.Services.Frontend.Handlers;
 using Jint.Native.Json;
@@ -136,7 +137,7 @@ public class FrontendService : IAsyncDisposable
     /// <param name="cancellationToken">The cancellation token for stopping the connection.</param>
     private async Task ListenToSSE(string endpoint, string authToken, CancellationToken cancellationToken)
     {
-        var url = _navigationManager.ToAbsoluteUri(endpoint);
+        string url = _navigationManager.ToAbsoluteUri(endpoint).ToString();
         int retryDelay = 1000; // Start with 1 second delay
 
         while (!cancellationToken.IsCancellationRequested)
@@ -146,8 +147,12 @@ public class FrontendService : IAsyncDisposable
                 using var scope = _serviceProvider.CreateScope();
                 var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
 
-                using var request = new HttpRequestMessage(HttpMethod.Get,
-                    url + (IsInitialized == false ? "?initialData=true" : ""));
+                if (IsInitialized == false)
+                    url += "?initialData=true";
+                if(App.Instance.IsMobile)
+                    url += (IsInitialized ? "?" : "&") + "mobile=true";
+
+                using var request = new HttpRequestMessage(HttpMethod.Get, url);
                 request.SetBrowserResponseStreamingEnabled(true);
                 request.Headers.Add("Accept", "text/event-stream");
                 if(string.IsNullOrWhiteSpace(authToken) == false)
@@ -166,7 +171,7 @@ public class FrontendService : IAsyncDisposable
                     {
                         string redirectUrl = response.Headers.Location.IsAbsoluteUri
                             ? response.Headers.Location.ToString() // Convert absolute URI to string
-                            : new Uri(url, response.Headers.Location).ToString(); // Resolve relative URI
+                            : "/"; // Resolve relative URI
 
                         _navigationManager.NavigateTo(redirectUrl, true);
                         return; // Ensure we completely exit the SSE listener
