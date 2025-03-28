@@ -3152,6 +3152,7 @@ body.photino .paused-indicator {
 }
 .side-search-page .search-content {
   padding: 1rem 1rem 1rem 1rem;
+  overflow: hidden;
 }
 
 @font-face {
