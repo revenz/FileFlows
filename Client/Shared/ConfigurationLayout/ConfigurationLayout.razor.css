@@ -99,7 +99,8 @@
   color: rgba(var(--color-rgb), 0.4) !important;
 }
 .configuration-layout .version-info a:hover {
-  color: var(--accent);
+  color: var(--color) !important;
+  text-decoration: none;
 }
 
 @media screen and (min-width: 850px) {
