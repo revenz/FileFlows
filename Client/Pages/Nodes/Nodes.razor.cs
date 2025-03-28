@@ -16,19 +16,14 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
 
     // private NodeStatusSummary EditingItem = null;
 
-    private string lblTitle, lblDownloadNode;
+    private string lblTitle;
 
 
     /// <summary>
     /// we only want to do the sort the first time, otherwise the list will jump around for the user
     /// </summary>
     private List<Guid> initialSortOrder;
-     
-#if(DEBUG)
-    string DownloadUrl = "http://localhost:6868/download";
-#else
-    string DownloadUrl = "/download";
-#endif
+    
     protected override void OnInitialized()
     {
         Profile ??= feService.Profile.Profile;
@@ -38,7 +33,6 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
         lblDeleting = Translater.Instant("Labels.Deleting");
         lblRefresh = Translater.Instant("Labels.Refresh");
         lblTitle = Translater.Instant("Pages.Nodes.Title");
-        lblDownloadNode = Translater.Instant("Pages.Nodes.Labels.DownloadNode");
 
         Data = feService.Node.NodeStatusSummaries.OrderBy(x => x.Enabled ? 0 : 1)
             .ThenByDescending(x => x.Priority)

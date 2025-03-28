@@ -7,41 +7,34 @@
 
 <PageView ClassName="flex" Title="@lblTitle" Icon="fas fa-desktop">
 
-    <Head>
-        @if (App.Instance.IsMobile == false)
-        {
-            <a class="btn btn-download-node" target="_blank" href="@DownloadUrl">@lblDownloadNode</a>
-        }
-    </Head>
-
     <Body>
-    <div class="page-node-list">
-    <FlowTable @ref="Table" Data="@Data" TItem="NodeStatusSummary" Selection="SelectionMode.Multiple" TableIdentifier="Nodes"
-               DoubleClick="@OnDoubleClick" DisableColumn="(item) => !item.Enabled">
-        <ToolBar>
-            <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit"/>
-            <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete"/>
-            @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
-            {
+        <div class="page-node-list">
+        <FlowTable @ref="Table" Data="@Data" TItem="NodeStatusSummary" Selection="SelectionMode.Multiple" TableIdentifier="Nodes"
+                   DoubleClick="@OnDoubleClick" DisableColumn="(item) => !item.Enabled">
+            <ToolBar>
+                <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit"/>
+                <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete"/>
+                @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
+                {
+                    <FlowTableButtonSeparator/>
+                    <FlowTableButton Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit"/>
+                }
                 <FlowTableButtonSeparator/>
-                <FlowTableButton Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit"/>
-            }
-            <FlowTableButtonSeparator/>
-            <FlowTableHelpButton HelpUrl="configuration/nodes"/>
-        </ToolBar>
+                <FlowTableHelpButton HelpUrl="configuration/nodes"/>
+            </ToolBar>
 
-        <Columns>
-            <FlowTableColumn TItem="NodeStatusSummary" NoHeight="true">
-                <Header>
-                    @Globals.lblName
-                </Header>
-                <Cell Context="item">
-                    <ProcessingNodeElement Node="item" ListPage="true" />
-                </Cell>
-            </FlowTableColumn>
-        </Columns>
-    </FlowTable>
-    </div>
+            <Columns>
+                <FlowTableColumn TItem="NodeStatusSummary" NoHeight="true">
+                    <Header>
+                        @Globals.lblName
+                    </Header>
+                    <Cell Context="item">
+                        <ProcessingNodeElement Node="item" ListPage="true" />
+                    </Cell>
+                </FlowTableColumn>
+            </Columns>
+        </FlowTable>
+        </div>
     </Body>
 
 </PageView>
