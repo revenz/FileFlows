@@ -40,7 +40,7 @@
                             </div>
                         }
                     }
-                    else if (item.Url == "libraries" && LibrariesPending)
+                    else if (FlowsPending == false && item.Url == "libraries" && LibrariesPending)
                     {
                         if (NavigationManager.Uri.Contains("/libraries") == false)
                         {

@@ -88,6 +88,8 @@ public class WebView
 #endif
 
         var iconFile = folderPrefix + "wwwroot/icon" + (PhotinoWindow.IsWindowsPlatform ? ".ico" : ".png");
+        
+        Console.WriteLine("IconFile: " + iconFile);
 
         // Creating a new PhotinoWindow instance with the fluent API
         window = new PhotinoWindow()
