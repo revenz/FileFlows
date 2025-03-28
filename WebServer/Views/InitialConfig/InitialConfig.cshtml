@@ -531,13 +531,13 @@
                 
                 console.log('status code: ' + result.status);
 
-                if (result.status === 200) {
-                    window.location.href = '/'; // Redirect on success
+                if (result.redirected) {
+                    window.location.href = result.url; // Follow the redirect
                     return;
-                } else {
-                    let responseBody = await result.text(); // Read response text
-                    Toast.error(responseBody || 'Failed to save configuration');
                 }
+                
+                let responseBody = await result.text(); // Read response text
+                Toast.error(responseBody || 'Failed to save configuration');
             } catch (error) {
                 console.error('Error submitting form:', error);
                 Toast.error('An error occurred while submitting the form.');

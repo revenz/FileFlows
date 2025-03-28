@@ -144,6 +144,8 @@
     "SpaceIncrease": "{size} увеличение, {items} элементов",
     "SpaceSavings": "{size} сэкономлено, {items} элементов",
     "Status": "Статус",
+    "Step1": "Шаг 1",
+    "Step2": "Шаг 2",
     "SubFlow": "Под поток",
     "SubFlows": "Под потоки",
     "Success": "Успех",

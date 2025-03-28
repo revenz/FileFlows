@@ -144,6 +144,8 @@
     "SpaceIncrease": "{size} erhöht, {items} Elemente",
     "SpaceSavings": "{size} gespart, {items} Elemente",
     "Status": "Status",
+    "Step1": "Schritt 1",
+    "Step2": "Schritt 2",
     "SubFlow": "Sub Flow",
     "SubFlows": "Sub Flows",
     "Success": "Erfolgreich",

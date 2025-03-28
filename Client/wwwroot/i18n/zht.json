@@ -144,6 +144,8 @@
     "SpaceIncrease": "{size} 增加，{items} 項目",
     "SpaceSavings": "{size} 節省，{items} 項目",
     "Status": "狀態",
+    "Step1": "步驟 1",
+    "Step2": "步驟 2",
     "SubFlow": "子流程",
     "SubFlows": "子流程",
     "Success": "成功",

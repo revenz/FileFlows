@@ -771,13 +771,13 @@ input[type=file]{
     }
     .not-configured-pointer {
         position: absolute;
-        right: -9px;
-        top:5px;
-        width: 75px;
+        right: -7rem;
+        top: 1.25rem;
+        width: 7rem;
+        height: 2rem;
+        z-index:10;
         background: var(--accent);
-        height: 25px;
-        line-height: 25px;
-        margin-bottom: 30px;
+        line-height: 2rem;
         text-align: center;
         color: var(--color);
         animation: bounce 1.75s infinite;
@@ -790,9 +790,9 @@ input[type=file]{
             position: absolute;
             left: -10px;
             top: 0;
-            border-top: 12px solid transparent;
-            border-bottom: 14px solid transparent;
-            border-right: 10px solid var(--accent);
+            border-top: 1rem solid transparent;
+            border-bottom: 1rem solid transparent;
+            border-right: 0.75rem solid var(--accent);
         }
     }
     @keyframes bounce {

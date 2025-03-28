@@ -144,6 +144,8 @@
     "SpaceIncrease": "{size} 증가, {items} 항목",
     "SpaceSavings": "{size} 절감, {items} 항목",
     "Status": "상태",
+    "Step1": "1단계",
+    "Step2": "2단계",
     "SubFlow": "하위 흐름",
     "SubFlows": "하위 흐름들",
     "Success": "성공",

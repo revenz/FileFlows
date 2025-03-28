@@ -31,7 +31,25 @@
                         <span class="name">@item.Title</span>
                     </a>
                     
-                    @if (item.Url == "library-files")
+                    @if (item.Url == "flows" && FlowsPending)
+                    {
+                        if (NavigationManager.Uri.Contains("/flows") == false)
+                        {
+                            <div class="not-configured-pointer">
+                                @lblStep1
+                            </div>
+                        }
+                    }
+                    else if (item.Url == "libraries" && LibrariesPending)
+                    {
+                        if (NavigationManager.Uri.Contains("/libraries") == false)
+                        {
+                            <div class="not-configured-pointer">
+                                @lblStep2
+                            </div>
+                        }
+                    }
+                    else if (item.Url == "library-files")
                     {
                         @if (TotalProcessing > 0)
                         {

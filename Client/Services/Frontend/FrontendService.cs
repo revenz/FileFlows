@@ -160,7 +160,7 @@ public class FrontendService : IAsyncDisposable
                     return;
                 }
 
-                if (response.StatusCode == HttpStatusCode.Redirect)
+                if (response.StatusCode == HttpStatusCode.UnavailableForLegalReasons)
                 {
                     if (response.Headers.Location != null)
                     {

@@ -34,10 +34,20 @@ public partial class MainLayout : LayoutComponentBase
         Instance = this;
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         HttpHelper.On401 = On401;
         HttpHelper.OnRedirect = OnRedirect;
+    }
+
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
+            StateHasChanged();
+        
+        base.OnAfterRender(firstRender);
     }
 
 

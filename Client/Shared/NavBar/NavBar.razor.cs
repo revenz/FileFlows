@@ -35,7 +35,7 @@ public partial class NavBar
     
     public NavBarItem Active { get; private set; }
 
-    private string lblVersion, lblHelp, lblDiscord, lblChangePassword, lblLogout; //, lblReddit;
+    private string lblVersion, lblHelp, lblDiscord, lblChangePassword, lblLogout, lblStep1, lblStep2; //, lblReddit;
 
     /// <summary>
     /// Totals for the bubbles
@@ -62,6 +62,11 @@ public partial class NavBar
     /// Gets or sets the users profile
     /// </summary>
     private Profile Profile;
+    
+    /// <summary>
+    /// If the flows or libraries are pending creation
+    /// </summary>
+    private bool FlowsPending, LibrariesPending;
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -72,6 +77,9 @@ public partial class NavBar
         lblDiscord = Translater.Instant("Labels.Discord");
         lblChangePassword = Translater.Instant("Labels.ChangePassword");
         lblLogout = Translater.Instant("Labels.Logout");
+        
+        lblStep1 = Translater.Instant("Labels.Step1");
+        lblStep2 = Translater.Instant("Labels.Step2");
         
         NavigationManager.LocationChanged += NavigationManagerOnLocationChanged;
 
@@ -88,8 +96,19 @@ public partial class NavBar
         FilesOnLibraryFileCountsUpdated(feService.Files.LibraryFileCounts);
         feService.Files.LibraryFileCountsUpdated += FilesOnLibraryFileCountsUpdated;
         feService.Files.FileQueueUpdated += FilesOnFileQueueUpdated;
-        feService.Runner.RunnerInfoUpdated += RunnerOnRunnerInfoUpdated; 
-        
+        feService.Runner.RunnerInfoUpdated += RunnerOnRunnerInfoUpdated;
+
+        if (feService.Flow.Flows.Count == 0)
+        {
+            FlowsPending = true;
+            feService.Flow.FlowsUpdated += OnFlowsUpdated;
+        }
+
+        if (feService.Library.Libraries.Count == 1) // 1 since Manual library is one
+        {
+            LibrariesPending = true;
+            feService.Library.LibrariesUpdated += OnLibrariesUpdated;
+        }
         try
         {
             string currentRoute = NavigationManager.Uri[NavigationManager.BaseUri.Length..];
@@ -112,6 +131,30 @@ public partial class NavBar
         {
             // ignored
         }
+    }
+
+    /// <summary>
+    /// Called when flows are updated
+    /// </summary>
+    /// <param name="flows">the updated flows</param>
+    private void OnFlowsUpdated(List<FlowListModel> flows)
+    {
+        // once a flow has been added, the step 1 indicator is no longer tracked
+        feService.Flow.FlowsUpdated -= OnFlowsUpdated;
+        FlowsPending = false;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Called when libraries are updated
+    /// </summary>
+    /// <param name="libraries">the updated libraries</param>
+    private void OnLibrariesUpdated(List<LibraryListModel> libraries)
+    {
+        // once a library has been added, the step 1 indicator is no longer tracked
+        feService.Library.LibrariesUpdated -= OnLibrariesUpdated;
+        LibrariesPending = false;
+        StateHasChanged();
     }
 
     private void RunnerOnRunnerInfoUpdated(List<FlowExecutorInfoMinified> obj)

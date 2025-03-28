@@ -25,9 +25,9 @@ public class SseController : Controller
 
         if (settings.InitialConfigDone == false)
         {
-            Response.StatusCode = StatusCodes.Status302Found; // 302 Redirect
+            Response.StatusCode = StatusCodes.Status451UnavailableForLegalReasons; // code browsers dont auto redirect on
             #if(DEBUG)
-            Response.Headers.Location = "http://loclahost:6868/initial-config"; // Set redirect URL
+            Response.Headers.Location = "http://localhost:6868/initial-config"; // Set redirect URL
             #else
             Response.Headers.Location = "/initial-config"; // Set redirect URL
             #endif

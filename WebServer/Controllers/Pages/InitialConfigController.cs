@@ -198,7 +198,7 @@ public class InitialConfigController : BaseController
         var service = (SettingsService)ServiceLoader.Load<ISettingsService>();
         var settings = await service.Get();
         if (settings.InitialConfigDone)
-            return BadRequest("Initial configuration is already complete");
+            return RedirectToIndex();
         
         if (model.Plugins?.Any() == true)
         {
@@ -206,9 +206,11 @@ public class InitialConfigController : BaseController
             var availableResult = await pluginService.GetPluginPackagesActual();
             if (availableResult.Success(out var available))
             {
+                #if(!DEBUG)
                 var plugins = available.Where(x => model.Plugins.Contains(x.Package)).ToList();
                 if (plugins.Count > 0)
                     await pluginService.DownloadPlugins(plugins);
+                #endif
             }
         }
 
@@ -241,7 +243,16 @@ public class InitialConfigController : BaseController
             }
         }
 
-        return Ok();
+        return RedirectToIndex();
+
+        IActionResult RedirectToIndex()
+        {
+#if(DEBUG)
+            return Redirect("http://localhost:5276/flows/00000000-0000-0000-0000-000000000000");
+#else
+        return Redirect("/flows/00000000-0000-0000-0000-000000000000");
+#endif
+        }
     }
 
     /// <summary>
