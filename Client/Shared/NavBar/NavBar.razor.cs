@@ -296,7 +296,7 @@ public partial class NavBar
     {
         if (await Confirm.Show(
                 Translater.Instant("Labels.ConfirmLogOutTitle"), 
-                Translater.Instant("Label.ConfirmLogOutMessage")) == false)
+                Translater.Instant("Labels.ConfirmLogOutMessage")) == false)
             return;
 
         await jsRuntime.InvokeVoidAsync("ff.logout");
