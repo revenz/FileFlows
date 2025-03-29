@@ -77,7 +77,7 @@
                             
                         @if (item.Url == "/logout")
                         {
-                            <a href="@item.Url" onclick="ff.logout()">
+                            <a href="@item.Url" @onclick="() => ConfirmLogOut()">
                                 <i class="icon @item.Icon"></i>
                                 <span class="name">@item.Title</span>
                             </a>

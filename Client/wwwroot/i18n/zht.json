@@ -20,6 +20,8 @@
     "Close": "關閉",
     "CommunityFlows": "社群流程",
     "Confirm": "確認",
+    "ConfirmLogOutMessage": "您確定要登出嗎？",
+    "ConfirmLogOutTitle": "登出",
     "CopiedToClipboard": "已將 ''{text}'' 複製到剪貼簿。",
     "Copy": "複製",
     "CopyToClipboard": "複製到剪貼簿",

@@ -20,6 +20,8 @@
     "Close": "关闭",
     "CommunityFlows": "社区流",
     "Confirm": "确认",
+    "ConfirmLogOutMessage": "您确定要退出登录吗？",
+    "ConfirmLogOutTitle": "退出登录",
     "CopiedToClipboard": "已将 ''{text}'' 复制到剪贴板。",
     "Copy": "复制",
     "CopyToClipboard": "复制到剪贴板",

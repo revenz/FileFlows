@@ -20,6 +20,8 @@
     "Close": "Закрыть",
     "CommunityFlows": "Сообщество потоков",
     "Confirm": "Подтвердить",
+    "ConfirmLogOutMessage": "Вы уверены, что хотите выйти?",
+    "ConfirmLogOutTitle": "Выйти",
     "CopiedToClipboard": "Скопировано ''{text}'' в буфер обмена.",
     "Copy": "Копировать",
     "CopyToClipboard": "Копировать в буфер обмена",

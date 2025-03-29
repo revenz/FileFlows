@@ -20,6 +20,8 @@
     "Close": "Fermer",
     "CommunityFlows": "Flow de la communauté",
     "Confirm": "Confirmer",
+    "ConfirmLogOutMessage": "Êtes-vous sûr de vouloir vous déconnecter?",
+    "ConfirmLogOutTitle": "Déconnexion",
     "CopiedToClipboard": "Copié ''{text}'' dans le presse-papiers.",
     "Copy": "Copier",
     "CopyToClipboard": "Copier dans le presse-papiers",

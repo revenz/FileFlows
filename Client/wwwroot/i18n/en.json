@@ -20,6 +20,8 @@
     "Close": "Close",
     "CommunityFlows": "Community Flows",
     "Confirm": "Confirm",
+    "ConfirmLogOutMessage": "Are you sure you want to log out?",
+    "ConfirmLogOutTitle": "Log Out",
     "CopiedToClipboard": "Copied ''{text}'' to clipboard.",
     "Copy": "Copy",
     "CopyToClipboard": "Copy to clipboard",

@@ -20,6 +20,8 @@
     "Close": "닫기",
     "CommunityFlows": "커뮤니티 흐름",
     "Confirm": "확인",
+    "ConfirmLogOutMessage": "정말 로그아웃하시겠습니까?",
+    "ConfirmLogOutTitle": "로그아웃",
     "CopiedToClipboard": "''{text}''을(를) 클립보드에 복사했습니다.",
     "Copy": "복사",
     "CopyToClipboard": "클립보드에 복사",

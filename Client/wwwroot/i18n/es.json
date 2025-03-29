@@ -20,6 +20,8 @@
     "Close": "Cerrar",
     "CommunityFlows": "Flows Comunitarios",
     "Confirm": "Confirmar",
+    "ConfirmLogOutMessage": "¿Está seguro de que desea cerrar sesión?",
+    "ConfirmLogOutTitle": "Cerrar sesión",
     "CopiedToClipboard": "Copiado ''{text}'' al portapapeles.",
     "Copy": "Copiar",
     "CopyToClipboard": "Copiar al portapapeles",

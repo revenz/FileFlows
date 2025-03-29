@@ -20,6 +20,8 @@
     "Close": "Stäng",
     "CommunityFlows": "Gemenskapsflöden",
     "Confirm": "Bekräfta",
+    "ConfirmLogOutMessage": "Är du säker på att du vill logga ut?",
+    "ConfirmLogOutTitle": "Logga ut",
     "CopiedToClipboard": "Kopierade ''{text}'' till urklipp.",
     "Copy": "Kopiera",
     "CopyToClipboard": "Kopiera till urklipp",

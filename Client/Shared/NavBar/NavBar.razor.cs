@@ -287,6 +287,19 @@ public partial class NavBar
     {
         UserMenuOpened = !UserMenuOpened;
     }
+
+    /// <summary>
+    /// Confirms a user log out
+    /// </summary>
+    /// <returns>a task to await</returns>
+    private async Task ConfirmLogOut()
+    {
+        if (await Confirm.Show("Labels.ConfirmLogOutTitle", "Label.ConfirmLogOutMessage") == false)
+            return;
+
+        await jsRuntime.InvokeVoidAsync("ff.logout");
+        NavigationManager.NavigateTo("/logout");
+    }
 }
 
 

@@ -20,6 +20,8 @@
     "Close": "Schließen",
     "CommunityFlows": "Community Flows",
     "Confirm": "Bestätige",
+    "ConfirmLogOutMessage": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+    "ConfirmLogOutTitle": "Abmelden",
     "CopiedToClipboard": "''{text}'' in Zwischenablage kopiert.",
     "Copy": "Kopieren",
     "CopyToClipboard": "In Zwischenablage kopieren",

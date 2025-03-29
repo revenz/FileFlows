@@ -20,6 +20,8 @@
     "Close": "閉じる",
     "CommunityFlows": "コミュニティフロー",
     "Confirm": "確認",
+    "ConfirmLogOutMessage": "本当にログアウトしますか？",
+    "ConfirmLogOutTitle": "ログアウト",
     "CopiedToClipboard": "''{text}''をクリップボードにコピーしました。",
     "Copy": "コピー",
     "CopyToClipboard": "クリップボードにコピー",
