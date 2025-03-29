@@ -5,9 +5,9 @@
 
 @if (loaded)
 {
-    <div class="dashboard-wrapper">
-        <CascadingValue Value="Profile" IsFixed="true">
-        <FlowTabs @ref="Tabs" Style="TabStyle.NewStyle" TitleOnlyOnActive="App.Instance.IsSmallMobile">
+    <CascadingValue Value="Profile" IsFixed="true">
+        <PageView @ref="Tabs" TabView="true" TitleOnlyOnActive="App.Instance.IsSmallMobile" ClassName="dashboard-wrapper">
+            <Body>
             @if (App.Instance.IsMobile)
             {
                 <FlowTab Title="@lblDashboard" Icon="fas fa-chart-pie" ClassName="dashboard">
@@ -57,7 +57,7 @@
                     </div>
                 </FlowTab>
             }
-        
+
             <FlowTab Title="@lblUpdates" Icon="fas fa-cloud-download-alt" Uid="updates" Visible="@(UpdateInfoData?.HasUpdates == true)">
                 @if (UpdateInfoData.FileFlowsVersion != null && UpdateInfoData.HasExtensionUpdates)
                 {
@@ -80,7 +80,7 @@
                 }
 
             </FlowTab>
-        </FlowTabs>
-        </CascadingValue>
-    </div>
+            </Body>
+        </PageView>
+    </CascadingValue>
 }

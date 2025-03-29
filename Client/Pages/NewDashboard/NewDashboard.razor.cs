@@ -33,7 +33,7 @@ public partial class NewDashboard : ComponentBase, IDisposable
     /// <summary>
     /// The tabs
     /// </summary>
-    private FlowTabs Tabs;
+    private IFlowTabs Tabs;
 
     private string lblDashboard, lblSavings, lblUpdates, lblStatistics, lblNodes, lblRunners;
 

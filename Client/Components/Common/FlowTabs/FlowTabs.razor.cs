@@ -4,9 +4,49 @@ using System.Collections.Generic;
 namespace FileFlows.Client.Components.Common;
 
 /// <summary>
+/// Interface for tabs
+/// </summary>
+public interface IFlowTabs
+{
+    /// <summary>
+    /// Called when the visibility of a tab has changed
+    /// </summary>
+    void TabVisibilityChanged();
+
+    /// <summary>
+    /// Adds a tab to the collection.
+    /// </summary>
+    /// <param name="tab">The tab to add.</param>
+    void AddTab(FlowTab tab);
+    
+    /// <summary>
+    /// Gets or set the active tab
+    /// </summary>
+    FlowTab ActiveTab { get; set; }
+
+    /// <summary>
+    /// Sets the first visible tab as the active tab.
+    /// </summary>
+    /// <param name="forced">If we are forcing the first tab to be active</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    void SelectFirstTab(bool forced = false);
+
+    /// <summary>
+    /// Selects a tab by its unique identifier.
+    /// </summary>
+    /// <param name="uid">the tabs UID</param>
+    void SelectTabByUid(string uid);
+
+    /// <summary>
+    /// Triggers the state has changed
+    /// </summary>
+    void TriggerStateHasChanged();
+}
+
+/// <summary>
 /// Represents a collection of tabs.
 /// </summary>
-public partial class FlowTabs : ComponentBase
+public partial class FlowTabs : ComponentBase, IFlowTabs
 {
     /// <summary>
     /// Gets or sets the content of the tabs.
@@ -18,9 +58,8 @@ public partial class FlowTabs : ComponentBase
     /// </summary>
     [Parameter]
     public TabStyle Style { get; set; }
-    /// <summary>
-    /// Gets or set the active tab
-    /// </summary>
+    
+    /// <inheritdoc />
     public FlowTab ActiveTab { get; set; }
     
     /// <summary>
@@ -49,11 +88,8 @@ public partial class FlowTabs : ComponentBase
     /// </summary>
     private List<FlowTab> Tabs = new();
 
-    /// <summary>
-    /// Adds a tab to the collection.
-    /// </summary>
-    /// <param name="tab">The tab to add.</param>
-    internal void AddTab(FlowTab tab)
+    /// <inheritdoc />
+    public void AddTab(FlowTab tab)
     {
         if (Tabs.Contains(tab) == false)
         {
@@ -75,10 +111,8 @@ public partial class FlowTabs : ComponentBase
         OnTabChanged.InvokeAsync(Tabs.IndexOf(tab));
     }
 
-    /// <summary>
-    /// Called when the visibility of a tab has changed
-    /// </summary>
-    internal void TabVisibilityChanged()
+    /// <inheritdoc />
+    public void TabVisibilityChanged()
         => StateHasChanged();
 
     /// <inheritdoc/>
@@ -88,11 +122,7 @@ public partial class FlowTabs : ComponentBase
         return Task.CompletedTask;
     }
     
-    /// <summary>
-    /// Sets the first visible tab as the active tab.
-    /// </summary>
-    /// <param name="forced">If we are forcing the first tab to be active</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    /// <inheritdoc />
     public void SelectFirstTab(bool forced = false)
     {
         if (DisableChanging) return;
@@ -105,10 +135,7 @@ public partial class FlowTabs : ComponentBase
         }
     }
 
-    /// <summary>
-    /// Selects a tab by its unique identifier.
-    /// </summary>
-    /// <param name="uid">the tabs UID</param>
+    /// <inheritdoc />
     public void SelectTabByUid(string uid)
     {
         if (string.IsNullOrWhiteSpace(uid))
@@ -122,13 +149,9 @@ public partial class FlowTabs : ComponentBase
         }
     }
 
-    /// <summary>
-    /// Triggers the state has changed
-    /// </summary>
+    /// <inheritdoc />
     public void TriggerStateHasChanged()
-    {
-        StateHasChanged();
-    }
+        => StateHasChanged();
 
     /// <summary>
     /// Removes the current tab

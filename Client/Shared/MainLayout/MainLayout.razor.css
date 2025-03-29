@@ -139,10 +139,6 @@
   .page ::deep .nav-bar {
     grid-row-start: 2;
   }
-  .page ::deep .top-row {
-    display: unset;
-    background: var(--base);
-    border-bottom: solid 1px var(--border-color);
-    padding: 0.5rem;
-  }
 }
+
+/*# sourceMappingURL=MainLayout.razor.css.map */

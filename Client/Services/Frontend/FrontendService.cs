@@ -30,6 +30,17 @@ public class FrontendService : IAsyncDisposable
     private readonly FFLocalStorageService _ffLocalStorage;
     private CancellationTokenSource _cts;
     private Task _listeningTask;
+    
+    /// <summary>
+    /// Called when the connection is lost or reestablished
+    /// </summary>
+    public event Action<bool>? OnConnectionLost;
+    
+    /// <summary>
+    /// Gets if the connection is lost
+    /// </summary>
+    public bool ConnectionLost { get; private set; }
+
     /// <summary>
     /// Gets the register that is called when a event is received
     /// </summary>
@@ -140,6 +151,7 @@ public class FrontendService : IAsyncDisposable
         string url = _navigationManager.ToAbsoluteUri(endpoint).ToString();
         int retryDelay = 1000; // Start with 1 second delay
 
+        DateTime connectionLostAt = DateTime.MaxValue;
         while (!cancellationToken.IsCancellationRequested)
         {
             try
@@ -179,6 +191,14 @@ public class FrontendService : IAsyncDisposable
                 }
 
                 response.EnsureSuccessStatusCode();
+
+                if (ConnectionLost)
+                {
+                    connectionLostAt = DateTime.MaxValue;
+                    ConnectionLost = false;
+                    OnConnectionLost?.Invoke(false);
+                }
+
 
                 await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
                 using var reader = new StreamReader(stream);
@@ -238,9 +258,19 @@ public class FrontendService : IAsyncDisposable
                 Logger.Instance.WLog($"SSE connection lost: {ex.Message}. Retrying in {retryDelay} ms");
             }
 
+            if (connectionLostAt == DateTime.MaxValue)
+            {
+                connectionLostAt = DateTime.Now;
+            }
+            else if (connectionLostAt < DateTime.Now.AddSeconds(-10) && ConnectionLost == false)
+            {
+                ConnectionLost = true;
+                OnConnectionLost?.Invoke(true);
+            }
+            
             // Exponential backoff (max 60s)
             await Task.Delay(retryDelay, cancellationToken);
-            retryDelay = Math.Min(retryDelay * 2, 60000);
+            retryDelay = Math.Min(retryDelay * 2, 15000);
         }
     }
 

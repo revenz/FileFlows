@@ -1,3 +1,5 @@
+using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Shared;
 using Microsoft.CodeAnalysis.CSharp;
@@ -7,7 +9,7 @@ namespace FileFlows.Client.Components;
 /// <summary>
 /// Page view 
 /// </summary>
-public partial class PageView
+public partial class PageView : IDisposable, IFlowTabs
 {
     /// <summary>
     /// Gets or sets the nav menu component
@@ -59,7 +61,115 @@ public partial class PageView
     /// </summary>
     [Parameter] public bool FormPage { get; set; }
 
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this is using tabs
+    /// </summary>
+    [Parameter] public bool TabView { get; set; }
+    
     private string GetClassName()
-        => $"{(ClassName ?? string.Empty)} {(FormPage ? "form-page" : "")}";
+        => $"{(ClassName ?? string.Empty)} {(FormPage ? "form-page" : "")} {(TabView ? "tab-view" : "")} ";
+
+    /// <summary>
+    /// If the connection to the server has been lost
+    /// </summary>
+    private bool ConnectionLost = false;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        ConnectionLost = feService.ConnectionLost;
+        feService.OnConnectionLost += OnConnectionLost; 
+    }
+
+    /// <summary>
+    /// Called when the server connection is lost
+    /// </summary>
+    /// <param name="connectionLost">true if the connection is lost, false if the connection is restablished</param>
+    private void OnConnectionLost(bool connectionLost)
+    {
+        ConnectionLost = connectionLost;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        feService.OnConnectionLost -= OnConnectionLost;
+        
+    }
+
+    /// <inheritdoc />
+    public FlowTab ActiveTab { get; set; }
+
+    /// <summary>
+    /// Gets or sets if the title should only be shown on the active tab
+    /// </summary>
+    [Parameter] public bool TitleOnlyOnActive { get; set; }
+    
+    /// <inheritdoc />
+    public void TabVisibilityChanged()
+        => StateHasChanged();
+
+    /// <summary>
+    /// Represents a collection of tabs.
+    /// </summary>
+    private List<FlowTab> Tabs = new();
+
+    /// <inheritdoc />
+    public void TriggerStateHasChanged()
+        => StateHasChanged();
+
+    /// <inheritdoc />
+    public void AddTab(FlowTab tab)
+    {
+        if (Tabs.Contains(tab) == false)
+        {
+            Tabs.Add(tab);
+            if (ActiveTab == null)
+                ActiveTab = tab;
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>
+    /// Selects a tab.
+    /// </summary>
+    /// <param name="tab">The tab to select.</param>
+    private void SelectTab(FlowTab tab)
+    {
+        ActiveTab = tab;
+    }
+    
+
+    /// <inheritdoc />
+    public void SelectFirstTab(bool forced = false)
+    {
+        if (ActiveTab == null || forced)
+        {
+            ActiveTab = Tabs.FirstOrDefault(x => x.Visible);
+            StateHasChanged();
+        }
+    }
+
+    /// <inheritdoc />
+    public void SelectTabByUid(string uid)
+    {
+        if (string.IsNullOrWhiteSpace(uid))
+            return;
+        
+        var tab = Tabs.FirstOrDefault(x => x.Uid == uid);
+        if (tab != null)
+        {
+            SelectTab(tab);
+            StateHasChanged();
+        }
+    }
 
 }

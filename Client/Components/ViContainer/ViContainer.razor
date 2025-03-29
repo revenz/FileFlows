@@ -14,23 +14,12 @@
             @Title
             @HeadLeft
         </span>
-        
-        @if (App.Instance.IsMobile == false)
-        {
-            <span class="other">
-                @Head
-            </span>
-        }
+        <span class="other">
+            @Head
+        </span>
     </div>
 
     <div class="content">
         @Body
     </div>
-    
-    @if (App.Instance.IsMobile)
-    {
-        <div class="bottom-buttons">
-            @Head
-        </div>
-    }
 </div>

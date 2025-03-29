@@ -16,6 +16,7 @@
 @use 'report';
 @use 'wizard';
 @use 'search';
+@use 'dashboard';
 
 $mobile_width: 850px;
 
@@ -29,11 +30,11 @@ html {
     overflow: hidden;
 }
 
-
 body {
     --bold:600;
     --nav-menu-bold:700;
 }
+
 
 .initial-config + .toast-button {
     display:none;

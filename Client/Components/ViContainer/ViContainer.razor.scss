@@ -14,19 +14,23 @@
         display:flex;
         flex-direction: column;
     }
+    
+    &.tab-view {
+        .top-row .title {
+            overflow: unset !important;
+        }
+    }
 }
 
 
-@media screen and (min-width: 850px) {  
-    .top-row {
-        width:100%;
-        height: 3.5rem;
-        min-height: 3.5rem;
-        display: flex !important;
-        align-items: center;
-        padding:0 1.5rem;
-        border-bottom: solid 1px var(--border-color);
-    }
+.top-row {
+    width:100%;
+    height: 3.5rem;
+    min-height: 3.5rem;
+    display: flex !important;
+    align-items: center;
+    padding:0 1.5rem;
+    border-bottom: solid 1px var(--border-color);
 }
 
 .top-row {

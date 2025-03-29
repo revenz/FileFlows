@@ -1,0 +1,73 @@
+.page-view,dashboard-wrapper  .content {
+
+  height: 100%;
+  @media (max-width: 720px) {
+    .grid {
+      display: flex !important;
+      flex-direction: column !important;
+      height: fit-content !important;
+      overflow: unset !important;
+    }
+    .flow-widget {
+      margin-bottom: 1rem;
+    }
+  }
+  @media (min-width: 850px) {
+    > .flow-tab-buttons button:first-child {
+      margin-left: 1rem;
+    }
+  }
+
+  
+ .flow-tabs-content {
+    padding: 0 1rem;
+
+     .flow-tab.active {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      padding: 1rem;
+      @media screen and (max-width: 850px) {
+        overflow: auto;
+      }
+    }
+  }
+
+
+  .grid {
+    display: grid;
+    grid-gap: 0.5rem;
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-60-40 {
+    grid-template-columns: 1fr minmax(36rem, 40%);
+  }
+
+  @media (max-width: 1040px) {
+    .grid-60-40 {
+      grid-template-columns: 1fr minmax(28rem, 40%);
+    }
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .flex-grow {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+}

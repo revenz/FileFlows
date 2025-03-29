@@ -40,6 +40,8 @@ ul {
   padding: 0.75rem;
   color: var(--color) !important;
   text-decoration: none !important;
+  overflow: hidden;
+  position: relative;
 }
 .nav-item a i {
   font-size: 2rem;
@@ -61,7 +63,7 @@ ul {
 .nav-item.active .icon, .nav-item.active .name {
   opacity: 1;
 }
-.nav-item.active:after {
+.nav-item.active a::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -185,7 +187,8 @@ ul {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
     grid-auto-flow: column;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
   .navbar .main-nav {
     flex-grow: unset;
