@@ -1406,6 +1406,40 @@ input[type=file]{
     .content {
         padding-top:1rem;
     }
+    @media (min-width: 850px) {
+        .form-page-buttons {
+            margin: 2rem 0 0 18rem;
+
+            .btn {
+                min-width: 10rem;
+
+                + .btn {
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+        .form-page-button-w-desc {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-gap: 1rem;
+            .btn {
+                min-width: 8rem;
+            }
+            > div {
+                align-self: center;
+            }
+        }
+    }
+    @media (max-width: 849.99px)
+    {
+        .form-page-buttons {
+            margin: 2rem auto 0;
+            max-width:35rem;
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap:0.5rem;
+        }
+    }
 }
 
 @media screen and (max-width: 849.99px)

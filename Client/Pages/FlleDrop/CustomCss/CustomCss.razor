@@ -7,27 +7,14 @@
 
 <PageView Title="@lblTitle" Icon="fab fa-css3-alt" FormPage="true" Flex="true">
 
-    <Head>
-        <button id="settings-save" class="btn" @onclick=@Save>
-            @if(IsSaving)
-            {
-                @lblSaving
-            }
-            else
-            {
-                @lblSave
-            }
-        </button>
-
-        <button @onclick=@OpenHelp  class="btn btn-help">
-            @lblHelp
-        </button>
-    </Head>
-
     <Body>
     @if (initDone)
     {
-        <p>Here you can add custom CSS that will be added to every page in FileDrop.</p>
+        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl">
+            <Description>
+                <p>Here you can add custom CSS that will be added to every page in FileDrop.</p>
+            </Description>
+        </FlowFormPageButtons>
 
         <InputCode Language="css" @bind-Value="Model"/>
     }

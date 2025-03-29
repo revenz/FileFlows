@@ -6,23 +6,6 @@
 
 <PageView Title="@lblTitle" Icon="fas fa-shield-alt" FormPage="true">
 
-    <Head>
-        <button id="settings-save" class="btn" @onclick=@Save>
-            @if(IsSaving)
-            {
-                @lblSaving
-            }
-            else
-            {
-                @lblSave
-            }
-        </button>
-
-        <button @onclick=@OpenHelp  class="btn btn-help">
-            @lblHelp
-        </button>
-    </Head>
-
     <Body>
 
         <p style="white-space: pre-wrap">@((MarkupString)mdSecurityDescription)</p>
@@ -51,6 +34,8 @@
                 <InputNumber @bind-Value="@Model.LoginLockoutMinutes" Label="Pages.Settings.Fields.Security.LockoutMinutes"/>
             }
         }
-        </Body>
+        
+        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
+    </Body>
 
 </PageView>

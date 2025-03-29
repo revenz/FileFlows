@@ -6,23 +6,6 @@
 
 <PageView Title="@lblTitle" Icon="fas fa-cloud" FormPage="true">
 
-    <Head>
-        <button id="settings-save" class="btn" @onclick=@Save>
-            @if(IsSaving)
-            {
-                @lblSaving
-            }
-            else
-            {
-                @lblSave
-            }
-        </button>
-
-        <button @onclick=@OpenHelp  class="btn btn-help">
-            @lblHelp
-        </button>
-    </Head>
-
     <Body>
 
         <InputButton Label="Pages.Settings.Fields.CheckForUpdateNow" Text="@lblCheckNow" OnClick=@CheckForUpdateNow/>
@@ -30,7 +13,8 @@
         <InputSwitch @bind-Value="@Model.AutoUpdate" Label="Pages.Settings.Fields.AutoUpdate"/>
         <InputSwitch @bind-Value="@Model.AutoUpdatePlugins" Label="Pages.Settings.Fields.AutoUpdatePlugins"/>
         <InputSwitch @bind-Value="@Model.AutoUpdateNodes" Label="Pages.Settings.Fields.AutoUpdateNodes"/>
-   
+
+        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
     </Body>
 
 </PageView>

@@ -36,10 +36,15 @@ public partial class SecurityPage : InputRegister
     /// Gets the profile
     /// </summary>
     protected Profile Profile { get; private set; }
+    
+    /// <summary>
+    /// The help URL
+    /// </summary>
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/security";
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSave, lblSaving, lblHelp, mdSecurityDescription;
+    private string lblTitle, lblSaving, mdSecurityDescription;
 
 
     private SettingsUiModel Model { get; set; } = new ();
@@ -81,9 +86,7 @@ public partial class SecurityPage : InputRegister
     {
         Profile = feService.Profile.Profile;
         lblTitle = Translater.Instant("Pages.Settings.Fields.Security.Title");
-        lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
-        lblHelp = Translater.Instant("Labels.Help");
         mdSecurityDescription = RenderMarkdown("Pages.Settings.Fields.Security.Description");
         
         InitSecurityModes();
@@ -216,10 +219,4 @@ public partial class SecurityPage : InputRegister
             this.Blocker.Hide();
         }
     }
-
-    /// <summary>
-    /// Opens the help page
-    /// </summary>
-    private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/config/security");
 }

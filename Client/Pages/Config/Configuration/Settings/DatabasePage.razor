@@ -7,23 +7,6 @@
 
 <PageView Title="@lblTitle" Icon="fas fa-database" FormPage="true">
 
-    <Head>
-        <button id="settings-save" class="btn" @onclick=@Save>
-            @if(IsSaving)
-            {
-                @lblSaving
-            }
-            else
-            {
-                @lblSave
-            }
-        </button>
-
-        <button @onclick=@OpenHelp  class="btn btn-help">
-            @lblHelp
-        </button>
-    </Head>
-
     <Body>
 
         <p>@lblDbDescription</p>
@@ -50,6 +33,8 @@
             }
             <button class="btn" @onclick=@Restart>@lblRestart</button>
         </div>
+        
+        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
     
     </Body>
 

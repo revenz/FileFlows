@@ -6,23 +6,6 @@
 
 <PageView Title="@lblTitle" Icon="fas fa-cloud" FormPage="true">
 
-    <Head>
-        <button id="settings-save" class="btn" @onclick=@Save>
-            @if(IsSaving)
-            {
-                @lblSaving
-            }
-            else
-            {
-                @lblSave
-            }
-        </button>
-
-        <button @onclick=@OpenHelp  class="btn btn-help">
-            @lblHelp
-        </button>
-    </Head>
-
     <Body>
 
         <p>@lblEmailDescription</p>
@@ -35,6 +18,7 @@
         <InputText @bind-Value="@Model.SmtpFrom" Label="Pages.Settings.Fields.Smtp.From"/>
         <InputText @bind-Value="@Model.SmtpFromAddress" Label="Pages.Settings.Fields.Smtp.FromAddress"/>
 
+        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
     </Body>
 
 </PageView>

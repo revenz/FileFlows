@@ -37,7 +37,12 @@ public partial class FileServerPage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSave, lblSaving, lblHelp, lblFileServerDescription;
+    /// <summary>
+    /// The help URL
+    /// </summary>
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/file-server";
+
+    private string lblTitle, lblSaving, lblFileServerDescription;
 
     private FileServerModel Model { get; set; } = new ();
     
@@ -52,9 +57,7 @@ public partial class FileServerPage : InputRegister
         }
 
         lblTitle= Translater.Instant("Pages.Settings.Labels.FileServer");
-        lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
-        lblHelp = Translater.Instant("Labels.Help");
         lblFileServerDescription = Translater.Instant("Pages.Settings.Fields.FileServer.Description");
         
         Blocker.Show();
@@ -108,10 +111,4 @@ public partial class FileServerPage : InputRegister
             this.Blocker.Hide();
         }
     }
-
-    /// <summary>
-    /// Opens the help page
-    /// </summary>
-    private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/config/file-server");
 }

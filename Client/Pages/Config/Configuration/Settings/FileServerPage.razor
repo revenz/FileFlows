@@ -6,22 +6,6 @@
 
 <PageView Title="@lblTitle" Icon="fas fa-server" FormPage="true">
 
-    <Head>
-        <button id="settings-save" class="btn" @onclick=@Save>
-            @if(IsSaving)
-            {
-                @lblSaving
-            }
-            else
-            {
-                @lblSave
-            }
-        </button>
-
-        <button @onclick=@OpenHelp  class="btn btn-help">
-            @lblHelp
-        </button>
-    </Head>
 
     <Body>
         <p style="white-space: pre-wrap">@lblFileServerDescription</p>
@@ -35,6 +19,8 @@
         }
         <InputTextArea @bind-Value="@Model.FileServerAllowedPathsString" Label="Pages.Settings.Fields.FileServer.AllowList" Disabled="Model.FileServerDisabled"/>
 
+        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
+        
     </Body>
 
 </PageView>

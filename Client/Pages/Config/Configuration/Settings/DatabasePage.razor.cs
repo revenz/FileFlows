@@ -41,10 +41,15 @@ public partial class DatabasePage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSave, lblSaving, lblHelp, lblDbDescription, lblTest, lblRestart, lblTestingDatabase;
+    private string lblTitle,  lblSaving,  lblDbDescription, lblTest, lblRestart, lblTestingDatabase;
 
     private string OriginalDatabase, OriginalServer;
     private DatabaseType OriginalDbType;
+    
+    /// <summary>
+    /// The help URL
+    /// </summary>
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/database";
 
     private DatabaseModel Model { get; set; } = new ();
     // indicates if the page has rendered or not
@@ -85,9 +90,7 @@ public partial class DatabasePage : InputRegister
     {
         Profile = feService.Profile.Profile;
         lblTitle = Translater.Instant("Pages.Settings.Labels.Database");
-        lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
-        lblHelp = Translater.Instant("Labels.Help");
         lblDbDescription = Translater.Instant("Pages.Settings.Fields.Database.Description");
         lblTest = Translater.Instant("Labels.Test");
         lblRestart = Translater.Instant("Pages.Settings.Labels.Restart");
@@ -179,12 +182,6 @@ public partial class DatabasePage : InputRegister
             this.Blocker.Hide();
         }
     }
-
-    /// <summary>
-    /// Opens the help page
-    /// </summary>
-    private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/config/database");
 
     private async Task TestDbConnection()
     {

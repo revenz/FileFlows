@@ -1,6 +1,6 @@
 @namespace FileFlows.Client.Components.Common
 
-@if (Visible)
+@if (Visible && Area != ButtonArea.ContextMenu)
 {
     <div class="flow-table-button-separator @(Mobile ? "" : "hidden-on-mobile")"/>
 }

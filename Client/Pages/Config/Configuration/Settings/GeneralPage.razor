@@ -7,23 +7,6 @@
 
 <PageView Title="@lblTitle" Icon="fas fa-cogs" FormPage="true">
 
-    <Head>
-        <button id="settings-save" class="btn" @onclick=@Save>
-            @if(IsSaving)
-            {
-                @lblSaving
-            }
-            else
-            {
-                @lblSave
-            }
-        </button>
-
-        <button @onclick=@OpenHelp  class="btn btn-help">
-            @lblHelp
-        </button>
-    </Head>
-
     <Body>
 
         <InputDropDown CustomXID="Language" @bind-Value="@Language" Options=@LanguageOptions
@@ -49,6 +32,8 @@
             <hr />
             <InputSwitch @bind-Value="@Model.DisableTelemetry" Inverse="@true" Label="Pages.Settings.Fields.Telemetry" OnChangedValue="OnTelemetryChange"/>
         }
+        
+        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
     </Body>
 
 </PageView>

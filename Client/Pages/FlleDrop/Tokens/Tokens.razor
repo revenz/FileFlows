@@ -7,23 +7,6 @@
 
 <PageView Title="@lblTitle" Icon="fas fa-clock" FormPage="true">
 
-    <Head>
-        <button id="settings-save" class="btn" @onclick=@Save>
-            @if(IsSaving)
-            {
-                @lblSaving
-            }
-            else
-            {
-                @lblSave
-            }
-        </button>
-
-        <button @onclick=@OpenHelp  class="btn btn-help">
-            @lblHelp
-        </button>
-    </Head>
-
     <Body>
     @if (initDone)
     {
@@ -49,6 +32,8 @@
                    Help="This is the URL that will be opened for users to purchase new tokens.  It will include the include the query parameter 'uuid' for the users unique identifier"/>
 
         <InputSelect @bind-Value="BoundTokenPurchaseInPopup" Label="Open In" Options="openInOptions"/>
+        
+        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
         
     }
     </Body>

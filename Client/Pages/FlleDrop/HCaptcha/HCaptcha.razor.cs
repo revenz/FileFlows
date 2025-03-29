@@ -30,8 +30,13 @@ public partial class HCaptcha
     protected Profile Profile { get; private set; }
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSave, lblSaving, lblHelp;
+    private string lblTitle, lblSaving;
     private bool initDone = false;
+
+    /// <summary>
+    /// The help URL
+    /// </summary>
+    private const string HelpUrl = "https://fileflows.com/docs/file-drop/config/hcaptcha";
 
     private FileFlows.Shared.Models.FileDropSettings Model { get; set; } = new ();
     
@@ -46,9 +51,7 @@ public partial class HCaptcha
         }
         
         lblTitle = "hCaptcha";
-        lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
-        lblHelp = Translater.Instant("Labels.Help");
         Blocker.Show("Loading Settings");
         try
         {
@@ -80,12 +83,6 @@ public partial class HCaptcha
         if(blocker)
             Blocker.Hide();
     }
-
-    /// <summary>
-    /// Opens the help page
-    /// </summary>
-    private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/file-drop/config/hcaptcha");
     
     /// <summary>
     /// Saves the FileDrop settings

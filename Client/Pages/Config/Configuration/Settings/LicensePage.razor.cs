@@ -36,7 +36,12 @@ public partial class LicensePage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSave, lblSaving, lblHelp;
+    private string lblTitle, lblSaving;
+    
+    /// <summary>
+    /// The help URL
+    /// </summary>
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/license";
 
     private LicenseModel Model { get; set; } = new ();
 
@@ -47,9 +52,7 @@ public partial class LicensePage : InputRegister
     {
         Profile = feService.Profile.Profile;
         lblTitle = Translater.Instant("Pages.Settings.Labels.License");
-        lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
-        lblHelp = Translater.Instant("Labels.Help");
         
         Blocker.Show();
         try
@@ -107,12 +110,6 @@ public partial class LicensePage : InputRegister
             this.Blocker.Hide();
         }
     }
-
-    /// <summary>
-    /// Opens the help page
-    /// </summary>
-    private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/config/license");
 
     private bool IsLicensed => string.IsNullOrEmpty(Model?.LicenseStatus) == false && Model.LicenseStatus != "Unlicensed" && Model.LicenseStatus != "Invalid";
 

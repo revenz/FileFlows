@@ -41,9 +41,14 @@ public partial class GeneralPage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSave, lblSaving, lblHelp, lblTestingDatabase;
+    private string lblTitle, lblSaving, lblTestingDatabase;
 
     private GeneralModel Model { get; set; } = new ();
+    
+    /// <summary>
+    /// The help URL
+    /// </summary>
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/general";
 
     /// <summary>
     /// The language options
@@ -73,9 +78,7 @@ public partial class GeneralPage : InputRegister
     {
         Profile = feService.Profile.Profile;
         lblTitle = Translater.Instant("Pages.Settings.Labels.General");
-        lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
-        lblHelp = Translater.Instant("Labels.Help");
         lblTestingDatabase = Translater.Instant("Pages.Settings.Messages.Database.TestingDatabase");
         
         LanguageOptions = Profile.LanguageOptions?.Select(x =>
@@ -152,12 +155,6 @@ public partial class GeneralPage : InputRegister
             this.Blocker.Hide();
         }
     }
-
-    /// <summary>
-    /// Opens the help page
-    /// </summary>
-    private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/config/general");
 
 
     /// <summary>

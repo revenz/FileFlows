@@ -19,6 +19,7 @@
     display: flex !important;
     align-items: center;
     padding: 0 1.5rem;
+    border-bottom: solid 1px var(--border-color);
   }
 }
 .top-row {
@@ -37,7 +38,6 @@
   white-space: nowrap;
   display: flex;
   font-size: 1.5rem;
-  padding: 0.5rem 0 0 0.5rem;
 }
 .top-row .other {
   white-space: nowrap;
@@ -75,10 +75,11 @@
 }
 
 .content {
-  padding: 0.5rem 1.5rem;
+  padding: 1.5rem;
   flex-grow: 1;
   overflow: auto;
   position: relative;
+  background: var(--base-darkest);
 }
 
 .content-no-padding .content {

@@ -31,7 +31,9 @@ public partial class General
     protected Profile Profile { get; private set; }
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSave, lblSaving, lblHelp;
+    private string lblTitle, lblSaving;
+
+    private const string HelpUrl = "https://fileflows.com/docs/file-drop/config/general";
 
     private FileFlows.Shared.Models.FileDropSettings Model { get; set; } = new ();
     private bool initDone = false;
@@ -47,9 +49,7 @@ public partial class General
         }
 
         lblTitle = "General";
-        lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
-        lblHelp = Translater.Instant("Labels.Help");
         Blocker.Show("Loading Settings");
         try
         {
@@ -81,12 +81,6 @@ public partial class General
         if(blocker)
             Blocker.Hide();
     }
-
-    /// <summary>
-    /// Opens the help page
-    /// </summary>
-    private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/file-drop/config/general");
     
     /// <summary>
     /// Saves the FileDrop settings

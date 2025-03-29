@@ -7,23 +7,6 @@
 
 <PageView Title="@lblTitle" Icon="fas fa-money-check" FormPage="true">
 
-    <Head>
-        <button id="settings-save" class="btn" @onclick=@Save>
-            @if(IsSaving)
-            {
-                @lblSaving
-            }
-            else
-            {
-                @lblSave
-            }
-        </button>
-
-        <button @onclick=@OpenHelp  class="btn btn-help">
-            @lblHelp
-        </button>
-    </Head>
-
     <Body>
         <p>Here you can enter your license key to enable additional features
             See <a href="https://fileflows.com/pricing" target="_blank" rel="noreferrer">FileFlows.com</a> for more information.</p>
@@ -42,6 +25,8 @@
             <InputText Value=@Model.LicenseExpiryDate.ToString("f") Label="Pages.Settings.Fields.License.ExpiryDate" ReadOnly="true"/>
             <InputTextArea @bind-Value=@LicenseFlagsString Label="Pages.Settings.Fields.License.Flags" ReadOnly="true" Rows="10"/>
         }
+        
+        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
     </Body>
 
 </PageView>

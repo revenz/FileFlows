@@ -4408,6 +4408,37 @@ hr {
 .vi-container.form-page.page-view .content {
   padding-top: 1rem;
 }
+@media (min-width: 850px) {
+  .vi-container.form-page.page-view .form-page-buttons {
+    margin: 2rem 0 0 18rem;
+  }
+  .vi-container.form-page.page-view .form-page-buttons .btn {
+    min-width: 10rem;
+  }
+  .vi-container.form-page.page-view .form-page-buttons .btn + .btn {
+    margin-left: 0.5rem;
+  }
+  .vi-container.form-page.page-view .form-page-button-w-desc {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 1rem;
+  }
+  .vi-container.form-page.page-view .form-page-button-w-desc .btn {
+    min-width: 8rem;
+  }
+  .vi-container.form-page.page-view .form-page-button-w-desc > div {
+    align-self: center;
+  }
+}
+@media (max-width: 849.99px) {
+  .vi-container.form-page.page-view .form-page-buttons {
+    margin: 2rem auto 0;
+    max-width: 35rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5rem;
+  }
+}
 
 @media screen and (max-width: 849.99px) {
   .hidden-on-mobile {

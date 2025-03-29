@@ -40,7 +40,7 @@ public class FileDropLayout : ConfigurationLayout
             [
                 new("Passwords", "fas fa-shield-alt", "file-drop/passwords"),
                 new("Single Sign On", "fas fa-cloud", "file-drop/single-sign-on"),
-                new("Users", "fas fa-users", "file-drop/auto-tokens")
+                new("Users", "fas fa-users", "file-drop/users")
             ]
         });
 

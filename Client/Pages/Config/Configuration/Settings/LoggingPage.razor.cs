@@ -33,10 +33,15 @@ public partial class LoggingPage : InputRegister
     /// Gets the profile
     /// </summary>
     protected Profile Profile { get; private set; }
+    
+    /// <summary>
+    /// The help URL
+    /// </summary>
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/logging";
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSave, lblSaving, lblHelp;
+    private string lblTitle, lblSaving;
 
     private LoggingModel Model { get; set; } = new ();
 
@@ -48,9 +53,7 @@ public partial class LoggingPage : InputRegister
         Profile = feService.Profile.Profile;
         IsLicensed = Profile.LicenseLevel != LicenseLevel.Free; 
         lblTitle= Translater.Instant("Pages.Settings.Labels.Logging");
-        lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
-        lblHelp = Translater.Instant("Labels.Help");
         
         Blocker.Show();
         try
@@ -103,10 +106,4 @@ public partial class LoggingPage : InputRegister
             this.Blocker.Hide();
         }
     }
-
-    /// <summary>
-    /// Opens the help page
-    /// </summary>
-    private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/config/logging");
 }

@@ -30,8 +30,13 @@ public partial class CustomCss
     protected Profile Profile { get; private set; }
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSave, lblSaving, lblHelp;
+    private string lblTitle, lblSaving;
     private bool initDone = false;
+    
+    /// <summary>
+    /// The help URL
+    /// </summary>
+    private const string HelpUrl = "https://fileflows.com/docs/file-drop/config/custom-css";
 
     public string Model { get; set; } = string.Empty;
     
@@ -47,9 +52,7 @@ public partial class CustomCss
 
         
         lblTitle = "Custom CSS";
-        lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
-        lblHelp = Translater.Instant("Labels.Help");
         Blocker.Show("Loading Settings");
         try
         {
@@ -81,12 +84,6 @@ public partial class CustomCss
         if(blocker)
             Blocker.Hide();
     }
-
-    /// <summary>
-    /// Opens the help page
-    /// </summary>
-    private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/file-drop/config/custom-css");
     
     /// <summary>
     /// Saves the FileDrop settings

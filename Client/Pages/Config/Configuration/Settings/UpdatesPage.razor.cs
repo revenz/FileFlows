@@ -37,7 +37,12 @@ public partial class UpdatesPage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSave, lblSaving, lblHelp, lblCheckNow;
+    private string lblTitle, lblSaving, lblCheckNow;
+    
+    /// <summary>
+    /// The help URL
+    /// </summary>
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/updates";
 
     private UpdatesModel Model { get; set; } = new ();
     
@@ -52,9 +57,7 @@ public partial class UpdatesPage : InputRegister
         }
 
         lblTitle= Translater.Instant("Pages.Settings.Labels.Updates");
-        lblSave = Translater.Instant("Labels.Save");
         lblSaving = Translater.Instant("Labels.Saving");
-        lblHelp = Translater.Instant("Labels.Help");
         lblCheckNow = Translater.Instant("Pages.Settings.Labels.CheckNow");
         
         Blocker.Show();
@@ -108,13 +111,6 @@ public partial class UpdatesPage : InputRegister
             this.Blocker.Hide();
         }
     }
-
-    /// <summary>
-    /// Opens the help page
-    /// </summary>
-    private void OpenHelp()
-        => _ = App.Instance.OpenHelp("https://fileflows.com/docs/webconsole/config/updates");
-    
     
     /// <summary>
     /// Check for an update
