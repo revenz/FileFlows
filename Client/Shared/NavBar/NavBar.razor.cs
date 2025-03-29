@@ -300,7 +300,7 @@ public partial class NavBar
             return;
 
         await jsRuntime.InvokeVoidAsync("ff.logout");
-        NavigationManager.NavigateTo("/logout");
+        NavigationManager.NavigateTo("/logout", true);
     }
 }
 

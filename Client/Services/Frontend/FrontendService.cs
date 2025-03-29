@@ -263,7 +263,7 @@ public class FrontendService : IAsyncDisposable
             }
             catch (Exception ex)
             {
-                Logger.Instance.WLog($"SSE connection lost: {ex}. Retrying in {retryDelay} ms");
+                Logger.Instance.WLog($"SSE connection lost: {ex.Message}. Retrying in {retryDelay} ms");
             }
 
             if (System?.ReceivedUpgradingEvent == true)
