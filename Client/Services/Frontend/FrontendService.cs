@@ -203,7 +203,7 @@ public class FrontendService : IAsyncDisposable
                     OnConnectionLost?.Invoke(false);
                 }
 
-                if (System.Upgrading)
+                if (System?.Upgrading == true)
                 {
                     System.TriggerUpgraded();
                 }
@@ -266,7 +266,7 @@ public class FrontendService : IAsyncDisposable
                 Logger.Instance.WLog($"SSE connection lost: {ex.Message}. Retrying in {retryDelay} ms");
             }
 
-            if (System.ReceivedUpgradingEvent)
+            if (System?.ReceivedUpgradingEvent == true)
             {
                 ConnectionLost = true;
                 System.TriggerUpgrading();
