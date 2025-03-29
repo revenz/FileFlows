@@ -2487,4 +2487,40 @@ FROM {Wrap(nameof(LibraryFile))} GROUP BY {Wrap(nameof(LibraryFile.NodeUid))};";
         return await db.Db.ExecuteScalarAsync<int>(sql);
 
     }
+
+    /// <summary>
+    /// Gets the basic list of files in a library
+    /// </summary>
+    /// <param name="libraryUid">the UID of the library</param>
+    /// <returns>the basic list of files in a library</returns>
+    public async Task<Dictionary<string, LibraryFile>> GetBasicList(Guid libraryUid)
+    {
+        List<LibraryFile> files;
+        if (UseCache)
+        {
+            files = Cache.Values.Where(x => x.LibraryUid == libraryUid).ToList();
+        }
+        else
+        {
+            using var db = await DbConnector.GetDb();
+            string sql = @$"
+SELECT 
+    {Wrap(nameof(LibraryFile.Name))},
+    {Wrap(nameof(LibraryFile.DateCreated))},
+    {Wrap(nameof(LibraryFile.DateModified))},
+    {Wrap(nameof(LibraryFile.CreationTime))},
+    {Wrap(nameof(LibraryFile.LastWriteTime))},
+    {Wrap(nameof(LibraryFile.OriginalSize))},
+    {Wrap(nameof(LibraryFile.FinalSize))},
+    {Wrap(nameof(LibraryFile.Status))}
+FROM {Wrap(nameof(LibraryFile))}
+where 
+{Wrap(nameof(LibraryFile.LibraryUid))} = '{libraryUid}' 
+";
+            files = await db.Db.FetchAsync<LibraryFile>(sql);
+        }
+        
+        return files.DistinctBy(x => x.Name)
+            .ToDictionary(x => x.Name, x => x);
+    }
 }

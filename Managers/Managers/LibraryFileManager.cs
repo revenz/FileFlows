@@ -335,4 +335,12 @@ public class LibraryFileManager
     /// <returns>the total items</returns>
     public async Task<int> GetCountByStatus(FileStatus status)
         => await DatabaseAccessManager.Instance.LibraryFileManager.GetCountByStatus(status);
+
+    /// <summary>
+    /// Gets the basic list of files in a library
+    /// </summary>
+    /// <param name="libraryUid">the UID of the library</param>
+    /// <returns>the basic list of files in a library</returns>
+    public async Task<Dictionary<string, LibraryFile>> GetBasicList(Guid libraryUid)
+        => await DatabaseAccessManager.Instance.LibraryFileManager.GetBasicList(libraryUid);
 }
