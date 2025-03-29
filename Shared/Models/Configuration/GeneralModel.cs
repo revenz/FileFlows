@@ -38,7 +38,7 @@ public class GeneralModel
     /// <summary>
     /// Gets or sets if temporary files should not be used when moving/copying files
     /// </summary>
-    public bool DontUseTempFilesWhenMovingOrCopying { get; set; }
+    public bool UseTempFilesWhenMovingOrCopying { get; set; }
     
     /// <summary>
     /// Gets or sets if DockerMods should run on the server on startup/when enabled

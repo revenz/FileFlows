@@ -59,7 +59,7 @@ public class FileServerController : Controller
             AllowedPaths = allowedPaths;
 
         lfsLogger = new StringLogger();
-        _localFileService = new LocalFileService(settings.DontUseTempFilesWhenMovingOrCopying)
+        _localFileService = new LocalFileService(settings.UseTempFilesWhenMovingOrCopying)
         {
             AllowedPaths = allowedPaths,
             CheckProtectivePaths = true,

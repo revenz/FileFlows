@@ -65,7 +65,7 @@ public class Settings : FileFlowObject
     /// <summary>
     /// Gets or sets if temporary files should not be used when moving/copying files
     /// </summary>
-    public bool DontUseTempFilesWhenMovingOrCopying { get; set; }
+    public bool UseTempFilesWhenMovingOrCopying { get; set; }
 
     /// <summary>
     /// Gets or sets if the Queue messages should be logged

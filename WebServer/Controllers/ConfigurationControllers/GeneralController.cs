@@ -25,7 +25,7 @@ public class GeneralController : BaseController
         model.QueueCapacity = settings.QueueCapacity;
         model.MaxPageSize = settings.MaxPageSize;
         model.KeepFailedFlowTempFiles = settings.KeepFailedFlowTempFiles;
-        model.DontUseTempFilesWhenMovingOrCopying = settings.DontUseTempFilesWhenMovingOrCopying;
+        model.UseTempFilesWhenMovingOrCopying = settings.UseTempFilesWhenMovingOrCopying;
         model.DisableTelemetry = settings.DisableTelemetry;
         model.DockerModsOnServer = appSettings.DockerModsOnServer;
         model.IsLicensed = LicenseService.IsLicensed();
@@ -49,7 +49,7 @@ public class GeneralController : BaseController
         settings.QueueCapacity = model.QueueCapacity;
         settings.MaxPageSize = model.MaxPageSize;
         settings.KeepFailedFlowTempFiles = model.KeepFailedFlowTempFiles;
-        settings.DontUseTempFilesWhenMovingOrCopying = model.DontUseTempFilesWhenMovingOrCopying;
+        settings.UseTempFilesWhenMovingOrCopying = model.UseTempFilesWhenMovingOrCopying;
         settings.DisableTelemetry = LicenseService.IsLicensed() && model.DisableTelemetry;
         await service.Save(settings, await GetAuditDetails());
 
