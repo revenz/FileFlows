@@ -160,6 +160,7 @@ public partial class NewLibraryWizard : IModal
                 Value = x.Key,
                 Label = x.Value
             }).ToList();
+        FlowUid = FlowOptions.FirstOrDefault()?.Value as Guid? ?? Guid.Empty;
         
         FlowsFolders = feService.Flow.Flows.Where(x => x.Type == FlowType.Standard && x.FolderFlow).ToDictionary(x => x.Uid, x => x.Name);
         FlowOptionsFolders = FlowsFolders
@@ -169,6 +170,7 @@ public partial class NewLibraryWizard : IModal
                 Value = x.Key,
                 Label = x.Value
             }).ToList();
+        FlowUidFolder = FlowOptionsFolders.FirstOrDefault()?.Value as Guid? ?? Guid.Empty;
 
         if (FlowOptions.Count == 0)
         {

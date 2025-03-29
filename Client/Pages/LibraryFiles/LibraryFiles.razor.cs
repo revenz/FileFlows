@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Services.Frontend.Handlers;
 using FileHelper = FileFlows.Plugin.Helpers.FileHelper;
 
 namespace FileFlows.Client.Pages;
@@ -10,7 +11,7 @@ namespace FileFlows.Client.Pages;
 /// <summary>
 /// Library Files Page
 /// </summary>
-public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
+public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposable
 {
     private string filter = string.Empty;
     private FileStatus? filterStatus;
@@ -93,6 +94,8 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         lblRefresh = Translater.Instant("Labels.Refresh");
         // do not call base here! we dont want to load the data via a call
         // we load the initial data from the upcoming files
+        
+        
     }
 
     /// <inheritdoc />
@@ -197,8 +200,46 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
 
         var libraries = feService.Library.LibraryList;
         Data = feService.Files.FileQueue;
+        
+        feService.Files.FileQueueUpdated += FilesOnFileQueueUpdated;
+        feService.Files.FailedFilesUpdated += FilesOnFailedFilesUpdated;
+        feService.Files.SuccessfulUpdated += FilesOnSuccessfulUpdated;
     }
-    
+
+    private void FilesOnSuccessfulUpdated(FileHandler.ListAndCount args)
+    {
+        if (SelectedStatus != FileStatus.Processed || PageIndex != 0)
+            return;
+        Data = args.Files;
+        TotalItems = args.Total;
+        Table?.TriggerStateHasChanged();
+        StateHasChanged();
+    }
+
+    private void FilesOnFailedFilesUpdated(FileHandler.ListAndCount args)
+    {
+        if (SelectedStatus != FileStatus.ProcessingFailed || PageIndex != 0)
+            return;
+        Data = args.Files;
+        TotalItems = args.Total;
+        Table?.TriggerStateHasChanged();
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Called when the files are updated
+    /// </summary>
+    /// <param name="files">the files</param>
+    private void FilesOnFileQueueUpdated(List<LibraryFileMinimal> files)
+    {
+        if (SelectedStatus != FileStatus.Unprocessed)
+            return;
+
+        Data = files;
+        Table?.TriggerStateHasChanged();
+        StateHasChanged();
+    }
+
     /// <summary>
     /// Checks if a filter is being used, and if so, the list will be forcible fetched
     /// </summary>
@@ -321,5 +362,15 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         if (n.OperatingSystem == OperatingSystemType.Linux)
             return "fab fa-linux";
         return "fas fa-desktop";
+    }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        feService.Files.FileQueueUpdated -= FilesOnFileQueueUpdated;
+        feService.Files.FailedFilesUpdated -= FilesOnFailedFilesUpdated;
+        feService.Files.SuccessfulUpdated -= FilesOnSuccessfulUpdated;
     }
 }
