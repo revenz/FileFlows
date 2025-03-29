@@ -294,7 +294,9 @@ public partial class NavBar
     /// <returns>a task to await</returns>
     private async Task ConfirmLogOut()
     {
-        if (await Confirm.Show("Labels.ConfirmLogOutTitle", "Label.ConfirmLogOutMessage") == false)
+        if (await Confirm.Show(
+                Translater.Instant("Labels.ConfirmLogOutTitle"), 
+                Translater.Instant("Label.ConfirmLogOutMessage")) == false)
             return;
 
         await jsRuntime.InvokeVoidAsync("ff.logout");
