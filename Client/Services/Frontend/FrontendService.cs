@@ -107,6 +107,10 @@ public class FrontendService : IAsyncDisposable
     /// Gets or sets the DockerMod handler
     /// </summary>
     public DockerModHandler DockerMod { get;private set; }
+    /// <summary>
+    /// Gets or sets the runner handler
+    /// </summary>
+    public SystemHandler System { get;private set; }
 
     /// <summary>
     /// Gets or sets the page size
@@ -199,6 +203,10 @@ public class FrontendService : IAsyncDisposable
                     OnConnectionLost?.Invoke(false);
                 }
 
+                if (System.Upgrading)
+                {
+                    System.TriggerUpgraded();
+                }
 
                 await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
                 using var reader = new StreamReader(stream);
@@ -258,6 +266,12 @@ public class FrontendService : IAsyncDisposable
                 Logger.Instance.WLog($"SSE connection lost: {ex.Message}. Retrying in {retryDelay} ms");
             }
 
+            if (System.ReceivedUpgradingEvent)
+            {
+                ConnectionLost = true;
+                System.TriggerUpgrading();
+            }
+
             if (connectionLostAt == DateTime.MaxValue)
             {
                 connectionLostAt = DateTime.Now;
@@ -287,6 +301,7 @@ public class FrontendService : IAsyncDisposable
         using var reader = new StreamReader(deflateStream, Encoding.UTF8);
         return reader.ReadToEnd();
     }
+    
     /// <summary>
     /// Called only once, after the first successful SSE connection.
     /// Override this method in a derived class if needed.
@@ -323,6 +338,8 @@ public class FrontendService : IAsyncDisposable
         Report.Initialize(data);
         Runner = new(this);
         Runner.Initialize(data);
+        System = new(this);
+        System.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }

@@ -40,15 +40,28 @@
     <Head>
         @Head
         
-        @if (ConnectionLost)
+        @if (Upgrading)
         {
-            <div class="connection-lost">
+            <div class="status-update upgrading">
+                <i class="fas fa-rocket "></i>
+                Upgrading
+            </div>
+        }
+        else if (UpgradePending)
+        {
+            <div class="status-update upgrading-pending">
+                <i class="fas fa-hourglass-half "></i>
+                Upgrade Pending
+            </div>
+        }
+        else if (ConnectionLost)
+        {
+            <div class="status-update connection-lost">
                 <span class="fa-stack">
                   <i class="fas fa-plug fa-stack-1x"></i>
                   <i class="fas fa-slash fa-stack-1x"></i>
                 </span>
-
-                Disconnected
+                @lblDisconnected
             </div>
         }
     </Head>

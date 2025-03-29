@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO.Compression;
 using FileFlows.Plugin;
+using FileFlows.ServerShared.Services;
 
 namespace FileFlows.ServerShared.Workers;
 
@@ -105,6 +106,7 @@ public abstract class UpdaterWorker : Worker
                 return false;
 
             UpdatePending = true;
+            EventManager.Broadcast("UpdatePending", true);
             PrepareApplicationShutdown();
             Logger.ILog($"{UpdaterName}: Update pending installation");
             do

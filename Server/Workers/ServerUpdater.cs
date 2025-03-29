@@ -118,6 +118,8 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
     /// </summary>
     protected override void PrepareApplicationShutdown()
     {
+        EventManager.Broadcast("Upgrading", true);
+        Thread.Sleep(1_000); // give the chance for the update event to be broadcast
         WorkerManager.StopWorkers();
     }
 

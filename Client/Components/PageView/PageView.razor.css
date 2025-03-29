@@ -1,10 +1,21 @@
-.connection-lost {
-  background: var(--danger);
+.status-update {
   padding: 0.25rem 1.25rem 0.25rem 0.5rem;
   border-radius: 0.5rem;
   font-weight: var(--bold, 600);
   display: flex;
   align-items: center;
+}
+
+.connection-lost {
+  background: var(--danger);
+}
+
+.upgrading-pending {
+  background: var(--info);
+}
+
+.upgrading {
+  background: var(--warning);
 }
 
 .flow-tab-buttons {
