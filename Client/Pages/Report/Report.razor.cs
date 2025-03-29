@@ -235,6 +235,11 @@ public partial class Report : ComponentBase
             {
                 Label = "Pages.Report.Buttons.Back",
                 Clicked = (_, _) => GoBack()
+            },
+            new ()
+            {
+                Label = "Labels.Help",
+                Clicked = (_, _) => OpenHelp()
             }
         ];
         Loaded = true;

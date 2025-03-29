@@ -12,6 +12,13 @@
   flex-grow: 1;
 }
 
+.btn-search.non-mobile {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  min-width: 8rem;
+}
+
 @media (max-width: 849.99px) {
   .btn-search {
     position: fixed;
@@ -103,3 +110,5 @@
   bottom: 0;
   font-weight: var(--bold, 600);
 }
+
+/*# sourceMappingURL=LibraryFiles.razor.css.map */

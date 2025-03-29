@@ -5,3 +5,13 @@
 .mode-output .report-form {
   display: none;
 }
+
+.report-buttons {
+  margin: -0.5rem 0.25rem 1rem;
+  text-align: right;
+}
+.report-buttons .btn {
+  min-width: 8rem;
+}
+
+/*# sourceMappingURL=Report.razor.css.map */

@@ -11,11 +11,19 @@
 <PageView Flex="@true" Title="@Title">
 
     <Head>
-        <button class="btn btn-search" @onclick=@Search>@lblSearch</button>
+        @if (App.Instance.IsMobile)
+        {
+            <button class="btn btn-search" @onclick=@Search>@lblSearch</button>
+        }
     </Head>
 
     <Body>
 
+    @if (App.Instance.IsMobile == false)
+    {
+        <button class="btn btn-search non-mobile" @onclick=@Search>@lblSearch</button>
+    }
+    
     <LibraryFilePageTabs OnStatusChanged="OnStatusChanged"  />
 
     @if (SelectedStatus == FileStatus.MissingLibrary)

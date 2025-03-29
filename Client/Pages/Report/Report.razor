@@ -2,22 +2,17 @@
 @page "/report/{uid:guid}"
 
 <PageView ClassName="flex" Title="@ReportName" Icon="@ReportIcon">
-
-    <Head>
-        @if (ShowReportOutput)
-        {
-            <button class="btn" @onclick="GoBack">@lblBack</button>
-            <button class="btn" @onclick="Close">@lblClose</button>
-        }
-        else if(string.IsNullOrWhiteSpace(HelpUrl) == false)
-        {
-            <button class="btn" @onclick="OpenHelp">@lblHelp</button>
-        }
-    </Head>
-
     <Body>
         @if (Loaded)
         {
+            @if (ShowReportOutput)
+            {
+                <div class="report-buttons">
+                    <button class="btn" @onclick="GoBack">@lblBack</button>
+                    <button class="btn" @onclick="Close">@lblClose</button>
+                </div>
+            }
+            
             <div class="@(ShowReportOutput ? "mode-output" : "mode-form")">
                 <div class="report-form">
                     @if (string.IsNullOrEmpty(ReportDescription) == false)
