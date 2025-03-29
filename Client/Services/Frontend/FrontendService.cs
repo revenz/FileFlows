@@ -156,7 +156,7 @@ public class FrontendService : IAsyncDisposable
         int retryDelay = 1000; // Start with 1 second delay
 
         DateTime connectionLostAt = DateTime.MaxValue;
-        while (!cancellationToken.IsCancellationRequested)
+        while (cancellationToken.IsCancellationRequested == false)
         {
             try
             {
@@ -205,7 +205,7 @@ public class FrontendService : IAsyncDisposable
 
                 if (System?.Upgrading == true)
                 {
-                    System.TriggerUpgraded();
+                    System?.TriggerUpgraded();
                 }
 
                 await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
@@ -263,7 +263,7 @@ public class FrontendService : IAsyncDisposable
             }
             catch (Exception ex)
             {
-                Logger.Instance.WLog($"SSE connection lost: {ex.Message}. Retrying in {retryDelay} ms");
+                Logger.Instance.WLog($"SSE connection lost: {ex}. Retrying in {retryDelay} ms");
             }
 
             if (System?.ReceivedUpgradingEvent == true)
