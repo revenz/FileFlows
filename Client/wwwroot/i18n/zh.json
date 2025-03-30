@@ -1,6 +1,7 @@
 {
   "ProductName": "文件流",
   "Labels": {
+    "Aborting": "正在中止",
     "About": "关于",
     "Add": "添加",
     "AdminRequired": "需要管理员完成安装。",

@@ -276,6 +276,8 @@ public class RunnerManager
     {
         if (_activeRunners.TryGetValue(uid, out var runner) == false)
             return false;
+        runner.Info.Aborted = true;
+        RunnerUpdated?.Invoke();
         await runner.Abort();
         return true;
     }
@@ -290,6 +292,7 @@ public class RunnerManager
             return;
         // started at isnt tracked in the runner it self
         info.StartedAt = runner.Info.StartedAt;
+        info.Aborted = runner.Info.Aborted;
         
         runner.Info = info;
         RunnerUpdated?.Invoke();

@@ -154,7 +154,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
 
         bool debugMode = false;
 #if(DEBUG)
-        debugMode = true;
+        //debugMode = true;
         runnerParameters.RunnerTempPath = "ff-debug-mode";
 #endif
 
@@ -197,12 +197,15 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         
         try
         {
+            #if(DEBUG)
+            // Adjust this as per your project's target framework
+            string workingDirectory = Path.Combine(Directory.GetCurrentDirectory().Replace("Server", "FlowRunner"), "bin", "Debug", "net8.0");
+            #else
             // Determine the correct directory based on the environment
             string workingDirectory = DirectoryHelper.FlowRunnerDirectory;
+            #endif
             if (debugMode)
             {
-                // Adjust this as per your project's target framework
-                workingDirectory = Path.Combine(Directory.GetCurrentDirectory().Replace("Server", "FlowRunner"), "bin", "Debug", "net8.0");
 #if(DEBUG)
                 _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
                 libFile = rpcServer.GetProcessedFile();
@@ -417,6 +420,7 @@ Failed to create working directory, this is likely caused by the mapped '/temp' 
      /// </summary>
      public async Task Abort()
      {
+         Info.Aborted = true;
          _aborted = true;
          // Abort the run
          _cancellationTokenSource?.Cancel();

@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Interruzione",
     "About": "Informazioni",
     "Add": "Aggiungi",
     "AdminRequired": "Amministratore necessario per completare l'installazione.",

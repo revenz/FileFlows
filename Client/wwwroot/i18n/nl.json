@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Bezig met afbreken",
     "About": "Over",
     "Add": "Toevoegen",
     "AdminRequired": "Administrator vereist om installatie te voltooien.",

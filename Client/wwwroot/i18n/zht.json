@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "正在中止",
     "About": "關於",
     "Add": "新增",
     "AdminRequired": "安裝完成需要管理員權限。",

@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Cancelando",
     "About": "Acerca de",
     "Add": "Añadir",
     "AdminRequired": "Se requiere administrador para completar la instalación.",

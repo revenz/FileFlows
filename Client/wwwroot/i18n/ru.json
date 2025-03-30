@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Прерывание",
     "About": "О программе",
     "Add": "Добавить",
     "AdminRequired": "Требуется администратор для завершения установки.",

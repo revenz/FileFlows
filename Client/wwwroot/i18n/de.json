@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Abbruch",
     "About": "Über",
     "Add": "Hinzufügen",
     "AdminRequired": "Administrator erforderlich",

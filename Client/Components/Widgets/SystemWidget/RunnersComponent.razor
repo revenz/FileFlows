@@ -58,7 +58,14 @@
             </div>
 
             <div class="right savings">
-                <span class="top-right time">@runner.CurrentPartName</span>
+                @if (runner.Aborted)
+                {
+                    <span class="top-right aborting">@lblAborting</span>
+                }
+                else
+                {
+                    <span class="top-right time">@runner.CurrentPartName</span>
+                }
                 <div class="steps">
                     @FormatProcessingTime(runner.ProcessingTime)
                 </div>

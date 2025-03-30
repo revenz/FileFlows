@@ -91,6 +91,11 @@ public class FlowExecutorInfo
     /// Gets or sets if the file has a thumbnail
     /// </summary>
     public bool HasThumbnail { get; set; }
+
+    /// <summary>
+    /// Gets or sets if the file has been aborted
+    /// </summary>
+    public bool Aborted { get; set; }
 }
 
 
@@ -207,6 +212,11 @@ public class FlowExecutorInfoMinified
     /// Gets or sets if the file has a thumbnail
     /// </summary>
     public bool HasThumbnail { get; set; }
+
+    /// <summary>
+    /// Gets or sets if the file has been aborted
+    /// </summary>
+    public bool Aborted { get; set; }
 }
 
 /// <summary>

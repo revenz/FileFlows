@@ -244,4 +244,8 @@
   margin-bottom: 1rem;
 }
 
+.top-right.aborting {
+  background: var(--warning);
+}
+
 /*# sourceMappingURL=RunnersComponent.razor.css.map */

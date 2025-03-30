@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Avbryter",
     "About": "Om",
     "Add": "Lägg till",
     "AdminRequired": "Administratör krävs för att slutföra installationen.",

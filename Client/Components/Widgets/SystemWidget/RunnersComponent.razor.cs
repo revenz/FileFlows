@@ -43,9 +43,15 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// </summary>
     private Dictionary<Guid, bool> RunnersState = new();
 
+    /// <summary>
+    /// Translation strings
+    /// </summary>
+    private string lblAborting;
+
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
+        lblAborting = Translater.Instant("Labels.Aborting");
         Runners = feService.Runner.Runners;
         if(Runners.Count == 0)
             await NoneOnLoad.InvokeAsync();

@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "중단 중",
     "About": "소개",
     "Add": "추가",
     "AdminRequired": "설치를 완료하려면 관리자가 필요합니다.",
