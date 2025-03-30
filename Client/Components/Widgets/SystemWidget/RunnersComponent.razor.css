@@ -59,6 +59,11 @@
   flex-grow: 1;
   flex-wrap: wrap;
 }
+@media (max-width: 600px) {
+  .widget-runner .details {
+    grid-template-columns: repeat(4, auto);
+  }
+}
 .widget-runner.expanded .details {
   display: grid;
 }

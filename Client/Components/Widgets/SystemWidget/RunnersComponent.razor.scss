@@ -157,12 +157,12 @@
   //    margin-top:2rem;
   //  }
   //}
-  //@media (max-width:600px)
-  //{
-  //  .details {
-  //    grid-template-columns: repeat(4, auto);
-  //  }
-  //}
+  @media (max-width:600px)
+  {
+    .details {
+      grid-template-columns: repeat(4, auto);
+    }
+  }
   &.expanded {
     .details {
       display: grid;
