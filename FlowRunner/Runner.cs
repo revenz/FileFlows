@@ -325,7 +325,8 @@ public class Runner
             task.Wait();
             return task.Result.Success;
         };
-        nodeParameters.SendEmail = (to, subject, body) => ServiceLoader.Load<EmailService>().Send(to, subject, body).Result;
+        nodeParameters.SendEmail = (to, subject, body)
+            => ServiceLoader.Load<EmailService>().Send(to, subject, body).Result;
 
 
         var renderer = new ScribanRenderer();

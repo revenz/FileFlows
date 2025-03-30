@@ -36,6 +36,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     /// </summary>
     public bool IsRunning => _isRunning;
     private bool _aborted = false;
+    private Task _updateTask;
 
     public FlowExecutorInfo Info { get; set; } = new()
     {
@@ -59,6 +60,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             var lf = args.LibraryFile;
             lf.Status = FileStatus.Processing;
             await client.FileStartProcessing(lf);
+            StartUpdateTimer();
             try
             {
                 lf = await Execute(_cancellationTokenSource.Token);
@@ -67,6 +69,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             {
                 Logger.Instance.ELog("Error in file: " + ex);
             }
+            StopUpdateTimer();
             
             try
             {
@@ -422,6 +425,7 @@ Failed to create working directory, this is likely caused by the mapped '/temp' 
      {
          Info.Aborted = true;
          _aborted = true;
+         StopUpdateTimer();
          // Abort the run
          _cancellationTokenSource?.Cancel();
          
@@ -430,5 +434,56 @@ Failed to create working directory, this is likely caused by the mapped '/temp' 
          {
              await Task.Delay(100);  // You can adjust the delay as needed to avoid tight looping
          }
+     }
+     
+     
+     /// <summary>
+     /// Starts a timer that updates the file processing status every 20 seconds.
+     /// </summary>
+     private void StartUpdateTimer()
+     {
+         if (_cancellationTokenSource == null)
+             return;
+         
+         _updateTask = Task.Run(async () =>
+         {
+             while (!_cancellationTokenSource.Token.IsCancellationRequested)
+             {
+                 try
+                 {
+                     await Task.Delay(TimeSpan.FromSeconds(20), _cancellationTokenSource.Token);
+                     client.TriggerStatusUpdate();
+                 }
+                 catch (OperationCanceledException)
+                 {
+                     // Expected when cancellation is requested, just exit
+                     break;
+                 }
+                 catch (Exception)
+                 {
+                     // Ignored
+                 }
+             }
+         }, _cancellationTokenSource.Token);
+     }
+
+     /// <summary>
+     /// Stops the update timer and ensures it exits cleanly.
+     /// </summary>
+     private async void StopUpdateTimer()
+     {
+         if (_updateTask == null)
+             return;
+
+         _cancellationTokenSource?.Cancel();
+         try
+         {
+             await _updateTask;
+         }
+         catch (OperationCanceledException)
+         {
+             // Expected on cancellation
+         }
+         _updateTask = null;
      }
 }

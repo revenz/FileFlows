@@ -40,7 +40,6 @@ public static class ServiceLoader
             .AddSingleton<INodeService>(() => new NodeService())
             .AddSingleton<ISettingsService>(() => new SettingsService())
             .AddSingleton<IStatisticService>(() => new StatisticService())
-            .AddSingleton<IVariableService>(() => new VariableService())
             .AddSingleton<INotificationService>(() => new NotificationService())
             .AddSingleton<IDistributedCacheService>(() => new RemoteDistributedCacheService())
             .AddSingleton(() => new EmailService())

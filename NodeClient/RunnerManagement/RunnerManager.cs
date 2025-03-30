@@ -213,8 +213,7 @@ public class RunnerManager
             return false;
         }
 
-        var variableService = ServiceLoader.Load<IVariableService>();
-        var variables = variableService.GetAllAsync().Result?.ToDictionary(x => x.Name, x => (object)x.Value) ?? new ();
+        var variables = config.Variables.ToDictionary(x => x.Key, x => (object)x.Value);
         variables["FileFlows.Url"] = RemoteService.ServiceBaseUrl;
         var result = ScriptExecutor.Execute(code, variables, sharedDirectory: sharedDir);
         if (result.Success == false)

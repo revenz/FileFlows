@@ -257,38 +257,6 @@ public class NodeController : BaseController
     }
 
     /// <summary>
-    /// Get processing node by address
-    /// </summary>
-    /// <param name="address">The address</param>
-    /// <param name="version">The version of the node</param>
-    /// <returns>If found, the processing node</returns>
-    [HttpGet("by-address/{address}")]
-    public async Task<ProcessingNode?> GetByAddress([FromRoute] string address, [FromQuery] string version)
-    {
-        if (string.IsNullOrWhiteSpace(address))
-            throw new ArgumentNullException(nameof(address));
-
-        var service = ServiceLoader.Load<NodeService>();
-        var node = await service.GetByAddressAsync(address);
-        if (node == null)
-            return node;
-
-        if (string.IsNullOrEmpty(version) == false && node.Version != version)
-        {
-            node.Version = version;
-            node = await service.Update(node, await GetAuditDetails());
-        }
-        else
-        {
-            // this updates the "LastSeen"
-            await service.UpdateLastSeen(node.Uid);
-        }
-
-        node.SignalrUrl = "flow";
-        return node;
-    }
-
-    /// <summary>
     /// Register a processing node.  If already registered will return existing instance
     /// </summary>
     /// <param name="address">The address of the processing node</param>

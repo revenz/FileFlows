@@ -1,3 +1,4 @@
+using FileFlows.ServerModels;
 using FileFlows.Shared.Models.SignalAre;
 using Microsoft.AspNetCore.SignalR;
 using ILogger = FileFlows.Common.ILogger;
@@ -58,7 +59,7 @@ public partial class NodeHub : Hub
     /// Updates the status of a node.
     /// </summary>
     /// <param name="info">The node status information.</param>
-    public async Task<NodeStatusUpdateResult> UpdateNodeStatus(NodeService.OnlineNodeInfo info)
+    public async Task<NodeStatusUpdateResult> UpdateNodeStatus(OnlineNodeInfo info)
     {
         try
         {

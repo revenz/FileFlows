@@ -121,18 +121,7 @@ public class NodeController : BaseController
 
         return GetNodeUpdater(windows);
     }
-    //
-    // /// <summary>
-    // /// Records the node system statistics to the server
-    // /// </summary>
-    // /// <param name="args">the node system statistics</param>
-    // [HttpPost("system-statistics")]
-    // public async Task RecordNodeSystemStatistics([FromBody] NodeSystemStatistics args)
-    // {
-    //     await ServiceLoader.Load<NodeService>()?.UpdateLastSeen(args.Uid);
-    //     SystemMonitor.Instance?.Record(args);
-    // }
-    //
+    
     /// <summary>
     /// Gets if nodes should auto update
     /// </summary>
@@ -194,12 +183,8 @@ public class NodeController : BaseController
         var existing = data.FirstOrDefault(x => x.Address.ToLowerInvariant() == address);
         if (existing != null)
         {
-            if(existing.Version != model.Version) // existing.TempPath != model.TempPath)
+            if(existing.Version != model.Version)
             {
-                //existing.FlowRunners = model.FlowRunners;
-                //existing.Enabled = model.Enabled;
-                //existing.TempPath = model.TempPath;
-                //existing.OperatingSystem = model.OperatingSystem;
                 existing.Architecture = model.Architecture;
                 existing.OperatingSystem = model.OperatingSystem;
                 existing.Version = model.Version;
@@ -230,8 +215,6 @@ public class NodeController : BaseController
         {
             Name = address,
             Address = address,
-            //Enabled = model.Enabled,
-            //FlowRunners = model.FlowRunners,
             Enabled = false,
             FlowRunners = 1,
             TempPath = model.TempPath,

@@ -7,7 +7,6 @@ namespace FileFlows.RemoteServices;
 /// </summary>
 public class RemoteDistributedCacheService : RemoteService, IDistributedCacheService
 {
-
     /// <inheritdoc />
     public async Task<string?> GetJsonAsync(string key)
     {
