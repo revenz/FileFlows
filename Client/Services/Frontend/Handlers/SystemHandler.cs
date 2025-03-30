@@ -40,12 +40,14 @@ public class SystemHandler(FrontendService feService)
     {
         feService.Registry.Register<bool>("UpdatePending", (ed) =>
         {
+            Console.WriteLine("#### UPDATE PENDING!!!");
             UpdatePending = true;
             OnUpdatePending?.Invoke(true);
         });
         
         feService.Registry.Register<bool>("Upgrading", (ed) =>
         {
+            Console.WriteLine("#### UPGRADING!!!");
             ReceivedUpgradingEvent = true;
         });
     }
