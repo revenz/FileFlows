@@ -1250,28 +1250,6 @@ input[type=file]{
             display: none;
         }
     }
-    .table-item {
-        display: unset;
-        .icon {
-            position: absolute;
-            top: 0.25rem;
-            left:0;
-            width:2rem;
-        }
-        .center > .name {
-            font-weight: var(--bold, 600);
-            padding: 0.5rem 0 1rem 4rem;
-        }
-        .right {
-            width: unset;
-            min-width: unset;
-            padding:unset;
-            align-self: unset;
-        }
-        .info {
-            display: none !important;
-        }
-    }
 }
 
 .icon-value {
