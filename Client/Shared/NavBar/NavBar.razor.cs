@@ -218,37 +218,37 @@ public partial class NavBar
     {
         this.MenuItems.Clear();
 
-        MenuItems.Add(new (Translater.Instant("Pages.Dashboard.Title"), "fas fa-chart-pie", ""));
-        MenuItems.Add(new (Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-copy", "library-files"));
+        MenuItems.Add(new ("dashboard", Translater.Instant("Pages.Dashboard.Title"), "fas fa-chart-pie", ""));
+        MenuItems.Add(new ("files", Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-copy", "library-files"));
         
         if(Profile.HasRole(UserRole.Flows))
-            MenuItems.Add(new (Translater.Instant("Pages.Flows.Title"), "fas fa-sitemap", "flows", false));
+            MenuItems.Add(new ("flows", Translater.Instant("Pages.Flows.Title"), "fas fa-sitemap", "flows", false));
         
         if(Profile.HasRole(UserRole.Libraries))
-            MenuItems.Add(new (Translater.Instant("Pages.Libraries.Title"), "fas fa-folder", "libraries"));
+            MenuItems.Add(new ("libraries", Translater.Instant("Pages.Libraries.Title"), "fas fa-folder", "libraries"));
 
         if(Profile.HasRole(UserRole.Nodes))
-            MenuItems.Add(new (Translater.Instant("Pages.Nodes.Title"), "fas fa-desktop", "nodes"));
+            MenuItems.Add(new ("nodes", Translater.Instant("Pages.Nodes.Title"), "fas fa-desktop", "nodes"));
          
         if(Profile.LicensedFor(LicenseFlags.Reporting) && Profile.HasRole(UserRole.Reports))
-            MenuItems.Add(new (Translater.Instant("Pages.Reporting.Title"), "fas fa-chart-pie", "reporting", false));
+            MenuItems.Add(new ("reporting", Translater.Instant("Pages.Reporting.Title"), "fas fa-chart-pie", "reporting", false));
 
         if(Profile.HasRole(UserRole.Log))
-            BottomNavBarItems.Add(new (Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", "log"));
+            BottomNavBarItems.Add(new ("log", Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", "log"));
 
         var firstConfig = ConfigLayout.GetFirstAvailableItem(Profile);
         if(string.IsNullOrEmpty(firstConfig) == false)
-            BottomNavBarItems.Add(new (Translater.Instant("MenuGroups.Config"), "fas fa-cogs", firstConfig));
+            BottomNavBarItems.Add(new ("config", Translater.Instant("MenuGroups.Config"), "fas fa-cogs", firstConfig));
 
         if (Profile.LicensedFor(LicenseFlags.FileDrop))
         {
-            BottomNavBarItems.Add(new ("FileDrop", "fas fa-tint", "/file-drop/general", false));
+            BottomNavBarItems.Add(new ("filedrop", "FileDrop", "fas fa-tint", "/file-drop/general", false));
         }        
         
         if(Profile.Security == SecurityMode.Local)
-            BottomNavBarItems.Add(new (lblChangePassword, "fas fa-key", "#change-password"));
+            BottomNavBarItems.Add(new ("change-password", lblChangePassword, "fas fa-key", "#change-password"));
         if(Profile.Security != SecurityMode.Off)
-            BottomNavBarItems.Add(new (lblLogout, "fas fa-unlock", "/logout"));
+            BottomNavBarItems.Add(new ("logout", lblLogout, "fas fa-unlock", "/logout"));
     }
     
     async Task Click(NavBarItem item)
@@ -305,4 +305,4 @@ public partial class NavBar
 }
 
 
-public record NavBarItem(string Title, string Icon, string Url, bool Mobile = true);
+public record NavBarItem(string Uid, string Title, string Icon, string Url, bool Mobile = true);
