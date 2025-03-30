@@ -176,9 +176,6 @@ ul {
     border: none;
     border-top: solid 1px var(--border-color);
   }
-  .navbar .nav-item {
-    min-width: 7rem;
-  }
   .navbar .nav-item.active {
     border-top: solid 1px var(--accent);
     border-right: none;
@@ -186,8 +183,13 @@ ul {
   .navbar ul {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    width: 100%;
     grid-auto-flow: column;
     overflow: hidden;
+  }
+  .navbar .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .navbar .main-nav {
     flex-grow: unset;
@@ -203,6 +205,11 @@ ul {
 }
 @media screen and (max-width: 600px) {
   .nav-item.files, .nav-item.change-password, .nav-item.log {
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .nav-item.libraries {
     display: none;
   }
 }

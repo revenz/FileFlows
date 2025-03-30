@@ -196,7 +196,6 @@ ul {
     border: none;
     border-top: solid 1px var(--border-color);
     .nav-item {
-      min-width: 7rem;
       &.active {
         border-top:solid 1px var(--accent);
         border-right: none;
@@ -205,8 +204,13 @@ ul {
     ul {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      width: 100%;
       grid-auto-flow: column;
       overflow: hidden;
+    }
+    .name {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .main-nav {
       flex-grow:unset;
@@ -229,3 +233,9 @@ ul {
   }
 }
 
+@media screen and (max-width: 500px)
+{
+  .nav-item.libraries {
+    display:none;
+  }
+}
