@@ -1,7 +1,6 @@
 using System.Text;
 using FileFlows.Managers;
 using FileFlows.Services.FileProcessing;
-using FileFlows.Services.SystemOverview;
 using FileFlows.WebServer.Helpers;
 
 namespace FileFlows.WebServer.Controllers.ServerSideEventControllers;

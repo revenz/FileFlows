@@ -2363,8 +2363,10 @@ FROM {Wrap(nameof(LibraryFile))} GROUP BY {Wrap(nameof(LibraryFile.NodeUid))};";
     /// </summary>
     /// <param name="model">the reprocess model</param>
     /// <param name="onlySetProcessInfo">if only the process information should be set, ie these are unprocessed files</param>
-    public async Task Reprocess(ReprocessModel model, bool onlySetProcessInfo = false)
+    /// <returns>the files that have been reprocessed</returns>
+    public async Task<List<LibraryFile>> Reprocess(ReprocessModel model, bool onlySetProcessInfo = false)
     {
+        List<LibraryFile> files = new List<LibraryFile>();
         foreach (var uid in model.Uids)
         {
             var file = await Get(uid);
@@ -2417,7 +2419,11 @@ FROM {Wrap(nameof(LibraryFile))} GROUP BY {Wrap(nameof(LibraryFile.NodeUid))};";
             }
 
             await Update(file);
+            
+            files.Add(file);
         }
+
+        return files;
     }
 
     /// <summary>
@@ -2522,5 +2528,29 @@ where
         
         return files.DistinctBy(x => x.Name)
             .ToDictionary(x => x.Name, x => x);
+    }
+
+    /// <summary>
+    /// Gets the files by their UIDs
+    /// </summary>
+    /// <param name="uids">the UIDs of the files to get</param>
+    /// <returns>the files</returns>
+    public async Task<List<LibraryFile>> GetFiles(Guid[] uids)
+    {
+        if (uids.Length == 0)
+            return [];
+        
+        if (UseCache)
+            return Cache.Values.Where(x => uids.Contains(x.Uid)).ToList();
+        
+        
+        string inStr = string.Join(",", uids.Select(x => $"'{x}'"));
+        
+        string sql = $"select *  from  {Wrap(nameof(LibraryFile))} " +
+                     $" where {Wrap(nameof(LibraryFile.Uid))} in ({inStr})";
+        
+        using var db = await DbConnector.GetDb();
+        var files = await db.Db.FetchAsync<LibraryFile>(sql);
+        return files;
     }
 }

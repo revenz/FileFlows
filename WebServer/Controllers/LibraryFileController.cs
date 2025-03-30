@@ -1,11 +1,6 @@
-using System.Data;
 using FileFlows.LibraryUtils;
 using FileFlows.ServerShared.Models;
 using FileFlows.Services.Interfaces;
-using FileFlows.Services.ServiceHelpers;
-using FileFlows.Services.SystemOverview;
-using FileFlows.WebServer.Hubs;
-using Humanizer;
 using Swashbuckle.AspNetCore.Annotations;
 using LibraryFileService = FileFlows.Services.LibraryFileService;
 using LibraryService = FileFlows.Services.LibraryService;
@@ -75,21 +70,13 @@ public class LibraryFileController : Controller
     }
 
     /// <summary>
-    /// Basic node list
-    /// In this controller in case the users only has access to files page
+    /// Gets the files by their UIDs
     /// </summary>
-    /// <returns>node list</returns>
-    [HttpGet("node-list")]
-    public async Task<List<NodeInfo>> GetNodeList()
-    {
-        var nodes = await ServiceLoader.Load<NodeService>().GetAllAsync();
-        return nodes.Select(x => new NodeInfo()
-        {
-            Uid = x.Uid,
-            Name = x.Name,
-            OperatingSystem = x.OperatingSystem
-        }).ToList();
-    }
+    /// <param name="model">the files to get</param>
+    /// <returns>the files</returns>
+    [HttpPost("get-files")]
+    public async Task<List<LibraryFile>> GetFiles([FromBody] ReferenceModel<Guid> model)
+        => await ServiceLoader.Load<LibraryFileService>().GetFiles(model.Uids ?? []);
 
     /// <summary>
     /// Gets all library files in the system
@@ -102,126 +89,6 @@ public class LibraryFileController : Controller
     public Task<List<LibraryFile>> GetAll([FromQuery] FileStatus? status, [FromQuery] int skip = 0, [FromQuery] int top = 0)
         => ServiceLoader.Load<LibraryFileService>().GetAll(status, skip: skip, rows: top);
 
-    /// <summary>
-    /// Get next 10 upcoming files to process
-    /// </summary>
-    /// <returns>a list of upcoming files to process</returns>
-    [HttpGet("upcoming")]
-    [FileFlowsAuthorize]
-    public async Task<IActionResult> Upcoming()
-    {
-        var service  = ServiceLoader.Load<SystemOverviewService>();
-        var data = service.GetUpcomingFiles();
-        //var data = await ServiceLoader.Load<LibraryFileService>().GetAll(FileStatus.Unprocessed, rows: 50);
-        var dnService = ServiceLoader.Load<FileDisplayNameService>();
-        var results = data.Select(x => new
-        {
-            x.Uid,
-            x.Name,
-            x.LibraryName,
-            DisplayName = dnService.GetDisplayName(x)
-        });
-        return Ok(results);
-    }
-
-    /// <summary>
-    /// Gets the last successfully processed files
-    /// </summary>
-    /// <returns>the last successfully processed files</returns>
-    [HttpGet("recently-finished")]
-    [FileFlowsAuthorize]
-    public IActionResult RecentlyFinished([FromQuery]bool? failedFiles = null)
-    {
-        var service = ServiceLoader.Load<SystemOverviewService>();
-        var files = failedFiles == true ? service.GetFailedFiles() : service.GetRecentlyFinishedFiles();
-        
-        // var service = ServiceLoader.Load<LibraryFileService>();
-        // var libraries = await ServiceLoader.Load<LibraryService>().GetAllAsync();
-        // LibraryFile[] all;
-        // var processed = await service.GetAll(FileStatus.Processed, rows: 50, allLibraries: libraries);
-        // var failed = await service.GetAll(FileStatus.ProcessingFailed, rows: 50, allLibraries: libraries);
-        // var mapping = await service.GetAll(FileStatus.MappingIssue, rows: 50, allLibraries: libraries);
-        // var minDate = new DateTime(2020, 1, 1);
-        // if (failedFiles == false)
-        //     all = processed.ToArray();
-        // else if (failedFiles == true)
-        //     all = failed.Union(mapping).ToArray();
-        // else
-        // {
-        //     all = processed.Union(failed).Union(mapping)
-        //         .OrderByDescending(x => x.ProcessingEnded < minDate ? x.ProcessingStarted : x.ProcessingEnded)
-        //         .ToArray();
-        //     
-        // }
-        //
-        // if (all.Any() == false)
-        //     return Ok(new object[] { });
-        //
-        // all = all.OrderByDescending(x => x.ProcessingEnded < minDate ? x.ProcessingStarted : x.ProcessingEnded)
-        //     .ToArray();
-        //
-        // if (all.Length > 50)
-        //     all = all.Take(50).ToArray();
-        // var data = all.Select(x =>
-        // {
-        //     var date = x.ProcessingEnded.Year > 2000 ? x.ProcessingEnded : x.ProcessingStarted;
-        //     var when = date.ToLocalTime().Humanize(false, DateTime.UtcNow);
-        //     var displayName = x.Additional?.DisplayName;
-        //     if (string.IsNullOrWhiteSpace(displayName))
-        //     {
-        //         displayName =
-        //             Regex.IsMatch(x.OutputPath, @"^[\w\d]{2,}:")
-        //                 ? x.OutputPath
-        //                 : // special case for uploaded files e.g. nc: for next cloud
-        //                 ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x);
-        //     }
-        //     return new
-        //     {
-        //         x.Uid,
-        //         DisplayName = displayName,
-        //         x.RelativePath,
-        //         x.ProcessingEnded,
-        //         When = when,
-        //         x.OriginalSize,
-        //         x.FinalSize,
-        //         x.IsDirectory,
-        //         Message = x.Status == FileStatus.ProcessingFailed ? x.FailureReason : null,
-        //         Status = (int)x.Status,
-        //         x.Additional?.Traits
-        //     };
-        // });
-        var dnService = ServiceLoader.Load<FileDisplayNameService>();
-        var data = files.Select(x =>
-        {
-            var date = x.ProcessingEnded.Year < 2000 && x.ProcessingStarted.Year < 2000 ? x.DateModified :
-                x.ProcessingEnded.Year > 2000 ? x.ProcessingEnded : x.ProcessingStarted;
-            var when = date.ToLocalTime().Humanize(false, DateTime.UtcNow);
-            var displayName = x.Additional?.DisplayName;
-            if (string.IsNullOrWhiteSpace(displayName))
-            {
-                displayName =
-                    Regex.IsMatch(x.OutputPath, @"^[\w\d]{2,}:")
-                        ? x.OutputPath
-                        : // special case for uploaded files e.g. nc: for next cloud
-                        dnService.GetDisplayName(x);
-            }
-            return new
-            {
-                x.Uid,
-                DisplayName = displayName,
-                x.RelativePath,
-                x.ProcessingEnded,
-                When = when,
-                x.OriginalSize,
-                x.FinalSize,
-                x.IsDirectory,
-                Message = x.Status == FileStatus.ProcessingFailed ? x.FailureReason : null,
-                Status = (int)x.Status,
-                x.Additional?.Traits
-            };
-        });
-        return Ok(data);
-    }
 
     /// <summary>
     /// Gets the library status overview

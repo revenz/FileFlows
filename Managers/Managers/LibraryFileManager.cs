@@ -310,8 +310,9 @@ public class LibraryFileManager
     /// </summary>
     /// <param name="model">the reprocess model</param>
     /// <param name="onlySetProcessInfo">if only the process information should be set, ie these are unprocessed files</param>
-    public Task Reprocess(ReprocessModel model, bool onlySetProcessInfo)
-        => DatabaseAccessManager.Instance.LibraryFileManager.Reprocess(model, onlySetProcessInfo);
+    /// <returns>the files that have been reprocessed</returns>
+    public async Task<List<LibraryFile>> Reprocess(ReprocessModel model, bool onlySetProcessInfo)
+        => await DatabaseAccessManager.Instance.LibraryFileManager.Reprocess(model, onlySetProcessInfo);
 
     /// <summary>
     /// Deletes the tags from any file
@@ -343,4 +344,13 @@ public class LibraryFileManager
     /// <returns>the basic list of files in a library</returns>
     public async Task<Dictionary<string, LibraryFile>> GetBasicList(Guid libraryUid)
         => await DatabaseAccessManager.Instance.LibraryFileManager.GetBasicList(libraryUid);
+
+    
+    /// <summary>
+    /// Gets the files by their UIDs
+    /// </summary>
+    /// <param name="uids">the UIDs of the files to get</param>
+    /// <returns>the files</returns>
+    public async Task<List<LibraryFile>> GetFiles(Guid[] uids)
+        => await DatabaseAccessManager.Instance.LibraryFileManager.GetFiles(uids);
 }

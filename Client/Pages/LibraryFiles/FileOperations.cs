@@ -90,15 +90,27 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         var uids = selected.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
         if (uids.Length == 0)
             return; // nothing to reprocess
-
         bool processOptions = SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold or FileStatus.Duplicate;
 
+        List<LibraryFile> files = [];
+        Blocker.Show();
+        try
+        {
+            var result = await HttpHelper.Post<List<LibraryFile>>(ApiUrl + "/get-files",  new ReferenceModel<Guid> { Uids = uids });
+            if(result.Success == false)
+                return;
+            files = result.Data ?? [];
+            if (files.Count == 0)
+                return;
+        }
+        finally
+        {
+            Blocker.Hide();
+        }
+
         var nodes = Nodes.ToDictionary(x => x.Value.Uid, x => x.Value.Name);
-        // todo: reimplement this
-        await Task.CompletedTask;
-        //var result = await ReprocessDialog.Show(Flows, nodes, selected, processOptions);
-        //if(result)
-        //            await Refresh();
+        
+        await ReprocessDialog.Show(Flows, nodes, files, processOptions);
     }
 
     private async Task Rescan()
