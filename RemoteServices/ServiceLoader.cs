@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using FileFlows.ServerShared.Interfaces;
 
 namespace FileFlows.RemoteServices;
 
@@ -34,15 +33,10 @@ public static class ServiceLoader
     {
         // Add to WebServer to if needed
         Provider = new CustomServiceProvider()
-            // .AddSingleton<IFlowRunnerService>(() => new FlowRunnerService())
-            //.AddSingleton<ILibraryFileService>(() => new LibraryFileService())
             .AddSingleton<ILogService>(() => new LogService())
             .AddSingleton<INodeService>(() => new NodeService())
             .AddSingleton<ISettingsService>(() => new SettingsService())
-            .AddSingleton<IStatisticService>(() => new StatisticService())
-            .AddSingleton<INotificationService>(() => new NotificationService())
-            .AddSingleton<IDistributedCacheService>(() => new RemoteDistributedCacheService())
-            .AddSingleton(() => new EmailService())
+            .AddSingleton<INotificationService>(() => new NotificationService()) // need for DockerMod installs
             .AddSingleton(() => new HardwareInfoService())
             .AddSingleton(() => new ConfigurationService())
             .BuildServiceProvider(); // Build the service provider

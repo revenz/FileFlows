@@ -31,6 +31,8 @@ public class JsonRpcServer : IDisposable
     private readonly LibraryFileHandler _libraryFileHandler;
     private readonly RunnerInfoHandler _runnerInfoHandler;
     private readonly BasicHandler _basicHandler;
+    private readonly StatisticsHandler _statisticsHandler;
+    private readonly CacheHandler _cacheHandler;
 
     /// <summary>
     /// The server pipe used for communication with the client.
@@ -51,6 +53,8 @@ public class JsonRpcServer : IDisposable
         _libraryFileHandler = new(this, _rpcRegister);
         _basicHandler = new(this, _rpcRegister);
         _runnerInfoHandler = new(client.Manager, this, _rpcRegister);
+        _statisticsHandler = new (this, _rpcRegister);
+        _cacheHandler = new (this, _rpcRegister);
 
         _logMessage = logMessage;
         this._libraryFile = runnerParameters.LibraryFile;

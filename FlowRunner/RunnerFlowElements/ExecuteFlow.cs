@@ -142,7 +142,7 @@ public class ExecuteFlow : Node
                     part.Name = Flow.Name; // entering this flow
 
 
-                if (Runner.runInstance.RpcClient.RunnerInfoHandler.StepChanged(GetStepName(part), DontCountStep(part))
+                if (Runner.runInstance.RpcClient.RunnerInfo.StepChanged(GetStepName(part), DontCountStep(part))
                     .Result.Failed(out var stepChangeError))
                 {
                     args.FailureReason = stepChangeError;
@@ -340,7 +340,7 @@ public class ExecuteFlow : Node
             feName = "Script: " + feName;
         }
 
-        Runner.runInstance.RpcClient.RunnerInfoHandler.RecordNodeExecution(feName, feElementUid, output, executionTime, part, FlowDepthLevel + depthAdjustment).Wait();
+        Runner.runInstance.RpcClient.RunnerInfo.RecordNodeExecution(feName, feElementUid, output, executionTime, part, FlowDepthLevel + depthAdjustment).Wait();
 
         if (LogFlowPart(part) && part.FlowElementUid?.StartsWith("SubFlow:") != true)
         {

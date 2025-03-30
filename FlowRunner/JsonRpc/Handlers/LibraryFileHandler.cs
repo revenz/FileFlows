@@ -63,6 +63,6 @@ public class LibraryFileHandler(JsonRpcClient client)
     public async Task SetThumbnail(byte[] binaryData)
     {
         await client.SendRequest(nameof(SetThumbnail), Convert.ToBase64String(binaryData));
-        client.RunnerInfoHandler.HasThumbnail = true;
+        client.RunnerInfo.HasThumbnail = true;
     }
 }

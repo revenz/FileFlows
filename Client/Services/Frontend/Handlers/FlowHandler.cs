@@ -30,6 +30,11 @@ public class FlowHandler(FrontendService feService)
     /// Event raised when the flows are updated
     /// </summary>
     public event Action<List<FlowListModel>> FlowsUpdated;
+
+    /// <summary>
+    /// Event raised when the flow elements are updated
+    /// </summary>
+    public event Action<List<FlowElement>> FlowElementsUpdated;
     
     /// <summary>
     /// Initializes the handler
@@ -47,6 +52,12 @@ public class FlowHandler(FrontendService feService)
             FlowList = ed.ToDictionary(x => x.Uid, x => x.Name);
             FlowsUpdated?.Invoke(Flows);
             FlowListUpdated?.Invoke(FlowList);
+        });
+        
+        feService.Registry.Register<List<FlowElement>>(nameof(FlowElements), (ed) =>
+        {
+            FlowElements = ed;
+            FlowElementsUpdated?.Invoke(ed);
         });
     }
 }

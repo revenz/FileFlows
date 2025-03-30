@@ -418,7 +418,7 @@ public class NodeParameters
         this.Logger = logger;
         //InitFile(filename);
         this.Process = new ProcessHelper(logger, cancellationToken, this.Fake);
-    }
+        }
 
     /// <summary>
     /// Constructs a new basic node parameters with no file 

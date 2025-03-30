@@ -118,6 +118,38 @@ public abstract class RegisterHandler
             throw new InvalidOperationException($"Handler '{name}' expects a Guid as the parameter.");
         };
     }
+    
+    /// <summary>
+    /// Registers a handler that takes a generic type
+    /// </summary>
+    /// <param name="name">the name of the event</param>
+    /// <param name="handler">the event handler</param>
+    /// <typeparam name="T">the input type</typeparam>
+    /// <typeparam name="U">the return type</typeparam>
+    public void Register<T, U>(string name, Func<T, Task<U>> handler)
+    {
+        _handlers[name] = async (object[] parameters) =>
+        {
+            if (parameters.Length != 1)
+                throw new InvalidOperationException($"Handler '{name}' expects exactly one parameter.");
+
+            var value = parameters[0];
+
+            if (value is JsonElement je)
+            {
+                value = je.Deserialize<T>();
+            }
+            // Ensure the parameter is a Guid
+            if (value is T tvalue)
+            {
+                // Invoke the handler and convert the result to Task<object>
+                U result = await handler(tvalue);
+                return (object)result!; // Convert the result to an object
+            }
+
+            throw new InvalidOperationException($"Handler '{name}' expects a {typeof(T).Name} as the parameter.");
+        };
+    }
 
     /// <summary>
     /// Registers a handler that takes a generic type and returns nothing (void).
@@ -168,11 +200,14 @@ public abstract class RegisterHandler
             case Action<Guid> guidAction when parameters.Length == 1 && parameters[0] is string guidStr:
                 guidAction(Guid.Parse(guidStr));
                 return null;
-            case Func<object[], Task> objArrayTask:
-                await objArrayTask(parameters);
-                return null;
-            default:
-                throw new InvalidOperationException($"Handler '{name}' has an unsupported signature.");
         }
+
+        if (handler is Func<object[], Task> objArrayTask)
+        {
+            await objArrayTask(parameters);
+            return null;
+        }
+
+        throw new InvalidOperationException($"Handler '{name}' has an unsupported signature.");
     }
 }

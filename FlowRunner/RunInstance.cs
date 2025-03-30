@@ -120,7 +120,7 @@ public class RunInstance(RunnerProperties properties)
     /// <exception cref="Exception">error was thrown</exception>
     (FileStatus result, bool KeepFiles) Execute(ExecuteArgs args)
     {
-        ProcessingNode node = RpcClient.BasicHandler.GetNode().Result;
+        ProcessingNode node = RpcClient.Basic.GetNode().Result;
 
         properties.ProcessingNode = node;
         properties.WorkingDirectory = args.WorkingDirectory;

@@ -1,6 +1,7 @@
 
 using System.Collections.Concurrent;
 using FileFlows.Common;
+using FileFlows.FlowRunner;
 using FileFlows.Plugin;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared;

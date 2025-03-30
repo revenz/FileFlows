@@ -71,8 +71,8 @@ public class FlowLogger : ILogger
             string message = "data:image/jpeg;base64," + base64Image + ":640x480";
             
             #if(DEBUG)
-            if(_rpcClient.BasicHandler != null)
-                _rpcClient.BasicHandler.LogMessage(message).Wait();
+            if(_rpcClient.Basic != null)
+                _rpcClient.Basic.LogMessage(message).Wait();
             else
             #endif
                 Console.WriteLine(message);
@@ -166,8 +166,8 @@ public class FlowLogger : ILogger
                              JsonSerializer.Serialize(x)));
         //log.Add(message);
         #if(DEBUG)
-        if(_rpcClient.BasicHandler != null)
-            _rpcClient.BasicHandler.LogMessage(message).Wait();
+        if(_rpcClient.Basic != null)
+            _rpcClient.Basic.LogMessage(message).Wait();
         #else
         Console.WriteLine(message);
         #endif

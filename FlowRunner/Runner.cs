@@ -10,7 +10,6 @@ using FileFlows.Plugin.Helpers;
 using FileFlows.Plugin.Services;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared.FileServices;
-using FileFlows.ServerShared.Interfaces;
 using FileFlows.Shared.Helpers;
 using FlowHelper = FileFlows.FlowRunner.Helpers.FlowHelper;
 
@@ -164,12 +163,11 @@ public class Runner
     {
         VariablesHelper.StartedAt = DateTime.Now;
         
-        var cacheService = ServiceLoader.Load<IDistributedCacheService>();
         var cacheHelper = new CacheHelper(logger, (key) =>
         {
             try
             {
-                var json = cacheService.GetJsonAsync(key).Result;
+                var json = runInstance.RpcClient.Cache.GetJsonAsync(key).Result;
                 return json ?? default;
             }
             catch (Exception)
@@ -181,7 +179,7 @@ public class Runner
         {
             try
             {
-                cacheService.StoreJsonAsync(key, json, expiration).Wait();
+                runInstance.RpcClient.Cache.StoreJsonAsync(key, json, expiration).Wait();
             }
             catch (Exception)
             {
@@ -204,7 +202,7 @@ public class Runner
             LogImageActual = logger.Image,
             NotificationCallback = (severity, title, message) =>
             {
-                ServiceLoader.Load<INotificationService>().Record((NotificationSeverity)severity, title, message);
+                runInstance.RpcClient.Basic.RecordNotification((NotificationSeverity)severity, title, message).Wait();
             },
             Cache = cacheHelper,
             SetThumbnailActual = (binaryData) =>
@@ -325,8 +323,11 @@ public class Runner
             task.Wait();
             return task.Result.Success;
         };
-        nodeParameters.SendEmail = (to, subject, body)
-            => ServiceLoader.Load<EmailService>().Send(to, subject, body).Result;
+        nodeParameters.SendEmail = (to, subject, body) => 
+        {
+            var result = runInstance.RpcClient.Basic.SendEmail(to, subject, body).Result;
+            return string.IsNullOrEmpty(result) ? true : Result<bool>.Fail(result);
+        };
 
 
         var renderer = new ScribanRenderer();
@@ -386,7 +387,7 @@ public class Runner
         nodeParameters.TempPathName = new DirectoryInfo(WorkingDir).Name;
         nodeParameters.RelativeFile = runInstance.LibraryFile.RelativePath;
         nodeParameters.PartPercentageUpdate = (percent) =>
-            runInstance.Properties.RpcClient.RunnerInfoHandler.UpdatePartPercentage(percent).Wait();
+            runInstance.Properties.RpcClient.RunnerInfo.UpdatePartPercentage(percent).Wait();
         HttpHelper.Logger = nodeParameters.Logger;
 
         nodeParameters.Result = NodeResult.Success;
@@ -447,13 +448,13 @@ public class Runner
             runInstance.Properties.Config.PluginSettings?.TryGetValue(pluginSettingsType, out json);
             return json;
         };
-        var statService = ServiceLoader.Load<IStatisticService>();;
+        
         nodeParameters.StatisticRecorderRunningTotals = (name, value) =>
-            _ = statService.RecordRunningTotal(name, value);
+            _ = runInstance.RpcClient.Statistics.RecordRunningTotal(name, value);
         nodeParameters.StatisticRecorderAverage = (name, value) =>
-            _ = statService.RecordAverage(name, value);
+            _ = runInstance.RpcClient.Statistics.RecordAverage(name, value);
         nodeParameters.AdditionalInfoRecorder = (name, value, steps, expiry) =>
-            runInstance.Properties.RpcClient.RunnerInfoHandler.RecordAdditionalInfo(name, value, steps, expiry).Wait();
+            runInstance.Properties.RpcClient.RunnerInfo.RecordAdditionalInfo(name, value, steps, expiry).Wait();
 
         var flow = new FlowHelper(runInstance).GetStartupFlow(runInstance.Properties.IsRemote, Flow, runInstance.LibraryFile.Name);
 
@@ -508,5 +509,5 @@ public class Runner
     /// </summary>
     /// <param name="additional">the additional parts to increase</param>
     public void IncreaseTotalParts(int additional)
-        => runInstance.Properties.RpcClient.RunnerInfoHandler.IncreaseTotalParts(additional);
+        => runInstance.Properties.RpcClient.RunnerInfo.IncreaseTotalParts(additional);
 }

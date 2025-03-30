@@ -96,7 +96,7 @@ public class SseController : Controller
         var flowsTask = ServiceLoader.Load<FlowService>().GetFlowsForBroker();
         var nodeStatusesTask = ServiceLoader.Load<NodeService>().GetStatusSummaries();
         var tagsTask = ServiceLoader.Load<TagService>().GetAllAsync();
-        var flowElementsTask = FlowController.GetFlowElements(Guid.Empty, null);
+        var flowElementsTask = ServiceLoader.Load<FlowElementService>().GetFlowElements(Guid.Empty, null);
         var profileTask = context.GetProfile();
         var variablesTask = ServiceLoader.Load<VariableService>().GetAllAsync();
         var pluginsTask = ServiceLoader.Load<PluginService>().GetForBroadcast();
@@ -195,8 +195,8 @@ public class SseController : Controller
             CurrentSystemInfo = ServiceLoader.Load<SystemOverviewService>().GetSystemInfo(),
             CurrentFileOverData = ServiceLoader.Load<DashboardFileOverviewService>().GetData(),
             CurrentUpdatesInfo = ServiceLoader.Load<UpdateService>().Info,
-            Flows = flowsTask.Result,
-            Plugins = pluginsTask.Result,
+            Flows = flowsTask.Result.OrderBy(x => x.Name.ToLowerInvariant()).ToList(),
+            Plugins = pluginsTask.Result.OrderBy(x => x.Name.ToLowerInvariant()).ToList(),
             Libraries = ServiceLoader.Load<LibraryService>().GetListModels(),
             CurrentExecutorInfoMinified = runners,
             NodeStatusSummaries = nodeStatusesTask.Result,

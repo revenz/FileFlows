@@ -157,7 +157,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
 
         bool debugMode = false;
 #if(DEBUG)
-        //debugMode = true;
+        debugMode = true;
         runnerParameters.RunnerTempPath = "ff-debug-mode";
 #endif
 

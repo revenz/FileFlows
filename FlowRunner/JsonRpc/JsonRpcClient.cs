@@ -22,10 +22,30 @@ public class JsonRpcClient : IDisposable
     private readonly Dictionary<int, TaskCompletionSource<string>> responseTasks = new();
     private int currentRequestId = 0;  // To generate unique IDs for each request
 
+    /// <summary>
+    /// Gets the runner parameters
+    /// </summary>
     public RunnerParameters Parameters { get; private set; }
-    public BasicHandler BasicHandler { get; private set; }
+    /// <summary>
+    /// Gets the basic/generel handler 
+    /// </summary>
+    public BasicHandler Basic { get; private set; }
+    /// <summary>
+    /// Gets the handler for library files
+    /// </summary>
     public LibraryFileHandler LibraryFileHandler { get; private set; }
-    public RunnerInfoHandler RunnerInfoHandler { get; private set; }
+    /// <summary>
+    /// Gets the handler for the runner info
+    /// </summary>
+    public RunnerInfoHandler RunnerInfo { get; private set; }
+    /// <summary>
+    /// Gets the handler for statistics
+    /// </summary>
+    public StatisticsHandler Statistics { get; private set; }
+    /// <summary>
+    /// Gets the handler for Cache
+    /// </summary>
+    public CacheHandler Cache { get; private set; }
 
     public LibraryFile LibraryFile { get; internal set; }
     public ProcessingNode? Node { get; internal set; }
@@ -45,10 +65,12 @@ public class JsonRpcClient : IDisposable
             // Start listening for incoming server messages
             listeningTask = Task.Run(ListenForServerMessages, cts.Token);
 
-            BasicHandler = new(this);
-            Parameters = await BasicHandler.GetRunnerParameters();
+            Basic = new(this);
+            Parameters = await Basic.GetRunnerParameters();
             LibraryFileHandler = new(this);
-            RunnerInfoHandler = new(this, Parameters.MaxFlowParts);
+            RunnerInfo = new(this, Parameters.MaxFlowParts);
+            Statistics = new(this);
+            Cache = new(this);
 
             return true;
         }
@@ -74,7 +96,7 @@ public class JsonRpcClient : IDisposable
                     try
                     {
                         #if(DEBUG)
-                        _ = BasicHandler.LogMessage("Json Message Received: " + message);
+                        _ = Basic.LogMessage("Json Message Received: " + message);
                         #else
                         Console.WriteLine("Json Message Received: " + message);
                         #endif
