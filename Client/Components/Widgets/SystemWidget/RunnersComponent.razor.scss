@@ -160,7 +160,7 @@
   @media (max-width:600px)
   {
     .details {
-      grid-template-columns: repeat(4, auto);
+      grid-template-columns: 9rem 1fr;
     }
   }
   &.expanded {

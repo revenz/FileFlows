@@ -61,7 +61,7 @@
 }
 @media (max-width: 600px) {
   .widget-runner .details {
-    grid-template-columns: repeat(4, auto);
+    grid-template-columns: 9rem 1fr;
   }
 }
 .widget-runner.expanded .details {
