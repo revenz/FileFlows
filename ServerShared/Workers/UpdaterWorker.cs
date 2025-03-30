@@ -106,7 +106,8 @@ public abstract class UpdaterWorker : Worker
                 return false;
 
             UpdatePending = true;
-            EventManager.Broadcast("UpdatePending", true);
+            if(ServiceLoader.TryLoad<IBrokerService>(out var broker))
+                broker.BroadcastEvent("UpdatePending", true);
             PrepareApplicationShutdown();
             Logger.ILog($"{UpdaterName}: Update pending installation");
             do

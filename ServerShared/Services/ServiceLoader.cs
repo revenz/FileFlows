@@ -24,4 +24,23 @@ internal static class ServiceLoader
     /// <returns>The loaded service instance.</returns>
     internal static T Load<T>() where T : notnull
         => (T)SharedServiceLoader.Loader(typeof(T));
+    
+    /// <summary>
+    /// Tries and loads a service
+    /// </summary>
+    /// <typeparam name="T">the service to load</typeparam>
+    /// <returns>the service</returns>
+    public static bool TryLoad<T>(out T service) where T : notnull
+    {
+        service = default!;
+        try
+        {
+            service = Load<T>();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 }
