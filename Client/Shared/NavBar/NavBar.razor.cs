@@ -112,7 +112,7 @@ public partial class NavBar
         try
         {
             string currentRoute = NavigationManager.Uri[NavigationManager.BaseUri.Length..];
-            Active = MenuItems.FirstOrDefault(x => x?.Url == currentRoute);
+            Active = MenuItems.Union(BottomNavBarItems).FirstOrDefault(x => x?.Url == currentRoute);
             if (Active == null)
             {
                 if (NavigationManager.Uri.Contains("flows/"))
