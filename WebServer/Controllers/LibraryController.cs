@@ -158,23 +158,15 @@ public class LibraryController : BaseController
         StringBuilder log = new();
         try
         {
-            log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Getting service");
             var service = ServiceLoader.Load<LibraryService>();
-            log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Got service, getting library");
             var library = await service.GetByUidAsync(uid);
-            log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Got library");
             if (library == null)
-            {
-                log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Library not found");
                 throw new Exception("Library not found.");
-            }
 
             if (library.Enabled != enable)
             {
                 library.Enabled = enable;
-                log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Updating library");
-                library = await service.Update(library, await GetAuditDetails(), log);
-                log.AppendLine($"{DateTime.Now:h:mm:ss.ffffff}: Updated library");
+                library = await service.Update(library, await GetAuditDetails());
             }
 
             return library;

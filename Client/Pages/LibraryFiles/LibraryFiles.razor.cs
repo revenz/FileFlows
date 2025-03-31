@@ -251,13 +251,14 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     public override async Task Load(Guid selectedUid, bool showBlocker = true)
     {
         if (HasFilter() == false && SelectedStatus is FileStatus.Unprocessed or FileStatus.Processing or FileStatus.OnHold 
-            or FileStatus.OutOfSchedule or FileStatus.Processed or FileStatus.ProcessingFailed)
+            or FileStatus.OutOfSchedule or FileStatus.Processed or FileStatus.ProcessingFailed or FileStatus.Disabled)
         {
             this.Data = SelectedStatus == FileStatus.Unprocessed ? feService.Files.FileQueue :
                 SelectedStatus == FileStatus.OnHold ? feService.Files.OnHold :
                 SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFiles :
                 SelectedStatus == FileStatus.Processed ? feService.Files.Successful :
                 SelectedStatus == FileStatus.OutOfSchedule ? feService.Files.OutOfSchedule :
+                SelectedStatus == FileStatus.Disabled ? feService.Files.Disabled :
                 feService.Runner.Runners.Select(x => new LibraryFileMinimal()
                 {
                     Uid = x.Uid,
