@@ -11,7 +11,7 @@
   .pointer-add {
     position: fixed;
     z-index: 3;
-    top: 4rem;
+    top: 5rem;
     left: 2rem;
     width: 75px;
     background: var(--accent);
