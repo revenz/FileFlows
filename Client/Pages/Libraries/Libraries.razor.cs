@@ -315,13 +315,16 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
         
         if (initialSortOrder == null)
         {
-            Data = Data.OrderByDescending(x => x.Enabled).ThenBy(x => x.Name)
+            Data = Data.OrderByDescending(x => x.Enabled)
+                .ThenByDescending(x => (int)x.Priority)
+                .ThenBy(x => x.Name)
                 .ToList();
             initialSortOrder = Data.Select(x => x.Uid).ToList();
         }
         else
         {
             Data = Data.OrderBy(x => initialSortOrder.Contains(x.Uid) ? initialSortOrder.IndexOf(x.Uid) : 1000000)
+                .ThenByDescending(x => (int)x.Priority)
                 .ThenBy(x => x.Name)
                 .ToList();
         }
