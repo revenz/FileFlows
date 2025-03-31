@@ -13,6 +13,7 @@ public partial class NodeHub : Hub
     private readonly NodeService _nodeService;
     private readonly ISettingsService _settingsService;
     private readonly ILogger _logger;
+    private readonly NodeLogger _nodeLogger = new();
     
     /// <summary>
     /// Special token just for internal use.
@@ -204,15 +205,12 @@ public partial class NodeHub : Hub
         await base.OnDisconnectedAsync(exception);
         await ServiceLoader.Load<NodeService>().UpdateNodeStatusSummaries();
     }
-    
+
     /// <summary>
-    /// Logs a message from a node.
+    /// Logs message from a node.
     /// </summary>
-    /// <param name="nodeUid">The node's unique identifier.</param>
-    /// <param name="message">The log message.</param>
-    public Task Log(Guid nodeUid, string message)
-    {
-        _logger.ILog($"[{nodeUid}] {message}"); // Store in centralized logging
-        return Task.CompletedTask;
-    }
+    /// <param name="nodeName">The name of the node.</param>
+    /// <param name="messages">The log messages.</param>
+    public async Task Log(string nodeName, string[] messages)
+        => await _nodeLogger.Log(nodeName, messages);
 }

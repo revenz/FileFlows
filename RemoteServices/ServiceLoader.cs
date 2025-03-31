@@ -33,7 +33,6 @@ public static class ServiceLoader
     {
         // Add to WebServer to if needed
         Provider = new CustomServiceProvider()
-            .AddSingleton<ILogService>(() => new LogService())
             .AddSingleton<INodeService>(() => new NodeService())
             .AddSingleton<ISettingsService>(() => new SettingsService())
             .AddSingleton<INotificationService>(() => new NotificationService()) // need for DockerMod installs

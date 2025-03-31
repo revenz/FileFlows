@@ -354,4 +354,12 @@ public partial class Client
     /// <returns>a completed task</returns>
     public async Task SetThumbnail(Guid libraryFileUid, byte[] binaryData)
         => await _connection.SendAsync(nameof(SetThumbnail), libraryFileUid, binaryData);
+
+    /// <summary>
+    /// Sends a log message to the server
+    /// </summary>
+    /// <param name="messages">the messages being logged</param>
+    public async Task Log(string[] messages)
+        => await _connection.SendAsync(nameof(Log),
+            _node?.Address?.EmptyAsNull() ?? _node?.Name?.EmptyAsNull() ?? Environment.MachineName, messages);
 }

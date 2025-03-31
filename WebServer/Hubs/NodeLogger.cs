@@ -1,14 +1,11 @@
 using System.Collections.Concurrent;
 
-namespace FileFlows.WebServer.Controllers.RemoteControllers;
+namespace FileFlows.WebServer.Hubs;
 
 /// <summary>
-/// Log controller
+/// Node Loggers
 /// </summary>
-[Route("/remote/log")]
-[FileFlowsApiAuthorize]
-[ApiExplorerSettings(IgnoreApi = true)]
-public class LogController : Controller
+public class NodeLogger
 {
     /// <summary>
     /// The loggers
@@ -21,37 +18,38 @@ public class LogController : Controller
     private static FairSemaphore _semaphoreSlim = new (1);
         
     /// <summary>
-    /// Logs a message to the server
+    /// Logs messages to the server
     /// </summary>
-    /// <param name="message">The log message to log</param>
-    [HttpPost]
-    public async Task Log([FromBody] LogServiceMessage message)
+    /// <param name="nodeAddress">the UID of the node</param>
+    /// <param name="messages">The log messages to log</param>
+    public async Task Log(string nodeAddress, string[] messages)
     {
         try
         {
-            if (message == null)
+            if (messages == null || messages.Length == 0)
                 return;
-            if (string.IsNullOrEmpty(message.NodeAddress))
+            
+            if (string.IsNullOrEmpty(nodeAddress))
                 return;
 
             await _semaphoreSlim.WaitAsync();
             try
             {
-                if (Loggers.TryGetValue(message.NodeAddress, out var logger) == false)
+                if (Loggers.TryGetValue(nodeAddress, out var logger) == false)
                 {
-                    string name = message.NodeAddress;
+                    string name = nodeAddress;
                     if (IsValidFileName(name) == false)
                         return;
 
-                    Loggers[message.NodeAddress] = new(DirectoryHelper.LoggingDirectory, "Node-" + name, false);
-                    logger = Loggers[message.NodeAddress];
+                    Loggers[nodeAddress] = new(DirectoryHelper.LoggingDirectory, "Node-" + name, false);
+                    logger = Loggers[nodeAddress];
                 }
-
-                await logger.Log(message.Type, message.Arguments ?? []);
+                
+                await logger.LogRaw(messages);
             }
             catch (Exception ex)
             {
-                Logger.Instance.ELog($"Failed logging '{message.NodeAddress} message: " + ex.Message +
+                Logger.Instance.ELog($"Failed logging '{nodeAddress} message: " + ex.Message +
                                      Environment.NewLine +
                                      ex.StackTrace);
             }
@@ -65,6 +63,7 @@ public class LogController : Controller
             // Ignore    
         }
     }
+    
     /// <summary>
     /// Checks if a file name is valid.
     /// </summary>
@@ -80,5 +79,4 @@ public class LogController : Controller
         // Ensure it does not contain '..' or '/'
         return Regex.IsMatch(fileName, @"^[a-zA-Z0-9-_]+$") && fileName.Contains("..") == false && fileName.Contains("/") == false;
     }
-
 }

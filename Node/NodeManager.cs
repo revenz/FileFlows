@@ -30,6 +30,11 @@ public class NodeManager
     private Client? _client;
     
     /// <summary>
+    /// Gets the client
+    /// </summary>
+    public Client? Client => _client;
+    
+    /// <summary>
     /// Gets or sets if this node is registered
     /// </summary>
     public bool Registered { get; private set; }
@@ -43,6 +48,20 @@ public class NodeManager
     /// Event fired when connection state changes
     /// </summary>
     public event Client.ConnectionUpdated? OnConnectionUpdated;
+
+
+    /// <summary>
+    /// Gets the node manager instance
+    /// </summary>
+    public static NodeManager? Instance { get; private set; }
+
+    /// <summary>
+    /// Constructs a new instance of the Node Manager
+    /// </summary>
+    public NodeManager()
+    {
+        Instance = this;
+    }
 
     /// <summary>
     /// Starts the node processing

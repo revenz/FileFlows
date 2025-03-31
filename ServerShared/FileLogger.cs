@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using FileFlows.Plugin;
 using FileFlows.Shared;
+using Jint.Runtime;
 
 namespace FileFlows.ServerShared;
 
@@ -52,52 +53,25 @@ public class FileLogger : ILogWriter
     /// <param name="args">the arguments for the log message</param>
     public async Task Log(LogType type, params object[] args)
     {
+        string message = LogHelper.FormatMessage(type, args);
+        Console.WriteLine(message);
+        await LogRaw([message]);
+    }
+    
+    /// <summary>
+    /// Logs a raw message
+    /// </summary>
+    /// <param name="message">the messages to log</param>
+    public async Task LogRaw(string[] message)
+    {
         await mutex.WaitAsync();
         try
         {
-            string date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
-            string prefix = type switch
-            {
-                LogType.Info => $"{date} [INFO] -> ",
-                LogType.Error => $"{date} [ERRR] -> ",
-                LogType.Warning => $"{date} [WARN] -> ",
-                LogType.Debug => $"{date} [DBUG] -> ",
-                _ => string.Empty
-            };
-
-            string text = string.Join(
-                ", ", args.Select(x =>
-                {
-                    if (x == null)
-                        return "null";
-                    if (x.GetType().IsPrimitive)
-                        return x.ToString();
-                    if (x is string str)
-                        return str;
-                    if (x is JsonElement je)
-                    {
-                        if (je.ValueKind == JsonValueKind.True)
-                            return "true";
-                        if (je.ValueKind == JsonValueKind.False)
-                            return "false";
-                        if (je.ValueKind == JsonValueKind.String)
-                            return je.GetString();
-                        if (je.ValueKind == JsonValueKind.Number)
-                            return je.GetInt64().ToString();
-                        return je.ToString();
-                    }
-
-                    return JsonSerializer.Serialize(x);
-                }));
-
-            string message = prefix + text;
-            if (message.IndexOf((char)0) >= 0)
-            {
-                message = message.Replace(new string((char)0, 1), string.Empty);
-            }
             Console.WriteLine(message);
+            
+            string messages = string.Join("\n", message);
 
-            long size = Encoding.UTF8.GetByteCount(message) + 1;
+            long size = Encoding.UTF8.GetByteCount(messages) + 1;
 
             if (logFile == null || currentLogDate.DayOfYear != DateTime.Now.DayOfYear || CurrentLogSize + size > MaxLogSize)
             {
@@ -117,7 +91,7 @@ public class FileLogger : ILogWriter
             
             using var fs = new FileStream(logFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
             using StreamWriter sr = new StreamWriter(fs);
-            await sr.WriteLineAsync(message);
+            await sr.WriteLineAsync(messages);
             await sr.FlushAsync();
                 
 
