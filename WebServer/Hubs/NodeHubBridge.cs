@@ -114,29 +114,41 @@ public class NodeHubBridge : INodeHubService
     /// <inheritdoc/>
     public async Task<bool> AbortFile(Guid uid)
     {
-        try
+        var nodes = ServiceLoader.Load<NodeService>().GetOnlineNodes();
+        foreach (var node in nodes)
         {
-            var nodes = ServiceLoader.Load<NodeService>().GetOnlineNodes();
-            foreach (var node in nodes)
-            {
-                try
-                {
-                    bool canceled = await _hubContext.Clients.Client(node.ConnectionId)
-                    .InvokeAsync<bool>("AbortFile", uid, CancellationToken.None);
+            CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            bool canceled = false;
 
-                    if (canceled)
-                        return true;
-                }
-                catch (Exception ex)
+            try
+            {
+                var task = _hubContext.Clients.Client(node.ConnectionId)
+                    .InvokeAsync<bool>("AbortFile", uid, cts.Token);
+
+                // Wait for the task to complete or timeout after 30 seconds
+                if (await Task.WhenAny(task, Task.Delay(TimeSpan.FromSeconds(30), CancellationToken.None)) == task)
                 {
-                    Logger.Instance.ELog($"Failed aborting file: {ex}");
+                    canceled = await task; // Task completed before timeout
+                }
+                else
+                {
+                    cts.Cancel(); // Cancel the task
+                    canceled = false; // Timeout occurred
                 }
             }
+            catch (OperationCanceledException)
+            {
+                canceled = false; // Handle timeout
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.ELog($"Error invoking AbortFile: {ex.Message}");
+            }
+
+            if (canceled)
+                return true;
         }
-        catch (Exception)
-        {
-            // Ignored
-        }
+        
 
         return false;
     }
