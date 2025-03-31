@@ -40,7 +40,7 @@ public partial class FileServerPage : InputRegister
     /// <summary>
     /// The help URL
     /// </summary>
-    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/file-server";
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/settings/file-server";
 
     private string lblTitle, lblSaving, lblFileServerDescription;
 

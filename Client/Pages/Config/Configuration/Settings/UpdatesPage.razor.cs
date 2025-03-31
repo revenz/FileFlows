@@ -42,7 +42,7 @@ public partial class UpdatesPage : InputRegister
     /// <summary>
     /// The help URL
     /// </summary>
-    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/updates";
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/settings/updates";
 
     private UpdatesModel Model { get; set; } = new ();
     

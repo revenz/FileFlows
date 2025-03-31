@@ -44,7 +44,7 @@ public partial class EmailPage : InputRegister
     /// <summary>
     /// The help URL
     /// </summary>
-    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/email";
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/settings/email";
 
     private EmailModel Model { get; set; } = new ();
     

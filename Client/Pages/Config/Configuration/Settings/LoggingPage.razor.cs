@@ -37,7 +37,7 @@ public partial class LoggingPage : InputRegister
     /// <summary>
     /// The help URL
     /// </summary>
-    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/logging";
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/settings/logging";
 
     private bool IsSaving { get; set; }
 

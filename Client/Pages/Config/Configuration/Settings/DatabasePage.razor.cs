@@ -49,7 +49,7 @@ public partial class DatabasePage : InputRegister
     /// <summary>
     /// The help URL
     /// </summary>
-    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/database";
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/settings/database";
 
     private DatabaseModel Model { get; set; } = new ();
     // indicates if the page has rendered or not

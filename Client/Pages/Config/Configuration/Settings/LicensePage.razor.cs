@@ -41,7 +41,7 @@ public partial class LicensePage : InputRegister
     /// <summary>
     /// The help URL
     /// </summary>
-    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/license";
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/settings/license";
 
     private LicenseModel Model { get; set; } = new ();
 

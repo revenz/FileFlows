@@ -70,13 +70,6 @@ public partial class Client
             return;
         }
 
-        if (_node.Enabled == false)
-        {
-            _logger.ILog($"{prefix} Updating configuration: Node is not enabled");
-            return; // not is not enabled, skip configuration
-        }
-
-
         bool updated = false;
         if (await _configurationSemaphore.WaitAsync(20_000) == false)
         {

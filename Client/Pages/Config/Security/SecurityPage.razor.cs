@@ -40,7 +40,7 @@ public partial class SecurityPage : InputRegister
     /// <summary>
     /// The help URL
     /// </summary>
-    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/security";
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/security/settings";
 
     private bool IsSaving { get; set; }
 

@@ -48,7 +48,7 @@ public partial class GeneralPage : InputRegister
     /// <summary>
     /// The help URL
     /// </summary>
-    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/general";
+    private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/settings/general";
 
     /// <summary>
     /// The language options
