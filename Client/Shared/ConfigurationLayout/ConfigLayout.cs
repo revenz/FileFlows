@@ -41,6 +41,7 @@ public class ConfigLayout : ConfigurationLayout
                     profile.HasRole(UserRole.Variables)
                         ? new("Pages.Variables.Title", "fas fa-at", "config/variables")
                         : null,
+                    profile.HasRole(UserRole.Tags) ? new("Pages.Tags.Title", "fas fa-tags", "config/tags") : null,
                 }.Where(x => x != null)
                 .OrderBy(x => x.Title.ToLowerInvariant()).ToList()
         });
@@ -84,7 +85,6 @@ public class ConfigLayout : ConfigurationLayout
                     ? new("Pages.Resources.Title", "fas fa-box-open", "config/resources")
                     : null,
                 profile.HasRole(UserRole.Revisions) && profile.LicensedFor(LicenseFlags.Revisions) ? new ("Pages.Revisions.Title", "fas fa-history", "config/revisions") : null,
-                profile.HasRole(UserRole.Tags) ? new("Pages.Tags.Title", "fas fa-tags", "config/tags") : null,
                 profile.HasRole(UserRole.Tasks) && profile.LicensedFor(LicenseFlags.Tasks) ? new ("Pages.Tasks.Title", "fas fa-clock", "config/tasks") : null,
               profile.HasRole(UserRole.Webhooks) && profile.LicensedFor(LicenseFlags.Webhooks) ? new ("Pages.Webhooks.Title", "fas fa-handshake", "config/webhooks") : null
             }.Where(x => x != null)
