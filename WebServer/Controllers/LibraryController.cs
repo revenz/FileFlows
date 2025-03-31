@@ -214,21 +214,6 @@ public class LibraryController : BaseController
     {
         var service = ServiceLoader.Load<LibraryService>();
         service.Rescan(model.Uids);
-        // foreach(var uid in model.Uids)
-        // {
-        //     var item = await service.GetByUidAsync(uid);
-        //     if (item == null)
-        //         continue;
-        //     item.LastScanned = DateTime.MinValue;
-        //     await service.Update(item, await GetAuditDetails());
-        // }
-        //
-        // _ = Task.Run(async () =>
-        // {
-        //     await Task.Delay(1);
-        //     RefreshCaches();
-        //     LibraryWorker.ScanNow();
-        // });
     }
 
     /// <summary>
