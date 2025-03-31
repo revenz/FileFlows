@@ -4,6 +4,10 @@
     flex-grow: 1;
 }
 
+.flowtable-body .flowtable-select {
+    display:none;
+}
+
 .flowtable-toolbar {
     display: flex;
     flex-direction: row;

@@ -2512,6 +2512,7 @@ FROM {Wrap(nameof(LibraryFile))} GROUP BY {Wrap(nameof(LibraryFile.NodeUid))};";
             string sql = @$"
 SELECT 
     {Wrap(nameof(LibraryFile.Name))},
+    {Wrap(nameof(LibraryFile.OutputPath))},
     {Wrap(nameof(LibraryFile.DateCreated))},
     {Wrap(nameof(LibraryFile.DateModified))},
     {Wrap(nameof(LibraryFile.CreationTime))},
