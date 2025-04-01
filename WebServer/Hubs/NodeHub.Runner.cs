@@ -38,18 +38,6 @@ public partial class NodeHub
     public async Task<bool> ExistsOnServer(Guid libraryFileUid)
         => await ServiceLoader.Load<LibraryFileService>().ExistsOnServer(libraryFileUid);
 
-    
-    // /// <summary>
-    // /// Gets updated file processing info from the node
-    // /// </summary>
-    // /// <param name="info">the updated processing info</param>
-    // public async Task FileUpdateInfo(FlowExecutorInfo info)
-    // {
-    //     flowExecutors[info.Uid] = info;
-    //     var minified = FlowRunnerService.GetMinified(flowExecutors.ToDictionary()).Values.ToList();
-    //     await ClientServiceManager.Instance.UpdateExecutors(minified);
-    // }
-
     /// <summary>
     /// Starts processing a file
     /// </summary>
@@ -57,7 +45,23 @@ public partial class NodeHub
     public async Task FileStartProcessing(LibraryFile libraryFile)
     {
         var libraryFileService = ServiceLoader.Load<LibraryFileService>();
+
+        // the library file passed in isnt the cached instance, so get one from tdb
+        var file = await libraryFileService.Get(libraryFile.Uid);
+        if (file == null)
+            return; // shouldnt happen
+
+        file.Status = FileStatus.Processing;
+        file.Node = libraryFile.Node;
+        file.Flow = libraryFile.Flow;
+        file.ProcessingStarted = DateTime.UtcNow;
+
+        await libraryFileService.Update(file);
+        
+        // need to call this to update the FileSorter
         await libraryFileService.SetStatus(FileStatus.Processing, libraryFile.Uid);
+        
+        
         var nodeService = ServiceLoader.Load<NodeService>();
         nodeService.StartProcessing(libraryFile);
     }

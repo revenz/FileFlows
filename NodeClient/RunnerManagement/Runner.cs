@@ -65,6 +65,23 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         // move the file as Processing
         var lf = args.LibraryFile;
         lf.Status = FileStatus.Processing;
+
+        lf.ExecutedNodes = [];
+        lf.Node = new()
+        {
+            Uid = node.Uid,
+            Name = node.Name,
+            Type = node.GetType().FullName!
+        };
+
+        var cfgService = ServiceLoader.Load<ConfigurationService>();
+        var flow = cfgService.CurrentConfig?.Flows.FirstOrDefault(x => x.Uid == args.FlowUid);
+        lf.Flow = new()
+        {
+            Uid = args.FlowUid,
+            Name = flow?.Name,
+            Type = typeof(Flow).FullName!
+        };
         await client.FileStartProcessing(lf);
         StartUpdateTimer();
         try
@@ -119,16 +136,6 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
 
         bool isServer = node.Uid == CommonVariables.InternalNodeUid;
         var node2 = node;
-
-        libFile.ExecutedNodes = [];
-        libFile.NodeName = node.Name;
-        libFile.NodeUid = node.Uid;
-        libFile.Node = new()
-        {
-            Name = node.Name,
-            Uid = node.Uid,
-            Type = node.GetType().FullName!
-        };
 
         var flow = cfgService.CurrentConfig?.Flows.FirstOrDefault(x => x.Uid == args.FlowUid);
         if (flow == null)

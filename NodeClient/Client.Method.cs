@@ -320,7 +320,7 @@ public partial class Client
     /// </summary>
     /// <param name="libraryFile">the library file</param>
     public async Task FileStartProcessing(LibraryFile libraryFile)
-        => await _connection.SendAsync("FileStartProcessing", libraryFile);
+        => await _connection.SendAsync("FileStartProcessing", libraryFile.Uid);
 
     /// <summary>
     /// Called when the file finishes processing
