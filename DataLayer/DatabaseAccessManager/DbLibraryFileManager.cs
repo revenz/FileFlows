@@ -2511,6 +2511,7 @@ FROM {Wrap(nameof(LibraryFile))} GROUP BY {Wrap(nameof(LibraryFile.NodeUid))};";
             using var db = await DbConnector.GetDb();
             string sql = @$"
 SELECT 
+    {Wrap(nameof(LibraryFile.Uid))},
     {Wrap(nameof(LibraryFile.Name))},
     {Wrap(nameof(LibraryFile.OutputPath))},
     {Wrap(nameof(LibraryFile.DateCreated))},
