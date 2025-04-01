@@ -19,7 +19,7 @@
 @media (min-width: 850px) {
     .page {
         flex-direction: row;
-    }
+    }    
 
     .sidebar {
         width: 250px;
@@ -32,6 +32,7 @@
 
     .main {
         position: relative;
+        overflow: hidden;
     }
 }
 .expand-collapse {
