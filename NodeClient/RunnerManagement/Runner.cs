@@ -174,11 +174,14 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             "==============================================================================");
         await client.FileLogAppend(libFile.Uid, runLog.ToString(), true);
 
+        DateTime lastOutputTime = DateTime.UtcNow;
+        
         var logSemaphore = new SemaphoreSlim(1, 1);
         using JsonRpcServer rpcServer = new(client, runnerParameters, (message) =>
         {
             if (string.IsNullOrEmpty(message))
                 return;
+            lastOutputTime = DateTime.Now;
             #if(DEBUG)
             Console.WriteLine("Runner: " + message);
             Logger.Instance.ILog("Runner: " + message);
@@ -244,8 +247,6 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 process.StartInfo.ArgumentList.Add("--debug");
             }
             
-            DateTime lastOutputTime = DateTime.UtcNow;
-            TimeSpan timeout = TimeSpan.FromSeconds(30);
             
             // Attach event handlers to capture output
             process.OutputDataReceived += async (sender, args) =>
@@ -297,6 +298,8 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             process.Start();
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
+            
+            lastOutputTime = DateTime.UtcNow;
             
             // Wait for the cancellation token to be triggered (abort request)
             var abortCancellationTask = WaitForAbortAsync(ctx, rpcServer, process);
@@ -381,7 +384,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             if (DateTime.UtcNow - lastOutputTime > noOutputTimeout)
             {
                 AbortDueToNoOutput = true;
-                runLog.AppendLine($"Process terminated due to no output received in {noOutputTimeout}.");
+                runLog.AppendLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ttt} [ERRR] -> Process terminated due to no output received in {noOutputTimeout}.");
                 rpcServer.Abort();
                 try
                 {
