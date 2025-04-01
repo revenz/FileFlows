@@ -265,7 +265,7 @@ public partial class Log : ComponentBase
                                                         HttpUtility.UrlEncode(ActiveSearchModel.ActiveFile.FileName));
             if (response.Success)
             {
-                if (sameFilter && ActiveSearchModel.ActiveFile.Active && response.Body.Length >= CurrentLogText.Length)
+                if (sameFilter && ActiveSearchModel.ActiveFile.Active && response.Body.Length > 0 && response.Body.Length >= CurrentLogText.Length)
                 {
                     if (response.Body.Length == CurrentLogText.Length)
                         return; // no more log, nothing extra to do 
