@@ -37,6 +37,8 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     public bool IsRunning => _isRunning;
     private bool _aborted = false;
     private Task _updateTask;
+    private bool AbortDueToNoOutput;
+    readonly TimeSpan noOutputTimeout = TimeSpan.FromSeconds(60);
 
     public FlowExecutorInfo Info { get; set; } = new()
     {
@@ -325,6 +327,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
 
             _exitCode = process.ExitCode;
 
+
             // After process exits, handle result
             var lf = rpcServer.GetProcessedFile();
 
@@ -341,6 +344,20 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                     lf.Status = FileStatus.ProcessingFailed;
             }
 
+            
+            if (Enum.IsDefined(typeof(FileStatus), _exitCode))
+            {
+                Console.WriteLine($"_exitCode {_exitCode} is a valid FileStatus value.");
+            }
+            else
+            {
+                lf.Status = FileStatus.ProcessingFailed;
+                if (AbortDueToNoOutput)
+                    lf.FailureReason = $"Process terminated due to no output received in {noOutputTimeout}.";
+                else
+                    lf.FailureReason = $"Unexpected exit code: {_exitCode}";
+            }
+            
             return lf;
         }
         catch (Exception ex)
@@ -356,16 +373,15 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     private async Task WaitForAbortAsync(CancellationToken ctx, JsonRpcServer rpcServer, Process process)
     {
         DateTime lastOutputTime = DateTime.UtcNow;
-        TimeSpan timeout = TimeSpan.FromSeconds(30);
-
         
         while (!process.HasExited)
         {
             await Task.Delay(5000, ctx).ConfigureAwait(false); // Check every 5 seconds
 
-            if (DateTime.UtcNow - lastOutputTime > timeout)
+            if (DateTime.UtcNow - lastOutputTime > noOutputTimeout)
             {
-                runLog.AppendLine("Process terminated due to no output received in 30 seconds.");
+                AbortDueToNoOutput = true;
+                runLog.AppendLine($"Process terminated due to no output received in {noOutputTimeout}.");
                 rpcServer.Abort();
                 try
                 {
