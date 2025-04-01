@@ -38,7 +38,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     private bool _aborted = false;
     private Task _updateTask;
     private bool AbortDueToNoOutput;
-    readonly TimeSpan noOutputTimeout = TimeSpan.FromSeconds(60);
+    readonly TimeSpan noOutputTimeout = TimeSpan.FromSeconds(30);
     DateTime lastOutputTime = DateTime.UtcNow;
 
     public FlowExecutorInfo Info { get; set; } = new()
