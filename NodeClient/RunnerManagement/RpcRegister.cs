@@ -13,9 +13,8 @@ public class RpcRegister : RegisterHandler
     /// </summary>
     /// <param name="json">The JSON string representing the request.</param>
     /// <returns>A JSON string containing the result.</returns>
-    public async Task<string?> HandleRequest(string json)
+    public async Task<string?> HandleRequest(RpcRequest request)
     {
-        var request = JsonSerializer.Deserialize<RpcRequest>(json);
         if (request == null || !_handlers.TryGetValue(request.Method, out var handler))
             return JsonSerializer.Serialize(new { Result = $"Unknown method '{request?.Method ?? "null"}'" });
 
@@ -28,7 +27,8 @@ public class RpcRegister : RegisterHandler
         }
         catch (Exception ex)
         {
-            return JsonSerializer.Serialize(new { request.Id, Error = ex.Message });
+            Logger.Instance.ELog($"Error invoking RPC Method '{request.Method}: {ex}");
+            return JsonSerializer.Serialize(new { request.Id, Error = ex.ToString() });
         }
 
         if (result == null && request.Id == 0)

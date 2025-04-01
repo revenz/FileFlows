@@ -277,4 +277,26 @@ public partial class Client : IDisposable
             }
         }
     }
+
+    /// <summary>
+    /// Awaits the connection 
+    /// </summary>
+    /// <returns>true if connected, otherwise false if timed out</returns>
+    public async Task<bool> AwaitConnection()
+    {
+        if (_disposed)
+            return false;
+
+        var end = DateTime.Now.AddSeconds(30);
+
+        while (DateTime.Now < end)
+        {
+            if (_connection.State == HubConnectionState.Connected)
+                return true;
+            await Task.Delay(250);
+        }
+
+        return false;
+
+    }
 }

@@ -93,7 +93,16 @@ public class JsonRpcServer : IDisposable
 
                         _ = Task.Run(async () =>
                         {
-                            var responseJson = await _rpcRegister.HandleRequest(requestJson);
+                            var request = JsonSerializer.Deserialize<RpcRequest>(requestJson);
+                            if (request == null)
+                                return;
+
+                            string responseJson;
+                            if (await _client.AwaitConnection() == false)
+                                responseJson = JsonSerializer.Serialize(new { request.Id, Error = "Not connected to server." });
+                            else
+                                responseJson = await _rpcRegister.HandleRequest(request);
+                            
                             if (responseJson != null)
                                 await SendMessageToClient(writer, responseJson);
                         }, cts.Token);
