@@ -67,6 +67,8 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         lf.Status = FileStatus.Processing;
 
         lf.ExecutedNodes = [];
+        lf.Additional ??= new ();
+        lf.Additional.DisplayName = string.Empty;
         lf.Node = new()
         {
             Uid = node.Uid,
