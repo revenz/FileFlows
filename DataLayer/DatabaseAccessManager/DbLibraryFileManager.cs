@@ -508,7 +508,7 @@ internal class DbLibraryFileManager : BaseManager
         await db.Db.ExecuteAsync(sql);
         
         // delete from cache
-        if (UseCache)
+        if (Cache != null)
         {
             foreach (var uid in uids)
             {
