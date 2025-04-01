@@ -54,56 +54,59 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     {
         _cancellationTokenSource = new CancellationTokenSource();
         _isRunning = true;
-        _ = Task.Run(async () =>
-        {
-            // move the file as Processing
-            var lf = args.LibraryFile;
-            lf.Status = FileStatus.Processing;
-            await client.FileStartProcessing(lf);
-            StartUpdateTimer();
-            try
-            {
-                lf = await Execute(_cancellationTokenSource.Token);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.ELog("Error in file: " + ex);
-            }
-            StopUpdateTimer();
-            
-            try
-            {
-                string dir = Path.Combine(tempPath, "Runner-" + args.LibraryFile.Uid);
-                if (args.KeepFailedFiles == false && _keepFiles == false)
-                {
-                    if (Directory.Exists(dir))
-                    {
-                        Directory.Delete(dir, true);
-                        AppendToRunLog("Deleted temporary directory: " + dir);
-                    }
-                }
-                else
-                {
-                    AppendToRunLog("Flow failed keeping temporary files in: " + dir);
-                }
-            }
-            catch (Exception ex)
-            {
-                AppendToRunLog("Failed to clean up runner directory: " + ex.Message, type: "ERR");
-            }
+        _runnerTask = StartRunnerAsync();
+    }
 
-            try
+    private async Task StartRunnerAsync()
+    {
+        // move the file as Processing
+        var lf = args.LibraryFile;
+        lf.Status = FileStatus.Processing;
+        await client.FileStartProcessing(lf);
+        StartUpdateTimer();
+        try
+        {
+            lf = await Execute(_cancellationTokenSource.Token);
+        }
+        catch (Exception ex)
+        {
+            Logger.Instance.ELog("Error in file: " + ex);
+        }
+
+        StopUpdateTimer();
+
+        try
+        {
+            string dir = Path.Combine(tempPath, "Runner-" + args.LibraryFile.Uid);
+            if (args.KeepFailedFiles == false && _keepFiles == false)
             {
-                // Finish the file processing.
-                await client.FileFinishProcessing(lf, runLog.ToString());
+                if (Directory.Exists(dir))
+                {
+                    Directory.Delete(dir, true);
+                    AppendToRunLog("Deleted temporary directory: " + dir);
+                }
             }
-            finally
+            else
             {
-                Logger.Instance.WLog("Finishing Runner: " + Id);
-                onCompleted(Id);
-                _isRunning = false;
+                AppendToRunLog("Flow failed keeping temporary files in: " + dir);
             }
-        });
+        }
+        catch (Exception ex)
+        {
+            AppendToRunLog("Failed to clean up runner directory: " + ex.Message, type: "ERR");
+        }
+
+        try
+        {
+            // Finish the file processing.
+            await client.FileFinishProcessing(lf, runLog.ToString());
+        }
+        finally
+        {
+            Logger.Instance.WLog("Finishing Runner: " + Id);
+            onCompleted(Id);
+            _isRunning = false;
+        }
     }
 
     private async Task<LibraryFile> Execute(CancellationToken ctx)
@@ -183,14 +186,16 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             {
                 _ = Task.Run(async () =>
                 {
-                    await logSemaphore.WaitAsync(ctx);
-                    try
+                    if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1), ctx)) // Avoid deadlocks
                     {
-                        await client.FileLogAppend(libFile.Uid, message);
-                    }
-                    finally
-                    {
-                        logSemaphore.Release();
+                        try
+                        {
+                            await client.FileLogAppend(libFile.Uid, message);
+                        }
+                        finally
+                        {
+                            logSemaphore.Release();
+                        }
                     }
                 }, ctx);
             }
@@ -237,16 +242,24 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 process.StartInfo.ArgumentList.Add("--debug");
             }
             
+            DateTime lastOutputTime = DateTime.UtcNow;
+            TimeSpan timeout = TimeSpan.FromSeconds(30);
+            
             // Attach event handlers to capture output
-            process.OutputDataReceived += (sender, args) =>
+            process.OutputDataReceived += async (sender, args) =>
             {
                 if (args.Data == null)
                     return;
-                Console.Error.WriteLine(args.Data); // Write error to the console
+                lastOutputTime = DateTime.UtcNow; // Reset timeout timer
+                
+                if (args.Data.Trim().StartsWith("Heartbeat: "))
+                    return; // Ignore heartbeats in logging
+                
+                Console.WriteLine(args.Data); // Write error to the console
                 runLog.AppendLine(args.Data);
-                _ = Task.Run(async () =>
+
+                if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1), ctx)) // Avoid deadlocks
                 {
-                    await logSemaphore.WaitAsync(ctx);
                     try
                     {
                         await client.FileLogAppend(libFile.Uid, args.Data);
@@ -255,17 +268,19 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                     {
                         logSemaphore.Release();
                     }
-                }, ctx);
+                }
             };
-            process.ErrorDataReceived += (sender, args) =>
+            process.ErrorDataReceived += async (sender, args) =>
             {
                 if (args.Data == null)
                     return;
-                Console.Error.WriteLine(args.Data); // Write error to the console
+                lastOutputTime = DateTime.UtcNow; // Reset timeout timer
+                
+                await Console.Error.WriteLineAsync(args.Data); // Write error to the console
                 runLog.AppendLine(args.Data);
-                _ = Task.Run(async () =>
+
+                if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1), ctx)) // Avoid deadlocks
                 {
-                    await logSemaphore.WaitAsync(ctx);
                     try
                     {
                         await client.FileLogAppend(libFile.Uid, args.Data);
@@ -274,14 +289,13 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                     {
                         logSemaphore.Release();
                     }
-                }, ctx);
+                }
             };
 
             process.Start();
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
-
-
+            
             // Wait for the cancellation token to be triggered (abort request)
             var abortCancellationTask = WaitForAbortAsync(ctx, rpcServer, process);
 
@@ -341,11 +355,39 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     // This method will be called when the cancellation token is triggered
     private async Task WaitForAbortAsync(CancellationToken ctx, JsonRpcServer rpcServer, Process process)
     {
-        await Task.WhenAny(Task.Delay(Timeout.Infinite, ctx), process.WaitForExitAsync());
-        if (ctx.IsCancellationRequested)
+        DateTime lastOutputTime = DateTime.UtcNow;
+        TimeSpan timeout = TimeSpan.FromSeconds(30);
+
+        
+        while (!process.HasExited)
         {
-            runLog.AppendLine("Abort triggered.");
-            rpcServer.Abort(); // Attempt graceful shutdown via the rpc server
+            await Task.Delay(5000, ctx).ConfigureAwait(false); // Check every 5 seconds
+
+            if (DateTime.UtcNow - lastOutputTime > timeout)
+            {
+                runLog.AppendLine("Process terminated due to no output received in 30 seconds.");
+                rpcServer.Abort();
+                try
+                {
+                    if (!process.HasExited)
+                    {
+                        process.Kill();
+                        await Task.Delay(5000).ConfigureAwait(false); // Ensure the process exits
+                    }
+                }
+                catch (Exception ex)
+                {
+                    runLog.AppendLine($"Error terminating process: {ex.Message}");
+                }
+                return;
+            }
+
+            if (ctx.IsCancellationRequested)
+            {
+                runLog.AppendLine("Abort triggered.");
+                rpcServer.Abort();
+                return;
+            }
         }
     }
 
