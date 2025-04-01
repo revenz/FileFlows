@@ -66,8 +66,6 @@ public class SseController : Controller
 
             while (HttpContext.RequestAborted.IsCancellationRequested == false)
             {
-                await writer.WriteLineAsync(":heartbeat\n");
-                await writer.FlushAsync();
                 await Task.Delay(5000, HttpContext.RequestAborted);
             }
         }
