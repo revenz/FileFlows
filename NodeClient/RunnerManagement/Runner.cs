@@ -39,6 +39,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     private Task _updateTask;
     private bool AbortDueToNoOutput;
     readonly TimeSpan noOutputTimeout = TimeSpan.FromSeconds(60);
+    DateTime lastOutputTime = DateTime.UtcNow;
 
     public FlowExecutorInfo Info { get; set; } = new()
     {
@@ -173,15 +174,12 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             Environment.NewLine +
             "==============================================================================");
         await client.FileLogAppend(libFile.Uid, runLog.ToString(), true);
-
-        DateTime lastOutputTime = DateTime.UtcNow;
         
         var logSemaphore = new SemaphoreSlim(1, 1);
         using JsonRpcServer rpcServer = new(client, runnerParameters, (message) =>
         {
             if (string.IsNullOrEmpty(message))
                 return;
-            lastOutputTime = DateTime.Now;
             #if(DEBUG)
             Console.WriteLine("Runner: " + message);
             Logger.Instance.ILog("Runner: " + message);
@@ -375,8 +373,6 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     // This method will be called when the cancellation token is triggered
     private async Task WaitForAbortAsync(CancellationToken ctx, JsonRpcServer rpcServer, Process process)
     {
-        DateTime lastOutputTime = DateTime.UtcNow;
-        
         while (!process.HasExited)
         {
             await Task.Delay(5000, ctx).ConfigureAwait(false); // Check every 5 seconds
@@ -384,7 +380,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             if (DateTime.UtcNow - lastOutputTime > noOutputTimeout)
             {
                 AbortDueToNoOutput = true;
-                runLog.AppendLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ttt} [ERRR] -> Process terminated due to no output received in {noOutputTimeout}.");
+                runLog.AppendLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} [ERRR] -> Process terminated due to no output received in {noOutputTimeout}.");
                 rpcServer.Abort();
                 try
                 {
