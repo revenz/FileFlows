@@ -23,8 +23,8 @@
             {
                 <FlowTableButtonSeparator Visible="@(SelectedType != ScriptType.Shared)" />
                 <FlowTableButton Visible="@(SelectedType != ScriptType.Shared)"  Clicked=Update SelectedOneOrMore="true" Icon="fas fa-cloud-download-alt" Label="Labels.Update"/>
-                <FlowTableButton Visible="@(SelectedType != ScriptType.Shared)"  Clicked=UpdateScripts  Icon="fas fa-cloud-download-alt" Label="@lblUpdateScripts"/>
-                <FlowTableButton Area="ButtonArea.ContextMenu" Visible="@(SelectedType != ScriptType.Shared)"  Clicked=Browser Icon="fas fa-code-branch" Label="Pages.Scripts.Buttons.ScriptBrowser"/>
+                <FlowTableButton Area="ButtonArea.ContextMenu" Visible="@(SelectedType != ScriptType.Shared)"  Clicked=UpdateScripts  Icon="fas fa-cloud-download-alt" Label="@lblUpdateScripts"/>
+                <FlowTableButton Visible="@(SelectedType != ScriptType.Shared)"  Clicked=Browser Icon="fas fa-code-branch" Label="Pages.Scripts.Buttons.ScriptBrowser"/>
                 <FlowTableButtonSeparator Area="ButtonArea.ContextMenu" />
                 <FlowTableButton Area="ButtonArea.ContextMenu" Clicked=Import Icon="fas fa-file-import" Label="Labels.Import"/>
                 <FlowTableButton Area="ButtonArea.ContextMenu" Clicked=Export SelectedOne="true" Icon="fas fa-file-export" Label="Labels.Export"/>
