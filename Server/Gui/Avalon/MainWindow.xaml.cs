@@ -13,17 +13,18 @@ namespace FileFlows.Server.Gui.Avalon;
 /// Main window for Server application
 /// </summary>
 public class MainWindow : UiWindow
-{ 
+{
+    private MainWindowViewModel model;
     public MainWindow()
     {
         InitializeComponent();
         
-        var dc = new MainWindowViewModel(this)
+        model = new MainWindowViewModel(this)
         {
             CustomTitle = Globals.IsWindows
         };
         
-        DataContext = dc;
+        DataContext = model;
     }
 
 
@@ -38,7 +39,8 @@ public class MainWindow : UiWindow
     /// </summary>
     public void Launch()
     {
-        string url = $"http://{Environment.MachineName}:{WebServerApp.Port}/";
+        string url = model.ServerUrl;
+        
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -97,9 +99,13 @@ public class MainWindowViewModel
     {
         AppSettingsService = ServiceLoader.Load<AppSettingsService>();
         this.Window = window;
+        string domain = Environment.MachineName.ToLower();
+        if(OperatingSystem.IsMacOS())
+            domain = domain + ".local";
+        
         this.ServerUrl = WebServerApp.ServerUrl.ToLowerInvariant().StartsWith("https")
-            ? $"https://{Environment.MachineName.ToLower()}:{WebServerApp.Port}/"
-            : $"http://{Environment.MachineName.ToLower()}:{WebServerApp.Port}/";
+            ? $"https://{domain}:{WebServerApp.Port}/"
+            : $"http://{domain}:{WebServerApp.Port}/";
         this.Version = Globals.Version;
     }
 }
