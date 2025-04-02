@@ -155,18 +155,22 @@ public class LibraryController : BaseController
     [HttpPut("state/{uid}")]
     public async Task<Library> SetState([FromRoute] Guid uid, [FromQuery] bool enable)
     {
-        StringBuilder log = new();
+        LogTimer log = new();
         try
         {
             var service = ServiceLoader.Load<LibraryService>();
+            log.Log("Getting library");
             var library = await service.GetByUidAsync(uid);
+            log.Log("Get Library complete");
             if (library == null)
                 throw new Exception("Library not found.");
 
             if (library.Enabled != enable)
             {
                 library.Enabled = enable;
-                library = await service.Update(library, await GetAuditDetails());
+                log.Log("Updating library");
+                library = await service.Update(library, await GetAuditDetails(), log);
+                log.Log("Updated library");
             }
 
             return library;
