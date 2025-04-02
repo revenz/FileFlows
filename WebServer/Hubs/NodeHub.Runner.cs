@@ -36,7 +36,17 @@ public partial class NodeHub
     /// <param name="libraryFileUid">the UID of the file</param>
     /// <returns>true if it exists, otherwise false</returns>
     public async Task<bool> ExistsOnServer(Guid libraryFileUid)
-        => await ServiceLoader.Load<LibraryFileService>().ExistsOnServer(libraryFileUid);
+    {
+        try
+        {
+            return await ServiceLoader.Load<LibraryFileService>().ExistsOnServer(libraryFileUid);
+        }
+        catch (Exception ex)
+        {
+            Logger.Instance.ELog("Failed to exist on server: " + libraryFileUid + " => " + ex);
+            throw;
+        }
+    }
 
     /// <summary>
     /// Starts processing a file
