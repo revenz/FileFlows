@@ -45,9 +45,9 @@ internal static class MachineKeyProvider
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 return GetMacMachineId();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.Error.WriteLine($"[MachineKeyProvider] Error retrieving machine identifier: {ex.Message}");
+            //Console.Error.WriteLine($"[MachineKeyProvider] Error retrieving machine identifier: {ex.Message}");
         }
 
         // Fallback: Generate a machine identifier based on hostname
@@ -119,11 +119,23 @@ internal static class MachineKeyProvider
             if (!string.IsNullOrWhiteSpace(result))
                 return result;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.Error.WriteLine($"[MachineKeyProvider] Error retrieving macOS machine ID: {ex.Message}");
+            // Ignored
         }
 
+        try
+        {
+            // system_profiler fallback
+            string result = RunCommand("system_profiler SPHardwareDataType | grep 'Hardware UUID' | awk '{print $3}'").Trim();
+            if (!string.IsNullOrWhiteSpace(result))
+                return result;
+        }
+        catch (Exception)
+        {
+            // Ignored
+        }
+        
         throw new InvalidOperationException("macOS machine ID could not be retrieved.");
     }
 
@@ -169,6 +181,7 @@ internal static class MachineKeyProvider
     {
         try
         {
+            Console.WriteLine("Using fallback machine id");
             string hostName = Environment.MachineName;
             using SHA256 sha256 = SHA256.Create();
             byte[] hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(hostName));
