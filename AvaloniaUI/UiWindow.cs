@@ -26,7 +26,8 @@ public abstract class UiWindow : Window
         // Check if the WindowState has changed to Minimized
         if (e.Property == Window.WindowStateProperty && (WindowState == WindowState.Minimized))
         {
-            HideWindow();
+            if(OperatingSystem.IsMacOS() == false) 
+                HideWindow();
         }
     }
 
@@ -35,7 +36,8 @@ public abstract class UiWindow : Window
     /// </summary>
     protected void HideWindow()
     {
-        Hide(); // Hide the window
+        if(OperatingSystem.IsMacOS() == false) 
+            Hide(); // Hide the window
     }
 
     /// <summary>

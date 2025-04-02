@@ -180,7 +180,8 @@ public abstract partial class App : Application
             else
             {
                 desktop.MainWindow.WindowState = WindowState.Normal;
-                desktop.MainWindow.Show();
+                if(OperatingSystem.IsMacOS() == false) 
+                    desktop.MainWindow.Show();
             }
         }
     }
