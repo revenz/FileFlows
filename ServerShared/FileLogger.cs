@@ -23,6 +23,9 @@ public class FileLogger : ILogWriter
     private DateOnly currentLogDate = DateOnly.MinValue;
     private string? logFile;
     private const long MaxLogSize = 10 * 1024 * 1024;
+    
+    private const int MaxRetries = 3;
+    private const int RetryDelayMs = 100; // delay before retrying
 
     /// <summary>
     /// Gets an instance of the FileLogger
@@ -88,12 +91,8 @@ public class FileLogger : ILogWriter
                     CurrentLogSize = fileInfo.Length;
                 }
             }
-            
-            using var fs = new FileStream(logFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
-            using StreamWriter sr = new StreamWriter(fs);
-            await sr.WriteLineAsync(messages);
-            await sr.FlushAsync();
-                
+
+            await AppendToLogAsync(logFile, messages);
 
             CurrentLogSize += size;
         }
@@ -103,6 +102,32 @@ public class FileLogger : ILogWriter
         }
     }
 
+    /// <summary>
+    /// Appends a message to the specified log file, retrying if the file is locked.
+    /// </summary>
+    /// <param name="logFile">The path to the log file.</param>
+    /// <param name="messages">The message to append to the log file.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public static async Task AppendToLogAsync(string logFile, string messages)
+    {
+        for (int attempt = 1; attempt <= MaxRetries; attempt++)
+        {
+            try
+            {
+                using var fs = new FileStream(logFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+                using StreamWriter sr = new StreamWriter(fs);
+                await sr.WriteLineAsync(messages);
+                await sr.FlushAsync();
+                return; // Success, exit method
+            }
+            catch (IOException) when (attempt < MaxRetries)
+            {
+                //Console.Error.WriteLine($"[WARN] Failed to log message (attempt {attempt}): {ex.Message}");
+                await Task.Delay(RetryDelayMs); // Wait and retry
+            }
+        }
+    }
+    
     /// <summary>
     /// Gets a tail of the log
     /// </summary>

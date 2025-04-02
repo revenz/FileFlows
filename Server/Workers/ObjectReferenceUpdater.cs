@@ -98,7 +98,7 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
 
             foreach (var flow in flows)
             {
-                if (flow == null)
+                if (flow == null || flow.Name == null)
                     continue;
                 
                 if(libService != null)
