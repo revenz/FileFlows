@@ -497,8 +497,6 @@ public class Runner
             return FileStatus.ProcessingFailed;
         if(result == RunnerCodes.RunCanceled)
             return FileStatus.ProcessingFailed;
-        if(result == RunnerCodes.MappingIssue)
-            return FileStatus.MappingIssue;
         
         nodeParameters.Logger.WLog("Safety caught flow execution unexpected result code: " + result);
         return FileStatus.ProcessingFailed; // safety catch, shouldn't happen

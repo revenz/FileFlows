@@ -412,18 +412,6 @@ public enum FileStatus
     /// </summary>
     ProcessingFailed = 4,
     /// <summary>
-    /// The file is a duplicate of an existing library file
-    /// </summary>
-    Duplicate = 5,
-    /// <summary>
-    /// The file could not be processed due to a mapping issue
-    /// </summary>
-    MappingIssue = 6,
-    /// <summary>
-    /// The library this file was created under no longer exists
-    /// </summary>
-    MissingLibrary = 7,
-    /// <summary>
     /// Special case, the file has been marked for reprocessing, this can only happen once
     /// </summary>
     ReprocessByFlow = 99

@@ -90,7 +90,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         var uids = selected.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
         if (uids.Length == 0)
             return; // nothing to reprocess
-        bool processOptions = SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold or FileStatus.Duplicate;
+        bool processOptions = SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold;
 
         List<LibraryFile> files = [];
         Blocker.Show();

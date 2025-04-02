@@ -24,14 +24,4 @@ public static class RunnerCodes
     /// Code for a canceled flow, this has already been handled by what canceled it, no need to log again
     /// </summary>
     public const int RunCanceled = -9998;
-        
-    /// <summary>
-    /// Code for a mapping issue
-    /// </summary>
-    public const int MappingIssue = -9997;
-
-    /// <summary>
-    /// Code for a special case when a flow requests a file be reprocessed by another processing node
-    /// </summary>
-    public const int ReprocessByFlow = -99;
 }

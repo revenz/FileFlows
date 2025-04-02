@@ -227,18 +227,18 @@ public class RunInstance(RunnerProperties properties)
                         properties.Logger.ILog("Mapped Path: " + mappedPath);
                         properties.Logger.ELog(properties.LibraryFile.FailureReason);
                         properties.LibraryFile.ExecutedNodes = new List<ExecutedNode>();
-                        return (FileStatus.MappingIssue, false);
+                        return (FileStatus.ProcessingFailed, false);
                     }
 
                     if (properties.IsDirectory)
                     {
-                        properties.LibraryFile.Status = FileStatus.MappingIssue;
+                        properties.LibraryFile.Status = FileStatus.ProcessingFailed;
                         properties.LibraryFile.FailureReason =
                             "Library folder exists, but remote file server is not available for folders: " +
                             file.FullName;
                         properties.Logger.ELog(properties.LibraryFile.FailureReason);
                         properties.LibraryFile.ExecutedNodes = new List<ExecutedNode>();
-                        return (FileStatus.MappingIssue, false);
+                        return (FileStatus.ProcessingFailed, false);
                     }
 
                     properties.IsRemote = true;

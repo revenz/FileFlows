@@ -188,9 +188,6 @@ public class LibraryFilePageTabs : FlowPageTabs<LibraryStatus>, IDisposable
                 FileStatus.Processed => "far fa-check-circle",
                 FileStatus.FlowNotFound => "fas fa-exclamation",
                 FileStatus.ProcessingFailed => "far fa-times-circle",
-                FileStatus.Duplicate => "far fa-copy",
-                FileStatus.MappingIssue => "fas fa-map-marked-alt",
-                FileStatus.MissingLibrary => "fas fa-trash",
                 FileStatus.ReprocessByFlow => "fas fa-redo",
                 _ => ""
             };

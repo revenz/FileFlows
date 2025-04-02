@@ -26,13 +26,6 @@
     
     <LibraryFilePageTabs OnStatusChanged="OnStatusChanged"  />
 
-    @if (SelectedStatus == FileStatus.MissingLibrary)
-    {
-        <div class="info box">The libraries these files belong to have been deleted. A new library may have been created with the same path, but the ID of the library has changed.
-            To process these files, delete them and scan the library again.
-        </div>
-    }
-
     <FlowTable @ref="Table" Data="@Data" TItem="LibraryFileMinimal" Selection="SelectionMode.Multiple"
                TableIdentifier=@TableIdentifier DoubleClick="@OnDoubleClick"
                ShowPager=@true TotalItems=@TotalItems OnPageChange=@PageChange
@@ -43,7 +36,6 @@
                 <FlowTableButton Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=Add Icon="fas fa-plus" Label="Labels.Add"/>
             }
             <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-file" Label="Labels.View"/>
-            <FlowTableButton Visible="@(SelectedStatus == FileStatus.Duplicate)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process"/>
             <FlowTableButton Visible="@(SelectedStatus == FileStatus.OutOfSchedule || SelectedStatus == FileStatus.Disabled)" Clicked=ForceProcessing SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process"/>
             <FlowTableButton Visible="@(SelectedStatus == FileStatus.Processing)" Clicked=Cancel SelectedOneOrMore="true" Icon="fas fa-window-close" Label="Labels.Cancel"/>
             <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Remove"/>
@@ -54,9 +46,9 @@
             <FlowTableButton Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=MoveToTop SelectedOneOrMore="true" Icon="far fa-caret-square-up" Label="Pages.LibraryFiles.Buttons.MoveToTop"/>
             <FlowTableButton Mobile="false" Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=Rescan Icon="fas fa-search-plus" Label="Labels.Rescan"/>
 
-            <FlowTableButtonSeparator Visible="@(SelectedStatus == FileStatus.Processed || SelectedStatus == FileStatus.ProcessingFailed || SelectedStatus == FileStatus.MappingIssue)"/>
+            <FlowTableButtonSeparator Visible="@(SelectedStatus == FileStatus.Processed || SelectedStatus == FileStatus.ProcessingFailed)"/>
             <FlowTableButton Visible="@(SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-cogs" Label="Pages.LibraryFiles.Buttons.ProcessOptions"/>
-            <FlowTableButton Visible="@(SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed or FileStatus.MappingIssue)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Reprocess"/>
+            <FlowTableButton Visible="@(SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Reprocess"/>
 
             <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing && SelectedStatus != FileStatus.Processed)" Area="ButtonArea.ContextMenu" Clicked="(() => SetStatus(FileStatus.Processed))" SelectedOneOrMore="true" Icon="far fa-check-circle" Label="Labels.SetStatusProcessed"/>
 

@@ -86,6 +86,12 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
     /// </summary>
     [JsonPropertyName("tg")]
     public List<Guid> Tags { get; set; }
+    
+    /// <summary>
+    /// Gets or sets any flags on the file
+    /// </summary>
+    [JsonPropertyName("f")]
+    public LibraryFileMinimalFlag Flags { get; set; }
 
     /// <summary>
     /// Implicitly converts a <see cref="LibraryFile"/> to a <see cref="LibraryFileMinimal"/>.
@@ -111,4 +117,16 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
             Extension = file.IsDirectory ? null : FileHelper.GetExtension(file.OutputPath?.EmptyAsNull() ?? file.Name),
             DisplayName = file.Additional?.DisplayName?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.Name,
         };
+}
+
+/// <summary>
+/// Flags for library file minimal
+/// </summary>
+public enum LibraryFileMinimalFlag
+{
+    /// <summary>
+    /// No flags
+    /// </summary>
+    None = 0,
+    
 }

@@ -55,9 +55,6 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
             {
                 Value = FileStatus.ProcessingFailed, Label = Translater.Instant("Enums.FileStatus.ProcessingFailed")
             },
-            new() { Value = FileStatus.Duplicate, Label = Translater.Instant("Enums.FileStatus.Duplicate") },
-            new() { Value = FileStatus.MappingIssue, Label = Translater.Instant("Enums.FileStatus.MappingIssue") },
-            new() { Value = FileStatus.MissingLibrary, Label = Translater.Instant("Enums.FileStatus.MissingLibrary") },
             new()
             {
                 Value = FileStatus.ReprocessByFlow, Label = Translater.Instant("Enums.FileStatus.ReprocessByFlow")

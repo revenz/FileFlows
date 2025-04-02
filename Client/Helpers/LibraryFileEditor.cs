@@ -64,7 +64,7 @@ public class LibraryFileEditor
         }
 
 
-        if(new[] { FileStatus.Unprocessed, FileStatus.Disabled, FileStatus.Duplicate, FileStatus.OutOfSchedule }.Contains(model.Status) == false)
+        if(new[] { FileStatus.Unprocessed, FileStatus.Disabled, FileStatus.OutOfSchedule }.Contains(model.Status) == false)
         {
             // show tabs
             var tabs = new Dictionary<string, List<IFlowField>>();
@@ -150,7 +150,7 @@ public class LibraryFileEditor
 
             var additionalButtons = new ActionButton[]
             {
-                model.Status is FileStatus.Processed or FileStatus.MappingIssue or FileStatus.MissingLibrary
+                model.Status is FileStatus.Processed 
                     or FileStatus.ProcessingFailed or FileStatus.FlowNotFound
                     or FileStatus.ReprocessByFlow
                     ? new()

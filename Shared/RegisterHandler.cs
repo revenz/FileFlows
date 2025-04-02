@@ -78,8 +78,7 @@ public abstract class RegisterHandler
                 throw new InvalidOperationException($"Handler '{name}' expects exactly one parameter.");
 
             // Ensure the parameter is a Guid
-            if (parameters[0] is string str == false)
-                throw new InvalidOperationException($"Handler '{name}' expects a string as the parameter.");
+            var str = parameters[0].ToString();
             
             // Invoke the handler and convert the result to Task<object>
             await handler(str);
