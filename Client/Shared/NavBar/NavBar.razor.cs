@@ -1,6 +1,7 @@
 using Microsoft.JSInterop;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Services.Frontend.Handlers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 
@@ -73,7 +74,6 @@ public partial class NavBar
     {
         lblVersion = Translater.Instant("Labels.Version");
         lblHelp = Translater.Instant("Labels.Help");
-        //lblReddit = "Reddit";
         lblDiscord = Translater.Instant("Labels.Discord");
         lblChangePassword = Translater.Instant("Labels.ChangePassword");
         lblLogout = Translater.Instant("Labels.Logout");
@@ -87,16 +87,16 @@ public partial class NavBar
         Profile = feService.Profile.Profile;
 
         TotalUnprocessed = feService.Files.FileQueue.Count;
-        TotalProcessing = feService.Runner.Runners.Count;
+        TotalProcessing = feService.Files.Processing.Count;
+        TotalFailed = feService.Files.FailedFiles.Count;
         
         this.LoadMenu();
         //BottomNavBarItems.Add(new(lblReddit, "fab fa-reddit-alien", "https://reddit.com/r/FileFlows"));
         //BottomNavBarItems.Add(new(lblDiscord, "fab fa-discord", "https://fileflows.com/discord"));
         
-        FilesOnLibraryFileCountsUpdated(feService.Files.LibraryFileCounts);
-        feService.Files.LibraryFileCountsUpdated += FilesOnLibraryFileCountsUpdated;
-        feService.Files.FileQueueUpdated += FilesOnFileQueueUpdated;
-        feService.Runner.RunnerInfoUpdated += RunnerOnRunnerInfoUpdated;
+        feService.Files.UnprocessedUpdated += OnUnprocessedUpdated;
+        feService.Files.ProcessingUpdated += OnProcessingUpdated;
+        feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
 
         if (feService.Flow.Flows.Count == 0)
         {
@@ -133,6 +133,38 @@ public partial class NavBar
         }
     }
 
+    private void OnUnprocessedUpdated(List<LibraryFileMinimal> obj)
+    {
+        if (TotalUnprocessed == obj.Count)
+            return;
+        TotalUnprocessed = obj.Count;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Called when the processing files is updated
+    /// </summary>
+    /// <param name="obj">the data</param>
+    private void OnProcessingUpdated(List<ProcessingLibraryFile> obj)
+    {
+        if (TotalProcessing == obj.Count)
+            return;
+        TotalProcessing = obj.Count;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Called when the failed files is updated
+    /// </summary>
+    /// <param name="obj">the data</param>
+    private void OnFailedFilesUpdated(FileHandler.ListAndCount<LibraryFileMinimal> obj)
+    {
+        if (obj.Total == TotalFailed)
+            return;
+        TotalFailed = obj.Total;
+        StateHasChanged();
+    }
+
     /// <summary>
     /// Called when flows are updated
     /// </summary>
@@ -154,22 +186,6 @@ public partial class NavBar
         // once a library has been added, the step 1 indicator is no longer tracked
         feService.Library.LibrariesUpdated -= OnLibrariesUpdated;
         LibrariesPending = false;
-        StateHasChanged();
-    }
-
-    private void RunnerOnRunnerInfoUpdated(List<FlowExecutorInfoMinified> obj)
-    {
-        if (TotalProcessing == obj.Count)
-            return;
-        TotalProcessing = obj.Count;
-        StateHasChanged();
-    }
-
-    private void FilesOnFileQueueUpdated(List<LibraryFileMinimal> obj)
-    {
-        if (TotalUnprocessed == obj.Count)
-            return;
-        TotalUnprocessed = obj.Count;
         StateHasChanged();
     }
 

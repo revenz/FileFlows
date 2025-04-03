@@ -45,7 +45,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     private Guid? SelectedNode, SelectedLibrary, SelectedFlow, SelectedTag;
     private FilesSortBy? SelectedSortBy;
 
-    private string lblSearch, lblDeleteSwitch, lblForcedProcessing, lblSortBy, lblNode, lblFlow, lblLibrary, lblTag;
+    private string lblSearch, lblDeleteSwitch, lblReprocessByFlow, lblSortBy, lblNode, lblFlow, lblLibrary, lblTag;
 
     private string TableIdentifier => "LibraryFiles_" + this.SelectedStatus; 
 
@@ -104,7 +104,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         await base.OnInitializedAsync();
         
         this.SelectedStatus = FileFlows.Shared.Models.FileStatus.Unprocessed;
-        lblForcedProcessing = Translater.Instant("Labels.ForceProcessing");
+        lblReprocessByFlow = Translater.Instant("Enums.FileStatus.ReprocessByFlow");
         lblLibraryFiles = Translater.Instant("Pages.LibraryFiles.Title");
         lblFileFlowsServer = Translater.Instant("Pages.Nodes.Labels.FileFlowsServer");
         Title = lblLibraryFiles; // + ": " + Translater.Instant("Enums.FileStatus." + FileStatus.Unprocessed);
@@ -201,43 +201,34 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         var libraries = feService.Library.LibraryList;
         Data = feService.Files.FileQueue;
         
-        feService.Files.FileQueueUpdated += FilesOnFileQueueUpdated;
-        feService.Files.FailedFilesUpdated += FilesOnFailedFilesUpdated;
-        feService.Files.SuccessfulUpdated += FilesOnSuccessfulUpdated;
+        feService.Files.UnprocessedUpdated += DataUpdated;
+        feService.Files.FailedFilesUpdated += DataUpdated2;
+        feService.Files.SuccessfulUpdated += DataUpdated2;
+        feService.Files.OutOfScheduleUpdated += DataUpdated;
+        feService.Files.DisabledUpdated += DataUpdated;
+        feService.Files.OnHoldUpdated += DataUpdated;
+        feService.Files.ProcessingUpdated += DataUpdated;
     }
 
-    private void FilesOnSuccessfulUpdated(FileHandler.ListAndCount args)
+    private void DataUpdated(List<ProcessingLibraryFile> obj)
     {
-        if (SelectedStatus != FileStatus.Processed || PageIndex != 0)
+        if (PageIndex > 0)
             return;
-        Data = args.Files;
-        TotalItems = args.Total;
-        Table?.TriggerStateHasChanged();
-        StateHasChanged();
+        LoadServiceData();
     }
 
-    private void FilesOnFailedFilesUpdated(FileHandler.ListAndCount args)
+    private void DataUpdated2(FileHandler.ListAndCount<LibraryFileMinimal> obj)
     {
-        if (SelectedStatus != FileStatus.ProcessingFailed || PageIndex != 0)
+        if (PageIndex > 0)
             return;
-        Data = args.Files;
-        TotalItems = args.Total;
-        Table?.TriggerStateHasChanged();
-        StateHasChanged();
+        LoadServiceData();
     }
 
-    /// <summary>
-    /// Called when the files are updated
-    /// </summary>
-    /// <param name="files">the files</param>
-    private void FilesOnFileQueueUpdated(List<LibraryFileMinimal> files)
+    private void DataUpdated(List<LibraryFileMinimal> obj)
     {
-        if (SelectedStatus != FileStatus.Unprocessed)
+        if (PageIndex > 0)
             return;
-
-        Data = files;
-        Table?.TriggerStateHasChanged();
-        StateHasChanged();
+        LoadServiceData();
     }
 
     /// <summary>
@@ -250,54 +241,48 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
 
     public override async Task Load(Guid selectedUid, bool showBlocker = true)
     {
-        if (HasFilter() == false && SelectedStatus is FileStatus.Unprocessed or FileStatus.Processing or FileStatus.OnHold 
-            or FileStatus.OutOfSchedule or FileStatus.Processed or FileStatus.ProcessingFailed or FileStatus.Disabled)
+        if (HasFilter() == false)
         {
-            this.Data = SelectedStatus == FileStatus.Unprocessed ? feService.Files.FileQueue :
-                SelectedStatus == FileStatus.OnHold ? feService.Files.OnHold :
-                SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFiles :
-                SelectedStatus == FileStatus.Processed ? feService.Files.Successful :
-                SelectedStatus == FileStatus.OutOfSchedule ? feService.Files.OutOfSchedule :
-                SelectedStatus == FileStatus.Disabled ? feService.Files.Disabled :
-                feService.Runner.Runners.Select(x => new LibraryFileMinimal()
-                {
-                    Uid = x.Uid,
-                    Status = FileStatus.Processing,
-                    Date = x.StartedAt,
-                    Extension = FileHelper.GetExtension(x.WorkingFile),
-                    Traits = x.Traits,
-                    DisplayName = x.DisplayName,
-                    LibraryName = x.LibraryName,
-                    NodeName = x.NodeName
-                }).OrderBy(x => x.Date).ToList();
-            
-            TotalItems =
-                SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFilesTotal :
-                SelectedStatus == FileStatus.Processed ? feService.Files.SuccessfulTotal :
-                this.Data.Count;
-            
-            if (Table != null)
-            {
-                SetTableData(this.Data);
-                var item = this.Data.FirstOrDefault(x => x.Uid.Equals(selectedUid));
-                if (item != null)
-                {
-                    _ = Task.Run(async () =>
-                    {
-                        // need a delay here since setdata and the inner works of FlowTable will clear this without it
-                        await Task.Delay(50);
-                        Table.SelectItem(item);
-                    });
-                }
-            }
-
-            HasData = this.Data?.Any() == true;
-            this.Loaded = true;
-            await this.WaitForRender();
+            LoadServiceData();
             return;
         }
 
         await base.Load(selectedUid, showBlocker);
+    }
+
+    void LoadServiceData()
+    {
+        this.Data = SelectedStatus == FileStatus.Unprocessed ? feService.Files.FileQueue :
+            SelectedStatus == FileStatus.OnHold ? feService.Files.OnHold :
+            SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFiles :
+            SelectedStatus == FileStatus.Processed ? feService.Files.Successful :
+            SelectedStatus == FileStatus.OutOfSchedule ? feService.Files.OutOfSchedule :
+            SelectedStatus == FileStatus.Disabled ? feService.Files.Disabled :
+            SelectedStatus == FileStatus.Processing ? feService.Files.Processing.Cast<LibraryFileMinimal>().ToList() : [];
+            
+        TotalItems =
+            SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFilesTotal :
+            SelectedStatus == FileStatus.Processed ? feService.Files.SuccessfulTotal :
+            this.Data.Count;
+            
+        // if (Table != null)
+        // {
+        //     SetTableData(this.Data);
+        //     var item = this.Data.FirstOrDefault(x => x.Uid.Equals(selectedUid));
+        //     if (item != null)
+        //     {
+        //         _ = Task.Run(async () =>
+        //         {
+        //             // need a delay here since setdata and the inner works of FlowTable will clear this without it
+        //             await Task.Delay(50);
+        //             Table.SelectItem(item);
+        //         });
+        //     }
+        // }
+
+        HasData = this.Data?.Any() == true;
+        this.Loaded = true;
+        this.StateHasChanged();
     }
 
 
@@ -370,8 +355,12 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     /// </summary>
     public void Dispose()
     {
-        feService.Files.FileQueueUpdated -= FilesOnFileQueueUpdated;
-        feService.Files.FailedFilesUpdated -= FilesOnFailedFilesUpdated;
-        feService.Files.SuccessfulUpdated -= FilesOnSuccessfulUpdated;
+        feService.Files.UnprocessedUpdated -= DataUpdated;
+        feService.Files.FailedFilesUpdated -= DataUpdated2;
+        feService.Files.SuccessfulUpdated -= DataUpdated2;
+        feService.Files.OutOfScheduleUpdated -= DataUpdated;
+        feService.Files.DisabledUpdated -= DataUpdated;
+        feService.Files.OnHoldUpdated -= DataUpdated;
+        feService.Files.ProcessingUpdated -= DataUpdated;
     }
 }

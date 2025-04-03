@@ -92,10 +92,6 @@ public class FrontendService : IAsyncDisposable
     /// </summary>
     public ReportHandler Report { get;private set; }
     /// <summary>
-    /// Gets or sets the runner handler
-    /// </summary>
-    public RunnerHandler Runner { get;private set; }
-    /// <summary>
     /// Gets or sets the tag handler
     /// </summary>
     public TagHandler Tag { get;private set; }
@@ -336,8 +332,6 @@ public class FrontendService : IAsyncDisposable
         Script.Initialize(data);
         Report = new(this);
         Report.Initialize(data);
-        Runner = new(this);
-        Runner.Initialize(data);
         System = new(this);
         System.Initialize(data);
         IsInitialized = true;

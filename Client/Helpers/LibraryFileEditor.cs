@@ -152,7 +152,7 @@ public class LibraryFileEditor
             {
                 model.Status is FileStatus.Processed 
                     or FileStatus.ProcessingFailed or FileStatus.FlowNotFound
-                    or FileStatus.ReprocessByFlow
+                    || model.Additional?.Reprocessing == true
                     ? new()
                     {
                         Uid = "download-log",

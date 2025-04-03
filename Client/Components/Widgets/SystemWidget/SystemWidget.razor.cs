@@ -60,21 +60,16 @@ public partial class SystemWidget : ComponentBase, IDisposable
         lblSavings = Translater.Instant("Pages.Dashboard.Tabs.Savings");
         if(App.Instance.IsMobile)
             Mode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
-        OnExecutorsUpdated(feService.Runner.Runners ?? []);
-        feService.Runner.RunnerInfoUpdated += OnExecutorsUpdated;
+        OnProcessingUpdated(feService.Files.Processing ?? []);
+        feService.Files.ProcessingUpdated += OnProcessingUpdated;
     }
 
-    private void DashboardOnRunnerInfoUpdated(List<FlowExecutorInfoMinified> obj)
-    {
-        throw new NotImplementedException();
-    }
 
     /// <summary>
     /// Raised when the executors are updated
     /// </summary>
     /// <param name="info">the executors</param>
-    /// <exception cref="NotImplementedException"></exception>
-    private void OnExecutorsUpdated(List<FlowExecutorInfoMinified> info)
+    private void OnProcessingUpdated(List<ProcessingLibraryFile> info)
     {
         lblRunners = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = info.Count});
         OptionButtons?.TriggerStateHasChanged();
@@ -98,6 +93,6 @@ public partial class SystemWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Runner.RunnerInfoUpdated -= OnExecutorsUpdated;
+        feService.Files.ProcessingUpdated -= OnProcessingUpdated;
     }
 }

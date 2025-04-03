@@ -15,6 +15,10 @@ public class FileHandler(FrontendService feService)
     /// </summary>
     public List<LibraryFileMinimal> Successful { get; private set; }
     /// <summary>
+    /// Gets the processing files
+    /// </summary>
+    public List<ProcessingLibraryFile> Processing { get; private set; }
+    /// <summary>
     /// Gets the total successfully processed files
     /// </summary>
     public int SuccessfulTotal { get; private set; }
@@ -48,19 +52,9 @@ public class FileHandler(FrontendService feService)
     public List<LibraryFileMinimal> Disabled { get; private set; }
     
     /// <summary>
-    /// Gets or sets the file counts
+    /// Event raised when the unprocesed list is updated
     /// </summary>
-    public List<LibraryStatus> LibraryFileCounts { get; set; }
-    
-    /// <summary>
-    /// Event raised when the node status is updated
-    /// </summary>
-    public event Action<List<LibraryStatus>> LibraryFileCountsUpdated; 
-    
-    /// <summary>
-    /// Event raised when the file queue is updated
-    /// </summary>
-    public event Action<List<LibraryFileMinimal>> FileQueueUpdated; 
+    public event Action<List<LibraryFileMinimal>> UnprocessedUpdated; 
     
     /// <summary>
     /// Event raised when the on hold queue is updated
@@ -80,11 +74,15 @@ public class FileHandler(FrontendService feService)
     /// <summary>
     /// Called when recently finished files have been updated
     /// </summary>
-    public event Action<ListAndCount> SuccessfulUpdated;
+    public event Action<ListAndCount<LibraryFileMinimal>> SuccessfulUpdated;
     /// <summary>
     /// Called when failed files have been updated
     /// </summary>
-    public event Action<ListAndCount> FailedFilesUpdated;
+    public event Action<ListAndCount<LibraryFileMinimal>> FailedFilesUpdated;
+    /// <summary>
+    /// Called when processing files are updated
+    /// </summary>
+    public event Action<List<ProcessingLibraryFile>> ProcessingUpdated;
 
     /// <summary>
     /// Initializes the handler
@@ -99,57 +97,45 @@ public class FileHandler(FrontendService feService)
         FailedFilesTotal = data.FailedFilesTotal;
         TopSavingsAll = data.TopSavingsAll;
         TopSavings31Days = data.TopSavings31Days;
-        LibraryFileCounts = data.LibraryFileCounts;
         OnHold = data.OnHold;
         OutOfSchedule = data.OutOfScheduleFiles;
         Disabled = data.DisabledFiles;
+        Processing = data.Processing;
         
-        feService.Registry.Register<List<LibraryStatus>>(nameof(LibraryFileCounts), (ed) =>
+        feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("Unprocessed", (ed) =>
         {
-            LibraryFileCounts = ed;
-            LibraryFileCountsUpdated?.Invoke(ed);
+            FileQueue = ed.Data;
+            UnprocessedUpdated?.Invoke(ed.Data);
         });
-        feService.Registry.Register<List<LibraryFileMinimal>>("FileQueue", (ed) =>
+        feService.Registry.Register<ListAndCount<ProcessingLibraryFile>>("Processing", (ed) =>
         {
-            FileQueue = ed;
-            FileQueueUpdated?.Invoke(ed);
+            Processing = ed.Data;
+            ProcessingUpdated?.Invoke(ed.Data);
         });
-
-        // feService.Registry.Register<Guid[]>("FilesDeleted", (uids) =>
-        // {
-        //     if (FailedFiles.RemoveAll(x => uids.Contains(x.Uid)) > 0)
-        //         FailedFilesUpdated?.Invoke(FailedFiles);
-        //     if (Successful.RemoveAll(x => uids.Contains(x.Uid)) > 0)
-        //         SuccessfulUpdated?.Invoke(Successful);
-        //     if (FileQueue.RemoveAll(x => uids.Contains(x.Uid)) > 0)
-        //         FileQueueUpdated?.Invoke(FileQueue);
-        //     if (OnHold.RemoveAll(x => uids.Contains(x.Uid)) > 0)
-        //         OnHoldUpdated?.Invoke(OnHold);
-        // });
-        feService.Registry.Register<List<LibraryFileMinimal>>("OnHold", (files) =>
+        feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("OnHold", (files) =>
         {
-            OnHold = files;
+            OnHold = files.Data;
             OnHoldUpdated?.Invoke(OnHold);
         });
-        feService.Registry.Register<List<LibraryFileMinimal>>("OutOfSchedule", (files) =>
+        feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("OutOfSchedule", (files) =>
         {
-            OutOfSchedule = files;
+            OutOfSchedule = files.Data;
             OutOfScheduleUpdated?.Invoke(OutOfSchedule);
         });
-        feService.Registry.Register<List<LibraryFileMinimal>>("DisabledFiles", (files) =>
+        feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("Disabled", (files) =>
         {
-            Disabled = files;
+            Disabled = files.Data;
             DisabledUpdated?.Invoke(Disabled);
         });
-        feService.Registry.Register<ListAndCount>("ProcessedFiles", (lat) =>
+    feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("Processed", (lat) =>
         {
-            Successful = lat.Files;
+            Successful = lat.Data;
             SuccessfulTotal = lat.Total;
             SuccessfulUpdated?.Invoke(lat);
         });
-        feService.Registry.Register<ListAndCount>("FailedFiles", (lat) =>
+        feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("ProcessingFailed", (lat) =>
         {
-            FailedFiles = lat.Files;
+            FailedFiles = lat.Data;
             FailedFilesTotal = lat.Total;
             FailedFilesUpdated?.Invoke(lat);
         });
@@ -158,7 +144,7 @@ public class FileHandler(FrontendService feService)
     /// <summary>
     /// List of files and their counts
     /// </summary>
-    public class ListAndCount
+    public class ListAndCount<T>
     {
         /// <summary>
         /// Gets or sets the total files
@@ -167,6 +153,6 @@ public class FileHandler(FrontendService feService)
         /// <summary>
         /// Gets or sets the files
         /// </summary>
-        public List<LibraryFileMinimal> Files { get; set; }
+        public List<T> Data { get; set; }
     }
 }

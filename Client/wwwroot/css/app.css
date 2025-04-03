@@ -316,7 +316,7 @@ a.btn {
   .pointer-add {
     position: fixed;
     z-index: 3;
-    top: 4rem;
+    top: 5rem;
     left: 2rem;
     width: 75px;
     background: var(--accent);
@@ -3219,6 +3219,48 @@ body.photino .paused-indicator {
   overflow: hidden;
 }
 
+.skybox {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: auto;
+  user-select: none;
+  align-self: center;
+  position: relative;
+  top: -0.5rem;
+  max-width: 100%;
+  align-items: center;
+  height: 3rem;
+  min-height: 3rem;
+  max-height: 3rem;
+}
+.skybox .skybox-item {
+  font-weight: var(--bold, 600);
+  border-radius: 2rem;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.skybox .skybox-item .icon, .skybox .skybox-item .count {
+  padding-right: 0.5rem;
+}
+.skybox .skybox-item.active {
+  background: var(--input-background);
+}
+.skybox .skybox-item .icon {
+  font-size: 1.25rem;
+  position: relative;
+  top: 0.1rem;
+}
+
+@media (min-width: 850px) {
+  .skybox {
+    align-self: unset;
+    width: fit-content;
+  }
+}
 @font-face {
   font-family: "Montserrat";
   src: url("webfonts/Montserrat-VariableFont_wght.ttf") format("truetype-variations");
@@ -4508,6 +4550,9 @@ hr {
   .hidden-on-mobile {
     display: none !important;
   }
+}
+.hidden {
+  display: none;
 }
 
 /*# sourceMappingURL=app.css.map */

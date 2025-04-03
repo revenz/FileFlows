@@ -1,0 +1,58 @@
+@using Humanizer
+@namespace FileFlows.Client.Pages
+
+<div class="skybox">
+    
+    <div class="skybox-item @(Selected == Unprocessed.Status ? "active" : "") @Unprocessed.Name.Dehumanize()"
+         @onclick="() => Select(Unprocessed.Status)">
+        <span class="icon @Unprocessed.Icon"></span>
+        <span class="count">@Unprocessed.Count.ToString("N0")</span>
+        <span class="name">@Unprocessed.Name</span>
+    </div>
+
+    <div class="skybox-item @(Selected == Processing.Status ? "active" : "") @Processing.Name.Dehumanize()"
+         @onclick="() => Select(Processing.Status)">
+        <span class="icon @Processing.Icon"></span>
+        <span class="count">@Processing.Count.ToString("N0")</span>
+        <span class="name">@Processing.Name</span>
+    </div>
+    
+    <div class="skybox-item @(Selected == Processed.Status ? "active" : "") @Processed.Name.Dehumanize()"
+         @onclick="() => Select(Processed.Status)">
+        <span class="icon @Processed.Icon"></span>
+        <span class="count">@Processed.Count.ToString("N0")</span>
+        <span class="name">@Processed.Name</span>
+    </div>
+    
+    <div class="skybox-item @(Selected == ProcessingFailed.Status ? "active" : "") @ProcessingFailed.Name.Dehumanize()"
+         @onclick="() => Select(ProcessingFailed.Status)">
+        <span class="icon @ProcessingFailed.Icon"></span>
+        <span class="count">@ProcessingFailed.Count.ToString("N0")</span>
+        <span class="name">@ProcessingFailed.Name</span>
+    </div>
+    
+    <div class="skybox-item @(OnHold.Count == 0 ? "hidden" : "") 
+        @(Selected == OnHold.Status ? "active" : "") @OnHold.Name.Dehumanize()"
+         @onclick="() => Select(OnHold.Status)">
+        <span class="icon @OnHold.Icon"></span>
+        <span class="count">@OnHold.Count.ToString("N0")</span>
+        <span class="name">@OnHold.Name</span>
+    </div>
+
+    <div class="skybox-item @(OutOfSchedule.Count == 0 ? "hidden" : "") 
+        @(Selected == OutOfSchedule.Status ? "active" : "") @OutOfSchedule.Name.Dehumanize()"
+         @onclick="() => Select(OutOfSchedule.Status)">
+        <span class="icon @OutOfSchedule.Icon"></span>
+        <span class="count">@OutOfSchedule.Count.ToString("N0")</span>
+        <span class="name">@OutOfSchedule.Name</span>
+    </div>
+
+
+    <div class="skybox-item @(Disabled.Count == 0 ? "hidden" : "") 
+        @(Selected == Disabled.Status ? "active" : "") @Disabled.Name.Dehumanize()"
+         @onclick="() => Select(Disabled.Status)">
+        <span class="icon @Disabled.Icon"></span>
+        <span class="count">@Disabled.Count.ToString("N0")</span>
+        <span class="name">@Disabled.Name</span>
+    </div>
+</div>

@@ -353,4 +353,10 @@ public class LibraryFileManager
     /// <returns>the files</returns>
     public async Task<List<LibraryFile>> GetFiles(Guid[] uids)
         => await DatabaseAccessManager.Instance.LibraryFileManager.GetFiles(uids);
+
+    /// <summary>
+    /// Gets all unprocessed files
+    /// </summary>
+    public async Task<List<LibraryFile>> GetAllUnprocessed()
+        => await DatabaseAccessManager.Instance.LibraryFileManager.GetAllUnprocessed();
 }

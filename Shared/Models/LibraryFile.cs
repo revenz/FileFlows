@@ -372,6 +372,11 @@ public class LibraryFileAdditional
     /// Gets or sets properties users can set on a file in the flow
     /// </summary>
     public Dictionary<string, string> Properties { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets if this file has be marked for reprocessing
+    /// </summary>
+    public bool Reprocessing { get; set; }
 }
 
 /// <summary>
@@ -410,11 +415,7 @@ public enum FileStatus
     /// <summary>
     /// THe file was processed, but exited with a failure
     /// </summary>
-    ProcessingFailed = 4,
-    /// <summary>
-    /// Special case, the file has been marked for reprocessing, this can only happen once
-    /// </summary>
-    ReprocessByFlow = 99
+    ProcessingFailed = 4
 }
 
 /// <summary>

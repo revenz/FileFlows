@@ -54,11 +54,7 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
             new()
             {
                 Value = FileStatus.ProcessingFailed, Label = Translater.Instant("Enums.FileStatus.ProcessingFailed")
-            },
-            new()
-            {
-                Value = FileStatus.ReprocessByFlow, Label = Translater.Instant("Enums.FileStatus.ReprocessByFlow")
-            },
+            }
         }.OrderBy(x => x.Label!.ToLowerInvariant())).ToList();
     }
 

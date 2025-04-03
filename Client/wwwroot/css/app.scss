@@ -17,6 +17,8 @@
 @use 'wizard';
 @use 'search';
 @use 'dashboard';
+@use 'skybox';
+
 
 $mobile_width: 850px;
 
@@ -1448,4 +1450,8 @@ input[type=file]{
     .hidden-on-mobile {
         display: none !important;
     }
+}
+
+.hidden {
+    display: none;
 }

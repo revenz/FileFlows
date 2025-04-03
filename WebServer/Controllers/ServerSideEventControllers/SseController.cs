@@ -59,19 +59,34 @@ public class SseController : Controller
                 
                 await writer.WriteLineAsync(message);
                 await writer.FlushAsync();
-                await Task.Delay(5000, HttpContext.RequestAborted);
+                try
+                {
+                    await Task.Delay(5000, HttpContext.RequestAborted);
+                }
+                catch (TaskCanceledException)
+                {
+                    return; // Client disconnected before delay finished
+                }
             }
             
             clientId = _broker.AddClient(writer, userRole, mobile);
 
             while (HttpContext.RequestAborted.IsCancellationRequested == false)
             {
-                await Task.Delay(5000, HttpContext.RequestAborted);
+                try
+                {
+                    await Task.Delay(5000, HttpContext.RequestAborted);
+                }
+                catch (TaskCanceledException)
+                {
+                    break; // Exit loop when client disconnects
+                }
             }
         }
-        catch
+        catch (Exception ex)
         {
             // Client disconnected
+            Logger.Instance.WLog($"SSE Controller Error: {ex}");
         }
         finally
         {
@@ -154,20 +169,20 @@ public class SseController : Controller
             $"Completed GetStorageSaved (StatisticService) at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
 
         stopwatch.Restart();
-        
-        var serviceFileProcessed = ServiceLoader.Load<FileProcessed>();
-        var successful = serviceFileProcessed.GetData();
-        var successfulTotal = serviceFileProcessed.Total;
+
+        var fileSorter = ServiceLoader.Load<FileSorterService>();
+            
+        var successful = fileSorter.GetData(FileStatus.Processed);
+        var successfulTotal = fileSorter.GetTotal(FileStatus.Processed);
         if (mobile ||(userRole & UserRole.Files) != UserRole.Files && successful.Count > 50)
             successful = successful.Take(50).ToList();
         
-        var serviceFileFailed = ServiceLoader.Load<FileProcessingFailed>();
-        var failed = serviceFileFailed.GetData();
-        var failedTotal = serviceFileFailed.Total;
+        var failed = fileSorter.GetData(FileStatus.ProcessingFailed);
+        var failedTotal = fileSorter.GetTotal(FileStatus.ProcessingFailed);
         if (mobile || (userRole & UserRole.Files) != UserRole.Files && failed.Count > 50)
             failed = failed.Take(50).ToList();
 
-        var upcoming = ServiceLoader.Load<FileQueueService>().PeekList();
+        var upcoming = fileSorter.GetData(FileStatus.Unprocessed);
         if (mobile ||(userRole & UserRole.Files) != UserRole.Files && upcoming.Count > 50)
             upcoming = upcoming.Take(50).ToList();
         
@@ -181,9 +196,7 @@ public class SseController : Controller
         logSummary.AppendLine(
             $"Completed SavingsService calls at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
 
-        var lfStatuses  = ServiceLoader.Load<LibraryFileStatusOverviewService>().GetStatuses();
-
-        var runners  = ServiceLoader.Load<NodeService>().GetRunnersMinified();
+        var lfStatuses  = fileSorter.GetStatuses();
         
         var result = new InitialClientData
         {
@@ -196,7 +209,7 @@ public class SseController : Controller
             Flows = flowsTask.Result.OrderBy(x => x.Name.ToLowerInvariant()).ToList(),
             Plugins = pluginsTask.Result.OrderBy(x => x.Name.ToLowerInvariant()).ToList(),
             Libraries = ServiceLoader.Load<LibraryService>().GetListModels(),
-            CurrentExecutorInfoMinified = runners,
+            Processing = fileSorter.GetProcessing(),
             NodeStatusSummaries = nodeStatusesTask.Result,
             StorageSavedTotalData = storageSavedTotal,
             StorageSavedMonthData = storageSavedMonth,
@@ -228,13 +241,11 @@ public class SseController : Controller
 
         if ((userRole & UserRole.Files) == UserRole.Files)
         {
-            result.OnHold = ServiceLoader.Load<FileOnHoldService>().GetData().Select(x => (LibraryFileMinimal)x)
+            result.OnHold = fileSorter.GetData(FileStatus.OnHold).Select(x => (LibraryFileMinimal)x)
                 .ToList();
-            
-            result.DisabledFiles = ServiceLoader.Load<FileDisabledService>().GetData().Select(x => (LibraryFileMinimal)x)
+            result.DisabledFiles = fileSorter.GetData(FileStatus.Disabled).Select(x => (LibraryFileMinimal)x)
                 .ToList();
-            
-            result.OutOfScheduleFiles = ServiceLoader.Load<FileOutOfScheduleService>().GetData().Select(x => (LibraryFileMinimal)x)
+            result.OutOfScheduleFiles = fileSorter.GetData(FileStatus.OutOfSchedule).Select(x => (LibraryFileMinimal)x)
                 .ToList();
         }
 

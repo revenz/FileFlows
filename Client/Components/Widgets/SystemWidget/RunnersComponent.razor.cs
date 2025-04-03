@@ -31,7 +31,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// <summary>
     /// The runners
     /// </summary>
-    private List<FlowExecutorInfoMinified> Runners = new ();
+    private List<ProcessingLibraryFile> Runners = new ();
     
     /// <summary>
     /// Gets or sets the mode
@@ -52,10 +52,10 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     protected override async Task OnInitializedAsync()
     {
         lblAborting = Translater.Instant("Labels.Aborting");
-        Runners = feService.Runner.Runners;
+        Runners = feService.Files.Processing;
         if(Runners.Count == 0)
             await NoneOnLoad.InvokeAsync();
-        feService.Runner.RunnerInfoUpdated += ExecutorsUpdated;
+        feService.Files.ProcessingUpdated += OnProcessingUpdated;
     }
     
 
@@ -64,14 +64,14 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Runner.RunnerInfoUpdated-= ExecutorsUpdated;
+        feService.Files.ProcessingUpdated -= OnProcessingUpdated;
     }
     
     /// <summary>
     /// Called when the executors are updated
     /// </summary>
     /// <param name="obj">the updated executors</param>
-    private void ExecutorsUpdated(List<FlowExecutorInfoMinified> obj)
+    private void OnProcessingUpdated(List<ProcessingLibraryFile> obj)
     {
         Runners = obj ?? new();
         // remove the RunnersState that are no longer in the list
@@ -105,10 +105,10 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// Cancels a runner
     /// </summary>
     /// <param name="runner">the runner to cancel</param>
-    private async Task Cancel(FlowExecutorInfoMinified runner)
+    private async Task Cancel(ProcessingLibraryFile runner)
     {
         if (await Confirm.Show("Labels.Cancel",
-                Translater.Instant("Pages.Dashboard.Messages.CancelMessage", new { runner.RelativeFile })) == false)
+                Translater.Instant("Pages.Dashboard.Messages.CancelMessage", new { runner.DisplayName })) == false)
             return; // rejected the confirmation
         await HttpHelper.Delete($"/api/library-file/abort", new ReferenceModel<Guid>()
         {
@@ -120,14 +120,14 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// Opens the runner in detail
     /// </summary>
     /// <param name="runner">the runner</param>
-    private async Task OpenRunner(FlowExecutorInfoMinified runner)
-        => await Helpers.LibraryFileEditor.Open(Blocker, Editor, runner.LibraryFileUid, Profile, feService);
+    private async Task OpenRunner(ProcessingLibraryFile runner)
+        => await Helpers.LibraryFileEditor.Open(Blocker, Editor, runner.Uid, Profile, feService);
 
     /// <summary>
     /// Toggle the expand state of a runner
     /// </summary>
     /// <param name="runner">the runner to toggle</param>
-    private void ToggleExpand(FlowExecutorInfoMinified runner)
+    private void ToggleExpand(ProcessingLibraryFile runner)
     {
         if (RunnersState.TryAdd(runner.Uid, true) == false)
             RunnersState[runner.Uid] = !RunnersState[runner.Uid];
@@ -153,7 +153,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// </summary>
     /// <param name="runner">The runner containing additional information.</param>
     /// <returns>A lazily evaluated enumerable of sorted additional info.</returns>
-    private static IEnumerable<object[]> GetSortedAdditional(FlowExecutorInfoMinified runner)
+    private static IEnumerable<object[]> GetSortedAdditional(ProcessingLibraryFile runner)
     {
         if (runner?.Additional == null)
             yield break;

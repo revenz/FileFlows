@@ -1112,6 +1112,19 @@ internal class DbLibraryFileManager : BaseManager
         return await db.Db.FetchAsync<LibraryFile>(sql);
     }
     
+    
+    /// <summary>
+    /// Gets all unprocessed files in the system
+    /// </summary>
+    /// <returns>all the unprocessed files</returns>
+    public async Task<List<LibraryFile>> GetAllUnprocessed()
+    {
+        var sql = $"select * from {Wrap(nameof(LibraryFile))} where {Wrap(nameof(LibraryFile.Status))} = 0 " +
+                  $" order by {Wrap(nameof(LibraryFile.DateCreated))}";
+        using var db = await DbConnector.GetDb();
+        return await db.Db.FetchAsync<LibraryFile>(sql);
+    }
+    
     /// <summary>
     /// Sorts the cached files
     /// </summary>

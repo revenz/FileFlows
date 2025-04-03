@@ -69,8 +69,8 @@ public class InitialClientData
     /// <summary>
     /// Gets or sets the current executor info
     /// </summary>
-    [JsonPropertyName("ei")]
-    public List<FlowExecutorInfoMinified> CurrentExecutorInfoMinified { get; set; }
+    [JsonPropertyName("pf")]
+    public List<ProcessingLibraryFile> Processing { get; set; }
 
     /// <summary>
     /// Gets or sets the json for the language
@@ -154,7 +154,7 @@ public class InitialClientData
     /// Gets or sets the file counts
     /// </summary>
     [JsonPropertyName("fc")]
-    public  List<LibraryStatus> LibraryFileCounts { get; set; }
+    public List<LibraryStatus> LibraryFileCounts { get; set; }
     
     /// <summary>
     /// Gets or sets all the flow elements in the system

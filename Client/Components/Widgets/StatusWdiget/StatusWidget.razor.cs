@@ -27,7 +27,7 @@ public partial class StatusWidget : ComponentBase, IDisposable
     /// </summary>
     private string lblTitle, lblPause, lblResume;
 
-    private List<FlowExecutorInfoMinified> _executors = [];
+    private List<ProcessingLibraryFile> _runners = [];
     private UpdateInfo? _updateInfo = null;
     private SystemInfo? _sysInfo = null;
 
@@ -48,7 +48,7 @@ public partial class StatusWidget : ComponentBase, IDisposable
         lblResume = Translater.Instant("Labels.Resume");
         _updateInfo = feService.Dashboard.CurrentUpdatesInfo;
         PausedService.OnPausedLabelChanged += OnPausedLabelChanged;
-        feService.Runner.RunnerInfoUpdated += OnExecutorsUpdated;
+        feService.Files.ProcessingUpdated += OnProcessingUpdated;
         feService.Dashboard.UpdateInfoUpdated += OnUpdatesUpdateInfo;
         feService.Dashboard.SystemInfoUpdated += OnSystemInfoUpdated;
         OnPausedLabelChanged(PausedService.PausedLabel);
@@ -82,7 +82,7 @@ public partial class StatusWidget : ComponentBase, IDisposable
     {
         if (PausedService.IsPaused)
             return SystemStatus.Paused;
-        if (_executors.Count > 0)
+        if (_runners.Count > 0)
             return SystemStatus.Processing;
         if (_sysInfo != null && _sysInfo.NodeStatuses.Any(x => x.Enabled) &&
             _sysInfo.NodeStatuses.Where(x => x.Enabled).All(x => x.OutOfSchedule))
@@ -104,9 +104,9 @@ public partial class StatusWidget : ComponentBase, IDisposable
     /// Called when the executors are updated
     /// </summary>
     /// <param name="info">the updated executgors</param>
-    private void OnExecutorsUpdated(List<FlowExecutorInfoMinified> info)
+    private void OnProcessingUpdated(List<ProcessingLibraryFile> info)
     {
-        _executors = info ?? [];
+        _runners = info ?? [];
         StateHasChanged();
     }
 
@@ -126,7 +126,7 @@ public partial class StatusWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Runner.RunnerInfoUpdated -= OnExecutorsUpdated;
+        feService.Files.ProcessingUpdated -= OnProcessingUpdated;
         feService.Dashboard.UpdateInfoUpdated -= OnUpdatesUpdateInfo;
         feService.Dashboard.SystemInfoUpdated -= OnSystemInfoUpdated;
         PausedService.OnPausedLabelChanged -= OnPausedLabelChanged;

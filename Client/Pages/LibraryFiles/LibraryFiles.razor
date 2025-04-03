@@ -24,7 +24,7 @@
         <button class="btn btn-search non-mobile" @onclick=@Search>@lblSearch</button>
     }
     
-    <LibraryFilePageTabs OnStatusChanged="OnStatusChanged"  />
+    <LibraryFileTabs OnStatusChanged="OnStatusChanged" />
 
     <FlowTable @ref="Table" Data="@Data" TItem="LibraryFileMinimal" Selection="SelectionMode.Multiple"
                TableIdentifier=@TableIdentifier DoubleClick="@OnDoubleClick"
@@ -140,7 +140,24 @@
                                 @*         <span class="value">@item.Flow</span> *@
                                 @*     </div> *@
                                 @* } *@
-                                @if (string.IsNullOrWhiteSpace(item.NodeName) == false)
+                                @if ((item.Flags & LibraryFileMinimalFlag.ReprocessingByFlow) == LibraryFileMinimalFlag.ReprocessingByFlow)
+                                {
+                                    <div class="icon-value orange clickable">
+                                        <i class="fas fa-redo"></i>
+                                        <span class="value">@lblReprocessByFlow</span>
+                                    </div>
+                                    @if (string.IsNullOrWhiteSpace(item.NodeName) == false && Guid.TryParse(item.NodeName, out var nodeUid))
+                                    { 
+                                        if(feService.Node.NodeList.TryGetValue(nodeUid, out var node))
+                                        {
+                                            <div class="icon-value purple clickable" @onclick="() => SelectNode(node)">
+                                                <i class="@GetNodeIcon(node)"></i>
+                                                <span class="value">@(node == "FileFlowsServer" ? lblFileFlowsServer : node)</span>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                else if (string.IsNullOrWhiteSpace(item.NodeName) == false)
                                 {
                                     <div class="icon-value purple clickable" @onclick="() => SelectNode(item.NodeName)">
                                         <i class="@GetNodeIcon(item.NodeName)"></i>
@@ -200,7 +217,7 @@
                                         @DateString(item.Date)
                                     </span>
                                 }
-                                @if (SelectedStatus is not FileStatus.ReprocessByFlow and not FileStatus.Unprocessed and not FileStatus.OnHold)
+                                @if (SelectedStatus is not FileStatus.Unprocessed and not FileStatus.OnHold)
                                 {
                                     <div class="right-inner">
                                         <FlowSavings FinalSize="@item.FinalSize" OriginalSize="@item.OriginalSize"/>

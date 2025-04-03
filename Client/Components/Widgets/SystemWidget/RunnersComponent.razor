@@ -20,17 +20,17 @@
             <span class="icon">
                 @if (runner.HasThumbnail)
                 {
-                    <img class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.LibraryFileUid,
-                        runner.LibraryFileName, runner.IsDirectory)"/>
+                    <img class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.Uid,
+                        runner.DisplayName + runner.Extension, runner.IsDirectory)"/>
                 }
                 else
                 {
-                    <img class="icon no-thumbnail" src="@IconHelper.GetExtensionImage(runner.IsDirectory ? "folder" : runner.LibraryFileName?.ToLowerInvariant())"/>
+                    <img class="icon no-thumbnail" src="@IconHelper.GetExtensionImage(runner.IsDirectory ? "folder" : runner.RelativePath?.ToLowerInvariant())"/>
                 }
             </span>
             <div class="center">
                 <span class="name path">
-                    @(runner.DisplayName?.EmptyAsNull() ?? runner.RelativeFile?.EmptyAsNull() ?? runner.LibraryFileName)
+                    @runner.DisplayName
                 </span>
                 <div class="info">
                     <div class="current-flow-element">

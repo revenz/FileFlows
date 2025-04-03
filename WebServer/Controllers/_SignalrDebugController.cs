@@ -76,8 +76,8 @@ public class _SignalrDebugController : Controller
 
     private string GetQueuedFiles()
     {
-        var service = ServiceLoader.Load<FileQueueService>();
-        var files = service.PeekList();
+        var service = ServiceLoader.Load<FileSorterService>();
+        var files = service.GetData(FileStatus.Unprocessed);
         StringBuilder html = new ($"""
                                   <table>
                                       <tbody>
@@ -101,70 +101,72 @@ public class _SignalrDebugController : Controller
 
         html.AppendLine("</tbody></table>");
 
-        return $"<span>Test File: {(FileDispatcher.TestFile?.Name ?? "None")}" + html;
-    }
-
-    private string GetOnHold()
-    {
-        var service = ServiceLoader.Load<FileOnHoldService>();
-        var files = service.GetData();
-        StringBuilder html = new ($"""
-                                   <h2>On Hold</h2>
-                                   <table>
-                                       <tbody>
-                                           <thead>
-                                               <tr>
-                                                   <th>UID</th>
-                                                   <th>Until</th>
-                                                   <th>File ({files.Count})</th>
-                                               </tr>
-                                           </thead>
-                                       <tbody>
-                                   """);
-        foreach (var file in files)
-        {
-            html.AppendLine($"""
-                             <tr>
-                                 <td>{file.Uid}</td>
-                                 <td>{file.HoldUntil.Subtract(DateTime.UtcNow).Humanize()}</td>
-                                 <td>{file.Name}</td>
-                             </tr>
-                             """);
-        }
-
-        html.AppendLine("</tbody></table>");
-
         return html.ToString();
     }
-    private string GetFileStatusCounts()
-    {
-        var service = ServiceLoader.Load<LibraryFileStatusOverviewService>();
-        var files = service.GetStatuses();
-        StringBuilder html = new ($"""
-                                   <table>
-                                       <tbody>
-                                           <thead>
-                                               <tr>
-                                                   <th>State</th>
-                                                   <th>Files ({files.Count})</th>
-                                               </tr>
-                                           </thead>
-                                       <tbody>
-                                   """);
-        foreach (var status in files)
-        {
-            html.AppendLine($"""
-                             <tr>
-                                 <td>{status.Status}</td>
-                                 <td>{status.Count}</td>
-                             </tr>
-                             """);
-        }
 
-        html.AppendLine("</tbody></table>");
+     private string GetOnHold()
+     {
+         var service = ServiceLoader.Load<FileSorterService>();
+         var files = service.GetData(FileStatus.OnHold);
+         StringBuilder html = new ($"""
+                                    <h2>On Hold</h2>
+                                    <table>
+                                        <tbody>
+                                            <thead>
+                                                <tr>
+                                                    <th>UID</th>
+                                                    <th>Until</th>
+                                                    <th>File ({files.Count})</th>
+                                                </tr>
+                                            </thead>
+                                        <tbody>
+                                    """);
+         foreach (var file in files)
+         {
+             html.AppendLine($"""
+                              <tr>
+                                  <td>{file.Uid}</td>
+                                  <td>{file.HoldUntil.Subtract(DateTime.UtcNow).Humanize()}</td>
+                                  <td>{file.Name}</td>
+                              </tr>
+                              """);
+         }
 
-        return $"<h2>File Status Counts</h2>{html}";
-    }
+         html.AppendLine("</tbody></table>");
+
+         return html.ToString();
+     }
+     
+     private string GetFileStatusCounts()
+     {
+         var service = ServiceLoader.Load<FileSorterService>();
+         var files = service.GetStatuses();
+         StringBuilder html = new ($"""
+                                    <table>
+                                        <tbody>
+                                            <thead>
+                                                <tr>
+                                                    <th>State</th>
+                                                    <th>Files ({files.Count})</th>
+                                                </tr>
+                                            </thead>
+                                        <tbody>
+                                    """);
+         foreach (var status in files)
+         {
+             html.AppendLine($"""
+                              <tr>
+                                  <td>{status.Status}</td>
+                                  <td>{status.Count}</td>
+                              </tr>
+                              """);
+         }
+
+         html.AppendLine("</tbody></table>");
+
+         return $"<h2>File Status Counts</h2>{html}";
+     }
+     
     private string GetNodeOverview()
     {
         var service = ServiceLoader.Load<NodeService>();

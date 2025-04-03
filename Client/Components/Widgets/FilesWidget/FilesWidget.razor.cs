@@ -89,7 +89,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         
         InitializeData();
         
-        feService.Files.FileQueueUpdated += OnFileQueueUpdated;
+        feService.Files.UnprocessedUpdated += UnprocessedUpdated;
         feService.Files.SuccessfulUpdated += OnRecentlyFinishedUpdated;
         feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
     }
@@ -98,9 +98,9 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// Called when the failed files list has been updated
     /// </summary>
     /// <param name="lat">the updated list</param>
-    private void OnFailedFilesUpdated(FileHandler.ListAndCount lat)
+    private void OnFailedFilesUpdated(FileHandler.ListAndCount<LibraryFileMinimal> lat)
     {
-        FailedFiles = lat.Files.Count > 50 ? lat.Files.Take(50).ToList() : lat.Files;
+        FailedFiles = lat.Data.Count > 50 ? lat.Data.Take(50).ToList() : lat.Data;
         TotalFailed = FailedFiles.Count;
         lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed });
         StateHasChanged();
@@ -111,9 +111,9 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// Called when the recently finished files list has been updated
     /// </summary>
     /// <param name="lat">the updated list</param>
-    private void OnRecentlyFinishedUpdated(FileHandler.ListAndCount lat)
+    private void OnRecentlyFinishedUpdated(FileHandler.ListAndCount<LibraryFileMinimal> lat)
     {
-        RecentlyFinished = lat.Files.Count > 50 ? lat.Files.Take(50).ToList() : lat.Files;
+        RecentlyFinished = lat.Data.Count > 50 ? lat.Data.Take(50).ToList() : lat.Data;
         TotalFinished = RecentlyFinished.Count;
         lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished});
         StateHasChanged();
@@ -124,7 +124,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// Upcoming files have changed
     /// </summary>
     /// <param name="files">the updated files</param>
-    private void OnFileQueueUpdated(List<LibraryFileMinimal> files)
+    private void UnprocessedUpdated(List<LibraryFileMinimal> files)
     {
         UpcomingFiles = files.Count > 50 ? files.Take(50).ToList() : files;
         TotalUpcoming = UpcomingFiles.Count;
@@ -226,7 +226,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Files.FileQueueUpdated -= OnFileQueueUpdated;
+        feService.Files.UnprocessedUpdated -= UnprocessedUpdated;
         feService.Files.SuccessfulUpdated -= OnRecentlyFinishedUpdated;
         feService.Files.FailedFilesUpdated -= OnFailedFilesUpdated;
     }

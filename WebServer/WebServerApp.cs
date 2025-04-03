@@ -344,8 +344,8 @@ public class WebServerApp
     {
         _ = ServiceLoader.Load<SystemOverviewService>();
         _ = ServiceLoader.Load<SystemOverviewService>();
-        _ = ServiceLoader.Load<FileQueueService>();
-        _ = ServiceLoader.Load<LibraryFileStatusOverviewService>();
+        //_ = ServiceLoader.Load<FileUnprocessedService>();
+        //_ = ServiceLoader.Load<LibraryFileStatusOverviewService>();
         ServiceLoader.Load<FileSorterService>().Initialize();
     }
 

@@ -1,0 +1,43 @@
+.skybox {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: auto;
+  user-select: none;
+  align-self: center;
+  position: relative;
+  top: -0.5rem;
+  max-width: 100%;
+  align-items: center;
+  height: 3rem;
+  min-height: 3rem;
+  max-height: 3rem;
+  .skybox-item {
+    font-weight: var(--bold, 600);
+    border-radius: 2rem;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    .icon, .count {
+      padding-right:0.5rem;
+    }
+    &.active {
+      background:var(--input-background);
+    }
+    .icon {
+      font-size: 1.25rem;
+      position: relative;
+      top: 0.1rem;
+    }
+  }
+}
+
+@media (min-width:850px)
+{
+  .skybox {
+    align-self: unset;
+    width: fit-content;
+  }
+}
