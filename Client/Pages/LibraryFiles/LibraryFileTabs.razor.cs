@@ -52,6 +52,7 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
     private void Select(FileStatus status)
     {
         Selected = status;
+        OnStatusChanged?.Invoke(status);
     }
 
     /// <summary>

@@ -1,5 +1,6 @@
 using FileFlows.LibraryUtils;
 using FileFlows.ServerShared.Models;
+using FileFlows.Services.FileProcessing;
 using FileFlows.Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using LibraryFileService = FileFlows.Services.LibraryFileService;
@@ -109,8 +110,7 @@ public class LibraryFileController : Controller
     public async Task<LibraryFile?> Get(Guid uid)
     {
         // first see if the file is currently processing, if it is, return that in memory 
-        var file = ServiceLoader.Load<NodeService>().GetRunners().FirstOrDefault(x => x.LibraryFile.Uid == uid)
-            ?.LibraryFile;
+        var file = ServiceLoader.Load<FileSorterService>().GetFile(uid);
         if (file == null)
             file = await ServiceLoader.Load<LibraryFileService>().Get(uid);
         

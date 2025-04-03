@@ -67,7 +67,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         SelectedStatus = status;
         PageIndex = 0;
         Title = lblLibraryFiles;// + ": " + status.Name;
-        _ = Refresh();
+        LoadServiceData();
     }
 
     /// <inheritdoc />
