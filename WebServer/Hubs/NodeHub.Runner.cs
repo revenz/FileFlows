@@ -94,6 +94,7 @@ public partial class NodeHub
         var sorter = ServiceLoader.Load<FileSorterService>();
         sorter.FinishProcessing(libraryFile);
     }
+    
     /// <summary>
     /// Prepends the text to the log file on the server
     /// </summary>
