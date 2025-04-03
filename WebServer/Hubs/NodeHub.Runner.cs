@@ -56,6 +56,7 @@ public partial class NodeHub
     /// <param name="libraryFile">the library file </param>
     public void FileStartProcessing(LibraryFile libraryFile)
     {
+        _logger.ILog("FileStartProcessing: " + libraryFile.Name);
         var sorter = ServiceLoader.Load<FileSorterService>();
 
         // the library file passed in isnt the cached instance, so get one from tdb
