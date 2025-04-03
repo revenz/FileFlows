@@ -54,25 +54,25 @@ public partial class NodeHub
     /// Starts processing a file
     /// </summary>
     /// <param name="libraryFile">the library file </param>
-    public async Task FileStartProcessing(LibraryFile libraryFile)
+    public void FileStartProcessing(LibraryFile libraryFile)
     {
-        var libraryFileService = ServiceLoader.Load<LibraryFileService>();
+        var sorter = ServiceLoader.Load<FileSorterService>();
 
         // the library file passed in isnt the cached instance, so get one from tdb
-        var file = await libraryFileService.Get(libraryFile.Uid);
+        var file = sorter.GetFile(libraryFile.Uid);
         if (file == null)
-            return; // shouldnt happen
+            return; // shouldn't happen
 
         file.Status = FileStatus.Processing;
         file.Node = libraryFile.Node;
         file.Flow = libraryFile.Flow;
         file.ProcessingStarted = DateTime.UtcNow;
         
-
-        await libraryFileService.Update(file);
-        
-        var sorter = ServiceLoader.Load<FileSorterService>();
         sorter.StartProcessing(file);
+        
+        var lfService = ServiceLoader.Load<LibraryFileService>();
+        _ = lfService.Update(file);
+        
     }
 
     /// <summary>
