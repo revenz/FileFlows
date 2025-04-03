@@ -62,7 +62,10 @@ public partial class NodeHub
         // the library file passed in isnt the cached instance, so get one from tdb
         var file = sorter.GetFile(libraryFile.Uid);
         if (file == null)
+        {
+            _logger.ILog("FileStartProcessing: file not found: " + libraryFile.Name);
             return; // shouldn't happen
+        }
 
         file.Status = FileStatus.Processing;
         file.Node = libraryFile.Node;
