@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using FileFlows.LibraryUtils;
 using FileFlows.RemoteServices;
+using FileFlows.Services.FileProcessing;
 using NodeService = FileFlows.Services.NodeService;
 using NotificationService = FileFlows.Services.NotificationService;
 using ServiceLoader = FileFlows.Services.ServiceLoader;
@@ -65,15 +66,12 @@ public partial class NodeHub
         file.Node = libraryFile.Node;
         file.Flow = libraryFile.Flow;
         file.ProcessingStarted = DateTime.UtcNow;
+        
 
         await libraryFileService.Update(file);
         
-        // need to call this to update the FileSorter
-        await libraryFileService.SetStatus(FileStatus.Processing, libraryFile.Uid);
-        
-        
-        var nodeService = ServiceLoader.Load<NodeService>();
-        nodeService.StartProcessing(libraryFile);
+        var sorter = ServiceLoader.Load<FileSorterService>();
+        sorter.StartProcessing(file);
     }
 
     /// <summary>
@@ -85,8 +83,11 @@ public partial class NodeHub
     {
         var libraryFileService = ServiceLoader.Load<LibraryFileService>();
         await libraryFileService.FinishProcessing(libraryFile, log);
+        
         var nodeService = ServiceLoader.Load<NodeService>();
         nodeService.FinishProcessing(libraryFile);
+        var sorter = ServiceLoader.Load<FileSorterService>();
+        sorter.FinishProcessing(libraryFile);
     }
     /// <summary>
     /// Prepends the text to the log file on the server
