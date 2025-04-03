@@ -15,7 +15,7 @@ public class LibraryFileHandler
         rpcRegister.Register<LibraryFile>(nameof(UpdateLibraryFile), UpdateLibraryFile);
         rpcRegister.Register(nameof(LibraryIgnorePath), LibraryIgnorePath);
         rpcRegister.Register(nameof(DeleteLibraryFile), DeleteLibraryFile);
-        rpcRegister.Register(nameof(ExistsOnServer), ExistsOnServer);
+        rpcRegister.Register<ExistsOnServerModel, bool>(nameof(ExistsOnServer), ExistsOnServer);
         rpcRegister.Register(nameof(SetThumbnail), SetThumbnail);
     }
     
@@ -47,10 +47,10 @@ public class LibraryFileHandler
     /// <summary>
     /// Checks if the file exists on the server
     /// </summary>
-    /// <param name="uid">the UID of the library file</param>
+    /// <param name="model">The model</param>
     /// <returns>true if exists otherwise false</returns>
-    public async Task<bool> ExistsOnServer(Guid uid)
-        => await _connection.InvokeAsync<bool>("ExistsOnServer", uid);
+    public async Task<bool> ExistsOnServer(ExistsOnServerModel model)
+        => await _connection.InvokeAsync<bool>(nameof(ExistsOnServer), model.Path, model.IsDirectory);
 
     /// <summary>
     /// Sets a thumbnail for a file
@@ -62,5 +62,20 @@ public class LibraryFileHandler
         _ = _connection.InvokeAsync("SetThumbnail", this.rpcServer.runnerParameters.LibraryFile.Uid,
             Convert.FromBase64String(base64));
         
+    }
+
+    /// <summary>
+    /// Model for exists on server
+    /// </summary>
+    public class ExistsOnServerModel
+    {
+        /// <summary>
+        /// Gets or sets the path
+        /// </summary>
+        public string Path { get; set; }
+        /// <summary>
+        /// Gets or sets if its a directory
+        /// </summary>
+        public bool IsDirectory { get; set; }
     }
 }

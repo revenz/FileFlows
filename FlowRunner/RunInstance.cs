@@ -194,7 +194,7 @@ public class RunInstance(RunnerProperties properties)
                     return (FileStatus.Processed, false);
                 }
 
-                var existsResult = RpcClient.LibraryFileHandler.ExistsOnServer(properties.LibraryFile.Uid).Result;
+                var existsResult = RpcClient.LibraryFileHandler.ExistsOnServer(properties.LibraryFile.Name, properties.LibraryFile.IsDirectory).Result;
                 if (existsResult.Failed(out var error))
                 {
                     properties.Logger.WLog(error);

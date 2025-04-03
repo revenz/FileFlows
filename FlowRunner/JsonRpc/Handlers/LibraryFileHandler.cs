@@ -33,13 +33,18 @@ public class LibraryFileHandler(JsonRpcClient client)
     /// <summary>
     /// Checks if the file exists on the server
     /// </summary>
-    /// <param name="uid">the UID of the library file</param>
+    /// <param name="path">The file path</param>
+    /// <param name="isDirectory">if it is a directory</param>
     /// <returns>true if exists otherwise false</returns>
-    public async Task<Result<bool>> ExistsOnServer(Guid uid)
+    public async Task<Result<bool>> ExistsOnServer(string path, bool isDirectory)
     {
         try
         {
-            return await client.SendRequest<bool>(nameof(ExistsOnServer), uid);
+            return await client.SendRequest<bool>(nameof(ExistsOnServer), new
+            {
+                Path = path,
+                IsDirectory = isDirectory
+            });
         }
         catch (Exception ex)
         {

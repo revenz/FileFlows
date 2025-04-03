@@ -34,17 +34,18 @@ public partial class NodeHub
     /// <summary>
     /// Tests if a file exists on the server
     /// </summary>
-    /// <param name="libraryFileUid">the UID of the file</param>
-    /// <returns>true if it exists, otherwise false</returns>
-    public async Task<bool> ExistsOnServer(Guid libraryFileUid)
+    /// <param name="path">The file path</param>
+    /// <param name="isDirectory">if it is a directory</param>
+    /// <returns>true if exists, otherwise false</returns>
+    public async Task<bool> ExistsOnServer(string path, bool isDirectory)
     {
         try
         {
-            return await ServiceLoader.Load<LibraryFileService>().ExistsOnServer(libraryFileUid);
+            return await ServiceLoader.Load<LibraryFileService>().ExistsOnServer(path, isDirectory);
         }
         catch (Exception ex)
         {
-            Logger.Instance.ELog("Failed to exist on server: " + libraryFileUid + " => " + ex);
+            Logger.Instance.ELog("Failed to exist on server: " + path + " => " + ex);
             throw;
         }
     }

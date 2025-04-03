@@ -300,13 +300,14 @@ public partial class Client
     /// <summary>
     /// Checks if the file exists on the server
     /// </summary>
-    /// <param name="uid">the UID of the library file</param>
-    /// <returns>true if exists otherwise false</returns>
-    public async Task<bool> ExistsOnServer(Guid uid)
+    /// <param name="path">The file path</param>
+    /// <param name="isDirectory">if it is a directory</param>
+    /// <returns>true if exists, otherwise false</returns>
+    public async Task<bool> ExistsOnServer(string path, bool isDirectory)
     {
         try
         {
-            return await _connection.InvokeAsync<bool>("ExistsOnServer", uid);
+            return await _connection.InvokeAsync<bool>(nameof(ExistsOnServer), path, isDirectory);
         }
         catch (Exception ex)
         {
