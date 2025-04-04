@@ -52,13 +52,6 @@ ul {
       opacity: 0.7;
     }
   }  
-  &.nav-item-bottom {
-    @media (min-width: 850px) {
-      a i {
-        font-size: 1.5rem;
-      }
-    }
-  }
 
   &:not(.active):hover {
     background: rgba(255, 255, 255, 0.04);
@@ -100,9 +93,12 @@ ul {
   }
 
   .nav-item-bottom {
-    i {
-      font-size: 1.3rem;
-      opacity: 0.15;
+    a i {
+      font-size: 1.5rem;
+      padding:0.5rem 0;
+    }
+    .name {
+      display:none;
     }
   }
 }

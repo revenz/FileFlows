@@ -53,11 +53,6 @@ ul {
 .nav-item a .icon, .nav-item a .name {
   opacity: 0.7;
 }
-@media (min-width: 850px) {
-  .nav-item.nav-item-bottom a i {
-    font-size: 1.5rem;
-  }
-}
 .nav-item:not(.active):hover {
   background: rgba(255, 255, 255, 0.04);
 }
@@ -92,9 +87,12 @@ ul {
   .nav-separator {
     flex-grow: 1;
   }
-  .nav-item-bottom i {
-    font-size: 1.3rem;
-    opacity: 0.15;
+  .nav-item-bottom a i {
+    font-size: 1.5rem;
+    padding: 0.5rem 0;
+  }
+  .nav-item-bottom .name {
+    display: none;
   }
 }
 .paused-indicator {

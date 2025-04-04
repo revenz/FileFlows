@@ -249,8 +249,12 @@ public partial class NavBar
         if(Profile.LicensedFor(LicenseFlags.Reporting) && Profile.HasRole(UserRole.Reports))
             MenuItems.Add(new ("reporting", Translater.Instant("Pages.Reporting.Title"), "fas fa-chart-pie", "reporting", false));
 
-        if(Profile.HasRole(UserRole.Log))
-            BottomNavBarItems.Add(new ("log", Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", "log"));
+        if (Profile.HasRole(UserRole.Log))
+        {
+            BottomNavBarItems.Add(new("notifications", Translater.Instant("Pages.Notifications.Title"),
+                "fas fa-bullhorn", "notifications"));
+            BottomNavBarItems.Add(new("log", Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", "log"));
+        }
 
         var firstConfig = ConfigLayout.GetFirstAvailableItem(Profile);
         if(string.IsNullOrEmpty(firstConfig) == false)
