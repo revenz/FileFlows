@@ -92,12 +92,6 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
     /// </summary>
     [JsonPropertyName("f")]
     public LibraryFileMinimalFlag Flags { get; set; }
-    
-    /// <summary>
-    /// Gets when this was last updated
-    /// </summary>
-    [JsonIgnore]
-    public DateTime LastUpdated { get; set; }
 
     /// <summary>
     /// Implicitly converts a <see cref="LibraryFile"/> to a <see cref="LibraryFileMinimal"/>.
