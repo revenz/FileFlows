@@ -54,7 +54,8 @@ public partial class NodeHub
     /// Starts processing a file
     /// </summary>
     /// <param name="libraryFile">the library file </param>
-    public void FileStartProcessing(LibraryFile libraryFile)
+    /// <returns>true that it was received</returns>
+    public async Task<bool> FileStartProcessing(LibraryFile libraryFile)
     {
         _logger.ILog("FileStartProcessing: " + libraryFile.Name);
         var sorter = ServiceLoader.Load<FileSorterService>();
@@ -64,7 +65,7 @@ public partial class NodeHub
         if (file == null)
         {
             _logger.ILog("FileStartProcessing: file not found: " + libraryFile.Name);
-            return; // shouldn't happen
+            return false; // shouldn't happen
         }
 
         file.Status = FileStatus.Processing;
@@ -75,8 +76,8 @@ public partial class NodeHub
         sorter.StartProcessing(file);
         
         var lfService = ServiceLoader.Load<LibraryFileService>();
-        _ = lfService.Update(file);
-        
+        await lfService.Update(file);
+        return true;
     }
 
     /// <summary>
@@ -84,7 +85,8 @@ public partial class NodeHub
     /// </summary>
     /// <param name="libraryFile">the library file</param>
     /// <param name="log">the complete log of the file processing</param>
-    public async Task FileFinishProcessing(LibraryFile libraryFile, string log)
+    /// <returns>true that it was received</returns>
+    public async Task<bool> FileFinishProcessing(LibraryFile libraryFile, string log)
     {
         var libraryFileService = ServiceLoader.Load<LibraryFileService>();
         await libraryFileService.FinishProcessing(libraryFile, log);
@@ -93,6 +95,8 @@ public partial class NodeHub
         nodeService.FinishProcessing(libraryFile);
         var sorter = ServiceLoader.Load<FileSorterService>();
         sorter.FinishProcessing(libraryFile);
+
+        return true;
     }
     
     /// <summary>

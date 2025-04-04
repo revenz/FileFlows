@@ -321,15 +321,47 @@ public partial class Client
     /// </summary>
     /// <param name="libraryFile">the library file</param>
     public async Task FileStartProcessing(LibraryFile libraryFile)
-        => await _connection.SendAsync("FileStartProcessing", libraryFile);
-
+    {
+        int count = 0;
+        while (++count < 30)
+        {
+            try
+            {
+                var result = await _connection.InvokeAsync<bool>("FileStartProcessing", libraryFile);
+                if (result)
+                    return;
+            }
+            catch (Exception ex)
+            {
+                _logger.WLog($"Failed to notify file '{libraryFile.RelativePath}' started processing[{count}]: {ex.Message}");   
+            }
+            await Task.Delay(1000);
+        }
+    }
+    
     /// <summary>
     /// Called when the file finishes processing
     /// </summary>
     /// <param name="libraryFile">the library file</param>
     /// <param name="log">the complete log of the file processing</param>
     public async Task FileFinishProcessing(LibraryFile libraryFile, string log)
-        => await _connection.SendAsync("FileFinishProcessing", libraryFile, log);
+    {
+        int count = 0;
+        while (++count < 30)
+        {
+            try
+            {
+                var result = await _connection.InvokeAsync<bool>("FileFinishProcessing", libraryFile, log);
+                if (result)
+                    return;
+            }
+            catch (Exception ex)
+            {
+                _logger.WLog($"Failed to notify file '{libraryFile.RelativePath}' finished processing[{count}]: {ex.Message}");
+            }
+            await Task.Delay(1000);
+        }
+    }
 
     /// <summary>
     /// Prepends the text to the log file on the server
