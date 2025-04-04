@@ -7,6 +7,11 @@ public partial class Notifications : ListPage<Guid, Notification>
 {
     /// <inheritdoc />
     public override string ApiUrl => "/api/notification";
+
+    /// <summary>
+    /// Translation strings
+    /// </summary>
+    private string lblTitle;
     
     protected override void OnInitialized()
     {
@@ -16,6 +21,8 @@ public partial class Notifications : ListPage<Guid, Notification>
         lblDelete = Translater.Instant("Labels.Delete");
         lblDeleting = Translater.Instant("Labels.Deleting");
         lblRefresh = Translater.Instant("Labels.Refresh");
+        
+        lblTitle = Translater.Instant("Pages.Notifications.Title");
 
         Data = feService.Notifications.Notifications;
     }
