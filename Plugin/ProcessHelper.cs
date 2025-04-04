@@ -303,6 +303,8 @@ public class ProcessHelper : IProcessHelper
                     result.StandardError = errorBuilder.ToString();
                     result.StandardOutput = outputBuilder.ToString();
                     result.Output = process.ExitCode != 0 ? $"{outputBuilder}{errorBuilder}" : outputBuilder.ToString();
+                    if (string.IsNullOrEmpty(result.Output))
+                        result.Output = result.StandardError;
                 }
                 else
                 {
@@ -336,7 +338,7 @@ public class ProcessHelper : IProcessHelper
     {
         if (e.Data == null)
         {
-            outputCloseEvent.SetResult(true);
+            //outputCloseEvent.SetResult(true);
         }
         else
         {
@@ -362,7 +364,7 @@ public class ProcessHelper : IProcessHelper
     {
         if (e.Data == null)
         {
-            errorCloseEvent.SetResult(true);
+            //errorCloseEvent.SetResult(true);
         }
         else
         {
