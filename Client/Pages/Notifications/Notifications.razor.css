@@ -2,6 +2,10 @@
   min-height: 2.5rem;
 }
 
+.center {
+  user-select: text;
+}
+
 .title {
   font-weight: var(--bold, 600);
 }
@@ -26,3 +30,5 @@
 .icon.critical {
   color: var(--red);
 }
+
+/*# sourceMappingURL=Notifications.razor.css.map */

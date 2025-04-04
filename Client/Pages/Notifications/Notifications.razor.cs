@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components;
+
 namespace FileFlows.Client.Pages;
 
 /// <summary>
