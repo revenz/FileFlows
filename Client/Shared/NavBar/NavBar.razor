@@ -88,6 +88,23 @@
                                 <i class="icon @item.Icon"></i>
                                 <span class="name">@item.Title</span>
                             </a>
+                            
+                            @if (item.Url == "notifications")
+                            {
+                                
+                                @if (NotificationsCritical > 0)
+                                {
+                                    <span class="bubble critical">@NotificationsCritical</span>
+                                }
+                                else if (NotificationsError > 0)
+                                {
+                                    <span class="bubble error">@NotificationsError</span>
+                                }
+                                else if (NotificationsWarning > 0)
+                                {
+                                    <span class="bubble warning">@NotificationsWarning</span>
+                                }
+                            }
                         }
                     </li>
                 }

@@ -114,6 +114,7 @@ public class SseController : Controller
         var variablesTask = ServiceLoader.Load<VariableService>().GetAllAsync();
         var pluginsTask = ServiceLoader.Load<PluginService>().GetForBroadcast();
         var scheduledReportsTask = ServiceLoader.Load<ScheduledReportService>().GetAll();
+        var notificationsTask = ((NotificationService)ServiceLoader.Load<INotificationService>()).GetAll();
 
         var allTasks = new List<Task>
         {
@@ -124,7 +125,8 @@ public class SseController : Controller
             flowElementsTask,
             variablesTask,
             pluginsTask,
-            scheduledReportsTask
+            scheduledReportsTask,
+            notificationsTask
         };
 
         // Log the start time for all tasks
@@ -221,6 +223,7 @@ public class SseController : Controller
             TopSavingsAll = savingsAll,
             TopSavings31Days = savings31,
             LibraryFileCounts = lfStatuses,
+            Notifications = notificationsTask.Result,
             FlowElements = flowElementsTask.Result.ToList(),
             Tags = (tagsTask.Result ?? Enumerable.Empty<Tag>())
                 .OrderBy(x => x.Name.ToLowerInvariant())

@@ -163,6 +163,12 @@ public class InitialClientData
     public List<FlowElement> FlowElements { get; set; }
     
     /// <summary>
+    /// Gets or sets all the notifications in the system
+    /// </summary>
+    [JsonPropertyName("nt")]
+    public List<Notification> Notifications { get; set; }
+    
+    /// <summary>
     /// Gets or sets all the scripts in the system
     /// </summary>
     [JsonPropertyName("sc")]

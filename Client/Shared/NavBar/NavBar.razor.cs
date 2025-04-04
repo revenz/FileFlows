@@ -69,6 +69,8 @@ public partial class NavBar
     /// </summary>
     private bool FlowsPending, LibrariesPending;
 
+    private int NotificationsWarning, NotificationsCritical, NotificationsError;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -97,6 +99,9 @@ public partial class NavBar
         feService.Files.UnprocessedUpdated += OnUnprocessedUpdated;
         feService.Files.ProcessingUpdated += OnProcessingUpdated;
         feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
+
+        OnNotificationsUpdated(feService.Notifications.Notifications);
+        feService.Notifications.OnNotificationsUpdated += OnNotificationsUpdated;
 
         if (feService.Flow.Flows.Count == 0)
         {
@@ -131,6 +136,24 @@ public partial class NavBar
         {
             // ignored
         }
+    }
+
+    /// <summary>
+    /// Called when notifications are updated
+    /// </summary>
+    /// <param name="list">the updated notifications</param>
+    private void OnNotificationsUpdated(List<Notification> list)
+    {
+        int critical = list.Count(x => x.Severity==NotificationSeverity.Critical);
+        int warning = list.Count(x => x.Severity==NotificationSeverity.Warning);
+        int error = list.Count(x => x.Severity==NotificationSeverity.Error);
+
+        if (critical == NotificationsCritical && error != NotificationsError && warning != NotificationsWarning)
+            return;
+        NotificationsCritical = critical;
+        NotificationsWarning = warning;
+        NotificationsError = error;
+        StateHasChanged();
     }
 
     private void OnUnprocessedUpdated(List<LibraryFileMinimal> obj)

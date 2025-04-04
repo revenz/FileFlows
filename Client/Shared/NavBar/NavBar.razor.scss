@@ -146,9 +146,17 @@ ul {
     background: var(--success);
     border-color: #1f8236;
   }
-  &.failed {
+  &.failed, &.error {
     background: var(--red);
     border-color: #f94c5c;
+  }
+  &.warning {
+    background: #514d1e;
+    border-color: #ffd279;
+  }
+  &.critical {
+    background: #5e30b1;
+    border-color: #7e41eb;
   }
 }
 

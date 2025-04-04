@@ -107,6 +107,10 @@ public class FrontendService : IAsyncDisposable
     /// Gets or sets the runner handler
     /// </summary>
     public SystemHandler System { get;private set; }
+    /// <summary>
+    /// Gets or sets the notifications handler
+    /// </summary>
+    public NotificationHandler Notifications { get;private set; }
 
     /// <summary>
     /// Gets or sets the page size
@@ -334,6 +338,8 @@ public class FrontendService : IAsyncDisposable
         Report.Initialize(data);
         System = new(this);
         System.Initialize(data);
+        Notifications = new(this);
+        Notifications.Initialize(data);
         IsInitialized = true;
         OnInitialized?.Invoke();
     }
