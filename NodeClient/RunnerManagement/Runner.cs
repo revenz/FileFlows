@@ -53,38 +53,16 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     /// <summary>
     /// Starts execution of the runner.
     /// </summary>
-    public void Start()
+    public void Start(LibraryFile lf)
     {
+        
         _cancellationTokenSource = new CancellationTokenSource();
         _isRunning = true;
-        _runnerTask = StartRunnerAsync();
+        _runnerTask = StartRunnerAsync(lf);
     }
 
-    private async Task StartRunnerAsync()
+    private async Task StartRunnerAsync(LibraryFile lf)
     {
-        // move the file as Processing
-        var lf = args.LibraryFile;
-        lf.Status = FileStatus.Processing;
-
-        lf.ExecutedNodes = [];
-        lf.Additional ??= new ();
-        lf.Additional.DisplayName = string.Empty;
-        lf.Node = new()
-        {
-            Uid = node.Uid,
-            Name = node.Name,
-            Type = node.GetType().FullName!
-        };
-
-        var cfgService = ServiceLoader.Load<ConfigurationService>();
-        var flow = cfgService.CurrentConfig?.Flows.FirstOrDefault(x => x.Uid == args.FlowUid);
-        lf.Flow = new()
-        {
-            Uid = args.FlowUid,
-            Name = flow?.Name,
-            Type = typeof(Flow).FullName!
-        };
-        await client.FileStartProcessing(lf);
         StartUpdateTimer();
         try
         {

@@ -31,6 +31,8 @@ public class RunnerManager
     /// Action that is called when the runner is updated
     /// </summary>
     public event Action RunnerUpdated;
+    
+    private SemaphoreSlim _runnerSemaphore = new(1, 1);
 
     /// <summary>
     /// Constructs a new instance of the runner manager
@@ -59,11 +61,14 @@ public class RunnerManager
     /// <param name="node">the processing node</param>
     /// <param name="config">the current configuration</param>
     /// <returns>True if the runner was started, otherwise false.</returns>
-    public bool TryStartRunner(Client client, RunFileArguments args, ProcessingNode node, ConfigurationRevision config)
+    public async Task<bool> TryStartRunner(Client client, RunFileArguments args, ProcessingNode node, ConfigurationRevision config)
     {
-        lock (_lock)
+        if (await _runnerSemaphore.WaitAsync(10_000) == false)
+            return false;
+
+        try
         {
-            int maxRunners =  args.MaxRunnersOnNode;
+            int maxRunners = args.MaxRunnersOnNode;
 
             if (_activeRunners.Count >= maxRunners)
             {
@@ -84,18 +89,50 @@ public class RunnerManager
                 return false;
             }
 
+            // move the file as Processing
+            var lf = args.LibraryFile;
+            lf.Status = FileStatus.Processing;
+
+            lf.ExecutedNodes = [];
+            lf.Additional ??= new();
+            lf.Additional.DisplayName = string.Empty;
+            lf.Node = new()
+            {
+                Uid = node.Uid,
+                Name = node.Name,
+                Type = node.GetType().FullName!
+            };
+
+            var cfgService = ServiceLoader.Load<ConfigurationService>();
+            var flow = cfgService.CurrentConfig?.Flows.FirstOrDefault(x => x.Uid == args.FlowUid);
+            lf.Flow = new()
+            {
+                Uid = args.FlowUid,
+                Name = flow?.Name,
+                Type = typeof(Flow).FullName!
+            };
+            if (await client.FileStartProcessing(lf) == false)
+            {
+                // abort, could not start processing file
+                return false;
+            }
+
             var runner = new Runner(client, args, node, tempPath, OnRunnerCompleted);
             if (_activeRunners.TryAdd(runner.Id, runner))
             {
                 Logger.ILog("Starting runner!!!");
-                runner.Start();
-                EventManager.Broadcast(EventNames.RUNNERS_UPDATED,  _activeRunners.Count);
+                runner.Start(lf);
+                EventManager.Broadcast(EventNames.RUNNERS_UPDATED, _activeRunners.Count);
                 RunnerUpdated?.Invoke();
                 return true;
             }
 
             Logger.ILog("Failed to add runner");
             return false;
+        }
+        finally
+        {
+            _runnerSemaphore.Release();
         }
     }
 

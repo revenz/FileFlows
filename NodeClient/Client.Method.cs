@@ -286,7 +286,7 @@ public partial class Client
         try
         {
             _logger.ILog($"Trying to start runner for: {args.LibraryFile.Name}");
-            bool result = _runnerManager.TryStartRunner(this, args, _node, _configurationService.CurrentConfig!);
+            bool result = await _runnerManager.TryStartRunner(this, args, _node, _configurationService.CurrentConfig!);
             _logger.ILog($"Process file result: {result}");
             return result;
         }
@@ -320,23 +320,24 @@ public partial class Client
     /// Starts processing a file
     /// </summary>
     /// <param name="libraryFile">the library file</param>
-    public async Task FileStartProcessing(LibraryFile libraryFile)
+    /// <returns>true if could start processing</returns>
+    public async Task<bool> FileStartProcessing(LibraryFile libraryFile)
     {
         int count = 0;
-        while (++count < 30)
+        while (++count < 60)
         {
             try
             {
-                var result = await _connection.InvokeAsync<bool>("FileStartProcessing", libraryFile);
-                if (result)
-                    return;
+                return await _connection.InvokeAsync<bool>("FileStartProcessing", libraryFile);
             }
             catch (Exception ex)
             {
                 _logger.WLog($"Failed to notify file '{libraryFile.RelativePath}' started processing[{count}]: {ex.Message}");   
             }
-            await Task.Delay(1000);
+            await Task.Delay(500);
         }
+
+        return false;
     }
     
     /// <summary>
