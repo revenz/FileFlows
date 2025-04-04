@@ -212,7 +212,7 @@ public class _SignalrDebugController : Controller
          }
 
          html.AppendLine("</tbody></table>");
-         return html.ToString();
+         return $"<h2>Processing Files</h2>{html}";
      }
 
     private string GetNodeOverview()
