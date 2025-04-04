@@ -47,11 +47,9 @@ public class NodeLogger
                 
                 await logger.LogRaw(messages);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Logger.Instance.ELog($"Failed logging '{nodeAddress} message: " + ex.Message +
-                                     Environment.NewLine +
-                                     ex.StackTrace);
+                // Ignored
             }
             finally
             {
