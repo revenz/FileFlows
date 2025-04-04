@@ -108,7 +108,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     private async Task Cancel(ProcessingLibraryFile runner)
     {
         if (await Confirm.Show("Labels.Cancel",
-                Translater.Instant("Pages.Dashboard.Messages.CancelMessage", new { runner.DisplayName })) == false)
+                Translater.Instant("Labels.CancelMessage", new { runner.DisplayName })) == false)
             return; // rejected the confirmation
         await HttpHelper.Delete($"/api/library-file/abort", new ReferenceModel<Guid>()
         {
