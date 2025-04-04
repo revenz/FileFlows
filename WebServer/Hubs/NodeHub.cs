@@ -66,7 +66,6 @@ public partial class NodeHub : Hub
         {
             if (info == null)
                 return NodeStatusUpdateResult.InvalidModel;
-            _logger.DLog($"Updating node status: {info.NodeUid}");
             _ = _nodeService.UpdateNodeStatusFromNode(info);
             var configRevision = await ServiceLoader.Load<ISettingsService>().GetCurrentConfigurationRevision();
             if (info.ConfigRevision != configRevision)
