@@ -53,6 +53,7 @@ public class _SignalrDebugController : Controller
 """);
         builder.AppendLine($"<h1>FileFlows v{Globals.Version}</h1>");
         builder.AppendLine(await GetTopInfo());
+        builder.AppendLine(GetRunners());
         builder.AppendLine(GetNodeOverview());
         builder.AppendLine(GetFileStatusCounts());
         builder.AppendLine(GetQueuedFiles());
@@ -61,7 +62,6 @@ public class _SignalrDebugController : Controller
         builder.AppendLine("</body></html>");
         return Content(builder.ToString(), "text/html");
     }
-
     private async Task<string> GetTopInfo()
     {
         int config = await ServiceLoader.Load<ISettingsService>().GetCurrentConfigurationRevision();
@@ -167,6 +167,54 @@ public class _SignalrDebugController : Controller
          return $"<h2>File Status Counts</h2>{html}";
      }
      
+
+     private string? GetRunners()
+     {
+         var service = ServiceLoader.Load<NodeService>();
+         var runners = service.GetRunners();
+         var processing = ServiceLoader.Load<FileSorterService>().GetProcessing();
+         StringBuilder html = new ("""
+                                   <table>
+                                       <tbody>
+                                           <thead>
+                                               <tr>
+                                                   <th>Uid</th>
+                                                   <th>File</th>
+                                                   <th>Node</th>
+                                               </tr>
+                                           </thead>
+                                       <tbody>
+                                   """);
+         
+         foreach (var p in processing)
+         {
+             var runner = runners.FirstOrDefault(x => x.LibraryFile.Uid == p.Uid);
+             if (runner != null)
+                 runners.Remove(runner);
+             
+             html.AppendLine($$"""
+                               <tr>
+                                   <td>{{p.Uid}}</td>
+                                   <td>{{runner?.LibraryFile?.Name?.EmptyAsNull() ?? p.DisplayName}}</td>
+                                   <td>{{runner?.NodeName?.EmptyAsNull() ?? "No Runner"}}</td>
+                               </tr>
+                               """);
+         }
+         foreach (var runner in runners)
+         {
+             html.AppendLine($$"""
+                               <tr>
+                                   <td>[NOT Tracked] {{runner.LibraryFile.Uid}}</td>
+                                   <td>{{runner?.LibraryFile?.Name?.EmptyAsNull()}}</td>
+                                   <td>{{runner?.NodeName?.EmptyAsNull() ?? "No Runner"}}</td>
+                               </tr>
+                               """);
+         }
+
+         html.AppendLine("</tbody></table>");
+         return html.ToString();
+     }
+
     private string GetNodeOverview()
     {
         var service = ServiceLoader.Load<NodeService>();

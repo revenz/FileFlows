@@ -57,7 +57,7 @@ public partial class NodeHub
     /// <returns>true that it was received</returns>
     public async Task<bool> FileStartProcessing(LibraryFile libraryFile)
     {
-        _logger.ILog("FileStartProcessing: " + libraryFile.Name);
+        _logger.ILog($"NodeHub.FileStartProcessing: {libraryFile.Name}");
         var sorter = ServiceLoader.Load<FileSorterService>();
 
         // the library file passed in isnt the cached instance, so get one from tdb
@@ -88,6 +88,7 @@ public partial class NodeHub
     /// <returns>true that it was received</returns>
     public async Task<bool> FileFinishProcessing(LibraryFile libraryFile, string log)
     {
+        _logger.ILog($"NodeHub.FileFinishProcessing: {libraryFile.Name}");
         var libraryFileService = ServiceLoader.Load<LibraryFileService>();
         await libraryFileService.FinishProcessing(libraryFile, log);
         
