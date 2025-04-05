@@ -76,21 +76,22 @@ public class JsonRpcClient : IDisposable
             Basic = new(this);
             
             Program.Log("JsonRpcClient.Initialize[6]");
-            Parameters = await Basic.GetRunnerParameters();
-            
-            Program.Log("JsonRpcClient.Initialize[5]");
             // Start listening for incoming server messages
             listeningTask = Task.Run(ListenForServerMessages, cts.Token);
             
             Program.Log("JsonRpcClient.Initialize[7]");
+            Parameters = await Basic.GetRunnerParameters();
+            
+            
+            Program.Log("JsonRpcClient.Initialize[8]");
             LibraryFileHandler = new(this);
-            Program.Log("JsonRpcClient.Initialize[8]");
+            Program.Log("JsonRpcClient.Initialize[9]");
             RunnerInfo = new(this, Parameters.MaxFlowParts);
-            Program.Log("JsonRpcClient.Initialize[8]");
-            Statistics = new(this);
             Program.Log("JsonRpcClient.Initialize[10]");
-            Cache = new(this);
+            Statistics = new(this);
             Program.Log("JsonRpcClient.Initialize[11]");
+            Cache = new(this);
+            Program.Log("JsonRpcClient.Initialize[12]");
 
             return true;
         }
