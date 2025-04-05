@@ -197,6 +197,11 @@ public class JsonRpcClient : IDisposable
             Program.Log($"Json Message SendRequest[{request.Id}]: {method}: success: {response.Result}");
             return response.Result;
         }
+        catch(Exception ex)
+        {
+            Program.Log($"Json Message SendRequest[{request.Id}] error: {ex}");
+            throw;
+        }
         finally
         {
             streamLock.Release();
