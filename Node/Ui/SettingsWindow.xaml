@@ -6,6 +6,7 @@
         WindowStartupLocation="CenterOwner"
         HorizontalAlignment="Stretch"
         ShowInTaskbar="False"
+        Width="450"
         Classes="messagebox"
         Topmost="True"
 >

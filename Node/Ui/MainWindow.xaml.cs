@@ -12,6 +12,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using FileFlows.NodeClient;
 using FileFlows.RemoteServices;
+using NPoco;
 using Logger = FileFlows.ScriptExecution.Logger;
 
 namespace FileFlows.Node.Ui;
@@ -92,7 +93,14 @@ public partial class MainWindow : FileFlows.AvaloniaUi.UiWindow
             {
                 var settingsWindow =
                     new SettingsWindow();
-                await settingsWindow.ShowDialogAsync(this);
+                var saved = await settingsWindow.ShowDialogAsync(this);
+                if (saved)
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        ViewModel.ServerUrl = AppSettings.Instance.ServerUrl;
+                    });
+                }
             }
             catch (Exception ex)
             {
