@@ -24,11 +24,12 @@ public class Program
 
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
 
-        await File.WriteAllTextAsync(Program.LoggingFile, "Flow Runner Started" + Environment.NewLine);
         Console.WriteLine("FlowRunner Pipe: " + args[0]);
         Console.WriteLine("LoggingFile: " + args[1]);
         Program.LoggingFile = args[1];
-        _logToFile = string.IsNullOrWhiteSpace(args[1]) == false; 
+        _logToFile = string.IsNullOrWhiteSpace(args[1]) == false;
+        if(_logToFile)
+            await File.WriteAllTextAsync(Program.LoggingFile, "Flow Runner Started" + Environment.NewLine);
         Log("FlowRunner Pipe: " + args[0] + Environment.NewLine);
 
         // Set up the heartbeat timer
