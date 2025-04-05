@@ -20,25 +20,34 @@ GOTO Done
     rmdir /q /s "%~dp0%FlowRunner"
     
     echo.
-    echo Copying Node update files
-    if exist NodeUpdate/FlowRunner/FlowRunner (
-        move NodeUpdate/FlowRunner/FlowRunner FlowRunner
-    ) else (
-        move NodeUpdate/FlowRunner FlowRunner
+    echo Fixing double-nested Node or FlowRunner folders if present
+    rem Flatten Node/Node to just Node
+    if exist NodeUpdate\Node\Node (
+        move NodeUpdate\Node\Node NodeUpdate\TempNode
+        rmdir /q /s NodeUpdate\Node
+        move NodeUpdate\TempNode NodeUpdate\Node
     )
-    if exist NodeUpdate/Node/Node (
-        move NodeUpdate/Node/Node Node
-    ) else ( 
-        move NodeUpdate/Node Node
+    
+    rem Flatten FlowRunner/FlowRunner to just FlowRunner
+    if exist NodeUpdate\FlowRunner\FlowRunner (
+        move NodeUpdate\FlowRunner\FlowRunner NodeUpdate\TempFlowRunner
+        rmdir /q /s NodeUpdate\FlowRunner
+        move NodeUpdate\TempFlowRunner NodeUpdate\FlowRunner
     )
-    rmdir /q /s "%~dp0%NodeUpdate"
+    
+    echo.
+    echo Copying update files
+    move NodeUpdate\Node Node
+    move NodeUpdate\FlowRunner FlowRunner
+    
+    rmdir /q /s NodeUpdate
     
     echo.
     echo Starting FileFlows Node
-    start /D "%~dp0%Node" FileFlows.Node.exe
+    start /D "%~dp0Node" FileFlows.Node.exe
     
     if exist node-upgrade.bat goto Done
     del node-upgrade.bat & exit
-
+    
 :Done
 exit
