@@ -10,7 +10,9 @@
     "And": "En",
     "Any": "Enige",
     "Architecture": "Architectuur",
-    "Audit": "Audit",
+    "Audit": "Audit","LastSeen": "Laatste keer",
+
+
     "BaseCodeOn": "Gebruik Code Sjabloon",
     "Browse": "Bladeren",
     "Cancel": "Annuleren",

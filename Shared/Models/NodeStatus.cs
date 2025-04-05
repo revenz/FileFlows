@@ -18,6 +18,12 @@ public class NodeStatusSummary : IUniqueObject<Guid>
     public string Name { get; set; }
     
     /// <summary>
+    /// Gets or sets when the node was last seen
+    /// </summary>
+    [JsonPropertyName("ls")]
+    public DateTime LastSeen { get; set; }
+    
+    /// <summary>
     /// Gets or sets if this node is out of schedule
     /// </summary>
     [JsonPropertyName("o")]

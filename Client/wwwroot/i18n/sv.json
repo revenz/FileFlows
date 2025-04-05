@@ -12,7 +12,8 @@
     "Architecture": "Arkitektur",
     "Audit": "Granskning",
     "BaseCodeOn": "Använd kodmall",
-    "Browse": "Bläddra",
+    "Browse": "Bläddra","LastSeen": "Senast sedd",
+
     "Cancel": "Avbryt",
     "CancelItems": "Är du säker på att du vill avbryta de valda {count, plural, one {objektet} other {objekten}}?",
     "CancelMessage": "Är du säker på att du vill avbryta och förlora alla osparade ändringar?",

@@ -13,7 +13,8 @@
     "Audit": "审计",
     "BaseCodeOn": "使用代码模板",
     "Browse": "浏览",
-    "Cancel": "取消",
+    "Cancel": "取消","LastSeen": "最后查看",
+
     "CancelItems": "您确定要取消所选的 {count, plural, one {项目} other {项目}} 吗？",
     "CancelMessage": "您确定要取消并丢失任何未保存的更改吗？",
     "ChangePassword": "更改密码",

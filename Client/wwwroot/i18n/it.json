@@ -10,7 +10,8 @@
     "And": "E",
     "Any": "Qualsiasi",
     "Architecture": "Architettura",
-    "Audit": "Audit",
+    "Audit": "Audit","LastSeen": "Ultima visita",
+
     "BaseCodeOn": "Utilizza Modello di Codice",
     "Browse": "Sfoglia",
     "Cancel": "Annulla",

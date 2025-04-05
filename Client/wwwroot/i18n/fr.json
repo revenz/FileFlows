@@ -8,7 +8,8 @@
     "Advanced": "Avancé",
     "All": "Tout",
     "And": "Et",
-    "Any": "Tout",
+    "Any": "Tout","LastSeen": "Dernière vue",
+
     "Architecture": "Architecture",
     "Audit": "Audit",
     "BaseCodeOn": "Utiliser le modèle de code",

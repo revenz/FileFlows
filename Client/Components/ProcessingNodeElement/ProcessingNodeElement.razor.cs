@@ -20,12 +20,13 @@ public partial class ProcessingNodeElement : ComponentBase
     /// <summary>
     /// Translation strings
     /// </summary>
-    private string lblSchedule, lblOperatingSystem, lblArchitecture, lblMemory, lblVersion, lblStatus, lblInternalProcessingNode, lblRunners, lblPriority;
+    private string lblSchedule, lblLastSeen, lblOperatingSystem, lblArchitecture, lblMemory, lblVersion, lblStatus, lblInternalProcessingNode, lblRunners, lblPriority;
     
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         lblSchedule = Translater.Instant("Labels.Schedule");
+        lblLastSeen = Translater.Instant("Labels.Schedule");
         lblOperatingSystem = Translater.Instant("Labels.OperatingSystem");
         lblArchitecture = Translater.Instant("Labels.Architecture");
         lblMemory = Translater.Instant("Labels.Memory");
@@ -74,5 +75,38 @@ public partial class ProcessingNodeElement : ComponentBase
             return;
         Node.Enabled = state;
         _ = HttpHelper.Put<ProcessingNode>($"/api/node/state/{Node.Uid}?enable={state}");
+    }
+
+    /// <summary>
+    /// Returns the node last seen as human readable
+    /// </summary>
+    /// <param name="nodeLastSeen">the UTC date when it was last seen</param>
+    /// <returns>human readable last seen</returns>
+    private string FormatLastSeen(DateTime nodeLastSeen)
+    {
+        // Get the current time in UTC
+        DateTime now = DateTime.UtcNow;
+
+        // Calculate the time difference
+        TimeSpan timeDifference = now - nodeLastSeen;
+
+        // If less than 60 seconds ago
+        if (timeDifference.TotalSeconds < 60)
+            return Translater.Instant("Enums.Times.SecondsAgo", new { num = (int)timeDifference.TotalSeconds });
+    
+        // If less than 60 minutes ago
+        if (timeDifference.TotalMinutes < 60)
+            return Translater.Instant("Enums.Times.MinutesAgo", new { num = (int)timeDifference.TotalMinutes });
+    
+        // If less than 24 hours ago
+        if (timeDifference.TotalHours < 24)
+            return Translater.Instant("Enums.Times.HoursAgo", new { num = (int)timeDifference.TotalHours });
+    
+        // If less than 7 days ago
+        if (timeDifference.TotalDays <= 7)
+            return Translater.Instant("Enums.Times.DaysAgo", new { num = (int)timeDifference.TotalDays });
+    
+        // If more than 7 days ago, show the local date
+        return nodeLastSeen.ToLocalTime().ToString("g"); // Formats as "MM/dd/yyyy HH:mm"
     }
 }

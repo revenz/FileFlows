@@ -13,7 +13,8 @@
     "Audit": "監査",
     "BaseCodeOn": "コードテンプレートを使用",
     "Browse": "参照",
-    "Cancel": "キャンセル",
+    "Cancel": "キャンセル","LastSeen": "最後に見た",
+
     "CancelItems": "選択した{count, plural, one {アイテム} other {アイテム}}をキャンセルしてもよろしいですか？",
     "CancelMessage": "キャンセルして保存されていない変更を失ってもよろしいですか？",
     "ChangePassword": "パスワードを変更",

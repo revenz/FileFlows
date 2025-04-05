@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "LastSeen": "Last Seen",
     "Aborting": "Aborting",
     "About": "About",
     "Add": "Add",

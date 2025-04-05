@@ -20,6 +20,13 @@
                 <span class="value">@ScheduleHelper.HumanReadable(Node.ScheduleResumesAtUtc)</span>
             </span>
         }
+        @if (Node.Status == ProcessingNodeStatus.Offline && Node.LastSeen.Year > 2000)
+        {
+            <span class="hardware-info-item">
+                <span class="label">@lblLastSeen</span>
+                <span class="value">@FormatLastSeen(Node.LastSeen)</span>
+            </span>
+        }
 
         @if (Node.HardwareInfo != null)
         {

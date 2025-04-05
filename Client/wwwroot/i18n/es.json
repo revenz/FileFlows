@@ -6,7 +6,8 @@
     "Add": "Añadir",
     "AdminRequired": "Se requiere administrador para completar la instalación.",
     "Advanced": "Avanzado",
-    "All": "Todos",
+    "All": "Todos","LastSeen": "Última vez",
+
     "And": "Y",
     "Any": "Cualquiera",
     "Architecture": "Arquitectura",

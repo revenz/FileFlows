@@ -19,26 +19,26 @@ public class NodeManager : CachedManager<ProcessingNode>
     /// Updates the last seen date for a node
     /// </summary>
     /// <param name="nodeUid">the UID node being updated</param>
+    /// <param name="lastSeenUtc">the date the node was last seen</param>
     /// <returns>a task to await</returns>
-    public async Task UpdateLastSeen(Guid nodeUid)
+    public async Task UpdateLastSeen(Guid nodeUid, DateTime lastSeenUtc)
     {
-        var lastSeen = DateTime.UtcNow;
         if (UseCache)
         {
             var node = _Data?.FirstOrDefault(x => x.Uid == nodeUid);
             if (node != null)
             {
-                node.LastSeen = lastSeen;
+                node.LastSeen = lastSeenUtc;
                 if(NodeLastSeenUpdate.TryGetValue(node.Uid, out var lsDate) && lsDate > DateTime.UtcNow.AddMinutes(-5))
                     return;
-                NodeLastSeenUpdate[node.Uid] = lastSeen;
+                NodeLastSeenUpdate[node.Uid] = lastSeenUtc;
             }
         }
 
         if (nodeUid == CommonVariables.InternalNodeUid)
             return; // no need to update this one
 
-        string dt = lastSeen.ToString("o"); // same format as json
+        string dt = lastSeenUtc.ToString("o"); // same format as json
         await DatabaseAccessManager.Instance.ObjectManager.SetDataValue(nodeUid, typeof(ProcessingNode).FullName,
             nameof(ProcessingNode.LastSeen), dt);
     }

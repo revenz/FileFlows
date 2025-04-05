@@ -8,7 +8,8 @@
     "Advanced": "고급",
     "All": "전체",
     "And": "그리고",
-    "Any": "모두",
+    "Any": "모두","LastSeen": "마지막 확인",
+
     "Architecture": "아키텍처",
     "Audit": "감사",
     "BaseCodeOn": "코드 템플릿 사용",
