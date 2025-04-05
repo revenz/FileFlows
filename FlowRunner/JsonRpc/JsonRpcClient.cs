@@ -65,10 +65,10 @@ public class JsonRpcClient : IDisposable
             reader = new StreamReader(client);
             Program.Log("JsonRpcClient.Initialize[3]");
             writer = new StreamWriter(client);
+            writer.AutoFlush = true;
             Program.Log("JsonRpcClient.Initialize[4]");
             
             await writer.WriteLineAsync("Hello from client!");
-            await writer.FlushAsync();
 
             
             Program.Log("JsonRpcClient.Initialize[5]");
@@ -111,6 +111,8 @@ public class JsonRpcClient : IDisposable
                 var message = await reader.ReadLineAsync(cts.Token);
                 if (string.IsNullOrWhiteSpace(message))
                     continue;
+                
+                Program.Log("message[0]: " + message);
 
                 _ = Task.Run(() =>
                 {
@@ -126,12 +128,15 @@ public class JsonRpcClient : IDisposable
                         var rpcMessage = JsonSerializer.Deserialize<RpcMessage>(message);
                         if (rpcMessage?.Method == "Abort")
                         {
+                            Program.Log("Received Abort request from server.");
                             Logger.Instance.ILog("Received Abort request from server.");
                             HandleAbort();
                         }
+                        Program.Log("Deserialized: " + rpcMessage?.Method);
 
                         // Deserialize the response to get the correlation ID
                         var response = JsonSerializer.Deserialize<RpcResponse<object>>(message);
+                        Program.Log("response: " + (response == null ? "null": response.Id.ToString()));
                         if (response != null && response.Id != null)
                         {
                             Program.Log("Json Message Received: response.Id: " + response.Id);
@@ -146,6 +151,7 @@ public class JsonRpcClient : IDisposable
                     }
                     catch (Exception ex)
                     {
+                        Program.Log("Error: " + ex);
                         if (_disposed)
                             return;
                         Logger.Instance.ELog("Failed with JSON RPC message: " + ex);
@@ -188,7 +194,6 @@ public class JsonRpcClient : IDisposable
             var requestJson = JsonSerializer.Serialize(request);
             Program.Log($"Json Message SendRequest[{request.Id}]: {method}: sending");
             await writer.WriteLineAsync(requestJson);
-            await writer.FlushAsync();
             Program.Log($"Json Message SendRequest[{request.Id}]: {method}: sent");
 
             // Wait for the response and return the deserialized result
@@ -233,7 +238,6 @@ public class JsonRpcClient : IDisposable
             // Write the request to the server
             var requestJson = JsonSerializer.Serialize(request);
             await writer.WriteLineAsync(requestJson);
-            await writer.FlushAsync();
         }
         finally
         {
