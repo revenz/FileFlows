@@ -64,7 +64,7 @@ public class JsonRpcClient : IDisposable
 
             reader = new StreamReader(client);
             Program.Log("JsonRpcClient.Initialize[3]");
-            writer = new StreamWriter(client) { AutoFlush = true };
+            writer = new StreamWriter(client);
             Program.Log("JsonRpcClient.Initialize[4]");
 
             // Start listening for incoming server messages
@@ -182,6 +182,7 @@ public class JsonRpcClient : IDisposable
             var requestJson = JsonSerializer.Serialize(request);
             Program.Log($"Json Message SendRequest[{request.Id}]: {method}: sending");
             await writer.WriteLineAsync(requestJson);
+            await writer.FlushAsync();
             Program.Log($"Json Message SendRequest[{request.Id}]: {method}: sent");
 
             // Wait for the response and return the deserialized result
@@ -226,6 +227,7 @@ public class JsonRpcClient : IDisposable
             // Write the request to the server
             var requestJson = JsonSerializer.Serialize(request);
             await writer.WriteLineAsync(requestJson);
+            await writer.FlushAsync();
         }
         finally
         {
