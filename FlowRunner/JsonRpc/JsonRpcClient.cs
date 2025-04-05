@@ -66,6 +66,9 @@ public class JsonRpcClient : IDisposable
             Program.Log("JsonRpcClient.Initialize[3]");
             writer = new StreamWriter(client);
             Program.Log("JsonRpcClient.Initialize[4]");
+            
+            await writer.WriteLineAsync("Hello from client!");
+            await writer.FlushAsync();
 
             // Start listening for incoming server messages
             listeningTask = Task.Run(ListenForServerMessages, cts.Token);

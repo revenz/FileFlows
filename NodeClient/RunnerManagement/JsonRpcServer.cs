@@ -71,7 +71,7 @@ public class JsonRpcServer : IDisposable
         {
             while (!cts.Token.IsCancellationRequested)
             {
-                Logger.Instance.ILog($"JsonRpcClient: Starting RPC Server {this.PipeName}");
+                Logger.Instance.ILog($"JsonRpcClient: Starting RPC Server \"{PipeName}\"");
 
                 try
                 {
@@ -82,7 +82,8 @@ public class JsonRpcServer : IDisposable
                     Logger.Instance.ILog("JsonRpcClient: Child connected.");
 
                     using var reader = new StreamReader(server);
-                    using var writer = new StreamWriter(server) { AutoFlush = true };
+                    await using var writer = new StreamWriter(server);
+                    writer.AutoFlush = true;
 
                     while (server.IsConnected && !cts.Token.IsCancellationRequested)
                     {
@@ -95,6 +96,9 @@ public class JsonRpcServer : IDisposable
                         if (requestJson == null) break;
                         
                         Logger.Instance.ILog("JsonRpcClient: Got Request: " + requestJson);
+                        
+                        if (requestJson == "Hello from client!")
+                            continue;
 
                         _ = Task.Run(async () =>
                         {
