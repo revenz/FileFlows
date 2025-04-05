@@ -26,7 +26,7 @@
             @foreach (var item in MenuItems)
             {
                 <li class="nav-item @item.Uid @(item == Active ? "active" : "") @(item.Mobile ? "" : "no-mobile")">
-                    <a href="@item.Url" @onclick="() => Click(item)">
+                    <a href="@item.Url" @onclick="() => Click(item)" @onclick:preventDefault @onclick:stopPropagation>
                         <i class="icon @item.Icon"></i>
                         <span class="name">@item.Title</span>
                     </a>
