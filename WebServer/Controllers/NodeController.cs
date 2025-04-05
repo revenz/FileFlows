@@ -24,21 +24,6 @@ public class NodeController : BaseController
             .ThenBy(x => x.Name)
             .ToList();
         
-#if (DEBUG)
-        var internalNode = nodes.FirstOrDefault(x => x.Uid == CommonVariables.InternalNodeUid);
-        // set this to linux so we can test the full UI
-        if (internalNode != null)
-            internalNode.OperatingSystem = OperatingSystemType.Linux;
-#endif
-        var totalFiles = await service.GetTotalFiles();
-
-        foreach (var node in nodes)
-        {
-            if (totalFiles.TryGetValue(node.Uid, out int pValue))
-                node.ProcessedFiles = pValue;
-            node.Status = service.GetStatus(node);
-        }
-        
         return nodes.OrderBy(x => x.Name.ToLowerInvariant());
     }
     
