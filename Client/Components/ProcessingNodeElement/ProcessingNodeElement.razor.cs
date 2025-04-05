@@ -26,7 +26,7 @@ public partial class ProcessingNodeElement : ComponentBase
     protected override void OnInitialized()
     {
         lblSchedule = Translater.Instant("Labels.Schedule");
-        lblLastSeen = Translater.Instant("Labels.Schedule");
+        lblLastSeen = Translater.Instant("Labels.LastSeen");
         lblOperatingSystem = Translater.Instant("Labels.OperatingSystem");
         lblArchitecture = Translater.Instant("Labels.Architecture");
         lblMemory = Translater.Instant("Labels.Memory");
@@ -92,21 +92,21 @@ public partial class ProcessingNodeElement : ComponentBase
 
         // If less than 60 seconds ago
         if (timeDifference.TotalSeconds < 60)
-            return Translater.Instant("Enums.Times.SecondsAgo", new { num = (int)timeDifference.TotalSeconds });
+            return Translater.Instant("Times.SecondsAgo", new { num = (int)timeDifference.TotalSeconds });
     
         // If less than 60 minutes ago
         if (timeDifference.TotalMinutes < 60)
-            return Translater.Instant("Enums.Times.MinutesAgo", new { num = (int)timeDifference.TotalMinutes });
+            return Translater.Instant("Times.MinutesAgo", new { num = (int)timeDifference.TotalMinutes });
     
         // If less than 24 hours ago
         if (timeDifference.TotalHours < 24)
-            return Translater.Instant("Enums.Times.HoursAgo", new { num = (int)timeDifference.TotalHours });
+            return Translater.Instant("Times.HoursAgo", new { num = (int)timeDifference.TotalHours });
     
         // If less than 7 days ago
         if (timeDifference.TotalDays <= 7)
-            return Translater.Instant("Enums.Times.DaysAgo", new { num = (int)timeDifference.TotalDays });
+            return Translater.Instant("Times.DaysAgo", new { num = (int)timeDifference.TotalDays });
     
         // If more than 7 days ago, show the local date
-        return nodeLastSeen.ToLocalTime().ToString("g"); // Formats as "MM/dd/yyyy HH:mm"
+        return nodeLastSeen.ToLocalTime().ToShortDateString();
     }
 }
