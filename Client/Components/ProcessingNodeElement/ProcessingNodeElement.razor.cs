@@ -109,6 +109,6 @@ public partial class ProcessingNodeElement : ComponentBase
             return Translater.Instant("Times.DaysAgo", new { num = (int)timeDifference.TotalDays });
     
         // If more than 7 days ago, show the local date
-        return nodeLastSeen.ToLocalTime().ToShortDateString();
+        return nodeLastSeen.ToLocalTime().ToString("D");
     }
 }
