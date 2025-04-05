@@ -61,14 +61,11 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
     }
 
     private void FlowOnFlowsUpdated(List<FlowListModel> obj)
-    {
-        Data = feService.Flow.Flows;
-        UpdateTypeData();
-    }
+        => UpdateData();
 
     private void UpdateData()
     {
-        Data = feService.Flow.Flows;
+        Data = feService.Flow.Flows.OrderBy(x => x.Name.ToLowerInvariant()).ToList();
         UpdateTypeData();
     }
 
