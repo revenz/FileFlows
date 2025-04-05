@@ -8,7 +8,7 @@ GOTO Done
 
 
 :RunUpdate
-
+    
     echo Running Update
     timeout /t 3
     echo Stopping FileFlows Node if running
@@ -16,30 +16,35 @@ GOTO Done
     
     echo.
     echo Removing previous version
-    rmdir /q /s "%~dp0%Node"
-    rmdir /q /s "%~dp0%FlowRunner"
+    rmdir /q /s "%~dp0Node"
+    rmdir /q /s "%~dp0FlowRunner"
     
     echo.
-    echo Fixing double-nested Node or FlowRunner folders if present
-    rem Flatten Node/Node to just Node
+    echo Preparing Node update files
+    
+    rem Ensure temporary staging folders are clean
+    rmdir /q /s TempNode 2>NUL
+    rmdir /q /s TempFlowRunner 2>NUL
+    
+    rem Handle Node folder
     if exist NodeUpdate\Node\Node (
-        move NodeUpdate\Node\Node NodeUpdate\TempNode
-        rmdir /q /s NodeUpdate\Node
-        move NodeUpdate\TempNode NodeUpdate\Node
+        robocopy NodeUpdate\Node\Node TempNode /E
+    ) else (
+        robocopy NodeUpdate\Node TempNode /E
     )
     
-    rem Flatten FlowRunner/FlowRunner to just FlowRunner
+    rem Handle FlowRunner folder
     if exist NodeUpdate\FlowRunner\FlowRunner (
-        move NodeUpdate\FlowRunner\FlowRunner NodeUpdate\TempFlowRunner
-        rmdir /q /s NodeUpdate\FlowRunner
-        move NodeUpdate\TempFlowRunner NodeUpdate\FlowRunner
+        robocopy NodeUpdate\FlowRunner\FlowRunner TempFlowRunner /E
+    ) else (
+        robocopy NodeUpdate\FlowRunner TempFlowRunner /E
     )
     
-    echo.
-    echo Copying update files
-    move NodeUpdate\Node Node
-    move NodeUpdate\FlowRunner FlowRunner
+    rem Move staged folders into place
+    move TempNode Node
+    move TempFlowRunner FlowRunner
     
+    rem Cleanup
     rmdir /q /s NodeUpdate
     
     echo.
@@ -48,6 +53,6 @@ GOTO Done
     
     if exist node-upgrade.bat goto Done
     del node-upgrade.bat & exit
-    
+
 :Done
 exit
