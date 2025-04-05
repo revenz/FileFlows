@@ -8,7 +8,7 @@ GOTO Done
 
 
 :RunUpdate
-    
+            
     echo Running Update
     timeout /t 3
     echo Stopping FileFlows Node if running
@@ -20,31 +20,25 @@ GOTO Done
     rmdir /q /s "%~dp0FlowRunner"
     
     echo.
-    echo Preparing Node update files
+    echo Detecting nested folders
     
-    rem Ensure temporary staging folders are clean
-    rmdir /q /s TempNode 2>NUL
-    rmdir /q /s TempFlowRunner 2>NUL
-    
-    rem Handle Node folder
+    set "NODE_SOURCE=NodeUpdate\Node"
     if exist NodeUpdate\Node\Node (
-        robocopy NodeUpdate\Node\Node TempNode /E
-    ) else (
-        robocopy NodeUpdate\Node TempNode /E
+        set "NODE_SOURCE=NodeUpdate\Node\Node"
     )
     
-    rem Handle FlowRunner folder
+    set "FLOWRUNNER_SOURCE=NodeUpdate\FlowRunner"
     if exist NodeUpdate\FlowRunner\FlowRunner (
-        robocopy NodeUpdate\FlowRunner\FlowRunner TempFlowRunner /E
-    ) else (
-        robocopy NodeUpdate\FlowRunner TempFlowRunner /E
+        set "FLOWRUNNER_SOURCE=NodeUpdate\FlowRunner\FlowRunner"
     )
     
-    rem Move staged folders into place
-    move TempNode Node
-    move TempFlowRunner FlowRunner
+    echo.
+    echo Moving update files
+    move "%NODE_SOURCE%" Node
+    move "%FLOWRUNNER_SOURCE%" FlowRunner
     
-    rem Cleanup
+    echo.
+    echo Cleaning up
     rmdir /q /s NodeUpdate
     
     echo.
