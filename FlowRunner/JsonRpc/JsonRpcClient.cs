@@ -110,6 +110,7 @@ public class JsonRpcClient : IDisposable
                 {
                     try
                     {
+                        Program.Log("Json Message Received: " + message);
                         #if(DEBUG)
                         _ = Basic.LogMessage("Json Message Received: " + message);
                         #else
@@ -127,6 +128,7 @@ public class JsonRpcClient : IDisposable
                         var response = JsonSerializer.Deserialize<RpcResponse<object>>(message);
                         if (response != null && response.Id != null)
                         {
+                            Program.Log("Json Message Received: response.Id: " + response.Id);
                             var requestId = (int)response.Id;
                             if (responseTasks.TryGetValue(requestId, out var tcs))
                             {
@@ -166,6 +168,7 @@ public class JsonRpcClient : IDisposable
             Method = method,
             Params = parameters
         };
+        Program.Log($"Json Message SendRequest[{request.Id}]: {method}");
 
         // Create a TaskCompletionSource to await the response
         var tcs = new TaskCompletionSource<string>();
@@ -177,13 +180,21 @@ public class JsonRpcClient : IDisposable
         {
             // Write the request to the server
             var requestJson = JsonSerializer.Serialize(request);
+            Program.Log($"Json Message SendRequest[{request.Id}]: {method}: sending");
             await writer.WriteLineAsync(requestJson);
+            Program.Log($"Json Message SendRequest[{request.Id}]: {method}: sent");
 
             // Wait for the response and return the deserialized result
             var responseJson = await tcs.Task;
+            Program.Log($"Json Message SendRequest[{request.Id}]: {method}: Got response: {responseJson}");
             var response = JsonSerializer.Deserialize<RpcResponse<T?>>(responseJson);
-            if(string.IsNullOrWhiteSpace(response.Error) == false)
+            if (string.IsNullOrWhiteSpace(response.Error) == false)
+            {
+                Program.Log($"Json Message SendRequest[{request.Id}]: {method}: Error: {response.Error}");
                 throw new Exception(response.Error);
+            }
+
+            Program.Log($"Json Message SendRequest[{request.Id}]: {method}: success: {response.Result}");
             return response.Result;
         }
         finally

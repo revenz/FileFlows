@@ -24,6 +24,7 @@ public class Program
 
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
 
+        await File.WriteAllTextAsync(Program.LoggingFile, "Flow Runner Started" + Environment.NewLine);
         Console.WriteLine("FlowRunner Pipe: " + args[0]);
         Console.WriteLine("LoggingFile: " + args[1]);
         Program.LoggingFile = args[1];
@@ -49,7 +50,7 @@ public class Program
             return;
         try
         {
-            File.WriteAllText(Program.LoggingFile, message + Environment.NewLine);
+            File.AppendAllText(Program.LoggingFile, message + Environment.NewLine);
         }
         catch (Exception)
         {
