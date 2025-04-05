@@ -13,8 +13,7 @@
     "Audit": "審計",
     "BaseCodeOn": "使用程式碼範本",
     "Browse": "瀏覽",
-    "Cancel": "取消","LastSeen": "最後查看",
-
+    "Cancel": "取消",
     "CancelItems": "您確定要取消選定的 {count, plural, one {項目} other {項目}} 嗎？",
     "CancelMessage": "您確定要取消並失去所有未儲存的變更嗎？",
     "ChangePassword": "更改密碼",
@@ -70,6 +69,7 @@
     "InUse": "正在使用",
     "LastRun": "最後執行",
     "LastScanned": "最後掃描",
+    "LastSeen": "最後查看",
     "License": "許可證",
     "Loading": "載入中",
     "Log": "日誌",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {天} other {天}} 前",
     "HoursAgo": "{num} {num, plural, one {小時} other {小時}} 前",
     "MinutesAgo": "{num} {num, plural, one {分鐘} other {分鐘}} 前",
+    "MomentsAgo": "剛才",
     "Never": "從未",
     "SecondsAgo": "{num} {num, plural, one {秒} other {秒}} 前"
   },

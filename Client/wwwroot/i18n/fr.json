@@ -8,8 +8,7 @@
     "Advanced": "Avancé",
     "All": "Tout",
     "And": "Et",
-    "Any": "Tout","LastSeen": "Dernière vue",
-
+    "Any": "Tout",
     "Architecture": "Architecture",
     "Audit": "Audit",
     "BaseCodeOn": "Utiliser le modèle de code",
@@ -70,6 +69,7 @@
     "InUse": "En utilisation",
     "LastRun": "Dernière exécution",
     "LastScanned": "Dernière analyse",
+    "LastSeen": "Dernière vue",
     "License": "Licence",
     "Loading": "Chargement",
     "Log": "Journal",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {jour} other {jours}} il y a",
     "HoursAgo": "{num} {num, plural, one {heure} other {heures}} il y a",
     "MinutesAgo": "{num} {num, plural, one {minute} other {minutes}} il y a",
+    "MomentsAgo": "Il y a un moment",
     "Never": "Jamais",
     "SecondsAgo": "{num} {num, plural, one {seconde} other {secondes}} il y a"
   },

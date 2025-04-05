@@ -10,9 +10,7 @@
     "And": "En",
     "Any": "Enige",
     "Architecture": "Architectuur",
-    "Audit": "Audit","LastSeen": "Laatste keer",
-
-
+    "Audit": "Audit",
     "BaseCodeOn": "Gebruik Code Sjabloon",
     "Browse": "Bladeren",
     "Cancel": "Annuleren",
@@ -71,6 +69,7 @@
     "InUse": "In Gebruik",
     "LastRun": "Laatste Uitvoering",
     "LastScanned": "Laatste Gescand",
+    "LastSeen": "Laatste keer",
     "License": "Licentie",
     "Loading": "Laden",
     "Log": "Log",
@@ -2166,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {dag} other {dagen}} geleden",
     "HoursAgo": "{num} {num, plural, one {uur} other {uren}} geleden",
     "MinutesAgo": "{num} {num, plural, one {minuut} other {minuten}} geleden",
+    "MomentsAgo": "Een moment geleden",
     "Never": "Nooit",
     "SecondsAgo": "{num} {num, plural, one {seconde} other {seconden}} geleden"
   },

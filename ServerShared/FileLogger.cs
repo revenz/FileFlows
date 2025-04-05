@@ -57,7 +57,6 @@ public class FileLogger : ILogWriter
     public async Task Log(LogType type, params object[] args)
     {
         string message = LogHelper.FormatMessage(type, args);
-        Console.WriteLine(message);
         await LogRaw([message]);
     }
     
@@ -70,8 +69,6 @@ public class FileLogger : ILogWriter
         await mutex.WaitAsync();
         try
         {
-            Console.WriteLine(message);
-            
             string messages = string.Join("\n", message);
 
             long size = Encoding.UTF8.GetByteCount(messages) + 1;

@@ -20,7 +20,8 @@ public partial class ProcessingNodeElement : ComponentBase
     /// <summary>
     /// Translation strings
     /// </summary>
-    private string lblSchedule, lblLastSeen, lblOperatingSystem, lblArchitecture, lblMemory, lblVersion, lblStatus, lblInternalProcessingNode, lblRunners, lblPriority;
+    private string lblSchedule, lblLastSeen, lblOperatingSystem, lblArchitecture, lblMemory, lblVersion, lblStatus, 
+        lblInternalProcessingNode, lblRunners, lblPriority, lblMomemtsAgo;
     
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -35,6 +36,7 @@ public partial class ProcessingNodeElement : ComponentBase
         lblRunners = Translater.Instant("Pages.Nodes.Labels.Runners");
         lblPriority = Translater.Instant("Pages.ProcessingNode.Fields.Priority");
         lblInternalProcessingNode = Translater.Instant("Labels.InternalProcessingNode");
+        lblMomemtsAgo = Translater.Instant("Times.MomentsAgo");
     }
 
     /// <summary>
@@ -91,8 +93,8 @@ public partial class ProcessingNodeElement : ComponentBase
         TimeSpan timeDifference = now - nodeLastSeen;
 
         // If less than 60 seconds ago
-        if (timeDifference.TotalSeconds < 60)
-            return Translater.Instant("Times.SecondsAgo", new { num = (int)timeDifference.TotalSeconds });
+        if (timeDifference.TotalSeconds < 360)
+            return lblMomemtsAgo;
     
         // If less than 60 minutes ago
         if (timeDifference.TotalMinutes < 60)

@@ -1,8 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
-    "Aborting": "Abbruch","LastSeen": "Zuletzt gesehen",
-
+    "Aborting": "Abbruch",
     "About": "Über",
     "Add": "Hinzufügen",
     "AdminRequired": "Administrator erforderlich",
@@ -70,6 +69,7 @@
     "InUse": "Benutzung",
     "LastRun": "Letzter Start",
     "LastScanned": "Last Scanned",
+    "LastSeen": "Zuletzt gesehen",
     "License": "Lizenz",
     "Loading": "Lädt",
     "Log": "Log",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {day} other {days}} her",
     "HoursAgo": "{num} {num, plural, one {hour} other {hour}} her",
     "MinutesAgo": "{num} {num, plural, one {minute} other {minutes}} her",
+    "MomentsAgo": "Vor Momenten",
     "Never": "Nie",
     "SecondsAgo": "{num} {num, plural, one {second} other {seconds}} her"
   },

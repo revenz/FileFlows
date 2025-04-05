@@ -12,8 +12,7 @@
     "Architecture": "Архитектура",
     "Audit": "Аудит",
     "BaseCodeOn": "Использовать шаблон кода",
-    "Browse": "Обзор","LastSeen": "Последний раз",
-
+    "Browse": "Обзор",
     "Cancel": "Отменить",
     "CancelItems": "Вы уверены, что хотите отменить выбранный {count, plural, one {элемент} other {элементы}}?",
     "CancelMessage": "Вы уверены, что хотите отменить и потерять все несохраненные изменения?",
@@ -70,6 +69,7 @@
     "InUse": "Используется",
     "LastRun": "Последний запуск",
     "LastScanned": "Последнее сканирование",
+    "LastSeen": "Последний раз",
     "License": "Лицензия",
     "Loading": "Загрузка",
     "Log": "Журнал",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {день} other {дня}} назад",
     "HoursAgo": "{num} {num, plural, one {час} other {часа}} назад",
     "MinutesAgo": "{num} {num, plural, one {минута} other {минуты}} назад",
+    "MomentsAgo": "Несколько минут назад",
     "Never": "Никогда",
     "SecondsAgo": "{num} {num, plural, one {секунда} other {секунды}} назад"
   },

@@ -13,8 +13,7 @@
     "Audit": "監査",
     "BaseCodeOn": "コードテンプレートを使用",
     "Browse": "参照",
-    "Cancel": "キャンセル","LastSeen": "最後に見た",
-
+    "Cancel": "キャンセル",
     "CancelItems": "選択した{count, plural, one {アイテム} other {アイテム}}をキャンセルしてもよろしいですか？",
     "CancelMessage": "キャンセルして保存されていない変更を失ってもよろしいですか？",
     "ChangePassword": "パスワードを変更",
@@ -70,6 +69,7 @@
     "InUse": "使用中",
     "LastRun": "最後の実行",
     "LastScanned": "最後にスキャンされた",
+    "LastSeen": "最後に見た",
     "License": "ライセンス",
     "Loading": "読み込み中",
     "Log": "ログ",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {日} other {日}} 前",
     "HoursAgo": "{num} {num, plural, one {時間} other {時間}} 前",
     "MinutesAgo": "{num} {num, plural, one {分} other {分}} 前",
+    "MomentsAgo": "しばらく前",
     "Never": "決して",
     "SecondsAgo": "{num} {num, plural, one {秒} other {秒}} 前"
   },

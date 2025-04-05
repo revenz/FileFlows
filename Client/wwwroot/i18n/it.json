@@ -10,8 +10,7 @@
     "And": "E",
     "Any": "Qualsiasi",
     "Architecture": "Architettura",
-    "Audit": "Audit","LastSeen": "Ultima visita",
-
+    "Audit": "Audit",
     "BaseCodeOn": "Utilizza Modello di Codice",
     "Browse": "Sfoglia",
     "Cancel": "Annulla",
@@ -70,6 +69,7 @@
     "InUse": "In Uso",
     "LastRun": "Ultima Esecuzione",
     "LastScanned": "Ultima Scansione",
+    "LastSeen": "Ultima visita",
     "License": "Licenza",
     "Loading": "Caricamento",
     "Log": "Log",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {giorno} other {giorni}} fa",
     "HoursAgo": "{num} {num, plural, one {ora} other {ore}} fa",
     "MinutesAgo": "{num} {num, plural, one {minuto} other {minuti}} fa",
+    "MomentsAgo": "Momenti fa",
     "Never": "Mai",
     "SecondsAgo": "{num} {num, plural, one {secondo} other {secondi}} fa"
   },

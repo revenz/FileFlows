@@ -12,8 +12,7 @@
     "Architecture": "Arkitektur",
     "Audit": "Granskning",
     "BaseCodeOn": "Använd kodmall",
-    "Browse": "Bläddra","LastSeen": "Senast sedd",
-
+    "Browse": "Bläddra",
     "Cancel": "Avbryt",
     "CancelItems": "Är du säker på att du vill avbryta de valda {count, plural, one {objektet} other {objekten}}?",
     "CancelMessage": "Är du säker på att du vill avbryta och förlora alla osparade ändringar?",
@@ -70,6 +69,7 @@
     "InUse": "I bruk",
     "LastRun": "Senaste körning",
     "LastScanned": "Senast skannad",
+    "LastSeen": "Senast sedd",
     "License": "Licens",
     "Loading": "Laddar",
     "Log": "Logg",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {dag} other {dagar}} sedan",
     "HoursAgo": "{num} {num, plural, one {timme} other {timmar}} sedan",
     "MinutesAgo": "{num} {num, plural, one {minut} other {minuter}} sedan",
+    "MomentsAgo": "För ett ögonblick sedan",
     "Never": "Aldrig",
     "SecondsAgo": "{num} {num, plural, one {sekund} other {sekunder}} sedan"
   },

@@ -6,8 +6,7 @@
     "Add": "Añadir",
     "AdminRequired": "Se requiere administrador para completar la instalación.",
     "Advanced": "Avanzado",
-    "All": "Todos","LastSeen": "Última vez",
-
+    "All": "Todos",
     "And": "Y",
     "Any": "Cualquiera",
     "Architecture": "Arquitectura",
@@ -70,6 +69,7 @@
     "InUse": "En Uso",
     "LastRun": "Última Ejecución",
     "LastScanned": "Último Escaneo",
+    "LastSeen": "Última vez",
     "License": "Licencia",
     "Loading": "Cargando",
     "Log": "Registro",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "hace {num} {num, plural, one {día} other {días}}",
     "HoursAgo": "hace {num} {num, plural, one {hora} other {horas}}",
     "MinutesAgo": "hace {num} {num, plural, one {minuto} other {minutos}}",
+    "MomentsAgo": "Hace un momento",
     "Never": "Nunca",
     "SecondsAgo": "hace {num} {num, plural, one {segundo} other {segundos}}"
   },

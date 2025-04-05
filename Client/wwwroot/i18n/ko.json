@@ -8,8 +8,7 @@
     "Advanced": "고급",
     "All": "전체",
     "And": "그리고",
-    "Any": "모두","LastSeen": "마지막 확인",
-
+    "Any": "모두",
     "Architecture": "아키텍처",
     "Audit": "감사",
     "BaseCodeOn": "코드 템플릿 사용",
@@ -70,6 +69,7 @@
     "InUse": "사용 중",
     "LastRun": "마지막 실행",
     "LastScanned": "마지막 스캔",
+    "LastSeen": "마지막 확인",
     "License": "라이선스",
     "Loading": "로딩 중",
     "Log": "로그",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {일} other {일}} 전",
     "HoursAgo": "{num} {num, plural, one {시간} other {시간}} 전",
     "MinutesAgo": "{num} {num, plural, one {분} other {분}} 전",
+    "MomentsAgo": "방금 전",
     "Never": "없음",
     "SecondsAgo": "{num} {num, plural, one {초} other {초}} 전"
   },

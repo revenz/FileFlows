@@ -7,8 +7,7 @@
     "AdminRequired": "Administrador necessário para concluir a instalação.",
     "Advanced": "Avançado",
     "All": "Todos",
-    "And": "E","LastSeen": "Última vez",
-
+    "And": "E",
     "Any": "Qualquer",
     "Architecture": "Arquitetura",
     "Audit": "Auditoria",
@@ -70,6 +69,7 @@
     "InUse": "Em Uso",
     "LastRun": "Última Execução",
     "LastScanned": "Última Verificação",
+    "LastSeen": "Última vez",
     "License": "Licença",
     "Loading": "Carregando",
     "Log": "Log",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {dia} other {dias}} atrás",
     "HoursAgo": "{num} {num, plural, one {hora} other {horas}} atrás",
     "MinutesAgo": "{num} {num, plural, one {minuto} other {minutos}} atrás",
+    "MomentsAgo": "Há momentos",
     "Never": "Nunca",
     "SecondsAgo": "{num} {num, plural, one {segundo} other {segundos}} atrás"
   },

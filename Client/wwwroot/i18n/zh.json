@@ -13,8 +13,7 @@
     "Audit": "审计",
     "BaseCodeOn": "使用代码模板",
     "Browse": "浏览",
-    "Cancel": "取消","LastSeen": "最后查看",
-
+    "Cancel": "取消",
     "CancelItems": "您确定要取消所选的 {count, plural, one {项目} other {项目}} 吗？",
     "CancelMessage": "您确定要取消并丢失任何未保存的更改吗？",
     "ChangePassword": "更改密码",
@@ -70,6 +69,7 @@
     "InUse": "正在使用",
     "LastRun": "上次运行",
     "LastScanned": "上次扫描",
+    "LastSeen": "最后查看",
     "License": "许可证",
     "Loading": "加载中",
     "Log": "日志",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {天} other {天}} 前",
     "HoursAgo": "{num} {num, plural, one {小时} other {小时}} 前",
     "MinutesAgo": "{num} {num, plural, one {分钟} other {分钟}} 前",
+    "MomentsAgo": "刚刚",
     "Never": "从不",
     "SecondsAgo": "{num} {num, plural, one {秒} other {秒}} 前"
   },

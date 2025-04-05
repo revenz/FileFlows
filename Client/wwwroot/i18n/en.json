@@ -1,7 +1,6 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
-    "LastSeen": "Last Seen",
     "Aborting": "Aborting",
     "About": "About",
     "Add": "Add",
@@ -70,6 +69,7 @@
     "InUse": "In Use",
     "LastRun": "Last Run",
     "LastScanned": "Last Scanned",
+    "LastSeen": "Last Seen",
     "License": "License",
     "Loading": "Loading",
     "Log": "Log",
@@ -2165,6 +2165,7 @@
     "DaysAgo": "{num} {num, plural, one {day} other {days}} ago",
     "HoursAgo": "{num} {num, plural, one {hour} other {hour}} ago",
     "MinutesAgo": "{num} {num, plural, one {minute} other {minutes}} ago",
+    "MomentsAgo": "Moments Ago",
     "Never": "Never",
     "SecondsAgo": "{num} {num, plural, one {second} other {seconds}} ago"
   },
