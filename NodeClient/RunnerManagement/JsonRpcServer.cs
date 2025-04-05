@@ -2,6 +2,7 @@ using System.IO.Pipes;
 using System.Text.Json;
 using FileFlows.NodeClient.Handlers;
 using FileFlows.ServerShared.Models;
+using FileFlows.Shared;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.NodeClient;
@@ -70,15 +71,15 @@ public class JsonRpcServer : IDisposable
         {
             while (!cts.Token.IsCancellationRequested)
             {
-                Console.WriteLine($"Starting RPC Server {this.PipeName}");
+                Logger.Instance.ILog($"JsonRpcClient: Starting RPC Server {this.PipeName}");
 
                 try
                 {
                     server = new NamedPipeServerStream(PipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte);
-                    Console.WriteLine("Waiting for child process...");
+                    Logger.Instance.ILog("JsonRpcClient: Waiting for child process...");
 
                     await server.WaitForConnectionAsync(cts.Token);
-                    Console.WriteLine("Child connected.");
+                    Logger.Instance.ILog("JsonRpcClient: Child connected.");
 
                     using var reader = new StreamReader(server);
                     using var writer = new StreamWriter(server) { AutoFlush = true };
@@ -88,14 +89,24 @@ public class JsonRpcServer : IDisposable
                         if (cts.Token.IsCancellationRequested)
                             break; // Ensure exit when stopping
 
+                        Logger.Instance.ILog("JsonRpcClient: Waiting to read");
                         var requestJson = await reader.ReadLineAsync(cts.Token);
+                        Logger.Instance.ILog("JsonRpcClient: Read!");
                         if (requestJson == null) break;
+                        
+                        Logger.Instance.ILog("JsonRpcClient: Got Request: " + requestJson);
 
                         _ = Task.Run(async () =>
                         {
                             var request = JsonSerializer.Deserialize<RpcRequest>(requestJson);
                             if (request == null)
+                            {
+                                
+                                Logger.Instance.ILog("JsonRpcClient: Failed to deserialize: " + requestJson);
                                 return;
+                            }
+
+                            Logger.Instance.ILog("JsonRpcClient: Deserialize: " + request.Id + " : " + request.Method);
 
                             string responseJson;
                             if (await _client.AwaitConnection() == false)
@@ -110,12 +121,12 @@ public class JsonRpcServer : IDisposable
                 }
                 catch (OperationCanceledException)
                 {
-                    Console.WriteLine("Server task canceled.");
+                    Logger.Instance.ILog("JsonRpcClient: Server task canceled.");
                     break; // Ensure exit
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Server exception: " + ex);
+                    Logger.Instance.ILog("JsonRpcClient: Server exception: " + ex);
                 }
                 finally
                 {
@@ -125,7 +136,7 @@ public class JsonRpcServer : IDisposable
                     }
                     catch (Exception disposeEx)
                     {
-                        Console.WriteLine("Error disposing server: " + disposeEx);
+                        Logger.Instance.ILog("JsonRpcClient: Error disposing server: " + disposeEx);
                     }
                 }
             }
@@ -140,7 +151,7 @@ public class JsonRpcServer : IDisposable
     {
         if (cts == null) return;
 
-        Console.WriteLine("Stopping server...");
+        Logger.Instance.ILog("JsonRpcClient: Stopping server...");
         cts.Cancel();
     }
 
@@ -197,16 +208,16 @@ public class JsonRpcServer : IDisposable
             {
                 if(message.Contains("Unknown method", StringComparison.CurrentCultureIgnoreCase) == false)
                     await writer.WriteLineAsync(message);
-                Console.WriteLine("JSON RPC Message sent to client: " + message);
+                Logger.Instance.ILog("JsonRpcClient: JSON RPC Message sent to client: " + message);
             }
             else
             {
-                Console.WriteLine("Server is not connected, unable to send message.");
+                Logger.Instance.ILog("JsonRpcClient: Server is not connected, unable to send message.");
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error sending message: " + ex);
+            Logger.Instance.ILog("JsonRpcClient: Error sending message: " + ex);
         }
         finally
         {
