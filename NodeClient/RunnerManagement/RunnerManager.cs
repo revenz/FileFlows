@@ -92,7 +92,6 @@ public class RunnerManager
             // move the file as Processing
             var lf = args.LibraryFile;
             lf.Status = FileStatus.Processing;
-
             lf.ExecutedNodes = [];
             lf.Additional ??= new();
             lf.Additional.DisplayName = string.Empty;

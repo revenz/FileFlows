@@ -55,7 +55,6 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     /// </summary>
     public void Start(LibraryFile lf)
     {
-        
         _cancellationTokenSource = new CancellationTokenSource();
         _isRunning = true;
         _runnerTask = StartRunnerAsync(lf);
@@ -66,7 +65,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         StartUpdateTimer();
         try
         {
-            lf = await Execute(_cancellationTokenSource.Token);
+            lf = await Execute(lf, _cancellationTokenSource.Token);
         }
         catch (Exception ex)
         {
@@ -109,10 +108,9 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         }
     }
 
-    private async Task<LibraryFile> Execute(CancellationToken ctx)
+    private async Task<LibraryFile> Execute(LibraryFile libFile, CancellationToken ctx)
     {
         var cfgService = ServiceLoader.Load<ConfigurationService>();
-        var libFile = args.LibraryFile;
 
         bool isServer = node.Uid == CommonVariables.InternalNodeUid;
         var node2 = node;
@@ -120,7 +118,8 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         var flow = cfgService.CurrentConfig?.Flows.FirstOrDefault(x => x.Uid == args.FlowUid);
         if (flow == null)
         {
-            libFile.Status = FileStatus.FlowNotFound;
+            libFile.Status = FileStatus.ProcessingFailed;
+            libFile.FailureReason = "Flow not found";
             return libFile;
         }
 

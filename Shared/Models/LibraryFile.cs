@@ -237,7 +237,7 @@ public class LibraryFile : FileFlowObject
                 return TimeSpan.Zero;
             if (Status == FileStatus.Processing)
                 return DateTime.UtcNow.Subtract(ProcessingStarted);
-            if (ProcessingEnded < new DateTime(2000, 1, 1))
+            if (ProcessingEnded.Year < 2000 || ProcessingStarted.Year < 2000)
                 return TimeSpan.Zero;
             return ProcessingEnded.Subtract(ProcessingStarted);
         }
@@ -408,10 +408,6 @@ public enum FileStatus
     /// The file is currently processing
     /// </summary>
     Processing = 2,
-    /// <summary>
-    /// The file cannot be processed as the flow configured for the library can not be found
-    /// </summary>
-    FlowNotFound = 3,
     /// <summary>
     /// THe file was processed, but exited with a failure
     /// </summary>
