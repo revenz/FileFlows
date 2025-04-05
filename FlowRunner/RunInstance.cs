@@ -40,6 +40,7 @@ public class RunInstance(RunnerProperties properties)
         {
             properties.Uid = parameters.Uid;
             properties.NodeUid = parameters.NodeUid;
+            Program.Log("Base URL: " + parameters.BaseUrl);
             LogInfo("Base URL: " + parameters.BaseUrl);
             RemoteService.ServiceBaseUrl = parameters.BaseUrl;
             RemoteService.AccessToken = parameters.AccessToken;
@@ -100,6 +101,7 @@ public class RunInstance(RunnerProperties properties)
         }
         catch (Exception ex)
         {
+            Program.Log("Error: " + ex.Message + Environment.NewLine + ex.StackTrace);
             LogInfo("Error: " + ex.Message + Environment.NewLine + ex.StackTrace);
             while (ex.InnerException != null)
             {

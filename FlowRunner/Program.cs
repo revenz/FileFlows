@@ -12,6 +12,7 @@ public class Program
 {
     private static RunInstance instance;
     public static string? LoggingFile;
+    private static bool _logToFile;
     /// <summary>
     /// Main entry point for the flow runner
     /// </summary>
@@ -26,19 +27,34 @@ public class Program
         Console.WriteLine("FlowRunner Pipe: " + args[0]);
         Console.WriteLine("LoggingFile: " + args[1]);
         Program.LoggingFile = args[1];
-        await File.WriteAllTextAsync(Program.LoggingFile, "FlowRunner Pipe: " + args[0] + Environment.NewLine);
+        _logToFile = string.IsNullOrWhiteSpace(args[1]) == false; 
+        Log("FlowRunner Pipe: " + args[0] + Environment.NewLine);
 
         // Set up the heartbeat timer
         var heartbeatTimer = new Timer(HeartbeatCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(20));
 
         // Run the flow
         int exitCode = (int) await Run(args[0]);
-        await File.WriteAllTextAsync(Program.LoggingFile, "Exit Code: " + exitCode);
+        Log("Exit Code: " + exitCode);
         Console.WriteLine("Exit Code: " + exitCode);
 
         // Stop the heartbeat timer when done
         await heartbeatTimer.DisposeAsync();
         Environment.ExitCode = exitCode;
+    }
+
+    public static void Log(string message)
+    {
+        if (_logToFile == false)
+            return;
+        try
+        {
+            File.WriteAllText(Program.LoggingFile, message + Environment.NewLine);
+        }
+        catch (Exception)
+        {
+            // Ignored
+        }
     }
 
     /// <summary>
@@ -94,19 +110,24 @@ public class Program
     /// <returns>the exit code </returns>
     public static async Task<FileStatus> Run(string pipeName)
     {
+        Log("Starting JSON RPC Client");
         using JsonRpcClient jsonRpcClient = new ();
         try
         {
             if(await jsonRpcClient.Initialize(pipeName) == false)
                 throw new Exception("Failed to initialize RPC Client");
+            Log("Initialized JSON RPC Client");
             instance = new RunInstance(new (jsonRpcClient));
+            Log("Got Run Instance");
         }
         catch (Exception ex)
         {
+            Log($"Error starting Run:{ex}");
             Console.WriteLine(ex.ToString());
             return FileStatus.ProcessingFailed;
         }
 
+        Log($"Starting run");
         return instance.Run();
     }
     
