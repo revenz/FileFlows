@@ -75,7 +75,16 @@ public class JsonRpcServer : IDisposable
 
                 try
                 {
-                    server = new NamedPipeServerStream(PipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte);
+                    server = OperatingSystem.IsLinux() ? new NamedPipeServerStream(PipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte)
+                            : new NamedPipeServerStream(
+                                PipeName,
+                                PipeDirection.InOut,
+                                1,                           // Max allowed server instances
+                                PipeTransmissionMode.Byte,  // Use Byte for raw data
+                                PipeOptions.Asynchronous,
+                                1024 * 1024,  // 1MB in-buffer size
+                                1024 * 1024   // 1MB out-buffer size
+                            );
                     Logger.Instance.ILog("JsonRpcClient: Waiting for child process...");
 
                     await server.WaitForConnectionAsync(cts.Token);
@@ -210,8 +219,13 @@ public class JsonRpcServer : IDisposable
         {
             if (server?.IsConnected == true)
             {
-                if(message.Contains("Unknown method", StringComparison.CurrentCultureIgnoreCase) == false)
+                if (message.Contains("Unknown method", StringComparison.CurrentCultureIgnoreCase) == false)
+                {   
+                    int byteSize = System.Text.Encoding.UTF8.GetByteCount(message);
+                    Logger.Instance.ILog("JsonRpcClient: Sending message (" + byteSize + " bytes)");
                     await writer.WriteLineAsync(message);
+                }
+
                 Logger.Instance.ILog("JsonRpcClient: JSON RPC Message sent to client: " + message);
             }
             else
