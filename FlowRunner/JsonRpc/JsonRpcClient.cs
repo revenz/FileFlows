@@ -70,8 +70,6 @@ public class JsonRpcClient : IDisposable
             await writer.WriteLineAsync("Hello from client!");
             await writer.FlushAsync();
 
-            // Start listening for incoming server messages
-            listeningTask = Task.Run(ListenForServerMessages, cts.Token);
             
             Program.Log("JsonRpcClient.Initialize[5]");
 
@@ -79,6 +77,11 @@ public class JsonRpcClient : IDisposable
             
             Program.Log("JsonRpcClient.Initialize[6]");
             Parameters = await Basic.GetRunnerParameters();
+            
+            Program.Log("JsonRpcClient.Initialize[5]");
+            // Start listening for incoming server messages
+            listeningTask = Task.Run(ListenForServerMessages, cts.Token);
+            
             Program.Log("JsonRpcClient.Initialize[7]");
             LibraryFileHandler = new(this);
             Program.Log("JsonRpcClient.Initialize[8]");
