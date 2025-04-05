@@ -57,7 +57,7 @@ public class JsonRpcClient : IDisposable
         try
         {
             Program.Log("JsonRpcClient.Initialize[0]");
-            client = new NamedPipeClientStream(".", pipeName, PipeDirection.InOut);
+            client = new NamedPipeClientStream(".", pipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
             Program.Log("JsonRpcClient.Initialize[1]");
             await client.ConnectAsync(10_000);
             Program.Log("JsonRpcClient.Initialize[2]");
@@ -67,6 +67,9 @@ public class JsonRpcClient : IDisposable
             writer = new StreamWriter(client);
             writer.AutoFlush = true;
             Program.Log("JsonRpcClient.Initialize[4]");
+            Program.Log("JsonRpcClient.Initialize[6]");
+            // Start listening for incoming server messages
+            listeningTask = Task.Run(ListenForServerMessages, cts.Token);
             
             await writer.WriteLineAsync("Hello from client!");
 
@@ -75,9 +78,6 @@ public class JsonRpcClient : IDisposable
 
             Basic = new(this);
             
-            Program.Log("JsonRpcClient.Initialize[6]");
-            // Start listening for incoming server messages
-            listeningTask = Task.Run(ListenForServerMessages, cts.Token);
             
             Program.Log("JsonRpcClient.Initialize[7]");
             Parameters = await Basic.GetRunnerParameters();
@@ -109,7 +109,7 @@ public class JsonRpcClient : IDisposable
         {
             while (_disposed == false && !cts.Token.IsCancellationRequested && client.IsConnected)
             {
-                var message = await reader.ReadLineAsync(cts.Token);
+                var message = await reader.ReadLineAsync(cts.Token).ConfigureAwait(false);
                 if (string.IsNullOrWhiteSpace(message))
                     continue;
                 
