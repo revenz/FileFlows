@@ -226,6 +226,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
 
             process.StartInfo.ArgumentList.Add("FileFlows.FlowRunner.dll");
             process.StartInfo.ArgumentList.Add(rpcServer.PipeName);
+            process.StartInfo.ArgumentList.Add(Path.Combine(DirectoryHelper.LoggingDirectory, "LibraryFiles", libFile.Uid + ".log"));
             // If in debug mode, add a flag to signal FlowRunner to wait for a debugger
             if (debugMode)
             {

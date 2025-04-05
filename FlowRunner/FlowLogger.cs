@@ -171,6 +171,9 @@ public class FlowLogger : ILogger
         #else
         Console.WriteLine(message);
         #endif
+
+        if (Program.LoggingFile != null)
+            System.IO.File.AppendAllText(Program.LoggingFile, message + Environment.NewLine);
     }
     /// <summary>
     /// Gets the last number of log lines

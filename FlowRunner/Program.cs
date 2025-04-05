@@ -10,7 +10,8 @@ namespace FileFlows.FlowRunner;
 /// </summary>
 public class Program
 {
-    private static RunInstance instance; 
+    private static RunInstance instance;
+    public static string? LoggingFile;
     /// <summary>
     /// Main entry point for the flow runner
     /// </summary>
@@ -23,12 +24,16 @@ public class Program
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
 
         Console.WriteLine("FlowRunner Pipe: " + args[0]);
+        Console.WriteLine("LoggingFile: " + args[1]);
+        Program.LoggingFile = args[1];
+        await File.WriteAllTextAsync(Program.LoggingFile, "FlowRunner Pipe: " + args[0] + Environment.NewLine);
 
         // Set up the heartbeat timer
         var heartbeatTimer = new Timer(HeartbeatCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(20));
 
         // Run the flow
         int exitCode = (int) await Run(args[0]);
+        await File.WriteAllTextAsync(Program.LoggingFile, "Exit Code: " + exitCode);
         Console.WriteLine("Exit Code: " + exitCode);
 
         // Stop the heartbeat timer when done
