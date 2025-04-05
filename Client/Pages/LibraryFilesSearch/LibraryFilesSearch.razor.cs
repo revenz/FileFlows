@@ -50,7 +50,6 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
             new() { Value = FileStatus.Processed, Label = Translater.Instant("Enums.FileStatus.Processed") },
             new() { Value = FileStatus.Processing, Label = Translater.Instant("Enums.FileStatus.Processing") },
             new() { Value = FileStatus.Unprocessed, Label = Translater.Instant("Enums.FileStatus.Unprocessed") },
-            new() { Value = FileStatus.FlowNotFound, Label = Translater.Instant("Enums.FileStatus.FlowNotFound") },
             new()
             {
                 Value = FileStatus.ProcessingFailed, Label = Translater.Instant("Enums.FileStatus.ProcessingFailed")

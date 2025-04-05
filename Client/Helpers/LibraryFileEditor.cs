@@ -151,7 +151,7 @@ public class LibraryFileEditor
             var additionalButtons = new ActionButton[]
             {
                 model.Status is FileStatus.Processed 
-                    or FileStatus.ProcessingFailed or FileStatus.FlowNotFound
+                    or FileStatus.ProcessingFailed 
                     || model.Additional?.Reprocessing == true
                     ? new()
                     {

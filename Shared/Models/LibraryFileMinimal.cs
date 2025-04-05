@@ -137,7 +137,7 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
             Date = file.Status == FileStatus.Unprocessed
                 ?
                 file.HoldUntil > DateTime.UtcNow ? file.HoldUntil : file.DateCreated
-                : file.Status is FileStatus.Processed or FileStatus.ProcessingFailed or FileStatus.FlowNotFound
+                : file.Status is FileStatus.Processed or FileStatus.ProcessingFailed
                     ? file.ProcessingEnded
                     : file.DateCreated,
             Extension = file.IsDirectory ? null : FileHelper.GetExtension(file.OutputPath?.EmptyAsNull() ?? file.Name),

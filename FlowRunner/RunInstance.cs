@@ -130,7 +130,8 @@ public class RunInstance(RunnerProperties properties)
         if (properties.StartingFlow == null || properties.StartingFlow.Uid == Guid.Empty)
         {
             LogInfo("Flow not found, cannot process file: " + workingFile);
-            return (FileStatus.FlowNotFound, false);
+            properties.LibraryFile.FailureReason = "Flow not found";
+            return (FileStatus.ProcessingFailed, false);
         }
         LogInfo("Flow: " + properties.StartingFlow.Name);
         // update the library file to reference the updated flow (if changed)

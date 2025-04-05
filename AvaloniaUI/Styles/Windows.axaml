@@ -54,6 +54,10 @@
         <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorder}" />
     </Style>
 
+    <Style Selector="Button.btnIcon">
+        <Setter Property="Background" Value="{DynamicResource DisabledBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource DisabledForeground}" />
+    </Style>
     
     
     <Style Selector="Window.messagebox" >

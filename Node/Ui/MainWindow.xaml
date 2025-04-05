@@ -19,8 +19,11 @@
                
                 <TextBlock Margin="0 20 0 2" Name="tbServerUrl">Server</TextBlock>
                 <Grid ColumnDefinitions="*, Auto">
-                    <TextBox Name="txtServerUrl" IsEnabled="False" Text="{Binding ServerUrl}" VerticalAlignment="Center"/>
-                    <Button Classes="btnIcon" Grid.Column="1" Click="Settings_OnClick" VerticalAlignment="Center" Margin="5 0 0 0 ">
+                    <TextBox Name="txtServerUrl" IsEnabled="False" 
+                             Text="{Binding ServerUrl}" VerticalAlignment="Center"/>
+                    <Button Classes="btnIcon" Grid.Column="1" Click="Settings_OnClick" VerticalAlignment="Center"
+                            Height="{Binding ActualHeight, ElementName=txtServerUrl}" 
+                            Margin="5 0 0 0 " Padding="11">
                         <Image Stretch="Fill" Width="16" Height="16" Source="avares://FileFlows.AvaloniaUI/Resources/config.png" />
                     </Button>
                 </Grid>
