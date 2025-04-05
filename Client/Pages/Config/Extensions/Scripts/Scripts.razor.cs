@@ -22,8 +22,6 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
     private string TableIdentifier => "Scripts-" + this.SelectedType;
     
     private FlowSkyBox<ScriptType> Skybox;
-
-    private Script EditingItem = null;
     [Inject] public IJSRuntime jsRuntime { get; set; }
     
     private List<Script> DataFlow = new();
@@ -126,6 +124,8 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
                 Toast.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
+
+            await Task.Delay(500); // give change for script to get updated in list
 
             return true;
         }

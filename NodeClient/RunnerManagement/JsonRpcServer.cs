@@ -75,11 +75,10 @@ public class JsonRpcServer : IDisposable
 
                 try
                 {
-                    server = OperatingSystem.IsLinux() ? new NamedPipeServerStream(PipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte)
-                            : new NamedPipeServerStream(
+                    server = new NamedPipeServerStream(
                                 PipeName,
                                 PipeDirection.InOut,
-                                1,                           // Max allowed server instances
+                                1, // Max allowed server instances
                                 PipeTransmissionMode.Byte,  // Use Byte for raw data
                                 PipeOptions.Asynchronous,
                                 1024 * 1024,  // 1MB in-buffer size

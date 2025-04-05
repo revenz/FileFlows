@@ -19,20 +19,25 @@ public partial class Scripts
     /// <returns>the result of the edit</returns>
     public override async Task<bool> Edit(Script item)
     {
-        this.EditingItem = item;
+        if (item.Uid != Guid.Empty)
+        {
+            // load the complete DockerMod
+            Blocker.Show();
+            var dmResult = await HttpHelper.Get<Script>($"{ApiUrl}/{item.Uid}");
+            Blocker.Hide();
+
+            if (dmResult.Success == false || dmResult.Data == null)
+            {
+                ShowEditHttpError(dmResult, "Script not found");
+                return false;
+            }
+
+            item = dmResult.Data;
+        }
         
-        // clone the object so the editor doesnt modify the in memory object
-        var toEdit = new Script();
-        CopyInto(item, toEdit);
         
         var editor = new ScriptEditor(Editor, ScriptImporter, saveCallback: Save);
-        var result = await editor.Open(toEdit);
-
-        if (result)
-        {
-            // copy the modified stuff back into the source
-            CopyInto(toEdit, item);
-        }
+        await editor.Open(item);
         
         return false;
     }
