@@ -45,7 +45,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     private Guid? SelectedNode, SelectedLibrary, SelectedFlow, SelectedTag;
     private FilesSortBy? SelectedSortBy;
 
-    private string lblSearch, lblDeleteSwitch, lblReprocessByFlow, lblSortBy, lblNode, lblFlow, lblLibrary, lblTag;
+    private string lblSearch, lblDeleteSwitch, lblForcedProcessing, lblReprocessByFlow, lblSortBy, lblNode, lblFlow, lblLibrary, lblTag;
 
     private string TableIdentifier => "LibraryFiles_" + this.SelectedStatus; 
 
@@ -104,6 +104,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         await base.OnInitializedAsync();
         
         this.SelectedStatus = FileFlows.Shared.Models.FileStatus.Unprocessed;
+        lblForcedProcessing = Translater.Instant("Labels.ForceProcessing");
         lblReprocessByFlow = Translater.Instant("Enums.FileStatus.ReprocessByFlow");
         lblLibraryFiles = Translater.Instant("Pages.LibraryFiles.Title");
         lblFileFlowsServer = Translater.Instant("Pages.Nodes.Labels.FileFlowsServer");

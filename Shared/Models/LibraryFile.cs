@@ -234,11 +234,11 @@ public class LibraryFile : FileFlowObject
         get
         {
             if (Status == FileStatus.Unprocessed)
-                return new TimeSpan();
+                return TimeSpan.Zero;
             if (Status == FileStatus.Processing)
                 return DateTime.UtcNow.Subtract(ProcessingStarted);
             if (ProcessingEnded < new DateTime(2000, 1, 1))
-                return new TimeSpan();
+                return TimeSpan.Zero;
             return ProcessingEnded.Subtract(ProcessingStarted);
         }
     }

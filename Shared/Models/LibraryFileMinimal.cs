@@ -42,6 +42,11 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
     /// </summary>
     [JsonPropertyName("l")]
     public string LibraryName { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the output path of the final file
+    /// </summary>
+    public string? OutputPath { get; set; }
 
     /// <summary>
     /// Gets or sets the original size of the file
@@ -53,6 +58,12 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
     /// </summary>
     [JsonPropertyName("fs")]
     public long FinalSize { get; set; }
+
+    /// <summary>
+    /// Gets the total processing time of the flow
+    /// </summary>
+    [JsonPropertyName("pt")]
+    public TimeSpan ProcessingTime { get; set; }
     
     /// <summary>
     /// Gets the savings
@@ -92,6 +103,16 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
     /// </summary>
     [JsonPropertyName("f")]
     public LibraryFileMinimalFlag Flags { get; set; }
+    // /// <summary>
+    // /// Gets or sets the file drop email if this is a file drop file
+    // /// </summary>
+    // [JsonPropertyName("fde")]
+    // public string? FileDropEmail { get; set; }
+    // /// <summary>
+    // /// Gets or sets the file drop short name if this is a file drop file
+    // /// </summary>
+    // [JsonPropertyName("fdsn")]
+    // public string? FileDropShortName { get; set; }
 
     /// <summary>
     /// Implicitly converts a <see cref="LibraryFile"/> to a <see cref="LibraryFileMinimal"/>.
@@ -112,6 +133,7 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
             NodeName = file.NodeName,
             Tags = file.Tags,
             Flags = LibraryFileMinimalFlag.None,
+            ProcessingTime = file.ProcessingTime,
             Date = file.Status == FileStatus.Unprocessed
                 ?
                 file.HoldUntil > DateTime.UtcNow ? file.HoldUntil : file.DateCreated
@@ -122,11 +144,22 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
             DisplayName = file.Additional?.DisplayName?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.Name,
         };
 
+        if (file.IsForcedProcessing)
+            lfm.Flags |= LibraryFileMinimalFlag.ForcedProcessing;
+
+        if (file.Additional.FileDropFlowUid != null && file.Additional.FileDropFlowUid != Guid.Empty)
+        {
+            lfm.Flags |= LibraryFileMinimalFlag.FileDropFile;
+        }
+
         if (file.Additional?.Reprocessing == true)
         {
             lfm.Flags |= LibraryFileMinimalFlag.ReprocessingByFlow;
             lfm.NodeName = file.ProcessOnNodeUid.ToString();
         }
+
+        if (file.Status == FileStatus.Processed && file.Name!= file.OutputPath)
+            lfm.OutputPath = file.OutputPath;
 
         return lfm;
     }
@@ -143,9 +176,17 @@ public enum LibraryFileMinimalFlag
     /// </summary>
     None = 0,
     /// <summary>
+    /// If the file has been forced processing
+    /// </summary>
+    ForcedProcessing = 1,
+    /// <summary>
     /// If the file is marked for reprocessing by a flow
     /// </summary>
-    ReprocessingByFlow = 1
+    ReprocessingByFlow = 2,
+    /// <summary>
+    /// If this is a file drop file
+    /// </summary>
+    FileDropFile = 4
 }
 
 /// <summary>
@@ -214,12 +255,6 @@ public class ProcessingLibraryFile : LibraryFileMinimal
     [JsonPropertyName("sa")]
     public DateTime StartedAt { get; set; }
 
-    /// <summary>
-    /// Gets the total processing time of the flow
-    /// </summary>
-    [JsonPropertyName("pt")]
-    public TimeSpan ProcessingTime => StartedAt > new DateTime(2000, 1, 1) ? DateTime.UtcNow.Subtract(StartedAt) : new TimeSpan();
-    
     /// <summary>
     /// Gets or sets a special variable for frames per second
     /// </summary>

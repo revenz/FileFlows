@@ -105,27 +105,27 @@
                         </span>
                         <div class="center">
                             <span class="name">
-                                @* @if (item.FileDropFile) *@
+                                @* @if ((item.Flags & LibraryFileMinimalFlag.FileDropFile) == LibraryFileMinimalFlag.FileDropFile) *@
                                 @* { *@
                                 @*     <span class="name-actual">@item.FileDropEmail</span> *@
                                 @*     <span class="shortnameactual">@item.FileDropShortName</span> *@
                                 @* } *@
                                 @* else *@
-                                @{
-                                    <span class="name-actual">@item.DisplayName</span>
-                                }
-                                @* @if (SelectedStatus == FileStatus.Processed && string.IsNullOrWhiteSpace(item.OutputPath) == false && item.OutputPath != item.Name) *@
                                 @* { *@
-                                @*     <span class="output-path">@item.OutputPath</span> *@
+                                    <span class="name-actual">@item.DisplayName</span>
                                 @* } *@
+                                @if (SelectedStatus == FileStatus.Processed && string.IsNullOrWhiteSpace(item.OutputPath) == false)
+                                {
+                                    <span class="output-path">@item.OutputPath</span>
+                                }
                             </span>
 
                             <div class="info">
-                                @* @if (item.FileDropFile) *@
-                                @* { *@
-                                @*     <IconValue Color="IconValueColor.Pink" Icon="fas fa-tint" Value="FileDrop"/> *@
-                                @* } *@
-                                @* else if (string.IsNullOrWhiteSpace(item.LibraryName) == false) *@
+                                @if ((item.Flags & LibraryFileMinimalFlag.FileDropFile) == LibraryFileMinimalFlag.FileDropFile)
+                                {
+                                    <IconValue Color="IconValueColor.Pink" Icon="fas fa-tint" Value="FileDrop"/>
+                                }
+                                else if (string.IsNullOrWhiteSpace(item.LibraryName) == false)
                                 @if (string.IsNullOrWhiteSpace(item.LibraryName) == false)
                                 {
                                     <div class="icon-value green clickable" @onclick="() => SelectLibrary(item.LibraryName)">
@@ -164,27 +164,27 @@
                                         <span class="value">@(item.NodeName == "FileFlowsServer" ? lblFileFlowsServer : item.NodeName)</span>
                                     </div>
                                 }
-                                @* @if (item.Forced && SelectedStatus == FileStatus.Unprocessed) *@
-                                @* { *@
-                                @*     <div class="icon-value pink"> *@
-                                @*         <i class="fas fa-hammer"></i> *@
-                                @*         <span class="value">@lblForcedProcessing</span> *@
-                                @*     </div> *@
-                                @* } *@
-                                @* @if (item.ProcessingTime != null && SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed or FileStatus.OnHold) *@
-                                @* { *@
-                                @*     <div class="icon-value orange"> *@
-                                @*         <i class="fas fa-clock"></i> *@
-                                @*         @if (SelectedStatus == FileStatus.OnHold) *@
-                                @*         { *@
-                                @*             <span class="value">@FormatHelper.HumanizeTime(item.ProcessingTime.Value)</span> *@
-                                @*         } *@
-                                @*         else *@
-                                @*         { *@
-                                @*             <span class="value">@($@"{item.ProcessingTime:hh\:mm\:ss}")</span> *@
-                                @*         } *@
-                                @*     </div> *@
-                                @* } *@
+                                @if (SelectedStatus == FileStatus.Unprocessed && (item.Flags & LibraryFileMinimalFlag.ForcedProcessing) == LibraryFileMinimalFlag.ForcedProcessing)
+                                {
+                                    <div class="icon-value pink">
+                                        <i class="fas fa-hammer"></i>
+                                        <span class="value">@lblForcedProcessing</span>
+                                    </div>
+                                }
+                                @if (item.ProcessingTime != TimeSpan.Zero && SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed or FileStatus.OnHold)
+                                {
+                                    <div class="icon-value orange">
+                                        <i class="fas fa-clock"></i>
+                                        @if (SelectedStatus == FileStatus.OnHold)
+                                        {
+                                            <span class="value">@FormatHelper.HumanizeTime(item.ProcessingTime)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="value">@($@"{item.ProcessingTime:hh\:mm\:ss}")</span>
+                                        }
+                                    </div>
+                                }
 
                                 @if (item.Tags?.Any() == true)
                                 {
