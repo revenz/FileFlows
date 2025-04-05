@@ -114,6 +114,7 @@ public class Program
         using JsonRpcClient jsonRpcClient = new ();
         try
         {
+            Log("Initializing JSON RPC Client");
             if(await jsonRpcClient.Initialize(pipeName) == false)
                 throw new Exception("Failed to initialize RPC Client");
             Log("Initialized JSON RPC Client");

@@ -56,26 +56,41 @@ public class JsonRpcClient : IDisposable
     {
         try
         {
+            Program.Log("JsonRpcClient.Initialize[0]");
             client = new NamedPipeClientStream(".", pipeName, PipeDirection.InOut);
+            Program.Log("JsonRpcClient.Initialize[1]");
             await client.ConnectAsync(10_000);
+            Program.Log("JsonRpcClient.Initialize[2]");
 
             reader = new StreamReader(client);
+            Program.Log("JsonRpcClient.Initialize[3]");
             writer = new StreamWriter(client) { AutoFlush = true };
+            Program.Log("JsonRpcClient.Initialize[4]");
 
             // Start listening for incoming server messages
             listeningTask = Task.Run(ListenForServerMessages, cts.Token);
+            
+            Program.Log("JsonRpcClient.Initialize[5]");
 
             Basic = new(this);
+            
+            Program.Log("JsonRpcClient.Initialize[6]");
             Parameters = await Basic.GetRunnerParameters();
+            Program.Log("JsonRpcClient.Initialize[7]");
             LibraryFileHandler = new(this);
+            Program.Log("JsonRpcClient.Initialize[8]");
             RunnerInfo = new(this, Parameters.MaxFlowParts);
+            Program.Log("JsonRpcClient.Initialize[8]");
             Statistics = new(this);
+            Program.Log("JsonRpcClient.Initialize[10]");
             Cache = new(this);
+            Program.Log("JsonRpcClient.Initialize[11]");
 
             return true;
         }
         catch (Exception ex)
         {
+            Program.Log($"JsonRpcClient.Initialize: Error: {ex}");
             Logger.Instance.ELog("Failed connection to JSON RPC Client: " + ex);
             return false;
         }
