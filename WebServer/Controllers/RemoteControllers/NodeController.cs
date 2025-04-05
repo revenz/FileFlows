@@ -27,17 +27,6 @@ public class NodeController : BaseController
         if (node == null)
             return node;
 
-        if (string.IsNullOrEmpty(version) == false && node.Version != version)
-        {
-            node.Version = version;
-            node = await service.Update(node, await GetAuditDetails());
-        }
-        else
-        {
-            // this updates the "LastSeen"
-            await service.UpdateLastSeen(node.Uid);
-        }
-
         node.SignalrUrl = "flow";
         return node;
     }
@@ -55,17 +44,6 @@ public class NodeController : BaseController
         var node = await service.GetByUidAsync(uid);
         if (node == null)
             return node;
-
-        if (string.IsNullOrEmpty(version) == false && node.Version != version)
-        {
-            node.Version = version;
-            node = await service.Update(node, await GetAuditDetails());
-        }
-        else
-        {
-            // this updates the "LastSeen"
-            await service.UpdateLastSeen(node.Uid);
-        }
 
         node.SignalrUrl = "flow";
         return node;
