@@ -289,7 +289,7 @@ public class WebServerApp
         //});
 
         
-        app.MapHub<FlowHub>("/flow");
+        // app.MapHub<FlowHub>("/flow");
         app.MapHub<NodeHub>("/node");
 
         app.UseResponseCompression();

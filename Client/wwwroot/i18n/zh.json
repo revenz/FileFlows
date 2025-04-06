@@ -850,6 +850,7 @@
       "Weeks": "周"
     },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "配置已过时",
       "Disabled": "已禁用",
       "HigherPriorityNodeAvailable": "有更高优先级的节点",
       "Idle": "空闲",
@@ -859,6 +860,7 @@
       "OutOfSchedule": "超出计划",
       "Processing": "处理中",
       "RestrictedByLibrary": "受限于库",
+      "UpdatingConfiguration": "正在更新配置",
       "VersionMismatch": "版本不匹配"
     },
     "ProcessingOrder": {

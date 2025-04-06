@@ -850,6 +850,7 @@
       "Weeks": "Semanas"
     },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "Configuração desatualizada",
       "Disabled": "Desativado",
       "HigherPriorityNodeAvailable": "Nó de Prioridade Superior Disponível",
       "Idle": "Ocioso",
@@ -859,6 +860,7 @@
       "OutOfSchedule": "Fora do Horário",
       "Processing": "Processando",
       "RestrictedByLibrary": "Restringido pela Biblioteca",
+      "UpdatingConfiguration": "Atualizando Configuração",
       "VersionMismatch": "Incompatibilidade de Versão"
     },
     "ProcessingOrder": {

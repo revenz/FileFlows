@@ -53,6 +53,13 @@ public class SettingsManager
     /// <returns>the current configuration revision number</returns>
     public Task<int> GetCurrentConfigurationRevision()
         => Task.FromResult(Instance!.Revision);
+
+    /// <summary>
+    /// Gets the current configuration revision number
+    /// </summary>
+    /// <returns>the current configuration revision number</returns>
+    public static int CurrentConfigurationRevision
+        => Instance!.Revision;
     
     /// <summary>
     /// Increments the revision

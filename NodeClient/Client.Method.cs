@@ -34,6 +34,7 @@ public partial class Client
     public ProcessingNode? Node => _node;
     public Guid? NodeUid => _node?.Uid;
     private ClientParameters _parameters;
+    private bool _updatingConfiguration = false;
 
     private readonly SemaphoreSlim _configurationSemaphore = new SemaphoreSlim(1, 1);
 
@@ -70,7 +71,6 @@ public partial class Client
             return;
         }
 
-        bool updated = false;
         if (await _configurationSemaphore.WaitAsync(20_000) == false)
         {
             _logger.ILog($"{prefix} Failed to acquire configuration update semaphore within 20 seconds.");
@@ -78,6 +78,8 @@ public partial class Client
         }
         try
         {
+            _updatingConfiguration = true;
+            TriggerStatusUpdate();
             _logger.ILog($"{prefix} Updating configuration...");
             using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var cfg = await _connection.InvokeAsync<ConfigurationRevision>("GetConfiguration", cts2.Token);
@@ -86,7 +88,6 @@ public partial class Client
             {
                 await _configurationService.SaveConfiguration(cfg, _node);
                 _logger.ILog($"{prefix} Configuration updated");
-                updated = true;
             }
         }
         catch (Exception ex)
@@ -96,11 +97,11 @@ public partial class Client
         }
         finally
         {
+            _updatingConfiguration = false;
             _configurationSemaphore.Release();
         }
         
-        if(updated)
-            TriggerStatusUpdate();
+        TriggerStatusUpdate();
     }
 
     private void UpdateNode(ProcessingNode obj)
@@ -240,6 +241,7 @@ public partial class Client
                         NodeUid = _nodeUid,
                         ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
                         NodeVersion = Globals.Version,
+                        UpdatingConfiguration = _updatingConfiguration,
                         InstallingDockerMods = _InstallingDockerMods,
                         InstallingDockerMod = _InstallingDockerMods ? _InstallingDockerMod?.EmptyAsNull() : null,
                         Runners = _runnerManager.ActiveRunners.Where(x => x.Value.IsRunning && x.Value.Info.LibraryFile != null).ToDictionary(x => x.Key, x => x.Value.Info),

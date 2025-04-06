@@ -98,12 +98,8 @@ public class JsonRpcServer : IDisposable
                         if (cts.Token.IsCancellationRequested)
                             break; // Ensure exit when stopping
 
-                        Logger.Instance.ILog("JsonRpcClient: Waiting to read");
                         var requestJson = await reader.ReadLineAsync(cts.Token);
-                        Logger.Instance.ILog("JsonRpcClient: Read!");
                         if (requestJson == null) break;
-                        
-                        Logger.Instance.ILog("JsonRpcClient: Got Request: " + requestJson);
                         
                         if (requestJson == "Hello from client!")
                             continue;
@@ -113,12 +109,9 @@ public class JsonRpcServer : IDisposable
                             var request = JsonSerializer.Deserialize<RpcRequest>(requestJson);
                             if (request == null)
                             {
-                                
                                 Logger.Instance.ILog("JsonRpcClient: Failed to deserialize: " + requestJson);
                                 return;
                             }
-
-                            Logger.Instance.ILog("JsonRpcClient: Deserialize: " + request.Id + " : " + request.Method);
 
                             string responseJson;
                             if (await _client.AwaitConnection() == false)

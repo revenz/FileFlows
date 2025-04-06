@@ -850,6 +850,7 @@
       "Weeks": "週"
     },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "構成が古くなっています",
       "Disabled": "無効",
       "HigherPriorityNodeAvailable": "優先度の高いノードが利用可能です",
       "Idle": "アイドル",
@@ -859,6 +860,7 @@
       "OutOfSchedule": "スケジュール外",
       "Processing": "処理中",
       "RestrictedByLibrary": "ライブラリによって制限されています",
+      "UpdatingConfiguration": "構成を更新中",
       "VersionMismatch": "バージョン不一致"
     },
     "ProcessingOrder": {

@@ -42,25 +42,35 @@ public class ConfigurationService
             .OrderByDescending(x => int.TryParse(x.Name, out var value) ? value : 0)
             .FirstOrDefault();
         if (path == null)
+        {
+            Logger.Instance.ILog("ConfigurationService:LoadPreviousConfig: No previous configuration found");
             return;
-        
+        }
+
         try
         {
             string cfgFile = Path.Combine(path.FullName, "config.json");
+            Logger.Instance.ILog("ConfigurationService:LoadPreviousConfig: Try to load configuration: " + cfgFile);
             if (File.Exists(cfgFile) == false)
+            {
+                Logger.Instance.ILog("ConfigurationService:LoadPreviousConfig: Config file does not exist: " + cfgFile);
                 return;
+            }
 
             var cfgJson = Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1"
                 ? File.ReadAllText(cfgFile)
                 : ConfigEncrypter.DecryptConfig(cfgFile);
 
             CurrentConfig = JsonSerializer.Deserialize<ConfigurationRevision>(cfgJson);
-            Logger.Instance?.ILog("Loading configuration from disk: " + path.Name);
+            if(CurrentConfig == null)
+                Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Failed to deserialize configuration");
+            else
+                Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Loaded configuration from disk: " + CurrentConfig.Resources);
         }
         catch (Exception ex)
         {
             // Ignored
-            Logger.Instance?.WLog("Failed to load previous config: " + ex.Message);
+            Logger.Instance?.WLog("ConfigurationService:LoadPreviousConfig: Failed to load previous config: " + ex.Message);
             path.Delete(true);
         }
     }

@@ -850,6 +850,7 @@
       "Weeks": "Weeken"
     },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "Configuratie verouderd",
       "Disabled": "Uitgeschakeld",
       "HigherPriorityNodeAvailable": "Knooppunt met hogere prioriteit beschikbaar",
       "Idle": "Inactief",
@@ -859,6 +860,7 @@
       "OutOfSchedule": "Buiten Schema",
       "Processing": "Bezig Met Verwerken",
       "RestrictedByLibrary": "Beperkt door bibliotheek",
+      "UpdatingConfiguration": "Configuratie Wordt Bijgewerkt",
       "VersionMismatch": "Versie Mismatch"
     },
     "ProcessingOrder": {

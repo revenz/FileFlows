@@ -850,6 +850,7 @@
       "Weeks": "주"
     },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "구성이 오래되었습니다",
       "Disabled": "비활성화됨",
       "HigherPriorityNodeAvailable": "더 높은 우선순위 노드 사용 가능",
       "Idle": "대기 중",
@@ -859,6 +860,7 @@
       "OutOfSchedule": "일정 밖",
       "Processing": "처리 중",
       "RestrictedByLibrary": "라이브러리에 의해 제한됨",
+      "UpdatingConfiguration": "구성 업데이트 중",
       "VersionMismatch": "버전 불일치"
     },
     "ProcessingOrder": {

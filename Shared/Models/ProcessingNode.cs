@@ -266,5 +266,13 @@ public enum ProcessingNodeStatus
     /// <summary>
     /// Restricted for processing by library
     /// </summary>
-    RestrictedByLibrary = 9
+    RestrictedByLibrary = 9,
+    /// <summary>
+    /// When the server and node configuration versions dont match
+    /// </summary>
+    ConfigurationMismatch = 10,
+    /// <summary>
+    /// When the configuration is being updated
+    /// </summary>
+    UpdatingConfiguration = 11
 }

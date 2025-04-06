@@ -850,6 +850,7 @@
       "Weeks": "Veckor"
     },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "Konfigurationen är föråldrad",
       "Disabled": "Inaktiverad",
       "HigherPriorityNodeAvailable": "Högre prioriterad nod tillgänglig",
       "Idle": "Vila",
@@ -859,6 +860,7 @@
       "OutOfSchedule": "Utanför schemat",
       "Processing": "Bearbetar",
       "RestrictedByLibrary": "Begränsad av bibliotek",
+      "UpdatingConfiguration": "Uppdaterar Konfiguration",
       "VersionMismatch": "Versionskonflikt"
     },
     "ProcessingOrder": {

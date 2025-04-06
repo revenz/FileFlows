@@ -850,6 +850,7 @@
       "Weeks": "Недели"
     },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "Конфигурация устарела",
       "Disabled": "Отключено",
       "HigherPriorityNodeAvailable": "Доступен узел с более высоким приоритетом",
       "Idle": "Бездействует",
@@ -859,6 +860,7 @@
       "OutOfSchedule": "Вне расписания",
       "Processing": "Обрабатывается",
       "RestrictedByLibrary": "Ограничено библиотекой",
+      "UpdatingConfiguration": "Обновление Конфигурации",
       "VersionMismatch": "Несоответствие версии"
     },
     "ProcessingOrder": {
