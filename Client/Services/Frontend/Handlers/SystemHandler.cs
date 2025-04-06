@@ -38,6 +38,8 @@ public class SystemHandler(FrontendService feService)
     /// <param name="data">the initial client data</param>
     public void Initialize(InitialClientData data)
     {
+        UpdatePending = data.PendingUpdate;
+        
         feService.Registry.Register<bool>("UpdatePending", (ed) =>
         {
             Console.WriteLine("#### UPDATE PENDING!!!");

@@ -38,6 +38,8 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
     protected override void BroadcastUprading(bool pending)
     {
         var broker = ServiceLoader.Load<SseEventBroker>();
+        if (pending)
+            broker.PendingUpdate = true;
         _ = broker.BroadcastEvent(pending ? "UpdatePending" : "Upgrading", true);
         Task.Delay(1000); // time to send it
     }

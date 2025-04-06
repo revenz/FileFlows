@@ -197,4 +197,10 @@ public class InitialClientData
     /// </summary>
     [JsonPropertyName("sr")]
     public List<ScheduledReport> ScheduledReports { get; set; }
+
+    /// <summary>
+    /// Gets or sets if an update is pending
+    /// </summary>
+    [JsonPropertyName("pu")]
+    public bool PendingUpdate { get; set; }
 }

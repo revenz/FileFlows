@@ -55,6 +55,7 @@ public class SseController : Controller
                 if (HttpContext.RequestAborted.IsCancellationRequested)
                     return; // in case it took too long and the request was closed while waiting
 
+                data.PendingUpdate = _broker.PendingUpdate;
                 var message = SseEventBroker.GetMessage("id", data);
                 
                 await writer.WriteLineAsync(message);
