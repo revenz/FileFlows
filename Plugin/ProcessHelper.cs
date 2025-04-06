@@ -297,47 +297,65 @@ public class ProcessHelper : IProcessHelper
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             
+            CancellationTokenSource? timeoutCts = null;
+            CancellationTokenSource linkedCts;
             
-            using var timeoutCts = new CancellationTokenSource(args.Timeout * 1000);
-            using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(_cancellationToken, timeoutCts.Token);
-
-            var cancellationTask = Task.Delay(Timeout.Infinite, linkedCts.Token);
-
-            var completedTask = await Task.WhenAny(tcs.Task, cancellationTask);
-            if (completedTask == tcs.Task)
+            if (args.Timeout > 0)
             {
-                // ⬇️ Ensure all output has finished being read
-                await process.WaitForExitAsync();
-                process.CancelOutputRead();
-                process.CancelErrorRead();
-                
-                result.Completed = true;
-                result.ExitCode = process.ExitCode;
-                result.StandardError = errorBuilder.ToString();
-                result.StandardOutput = standardOutputBuilder.ToString();
-                result.Output = outputBuilder.ToString();
-                if (string.IsNullOrEmpty(result.Output))
-                    result.Output = result.StandardError;
+                timeoutCts = new CancellationTokenSource(args.Timeout * 1000);
+                linkedCts = CancellationTokenSource.CreateLinkedTokenSource(_cancellationToken, timeoutCts.Token);
             }
             else
             {
-                try
-                {
-                    if (!process.HasExited)
-                    {
-                        process.Kill(entireProcessTree: true); // Kill the process and any children
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.WLog("Error killing process: " + ex.Message);
-                }
-                
-                result.StandardError = errorBuilder.ToString();
-                result.StandardOutput = standardOutputBuilder.ToString();
-                result.Output = result.StandardOutput?.EmptyAsNull() ?? result.StandardError;
+                linkedCts = CancellationTokenSource.CreateLinkedTokenSource(_cancellationToken);
             }
-            
+
+
+            try
+            {
+                var cancellationTask = Task.Delay(Timeout.Infinite, linkedCts.Token);
+
+                var completedTask = await Task.WhenAny(tcs.Task, cancellationTask);
+                if (completedTask == tcs.Task)
+                {
+                    // ⬇️ Ensure all output has finished being read
+                    await process.WaitForExitAsync();
+                    process.CancelOutputRead();
+                    process.CancelErrorRead();
+
+                    result.Completed = true;
+                    result.ExitCode = process.ExitCode;
+                    result.StandardError = errorBuilder.ToString();
+                    result.StandardOutput = standardOutputBuilder.ToString();
+                    result.Output = outputBuilder.ToString();
+                    if (string.IsNullOrEmpty(result.Output))
+                        result.Output = result.StandardError;
+                }
+                else
+                {
+                    try
+                    {
+                        if (!process.HasExited)
+                        {
+                            process.Kill(entireProcessTree: true); // Kill the process and any children
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.WLog("Error killing process: " + ex.Message);
+                    }
+
+                    result.StandardError = errorBuilder.ToString();
+                    result.StandardOutput = standardOutputBuilder.ToString();
+                    result.Output = result.StandardOutput?.EmptyAsNull() ?? result.StandardError;
+                }
+            }
+            finally
+            {
+                timeoutCts?.Dispose();
+                linkedCts?.Dispose();
+            }
+
         }
         process = null;
         return result;
