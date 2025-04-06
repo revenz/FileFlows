@@ -34,7 +34,9 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
         lblRefresh = Translater.Instant("Labels.Refresh");
         lblTitle = Translater.Instant("Pages.Nodes.Title");
 
-        Data = feService.Node.NodeStatusSummaries.OrderBy(x => x.Enabled ? 0 : 1)
+        Data = feService.Node.NodeStatusSummaries
+            .OrderBy(x => x.Status is ProcessingNodeStatus.Offline ? 1 : 0)
+            .ThenByDescending(x => x.Enabled ? 0 : 1)
             .ThenByDescending(x => x.Priority)
             .ThenBy(x => x.Name.ToLowerInvariant())
             .ToList();
@@ -53,7 +55,9 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
             {
                 int index = initialSortOrder.IndexOf(x.Uid);
                 return index >= 0 ? index : int.MaxValue;
-            }).ThenBy(x => x.Enabled ? 0 : 1)
+            })
+            .ThenBy(x => x.Status is ProcessingNodeStatus.Offline ? 1 : 0)
+            .ThenBy(x => x.Enabled ? 0 : 1)
             .ThenByDescending(x => x.Priority)
             .ThenBy(x => x.Name.ToLowerInvariant())
             .ToList();
