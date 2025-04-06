@@ -52,7 +52,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     protected override async Task OnInitializedAsync()
     {
         lblAborting = Translater.Instant("Labels.Aborting");
-        Runners = feService.Files.Processing;
+        Runners = feService.Files.Processing.OrderBy(x => x.StartedAt).ToList();
         if(Runners.Count == 0)
             await NoneOnLoad.InvokeAsync();
         feService.Files.ProcessingUpdated += OnProcessingUpdated;
@@ -73,7 +73,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// <param name="obj">the updated executors</param>
     private void OnProcessingUpdated(List<ProcessingLibraryFile> obj)
     {
-        Runners = obj ?? new();
+        Runners = obj.OrderBy(x => x.StartedAt).ToList();
         // remove the RunnersState that are no longer in the list
         // do not add the runners that arent in the list to the list
         RunnersState = RunnersState.Where(x => Runners.Any(y => y.Uid == x.Key))
