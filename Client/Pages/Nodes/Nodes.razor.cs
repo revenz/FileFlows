@@ -36,7 +36,7 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
 
         Data = feService.Node.NodeStatusSummaries
             .OrderBy(x => x.Status is ProcessingNodeStatus.Offline ? 1 : 0)
-            .ThenByDescending(x => x.Enabled ? 0 : 1)
+            .ThenBy(x => x.Enabled ? 0 : 1)
             .ThenByDescending(x => x.Priority)
             .ThenBy(x => x.Name.ToLowerInvariant())
             .ToList();
