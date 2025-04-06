@@ -29,8 +29,8 @@
   left: var(--left);
   transform-origin: left;
   
-  &.hidden  {
-    display: none;
+  &.invisible  {
+    visibility: hidden;
   }
 
   li.separator {

@@ -3,7 +3,7 @@
 <div class="@CssClass" @oncontextmenu="@ShowContextMenu" @oncontextmenu:preventDefault @oncontextmenu:stopPropagation>
     @ChildContent
     
-    <ul class="flow-contextmenu @(Visible ? "" : "hidden")" style="left:@(xPos)px;top: @(yPos)px" @ref="menuRef">
+    <ul class="flow-contextmenu @(Visible ? "" : "invisible")" style="left:@(xPos)px;top: @(yPos)px" @ref="menuRef">
     @{
         bool previousSeparator = false;
         @foreach (var item in Items)
