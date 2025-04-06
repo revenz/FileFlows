@@ -173,7 +173,6 @@ public class ProcessHelper : IProcessHelper
     private ExecuteArgs Args;
 
     private StringBuilder outputBuilder, errorBuilder;
-    private TaskCompletionSource<bool> outputCloseEvent, errorCloseEvent;
 
     private bool Fake;
     private CancellationToken _cancellationToken;
@@ -263,14 +262,17 @@ public class ProcessHelper : IProcessHelper
                 Logger?.ILog(new string('-', 70));
             }
 
-            outputBuilder = new StringBuilder();
-            outputCloseEvent = new TaskCompletionSource<bool>();
+            var tcs = new TaskCompletionSource<int>();
 
+            process.Exited += (s, e) =>
+            {
+                tcs.TrySetResult(process.ExitCode);
+            };
+            
+            outputBuilder = new StringBuilder();
             process.OutputDataReceived += OnOutputDataReceived;
 
             errorBuilder = new StringBuilder();
-            errorCloseEvent = new TaskCompletionSource<bool>();
-
             process.ErrorDataReceived += OnErrorDataReceived;
 
             bool isStarted;
@@ -283,45 +285,52 @@ public class ProcessHelper : IProcessHelper
                 result.Completed = true;
                 result.ExitCode = -1;
                 result.Output = error.Message;
-                isStarted = false;
+                return result;
             }
 
-            if (isStarted)
+            if (isStarted == false)
+                return result;
+
+            
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            
+            
+            using var timeoutCts = new CancellationTokenSource(args.Timeout * 1000);
+            using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(_cancellationToken, timeoutCts.Token);
+
+            var cancellationTask = Task.Delay(Timeout.Infinite, linkedCts.Token);
+
+            var completedTask = await Task.WhenAny(tcs.Task, cancellationTask);
+            if (completedTask == tcs.Task)
             {
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-                var timeoutMilliseconds = args.Timeout * 1000;
-
-                var waitForExit = WaitForExitAsync(process, timeoutMilliseconds, _cancellationToken);
-                var processTask = Task.WhenAll(waitForExit, outputCloseEvent.Task, errorCloseEvent.Task);
-                
-                if ((args.Timeout > 0 && await Task.WhenAny(Task.Delay(timeoutMilliseconds, _cancellationToken), processTask) == processTask) ||
-                    (args.Timeout == 0 && waitForExit.Result))
-                {
-                    result.Completed = true;
-                    result.ExitCode = process.ExitCode;
-                    result.StandardError = errorBuilder.ToString();
-                    result.StandardOutput = outputBuilder.ToString();
-                    result.Output = process.ExitCode != 0 ? $"{outputBuilder}{errorBuilder}" : outputBuilder.ToString();
-                    if (string.IsNullOrEmpty(result.Output))
-                        result.Output = result.StandardError;
-                }
-                else
-                {
-                    try
-                    {
-                        if (!_cancellationToken.IsCancellationRequested)
-                            process.Kill();
-                        result.StandardError = errorBuilder.ToString();
-                        result.StandardOutput = outputBuilder.ToString();
-                        result.Output = result.StandardOutput?.EmptyAsNull() ?? result.StandardError;
-                    }
-                    catch
-                    {
-                        // Ignored
-                    }
-                }
+                result.Completed = true;
+                result.ExitCode = process.ExitCode;
+                result.StandardError = errorBuilder.ToString();
+                result.StandardOutput = outputBuilder.ToString();
+                result.Output = process.ExitCode != 0 ? $"{outputBuilder}{errorBuilder}" : outputBuilder.ToString();
+                if (string.IsNullOrEmpty(result.Output))
+                    result.Output = result.StandardError;
             }
+            else
+            {
+                try
+                {
+                    if (!process.HasExited)
+                    {
+                        process.Kill(entireProcessTree: true); // Kill the process and any children
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.WLog("Error killing process: " + ex.Message);
+                }
+                
+                result.StandardError = errorBuilder.ToString();
+                result.StandardOutput = outputBuilder.ToString();
+                result.Output = result.StandardOutput?.EmptyAsNull() ?? result.StandardError;
+            }
+            
         }
         process = null;
         return result;
@@ -338,7 +347,6 @@ public class ProcessHelper : IProcessHelper
     {
         if (e.Data == null)
         {
-            outputCloseEvent.SetResult(true);
         }
         else
         {
@@ -364,7 +372,6 @@ public class ProcessHelper : IProcessHelper
     {
         if (e.Data == null)
         {
-            errorCloseEvent.SetResult(true);
         }
         else
         {
