@@ -66,6 +66,21 @@ window.ff = {
         else
             ff.open(url);        
     },
+    getViewportSize: () => {
+        return {
+            width: window.innerWidth,
+            height: window.innerHeight
+        };
+    },
+    getElementSize: (element) => {
+        if (!element)
+            return null;
+        const rect = element.getBoundingClientRect();
+        return {
+            width: rect.width,
+            height: rect.height
+        };
+    },
     log: function (level, parameters) {
 
         if (!parameters || parameters.length === 0)

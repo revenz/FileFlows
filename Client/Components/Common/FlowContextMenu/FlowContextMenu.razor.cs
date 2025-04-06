@@ -1,8 +1,6 @@
-using System.Threading;
-using BlazorMonaco;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using NPoco.Expressions;
+using Microsoft.JSInterop;
 
 namespace FileFlows.Client.Components.Common;
 
@@ -36,9 +34,12 @@ public partial class FlowContextMenu : IDisposable
     /// Gets or sets an event that is shown just prior to opening a context menu
     /// </summary>
     [Parameter] public EventCallback PreShow { get; set; }
+    
+    private ElementReference menuRef;
+
 
     private double xPos, yPos;
-
+    [Inject] IJSRuntime jsRuntime { get; set; }
     protected override void OnInitialized()
     {
         App.Instance.OnDocumentClick += OnDocumentClick;
@@ -48,13 +49,6 @@ public partial class FlowContextMenu : IDisposable
     public void SetItems(List<FlowContextMenuItem> items)
     {
         Items = items ?? new();
-    }
-
-    public void ShowAt(int xPos, int yPos)
-    {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.Visible = true;
     }
 
     void Clicked(FlowContextMenuItem item)
@@ -68,10 +62,11 @@ public partial class FlowContextMenu : IDisposable
         await this.PreShow.InvokeAsync();
         if (this.Items?.Any() != true)
             return;
-        
-        this.xPos = e.ClientX;
-        this.yPos = e.ClientY;
-        this.Visible = true;
+
+        await ShowAt(e.ClientX, e.ClientY);
+        // this.xPos = e.ClientX;
+        // this.yPos = e.ClientY;
+        // this.Visible = true;
     }
 
     public void Dispose()
@@ -90,6 +85,42 @@ public partial class FlowContextMenu : IDisposable
         Visible = false;
         StateHasChanged();
     }
+
+    async Task ShowAt(double xPos, double yPos)
+    {
+        this.xPos = xPos;
+        this.yPos = yPos;
+
+        await PreShow.InvokeAsync();
+
+        var viewport = await jsRuntime.InvokeAsync<Size>("ff.getViewportSize");
+        var menuSize = await jsRuntime.InvokeAsync<Size?>("ff.getElementSize", menuRef);
+
+        const int padding = 20;
+
+        if (menuSize != null)
+        {
+            if (xPos + menuSize.Width > viewport.Width - padding)
+                this.xPos = viewport.Width - menuSize.Width - padding;
+
+            if (yPos + menuSize.Height > viewport.Height - padding)
+                this.yPos = viewport.Height - menuSize.Height - padding;
+
+            // Clamp to keep on screen
+            this.xPos = Math.Max(padding, this.xPos);
+            this.yPos = Math.Max(padding, this.yPos);
+        }
+
+        Visible = true;
+        StateHasChanged();
+    }
+
+    public class Size
+    {
+        public double Width { get; set; }
+        public double Height { get; set; }
+    }
+
 }
 
 /// <summary>

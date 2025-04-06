@@ -1,5 +1,4 @@
-.flow-contextmenu
-{
+.flow-contextmenu {
   min-width: 14rem;
   padding: 0.5rem;
   --menu-border: rgba(255, 255, 255, 0.08);
@@ -23,7 +22,7 @@
   flex-direction: column;
   animation: menuAnimation 0.2s 0s both;
 
-  
+
   height: 0;
   position: fixed;
   top: var(--top);
@@ -31,17 +30,18 @@
   transform-origin: left;
 
   li.separator {
-    border-top: 1px solid var(--border-color);    
+    border-top: 1px solid var(--border-color);
   }
-  
+
   li:not(.separator) {
     padding: 4px;
 
     .icon {
       width: 1.5rem;
-      margin-right:0.5rem;
-      text-align: center;      
+      margin-right: 0.5rem;
+      text-align: center;
     }
+
     color: var(--item-color);
     background: 0;
     border: 0;
@@ -60,7 +60,7 @@
 
     .caret {
       position: absolute;
-      right:0.5rem;
+      right: 0.5rem;
     }
 
     &:hover {
