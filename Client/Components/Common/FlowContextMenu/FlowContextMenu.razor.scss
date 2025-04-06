@@ -28,6 +28,10 @@
   top: var(--top);
   left: var(--left);
   transform-origin: left;
+  
+  &.hidden  {
+    display: none;
+  }
 
   li.separator {
     border-top: 1px solid var(--border-color);

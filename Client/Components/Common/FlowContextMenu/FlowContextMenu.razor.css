@@ -24,6 +24,9 @@
   left: var(--left);
   transform-origin: left;
 }
+.flow-contextmenu.hidden {
+  display: none;
+}
 .flow-contextmenu li.separator {
   border-top: 1px solid var(--border-color);
 }
