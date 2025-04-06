@@ -85,6 +85,15 @@ public abstract class UpdaterWorker : Worker
     /// <returns>if false, no update will be checked for</returns>
     protected virtual bool PreCheck() => true;
     
+    
+    /// <summary>
+    /// Called when upgrading to allow broadcasting of the event
+    /// </summary>
+    /// <param name="pending">if the upgrade is pending a ready state</param>
+    protected virtual void BroadcastUprading(bool pending)
+    {
+    }
+
     /// <summary>
     /// Runs a check for update and if found will download it 
     /// </summary>
@@ -106,8 +115,7 @@ public abstract class UpdaterWorker : Worker
                 return false;
 
             UpdatePending = true;
-            if(ServiceLoader.TryLoad<IBrokerService>(out var broker))
-                broker.BroadcastEvent("UpdatePending", true);
+            BroadcastUprading(true);
             PrepareApplicationShutdown();
             Logger.ILog($"{UpdaterName}: Update pending installation");
             do
@@ -116,6 +124,8 @@ public abstract class UpdaterWorker : Worker
                 // sleep just in case something has just started
                 Thread.Sleep(10_000);
             } while (CanUpdate() == false);
+
+            BroadcastUprading(false);
 
             Logger.ILog($"{UpdaterName} - Update about to be installed");
             RunUpdateScript(updateScript);

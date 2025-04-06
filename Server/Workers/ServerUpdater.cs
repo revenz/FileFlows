@@ -34,6 +34,14 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
         base.Execute();
     }
 
+    /// <inheritdoc />
+    protected override void BroadcastUprading(bool pending)
+    {
+        var broker = ServiceLoader.Load<SseEventBroker>();
+        _ = broker.BroadcastEvent(pending ? "UpdatePending" : "Upgrading", true);
+        Task.Delay(1000); // time to send it
+    }
+
     /// <summary>
     /// Pre-check to run before executing
     /// </summary>
