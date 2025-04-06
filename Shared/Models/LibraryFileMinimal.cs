@@ -147,7 +147,7 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
         if (file.IsForcedProcessing)
             lfm.Flags |= LibraryFileMinimalFlag.ForcedProcessing;
 
-        if (file.Additional.FileDropFlowUid != null && file.Additional.FileDropFlowUid != Guid.Empty)
+        if (file.Additional?.FileDropFlowUid != null && file.Additional?.FileDropFlowUid != Guid.Empty)
         {
             lfm.Flags |= LibraryFileMinimalFlag.FileDropFile;
         }

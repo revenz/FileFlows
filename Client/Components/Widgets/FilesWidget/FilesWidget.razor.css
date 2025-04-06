@@ -42,7 +42,7 @@
   position: absolute;
   right: 0;
   padding: 0.5rem;
-  background: rgba(62, 62, 62, 0.2784313725);
+  background: rgb(48, 48, 48);
   width: fit-content;
 }
 .file-table-row.fm-0 .size {

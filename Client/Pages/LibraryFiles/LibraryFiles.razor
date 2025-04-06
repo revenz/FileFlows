@@ -202,7 +202,7 @@
                                 }
                             </div>
                         </div>
-                        @if (SelectedStatus != FileStatus.Processing)
+                        @if (SelectedStatus != FileStatus.OutOfSchedule && SelectedStatus != FileStatus.Processing)
                         {
                             <div class="right savings">
                                 @if (SelectedStatus == FileStatus.OnHold)
@@ -231,7 +231,7 @@
                                 }
                             </div>
                         }
-                        else
+                        else if(SelectedStatus is FileStatus.Processing)
                         {
                             <div class="right processing">
                                 @{

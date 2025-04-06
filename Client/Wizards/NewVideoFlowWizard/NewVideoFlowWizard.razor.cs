@@ -543,12 +543,12 @@ public partial class NewVideoFlowWizard
             case 2: // tv
                 builder.AddAndConnect(new FlowPart()
                 {
-                    FlowElementUid = FlowElementUids.TVShowLookup,
+                    FlowElementUid = FlowElementUids.TVEpisodeLookup,
                     Outputs = 2,
                     Type = FlowElementType.Logic,
                     Model = ExpandoHelper.ToExpandoObject(new
                     {
-                        UseFolderName = true
+                        UseFolderName = false
                     })
                 });
                 break;
