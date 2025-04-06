@@ -338,7 +338,7 @@ public class ProcessHelper : IProcessHelper
     {
         if (e.Data == null)
         {
-            //outputCloseEvent.SetResult(true);
+            outputCloseEvent.SetResult(true);
         }
         else
         {
@@ -364,7 +364,7 @@ public class ProcessHelper : IProcessHelper
     {
         if (e.Data == null)
         {
-            //errorCloseEvent.SetResult(true);
+            errorCloseEvent.SetResult(true);
         }
         else
         {
