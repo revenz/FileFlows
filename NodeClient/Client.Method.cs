@@ -238,6 +238,7 @@ public partial class Client
                 {
                     var info = new
                     {
+                        Name = _node.Name?.EmptyAsNull() ?? _hostname, 
                         NodeUid = _nodeUid,
                         ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
                         NodeVersion = Globals.Version,

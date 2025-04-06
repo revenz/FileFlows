@@ -70,7 +70,7 @@ public partial class NodeHub : Hub
             var configRevision = await ServiceLoader.Load<ISettingsService>().GetCurrentConfigurationRevision();
             if (info.ConfigRevision != configRevision)
             {
-                Logger.Instance.ILog($"Configuration out of date for node {info.Node.Name}, has {info.ConfigRevision}, expected {configRevision}");
+                Logger.Instance.ILog($"Configuration out of date for node {(info.Node?.Name?.EmptyAsNull() ?? info.Name?.EmptyAsNull() ?? info.NodeUid.ToString() ?? "unknown")}, has {info.ConfigRevision}, expected {configRevision}");
                 return NodeStatusUpdateResult.UpdateConfiguration;
             }
 
