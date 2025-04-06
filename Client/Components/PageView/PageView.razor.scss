@@ -4,6 +4,9 @@
   font-weight: var(--bold, 600);
   display: flex;
   align-items: center;
+  > i {
+    margin-right: 0.5rem;
+  }
 }
 .connection-lost
 {
@@ -15,7 +18,7 @@
 }
 .upgrading
 {
-  background: var(--warning);
+  background: var(--green);
 }
 
 .flow-tab-buttons {
