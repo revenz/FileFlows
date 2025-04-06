@@ -80,9 +80,13 @@
                             </span>
                             @if (FileMode == 0)
                             {
-                                <span class="size">
-                                    @FileSizeFormatter.FormatSize(file.FinalSize)
-                                </span>
+                                @if (file.FinalSize > 0)
+                                {
+                                    <span class="size">
+                                        @FileSizeFormatter.FormatSize(file.FinalSize)
+                                    </span>
+                                }
+
                                 @if (file.Traits?.Any() == true)
                                 {
                                     <div class="traits">
