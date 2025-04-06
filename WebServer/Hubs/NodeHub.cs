@@ -69,7 +69,11 @@ public partial class NodeHub : Hub
             _ = _nodeService.UpdateNodeStatusFromNode(info);
             var configRevision = await ServiceLoader.Load<ISettingsService>().GetCurrentConfigurationRevision();
             if (info.ConfigRevision != configRevision)
+            {
+                Logger.Instance.ILog($"Configuration out of date for node {info.Node.Name}, has {info.ConfigRevision}, expected {configRevision}");
                 return NodeStatusUpdateResult.UpdateConfiguration;
+            }
+
             return NodeStatusUpdateResult.Success;
         }
         catch (Exception ex)

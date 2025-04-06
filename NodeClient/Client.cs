@@ -59,6 +59,7 @@ public partial class Client : IDisposable
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         
         _configurationService = ServiceLoader.Load<ConfigurationService>();
+        _configurationService.LoadFromDisk();
         _hostname = parameters.Hostname;
         _runnerManager = ServiceLoader.Load<RunnerManager>();
         _runnerManager.RunnerUpdated += OnRunnerUpdated;

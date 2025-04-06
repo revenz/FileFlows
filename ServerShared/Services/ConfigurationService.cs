@@ -25,14 +25,9 @@ public class ConfigurationService
     bool CurrentConfigurationKeepFailedFlowFiles { get; set; }
 
     /// <summary>
-    /// Constructs a new instance of the configuration service
+    /// Loads the configuration from disk
     /// </summary>
-    public ConfigurationService()
-    {
-        LoadPreviousConfig();
-    }
-
-    void LoadPreviousConfig()
+    public void LoadFromDisk()
     {
         if (Directory.Exists(DirectoryHelper.ConfigDirectory) == false)
             return;
