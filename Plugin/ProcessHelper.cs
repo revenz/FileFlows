@@ -172,7 +172,7 @@ public class ProcessHelper : IProcessHelper
     private readonly ILogger Logger;
     private ExecuteArgs Args;
 
-    private StringBuilder outputBuilder, errorBuilder;
+    private StringBuilder standardOutputBuilder, errorBuilder, outputBuilder;
 
     private bool Fake;
     private CancellationToken _cancellationToken;
@@ -252,6 +252,7 @@ public class ProcessHelper : IProcessHelper
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.CreateNoWindow = true;
+            process.EnableRaisingEvents = true;
 
             if (!args.Silent)
             {
@@ -268,11 +269,12 @@ public class ProcessHelper : IProcessHelper
             {
                 tcs.TrySetResult(process.ExitCode);
             };
-            
-            outputBuilder = new StringBuilder();
-            process.OutputDataReceived += OnOutputDataReceived;
 
-            errorBuilder = new StringBuilder();
+            outputBuilder = new();
+            standardOutputBuilder = new ();
+            errorBuilder = new ();
+            
+            process.OutputDataReceived += OnOutputDataReceived;
             process.ErrorDataReceived += OnErrorDataReceived;
 
             bool isStarted;
@@ -304,11 +306,16 @@ public class ProcessHelper : IProcessHelper
             var completedTask = await Task.WhenAny(tcs.Task, cancellationTask);
             if (completedTask == tcs.Task)
             {
+                // ⬇️ Ensure all output has finished being read
+                await process.WaitForExitAsync();
+                process.CancelOutputRead();
+                process.CancelErrorRead();
+                
                 result.Completed = true;
                 result.ExitCode = process.ExitCode;
                 result.StandardError = errorBuilder.ToString();
-                result.StandardOutput = outputBuilder.ToString();
-                result.Output = process.ExitCode != 0 ? $"{outputBuilder}{errorBuilder}" : outputBuilder.ToString();
+                result.StandardOutput = standardOutputBuilder.ToString();
+                result.Output = outputBuilder.ToString();
                 if (string.IsNullOrEmpty(result.Output))
                     result.Output = result.StandardError;
             }
@@ -327,7 +334,7 @@ public class ProcessHelper : IProcessHelper
                 }
                 
                 result.StandardError = errorBuilder.ToString();
-                result.StandardOutput = outputBuilder.ToString();
+                result.StandardOutput = standardOutputBuilder.ToString();
                 result.Output = result.StandardOutput?.EmptyAsNull() ?? result.StandardError;
             }
             
@@ -346,21 +353,20 @@ public class ProcessHelper : IProcessHelper
     private void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
     {
         if (e.Data == null)
+            return;
+        
+        string line = RemoveAnsiCodes(e.Data);
+        OnStandardOutputReceived?.Invoke(line);
+        Args?.OnStandardOutput(line);
+        if (ProcessLastOutputLine != line)
         {
+            if (Args?.Silent != true)
+                Logger?.Raw(line);
+            outputBuilder.AppendLine(line);
+            standardOutputBuilder.AppendLine(line);
         }
-        else
-        {
-            string line = RemoveAnsiCodes(e.Data);
-            OnStandardOutputReceived?.Invoke(line);
-            Args?.OnStandardOutput(line);
-            if (ProcessLastOutputLine != line)
-            {
-                if (Args?.Silent != true)
-                    Logger?.Raw(line);
-                outputBuilder.AppendLine(line);
-            }
-            ProcessLastOutputLine = line;
-        }
+        ProcessLastOutputLine = line;
+        
     }
 
     /// <summary>
@@ -371,21 +377,19 @@ public class ProcessHelper : IProcessHelper
     private void OnErrorDataReceived(object sender, DataReceivedEventArgs e)
     {
         if (e.Data == null)
+            return;
+    
+        string line = RemoveAnsiCodes(e.Data);
+        OnErrorOutputReceived?.Invoke(line);
+        Args?.OnErrorOutput(line);
+        if (ProcessLastOutputLine != line)
         {
+            if (Args?.Silent != true)
+                Logger?.Raw(line);
+            outputBuilder.AppendLine(line);
+            errorBuilder.AppendLine(line);
         }
-        else
-        {
-            string line = RemoveAnsiCodes(e.Data);
-            OnErrorOutputReceived?.Invoke(line);
-            Args?.OnErrorOutput(line);
-            if (ProcessLastOutputLine != line)
-            {
-                if (Args?.Silent != true)
-                    Logger?.Raw(line);
-                errorBuilder.AppendLine(line);
-            }
-            ProcessLastOutputLine = line;
-        }
+        ProcessLastOutputLine = line;
     }
 
     /// <summary>
