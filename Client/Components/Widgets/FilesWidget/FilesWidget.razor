@@ -74,7 +74,9 @@
                                 <span @onclick="() => OpenFile(file)">@file.DisplayName</span>
                             </span>
                             <span class="time">
-                                <span @onclick="() => OpenFile(file)">@(DateTime.UtcNow.Subtract(file.Date).Humanize())</span>
+                                <span @onclick="() => OpenFile(file)">
+                                    @DateString(file.Date)
+                                </span>
                             </span>
                             @if (FileMode == 0)
                             {
