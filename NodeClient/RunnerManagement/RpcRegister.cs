@@ -29,7 +29,6 @@ public class RpcRegister : RegisterHandler
         {
             while(ex.InnerException != null)
                 ex = ex.InnerException;
-            
             Logger.Instance.ELog($"Error invoking RPC Method '{request.Method}: {ex}");
             return JsonSerializer.Serialize(new { request.Id, Error = request.Method + ": " +  ex});
         }

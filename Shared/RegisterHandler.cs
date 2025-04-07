@@ -179,32 +179,48 @@ public abstract class RegisterHandler
     public async Task<object?> InvokeAsync(string name, params object[] parameters)
     {
         if (!_handlers.TryGetValue(name, out var handler))
-            throw new InvalidOperationException($"No handler registered for '{name}'");
-
-        switch (handler)
         {
-            case Func<string, Task<object>> stringFunc when parameters.Length == 1 && parameters[0] is string str:
-                return await stringFunc(str);
-            case Func<object> funct: return funct();
-            case Func<object[], Task<object>> objFunc:
-                return await objFunc(parameters);
-            case Func<Guid, Task<object>> guidFunc when parameters.Length == 1 && parameters[0] is string guidStr:
-                return await guidFunc(Guid.Parse(guidStr));
-            case Action<string> stringAction when parameters.Length == 1:
-                stringAction( parameters[0].ToString());
-                return null;
-            case Action<object[]> objAction:
-                objAction(parameters);
-                return null;
-            case Action<Guid> guidAction when parameters.Length == 1 && parameters[0] is string guidStr:
-                guidAction(Guid.Parse(guidStr));
-                return null;
+            Logger.Instance.WLog($"No handler registered for '{name}'");
+            throw new InvalidOperationException($"No handler registered for '{name}'");
         }
 
-        if (handler is Func<object[], Task> objArrayTask)
+        Logger.Instance.ILog($"Invoking hanlder '{name}'");
+        try
         {
-            await objArrayTask(parameters);
-            return null;
+            switch (handler)
+            {
+                case Func<string, Task<object>> stringFunc when parameters.Length == 1 && parameters[0] is string str:
+                    return await stringFunc(str);
+                case Func<object> funct: return funct();
+                case Func<object[], Task<object>> objFunc:
+                    return await objFunc(parameters);
+                case Func<Guid, Task<object>> guidFunc when parameters.Length == 1 && parameters[0] is string guidStr:
+                    return await guidFunc(Guid.Parse(guidStr));
+                case Action<string> stringAction when parameters.Length == 1:
+                    stringAction(parameters[0].ToString());
+                    return null;
+                case Action<object[]> objAction:
+                    objAction(parameters);
+                    return null;
+                case Action<Guid> guidAction when parameters.Length == 1 && parameters[0] is string guidStr:
+                    guidAction(Guid.Parse(guidStr));
+                    return null;
+            }
+
+            if (handler is Func<object[], Task> objArrayTask)
+            {
+                await objArrayTask(parameters);
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Instance.ELog($"Error invoking handler '{handler}': {ex}");
+            while (ex.InnerException != null)
+            {
+                ex = ex.InnerException;
+                Logger.Instance.ELog($"Error invoking handler '{handler}' : inner : {ex}");
+            }
         }
 
         throw new InvalidOperationException($"Handler '{name}' has an unsupported signature.");
