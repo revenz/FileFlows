@@ -27,8 +27,11 @@ public class RpcRegister : RegisterHandler
         }
         catch (Exception ex)
         {
+            while(ex.InnerException != null)
+                ex = ex.InnerException;
+            
             Logger.Instance.ELog($"Error invoking RPC Method '{request.Method}: {ex}");
-            return JsonSerializer.Serialize(new { request.Id, Error = request.Method + ": " +  ex.ToString() });
+            return JsonSerializer.Serialize(new { request.Id, Error = request.Method + ": " +  ex});
         }
 
         if (result == null && request.Id == 0)
@@ -56,5 +59,5 @@ public class RpcRequest
     /// <summary>
     /// The parameters for the method call.
     /// </summary>
-    public object[] Params { get; set; } = Array.Empty<object>();
+    public object[] Params { get; set; } = [];
 }

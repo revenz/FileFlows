@@ -113,13 +113,13 @@ public class JsonRpcServer : IDisposable
                                 return;
                             }
 
-                            string responseJson;
+                            string? responseJson;
                             if (await _client.AwaitConnection() == false)
                                 responseJson = JsonSerializer.Serialize(new { request.Id, Error = "Not connected to server." });
                             else
                                 responseJson = await _rpcRegister.HandleRequest(request);
                             
-                            if (responseJson != null)
+                            if (responseJson != null && writer != null)
                                 await SendMessageToClient(writer, responseJson);
                         }, cts.Token);
                     }
@@ -207,6 +207,8 @@ public class JsonRpcServer : IDisposable
     private async Task SendMessageToClient(StreamWriter writer, string message)
     {
         await writeLock.WaitAsync(); // Acquire semaphore lock
+        if(writer == null)
+            return;
         try
         {
             if (server?.IsConnected == true)
