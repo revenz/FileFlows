@@ -245,7 +245,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 Console.WriteLine(args.Data); // Write error to the console
                 runLog.AppendLine(args.Data);
 
-                if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1), ctx)) // Avoid deadlocks
+                if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1))) // Avoid deadlocks
                 {
                     try
                     {
@@ -266,7 +266,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 await Console.Error.WriteLineAsync(args.Data); // Write error to the console
                 runLog.AppendLine(args.Data);
 
-                if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1), ctx)) // Avoid deadlocks
+                if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1))) // Avoid deadlocks
                 {
                     try
                     {
