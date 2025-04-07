@@ -184,7 +184,6 @@ public abstract class RegisterHandler
             throw new InvalidOperationException($"No handler registered for '{name}'");
         }
 
-        Logger.Instance.ILog($"Invoking hanlder '{name}'");
         try
         {
             switch (handler)
