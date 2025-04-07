@@ -9,11 +9,11 @@ public class FileHandler(FrontendService feService)
     /// <summary>
     /// Gets the upcoming files to process
     /// </summary>
-    public List<LibraryFileMinimal> FileQueue { get; private set; } = [];
+    public List<LibraryFileMinimal> Unprocessed { get; private set; } = [];
     /// <summary>
     /// Gets the most successfully processed files
     /// </summary>
-    public List<LibraryFileMinimal> Successful { get; private set; }
+    public List<LibraryFileMinimal> Processed { get; private set; }
     /// <summary>
     /// Gets the processing files
     /// </summary>
@@ -21,7 +21,7 @@ public class FileHandler(FrontendService feService)
     /// <summary>
     /// Gets the total successfully processed files
     /// </summary>
-    public int SuccessfulTotal { get; private set; }
+    public int ProcessedTotal { get; private set; }
     /// <summary>
     /// Gets the failed files
     /// </summary>
@@ -52,7 +52,7 @@ public class FileHandler(FrontendService feService)
     public List<LibraryFileMinimal> Disabled { get; private set; }
     
     /// <summary>
-    /// Event raised when the unprocesed list is updated
+    /// Event raised when the unprocessed list is updated
     /// </summary>
     public event Action<List<LibraryFileMinimal>> UnprocessedUpdated; 
     
@@ -90,9 +90,9 @@ public class FileHandler(FrontendService feService)
     /// <param name="data">the initial data</param>
     public void Initialize(InitialClientData data)
     {
-        FileQueue = data.FileQueue;
-        Successful = data.Successful;
-        SuccessfulTotal = data.SuccessfulTotal;
+        Unprocessed = data.FileQueue;
+        Processed = data.Successful;
+        ProcessedTotal = data.SuccessfulTotal;
         FailedFiles = data.FailedFiles;
         FailedFilesTotal = data.FailedFilesTotal;
         TopSavingsAll = data.TopSavingsAll;
@@ -104,7 +104,7 @@ public class FileHandler(FrontendService feService)
         
         feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("Unprocessed", (ed) =>
         {
-            FileQueue = ed.Data;
+            Unprocessed = ed.Data;
             UnprocessedUpdated?.Invoke(ed.Data);
         });
         feService.Registry.Register<ListAndCount<ProcessingLibraryFile>>("Processing", (ed) =>
@@ -127,10 +127,10 @@ public class FileHandler(FrontendService feService)
             Disabled = files.Data;
             DisabledUpdated?.Invoke(Disabled);
         });
-    feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("Processed", (lat) =>
+        feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("Processed", (lat) =>
         {
-            Successful = lat.Data;
-            SuccessfulTotal = lat.Total;
+            Processed = lat.Data;
+            ProcessedTotal = lat.Total;
             SuccessfulUpdated?.Invoke(lat);
         });
         feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("ProcessingFailed", (lat) =>

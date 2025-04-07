@@ -88,7 +88,7 @@ public partial class NavBar
         ProfileService.OnRefresh += ProfileServiceOnOnRefresh; 
         Profile = feService.Profile.Profile;
 
-        TotalUnprocessed = feService.Files.FileQueue.Count;
+        TotalUnprocessed = feService.Files.Unprocessed.Count;
         TotalProcessing = feService.Files.Processing.Count;
         TotalFailed = feService.Files.FailedFiles.Count;
         
@@ -161,6 +161,7 @@ public partial class NavBar
         if (TotalUnprocessed == obj.Count)
             return;
         TotalUnprocessed = obj.Count;
+        Logger.Instance.ILog("TotalUnprocessed Updated: " + TotalUnprocessed);
         StateHasChanged();
     }
 
@@ -173,6 +174,7 @@ public partial class NavBar
         if (TotalProcessing == obj.Count)
             return;
         TotalProcessing = obj.Count;
+        Logger.Instance.ILog("TotalProcessing Updated: " + TotalProcessing);
         StateHasChanged();
     }
 
@@ -185,6 +187,7 @@ public partial class NavBar
         if (obj.Total == TotalFailed)
             return;
         TotalFailed = obj.Total;
+        Logger.Instance.ILog("TotalFailed Updated: " + TotalFailed);
         StateHasChanged();
     }
 

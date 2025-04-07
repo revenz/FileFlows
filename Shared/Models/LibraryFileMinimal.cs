@@ -46,6 +46,7 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
     /// <summary>
     /// Gets or sets the output path of the final file
     /// </summary>
+    [JsonPropertyName("o")]
     public string? OutputPath { get; set; }
 
     /// <summary>

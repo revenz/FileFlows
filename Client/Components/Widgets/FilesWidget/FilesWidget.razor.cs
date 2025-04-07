@@ -138,8 +138,8 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     private void InitializeData()
     {
-        UpcomingFiles = feService.Files.FileQueue.Count > 50 ? feService.Files.FileQueue.Take(50).ToList() : feService.Files.FileQueue;
-        RecentlyFinished = feService.Files.Successful.Count> 50 ? feService.Files.Successful.Take(50).ToList() : feService.Files.Successful;
+        UpcomingFiles = feService.Files.Unprocessed.Count > 50 ? feService.Files.Unprocessed.Take(50).ToList() : feService.Files.Unprocessed;
+        RecentlyFinished = feService.Files.Processed.Count> 50 ? feService.Files.Processed.Take(50).ToList() : feService.Files.Processed;
         FailedFiles = feService.Files.FailedFiles.Count > 50
             ? feService.Files.FailedFiles.Take(50).ToList()
             : feService.Files.FailedFiles;

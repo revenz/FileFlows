@@ -200,7 +200,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         }).ToList();
 
         var libraries = feService.Library.LibraryList;
-        Data = feService.Files.FileQueue;
+        Data = feService.Files.Unprocessed;
         
         feService.Files.UnprocessedUpdated += DataUpdated;
         feService.Files.FailedFilesUpdated += DataUpdated2;
@@ -253,17 +253,17 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
 
     void LoadServiceData()
     {
-        this.Data = SelectedStatus == FileStatus.Unprocessed ? feService.Files.FileQueue :
+        this.Data = SelectedStatus == FileStatus.Unprocessed ? feService.Files.Unprocessed :
             SelectedStatus == FileStatus.OnHold ? feService.Files.OnHold :
             SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFiles :
-            SelectedStatus == FileStatus.Processed ? feService.Files.Successful :
+            SelectedStatus == FileStatus.Processed ? feService.Files.Processed :
             SelectedStatus == FileStatus.OutOfSchedule ? feService.Files.OutOfSchedule :
             SelectedStatus == FileStatus.Disabled ? feService.Files.Disabled :
             SelectedStatus == FileStatus.Processing ? feService.Files.Processing.Cast<LibraryFileMinimal>().ToList() : [];
             
         TotalItems =
             SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFilesTotal :
-            SelectedStatus == FileStatus.Processed ? feService.Files.SuccessfulTotal :
+            SelectedStatus == FileStatus.Processed ? feService.Files.ProcessedTotal :
             this.Data.Count;
             
         // if (Table != null)
