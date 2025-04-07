@@ -562,17 +562,17 @@ internal class DbLibraryFileManager : BaseManager
         if (libraryUids?.Any() != true)
             return [];   
         
-        
         string inStr = string.Join(",", libraryUids.Select(x => $"'{x}'"));
-        string sql = $"delete from  {Wrap(nameof(LibraryFile))} " +
+        string sql = $"from  {Wrap(nameof(LibraryFile))} " +
                      $" where {Wrap(nameof(LibraryFile.LibraryUid))} in ({inStr}) " +
                      $" and {Wrap(nameof(LibraryFile.Status))} <> {(int)FileStatus.Processing}";
         
         using var db = await DbConnector.GetDb();
-        var deleted = db.Db.Fetch<Guid>($"select {Wrap(nameof(LibraryFile.Uid))} " +
-                                        $" from  {Wrap(nameof(LibraryFile))} " +
-                                        $" where {Wrap(nameof(LibraryFile.LibraryUid))} in ({inStr})");
-        await db.Db.ExecuteAsync(sql);
+        var deleted = db.Db.Fetch<Guid>($"select {Wrap(nameof(LibraryFile.Uid))} " + sql);
+        if (deleted.Count == 0)
+            return [];
+        
+        await db.Db.ExecuteAsync("delete " + sql);
         
         // delete from cache
         if (UseCache)
