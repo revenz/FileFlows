@@ -333,6 +333,7 @@ public class ProcessHelper : IProcessHelper
                 }
                 else
                 {
+                    result.Completed = false;
                     try
                     {
                         if (!process.HasExited)

@@ -417,26 +417,35 @@ public class FlowHelper
         if (fullName.EndsWith(nameof(SubFlowOutput)) || fullName.StartsWith(nameof(SubFlowOutput)))
             return typeof(SubFlowOutput);
 
-        var dlls = new DirectoryInfo(runInstance.Properties.WorkingDirectory).GetFiles("*.dll", SearchOption.AllDirectories);
-        foreach (var dll in dlls)
+        try
         {
-            try
+            var dlls = new DirectoryInfo(runInstance.Properties.WorkingDirectory).GetFiles("*.dll",
+                SearchOption.AllDirectories);
+            foreach (var dll in dlls)
             {
-                //var assembly = Context.LoadFromAssemblyPath(dll.FullName);
-                var assembly = Assembly.LoadFrom(dll.FullName);
-                var types = assembly.GetTypes();
-                var pluginType = types.FirstOrDefault(x => x.IsAbstract == false && x.FullName == fullName);
-                if (pluginType != null)
-                    return pluginType;
+                try
+                {
+                    //var assembly = Context.LoadFromAssemblyPath(dll.FullName);
+                    var assembly = Assembly.LoadFrom(dll.FullName);
+                    var types = assembly.GetTypes();
+                    var pluginType = types.FirstOrDefault(x => x.IsAbstract == false && x.FullName == fullName);
+                    if (pluginType != null)
+                        return pluginType;
+                }
+                catch (Exception ex)
+                {
+                    runInstance.Properties.Logger.WLog("Failed to load assembly: " + dll.FullName + " > " + ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                runInstance.Properties.Logger.WLog("Failed to load assembly: " + dll.FullName + " > " + ex.Message);
-            }
-        }
 
-        runInstance.Properties.Logger.WLog(
-            $"Failed to load '{fullName}' from any of the following DLLs:{Environment.NewLine} {string.Join(Environment.NewLine, dlls.Select(x => " - " + x.FullName))}");
+            runInstance.Properties.Logger.WLog(
+                $"Failed to load '{fullName}' from any of the following DLLs:{Environment.NewLine} {string.Join(Environment.NewLine, dlls.Select(x => " - " + x.FullName))}");
+
+        }
+        catch (Exception)
+        {
+            runInstance.Properties.Logger.WLog("Failed to iterate directory: " + runInstance.Properties.WorkingDirectory);
+        }
         
         return null;
     }
