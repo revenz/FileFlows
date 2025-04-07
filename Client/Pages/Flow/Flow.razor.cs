@@ -611,7 +611,7 @@ public partial class Flow : ComponentBase, IDisposable
                         {
                             if (flowOptions == null)
                             {
-                                var wanted = optp == "FLOW_LIST" ? FlowType.SubFlow : FlowType.Standard;
+                                var wanted = optp == "FLOW_LIST" ? FlowType.Standard : FlowType.SubFlow;
                                 flowOptions = feService.Flow.Flows
                                     .Where(x => x.Uid != editor.Flow?.Uid && x.Type == wanted)
                                     .OrderBy(x => x.Name.ToLowerInvariant())?.Select(x => new ListOption
