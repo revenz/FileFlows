@@ -221,10 +221,8 @@ public class LibraryController : BaseController
     [HttpPut("reset")]
     public async Task Reset([FromBody] ReferenceModel<Guid> model)
     {
-        await ServiceLoader.Load<LibraryFileService>().DeleteByLibrary(model.Uids);
+        await ServiceLoader.Load<LibraryFileService>().ResetLibraries(model.Uids);
         Rescan(model);
-        // var service = ServiceLoader.Load<IClientService>();
-        // await service.UpdateFileStatus();
     }
 
     /// <summary>

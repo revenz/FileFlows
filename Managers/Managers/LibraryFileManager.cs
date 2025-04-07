@@ -150,6 +150,14 @@ public class LibraryFileManager
     /// <returns>The deleted library files</returns>
     public async Task<Guid[]> DeleteByLibrary(Guid[] uids)
         => await DatabaseAccessManager.Instance.LibraryFileManager.DeleteByLibrary(uids);
+    
+    /// <summary>
+    /// Resets/deletes files from the database
+    /// </summary>
+    /// <param name="uids">the UIDs of the libraries to remove</param>
+    /// <returns>The deleted library files</returns>
+    public async Task<Guid[]> ResetLibraries(Guid[] uids)
+        => await DatabaseAccessManager.Instance.LibraryFileManager.ResetLibraries(uids);
 
     /// <summary>
     /// Reprocess all files based on library UIDs

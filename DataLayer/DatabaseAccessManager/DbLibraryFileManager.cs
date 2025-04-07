@@ -552,6 +552,42 @@ internal class DbLibraryFileManager : BaseManager
 
         return deleted.ToArray();
     }
+    /// <summary>
+    /// Resets/deletes files from the database
+    /// </summary>
+    /// <param name="libraryUids">the UIDs of the libraries to remove</param>
+    /// <returns>The deleted library files</returns>
+    public async Task<Guid[]> ResetLibraries(params Guid[] libraryUids)
+    {
+        if (libraryUids?.Any() != true)
+            return [];   
+        
+        
+        string inStr = string.Join(",", libraryUids.Select(x => $"'{x}'"));
+        string sql = $"delete from  {Wrap(nameof(LibraryFile))} " +
+                     $" where {Wrap(nameof(LibraryFile.LibraryUid))} in ({inStr}) " +
+                     $" and {Wrap(nameof(LibraryFile.Status))} <> {(int)FileStatus.Processing}";
+        
+        using var db = await DbConnector.GetDb();
+        var deleted = db.Db.Fetch<Guid>($"select {Wrap(nameof(LibraryFile.Uid))} " +
+                                        $" from  {Wrap(nameof(LibraryFile))} " +
+                                        $" where {Wrap(nameof(LibraryFile.LibraryUid))} in ({inStr})");
+        await db.Db.ExecuteAsync(sql);
+        
+        // delete from cache
+        if (UseCache)
+        {
+            foreach (var uid in libraryUids)
+            {
+                foreach (var file in Cache.Values.Where(x => x.LibraryUid == uid && x.Status != FileStatus.Processing))
+                {
+                    Cache.TryRemove(file.Uid, out _);
+                }
+            }
+        }
+
+        return deleted.ToArray();
+    }
     #endregion
     
     #region updates
