@@ -119,7 +119,7 @@ public class RunnerManager
             var runner = new Runner(client, args, node, tempPath, OnRunnerCompleted);
             if (_activeRunners.TryAdd(runner.Id, runner))
             {
-                Logger.ILog("Starting runner!!!");
+                Logger.ILog("Starting runner: " + runner.Id + " : " + lf.Name);
                 runner.Start(lf);
                 EventManager.Broadcast(EventNames.RUNNERS_UPDATED, _activeRunners.Count);
                 RunnerUpdated?.Invoke();

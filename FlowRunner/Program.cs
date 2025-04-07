@@ -33,6 +33,7 @@ public class Program
 
         // Stop the heartbeat timer when done
         await heartbeatTimer.DisposeAsync();
+        
         Environment.ExitCode = exitCode;
     }
 

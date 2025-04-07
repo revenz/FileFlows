@@ -98,11 +98,16 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         try
         {
             // Finish the file processing.
+            AppendToRunLog("Finishing file: " + lf.Status);
             await client.FileFinishProcessing(lf, runLog.ToString());
+        }
+        catch (Exception ex)
+        {
+            Logger.Instance.ELog($"Failed to notify server of file finishing:{lf.Name}\n{ex}");
         }
         finally
         {
-            Logger.Instance.WLog("Finishing Runner: " + Id);
+            Logger.Instance.WLog("Finishing Runner: " + Id + " : " + lf.Status + " : " + lf.Name);
             onCompleted(Id);
             _isRunning = false;
         }
@@ -313,7 +318,6 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             }
 
             _exitCode = process.ExitCode;
-
 
             // After process exits, handle result
             var lf = rpcServer.GetProcessedFile();

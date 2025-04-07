@@ -245,7 +245,9 @@ public partial class Client
                         UpdatingConfiguration = _updatingConfiguration,
                         InstallingDockerMods = _InstallingDockerMods,
                         InstallingDockerMod = _InstallingDockerMods ? _InstallingDockerMod?.EmptyAsNull() : null,
-                        Runners = _runnerManager.ActiveRunners.Where(x => x.Value.IsRunning && x.Value.Info.LibraryFile != null).ToDictionary(x => x.Key, x => x.Value.Info),
+                        Runners = _runnerManager.ActiveRunners
+                            .Where(x => x.Value.IsRunning && x.Value.Info.LibraryFile != null)
+                            .ToDictionary(x => x.Key, x => x.Value.Info),
                     };
                     var result = await _connection.InvokeAsync<NodeStatusUpdateResult>("UpdateNodeStatus", info);
 
@@ -298,6 +300,8 @@ public partial class Client
             _logger.ILog($"Trying to start runner for: {args.LibraryFile.Name}");
             bool result = await _runnerManager.TryStartRunner(this, args, _node, _configurationService.CurrentConfig!);
             _logger.ILog($"Process file result: {result}");
+            if (result)
+                TriggerStatusUpdate();
             return result;
         }
         catch (Exception ex)
