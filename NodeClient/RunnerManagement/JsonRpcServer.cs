@@ -216,11 +216,8 @@ public class JsonRpcServer : IDisposable
                 if (message.Contains("Unknown method", StringComparison.CurrentCultureIgnoreCase) == false)
                 {   
                     int byteSize = System.Text.Encoding.UTF8.GetByteCount(message);
-                    Logger.Instance.ILog("JsonRpcClient: Sending message (" + byteSize + " bytes)");
                     await writer.WriteLineAsync(message);
                 }
-
-                Logger.Instance.ILog("JsonRpcClient: JSON RPC Message sent to client: " + message);
             }
             else
             {
