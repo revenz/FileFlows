@@ -277,9 +277,16 @@ public partial class Client
     /// </summary>
     public void TriggerStatusUpdate()
     {
-        _delayCts.Cancel(); // Cancels the current delay
-        _delayCts.Dispose();
-        _delayCts = new CancellationTokenSource(); // Reset for the next delay
+        try
+        {
+            _delayCts.Cancel(); // Cancels the current delay
+            _delayCts.Dispose();
+            _delayCts = new CancellationTokenSource(); // Reset for the next delay
+        }
+        catch (Exception)
+        {
+            // Ignored
+        }
     }
     
     private async Task<bool> HandleClientProcessFile(RunFileArguments args)
