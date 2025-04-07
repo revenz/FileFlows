@@ -11,11 +11,11 @@
   padding: 0.25rem 0;
   position: relative;
 }
-.file-table-row.fm-2.has-message .center {
+.file-table-row.fm-processing-failed.has-message .center {
   display: grid;
   grid-template-columns: 1fr 8rem;
 }
-.file-table-row.fm-2.has-message .center .message {
+.file-table-row.fm-processing-failed.has-message .center .message {
   grid-column: 1/span 2;
   font-weight: 600;
   font-size: 0.8rem;
@@ -24,20 +24,20 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.file-table-row.fm-2.has-message .center .message > span {
+.file-table-row.fm-processing-failed.has-message .center .message > span {
   cursor: pointer;
   position: relative;
 }
-.file-table-row.fm-0 {
+.file-table-row.fm-processed {
   margin: 0.5rem;
   border-radius: 0.5rem;
   overflow: hidden;
 }
-.file-table-row.fm-0 .center {
+.file-table-row.fm-processed .center {
   flex-direction: column;
   align-items: unset;
 }
-.file-table-row.fm-0 .size, .file-table-row.fm-0 .time {
+.file-table-row.fm-processed .size, .file-table-row.fm-processed .time {
   font-weight: var(--bold, 600);
   position: absolute;
   right: 0;
@@ -45,13 +45,13 @@
   background: rgb(48, 48, 48);
   width: fit-content;
 }
-.file-table-row.fm-0 .size {
+.file-table-row.fm-processed .size {
   bottom: 0;
   border-top-left-radius: 0.5rem;
   border-top: solid 1px var(--base);
   border-left: solid 1px var(--base);
 }
-.file-table-row.fm-0 .time {
+.file-table-row.fm-processed .time {
   top: 0;
   border-bottom-left-radius: 0.5rem;
   border-bottom: solid 1px var(--base);

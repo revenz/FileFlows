@@ -21,24 +21,26 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     [CascadingParameter] Editor Editor { get; set; }
 
-    private int _FileMode = 0;
-    private const int MODE_UPCOMING = 1;
-    private const int MODE_FINISHED = 0;
-    private const int MODE_FAILED = 2;
-
+    private FileStatus _FileMode = 0;
+    
     /// <summary>
     /// Gets or sets the file mode
     /// </summary>
     private int FileMode
     {
-        get => _FileMode;
+        get => (int)_FileMode;
         set
         {
-            _FileMode = value;
+            _FileMode = (FileStatus)value;
             if(initialized)
                 _ = LocalStorage.SetItemAsync(LocalStorageKey, value);
         }
     }
+
+    /// <summary>
+    /// the selected file status
+    /// </summary>
+    private FileStatus SelectedStatus => _FileMode;
     
 
     /// <summary>
@@ -53,7 +55,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// <summary>
     /// Translated strings
     /// </summary>
-    private string lblTitle, lblUpcoming, lblFinished, lblFailed, lblNoUpcomingFiles, lblNoFailedFiles, lblNoRecentlyFinishedFiles;
+    private string lblTitle, lblUpcoming, lblProcessing, lblFinished, lblFailed, lblNoUpcomingFiles, lblNoFailedFiles, lblNoRecentlyFinishedFiles;
 
     private OptionButtons OptionButtons;
     /// <summary>
@@ -72,7 +74,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     private bool _needsRendering = false;
 
     private List<LibraryFileMinimal> UpcomingFiles, RecentlyFinished, FailedFiles;
-    private int TotalUpcoming, TotalFinished, TotalFailed;
+    private int TotalUpcoming, TotalFinished, TotalFailed, TotalProcessing;
     private bool initialized = false;
     
     protected override async Task OnInitializedAsync()
@@ -80,20 +82,37 @@ public partial class FilesWidget : ComponentBase, IDisposable
         Profile = feService.Profile.Profile;
         lblTitle = Translater.Instant("Pages.Dashboard.Widgets.Files.Title");
         lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = 0});
+        lblProcessing = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = 0});
         lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = 0});
         lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = 0 });
         lblNoUpcomingFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoUpcomingFiles");
         lblNoRecentlyFinishedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoRecentlyFinishedFiles");
         lblNoFailedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoFailedFiles");
-        _FileMode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
+        _FileMode = (FileStatus)Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 4);
         
         InitializeData();
         
         feService.Files.UnprocessedUpdated += UnprocessedUpdated;
         feService.Files.SuccessfulUpdated += OnRecentlyFinishedUpdated;
         feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
+        TotalProcessing = feService.Files.Processing.Count;
+        OnProcessingUpdated(feService.Files.Processing);
+        feService.Files.ProcessingUpdated += OnProcessingUpdated;
     }
 
+
+    /// <summary>
+    /// Raised when the executors are updated
+    /// </summary>
+    /// <param name="info">the executors</param>
+    private void OnProcessingUpdated(List<ProcessingLibraryFile> info)
+    {
+        TotalProcessing = info.Count;
+        lblProcessing = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = TotalProcessing});
+        OptionButtons?.TriggerStateHasChanged();
+        StateHasChanged();
+    }
+    
     /// <summary>
     /// Called when the failed files list has been updated
     /// </summary>
@@ -154,37 +173,39 @@ public partial class FilesWidget : ComponentBase, IDisposable
 
         if (initialized == false)
         {
-            switch (FileMode)
+            switch (SelectedStatus)
             {
-                case MODE_UPCOMING when TotalUpcoming == 0:
+                case FileStatus.Processing when TotalProcessing == 0:
+                case FileStatus.Unprocessed when TotalUpcoming == 0:
                 {
-                    if (TotalFailed > 0 && TotalFinished > 0)
+                    if (TotalProcessing > 0)
+                        FileMode = (int)FileStatus.Processing;
+                    else if (TotalUpcoming > 0)
+                        FileMode = (int)FileStatus.Unprocessed;
+                    else if (TotalFailed > 0 && TotalFinished > 0)
                     {
                         var failed = FailedFiles.Max(x => x.Date);
                         var success = RecentlyFinished.Max(x => x.Date);
-                        FileMode = failed > success ? MODE_FAILED : MODE_FINISHED;
+                        FileMode = (int)(failed > success ? FileStatus.ProcessingFailed : FileStatus.Processed);
                     }
                     else if (TotalFinished > 0)
-                        FileMode = MODE_FINISHED;
+                        FileMode = (int)FileStatus.Processed;
                     else if (TotalFailed > 0)
-                        FileMode = MODE_FAILED;
+                        FileMode = (int)FileStatus.ProcessingFailed;
 
                     break;
                 }
-                case MODE_FAILED when TotalFailed == 0:
+                case FileStatus.ProcessingFailed when TotalFailed == 0:
+                case FileStatus.Processed when TotalFinished == 0:
                 {
+                    if (TotalProcessing > 0)
+                        FileMode = (int)FileStatus.Processing;
                     if (TotalUpcoming > 0)
-                        FileMode = MODE_UPCOMING;   
+                        FileMode = (int)FileStatus.Unprocessed;   
                     else if(TotalFinished > 0)
-                        FileMode = MODE_FINISHED;
-                    break;
-                }
-                case MODE_FINISHED when TotalFinished == 0:
-                {
-                    if (TotalUpcoming > 0)
-                        FileMode = MODE_UPCOMING;   
+                        FileMode = (int)FileStatus.Processed;
                     else if(TotalFailed > 0)
-                        FileMode = MODE_FAILED;
+                        FileMode = (int)FileStatus.ProcessingFailed;
                     break;
                 }
             }
@@ -229,6 +250,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         feService.Files.UnprocessedUpdated -= UnprocessedUpdated;
         feService.Files.SuccessfulUpdated -= OnRecentlyFinishedUpdated;
         feService.Files.FailedFilesUpdated -= OnFailedFilesUpdated;
+        feService.Files.ProcessingUpdated -= OnProcessingUpdated;
     }
 
     /// <summary>

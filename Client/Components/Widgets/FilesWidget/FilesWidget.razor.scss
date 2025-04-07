@@ -30,7 +30,7 @@
 .file-table-row {
   @include row;
   position:relative;
-  &.fm-2.has-message .center {
+  &.fm-processing-failed.has-message .center {
     display:grid;
     grid-template-columns: 1fr 8rem;
     .message {
@@ -47,7 +47,7 @@
       }
     }
   }
-  &.fm-0
+  &.fm-processed
   {  
     margin: 0.5rem;
     border-radius: 0.5rem;

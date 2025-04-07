@@ -3,7 +3,7 @@
  <ContainerWidget Title="@lblTitle" Scroll="true">
     <Head>
         <OptionButtons @ref=OptionButtons @bind-Value="Mode">
-            <WidgetOption Label="@lblRunners" Value="0" Icon="fas fa-running" />
+            @* <WidgetOption Label="@lblRunners" Value="0" Icon="fas fa-running" /> *@
             <WidgetOption Label="@lblNodes" Value="1" Icon="fas fa-desktop" />
             @if (App.Instance.IsMobile == false)
             {
@@ -13,9 +13,9 @@
     </Head>
     <Body>
     
-    <div class="system-section runners @(Mode == 0 ? "active" : "")">
-        <RunnersComponent NoneOnLoad="SelectNodes" />
-    </div>
+    @* <div class="system-section runners @(Mode == 0 ? "active" : "")"> *@
+    @*     <RunnersComponent NoneOnLoad="SelectNodes" /> *@
+    @* </div> *@
     <div class="system-section nodes @(Mode == 1 ? "active" : "")">
         <NodeSummaryComponent />
     </div>

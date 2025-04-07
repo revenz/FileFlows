@@ -25,7 +25,7 @@ public partial class SystemWidget : ComponentBase, IDisposable
     /// <summary>
     /// Gets the mode
     /// </summary>
-    private int _Mode = 0;
+    private int _Mode = 1;
     /// <summary>
     /// Gets or sets the mode
     /// </summary>
@@ -49,32 +49,31 @@ public partial class SystemWidget : ComponentBase, IDisposable
     /// <summary>
     /// Translated strings
     /// </summary>
-    private string lblTitle, lblRunners, lblNodes, lblSavings;
+    private string lblTitle, lblNodes, lblSavings; // lblRunners
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         lblTitle = Translater.Instant("Pages.Dashboard.Widgets.System.Title");
-        lblRunners = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = 0});
+        // lblRunners = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = 0});
         lblNodes = Translater.Instant("Pages.Nodes.Title");
         lblSavings = Translater.Instant("Pages.Dashboard.Tabs.Savings");
         if(App.Instance.IsMobile)
-            Mode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
-        OnProcessingUpdated(feService.Files.Processing ?? []);
-        feService.Files.ProcessingUpdated += OnProcessingUpdated;
+            Mode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 1, 2);
+        // OnProcessingUpdated(feService.Files.Processing ?? []);
+        // feService.Files.ProcessingUpdated += OnProcessingUpdated;
     }
 
-
-    /// <summary>
-    /// Raised when the executors are updated
-    /// </summary>
-    /// <param name="info">the executors</param>
-    private void OnProcessingUpdated(List<ProcessingLibraryFile> info)
-    {
-        lblRunners = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = info.Count});
-        OptionButtons?.TriggerStateHasChanged();
-        StateHasChanged();
-    }
+    // /// <summary>
+    // /// Raised when the executors are updated
+    // /// </summary>
+    // /// <param name="info">the executors</param>
+    // private void OnProcessingUpdated(List<ProcessingLibraryFile> info)
+    // {
+    //     lblRunners = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = info.Count});
+    //     OptionButtons?.TriggerStateHasChanged();
+    //     StateHasChanged();
+    // }
 
 
     /// <summary>
@@ -93,6 +92,6 @@ public partial class SystemWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Files.ProcessingUpdated -= OnProcessingUpdated;
+        // feService.Files.ProcessingUpdated -= OnProcessingUpdated;
     }
 }
