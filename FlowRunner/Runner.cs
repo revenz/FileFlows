@@ -486,7 +486,7 @@ public class Runner
                 logger.ILog($"Setting ProcessOnNodeUid = '{nodeParameters.Reprocess.ReprocessNode.Uid}'");
                 runInstance.LibraryFile.ProcessOnNodeUid = nodeParameters.Reprocess.ReprocessNode.Uid;
                 runInstance.LibraryFile.Additional.Reprocessing = true;
-                return FileStatus.Unprocessed;
+                return FileStatus.Processed;
             }
             if (nodeParameters.Reprocess is { HoldForMinutes: > 0 })
                 return FileStatus.Unprocessed;
