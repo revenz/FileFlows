@@ -4339,6 +4339,7 @@ hr {
 .table-item .center .name span {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: wrap;
 }
 .table-item .center .name span:first-child:has(+ span) {
   font-weight: var(--bold, 600);
@@ -4553,6 +4554,60 @@ hr {
 }
 .hidden {
   display: none;
+}
+
+.top-row {
+  width: 100%;
+  height: 3.5rem;
+  min-height: 3.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  border-bottom: solid 1px var(--border-color);
+}
+.top-row.show-title {
+  height: 3.5rem;
+  display: flex !important;
+  align-items: center;
+  padding: 1.5rem;
+}
+.top-row .title {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  font-size: 1.5rem;
+}
+.top-row .other {
+  white-space: nowrap;
+  margin-left: 1rem;
+  margin-right: -0.5rem;
+}
+.top-row .other button {
+  min-width: 7rem;
+  width: fit-content;
+  padding: 0 0.75rem;
+}
+.top-row .other a {
+  width: 7rem;
+  text-align: center;
+  display: inline-block;
+  padding-top: 0.5rem;
+  cursor: pointer;
+}
+.top-row a, .top-row .btn-link {
+  white-space: nowrap;
+  margin-left: 0.5rem;
+}
+.top-row a:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.top-row .icon {
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
+  color: var(--accent);
 }
 
 /*# sourceMappingURL=app.css.map */
