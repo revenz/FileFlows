@@ -23,12 +23,12 @@ public class LibraryFileHandler(JsonRpcClient client)
         => await client.SendRequest(nameof(UpdateLibraryFile), libraryFile);
     
 
-    /// <summary>
-    /// Sends a request to delete a library file by its unique identifier.
-    /// </summary>
-    /// <param name="uid">The unique identifier of the library file to delete.</param>
-    public async Task DeleteLibraryFile(Guid uid)
-        => await client.SendRequest("DeleteLibraryFile", uid);
+    // /// <summary>
+    // /// Sends a request to delete a library file by its unique identifier.
+    // /// </summary>
+    // /// <param name="uid">The unique identifier of the library file to delete.</param>
+    // public async Task DeleteLibraryFile(Guid uid)
+    //     => await client.SendRequest("DeleteLibraryFile", uid);
 
     /// <summary>
     /// Checks if the file exists on the server

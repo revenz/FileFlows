@@ -114,7 +114,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         }
         finally
         {
-            Logger.Instance.WLog("Finishing Runner: " + Id + " : " + lf.Status + " : " + lf.Name);
+            Logger.Instance.ILog("Finishing Runner: " + Id + " : " + lf.Status + " : " + lf.Name);
             onCompleted(Id);
             _isRunning = false;
         }

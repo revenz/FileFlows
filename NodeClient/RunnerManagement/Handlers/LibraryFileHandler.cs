@@ -14,7 +14,7 @@ public class LibraryFileHandler
         _connection = rpcServer._client._connection;
         rpcRegister.Register<LibraryFile>(nameof(UpdateLibraryFile), UpdateLibraryFile);
         rpcRegister.Register(nameof(LibraryIgnorePath), LibraryIgnorePath);
-        rpcRegister.Register(nameof(DeleteLibraryFile), DeleteLibraryFile);
+        // rpcRegister.Register(nameof(DeleteLibraryFile), DeleteLibraryFile);
         rpcRegister.Register<ExistsOnServerModel, bool>(nameof(ExistsOnServer), ExistsOnServer);
         rpcRegister.Register(nameof(SetThumbnail), SetThumbnail);
     }
@@ -39,10 +39,10 @@ public class LibraryFileHandler
         => await _connection.SendAsync("LibraryIgnorePath", path);
     
 
-    public void DeleteLibraryFile(Guid uid)
-    {
-        throw new Exception("TODO");
-    }
+    // public void DeleteLibraryFile(Guid uid)
+    // {
+    //     throw new Exception("TODO");
+    // }
 
     /// <summary>
     /// Checks if the file exists on the server

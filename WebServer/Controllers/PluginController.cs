@@ -121,7 +121,7 @@ public class PluginController : BaseController
             if (Version.Parse(ppi.Version) <= Version.Parse(plugin.Version))
             {
                 // no new version, cannot update
-                Logger.Instance.WLog("PluginUpdate: No newer version to download for plugin: " + plugin.Name);
+                Logger.Instance.ILog("PluginUpdate: No newer version to download for plugin: " + plugin.Name);
                 continue;
             }
 

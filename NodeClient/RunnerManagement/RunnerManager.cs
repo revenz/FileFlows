@@ -112,6 +112,7 @@ public class RunnerManager
             };
             if (await client.FileStartProcessing(lf) == false)
             {
+                Logger.ILog("FileStartProcessing failed: " + lf.Name);
                 // abort, could not start processing file
                 return false;
             }

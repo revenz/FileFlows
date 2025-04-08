@@ -190,9 +190,11 @@ public class RunInstance(RunnerProperties properties)
                 if (args.IsServer)
                 {
                     // doesnt exist
-                    LogInfo("Library file does not exist, deleting from library files: " + file.FullName);
-                    RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
-                    return (FileStatus.Processed, false);
+                    //LogInfo("Library file does not exist, deleting from library files: " + file.FullName);
+                    // RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
+
+                    properties.LibraryFile.FailureReason = "Library file does not exist.";
+                    return (FileStatus.ProcessingFailed, false);
                 }
 
                 var existsResult = RpcClient.LibraryFileHandler.ExistsOnServer(properties.LibraryFile.Name, properties.LibraryFile.IsDirectory).Result;
@@ -205,9 +207,10 @@ public class RunInstance(RunnerProperties properties)
                 if (existsResult.Value == false)
                 {
                     // doesnt exist
-                    LogInfo("Library file does not exist, deleting from library files: " + file.FullName);
-                    RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
-                    return (FileStatus.Processed, false);
+                    //LogInfo("Library file does not exist, deleting from library files: " + file.FullName);
+                    //RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
+                    properties.LibraryFile.FailureReason = "Library file does not exist. Not running on server.";
+                    return (FileStatus.ProcessingFailed, false);
                 }
 
                 _fileService = new MappedFileService(node, properties.Logger,
