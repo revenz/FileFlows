@@ -512,5 +512,8 @@ public class Runner
     /// </summary>
     /// <param name="additional">the additional parts to increase</param>
     public void IncreaseTotalParts(int additional)
-        => runInstance.Properties.RpcClient.RunnerInfo.IncreaseTotalParts(additional);
+    {
+        nodeParameters.Logger.ILog("Increasing total flow parts by: " + additional);
+        runInstance.Properties.RpcClient.RunnerInfo.IncreaseTotalParts(additional);
+    }
 }
