@@ -1,4 +1,5 @@
-﻿using FileFlows.ServerShared;
+﻿using System.CodeDom.Compiler;
+using FileFlows.ServerShared;
 using FileFlows.Plugin;
 using FileFlows.ServerShared.Services;
 using FileFlows.Shared.Models;
@@ -486,6 +487,9 @@ public class Runner
                 logger.ILog($"Setting ProcessOnNodeUid = '{nodeParameters.Reprocess.ReprocessNode.Uid}'");
                 runInstance.LibraryFile.ProcessOnNodeUid = nodeParameters.Reprocess.ReprocessNode.Uid;
                 runInstance.LibraryFile.Additional.Reprocessing = true;
+                if (nodeParameters.Reprocess.HoldForMinutes is > 0)
+                    runInstance.LibraryFile.HoldUntil =
+                        DateTime.UtcNow.AddMinutes(nodeParameters.Reprocess.HoldForMinutes.Value);
                 return FileStatus.Processed;
             }
             if (nodeParameters.Reprocess is { HoldForMinutes: > 0 })
