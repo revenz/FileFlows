@@ -248,7 +248,7 @@ public partial class Client
                         Runners = _runnerManager.ActiveRunners
                             .Where(x =>
                                 x.Value.FinishedProcessing == false &&
-                                x.Value.IsRunning && 
+                                // x.Value.IsRunning && 
                                 x.Value.Info.LibraryFile != null)
                             .ToDictionary(x => x.Key, x => x.Value.Info),
                     };
@@ -305,6 +305,8 @@ public partial class Client
             _logger.ILog($"Process file result: {result}");
             if (result)
                 TriggerStatusUpdate();
+            else if (_runnerManager.ActiveRunners.ContainsKey(args.LibraryFile.Uid))
+                _runnerManager.ActiveRunners.Remove(args.LibraryFile.Uid);
             return result;
         }
         catch (Exception ex)

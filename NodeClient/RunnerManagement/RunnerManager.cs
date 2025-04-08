@@ -110,16 +110,17 @@ public class RunnerManager
                 Name = flow?.Name,
                 Type = typeof(Flow).FullName!
             };
-            if (await client.FileStartProcessing(lf) == false)
-            {
-                Logger.ILog("FileStartProcessing failed: " + lf.Name);
-                // abort, could not start processing file
-                return false;
-            }
 
             var runner = new Runner(client, args, node, tempPath, OnRunnerCompleted);
             if (_activeRunners.TryAdd(runner.Id, runner))
             {
+                if (await client.FileStartProcessing(lf) == false)
+                {
+                    _activeRunners.TryRemove(runner.Id, out _);
+                    Logger.ILog("FileStartProcessing failed: " + lf.Name);
+                    // abort, could not start processing file
+                    return false;
+                }
                 Logger.ILog("Starting runner: " + runner.Id + " : " + lf.Name);
                 runner.Start(lf);
                 EventManager.Broadcast(EventNames.RUNNERS_UPDATED, _activeRunners.Count);
@@ -330,6 +331,7 @@ public class RunnerManager
         // started at isnt tracked in the runner it self
         info.StartedAt = runner.Info.StartedAt;
         info.Aborted = runner.Info.Aborted;
+        info.TotalParts = runner.Info.TotalParts;
         
         runner.Info = info;
         RunnerUpdated?.Invoke();

@@ -66,8 +66,11 @@ public partial class NodeHub
         }
 
         file.Status = FileStatus.Processing;
-        file.Node = libraryFile.Node;
-        file.Flow = libraryFile.Flow;
+        if(libraryFile.Node != null && file.Node.Uid != Guid.Empty)
+            file.Node = libraryFile.Node;
+        if(libraryFile.Flow != null && file.Flow.Uid != Guid.Empty)
+            file.Flow = libraryFile.Flow;
+        
         file.ProcessingStarted = DateTime.UtcNow;
         
         sorter.StartProcessing(file);

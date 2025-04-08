@@ -301,6 +301,7 @@ public class RunInstance(RunnerProperties properties)
         properties.LibraryFile.OriginalSize = info.InitialSize;
         properties.Logger.ILog("Initial Size: " + info.InitialSize);
         properties.Logger.ILog("File Service: "  + _fileService.GetType().Name);
+        properties.Logger.ILog("Initial Total Parts: "  + info.TotalParts);
         
 
         var runner = new Runner(this, properties.StartingFlow, node, args.WorkingDirectory);
