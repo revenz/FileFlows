@@ -95,7 +95,6 @@ public partial class FilesWidget : ComponentBase, IDisposable
         feService.Files.UnprocessedUpdated += UnprocessedUpdated;
         feService.Files.SuccessfulUpdated += OnRecentlyFinishedUpdated;
         feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
-        TotalProcessing = feService.Files.Processing.Count;
         OnProcessingUpdated(feService.Files.Processing);
         feService.Files.ProcessingUpdated += OnProcessingUpdated;
     }
@@ -166,6 +165,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         TotalUpcoming = UpcomingFiles.Count;
         TotalFailed = FailedFiles.Count;
         TotalFinished = RecentlyFinished.Count;
+        TotalProcessing = feService.Files.Processing.Count;
         
         lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = TotalUpcoming});
         lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished});
