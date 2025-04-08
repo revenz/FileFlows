@@ -176,19 +176,12 @@ return 1;
         }
         else if(item.Language == ScriptLanguage.JavaScript)
         {
-            if (item.Name != CommonVariables.FILE_DISPLAY_NAME)
+            fields.Add(new ElementField
             {
-                fields.Add(new ElementField
-                {
-                    InputType = FormInputType.Text,
-                    Name = nameof(item.Name),
-                    Validators = flowScript ? [new Required()] : []
-                });
-            }
-            else
-            {
-                title = Translater.Instant("Dialogs.ScriptLanguage.Labels.FileDisplayName");
-            }
+                InputType = FormInputType.Text,
+                Name = nameof(item.Name),
+                Validators = flowScript ? [new Required()] : []
+            });
         }
         else if(item.Type == ScriptType.Flow)
         {

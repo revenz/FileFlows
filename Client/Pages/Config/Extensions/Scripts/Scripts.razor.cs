@@ -90,9 +90,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
             language = ScriptLanguage.JavaScript;
         else
         {
-            bool displayNameScript = SelectedType == ScriptType.System &&
-                                     Data.Any(x => x.Name == CommonVariables.FILE_DISPLAY_NAME) == false;
-            var result = await LanguagePicker.Show(displayNameScript);
+            var result = await LanguagePicker.Show();
             if (result.IsFailed)
                 return;
             language = result.Value;
@@ -355,8 +353,6 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
         string nameLower = item.Name.ToLowerInvariant();
         if (nameLower.StartsWith("video"))
             return "/icons/video.svg";
-        if (item.Name == CommonVariables.FILE_DISPLAY_NAME)
-            return "fas fa-signature";
         if (nameLower.StartsWith("fileflows"))
             return "/favicon.svg";
         if (nameLower.StartsWith("image"))

@@ -674,8 +674,6 @@
       "Labels": {
         "BatchDescription": "Los archivos por lotes solo se pueden ejecutar en sistemas Windows. Pueden leer variables básicas pero no pueden actualizar ni acceder a objetos de FileFlows durante la ejecución.",
         "CSharpDescription": "Los scripts de C# pueden interactuar con más partes de FileFlows y son los más poderosos. Usando el mismo lenguaje que FileFlows, permiten una mayor interacción con el sistema.",
-        "FileDisplayName": "Nombre de archivo mostrado",
-        "FileDisplayNameDescription": "Un script especializado que personaliza cómo se muestran los nombres de archivo en la consola web de FileFlows. Este script no modifica los archivos reales, solo su apariencia en la interfaz.",
         "JavaScriptDescription": "Los scripts de JavaScript se ejecutan dentro del ejecutor de FileFlows, lo que te permite leer y escribir variables y acceder a todas las funciones auxiliares dentro de FileFlows.",
         "PowerShellDescription": "Los scripts de PowerShell solo se pueden ejecutar en sistemas Windows. Pueden leer variables básicas pero no pueden actualizar ni acceder a objetos de FileFlows durante la ejecución.",
         "ShellDescription": "Los scripts de Shell se ejecutan en sistemas basados en Unix (Linux, MacOS, Docker). Pueden leer variables básicas pero no pueden actualizar ni acceder a objetos de FileFlows durante la ejecución."

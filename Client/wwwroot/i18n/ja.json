@@ -674,8 +674,6 @@
       "Labels": {
         "BatchDescription": "バッチファイルはWindowsシステムでのみ実行できます。基本的な変数を読み取ることができますが、実行中にFileFlowsオブジェクトを更新したりアクセスすることはできません。",
         "CSharpDescription": "C#スクリプトはFileFlowsの多くの部分と相互作用でき、最も強力です。FileFlowsと同じ言語を使用することで、より大きなシステム相互作用が可能です。",
-        "FileDisplayName": "ファイル表示名",
-        "FileDisplayNameDescription": "FileFlows Webコンソールでファイル名の表示をカスタマイズする特別なスクリプトです。このスクリプトはファイル自体を変更せず、インターフェース上での表示のみを変更します。",
         "JavaScriptDescription": "JavaScriptスクリプトはFileFlowsランナー内で実行され、変数の読み取りと書き込み、FileFlows内のすべてのヘルパー関数にアクセスできます。",
         "PowerShellDescription": "PowerShellスクリプトはWindowsシステムでのみ実行できます。基本的な変数を読み取ることができますが、実行中にFileFlowsオブジェクトを更新したりアクセスすることはできません。",
         "ShellDescription": "シェルスクリプトはUnixベースのシステム（Linux、MacOS、Docker）で実行されます。基本的な変数を読み取ることができますが、実行中にFileFlowsオブジェクトを更新したりアクセスすることはできません。"

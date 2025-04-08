@@ -69,7 +69,7 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
         
         
         Scripts = feService.Script.Scripts.Where(x =>
-                x.Type == ScriptType.System && x.Name != CommonVariables.FILE_DISPLAY_NAME)
+                x.Type == ScriptType.System)
             .ToDictionary(x => x.Uid, x => x.Name);
 
         base.OnInitialized();

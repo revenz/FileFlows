@@ -674,8 +674,6 @@
       "Labels": {
         "BatchDescription": "批次檔只能在 Windows 系統上運行。它們可以讀取基本變數，但在執行期間無法更新或訪問 FileFlows 對象。",
         "CSharpDescription": "C# 腳本可以與 FileFlows 的更多部分互動，並且功能最強大。使用與 FileFlows 相同的語言，它們允許更大的系統交互。",
-        "FileDisplayName": "檔案顯示名稱",
-        "FileDisplayNameDescription": "一個專門的腳本，定制檔案名稱在 FileFlows 網頁控制台中的顯示方式。此腳本不修改實際檔案，只修改它們在界面中的顯示方式。",
         "JavaScriptDescription": "JavaScript 腳本在 FileFlows 運行器內執行，允許您讀取和寫入變數並訪問 FileFlows 中的所有輔助功能。",
         "PowerShellDescription": "PowerShell 腳本只能在 Windows 系統上運行。它們可以讀取基本變數，但在執行期間無法更新或訪問 FileFlows 對象。",
         "ShellDescription": "Shell 腳本在基於 Unix 的系統（Linux、MacOS、Docker）上運行。它們可以讀取基本變數，但在執行期間無法更新或訪問 FileFlows 對象。"

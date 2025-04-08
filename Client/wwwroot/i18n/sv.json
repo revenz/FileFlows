@@ -674,8 +674,6 @@
       "Labels": {
         "BatchDescription": "Batchfiler kan endast köras på Windows-system. De kan läsa grundläggande variabler men kan inte uppdatera eller komma åt FileFlows-objekt under körning.",
         "CSharpDescription": "C#-skript kan interagera med fler delar av FileFlows och är de mest kraftfulla. Genom att använda samma språk som FileFlows, möjliggör de större systeminteraktion.",
-        "FileDisplayName": "Visningsnamn för fil",
-        "FileDisplayNameDescription": "Ett specialiserat skript som anpassar hur filnamn visas i FileFlows webbkonsol. Detta skript ändrar inte de faktiska filerna, bara hur de visas i gränssnittet.",
         "JavaScriptDescription": "JavaScript-skript körs inom FileFlows-köraren, vilket gör att du kan läsa och skriva variabler samt få tillgång till alla hjälpfunktioner inom FileFlows.",
         "PowerShellDescription": "PowerShell-skript kan endast köras på Windows-system. De kan läsa grundläggande variabler men kan inte uppdatera eller komma åt FileFlows-objekt under körning.",
         "ShellDescription": "Shell-skript körs på Unix-baserade system (Linux, MacOS, Docker). De kan läsa grundläggande variabler men kan inte uppdatera eller komma åt FileFlows-objekt under körning."

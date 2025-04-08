@@ -674,8 +674,6 @@
       "Labels": {
         "BatchDescription": "批处理文件只能在Windows系统上运行。它们可以读取基本变量，但在执行过程中无法更新或访问FileFlows对象。",
         "CSharpDescription": "C#脚本可以与FileFlows的更多部分交互，是最强大的。使用与FileFlows相同的语言，它们允许更大的系统交互。",
-        "FileDisplayName": "文件显示名称",
-        "FileDisplayNameDescription": "一个专门的脚本，用于自定义文件名在 FileFlows 网络控制台中的显示方式。此脚本不会修改实际文件，只会更改它们在界面中的显示。",
         "JavaScriptDescription": "JavaScript脚本在FileFlows运行器中执行，允许您读取和写入变量，并访问FileFlows中的所有辅助函数。",
         "PowerShellDescription": "PowerShell脚本只能在Windows系统上运行。它们可以读取基本变量，但在执行过程中无法更新或访问FileFlows对象。",
         "ShellDescription": "Shell脚本在基于Unix的系统（Linux、MacOS、Docker）上运行。它们可以读取基本变量，但在执行过程中无法更新或访问FileFlows对象。"

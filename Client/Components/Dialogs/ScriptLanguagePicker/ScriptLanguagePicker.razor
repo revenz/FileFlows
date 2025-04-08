@@ -16,14 +16,8 @@
                       ("Batch (.bat)", ScriptLanguage.Batch, lblBatchDescription, "svg:dos", true, false),
                       ("PowerShell (.ps1)", ScriptLanguage.PowerShell, lblPowerShellDescription, "svg:powershell", true, false),
                       ("Shell (.sh)", ScriptLanguage.Shell, lblShellDescription, "svg:bash", false, true),
-                      (lblFileDisplayName, (ScriptLanguage)99, lblFileDisplayNameDescription, "fas fa-signature", false, false)
-                  })
+                    })
         {
-            if (lang.Item1 == lblFileDisplayName && showFileDisplayScript == false)
-            {
-                continue;
-            }
-
             var name = lang.Item1;
             var language = lang.Item2;
             var desc = lang.Item3;

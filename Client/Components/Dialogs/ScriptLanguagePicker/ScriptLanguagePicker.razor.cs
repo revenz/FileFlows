@@ -9,7 +9,7 @@ namespace FileFlows.Client.Components.Dialogs;
 public partial class ScriptLanguagePicker : VisibleEscapableComponent
 {
     private string lblNext, lblCancel, lblJavaScriptDescription, lblBatchDescription, lblCSharpDescription, 
-        lblPowerShellDescription, lblShellDescription, lblFileDisplayName, lblFileDisplayNameDescription;
+        lblPowerShellDescription, lblShellDescription;
     private string Title;
     TaskCompletionSource<Result<ScriptLanguage>> ShowTask;
     
@@ -17,11 +17,6 @@ public partial class ScriptLanguagePicker : VisibleEscapableComponent
     /// Gets or sets the language
     /// </summary>
     private ScriptLanguage Language { get; set; }
-
-    /// <summary>
-    /// If the file display name script option should be shown
-    /// </summary>
-    private bool showFileDisplayScript = false;
     
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -33,19 +28,15 @@ public partial class ScriptLanguagePicker : VisibleEscapableComponent
         lblCSharpDescription = Translater.Instant("Dialogs.ScriptLanguage.Labels.CSharpDescription");
         lblPowerShellDescription = Translater.Instant("Dialogs.ScriptLanguage.Labels.PowerShellDescription");
         lblShellDescription = Translater.Instant("Dialogs.ScriptLanguage.Labels.ShellDescription");
-        lblFileDisplayName = Translater.Instant("Dialogs.ScriptLanguage.Labels.FileDisplayName");
-        lblFileDisplayNameDescription = Translater.Instant("Dialogs.ScriptLanguage.Labels.FileDisplayNameDescription");
         Title = Translater.Instant("Dialogs.ScriptLanguage.Title");
     }
     
     /// <summary>
     /// Shows the language picker
     /// </summary>
-    /// <param name="showFileDisplayScript">if the file display name script option should be shown</param>
     /// <returns>the task to await</returns>
-    public Task<Result<ScriptLanguage>> Show(bool showFileDisplayScript)
+    public Task<Result<ScriptLanguage>> Show()
     {
-        this.showFileDisplayScript = showFileDisplayScript;
         this.Language = ScriptLanguage.JavaScript;
         this.Visible = true;
         this.StateHasChanged();

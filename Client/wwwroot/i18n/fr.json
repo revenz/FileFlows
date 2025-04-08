@@ -674,8 +674,6 @@
       "Labels": {
         "BatchDescription": "Les fichiers batch ne peuvent être exécutés que sur des systèmes Windows. Ils peuvent lire des variables de base mais ne peuvent pas mettre à jour ou accéder aux objets FileFlows pendant l'exécution.",
         "CSharpDescription": "Les scripts C# peuvent interagir avec plus de parties de FileFlows et sont les plus puissants. Utilisant le même langage que FileFlows, ils permettent une plus grande interaction avec le système.",
-        "FileDisplayName": "Nom d'affichage du fichier",
-        "FileDisplayNameDescription": "Un script spécialisé qui personnalise l'affichage des noms de fichiers dans la console web de FileFlows. Ce script ne modifie pas les fichiers réels, uniquement leur apparence dans l'interface.",
         "JavaScriptDescription": "Les scripts JavaScript sont exécutés dans le runner FileFlows, vous permettant de lire et d'écrire des variables et d'accéder à toutes les fonctions d'aide dans FileFlows.",
         "PowerShellDescription": "Les scripts PowerShell ne peuvent être exécutés que sur des systèmes Windows. Ils peuvent lire des variables de base mais ne peuvent pas mettre à jour ou accéder aux objets FileFlows pendant l'exécution.",
         "ShellDescription": "Les scripts Shell sont exécutés sur des systèmes basés sur Unix (Linux, MacOS, Docker). Ils peuvent lire des variables de base mais ne peuvent pas mettre à jour ou accéder aux objets FileFlows pendant l'exécution."

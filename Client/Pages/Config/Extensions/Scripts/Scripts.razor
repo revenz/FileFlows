@@ -46,38 +46,26 @@
                        <TableItemIcon Icon="@GetIcon(item)" DefaultIcon="fas fa-scroll" />
                        <div class="center">
                            <span class="name">
-                               @if (item.Name == CommonVariables.FILE_DISPLAY_NAME)
-                               { 
-                                   <span>@lblFileDisplayName</span>
-                                   <span>@lblFileDisplayNameDescription</span>
-                               }
-                               else
+                               <span>@item.Name</span>
+                               @if (string.IsNullOrWhiteSpace(item.Description) == false)
                                {
-                                   <span>@item.Name</span>
-                                   @if (string.IsNullOrWhiteSpace(item.Description) == false)
-                                   {
-                                       <span>@item.Description</span>
-                                   }
+                                   <span>@item.Description</span>
                                }
                            </span>
                            <div class="info">
-                               @if (item.Repository)
-                               {
-                                   <IconValue Color="IconValueColor.Blue" Icon="fas fa-code-branch" Value="@item.Revision.ToString()" />
+                                @if (item.Repository)
+                                {
+                                    <IconValue Color="IconValueColor.Blue" Icon="fas fa-code-branch" Value="@item.Revision.ToString()" />
                                     <IconValue Color="IconValueColor.Red" Icon="fas fa-ban" Value="@lblReadOnly" Tooltip="@lblReadOnly"/>
-                               }
-                               @if (item.LatestRevision > item.Revision)
-                               {
-                                   <IconValue Color="IconValueColor.Orange" Icon="fas fa-code-branch" Value="@item.LatestRevision.ToString()" Tooltip="@lblUpdateAvailable"/>
-                               }
+                                }
+                                @if (item.LatestRevision > item.Revision)
+                                {
+                                    <IconValue Color="IconValueColor.Orange" Icon="fas fa-code-branch" Value="@item.LatestRevision.ToString()" Tooltip="@lblUpdateAvailable"/>
+                                }
                                 @if (item.UsedBy?.Any() == true)
                                 {
                                     <IconValue Color="IconValueColor.Green" OnClick="() => OpenUsedBy(item)" Icon="fas fa-folder" Value="@lblInUse" />
                                 }
-                               else if (item.Name == CommonVariables.FILE_DISPLAY_NAME)
-                               {
-                                   <IconValue Color="IconValueColor.Green" Icon="fas fa-folder" Value="@lblInUse" />
-                               }
                            </div>
                        </div>
                         <div class="right">

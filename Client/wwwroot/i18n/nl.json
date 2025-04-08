@@ -674,8 +674,6 @@
       "Labels": {
         "BatchDescription": "Batchbestanden kunnen alleen worden uitgevoerd op Windows-systemen. Ze kunnen basisvariabelen lezen maar kunnen geen FileFlows-objecten bijwerken of openen tijdens uitvoering.",
         "CSharpDescription": "C#-scripts kunnen met meer delen van FileFlows interageren en zijn het krachtigst. Ze gebruiken dezelfde taal als FileFlows, waardoor een grotere interactie met het systeem mogelijk is.",
-        "FileDisplayName": "Bestandsweergavenaam",
-        "FileDisplayNameDescription": "Een gespecialiseerd script dat aanpast hoe bestandsnamen worden weergegeven in de FileFlows-webconsole. Dit script wijzigt de daadwerkelijke bestanden niet, alleen hoe ze in de interface worden weergegeven.",
         "JavaScriptDescription": "JavaScript-scripts worden uitgevoerd binnen de FileFlows-loper, waardoor je variabelen kunt lezen en schrijven en toegang hebt tot alle hulpfuncties binnen FileFlows.",
         "PowerShellDescription": "PowerShell-scripts kunnen alleen worden uitgevoerd op Windows-systemen. Ze kunnen basisvariabelen lezen maar kunnen geen FileFlows-objecten bijwerken of openen tijdens uitvoering.",
         "ShellDescription": "Shell-scripts worden uitgevoerd op Unix-gebaseerde systemen (Linux, MacOS, Docker). Ze kunnen basisvariabelen lezen maar kunnen geen FileFlows-objecten bijwerken of openen tijdens uitvoering."

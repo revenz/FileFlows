@@ -14,11 +14,6 @@ public class CommonVariables
     /// The UID of the internal processing node
     /// </summary>
     public static readonly Guid InternalNodeUid = new ("bf47da28-051e-452e-ad21-c6a3f477fea9");
-    
-    /// <summary>
-    /// The name of the file display script
-    /// </summary>
-    public const string FILE_DISPLAY_NAME =  "FILE_DISPLAY_NAME"; 
 
     /// <summary>
     /// The name of the manual library
