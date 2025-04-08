@@ -84,6 +84,9 @@ public partial class NavBar
         lblStep2 = Translater.Instant("Labels.Step2");
         
         NavigationManager.LocationChanged += NavigationManagerOnLocationChanged;
+        feService.Files.UnprocessedUpdated += OnUnprocessedUpdated;
+        feService.Files.ProcessingUpdated += OnProcessingUpdated;
+        feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
 
         ProfileService.OnRefresh += ProfileServiceOnOnRefresh; 
         Profile = feService.Profile.Profile;
@@ -96,9 +99,6 @@ public partial class NavBar
         //BottomNavBarItems.Add(new(lblReddit, "fab fa-reddit-alien", "https://reddit.com/r/FileFlows"));
         //BottomNavBarItems.Add(new(lblDiscord, "fab fa-discord", "https://fileflows.com/discord"));
         
-        feService.Files.UnprocessedUpdated += OnUnprocessedUpdated;
-        feService.Files.ProcessingUpdated += OnProcessingUpdated;
-        feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
 
         OnNotificationsUpdated(feService.Notifications.Notifications);
         feService.Notifications.OnNotificationsUpdated += OnNotificationsUpdated;

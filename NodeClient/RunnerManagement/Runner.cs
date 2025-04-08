@@ -51,6 +51,12 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     };
 
     /// <summary>
+    /// Gets or sets if the file has finished processing.
+    /// I.e. it has told th server it is finished
+    /// </summary>
+    public bool FinishedProcessing { get; set; }
+
+    /// <summary>
     /// Starts execution of the runner.
     /// </summary>
     public void Start(LibraryFile lf)
@@ -99,6 +105,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         {
             // Finish the file processing.
             AppendToRunLog("Finishing file: " + lf.Status);
+            FinishedProcessing = true;
             await client.FileFinishProcessing(lf, runLog.ToString());
         }
         catch (Exception ex)

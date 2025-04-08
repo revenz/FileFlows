@@ -246,7 +246,10 @@ public partial class Client
                         InstallingDockerMods = _InstallingDockerMods,
                         InstallingDockerMod = _InstallingDockerMods ? _InstallingDockerMod?.EmptyAsNull() : null,
                         Runners = _runnerManager.ActiveRunners
-                            .Where(x => x.Value.IsRunning && x.Value.Info.LibraryFile != null)
+                            .Where(x =>
+                                x.Value.FinishedProcessing == false &&
+                                x.Value.IsRunning && 
+                                x.Value.Info.LibraryFile != null)
                             .ToDictionary(x => x.Key, x => x.Value.Info),
                     };
                     var result = await _connection.InvokeAsync<NodeStatusUpdateResult>("UpdateNodeStatus", info);
