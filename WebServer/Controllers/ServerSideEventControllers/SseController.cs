@@ -232,7 +232,7 @@ public class SseController : Controller
         };
         
         if ((userRole & UserRole.Variables) == UserRole.Variables)
-            result.Variables = variablesTask.Result ?? [];
+            result.Variables = variablesTask.Result?.OrderBy(x => x.Name.ToLowerInvariant())?.ToList() ?? [];
         if ((userRole & UserRole.DockerMods) == UserRole.DockerMods)
             result.DockerMods = ServiceLoader.Load<DockerModService>().GetForBroadcast();
         if ((userRole & UserRole.Scripts) == UserRole.Scripts)
