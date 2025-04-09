@@ -26,11 +26,11 @@
   grid-template-rows: 1fr auto;
   z-index: 10000;
 }
-.popup-panel.visible.is-processing .popup-panel-main {
+.popup-panel.visible.is-processing.has-notifications .popup-panel-main {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-.popup-panel.visible.is-processing .popup-panel-main .notifications {
+.popup-panel.visible.is-processing.has-notifications .popup-panel-main .notifications {
   border-left: 1px solid var(--border-color);
 }
 .popup-panel .popup-panel-main {
@@ -77,6 +77,17 @@
 }
 .popup-panel .notification.success .icon {
   color: var(--success);
+}
+
+.hidden {
+  display: none;
+}
+
+.runners {
+  display: flex;
+  flex-direction: column;
+  max-height: 10rem;
+  overflow: auto;
 }
 
 .popup-panel-bottom {

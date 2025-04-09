@@ -25,7 +25,7 @@
     display: grid;
     grid-template-rows:1fr auto;
     z-index:10000;
-    &.is-processing .popup-panel-main {
+    &.is-processing.has-notifications .popup-panel-main {
       display: grid;
       grid-template-columns: 1fr 1fr;
       .notifications {
@@ -86,6 +86,17 @@
       }
     }
   }
+}
+
+.hidden {
+  display:none;
+}
+
+.runners {
+  display: flex;
+  flex-direction: column;
+  max-height: 10rem;
+  overflow: auto;
 }
 
 .popup-panel-bottom {
