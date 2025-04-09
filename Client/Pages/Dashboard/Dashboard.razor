@@ -10,30 +10,31 @@
             <Body>
             @if (App.Instance.IsMobile)
             {
-                <FlowTab Title="@lblDashboard" Icon="fas fa-chart-pie" ClassName="dashboard">
-                    <ContainerWidget Title="@lblRunners" Scroll="true">
-                        <Head>
-                            <OptionButtons>
-                                <WidgetOption Label="@PausedService.PausedLabel" Value="1"
-                                              Icon="@(PausedService.IsPaused ? "fas fa-play" : "fas fa-pause")"
-                                              OnClick="PausedService.Toggle"/>
-                            </OptionButtons>
-                        </Head>
-                        <Body>
-                        <RunnersComponent/>
-                        </Body>
-                    </ContainerWidget>
-                    <FilesWidget/>
-                </FlowTab>
-                <FlowTab Title="@lblSavings" Icon="fas fa-dollar-sign">
-                    <LibrarySavingsSummaryWidget/>
-                    <LargestSavingsWidget/>
-                </FlowTab>
-                <FlowTab Title="@lblStatistics" Icon="fas fa-chart-bar" ClassName="statistics">
-                    <FileOverviewWidget IsFilesProcessed="true"/>
-                    <FileOverviewWidget IsFilesProcessed="false"/>
-                    <CpuRamWidget/>
-                </FlowTab>
+                <FilesWidget/>
+                @* <FlowTab Title="@lblDashboard" Icon="fas fa-chart-pie" ClassName="dashboard"> *@
+                @*     <ContainerWidget Title="@lblRunners" Scroll="true"> *@
+                @*         <Head> *@
+                @*             <OptionButtons> *@
+                @*                 <WidgetOption Label="@PausedService.PausedLabel" Value="1" *@
+                @*                               Icon="@(PausedService.IsPaused ? "fas fa-play" : "fas fa-pause")" *@
+                @*                               OnClick="PausedService.Toggle"/> *@
+                @*             </OptionButtons> *@
+                @*         </Head> *@
+                @*         <Body> *@
+                @*         <RunnersComponent/> *@
+                @*         </Body> *@
+                @*     </ContainerWidget> *@
+                @*     <FilesWidget/> *@
+                @* </FlowTab> *@
+                @* <FlowTab Title="@lblSavings" Icon="fas fa-dollar-sign"> *@
+                @*     <LibrarySavingsSummaryWidget/> *@
+                @*     <LargestSavingsWidget/> *@
+                @* </FlowTab> *@
+                @* <FlowTab Title="@lblStatistics" Icon="fas fa-chart-bar" ClassName="statistics"> *@
+                @*     <FileOverviewWidget IsFilesProcessed="true"/> *@
+                @*     <FileOverviewWidget IsFilesProcessed="false"/> *@
+                @*     <CpuRamWidget/> *@
+                @* </FlowTab> *@
             }
             else
             {

@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Components;
 namespace FileFlows.Client.Pages;
 
 /// <summary>
-/// New Dashboard
+/// Dashboard
 /// </summary>
-public partial class NewDashboard : ComponentBase, IDisposable
+public partial class Dashboard : ComponentBase, IDisposable
 {
     /// <summary>
     /// Gets or sets the frontend service
