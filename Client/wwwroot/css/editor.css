@@ -36,6 +36,12 @@
     width: 700px;
     border-left: solid 1px var(--border-color);
   }
+  .editor-wrapper .editor .top-row {
+    background: var(--base-darkest);
+  }
+  .editor-wrapper .editor > .vi-container > .content {
+    background: var(--base-darker);
+  }
   .editor-wrapper .editor.large {
     width: 70vw;
   }

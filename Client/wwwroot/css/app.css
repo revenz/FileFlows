@@ -480,6 +480,12 @@ a.btn {
     width: 700px;
     border-left: solid 1px var(--border-color);
   }
+  .editor-wrapper .editor .top-row {
+    background: var(--base-darkest);
+  }
+  .editor-wrapper .editor > .vi-container > .content {
+    background: var(--base-darker);
+  }
   .editor-wrapper .editor.large {
     width: 70vw;
   }
@@ -3396,7 +3402,7 @@ td a:hover, span.column a:hover {
   right: 0;
   bottom: 0;
   z-index: 2;
-  background: rgba(18, 18, 18, 0.82);
+  background: rgba(12, 12, 12, 0.82);
 }
 
 button .fas, button .far {

@@ -154,7 +154,7 @@ td a, span.column a {
     right:0;
     bottom:0;
     z-index:2;
-    background:rgb(18 18 18 / 82%);
+    background:rgb(12 12 12 / 82%)
 }
 
 button {
@@ -163,10 +163,10 @@ button {
     }
 }
 
+
 .row {
     flex-wrap:nowrap !important;
 }
-
 
 #unsupported-browser, .update-available {
     position: fixed;

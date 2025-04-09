@@ -44,7 +44,14 @@
       left: unset;
       width: 700px;
       border-left: solid 1px var(--border-color);
-
+      
+      .top-row {
+        background:var(--base-darkest);
+      }
+      > .vi-container > .content {
+        background:var(--base-darker);
+      }
+      
       &.large {
         width: 70vw;
       }
