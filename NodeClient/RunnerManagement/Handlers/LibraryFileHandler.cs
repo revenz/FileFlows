@@ -50,10 +50,7 @@ public class LibraryFileHandler
     /// <param name="model">The model</param>
     /// <returns>true if exists otherwise false</returns>
     public async Task<bool> ExistsOnServer(ExistsOnServerModel model)
-    {
-        Console.WriteLine("@#@ Checking exists on server: " + model.Path);
-        return await _client.InvokeAsync<bool>(nameof(ExistsOnServer), model.Path, model.IsDirectory);
-    }
+        => await _client.InvokeAsync<bool>(nameof(ExistsOnServer), model.Path, model.IsDirectory);
 
     /// <summary>
     /// Sets a thumbnail for a file

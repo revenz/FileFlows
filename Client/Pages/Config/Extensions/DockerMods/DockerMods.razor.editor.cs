@@ -100,7 +100,7 @@ public partial class DockerMods
             var saveResult = await HttpHelper.Post<DockerMod>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
-                feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return false;
             }
 

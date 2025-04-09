@@ -156,7 +156,7 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
             var saveResult = await HttpHelper.Post<Library>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
-                feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return false;
             }
 

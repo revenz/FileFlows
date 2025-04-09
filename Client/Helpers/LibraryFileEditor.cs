@@ -211,7 +211,7 @@ public class LibraryFileEditor
         var result = await HttpHelper.Get<string>(downloadUrl);
         if (result.Success == false)
         {
-            feService.Notifications.ShowEditorError(Translater.Instant("Pages.LibraryFiles.Messages.FailedToDownloadLog"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.LibraryFiles.Messages.FailedToDownloadLog"));
             return;
         }
 
@@ -237,10 +237,10 @@ public class LibraryFileEditor
         if (result.Success == false)
         {
             var msg = result.Body?.EmptyAsNull() ?? Translater.Instant("Pages.LibraryFiles.Messages.FailedToReprocess");
-            feService.Notifications.ShowEditorError(msg);
+            feService.Notifications.ShowError(msg);
             return;
         }
-        feService.Notifications.ShowEditorSuccess(Translater.Instant("Pages.LibraryFiles.Messages.ReprocessingFile"));
+        feService.Notifications.ShowSuccess(Translater.Instant("Pages.LibraryFiles.Messages.ReprocessingFile"));
         
         await editor.Closed();
         

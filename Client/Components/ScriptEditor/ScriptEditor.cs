@@ -336,7 +336,7 @@ return 1;
             var saveResult = await HttpHelper.Post<Script>($"/api/script", model);
             if (saveResult.Success == false)
             {
-                feService.Notifications.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 

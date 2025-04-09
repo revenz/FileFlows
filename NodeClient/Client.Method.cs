@@ -403,10 +403,26 @@ public partial class Client
                 continue;
             try
             {
-                var result = await _connection.InvokeAsync<TResult>(methodName, args);
+                TResult result;
+                switch (args.Length)
+                {
+                    case 0: result = await _connection.InvokeAsync<TResult>(methodName); break;
+                    case 1: result = await _connection.InvokeAsync<TResult>(methodName, args[0]); break;
+                    case 2: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1]); break;
+                    case 3: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2]); break;
+                    case 4: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3]); break;
+                    case 5: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3], args[4]); break;
+                    case 6: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3], args[4], args[5]); break;
+                    case 7: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3], args[4], args[5], args[6]); break;
+                    case 8: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]); break;
+                    case 9: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]); break;
+                    case 10: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]); break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(args), "Too many arguments provided.");
+                }
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex) when (ex is not ArgumentOutOfRangeException)
             {
                 if (_connection.State == HubConnectionState.Connected)
                     throw;
@@ -434,10 +450,25 @@ public partial class Client
                 continue;
             try
             {
-                await _connection.SendAsync(methodName, args);
+                switch (args.Length)
+                {
+                    case 0: await _connection.SendAsync(methodName); break;
+                    case 1: await _connection.SendAsync(methodName, args[0]); break;
+                    case 2: await _connection.SendAsync(methodName, args[0], args[1]); break;
+                    case 3: await _connection.SendAsync(methodName, args[0], args[1], args[2]); break;
+                    case 4: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3]); break;
+                    case 5: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4]); break;
+                    case 6: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4], args[5]); break;
+                    case 7: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4], args[5], args[6]); break;
+                    case 8: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]); break;
+                    case 9: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]); break;
+                    case 10: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]); break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(args), "Too many arguments provided.");
+                }
                 return;
             }
-            catch (Exception)
+            catch (Exception ex) when (ex is not ArgumentOutOfRangeException)
             {
                 if (_connection.State == HubConnectionState.Connected)
                     throw;

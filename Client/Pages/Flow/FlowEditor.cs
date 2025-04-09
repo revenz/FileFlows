@@ -179,7 +179,7 @@ public class FlowEditor : IDisposable
             }
             else
             {
-                feService.Notifications.ShowEditorError(
+                feService.Notifications.ShowError(
                     result.Success || string.IsNullOrEmpty(result.Body) ? Translater.Instant($"ErrorMessages.UnexpectedError") : Translater.TranslateIfNeeded(result.Body),
                     duration: 60_000
                 );

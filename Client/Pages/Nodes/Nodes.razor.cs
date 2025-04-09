@@ -97,7 +97,7 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
             var saveResult = await HttpHelper.Post<ProcessingNode>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
-                feService.Notifications.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 

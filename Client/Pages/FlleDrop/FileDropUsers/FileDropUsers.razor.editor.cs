@@ -75,7 +75,7 @@ public partial class FileDropUsers
             var saveResult = await HttpHelper.Post<FileDropUser>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
-                feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return false;
             }
 

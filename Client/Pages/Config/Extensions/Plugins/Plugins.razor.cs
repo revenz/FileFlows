@@ -93,7 +93,7 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
             var pluginResult = await HttpHelper.Post($"{ApiUrl}/{EditingPlugin.PackageName}/settings", json);
             if (pluginResult.Success == false)
             {
-                feService.Notifications.ShowEditorError( Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
             return true;

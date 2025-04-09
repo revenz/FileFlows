@@ -54,28 +54,12 @@ public class NotificationHandler(FrontendService feService)
         => Toast(NotificationSeverity.Error, message, duration);
     
     /// <summary>
-    /// Show an error on an editor 
-    /// </summary>
-    /// <param name="message">the message</param>
-    /// <param name="duration">the duration in milliseconds to show the message</param>
-    public void ShowEditorError(string message, int duration = 5_000)
-        => Toast(NotificationSeverity.Error, message, duration, editor: true);
-
-    /// <summary>
     /// Show an information message
     /// </summary>
     /// <param name="message">the message</param>
     /// <param name="duration">the duration in milliseconds to show the message</param>
     public void ShowInfo(string message, int duration = 5_000)
         => Toast(NotificationSeverity.Information, message, duration);
-
-    /// <summary>
-    /// Show an editor success message
-    /// </summary>
-    /// <param name="message">the message</param>
-    /// <param name="duration">the duration in milliseconds to show the message</param>
-    public void ShowEditorSuccess(string message, int duration = 5_000)
-        => Toast(NotificationSeverity.Success, message, duration, editor: true);
     
     /// <summary>
     /// Show an success message
@@ -99,9 +83,9 @@ public class NotificationHandler(FrontendService feService)
     /// <param name="level">the toast level</param>
     /// <param name="message">the message of the toast</param>
     /// <param name="duration">the duration to show the toast for</param>
-    /// <param name="editor">if this is shown for a editor</param>
-    void Toast(NotificationSeverity level, string message, int duration, bool editor = false)
+    void Toast(NotificationSeverity level, string message, int duration)
     {
+        message = Translater.TranslateIfNeeded(message);
         Notification toast = new ()
         {
             Message = string.Empty, //message,

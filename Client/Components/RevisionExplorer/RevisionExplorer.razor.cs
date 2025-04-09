@@ -53,13 +53,13 @@ public partial class RevisionExplorer
             }
             else
             {
-                feService.Notifications.ShowEditorError(Translater.Instant("Labels.RestoredFailedMessage",
+                feService.Notifications.ShowError(Translater.Instant("Labels.RestoredFailedMessage",
                     new { type = item.RevisionType[(item.RevisionType.LastIndexOf(".", StringComparison.Ordinal) + 1)..].Humanize(LetterCasing.Title) }));
             }
         }
         catch (Exception ex)
         {
-            feService.Notifications.ShowEditorError(ex.Message);
+            feService.Notifications.ShowError(ex.Message);
         }
         finally
         {

@@ -438,7 +438,7 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>, IDispos
             var saveResult = await HttpHelper.Post<ScheduledReport>($"{ApiUrl}", report);
             if (saveResult.Success == false)
             {
-                feService.Notifications.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 

@@ -128,7 +128,7 @@ public partial class Resources : ListPage<Guid, Resource>
             var saveResult = await HttpHelper.Post<Resource>($"{ApiUrl}", resource);
             if (saveResult.Success == false)
             {
-                feService.Notifications.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 

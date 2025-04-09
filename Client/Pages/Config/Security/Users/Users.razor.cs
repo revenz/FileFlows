@@ -183,7 +183,7 @@ public partial class Users: ListPage<Guid, User>
             var saveResult = await HttpHelper.Post<User>($"{ApiUrl}", user);
             if (saveResult.Success == false)
             {
-                feService.Notifications.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 

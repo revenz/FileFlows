@@ -107,7 +107,7 @@ public partial class Tags : ListPage<Guid, Tag>, IDisposable
             var saveResult = await HttpHelper.Post<Tag>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
-                feService.Notifications.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 

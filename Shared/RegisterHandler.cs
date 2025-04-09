@@ -130,7 +130,6 @@ public abstract class RegisterHandler
     {
         _handlers[name] = async (object[] parameters) =>
         {
-            Console.WriteLine("@#@ Handling Register Method: " + name);
             if (parameters.Length != 1)
                 throw new InvalidOperationException($"Handler '{name}' expects exactly one parameter.");
 

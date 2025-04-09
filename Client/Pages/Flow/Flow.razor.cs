@@ -898,7 +898,7 @@ public partial class Flow : ComponentBase, IDisposable
                 return true;
             error = codeResult.Data;
         }
-        feService.Notifications.ShowEditorError(error?.EmptyAsNull() ?? codeResult.Body, duration: 20_000);
+        feService.Notifications.ShowError(error?.EmptyAsNull() ?? codeResult.Body, duration: 20_000);
         return false;
     }
 
@@ -1167,7 +1167,7 @@ public partial class Flow : ComponentBase, IDisposable
             }
             else
             {
-                feService.Notifications.ShowEditorError(
+                feService.Notifications.ShowError(
                     result.Success || string.IsNullOrEmpty(result.Body) ? Translater.Instant($"ErrorMessages.UnexpectedError") : Translater.TranslateIfNeeded(result.Body),
                     duration: 60_000
                 );

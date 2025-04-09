@@ -111,7 +111,7 @@ public partial class NewComicFlowWizard
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
-                feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return;
             }
             
