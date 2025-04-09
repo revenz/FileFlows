@@ -221,7 +221,9 @@ public abstract class RegisterHandler
                 Logger.Instance.ELog($"Error invoking handler '{handler}' : inner : {ex}");
             }
         }
+        var paramTypes = string.Join(", ", parameters.Select(p => p?.GetType().FullName ?? "null"));
+        Logger.Instance.WLog($"Handler '{name}' has unsupported signature. Handler type: {handler?.GetType().FullName}, parameter types: [{paramTypes}]");
 
-        throw new InvalidOperationException($"Handler '{name}' has an unsupported signature.");
+        throw new InvalidOperationException($"Handler '{name}' has an unsupported signature. Handler type: {handler?.GetType().FullName}, parameter types: [{paramTypes}]");
     }
 }

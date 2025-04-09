@@ -64,7 +64,8 @@ public class LibraryFileEditor
         }
 
 
-        if(new[] { FileStatus.Unprocessed, FileStatus.Disabled, FileStatus.OutOfSchedule }.Contains(model.Status) == false)
+        if(new[] { FileStatus.Unprocessed, FileStatus.Disabled, FileStatus.OutOfSchedule }.Contains(model.Status) == false
+           || model.ExecutedNodes?.Any() == true)
         {
             // show tabs
             var tabs = new Dictionary<string, List<IFlowField>>();
