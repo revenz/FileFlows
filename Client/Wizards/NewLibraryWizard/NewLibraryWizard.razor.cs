@@ -291,7 +291,7 @@ public partial class NewLibraryWizard : IModal
                     case 0: // video
                         library.Extensions =
                         [
-                            "ts", "mp4", "mkv", "avi", "mpe", "mpeg", "mov", "mpv", "flv", "wmv", "webm", "avchd",
+                            "ts", "mp4", "mkv", "avi", "mpe", "mpeg", "mpg", "mov", "mpv", "flv", "wmv", "webm", "avchd",
                             "h264", "h265"
                         ];
                         break;
