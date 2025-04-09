@@ -130,7 +130,6 @@
   .page {
     display: grid;
     grid-template-rows: 1fr auto;
-    grid-gap: 1rem;
   }
   .page .main {
     overflow: hidden;

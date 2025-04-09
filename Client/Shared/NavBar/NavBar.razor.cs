@@ -292,10 +292,10 @@ public partial class NavBar
             BottomNavBarItems.Add(new ("filedrop", "FileDrop", "fas fa-tint", "/file-drop/general", false));
         }        
         
-        if(Profile.Security == SecurityMode.Local)
-            BottomNavBarItems.Add(new ("change-password", lblChangePassword, "fas fa-key", "#change-password"));
-        if(Profile.Security != SecurityMode.Off)
-            BottomNavBarItems.Add(new ("logout", lblLogout, "fas fa-unlock", "/logout"));
+        // if(Profile.Security == SecurityMode.Local)
+        //     BottomNavBarItems.Add(new ("change-password", lblChangePassword, "fas fa-key", "#change-password"));
+        // if(Profile.Security != SecurityMode.Off)
+        //     BottomNavBarItems.Add(new ("logout", lblLogout, "fas fa-unlock", "/logout"));
     }
     
     async Task Click(NavBarItem item)

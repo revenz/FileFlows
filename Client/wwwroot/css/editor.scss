@@ -9,11 +9,6 @@
     background:var(--base-darker);
     z-index:6;
     left:0;
-
-    margin: 1rem;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    border: solid 1px var(--border-color);
     
     &.maximised {
       width:100vw !important;
@@ -43,7 +38,13 @@
     .editor {
       left: unset;
       width: 700px;
-      border-left: solid 1px var(--border-color);
+      margin: 1rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      border: solid 1px var(--border-color);
+      &.PagesProcessingNode {
+        width:800px;
+      }
       
       .top-row {
         background:var(--base-darkest);

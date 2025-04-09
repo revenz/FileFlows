@@ -36,8 +36,15 @@
   .popup-panel-main {
     padding: 1rem;
   }
-  ::deep .no-runners {
-    display: none;
+  ::deep {
+    .no-runners {
+      display: none;
+    }
+    .runner-content {
+      .details {
+        display: none;
+      }
+    }
   }
   .notification {
     margin: 0.5rem 0.5rem 0 0.5rem;
@@ -85,9 +92,23 @@
   border-top: 1px solid var(--border-color);
   background: var(--base);
   padding: 1rem;
+  text-align: right;
+  a {
+    height: fit-content;
+    display: inline-block;
+  }
   i {
     font-size: 2rem;
     cursor:pointer;
     padding: 0 1rem;
+    color:var(--color);
+    opacity: 0.7;
+    &:hover {
+      opacity: 1;
+    }
   }
+}
+
+.external-link + .user-link {
+  border-left:solid 1px var(--border-color);
 }

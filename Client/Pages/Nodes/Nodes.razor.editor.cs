@@ -60,6 +60,7 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>
         await Editor.Open(new()
         {
             TypeName = "Pages.ProcessingNode", Title = "Pages.ProcessingNode.Title", Model = node, Tabs = tabs,
+            
             //Large = true,
             SaveCallback = Save, HelpUrl = "https://fileflows.com/docs/webconsole/configuration/nodes",
         });

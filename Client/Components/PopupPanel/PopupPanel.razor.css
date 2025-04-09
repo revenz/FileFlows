@@ -39,6 +39,9 @@
 .popup-panel ::deep .no-runners {
   display: none;
 }
+.popup-panel ::deep .runner-content .details {
+  display: none;
+}
 .popup-panel .notification {
   margin: 0.5rem 0.5rem 0 0.5rem;
   background: var(--base-lightest);
@@ -80,11 +83,25 @@
   border-top: 1px solid var(--border-color);
   background: var(--base);
   padding: 1rem;
+  text-align: right;
+}
+.popup-panel-bottom a {
+  height: fit-content;
+  display: inline-block;
 }
 .popup-panel-bottom i {
   font-size: 2rem;
   cursor: pointer;
   padding: 0 1rem;
+  color: var(--color);
+  opacity: 0.7;
+}
+.popup-panel-bottom i:hover {
+  opacity: 1;
+}
+
+.external-link + .user-link {
+  border-left: solid 1px var(--border-color);
 }
 
 /*# sourceMappingURL=PopupPanel.razor.css.map */
