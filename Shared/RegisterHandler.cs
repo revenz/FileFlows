@@ -187,42 +187,6 @@ public abstract class RegisterHandler
 
         try
         {
-            // If any parameters are JsonElement, attempt to deserialize them to expected types
-            if (handler is Delegate del)
-            {
-                var method = del.GetMethodInfo();
-                var expectedParams = method.GetParameters();
-
-                if (expectedParams.Length == parameters.Length)
-                {
-                    object[] convertedParams = new object[parameters.Length];
-                    for (int i = 0; i < parameters.Length; i++)
-                    {
-                        var expectedType = expectedParams[i].ParameterType;
-                        var param = parameters[i];
-
-                        if (param is JsonElement je)
-                        {
-                            try
-                            {
-                                convertedParams[i] = JsonSerializer.Deserialize(je.GetRawText(), expectedType);
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.Instance.WLog($"Failed to deserialize parameter {i} to {expectedType}: {ex.Message}");
-                                convertedParams[i] = null!;
-                            }
-                        }
-                        else
-                        {
-                            convertedParams[i] = param;
-                        }
-                    }
-
-                    parameters = convertedParams;
-                }
-            }
-
             
             switch (handler)
             {

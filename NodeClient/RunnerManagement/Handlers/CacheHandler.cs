@@ -8,7 +8,7 @@ namespace FileFlows.NodeClient.Handlers;
 public class CacheHandler
 {
     private JsonRpcServer rpcServer;
-    private Client _client;
+    private HubConnection _connection;
 
     /// <summary>
     /// Constructs a new instance of the handler
@@ -18,7 +18,7 @@ public class CacheHandler
     public CacheHandler(JsonRpcServer rpcServer, RpcRegister rpcRegister)
     {
         this.rpcServer = rpcServer;
-        _client = rpcServer._client;
+        _connection = rpcServer._client._connection;
         rpcRegister.Register<string, string>(nameof(GetJsonAsync), GetJsonAsync);
         rpcRegister.Register<StoreJsonModel>(nameof(StoreJsonAsync), StoreJsonAsync);
     }
@@ -29,7 +29,7 @@ public class CacheHandler
     /// <param name="key">The cache key.</param>
     /// <returns>A task representing the asynchronous operation, containing the JSON string if found; otherwise, <c>null</c>.</returns>
     public Task<string> GetJsonAsync(string key)
-        => _client.InvokeAsync<string>("Cache" + nameof(GetJsonAsync), key);
+        => _connection.InvokeAsync<string>("Cache" + nameof(GetJsonAsync), key);
 
     /// <summary>
     /// Stores a JSON string in the cache with an optional expiration time.
@@ -37,7 +37,7 @@ public class CacheHandler
     /// <param name="model">the model of the data</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     public void StoreJsonAsync(StoreJsonModel model)
-        => _ = _client.SendAsync("Cache" + nameof(StoreJsonAsync), model.Key, model.Json, model.Expiration);
+        => _ = _connection.SendAsync("Cache" + nameof(StoreJsonAsync), model.Key, model.Json, model.Expiration);
 
     /// <summary>
     /// Running total model
