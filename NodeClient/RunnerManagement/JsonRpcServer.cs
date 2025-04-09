@@ -35,6 +35,8 @@ public class JsonRpcServer : IDisposable
     private readonly StatisticsHandler _statisticsHandler;
     private readonly CacheHandler _cacheHandler;
 
+    private readonly string LogPrefix;
+
     /// <summary>
     /// The server pipe used for communication with the client.
     /// </summary>
@@ -48,6 +50,7 @@ public class JsonRpcServer : IDisposable
     /// <param name="logMessage">Action for logging messages.</param>
     public JsonRpcServer(Client client, RunnerParameters runnerParameters, Action<string> logMessage)
     {
+        LogPrefix = $"JsonRpcClient[{runnerParameters.Uid}]: "; 
         _client = client;
         this.cts = new CancellationTokenSource();
         this.runnerParameters = runnerParameters;
@@ -71,7 +74,7 @@ public class JsonRpcServer : IDisposable
         {
             while (!cts.Token.IsCancellationRequested)
             {
-                Logger.Instance.ILog($"JsonRpcClient: Starting RPC Server \"{PipeName}\"");
+                Logger.Instance.ILog($"{LogPrefix}Starting RPC Server \"{PipeName}\"");
 
                 try
                 {
@@ -84,10 +87,10 @@ public class JsonRpcServer : IDisposable
                                 1024 * 1024,  // 1MB in-buffer size
                                 1024 * 1024   // 1MB out-buffer size
                             );
-                    Logger.Instance.ILog("JsonRpcClient: Waiting for child process...");
+                    Logger.Instance.ILog($"{LogPrefix}Waiting for child process...");
 
                     await server.WaitForConnectionAsync(cts.Token);
-                    Logger.Instance.ILog("JsonRpcClient: Child connected.");
+                    Logger.Instance.ILog($"{LogPrefix}Child connected.");
 
                     using var reader = new StreamReader(server);
                     await using var writer = new StreamWriter(server);
@@ -109,7 +112,7 @@ public class JsonRpcServer : IDisposable
                             var request = JsonSerializer.Deserialize<RpcRequest>(requestJson);
                             if (request == null)
                             {
-                                Logger.Instance.ILog("JsonRpcClient: Failed to deserialize: " + requestJson);
+                                Logger.Instance.ILog($"{LogPrefix}Failed to deserialize: " + requestJson);
                                 return;
                             }
 
@@ -126,12 +129,12 @@ public class JsonRpcServer : IDisposable
                 }
                 catch (OperationCanceledException)
                 {
-                    Logger.Instance.ILog("JsonRpcClient: Server task canceled.");
+                    Logger.Instance.ILog($"{LogPrefix}Server task canceled.");
                     break; // Ensure exit
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.ILog("JsonRpcClient: Server exception: " + ex);
+                    Logger.Instance.ILog($"{LogPrefix}Server exception: " + ex);
                 }
                 finally
                 {
@@ -141,7 +144,7 @@ public class JsonRpcServer : IDisposable
                     }
                     catch (Exception disposeEx)
                     {
-                        Logger.Instance.ILog("JsonRpcClient: Error disposing server: " + disposeEx);
+                        Logger.Instance.ILog($"{LogPrefix}Error disposing server: " + disposeEx);
                     }
                 }
             }
@@ -156,7 +159,7 @@ public class JsonRpcServer : IDisposable
     {
         if (cts == null) return;
 
-        Logger.Instance.ILog("JsonRpcClient: Stopping server...");
+        Logger.Instance.ILog($"{LogPrefix}Stopping server...");
         cts.Cancel();
     }
 
@@ -165,6 +168,7 @@ public class JsonRpcServer : IDisposable
     /// </summary>
     public void Dispose()
     {
+        Logger.Instance.ILog($"{LogPrefix}Disposing");
         Stop();
         serverTask?.Wait();
         serverTask?.Dispose();
@@ -221,12 +225,12 @@ public class JsonRpcServer : IDisposable
             }
             else
             {
-                Logger.Instance.ILog("JsonRpcClient: Server is not connected, unable to send message.");
+                Logger.Instance.ILog($"{LogPrefix}Server is not connected, unable to send message.");
             }
         }
         catch (Exception ex)
         {
-            Logger.Instance.ILog("JsonRpcClient: Error sending message: " + ex);
+            Logger.Instance.ILog($"{LogPrefix}Error sending message: " + ex);
         }
         finally
         {

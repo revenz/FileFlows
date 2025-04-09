@@ -7,11 +7,11 @@ namespace FileFlows.NodeClient.Handlers;
 public class LibraryFileHandler
 {
     private JsonRpcServer rpcServer;
-    private HubConnection _connection;
+    private Client _client;
     public LibraryFileHandler(JsonRpcServer rpcServer, RpcRegister rpcRegister)
     {
         this.rpcServer = rpcServer;
-        _connection = rpcServer._client._connection;
+        _client = rpcServer._client;
         rpcRegister.Register<LibraryFile>(nameof(UpdateLibraryFile), UpdateLibraryFile);
         rpcRegister.Register(nameof(LibraryIgnorePath), LibraryIgnorePath);
         // rpcRegister.Register(nameof(DeleteLibraryFile), DeleteLibraryFile);
@@ -36,7 +36,7 @@ public class LibraryFileHandler
     /// </summary>
     /// <param name="path">the Path to ignore</param>
     public async Task LibraryIgnorePath(string path)
-        => await _connection.SendAsync("LibraryIgnorePath", path);
+        => await _client.SendAsync("LibraryIgnorePath", path);
     
 
     // public void DeleteLibraryFile(Guid uid)
@@ -50,7 +50,7 @@ public class LibraryFileHandler
     /// <param name="model">The model</param>
     /// <returns>true if exists otherwise false</returns>
     public async Task<bool> ExistsOnServer(ExistsOnServerModel model)
-        => await _connection.InvokeAsync<bool>(nameof(ExistsOnServer), model.Path, model.IsDirectory);
+        => await _client.InvokeAsync<bool>(nameof(ExistsOnServer), model.Path, model.IsDirectory);
 
     /// <summary>
     /// Sets a thumbnail for a file
@@ -59,7 +59,7 @@ public class LibraryFileHandler
     /// <returns>a completed task</returns>
     public void SetThumbnail(string base64)
     {
-        _ = _connection.InvokeAsync("SetThumbnail", this.rpcServer.runnerParameters.LibraryFile.Uid,
+        _ = _client.SendAsync("SetThumbnail", this.rpcServer.runnerParameters.LibraryFile.Uid,
             Convert.FromBase64String(base64));
         
     }

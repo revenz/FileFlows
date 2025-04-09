@@ -45,12 +45,12 @@
       &.PagesProcessingNode {
         width:800px;
       }
-      
+
       .top-row {
-        background:var(--base-darkest);
+        background:var(--main-background);
       }
       > .vi-container > .content {
-        background:var(--base-darker);
+        background:var(--base-darkest);
       }
       
       &.large {

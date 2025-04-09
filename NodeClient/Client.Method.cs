@@ -9,6 +9,7 @@ using FileFlows.ServerShared.Services;
 using FileFlows.Shared.Models;
 using FileFlows.Shared.Models.SignalAre;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 using NPoco.fastJSON;
 using ZstdSharp.Unsafe;
 
@@ -317,25 +318,6 @@ public partial class Client
     }
 
     /// <summary>
-    /// Checks if the file exists on the server
-    /// </summary>
-    /// <param name="path">The file path</param>
-    /// <param name="isDirectory">if it is a directory</param>
-    /// <returns>true if exists, otherwise false</returns>
-    public async Task<bool> ExistsOnServer(string path, bool isDirectory)
-    {
-        try
-        {
-            return await _connection.InvokeAsync<bool>(nameof(ExistsOnServer), path, isDirectory);
-        }
-        catch (Exception ex)
-        {
-            _logger.WLog($"Failed checking file exists on server: {ex.Message}");
-            return true; // assume it exists on the server
-        }
-    }
-
-    /// <summary>
     /// Starts processing a file
     /// </summary>
     /// <param name="libraryFile">the library file</param>
@@ -393,19 +375,105 @@ public partial class Client
         => await _connection.SendAsync(nameof(FileLogAppend), libFileUid, lines, overwrite);
 
     /// <summary>
-    /// Sets a thumbnail for a file
-    /// </summary>
-    /// <param name="libraryFileUid">the UID of the library file</param>
-    /// <param name="binaryData">the binary data for the thumbnail</param>
-    /// <returns>a completed task</returns>
-    public async Task SetThumbnail(Guid libraryFileUid, byte[] binaryData)
-        => await _connection.SendAsync(nameof(SetThumbnail), libraryFileUid, binaryData);
-
-    /// <summary>
     /// Sends a log message to the server
     /// </summary>
     /// <param name="messages">the messages being logged</param>
     public async Task Log(string[] messages)
         => await _connection.SendAsync(nameof(Log),
             _node?.Address?.EmptyAsNull() ?? _node?.Name?.EmptyAsNull() ?? Environment.MachineName, messages);
+    
+    /// <summary>
+    /// Invokes a hub method on the server using the specified method name and arguments.
+    /// </summary>
+    /// <typeparam name="TResult">The return type of the server method.</typeparam>
+    /// <param name="methodName">The name of the server method to invoke.</param>
+    /// <param name="args">The arguments.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> that represents the asynchronous invoke.
+    /// The <see cref="Task{TResult}.Result"/> property returns a <typeparamref name="TResult"/> for the hub method return value.
+    /// </returns>
+    public async Task<TResult> InvokeAsync<TResult>(string methodName, params object?[] args)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            if (_disposed)
+                return default!;
+            
+            if(await AwaitConnection(30) == false)
+                continue;
+            try
+            {
+                var result = await _connection.InvokeAsync<TResult>(methodName, args);
+                return result;
+            }
+            catch (Exception)
+            {
+                if (_connection.State == HubConnectionState.Connected)
+                    throw;
+            }
+        }
+        _logger.ELog("Failed to invoke method on server as no connection could be established.");
+        throw new Exception($"Failed to invoke method on server as no connection established.");
+    }
+    
+    /// <summary>
+    /// Invokes a hub method on the server using the specified method name and arguments.
+    /// Does not wait for a response from the receiver.
+    /// </summary>
+    /// <param name="methodName">The name of the server method to invoke.</param>
+    /// <param name="args">The arguments.</param>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous invoke.</returns>
+    public async Task SendAsync( string methodName, params object?[] args)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            if (_disposed)
+                return;
+            
+            if(await AwaitConnection(30) == false)
+                continue;
+            try
+            {
+                await _connection.SendAsync(methodName, args);
+                return;
+            }
+            catch (Exception)
+            {
+                if (_connection.State == HubConnectionState.Connected)
+                    throw;
+            }
+        }
+        _logger.ELog("Failed to sending method on server as no connection could be established.");
+        throw new Exception($"Failed to sending method on server as no connection established.");
+    }
+    
+
+    // in handlers
+    // /// <summary>
+    // /// Sets a thumbnail for a file
+    // /// </summary>
+    // /// <param name="libraryFileUid">the UID of the library file</param>
+    // /// <param name="binaryData">the binary data for the thumbnail</param>
+    // /// <returns>a completed task</returns>
+    // public async Task SetThumbnail(Guid libraryFileUid, byte[] binaryData)
+    //     => await _connection.SendAsync(nameof(SetThumbnail), libraryFileUid, binaryData);
+    //
+    // /// <summary>
+    // /// Checks if the file exists on the server
+    // /// </summary>
+    // /// <param name="path">The file path</param>
+    // /// <param name="isDirectory">if it is a directory</param>
+    // /// <returns>true if exists, otherwise false</returns>
+    // public async Task<bool> ExistsOnServer(string path, bool isDirectory)
+    // {
+    //     try
+    //     {
+    //         return await _connection.InvokeAsync<bool>(nameof(ExistsOnServer), path, isDirectory);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         _logger.WLog($"Failed checking file exists on server: {ex.Message}");
+    //         return true; // assume it exists on the server
+    //     }
+    // }
 }

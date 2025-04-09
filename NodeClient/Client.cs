@@ -282,13 +282,14 @@ public partial class Client : IDisposable
     /// <summary>
     /// Awaits the connection 
     /// </summary>
+    /// <param name="timeoutInSeconds">time in seconds to wait for connection</param>
     /// <returns>true if connected, otherwise false if timed out</returns>
-    public async Task<bool> AwaitConnection()
+    public async Task<bool> AwaitConnection(int timeoutInSeconds = 30)
     {
         if (_disposed)
             return false;
 
-        var end = DateTime.Now.AddSeconds(30);
+        var end = DateTime.Now.AddSeconds(timeoutInSeconds);
 
         while (DateTime.Now < end)
         {

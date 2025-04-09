@@ -10,7 +10,7 @@ namespace FileFlows.NodeClient.Handlers;
 public class BasicHandler
 {
     private JsonRpcServer rpcServer;
-    private HubConnection _connection;
+    private Client _client;
 
     /// <summary>
     /// Constructs a new instance of the Basic Handler
@@ -20,7 +20,7 @@ public class BasicHandler
     public BasicHandler(JsonRpcServer rpcServer, RpcRegister rpcRegister)
     {
         this.rpcServer = rpcServer;
-        _connection = rpcServer._client._connection;
+        _client = rpcServer._client;
         #if(DEBUG)
         rpcRegister.Register(nameof(LogMessage), LogMessage);
         #endif
@@ -51,14 +51,14 @@ public class BasicHandler
     /// <param name="model">the email model</param>
     /// <returns>true if successfully sent, otherwise false</returns>
     public async Task<string> SendEmail(EmailModel model)
-        => await _connection.InvokeAsync<string>(nameof(SendEmail), model.To, model.Subject, model.Body);
+        => await _client.InvokeAsync<string>(nameof(SendEmail), model.To, model.Subject, model.Body);
         
     /// <summary>
     /// Records a new notification with the specified severity, title, and message.
     /// </summary>
     /// <param name="model">the notification model</param>
     public void RecordNotification(RecordNotificationModel model)
-        => _ = _connection.InvokeAsync<string>(nameof(RecordNotification), model.Severity, model.Title, model.Message);
+        => _ = _client.InvokeAsync<string>(nameof(RecordNotification), model.Severity, model.Title, model.Message);
     
     #if(DEBUG)
     /// <summary>

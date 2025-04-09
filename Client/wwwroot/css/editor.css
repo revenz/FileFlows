@@ -39,10 +39,10 @@
     width: 800px;
   }
   .editor-wrapper .editor .top-row {
-    background: var(--base-darkest);
+    background: var(--main-background);
   }
   .editor-wrapper .editor > .vi-container > .content {
-    background: var(--base-darker);
+    background: var(--base-darkest);
   }
   .editor-wrapper .editor.large {
     width: 70vw;

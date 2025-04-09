@@ -8,7 +8,7 @@ namespace FileFlows.NodeClient.Handlers;
 public class StatisticsHandler
 {
     private JsonRpcServer rpcServer;
-    private HubConnection _connection;
+    private Client _client;
 
     /// <summary>
     /// Constructs a new instance of the handler
@@ -18,7 +18,7 @@ public class StatisticsHandler
     public StatisticsHandler(JsonRpcServer rpcServer, RpcRegister rpcRegister)
     {
         this.rpcServer = rpcServer;
-        _connection = rpcServer._client._connection;
+        _client = rpcServer._client;
         rpcRegister.Register<RecordRunningTotalModel>(nameof(RecordRunningTotal), RecordRunningTotal);
         rpcRegister.Register<RecordAverageModel>(nameof(RecordAverage), RecordAverage);
     }
@@ -28,14 +28,14 @@ public class StatisticsHandler
     /// </summary>
     /// <param name="model">the model of the data</param>
     public void RecordRunningTotal(RecordRunningTotalModel model)
-        => _ = _connection.SendAsync(nameof(RecordRunningTotal), model.Name, model.Value);
+        => _ = _client.SendAsync(nameof(RecordRunningTotal), model.Name, model.Value);
 
     /// <summary>
     /// Records a average 
     /// </summary>
     /// <param name="model">the model of the data</param>
     public void RecordAverage(RecordAverageModel model)
-        => _ = _connection.SendAsync(nameof(RecordAverage), model.Name, model.Value);
+        => _ = _client.SendAsync(nameof(RecordAverage), model.Name, model.Value);
 
     /// <summary>
     /// Running total model
