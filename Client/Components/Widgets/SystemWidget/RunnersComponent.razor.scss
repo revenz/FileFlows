@@ -70,6 +70,7 @@
 
 .widget-runner {
   position: relative;
+  min-height: fit-content;
   display: flex;
   user-select: none;
   flex-direction: column;
