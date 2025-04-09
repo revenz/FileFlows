@@ -60,7 +60,7 @@ public class ConfigurationService
             if(CurrentConfig == null)
                 Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Failed to deserialize configuration");
             else
-                Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Loaded configuration from disk: " + CurrentConfig.Resources);
+                Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Loaded configuration from disk: " + CurrentConfig.Revision);
         }
         catch (Exception ex)
         {

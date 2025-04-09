@@ -1,4 +1,5 @@
 using FileFlows.ServerModels;
+using FileFlows.Services.FileProcessing;
 using FileFlows.Shared.Models.SignalAre;
 using Microsoft.AspNetCore.SignalR;
 using ILogger = FileFlows.Common.ILogger;
@@ -114,6 +115,8 @@ public partial class NodeHub : Hub
         var node = await _nodeService.GetByAddressAsync(parameters.Hostname);
         if (node != null)
         {
+            var sorterService = ServiceLoader.Load<FileSorterService>();
+            sorterService.NodeReconnected(node.Uid, parameters.ActiveRunners);
             // already exists
             if(node.Version != parameters.Version) 
             {

@@ -38,6 +38,12 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
     public string NodeName { get; set; }
     
     /// <summary>
+    /// Gets or sets the UID of the node
+    /// </summary>
+    [JsonIgnore]
+    public Guid NodeUid { get; set; }
+    
+    /// <summary>
     /// Gets or sets the library name
     /// </summary>
     [JsonPropertyName("l")]
