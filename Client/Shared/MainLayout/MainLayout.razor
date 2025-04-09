@@ -17,13 +17,15 @@
                 </CascadingValue>
             </CascadingValue>
         }
+        
+        <PopupPanel />
 
         <Blocker @ref="Blocker"></Blocker>
+        <Editor @ref="Editor"></Editor>
     </div>
 </div>
 
 
-<Editor @ref="Editor"></Editor>
 
 @if (Blocker != null)
 {
@@ -42,4 +44,4 @@
 <FileFlows.Client.Components.Dialogs.ImportDialog/>
 <FileFlows.Client.Components.Dialogs.UsedByDialog/>
 <FileFlows.Client.Components.ModalRenderer/>
-<FileFlows.Client.Components.Toast/>
+@* <FileFlows.Client.Components.Toast/> *@

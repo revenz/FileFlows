@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -13,6 +14,10 @@ public partial class ChangePassword: VisibleEscapableComponent
     /// Gets or sets the javascript runtime
     /// </summary>
     [Inject] public IJSRuntime jsRuntime { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
     
     private string lblTitle, lblSave, lblCancel, lblOldPassword, lblNewPassword, lblNewPasswordConfirm;
     TaskCompletionSource ShowTask;
@@ -87,7 +92,7 @@ public partial class ChangePassword: VisibleEscapableComponent
 
         if (newPassword != newPasswordConfirm)
         {
-            Toast.ShowError("Dialogs.ChangePassword.PasswordMismatch");
+            feService.Notifications.ShowError("Dialogs.ChangePassword.PasswordMismatch");
             return;
         }
 
@@ -99,11 +104,11 @@ public partial class ChangePassword: VisibleEscapableComponent
         saving = false;
         if (result.Success == false)
         {
-            Toast.ShowError(result.Body);
+            feService.Notifications.ShowError(result.Body);
         }
         else
         {
-            Toast.ShowSuccess("Dialogs.ChangePassword.Changed");
+            feService.Notifications.ShowSuccess("Dialogs.ChangePassword.Changed");
             Visible = false;
             ShowTask.TrySetResult();
         }

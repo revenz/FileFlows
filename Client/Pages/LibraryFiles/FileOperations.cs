@@ -120,7 +120,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         {
             await HttpHelper.Post("/api/library/rescan-enabled");
             await Refresh();
-            Toast.ShowSuccess(Translater.Instant("Pages.LibraryFiles.Labels.ScanTriggered"));
+            feService.Notifications.ShowSuccess(Translater.Instant("Pages.LibraryFiles.Labels.ScanTriggered"));
         }
         finally
         {
@@ -185,9 +185,9 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
             if (deleteResult.Success == false)
             {
                 if(Translater.NeedsTranslating(deleteResult.Body))
-                    Toast.ShowError( Translater.Instant(deleteResult.Body));
+                    feService.Notifications.ShowError( Translater.Instant(deleteResult.Body));
                 else
-                    Toast.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
+                    feService.Notifications.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
                 return;
             }
             
@@ -216,7 +216,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         var apiResult = await HttpHelper.Get<string>($"{url}?test=true");
         if (apiResult.Success == false)
         {
-            Toast.ShowError(apiResult.Body?.EmptyAsNull() ?? apiResult.Data?.EmptyAsNull() ?? "Failed to download.");
+            feService.Notifications.ShowError(apiResult.Body?.EmptyAsNull() ?? apiResult.Data?.EmptyAsNull() ?? "Failed to download.");
             return;
         }
         
@@ -240,9 +240,9 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
             if (apiResult.Success == false)
             {
                 if(Translater.NeedsTranslating(apiResult.Body))
-                    Toast.ShowError( Translater.Instant(apiResult.Body));
+                    feService.Notifications.ShowError( Translater.Instant(apiResult.Body));
                 else
-                    Toast.ShowError( Translater.Instant("ErrorMessages.SetFileStatus"));
+                    feService.Notifications.ShowError( Translater.Instant("ErrorMessages.SetFileStatus"));
                 return;
             }
             await Refresh();

@@ -121,7 +121,7 @@ public partial class Report : ComponentBase
         var rd = feService.Report.ReportDefinitions.FirstOrDefault(x => x.Uid == Uid);
         if (rd == null)
         {
-            Toast.ShowError(Translater.Instant("Pages.Report.Messages.FailedToFindReport"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.Report.Messages.FailedToFindReport"));
             NavigationManager.NavigateTo("/reporting");
             return;
         }
@@ -317,13 +317,13 @@ public partial class Report : ComponentBase
             var result = await HttpHelper.Post<string>($"/api/report/generate/{Uid}", Model);
             if (result.Success == false)
             {
-                Toast.ShowError(result.Body?.EmptyAsNull() ?? "Pages.Report.Messages.FailedToGenerateReport");
+                feService.Notifications.ShowError(result.Body?.EmptyAsNull() ?? "Pages.Report.Messages.FailedToGenerateReport");
                 return;
             }
 
             if (emailing)
             {
-                Toast.ShowSuccess(Translater.Instant("Pages.Report.Messages.ReportEmailed",
+                feService.Notifications.ShowSuccess(Translater.Instant("Pages.Report.Messages.ReportEmailed",
                     new { email = oEmail.ToString() }));
                 GoBack();
                 return;

@@ -418,7 +418,7 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>, IDispos
             var rd = ReportDefinitions.FirstOrDefault(x => x.Uid == report.Report.Uid);
             if (rd == null)
             {
-                Toast.ShowError("Report not found"); // shouldn't happen
+                feService.Notifications.ShowError("Report not found"); // shouldn't happen
                 return false;
             }
 
@@ -438,7 +438,7 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>, IDispos
             var saveResult = await HttpHelper.Post<ScheduledReport>($"{ApiUrl}", report);
             if (saveResult.Success == false)
             {
-                Toast.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 

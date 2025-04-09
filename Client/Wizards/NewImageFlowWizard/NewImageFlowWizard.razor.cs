@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using FileFlows.Plugin.Types;
 using Microsoft.AspNetCore.Components;
@@ -31,6 +32,10 @@ public partial class NewImageFlowWizard
     private int Quality = 70, ResizeMode = 1;
     private bool Resize;
     public NumberPercent Width = new() { Value = 1920 }, Height = new() { Value = 1080 };
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
 
     /// <summary>
     /// The input options
@@ -126,7 +131,7 @@ public partial class NewImageFlowWizard
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
-                Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return;
             }
             
@@ -147,7 +152,7 @@ public partial class NewImageFlowWizard
         await Editor.Validate();
         if (string.IsNullOrWhiteSpace(FlowName))
         {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
+            feService.Notifications.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
             return false;
         }
 

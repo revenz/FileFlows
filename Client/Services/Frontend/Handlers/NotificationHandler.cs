@@ -1,3 +1,5 @@
+using Markdig.Helpers;
+
 namespace FileFlows.Client.Services.Frontend.Handlers;
 
 /// <summary>
@@ -9,12 +11,22 @@ public class NotificationHandler(FrontendService feService)
     /// <summary>
     /// Gets or sets a list of notifications
     /// </summary>
-    public List<Notification> Notifications { get; private set; }
+    public List<Notification> Notifications { get; private set; } = [];
+    
+    /// <summary>
+    /// Gets or sets a list of Toasts
+    /// </summary>
+    public List<Notification> Toasts { get; private set; } = [];
+
+    /// <summary>
+    /// Gets or sets a list of Toasts
+    /// </summary>
+    public List<Notification> All { get; private set; } = [];
     
     /// <summary>
     /// Event raised when notifications are updated
     /// </summary>
-    public event Action<List<Notification>> OnNotificationsUpdated; 
+    public event Action? OnNotificationsUpdated; 
 
     /// <summary>
     /// Initializes the handler
@@ -23,11 +35,82 @@ public class NotificationHandler(FrontendService feService)
     public void Initialize(InitialClientData data)
     {
         Notifications = data.Notifications;
+        All = data.Notifications.ToList();
         
         feService.Registry.Register<Notification>("Notification", (ed) =>
         {
             Notifications.Insert(0, ed);
-            OnNotificationsUpdated?.Invoke(Notifications);
+            All.Insert(0, ed);
+            OnNotificationsUpdated?.Invoke();
         });
+    }
+    
+    /// <summary>
+    /// Show an error message
+    /// </summary>
+    /// <param name="message">the message</param>
+    /// <param name="duration">the duration in milliseconds to show the message</param>
+    public void ShowError(string message, int duration = 5_000)
+        => Toast(NotificationSeverity.Error, message, duration);
+    
+    /// <summary>
+    /// Show an error on an editor 
+    /// </summary>
+    /// <param name="message">the message</param>
+    /// <param name="duration">the duration in milliseconds to show the message</param>
+    public void ShowEditorError(string message, int duration = 5_000)
+        => Toast(NotificationSeverity.Error, message, duration, editor: true);
+
+    /// <summary>
+    /// Show an information message
+    /// </summary>
+    /// <param name="message">the message</param>
+    /// <param name="duration">the duration in milliseconds to show the message</param>
+    public void ShowInfo(string message, int duration = 5_000)
+        => Toast(NotificationSeverity.Information, message, duration);
+
+    /// <summary>
+    /// Show an editor success message
+    /// </summary>
+    /// <param name="message">the message</param>
+    /// <param name="duration">the duration in milliseconds to show the message</param>
+    public void ShowEditorSuccess(string message, int duration = 5_000)
+        => Toast(NotificationSeverity.Success, message, duration, editor: true);
+    
+    /// <summary>
+    /// Show an success message
+    /// </summary>
+    /// <param name="message">the message</param>
+    /// <param name="duration">the duration in milliseconds to show the message</param>
+    public void ShowSuccess(string message, int duration = 5_000)
+        => Toast(NotificationSeverity.Success, message, duration);
+
+    /// <summary>
+    /// Show an warning message
+    /// </summary>
+    /// <param name="message">the message</param>
+    /// <param name="duration">the duration in milliseconds to show the message</param>
+    public void ShowWarning(string message, int duration = 5_000)
+        => Toast(NotificationSeverity.Warning, message, duration);
+
+    /// <summary>
+    /// Shows the actual toast message
+    /// </summary>
+    /// <param name="level">the toast level</param>
+    /// <param name="message">the message of the toast</param>
+    /// <param name="duration">the duration to show the toast for</param>
+    /// <param name="editor">if this is shown for a editor</param>
+    void Toast(NotificationSeverity level, string message, int duration, bool editor = false)
+    {
+        Notification toast = new ()
+        {
+            Message = string.Empty, //message,
+            Date = DateTime.UtcNow,
+            Severity = level,
+            Title = message
+        };
+        All.Insert(0, toast);
+        Toasts.Insert(0, toast);
+        OnNotificationsUpdated?.Invoke();
     }
 }

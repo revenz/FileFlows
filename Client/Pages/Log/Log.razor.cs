@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components;
 using System.Timers;
 using System.Web;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.JSInterop;
 
 namespace FileFlows.Client.Pages;
@@ -13,6 +14,11 @@ namespace FileFlows.Client.Pages;
 /// </summary>
 public partial class Log : ComponentBase
 {
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
+    
     /// <summary>
     /// Gets or sets the blocker
     /// </summary>
@@ -371,7 +377,7 @@ public partial class Log : ComponentBase
         var result = await HttpHelper.Get<string>(DownloadUrl + "?source=" + HttpUtility.UrlEncode(SearchFile.FileName));
         if (result.Success == false)
         {
-            Toast.ShowError(Translater.Instant("Pages.Log.Labels.FailedToDownloadLog"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.Log.Labels.FailedToDownloadLog"));
             return;
         }
 

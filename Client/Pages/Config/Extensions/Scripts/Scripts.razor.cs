@@ -119,7 +119,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
             var saveResult = await HttpHelper.Post<Script>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
-                Toast.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 
@@ -146,7 +146,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
         var result = await HttpHelper.Get<string>(url);
         if (result.Success == false)
         {
-            Toast.ShowError(Translater.Instant("Pages.Script.Messages.FailedToExport"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.Script.Messages.FailedToExport"));
             return;
         }
 
@@ -175,12 +175,12 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
             var newItem = await HttpHelper.Post<Script>("/api/script/import?filename=" + UrlEncoder.Create().Encode(idResult.filename) + "&type=" + SelectedType, js);
             if (newItem != null && newItem.Success)
             {
-                Toast.ShowSuccess(Translater.Instant("Pages.Scripts.Messages.Imported",
+                feService.Notifications.ShowSuccess(Translater.Instant("Pages.Scripts.Messages.Imported",
                     new { name = newItem.Data.Name }));
             }
             else
             {
-                Toast.ShowError(newItem.Body?.EmptyAsNull() ?? "Invalid script");
+                feService.Notifications.ShowError(newItem.Body?.EmptyAsNull() ?? "Invalid script");
             }
         }
         finally
@@ -205,12 +205,12 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
             var newItem = await HttpHelper.Get<Script>(url);
             if (newItem != null && newItem.Success)
             {
-                Toast.ShowSuccess(Translater.Instant("Pages.Script.Messages.Duplicated",
+                feService.Notifications.ShowSuccess(Translater.Instant("Pages.Script.Messages.Duplicated",
                     new { name = newItem.Data.Name }));
             }
             else
             {
-                Toast.ShowError(newItem.Body?.EmptyAsNull() ?? "Failed to duplicate");
+                feService.Notifications.ShowError(newItem.Body?.EmptyAsNull() ?? "Failed to duplicate");
             }
         }
         finally
@@ -226,7 +226,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
         var used = Table.GetSelected()?.Any(x => x.UsedBy?.Any() == true) == true;
         if (used)
         {
-            Toast.ShowError("Pages.Scripts.Messages.DeleteUsed");
+            feService.Notifications.ShowError("Pages.Scripts.Messages.DeleteUsed");
             return;
         }
 
@@ -303,7 +303,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
         var uids = Table.GetSelected()?.Where(x => string.IsNullOrEmpty(x.Path) == false)?.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
         if (uids?.Any() != true)
         {
-            Toast.ShowWarning("Pages.Scripts.Messages.NoRepositoryScriptsToUpdate");
+            feService.Notifications.ShowWarning("Pages.Scripts.Messages.NoRepositoryScriptsToUpdate");
             return;
         }
 

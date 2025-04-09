@@ -134,7 +134,7 @@ public partial class NewAudioFlowWizard
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
-                Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return;
             }
             
@@ -155,7 +155,7 @@ public partial class NewAudioFlowWizard
         await Editor.Validate();
         if (string.IsNullOrWhiteSpace(FlowName))
         {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
+            feService.Notifications.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
             return false;
         }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.JSInterop;
 using FileFlows.Client.Components;
+using FileFlows.Client.Services.Frontend;
 
 namespace FileFlows.Client.Services
 {
@@ -11,10 +12,15 @@ namespace FileFlows.Client.Services
     public class ClipboardService : IClipboardService
     {
         private IJSRuntime JsRuntime { get; set; }
+        /// <summary>
+        /// Gets or sets the frontend service
+        /// </summary>
+        private FrontendService feService { get; set; }
 
-        public ClipboardService(IJSRuntime jsRuntime)
+        public ClipboardService(IJSRuntime jsRuntime, FrontendService feService)
         {
             this.JsRuntime = jsRuntime;
+            this.feService = feService;
         }
 
         /// <summary>
@@ -26,7 +32,7 @@ namespace FileFlows.Client.Services
             if (string.IsNullOrWhiteSpace(text))
                 return;
             await JsRuntime.InvokeVoidAsync("ff.copyToClipboard", text);
-            Toast.ShowInfo(Translater.Instant("Labels.CopiedToClipboard", new { text }));
+            feService.Notifications.ShowInfo(Translater.Instant("Labels.CopiedToClipboard", new { text }));
         }
     }
 }

@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using FileFlows.Plugin.Types;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +13,11 @@ namespace FileFlows.Client.Wizards;
 /// </summary>
 public partial class NewComicFlowWizard 
 {
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
+    
     private List<string> Image1Languages = [], Image2Languages = [], SubtitleLanguages = [], ImageMode1Languages = [];
     
     /// <summary>
@@ -105,7 +111,7 @@ public partial class NewComicFlowWizard
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
-                Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return;
             }
             
@@ -126,7 +132,7 @@ public partial class NewComicFlowWizard
         await Editor.Validate();
         if (string.IsNullOrWhiteSpace(FlowName))
         {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
+            feService.Notifications.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
             return false;
         }
 

@@ -46,7 +46,7 @@ public partial class WizardOutput : ComponentBase
     {
         if (OutputMode == 1 && string.IsNullOrWhiteSpace(OutputPath))
         {
-            Toast.ShowError("Dialogs.NewFlowCommon.Messages.OutputPathRequired");
+            feService.Notifications.ShowError("Dialogs.NewFlowCommon.Messages.OutputPathRequired");
             return false;
         }
         return true;

@@ -113,7 +113,7 @@ public partial class Flow : ComponentBase, IDisposable
 
     const string API_URL = "/api/flow";
 
-    private string lblSave, lblSaving, lblClose, lblUnsavedChanges;
+    private string lblTitle, lblSave, lblSaving, lblClose, lblUnsavedChanges;
 
     private bool _needsRendering = false;
 
@@ -141,6 +141,7 @@ public partial class Flow : ComponentBase, IDisposable
     protected override void OnInitialized()
     {
         Profile = feService.Profile.Profile;
+        lblTitle = Translater.Instant("Pages.Flows.Title");
         lblSave = Translater.Instant("Labels.Save");
         lblClose = Translater.Instant("Labels.Close");
         lblSaving = Translater.Instant("Labels.Saving");
@@ -296,7 +297,7 @@ public partial class Flow : ComponentBase, IDisposable
                 var modelResult = await GetModel(API_URL + "/" + uid);
                 if (modelResult.Success == false || modelResult.Data == null)
                 {
-                    Toast.ShowWarning("Pages.Flow.Messages.FailedToLoadFlow");
+                    feService.Notifications.ShowWarning("Pages.Flow.Messages.FailedToLoadFlow");
                     return;
                 }
 
@@ -897,7 +898,7 @@ public partial class Flow : ComponentBase, IDisposable
                 return true;
             error = codeResult.Data;
         }
-        Toast.ShowEditorError(error?.EmptyAsNull() ?? codeResult.Body, duration: 20_000);
+        feService.Notifications.ShowEditorError(error?.EmptyAsNull() ?? codeResult.Body, duration: 20_000);
         return false;
     }
 
@@ -1166,7 +1167,7 @@ public partial class Flow : ComponentBase, IDisposable
             }
             else
             {
-                Toast.ShowEditorError(
+                feService.Notifications.ShowEditorError(
                     result.Success || string.IsNullOrEmpty(result.Body) ? Translater.Instant($"ErrorMessages.UnexpectedError") : Translater.TranslateIfNeeded(result.Body),
                     duration: 60_000
                 );

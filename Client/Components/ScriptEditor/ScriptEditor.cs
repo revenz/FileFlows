@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using FileFlows.Client.Components.Inputs;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using FileFlows.ScriptExecution;
 using Logger = FileFlows.Shared.Logger;
@@ -15,6 +16,12 @@ public class ScriptEditor
     /// The editor instance
     /// </summary>
     private readonly Editor Editor;
+
+    /// <summary>
+    /// The frontend service
+    /// </summary>
+    private readonly FrontendService feService;
+
     
     /// <summary>
     /// The script importer
@@ -31,8 +38,9 @@ public class ScriptEditor
     /// </summary>
     private readonly Blocker Blocker;
 
-    public ScriptEditor(Editor editor, Dialogs.ImportScript scriptImporter, Editor.SaveDelegate saveCallback = null, Blocker blocker = null)
+    public ScriptEditor(FrontendService feService, Editor editor, Dialogs.ImportScript scriptImporter, Editor.SaveDelegate saveCallback = null, Blocker blocker = null)
     {
+        this.feService = feService;
         this.Editor = editor;
         this.ScriptImporter = scriptImporter;
         this.SaveCallback = saveCallback;
@@ -308,7 +316,7 @@ return 1;
         var available = shared.Where(x => code.IndexOf("Shared/" + x.Name, StringComparison.Ordinal) < 0).Select(x => x.Name).ToList();
         if (available.Any() == false)
         {
-            Toast.ShowWarning("Dialogs.ImportScript.Messages.NoMoreImports");
+            feService.Notifications.ShowWarning("Dialogs.ImportScript.Messages.NoMoreImports");
             return;
         }
 
@@ -328,7 +336,7 @@ return 1;
             var saveResult = await HttpHelper.Post<Script>($"/api/script", model);
             if (saveResult.Success == false)
             {
-                Toast.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 

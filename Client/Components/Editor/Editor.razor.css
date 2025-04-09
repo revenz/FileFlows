@@ -23,7 +23,7 @@
 .flow-element-editor.maximised {
   left: 0;
   right: 0;
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
 }
@@ -48,3 +48,5 @@
   padding-bottom: 1rem;
   border-bottom: solid 1px var(--input-background);
 }
+
+/*# sourceMappingURL=Editor.razor.css.map */

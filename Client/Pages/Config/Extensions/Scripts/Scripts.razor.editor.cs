@@ -36,7 +36,7 @@ public partial class Scripts
         }
         
         
-        var editor = new ScriptEditor(Editor, ScriptImporter, saveCallback: Save);
+        var editor = new ScriptEditor(feService, Editor, ScriptImporter, saveCallback: Save);
         await editor.Open(item);
         
         return false;
@@ -86,7 +86,7 @@ public partial class Scripts
         var available = DataShared.Where(x => code.IndexOf("Shared/" + x.Name) < 0).Select(x => x.Name).ToList();
         if (available.Any() == false)
         {
-            Toast.ShowWarning("Dialogs.ImportScript.Messages.NoMoreImports");
+            feService.Notifications.ShowWarning("Dialogs.ImportScript.Messages.NoMoreImports");
             return;
         }
 

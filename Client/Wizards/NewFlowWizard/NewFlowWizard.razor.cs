@@ -295,7 +295,7 @@ public partial class NewFlowWizard : IModal
         if (saveResult.Success == false)
         {
             Wizard.HideBlocker();
-            Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+            feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
             return null;
         }
         

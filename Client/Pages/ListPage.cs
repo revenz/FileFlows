@@ -233,7 +233,7 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     /// <typeparam name="V">The type of RequestResult</typeparam>
     public void ShowEditHttpError<V>(RequestResult<V> result, string defaultMessage = "ErrorMessage.NotFound")
     {
-        Toast.ShowError(
+        feService.Notifications.ShowError(
             result.Success || string.IsNullOrEmpty(result.Body) ? Translater.Instant(defaultMessage) : Translater.TranslateIfNeeded(result.Body),
             duration: 60_000
         );
@@ -299,9 +299,9 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
             if (deleteResult.Success == false)
             {
                 if(Translater.NeedsTranslating(deleteResult.Body))
-                    Toast.ShowError( Translater.Instant(deleteResult.Body));
+                    feService.Notifications.ShowError( Translater.Instant(deleteResult.Body));
                 else
-                    Toast.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
+                    feService.Notifications.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
                 return;
             }
 

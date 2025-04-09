@@ -132,7 +132,7 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
         var result = await HttpHelper.Get<string>(url);
         if (result.Success == false)
         {
-            Toast.ShowError(Translater.Instant("Pages.DockerMod.Messages.FailedToExport"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.DockerMod.Messages.FailedToExport"));
             return;
         }
 
@@ -171,9 +171,9 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
             if (result.Success == false)
             {
                 if(Translater.NeedsTranslating(result.Body))
-                    Toast.ShowError( Translater.Instant(result.Body));
+                    feService.Notifications.ShowError( Translater.Instant(result.Body));
                 else
-                    Toast.ShowError( Translater.Instant("Pages.DockerMods.Messages.MoveFailed"));
+                    feService.Notifications.ShowError( Translater.Instant("Pages.DockerMods.Messages.MoveFailed"));
                 return;
             }
 

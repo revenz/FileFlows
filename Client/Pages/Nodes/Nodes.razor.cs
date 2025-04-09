@@ -97,7 +97,7 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
             var saveResult = await HttpHelper.Post<ProcessingNode>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
-                Toast.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 
@@ -132,9 +132,9 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
             if (deleteResult.Success == false)
             {
                 if(Translater.NeedsTranslating(deleteResult.Body))
-                    Toast.ShowError( Translater.Instant(deleteResult.Body));
+                    feService.Notifications.ShowError( Translater.Instant(deleteResult.Body));
                 else
-                    Toast.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
+                    feService.Notifications.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
                 return;
             }
             //this.Data.Remove(item);

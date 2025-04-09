@@ -135,7 +135,7 @@ public partial class AccessControl: ListPage<Guid, AccessControlEntry>
 
             if (IPAddress.TryParse(start, out IPAddress? ipStart) == false)
             {
-                Toast.ShowEditorError(Translater.Instant("Pages.AccessControl.Messages.InvalidIPAddress", new { address = start }));
+                feService.Notifications.ShowEditorError(Translater.Instant("Pages.AccessControl.Messages.InvalidIPAddress", new { address = start }));
                 return false;
             }
 
@@ -144,19 +144,19 @@ public partial class AccessControl: ListPage<Guid, AccessControlEntry>
             {
                 if (IPAddress.TryParse(end, out IPAddress? ipEnd) == false)
                 {
-                    Toast.ShowEditorError(Translater.Instant("Pages.AccessControl.Messages.InvalidIPAddress", new { address = end }));
+                    feService.Notifications.ShowEditorError(Translater.Instant("Pages.AccessControl.Messages.InvalidIPAddress", new { address = end }));
                     return false;
                 }
                 
                 if(ipStart.AddressFamily != ipEnd.AddressFamily)
                 {
-                    Toast.ShowEditorError(Translater.Instant("Pages.AccessControl.Messages.FamilyMismatch"));
+                    feService.Notifications.ShowEditorError(Translater.Instant("Pages.AccessControl.Messages.FamilyMismatch"));
                     return false;
                 }
 
                 if (IPHelper.IsGreaterThan(ipStart, ipEnd) == false)
                 {
-                    Toast.ShowEditorError(Translater.Instant("Pages.AccessControl.Messages.EndMustBeGreaterThan"));
+                    feService.Notifications.ShowEditorError(Translater.Instant("Pages.AccessControl.Messages.EndMustBeGreaterThan"));
                     return false;
                 }
             }
@@ -164,7 +164,7 @@ public partial class AccessControl: ListPage<Guid, AccessControlEntry>
             var saveResult = await HttpHelper.Post<User>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
-                Toast.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 
@@ -218,9 +218,9 @@ public partial class AccessControl: ListPage<Guid, AccessControlEntry>
             if (result.Success == false)
             {
                 if(Translater.NeedsTranslating(result.Body))
-                    Toast.ShowError( Translater.Instant(result.Body));
+                    feService.Notifications.ShowError( Translater.Instant(result.Body));
                 else
-                    Toast.ShowError( Translater.Instant("Pages.AccessControl.Messages.MoveFailed"));
+                    feService.Notifications.ShowError( Translater.Instant("Pages.AccessControl.Messages.MoveFailed"));
                 return;
             }
 

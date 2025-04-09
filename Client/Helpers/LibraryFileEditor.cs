@@ -34,7 +34,7 @@ public class LibraryFileEditor
             var result = await GetLibraryFile(ApIUrl + "/" + libraryItemUid);
             if (result.Success == false)
             {
-                Toast.ShowError(
+                feService.Notifications.ShowError(
                     result.Success || string.IsNullOrEmpty(result.Body) ? Translater.Instant("ErrorMessage.NotFound") : Translater.TranslateIfNeeded(result.Body),
                     duration: 60_000
                 );
@@ -157,14 +157,14 @@ public class LibraryFileEditor
                     {
                         Uid = "download-log",
                         Label = App.Instance.IsMobile ? "Labels.DownloadLogShort" : "Labels.DownloadLog",
-                        Clicked = (sender, e) => _ = DownloadLog(sender, libraryItemUid)
+                        Clicked = (sender, e) => _ = DownloadLog(sender, libraryItemUid, feService)
                     }
                     : null,
                 model.Status == FileStatus.ProcessingFailed
                     ? new()
                     {
                         Label = "Pages.LibraryFiles.Buttons.Reprocess",
-                        Clicked = (sender, e) => _ = Reprocess(sender, libraryItemUid)
+                        Clicked = (sender, e) => _ = Reprocess(sender, libraryItemUid, feService)
                     }
                     : null
             }.Where(x => x != null).ToArray();
@@ -198,7 +198,8 @@ public class LibraryFileEditor
     /// </summary>
     /// <param name="sender">the sender</param>
     /// <param name="uid">the UID of the library file</param>
-    private static async Task DownloadLog(object sender, Guid uid)
+    /// <param name="feService">the frontend service</param>
+    private static async Task DownloadLog(object sender, Guid uid, FrontendService feService)
     {
         if (sender is Editor editor == false)
             return;
@@ -209,7 +210,7 @@ public class LibraryFileEditor
         var result = await HttpHelper.Get<string>(downloadUrl);
         if (result.Success == false)
         {
-            Toast.ShowEditorError(Translater.Instant("Pages.LibraryFiles.Messages.FailedToDownloadLog"));
+            feService.Notifications.ShowEditorError(Translater.Instant("Pages.LibraryFiles.Messages.FailedToDownloadLog"));
             return;
         }
 
@@ -221,7 +222,8 @@ public class LibraryFileEditor
     /// </summary>
     /// <param name="sender">the sender</param>
     /// <param name="uid">the UID of the library file</param>
-    private static async Task Reprocess(object sender, Guid uid)
+    /// <param name="feService">the frontend service</param>
+    private static async Task Reprocess(object sender, Guid uid, FrontendService feService)
     {
         if (sender is Editor editor == false)
             return;
@@ -234,10 +236,10 @@ public class LibraryFileEditor
         if (result.Success == false)
         {
             var msg = result.Body?.EmptyAsNull() ?? Translater.Instant("Pages.LibraryFiles.Messages.FailedToReprocess");
-            Toast.ShowEditorError(msg);
+            feService.Notifications.ShowEditorError(msg);
             return;
         }
-        Toast.ShowEditorSuccess(Translater.Instant("Pages.LibraryFiles.Messages.ReprocessingFile"));
+        feService.Notifications.ShowEditorSuccess(Translater.Instant("Pages.LibraryFiles.Messages.ReprocessingFile"));
         
         await editor.Closed();
         

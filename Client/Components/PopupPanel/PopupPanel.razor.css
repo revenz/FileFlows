@@ -1,0 +1,90 @@
+@media (max-width: 849.99px) {
+  .popup-panel-button, .popup-panel {
+    display: none;
+  }
+}
+.popup-panel-button {
+  position: fixed;
+  top: 0.6rem;
+  right: 1rem;
+  cursor: pointer;
+}
+
+.popup-panel {
+  position: fixed;
+  top: 3.25rem;
+  right: 1rem;
+  display: none;
+  background: var(--base-lighter);
+  border: solid 1px var(--border-color);
+  box-shadow: 0 0 0.8rem rgba(82, 82, 82, 0.52);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.popup-panel.visible {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  z-index: 10000;
+}
+.popup-panel.visible.is-processing .popup-panel-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.popup-panel.visible.is-processing .popup-panel-main .notifications {
+  border-left: 1px solid var(--border-color);
+}
+.popup-panel .popup-panel-main {
+  padding: 1rem;
+}
+.popup-panel ::deep .no-runners {
+  display: none;
+}
+.popup-panel .notification {
+  margin: 0.5rem 0.5rem 0 0.5rem;
+  background: var(--base-lightest);
+  border-left: solid 0.3rem;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  min-height: 3rem;
+  align-content: center;
+  background: var(--base-darker);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+.popup-panel .notification.information {
+  border-color: var(--info);
+}
+.popup-panel .notification.information .toast-icon {
+  color: var(--info);
+}
+.popup-panel .notification.error {
+  border-color: var(--error);
+}
+.popup-panel .notification.error .icon {
+  color: var(--error);
+}
+.popup-panel .notification.warning {
+  border-color: var(--warning);
+}
+.popup-panel .notification.warning .icon {
+  color: var(--warning);
+}
+.popup-panel .notification.success {
+  border-color: var(--success);
+}
+.popup-panel .notification.success .icon {
+  color: var(--success);
+}
+
+.popup-panel-bottom {
+  border-top: 1px solid var(--border-color);
+  background: var(--base);
+  padding: 1rem;
+}
+.popup-panel-bottom i {
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+
+/*# sourceMappingURL=PopupPanel.razor.css.map */

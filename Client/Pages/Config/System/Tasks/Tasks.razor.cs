@@ -133,7 +133,7 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
 
         if (Scripts.Any() != true)
         {
-            Toast.ShowError("Pages.Tasks.Messages.NoScripts");
+            feService.Notifications.ShowError("Pages.Tasks.Messages.NoScripts");
             return false;
         }
 
@@ -306,7 +306,7 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
             var saveResult = await HttpHelper.Post<FileFlowsTask>($"{ApiUrl}", task);
             if (saveResult.Success == false)
             {
-                Toast.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 
@@ -339,11 +339,11 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
             var result = await HttpHelper.Post<FileFlowsTaskRun>($"/api/task/run/{item.Uid}");
             if (result.Success && result.Data.Success)
             {
-                Toast.ShowSuccess("Script executed");
+                feService.Notifications.ShowSuccess("Script executed");
             }
             else
             {
-                Toast.ShowError(result?.Data?.Log?.EmptyAsNull() ?? result.Body?.EmptyAsNull() ?? "Failed to run task");
+                feService.Notifications.ShowError(result?.Data?.Log?.EmptyAsNull() ?? result.Body?.EmptyAsNull() ?? "Failed to run task");
             }
 
             await Refresh();
@@ -371,13 +371,13 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
             var taskResponse = await HttpHelper.Get<FileFlowsTask>("/api/task/" + item.Uid);
             if (taskResponse.Success == false)
             {
-                Toast.ShowError(taskResponse.Body);
+                feService.Notifications.ShowError(taskResponse.Body);
                 return;
             }
 
             if (taskResponse.Data?.RunHistory?.Any() != true)
             {
-                Toast.ShowInfo("Pages.Tasks.Messages.NoHistory");
+                feService.Notifications.ShowInfo("Pages.Tasks.Messages.NoHistory");
                 return;
             }
 
@@ -482,7 +482,7 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
                 await HttpHelper.Get<Script>("/api/script/" + HttpUtility.UrlPathEncode(item.Script.ToString()) + "?type=System");
             if (response.Success == false)
             {
-                Toast.ShowError("Failed to load script");
+                feService.Notifications.ShowError("Failed to load script");
                 return;
             }
 
@@ -493,7 +493,7 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
             this.Blocker.Hide();
         }
 
-        var editor = new ScriptEditor(Editor, ScriptImporter, blocker: Blocker);
+        var editor = new ScriptEditor(feService, Editor, ScriptImporter, blocker: Blocker);
         await editor.Open(script);
     }
 

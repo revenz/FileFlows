@@ -148,13 +148,13 @@ td a, span.column a {
 ::-webkit-scrollbar-corner {background-color: var(--base) !important;}
 
 .background-overlay {
-    position:fixed;
+    position:absolute;
     top:0;
     left:0;
     right:0;
     bottom:0;
     z-index:2;
-    background:#0000009e;
+    background:rgb(18 18 18 / 82%);
 }
 
 button {
@@ -525,6 +525,7 @@ input[type=file]{
             display:unset;
         }        
     }
+    
     .content {
         padding:0;
         margin:0;
@@ -904,17 +905,16 @@ input[type=file]{
     }
 }
 
-.editor:not(.maximised)::after {
-    content: '';
-    background-color: var(--border-color);
-    position: absolute;
-    left: 0;
-    top:0;
-    width: 4px;
-    height: 100%;
-    cursor: ew-resize;
-}
-
+//.editor:not(.maximised)::after {
+//    content: '';
+//    background-color: var(--border-color);
+//    position: absolute;
+//    left: 0;
+//    top:0;
+//    width: 4px;
+//    height: 100%;
+//    cursor: ew-resize;
+//}
 
 .flowtable 
 {
@@ -933,6 +933,7 @@ input[type=file]{
         color: rgba(var(--color-rgb), 0.7);
     }
 
+    
     thead th {
         border-color: var(--border-color);
 

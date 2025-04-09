@@ -192,22 +192,22 @@ public partial class DatabasePage : InputRegister
         int port = Model?.DbPort ?? 0;
         if (string.IsNullOrWhiteSpace(server))
         {
-            Toast.ShowError(Translater.Instant("Pages.Settings.Messages.Database.NoServer"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.Settings.Messages.Database.NoServer"));
             return;
         }
         if (string.IsNullOrWhiteSpace(name))
         {
-            Toast.ShowError(Translater.Instant("Pages.Settings.Messages.Database.NoName"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.Settings.Messages.Database.NoName"));
             return;
         }
         if (string.IsNullOrWhiteSpace(user))
         {
-            Toast.ShowError(Translater.Instant("Pages.Settings.Messages.Database.NoUser"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.Settings.Messages.Database.NoUser"));
             return;
         }
         if (string.IsNullOrWhiteSpace(password))
         {
-            Toast.ShowError(Translater.Instant("Pages.Settings.Messages.Database.NoPassword"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.Settings.Messages.Database.NoPassword"));
             return;
         }
 
@@ -220,11 +220,11 @@ public partial class DatabasePage : InputRegister
             });
             if (result.Success == false)
                 throw new Exception(result.Body);
-            Toast.ShowSuccess(Translater.Instant("Pages.Settings.Messages.Database.TestSuccess"));
+            feService.Notifications.ShowSuccess(Translater.Instant("Pages.Settings.Messages.Database.TestSuccess"));
         }
         catch (Exception ex)
         {
-            Toast.ShowError(ex.Message);
+            feService.Notifications.ShowError(ex.Message);
         }
         finally
         {

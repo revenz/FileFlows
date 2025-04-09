@@ -73,7 +73,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     private bool _needsRendering = false;
 
-    private List<LibraryFileMinimal> UpcomingFiles, RecentlyFinished, FailedFiles;
+    private List<LibraryFileMinimal> UpcomingFiles = [], RecentlyFinished = [], FailedFiles = [];
     private int TotalUpcoming, TotalFinished, TotalFailed, TotalProcessing;
     private bool initialized = false;
     

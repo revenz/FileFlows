@@ -100,7 +100,7 @@ public partial class NavBar
         //BottomNavBarItems.Add(new(lblDiscord, "fab fa-discord", "https://fileflows.com/discord"));
         
 
-        OnNotificationsUpdated(feService.Notifications.Notifications);
+        OnNotificationsUpdated();
         feService.Notifications.OnNotificationsUpdated += OnNotificationsUpdated;
 
         if (feService.Flow.Flows.Count == 0)
@@ -142,8 +142,9 @@ public partial class NavBar
     /// Called when notifications are updated
     /// </summary>
     /// <param name="list">the updated notifications</param>
-    private void OnNotificationsUpdated(List<Notification> list)
+    private void OnNotificationsUpdated()
     {
+        var list = feService.Notifications.Notifications;
         int critical = list.Count(x => x.Severity==NotificationSeverity.Critical);
         int warning = list.Count(x => x.Severity==NotificationSeverity.Warning);
         int error = list.Count(x => x.Severity==NotificationSeverity.Error);

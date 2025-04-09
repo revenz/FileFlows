@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -12,6 +13,10 @@ public partial class ReprocessDialog : VisibleEscapableComponent
     /// Gets or sets if this is in the process options mode
     /// </summary>
     public bool ProcessOptionsMode { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
     /// <summary>
     /// Gets or sets ths blocker to use
     /// </summary>
@@ -176,7 +181,7 @@ public partial class ReprocessDialog : VisibleEscapableComponent
             });
             if (result.Success == false)
             {
-                Toast.ShowError(result.Body);
+                feService.Notifications.ShowError(result.Body);
                 return;
             }
         }

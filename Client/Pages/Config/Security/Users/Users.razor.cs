@@ -183,7 +183,7 @@ public partial class Users: ListPage<Guid, User>
             var saveResult = await HttpHelper.Post<User>($"{ApiUrl}", user);
             if (saveResult.Success == false)
             {
-                Toast.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
 

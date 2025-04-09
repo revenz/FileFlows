@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +13,10 @@ public partial class RevisionExplorer
     private bool Restored = false;
     
     [CascadingParameter] public Blocker Blocker { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
     
     TaskCompletionSource<bool> ShowTask;
     private Guid ObjectUid;
@@ -42,19 +47,19 @@ public partial class RevisionExplorer
             if (result.Success)
             {
                 Restored = true;
-                Toast.ShowSuccess(Translater.Instant("Labels.RestoredMessage",
+                feService.Notifications.ShowSuccess(Translater.Instant("Labels.RestoredMessage",
                     new { type = item.RevisionType[(item.RevisionType.LastIndexOf(".", StringComparison.Ordinal) + 1)..].Humanize(LetterCasing.Title) }));
                 this.Close();
             }
             else
             {
-                Toast.ShowEditorError(Translater.Instant("Labels.RestoredFailedMessage",
+                feService.Notifications.ShowEditorError(Translater.Instant("Labels.RestoredFailedMessage",
                     new { type = item.RevisionType[(item.RevisionType.LastIndexOf(".", StringComparison.Ordinal) + 1)..].Humanize(LetterCasing.Title) }));
             }
         }
         catch (Exception ex)
         {
-            Toast.ShowEditorError(ex.Message);
+            feService.Notifications.ShowEditorError(ex.Message);
         }
         finally
         {

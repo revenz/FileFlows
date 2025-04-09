@@ -174,7 +174,7 @@ public partial class NewLibraryWizard : IModal
 
         if (FlowOptions.Count == 0)
         {
-            Toast.ShowWarning(Translater.Instant("Pages.Libraries.ErrorMessages.NoFlows"));
+            feService.Notifications.ShowWarning(Translater.Instant("Pages.Libraries.ErrorMessages.NoFlows"));
             Close();
             return;
         }
@@ -241,12 +241,12 @@ public partial class NewLibraryWizard : IModal
         
         if (string.IsNullOrWhiteSpace(LibraryName))
         {
-            Toast.ShowError("Dialogs.NewLibraryWizard.Messages.NameRequired");
+            feService.Notifications.ShowError("Dialogs.NewLibraryWizard.Messages.NameRequired");
             return;
         }
         if (string.IsNullOrWhiteSpace(LibraryPath))
         {
-            Toast.ShowError("Dialogs.NewLibraryWizard.Messages.PathRequired");
+            feService.Notifications.ShowError("Dialogs.NewLibraryWizard.Messages.PathRequired");
             return;
         }
 
@@ -255,7 +255,7 @@ public partial class NewLibraryWizard : IModal
 
         if (flowUid == Guid.Empty || !flowsDictionary.TryGetValue(flowUid, out var flowName))
         {
-            Toast.ShowError("Dialogs.NewLibraryWizard.Messages.FlowRequired");
+            feService.Notifications.ShowError("Dialogs.NewLibraryWizard.Messages.FlowRequired");
             return;
         }
 
@@ -320,7 +320,7 @@ public partial class NewLibraryWizard : IModal
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
-                Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return;
             }
             

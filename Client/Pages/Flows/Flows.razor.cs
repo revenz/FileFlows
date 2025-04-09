@@ -108,7 +108,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
             var result = await HttpHelper.Get<string>(url);
             if (result.Success == false)
             {
-                Toast.ShowError(Translater.Instant("Pages.Flows.Messages.FailedToExport"));
+                feService.Notifications.ShowError(Translater.Instant("Pages.Flows.Messages.FailedToExport"));
                 return;
             }
 
@@ -119,7 +119,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
             var result = await HttpHelper.Get<byte[]>(url);
             if (result.Success == false)
             {
-                Toast.ShowError(Translater.Instant("Pages.Flows.Messages.FailedToExport"));
+                feService.Notifications.ShowError(Translater.Instant("Pages.Flows.Messages.FailedToExport"));
                 return;
             }
             await jsRuntime.InvokeVoidAsync("ff.saveByteArrayAsFile", "Flows.zip", result.Data);
@@ -140,7 +140,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
             if (newFlow != null && newFlow.Success)
             {
                 //await this.Refresh();
-                Toast.ShowSuccess(Translater.Instant("Pages.Flows.Messages.FlowImported", new { name = newFlow.Data.Name }));
+                feService.Notifications.ShowSuccess(Translater.Instant("Pages.Flows.Messages.FlowImported", new { name = newFlow.Data.Name }));
             }
         }
         finally
@@ -170,12 +170,12 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
             if (newItem != null && newItem.Success)
             {
                 //await this.Refresh();
-                Toast.ShowSuccess(Translater.Instant("Pages.Flows.Messages.Duplicated",
+                feService.Notifications.ShowSuccess(Translater.Instant("Pages.Flows.Messages.Duplicated",
                     new { name = newItem.Data.Name }));
             }
             else
             {
-                Toast.ShowError(newItem.Body?.EmptyAsNull() ?? "Failed to duplicate");
+                feService.Notifications.ShowError(newItem.Body?.EmptyAsNull() ?? "Failed to duplicate");
             }
         }
         finally
@@ -254,7 +254,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
         var used = Table.GetSelected()?.Any(x => x.UsedBy?.Any() == true) == true;
         if (used)
         {
-            Toast.ShowError("Pages.Flows.Messages.DeleteUsed");
+            feService.Notifications.ShowError("Pages.Flows.Messages.DeleteUsed");
             return;
         }
         await base.Delete();

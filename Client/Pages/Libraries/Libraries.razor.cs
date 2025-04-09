@@ -79,12 +79,12 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
             var newItem = await HttpHelper.Post<Library>(url);
             if (newItem is { Success: true })
             {
-                Toast.ShowSuccess(Translater.Instant("Pages.Library.Labels.Duplicated",
+                feService.Notifications.ShowSuccess(Translater.Instant("Pages.Library.Labels.Duplicated",
                     new { name = newItem.Data.Name }));
             }
             else
             {
-                Toast.ShowError(newItem.Body?.EmptyAsNull() ?? "Pages.Library.Labels.FailedToDuplicate");
+                feService.Notifications.ShowError(newItem.Body?.EmptyAsNull() ?? "Pages.Library.Labels.FailedToDuplicate");
             }
         }
         finally
@@ -156,7 +156,7 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
             var saveResult = await HttpHelper.Post<Library>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
-                Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return false;
             }
 
@@ -262,9 +262,9 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
             if (deleteResult.Success == false)
             {
                 if(Translater.NeedsTranslating(deleteResult.Body))
-                    Toast.ShowError( Translater.Instant(deleteResult.Body));
+                    feService.Notifications.ShowError( Translater.Instant(deleteResult.Body));
                 else
-                    Toast.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
+                    feService.Notifications.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
                 return;
             }
 

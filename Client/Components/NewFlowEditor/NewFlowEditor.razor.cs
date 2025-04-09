@@ -3,6 +3,7 @@ using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using FileFlows.Client.Components.Inputs;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using FileFlows.Plugin.Types;
 using Humanizer;
@@ -23,6 +24,10 @@ public partial class NewFlowEditor : Editor
     /// </summary>
     [CascadingParameter] public Blocker Blocker { get; set; }
     TaskCompletionSource<Flow> ShowTask;
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
 
     private FlowType? _flowType = null;
     
@@ -436,7 +441,7 @@ public partial class NewFlowEditor : Editor
                 var newFlowResult = await HttpHelper.Put<Flow>("/api/flow", flow);
                 if (newFlowResult.Success == false)
                 {
-                    Toast.ShowEditorError(newFlowResult.Body?.EmptyAsNull() ?? "Failed to create new flow");
+                    feService.Notifications.ShowEditorError(newFlowResult.Body?.EmptyAsNull() ?? "Failed to create new flow");
                     return false;
                 }
 

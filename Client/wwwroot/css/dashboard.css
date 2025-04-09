@@ -1,26 +1,26 @@
-.page-view, dashboard-wrapper .content {
+.page-view.dashboard-wrapper .content {
   height: 100%;
 }
 @media (max-width: 720px) {
-  .page-view .grid, dashboard-wrapper .content .grid {
+  .page-view.dashboard-wrapper .content .grid {
     display: flex !important;
     flex-direction: column !important;
     height: fit-content !important;
     overflow: unset !important;
   }
-  .page-view .flow-widget, dashboard-wrapper .content .flow-widget {
+  .page-view.dashboard-wrapper .content .flow-widget {
     margin-bottom: 1rem;
   }
 }
 @media (min-width: 850px) {
-  .page-view > .flow-tab-buttons button:first-child, dashboard-wrapper .content > .flow-tab-buttons button:first-child {
+  .page-view.dashboard-wrapper .content > .flow-tab-buttons button:first-child {
     margin-left: 1rem;
   }
 }
-.page-view .flow-tabs-content, dashboard-wrapper .content .flow-tabs-content {
+.page-view.dashboard-wrapper .content .flow-tabs-content {
   padding: 0 1rem;
 }
-.page-view .flow-tabs-content .flow-tab.active, dashboard-wrapper .content .flow-tabs-content .flow-tab.active {
+.page-view.dashboard-wrapper .content .flow-tabs-content .flow-tab.active {
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -32,32 +32,32 @@
   padding: 1rem;
 }
 @media screen and (max-width: 850px) {
-  .page-view .flow-tabs-content .flow-tab.active, dashboard-wrapper .content .flow-tabs-content .flow-tab.active {
+  .page-view.dashboard-wrapper .content .flow-tabs-content .flow-tab.active {
     overflow: auto;
   }
 }
-.page-view .grid, dashboard-wrapper .content .grid {
+.page-view.dashboard-wrapper .content .grid {
   display: grid;
   grid-gap: 0.5rem;
 }
-.page-view .grid-2, dashboard-wrapper .content .grid-2 {
+.page-view.dashboard-wrapper .content .grid-2 {
   grid-template-columns: repeat(2, 1fr);
 }
-.page-view .grid-60-40, dashboard-wrapper .content .grid-60-40 {
+.page-view.dashboard-wrapper .content .grid-60-40 {
   grid-template-columns: 1fr minmax(36rem, 40%);
 }
 @media (max-width: 1040px) {
-  .page-view .grid-60-40, dashboard-wrapper .content .grid-60-40 {
+  .page-view.dashboard-wrapper .content .grid-60-40 {
     grid-template-columns: 1fr minmax(28rem, 40%);
   }
 }
-.page-view .grid-3, dashboard-wrapper .content .grid-3 {
+.page-view.dashboard-wrapper .content .grid-3 {
   grid-template-columns: repeat(3, 1fr);
 }
-.page-view .grid-4, dashboard-wrapper .content .grid-4 {
+.page-view.dashboard-wrapper .content .grid-4 {
   grid-template-columns: repeat(4, 1fr);
 }
-.page-view .flex-grow, dashboard-wrapper .content .flex-grow {
+.page-view.dashboard-wrapper .content .flex-grow {
   flex-grow: 1;
   overflow: hidden;
 }

@@ -22,18 +22,15 @@
     }
 }
 
-.page-view .top-row .other {
-    margin-right: 2.5rem;
-}
-
 .content {
     padding: 1.5rem;
     flex-grow:1;
     overflow: auto;
     position:relative;
     background: var(--base-darkest);
+    &.no-padding {}
 }
-.content-no-padding .content {
+.content-no-padding > .content {
     padding:0;
 }
 

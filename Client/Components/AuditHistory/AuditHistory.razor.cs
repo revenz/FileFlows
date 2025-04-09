@@ -1,4 +1,5 @@
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
 
@@ -18,6 +19,10 @@ public partial class AuditHistory
     /// Gets or sets the blocker tho show
     /// </summary>
     [CascadingParameter] public Blocker Blocker { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
     
     /// <summary>
     /// The task to complete when the show is complete
@@ -144,7 +149,7 @@ public partial class AuditHistory
             if (response.Data?.Any() != true)
             {
                 ShowTask.SetResult();
-                Toast.ShowWarning(Translater.Instant("Labels.NoAuditHistoryAvailable"));
+                feService.Notifications.ShowWarning(Translater.Instant("Labels.NoAuditHistoryAvailable"));
                 return;
             }
 

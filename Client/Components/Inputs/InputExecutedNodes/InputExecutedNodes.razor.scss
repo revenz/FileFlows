@@ -53,13 +53,26 @@
     border-left: 1px solid var(--border-color);
     &.maximised{
         left:0;
-    }    
+    }   
+}
+@media screen and (min-width:850px) {
+    .log-partial-viewer
+    {
+        .editor {
+            top: 3.5rem;
+        }
+        .background-overlay {
+            position:fixed;
+            top:3.5rem;
+            left:6rem;
+        }
+    }
 }
 
-@media screen and (max-width: 720px) 
+@media screen and (max-width: 849.99px) 
 {
     .log-partial-viewer .editor {
-        left: 0;
+        left: 0;        
         border-left: none;
     }
 }

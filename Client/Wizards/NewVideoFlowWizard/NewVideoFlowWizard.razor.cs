@@ -400,7 +400,7 @@ public partial class NewVideoFlowWizard
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
-                Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return;
             }
             
@@ -422,7 +422,7 @@ public partial class NewVideoFlowWizard
         await Editor.Validate();
         if (string.IsNullOrWhiteSpace(FlowName))
         {
-            Toast.ShowError("Dialogs.NewFlowCommon.Messages.NameRequired");
+            feService.Notifications.ShowError("Dialogs.NewFlowCommon.Messages.NameRequired");
             return false;
         }
         
@@ -433,7 +433,7 @@ public partial class NewVideoFlowWizard
         {
             if (AudioMode1Languages.Count == 0)
             {
-                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.AudioMode2LanguagesRequired");
+                feService.Notifications.ShowError("Dialogs.NewVideoFlowWizard.Messages.AudioMode2LanguagesRequired");
                 return false;
             }
         }
@@ -441,7 +441,7 @@ public partial class NewVideoFlowWizard
         {
             if (Audio1Languages.Count == 0)
             {
-                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio1LanguageRequired");
+                feService.Notifications.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio1LanguageRequired");
                 return false;
             }
 
@@ -449,14 +449,14 @@ public partial class NewVideoFlowWizard
             {
                 if (Audio2Languages.Count == 0)
                 {
-                    Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2LanguageRequired");
+                    feService.Notifications.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2LanguageRequired");
                     return false;
                 }
 
                 if (string.Equals(Audio1Codec, Audio2Codec, StringComparison.InvariantCultureIgnoreCase) &&
                     Audio1Channels == Audio2Channels)
                 {
-                    Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2MustBeDifferent");
+                    feService.Notifications.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2MustBeDifferent");
                     return false;
                 }
             }
@@ -466,7 +466,7 @@ public partial class NewVideoFlowWizard
         {
             if (SubtitleLanguages.Count == 0)
             {
-                Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.SubtitleLanguageRequired");
+                feService.Notifications.ShowError("Dialogs.NewVideoFlowWizard.Messages.SubtitleLanguageRequired");
                 return false;
             }
         }
@@ -832,7 +832,7 @@ public partial class NewVideoFlowWizard
         if (string.Equals(Audio1Codec, Audio2Codec, StringComparison.InvariantCultureIgnoreCase) &&
             Audio1Channels == Audio2Channels)
         {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2MustBeDifferent");
+            feService.Notifications.ShowError("Dialogs.NewVideoFlowWizard.Messages.Audio2MustBeDifferent");
             return false;
         }
 

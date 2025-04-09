@@ -93,7 +93,7 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
             var pluginResult = await HttpHelper.Post($"{ApiUrl}/{EditingPlugin.PackageName}/settings", json);
             if (pluginResult.Success == false)
             {
-                Toast.ShowEditorError( Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowEditorError( Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
             return true;
@@ -230,7 +230,7 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
         var used = Table.GetSelected()?.Any(x => x.UsedBy?.Any() == true) == true;
         if (used)
         {
-            Toast.ShowError("Pages.Plugins.Messages.DeleteUsed");
+            feService.Notifications.ShowError("Pages.Plugins.Messages.DeleteUsed");
             return;
         }
 

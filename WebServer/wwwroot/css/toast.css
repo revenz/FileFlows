@@ -20,7 +20,7 @@
   transform: translateY(-100%);
   opacity: 0;
 }
-.ff-toast.show {
+.ff-feService.Notifications.Show {
   transform: translateY(0);
   opacity: 1;
 }

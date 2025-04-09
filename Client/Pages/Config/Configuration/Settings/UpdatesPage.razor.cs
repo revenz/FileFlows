@@ -122,13 +122,13 @@ public partial class UpdatesPage : InputRegister
         Blocker.Hide();
         if (available.Success == false)
         {
-            Toast.ShowError("Pages.Settings.Messages.Update.Failed");
+            feService.Notifications.ShowError("Pages.Settings.Messages.Update.Failed");
             return;
         }
 
         if (available.Data == false)
         {
-            Toast.ShowInfo("Pages.Settings.Messages.Update.NotAvailable");
+            feService.Notifications.ShowInfo("Pages.Settings.Messages.Update.NotAvailable");
             return;
         }
 
@@ -136,7 +136,7 @@ public partial class UpdatesPage : InputRegister
                 "Pages.Settings.Messages.Update.Message") == false)
             return;
         await HttpHelper.Post("/api/configuration/updates/upgrade-now");
-        Toast.ShowInfo("Pages.Settings.Messages.Update.Downloading");
+        feService.Notifications.ShowInfo("Pages.Settings.Messages.Update.Downloading");
 
     }
 }

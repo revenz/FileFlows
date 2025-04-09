@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -21,6 +22,10 @@ public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
     protected string lblClose, lblLogPartialNotAvailable, lblViewLog;
     
     protected bool Maximised { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
 
     private bool InitializeResizer = false;
     protected string ResizerUid;
@@ -75,7 +80,7 @@ public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
         int index = Value.ToList().IndexOf(node);
         if (index < 0)
         {
-            Toast.ShowWarning(lblLogPartialNotAvailable);
+            feService.Notifications.ShowWarning(lblLogPartialNotAvailable);
             return;
         }
 
@@ -87,7 +92,7 @@ public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
             x.IndexOf($"Executing Node {index}:", StringComparison.Ordinal) > 0);
         if (startIndex < 1)
         {
-            Toast.ShowWarning(lblLogPartialNotAvailable);
+            feService.Notifications.ShowWarning(lblLogPartialNotAvailable);
             return;
         }
 
