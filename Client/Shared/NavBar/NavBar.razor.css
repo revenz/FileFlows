@@ -215,7 +215,7 @@ ul {
   }
 }
 @media screen and (max-width: 600px) {
-  .nav-item.files, .nav-item.change-password, .nav-item.log {
+  .nav-item.log {
     display: none;
   }
 }

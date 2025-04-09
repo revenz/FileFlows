@@ -35,13 +35,17 @@ public partial class Dashboard : ComponentBase, IDisposable
     /// </summary>
     private IFlowTabs Tabs;
 
-    private string lblDashboard, lblSavings, lblUpdates, lblStatistics, lblNodes, lblRunners;
+    /// <summary>
+    /// Translations
+    /// </summary>
+    private string lblTitle, lblDashboard, lblSavings, lblUpdates, lblStatistics, lblNodes, lblRunners;
 
     private bool loaded = false;
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        lblTitle = Translater.Instant("Pages.Dashboard.Title");
         lblDashboard = Translater.Instant("Pages.Dashboard.Tabs.Dashboard");
         lblSavings = Translater.Instant("Pages.Dashboard.Tabs.Savings");
         lblStatistics = Translater.Instant("Pages.Dashboard.Tabs.Statistics");

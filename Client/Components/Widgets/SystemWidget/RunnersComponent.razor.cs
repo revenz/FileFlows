@@ -18,10 +18,6 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// Gets or sets the editor
     /// </summary>
     [CascadingParameter] Editor Editor { get; set; }
-    /// <summary>
-    /// Gets or sets the users profile
-    /// </summary>
-    [CascadingParameter] public Profile Profile { get; set; }
     
     /// <summary>
     /// Callback when there are no runners when loading
@@ -121,7 +117,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// </summary>
     /// <param name="runner">the runner</param>
     private async Task OpenRunner(ProcessingLibraryFile runner)
-        => await Helpers.LibraryFileEditor.Open(Blocker, Editor, runner.Uid, Profile, feService);
+        => await Helpers.LibraryFileEditor.Open(Blocker, Editor, runner.Uid, feService.Profile.Profile, feService);
 
     /// <summary>
     /// Toggle the expand state of a runner

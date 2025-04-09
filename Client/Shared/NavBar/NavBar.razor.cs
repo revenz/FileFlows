@@ -262,7 +262,7 @@ public partial class NavBar
         this.MenuItems.Clear();
 
         MenuItems.Add(new ("dashboard", Translater.Instant("Pages.Dashboard.Title"), "fas fa-chart-pie", ""));
-        MenuItems.Add(new ("files", Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-copy", "library-files"));
+        MenuItems.Add(new ("files", Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-copy", "library-files", false));
         
         if(Profile.HasRole(UserRole.Flows))
             MenuItems.Add(new ("flows", Translater.Instant("Pages.Flows.Title"), "fas fa-sitemap", "flows", false));
