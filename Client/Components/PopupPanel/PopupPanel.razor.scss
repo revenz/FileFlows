@@ -21,6 +21,7 @@
   box-shadow: 0 0 0.8rem rgb(82 82 82 / 52%);
   border-radius: 0.5rem;
   overflow: hidden;
+  max-width: 60rem;
   &.visible {
     display: grid;
     grid-template-rows:1fr auto;
@@ -39,11 +40,6 @@
   ::deep {
     .no-runners {
       display: none;
-    }
-    .runner-content {
-      .details {
-        display: none;
-      }
     }
   }
   .notification {

@@ -60,6 +60,9 @@
   flex-grow: 1;
   flex-wrap: wrap;
 }
+.widget-runner .minimal .current-flow-element {
+  display: unset !important;
+}
 @media (max-width: 600px) {
   .widget-runner .details {
     grid-template-columns: 9rem 1fr;

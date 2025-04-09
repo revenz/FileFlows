@@ -10,7 +10,7 @@
     var expandable = runner.FramesPerSecond > 0 || runner.Additional?.Any() == true;
     var expanded = true; //RunnersState.ContainsKey(runner.Uid) && RunnersState[runner.Uid];
 
-    <div class="widget-runner table-item @(expandable && expanded ? "expanded" : "collapsed")" @key="runner.Uid" @onclick="() => ToggleExpand(runner)">
+    <div class="widget-runner table-item @(Minimal ? "minimal" : "") @(expandable && expanded ? "expanded" : "collapsed")" @key="runner.Uid" @onclick="() => ToggleExpand(runner)">
         <div class="current-progress" style="width:@(current)%"></div>
         <div class="overall-progress" style="width:@(overall)%"></div>
         <div class="runner-content" @ondblclick="() => OpenRunner(runner)">
@@ -62,7 +62,7 @@
                 {
                     <span class="top-right aborting">@lblAborting</span>
                 }
-                else
+                else if(Minimal == false)
                 {
                     <span class="top-right time">@runner.CurrentPartName</span>
                 }

@@ -117,6 +117,9 @@
       flex-wrap: wrap;
     }
   }
+  .minimal .current-flow-element {
+    display: unset !important;
+  }
   //@media  (max-width: 1120px) {
   //  .top-right {
   //    display: none;

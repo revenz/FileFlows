@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
@@ -23,6 +24,11 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// Callback when there are no runners when loading
     /// </summary>
     [Parameter] public EventCallback NoneOnLoad { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this is a minimal view
+    /// </summary>
+    [Parameter] public bool Minimal { get; set; }
     
     /// <summary>
     /// The runners
@@ -143,19 +149,30 @@ public partial class RunnersComponent : ComponentBase, IDisposable
         { "fps", 5 }
     };
 
+
     /// <summary>
     /// Returns the sorted additional information entries.
     /// Sorting is done lazily when the enumeration is accessed.
     /// </summary>
     /// <param name="runner">The runner containing additional information.</param>
     /// <returns>A lazily evaluated enumerable of sorted additional info.</returns>
-    private static IEnumerable<object[]> GetSortedAdditional(ProcessingLibraryFile runner)
+    private IEnumerable<object[]> GetSortedAdditional(ProcessingLibraryFile runner)
     {
         if (runner?.Additional == null)
             yield break;
 
+        // Define a HashSet for efficient lookups
+        var validPrefixes = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "ETA", "Speed" };
+        
         foreach (var item in runner.Additional
-                     .Where(item => item.Length >= 2) // Ensure at least two elements
+                     .Where(item =>
+                     {
+                         if (item.Length < 2)
+                             return false;  // Ensure at least two elements
+                         if (Minimal == false)
+                             return true;
+                         return validPrefixes.Contains(item[0]?.ToString());
+                     })
                      .OrderBy(item => PriorityMap.TryGetValue(item[0]?.ToString()?.ToLowerInvariant() ?? "", out var index) ? index : int.MaxValue)
                      .ThenBy(item => item[0]?.ToString(), StringComparer.OrdinalIgnoreCase))
         {

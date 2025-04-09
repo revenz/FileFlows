@@ -22,7 +22,7 @@
         else
         {
             <div class="runners @(IsProcessing ? "" : "hidden")">
-                <RunnersComponent/>
+                <RunnersComponent Minimal="true" />
             </div>
             <div class="notifications @(hasNotifications ? "" : "hidden")">
                 @foreach (var item in Notifications)

@@ -20,6 +20,7 @@
   box-shadow: 0 0 0.8rem rgba(82, 82, 82, 0.52);
   border-radius: 0.5rem;
   overflow: hidden;
+  max-width: 60rem;
 }
 .popup-panel.visible {
   display: grid;
@@ -37,9 +38,6 @@
   padding: 1rem;
 }
 .popup-panel ::deep .no-runners {
-  display: none;
-}
-.popup-panel ::deep .runner-content .details {
   display: none;
 }
 .popup-panel .notification {
