@@ -130,6 +130,7 @@ public abstract class RegisterHandler
     {
         _handlers[name] = async (object[] parameters) =>
         {
+            Console.WriteLine("@#@ Handling Register Method: " + name);
             if (parameters.Length != 1)
                 throw new InvalidOperationException($"Handler '{name}' expects exactly one parameter.");
 
@@ -223,9 +224,37 @@ public abstract class RegisterHandler
                 Logger.Instance.ELog($"Error invoking handler '{handler}' : inner : {ex}");
             }
         }
-        var paramTypes = string.Join(", ", parameters.Select(p => p?.GetType().FullName ?? "null"));
-        Logger.Instance.WLog($"Handler '{name}' has unsupported signature. Handler type: {handler?.GetType().FullName}, parameter types: [{paramTypes}]");
+        
+        string handlerType = handler?.GetType() is Type ht ? GetFriendlyTypeName(ht) : "unknown";
+        string paramTypes = string.Join(", ", parameters.Select(p => GetFriendlyTypeName(p?.GetType() ?? typeof(object))));
 
-        throw new InvalidOperationException($"Handler '{name}' has an unsupported signature. Handler type: {handler?.GetType().FullName}, parameter types: [{paramTypes}]");
+        Logger.Instance.WLog($"Handler '{name}' has unsupported signature. Handler type: {handlerType}, parameter types: [{paramTypes}]");
+
+        throw new InvalidOperationException($"Handler '{name}' has an unsupported signature. Handler type: {handlerType}, parameter types: [{paramTypes}]");
+
     }
+    
+    private static string GetFriendlyTypeName(Type type)
+    {
+        if (type.IsGenericType)
+        {
+            var genericType = type.GetGenericTypeDefinition();
+            var typeName = genericType.Name;
+            var tickIndex = typeName.IndexOf('`');
+            if (tickIndex > 0)
+                typeName = typeName.Substring(0, tickIndex);
+
+            var genericArgs = type.GetGenericArguments()
+                .Select(GetFriendlyTypeName);
+            return $"{typeName}<{string.Join(", ", genericArgs)}>";
+        }
+
+        if (type.IsArray)
+        {
+            return $"{GetFriendlyTypeName(type.GetElementType()!)}[]";
+        }
+
+        return type.Name;
+    }
+
 }
