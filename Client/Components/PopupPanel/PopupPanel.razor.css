@@ -84,6 +84,13 @@
   background: var(--base);
   padding: 1rem;
   text-align: right;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.popup-panel-bottom .version {
+  flex-grow: 1;
+  text-align: left;
 }
 .popup-panel-bottom a {
   height: fit-content;
