@@ -1,3 +1,6 @@
+$bkg: var(--base-lighter);
+$zindex: 1000;
+
 @media (max-width: 849.99px)
 {
   .popup-panel-button, .popup-panel {
@@ -10,23 +13,30 @@
   top: 0.6rem;
   right: 1rem;
   cursor: pointer;
+  &.opened {
+    background:$bkg !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-color: $bkg !important;
+    z-index:$zindex + 1;
+  }
 }
 .popup-panel {
   position: fixed;
-  top: 3.25rem;
+  top: calc(3rem - 4px);
   right: 1rem;
   display: none;
   background: var(--base-lighter);
   border: solid 1px var(--border-color);
   box-shadow: 0 0 0.8rem rgb(82 82 82 / 52%);
-  border-radius: 0.5rem;
+  border-radius: 0.5rem 0 0.5rem 0.5rem;
   overflow: hidden;
   max-width: 60rem;
-  min-width: min(30rem, 80vw);
+  min-width: min(36rem, 80vw);
   &.visible {
     display: grid;
     grid-template-rows:1fr auto;
-    z-index:10000;
+    z-index:$zindex;
     &.is-processing.has-notifications .popup-panel-main {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -37,11 +47,6 @@
   }
   .popup-panel-main {
     padding: 1rem;
-  }
-  ::deep {
-    .no-runners {
-      display: none;
-    }
   }
   .notification {
     margin: 0.5rem 0.5rem 0 0.5rem;
@@ -107,9 +112,7 @@
   align-items: center;
   display: grid;
   grid-template-columns: 1fr auto;
-  > div {
-    padding:0.5rem 1rem;
-  }
+  padding: 0.75rem;
   .version {
     flex-grow:1;
     text-align: left;

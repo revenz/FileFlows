@@ -33,7 +33,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// <summary>
     /// Gets the number of runners
     /// </summary>
-    private int NumberOfRunners { get; set; }
+    private int NumberOfRunners;
 
     /// <summary>
     /// The notifications
@@ -78,7 +78,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// <param name="runners">the updated runners</param>
     private void OnProcessingUpdated(List<ProcessingLibraryFile> runners)
     {
-        if (NumberOfRunners != runners.Count)
+        if (NumberOfRunners == runners.Count)
             return;
         NumberOfRunners = runners.Count;
         StateHasChanged();
