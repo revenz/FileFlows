@@ -6,7 +6,10 @@
 <div class="btn popup-panel-button @(Visible ? "opened" : "")" @onclick="TogglePopup">
     @if (NumberOfRunners > 0)
     {
-        <text>@NumberOfRunners Processing</text>
+        <text>
+            <i class="icon fas fa-running" style="color:var(--blue);"></i>
+            @NumberOfRunners Processing
+        </text>
     }
     else
     {
@@ -63,7 +66,7 @@
         }
     </div>
     </div>
-    <div class="popup-panel-bottom">
+    <div class="popup-panel-bottom @(ShowLogout || ShowChangePassword ? "" : "no-user")">
         <div class="support">
             <a class="external-link" title="FileFlows.com" href="https://fileflows.com/docs" target="_blank" rel="noopener noreferrer nofollow">
                 <i class="fas fa-globe"></i>

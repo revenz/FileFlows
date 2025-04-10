@@ -50,7 +50,6 @@ public class ClickOutsideService : IAsyncDisposable
     [JSInvokable]
     public void NotifyClickOutside()
     {
-        Console.WriteLine("Click outside detected!");
         OnClickOutside?.Invoke();
     }
 

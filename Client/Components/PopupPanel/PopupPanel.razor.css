@@ -6,7 +6,7 @@
 .popup-panel-button {
   position: fixed;
   top: 0.6rem;
-  right: 1rem;
+  right: 1.25rem;
   cursor: pointer;
 }
 .popup-panel-button.opened {
@@ -16,16 +16,19 @@
   border-bottom-color: var(--base-lighter) !important;
   z-index: 1001;
 }
+.popup-panel-button i {
+  margin-right: 0.25rem;
+}
 
 .popup-panel {
   position: fixed;
   top: calc(3rem - 4px);
-  right: 1rem;
+  right: 0.5rem;
   display: none;
   background: var(--base-lighter);
   border: solid 1px var(--border-color);
   box-shadow: 0 0 0.8rem rgba(82, 82, 82, 0.52);
-  border-radius: 0.5rem 0 0.5rem 0.5rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   max-width: 60rem;
   min-width: min(36rem, 80vw);
@@ -122,6 +125,9 @@
 .popup-panel-bottom .version {
   flex-grow: 1;
   text-align: left;
+}
+.popup-panel-bottom.no-user {
+  text-align: right;
 }
 .popup-panel-bottom .support a {
   border-radius: 2rem;

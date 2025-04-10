@@ -11,7 +11,7 @@ $zindex: 1000;
 .popup-panel-button {
   position: fixed;
   top: 0.6rem;
-  right: 1rem;
+  right: 1.25rem;
   cursor: pointer;
   &.opened {
     background:$bkg !important;
@@ -20,16 +20,19 @@ $zindex: 1000;
     border-bottom-color: $bkg !important;
     z-index:$zindex + 1;
   }
+  i {
+    margin-right: 0.25rem;
+  }
 }
 .popup-panel {
   position: fixed;
   top: calc(3rem - 4px);
-  right: 1rem;
+  right: 0.5rem;
   display: none;
   background: var(--base-lighter);
   border: solid 1px var(--border-color);
   box-shadow: 0 0 0.8rem rgb(82 82 82 / 52%);
-  border-radius: 0.5rem 0 0.5rem 0.5rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   max-width: 60rem;
   min-width: min(36rem, 80vw);
@@ -131,6 +134,9 @@ $zindex: 1000;
   .version {
     flex-grow:1;
     text-align: left;
+  }
+  &.no-user {
+    text-align: right;
   }
   .support {
     a {

@@ -75,10 +75,10 @@ public partial class PopupPanel : ComponentBase, IDisposable
         ShowChangePassword = feService.Profile.Profile.Security == SecurityMode.Local;
         ShowLogout = feService.Profile.Profile.Security != SecurityMode.Off;
         
-        #if(DEBUG)
-        ShowChangePassword = true;
-        ShowLogout = true;
-#endif
+//         #if(DEBUG)
+//         ShowChangePassword = true;
+//         ShowLogout = true;
+// #endif
     }
 
     protected override void OnAfterRender(bool firstRender)
