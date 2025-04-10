@@ -16,8 +16,7 @@ public partial class App : ComponentBase
     /// The instance of the application
     /// </summary>
     public static App Instance { get; private set; }
-    public delegate void DocumentClickDelegate();
-    public event DocumentClickDelegate OnDocumentClick;
+    public event Action? OnDocumentClick;
     public delegate void WindowBlurDelegate();
     public event WindowBlurDelegate OnWindowBlur;
 

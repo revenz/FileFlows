@@ -17,6 +17,7 @@ builder.Services.AddSingleton<ProfileService>();
 builder.Services.AddSingleton<IModalService, ModalService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IPausedService, PausedService>();
+builder.Services.AddTransient<ClickOutsideService>();
 builder.Services.AddBlazorContextMenu(options =>
 {
     options.ConfigureTemplate(template =>

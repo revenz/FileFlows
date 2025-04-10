@@ -25,7 +25,8 @@
     bool hasNotifications = Notifications.Count > 0;
 }
 
-<div class="popup-panel @(Visible ? "visible" : "") @(IsProcessing ? "is-processing" : "") @(hasNotifications ? "has-notifications" : "")">
+<div @ref="elePopupPanel" class="popup-panel @(Visible ? "visible" : "") @(IsProcessing ? "is-processing" : "") 
+    @(hasNotifications ? "has-notifications" : "")" @onclick:stopPropagation>
     <div class="popup-panel-main">
         <div class="runners @(IsProcessing ? "" : "hidden")">
             <RunnersComponent Minimal="true" />

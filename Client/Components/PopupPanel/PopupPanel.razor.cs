@@ -16,6 +16,11 @@ public partial class PopupPanel : ComponentBase, IDisposable
     [Inject]private FrontendService feService { get; set; }
     
     /// <summary>
+    /// Gets or sets the click outside serice
+    /// </summary>
+    [Inject] private ClickOutsideService ClickOutside { get; set; }
+    
+    /// <summary>
     /// Gets or sets the JavaScript runtime
     /// </summary>
     [Inject] private IJSRuntime jsRuntime { get; set; }
@@ -48,7 +53,9 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// <summary>
     /// Translations
     /// </summary>
-    private string lblHelp, lblChangePassword, lblLogout; 
+    private string lblHelp, lblChangePassword, lblLogout;
+
+    private ElementReference elePopupPanel;
     
     private bool ShowLogout, ShowChangePassword;
     
@@ -63,6 +70,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
         feService.Notifications.OnNotification += OnNotification;
         feService.Notifications.OnNotificationsUpdated += OnNotificationsUpdated;
         feService.Files.ProcessingUpdated += OnProcessingUpdated;
+        ClickOutside.OnClickOutside += HidePopup;
 
         ShowChangePassword = feService.Profile.Profile.Security == SecurityMode.Local;
         ShowLogout = feService.Profile.Profile.Security != SecurityMode.Off;
@@ -71,6 +79,14 @@ public partial class PopupPanel : ComponentBase, IDisposable
         ShowChangePassword = true;
         ShowLogout = true;
 #endif
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
+            ClickOutside.Watch(elePopupPanel);
+        
+        base.OnAfterRender(firstRender);
     }
 
     /// <summary>
@@ -98,6 +114,17 @@ public partial class PopupPanel : ComponentBase, IDisposable
     }
 
     /// <summary>
+    /// Hides the popup
+    /// </summary>
+    void HidePopup()
+    {
+        if (!Visible)
+            return;
+        Visible = false;
+        StateHasChanged();
+    }
+
+    /// <summary>
     /// When a notification is received
     /// </summary>
     /// <param name="data">the updated notifications</param>
@@ -114,16 +141,22 @@ public partial class PopupPanel : ComponentBase, IDisposable
         feService.Notifications.OnNotification -= OnNotification;
         feService.Notifications.OnNotificationsUpdated -= OnNotificationsUpdated;
         feService.Files.ProcessingUpdated -= OnProcessingUpdated;
+        ClickOutside.OnClickOutside -= HidePopup;
+        _ = ClickOutside.DisposeAsync();
     }
 
     /// <summary>
-    /// Toggles the visiblity of the popup
+    /// Toggles the visibility of the popup
     /// </summary>
-    private void TogglePopup()
+    private async Task TogglePopup()
     {
+        if (!Visible)
+        {
+            await CloseAllToasts();
+            await Task.Delay(20);
+        }
+
         Visible = !Visible;
-        if (Visible)
-            CloseAllToasts();
     }
 
     /// <summary>
@@ -151,8 +184,11 @@ public partial class PopupPanel : ComponentBase, IDisposable
         Visible = false;
     }
     
-    private void CloseAllToasts()
+    /// <summary>
+    /// Close all the toast
+    /// </summary>
+    private async Task CloseAllToasts()
     {
-        _ = jsRuntime.InvokeVoidAsync("closeAllToasts");
+        await jsRuntime.InvokeVoidAsync("closeAllToasts");
     }
 }
