@@ -117,8 +117,14 @@
       flex-wrap: wrap;
     }
   }
-  .minimal .current-flow-element {
-    display: unset !important;
+  &.minimal
+  {
+    .current-flow-element {
+      display: unset !important;
+    }
+    .right {
+      display: none;
+    }
   }
   //@media  (max-width: 1120px) {
   //  .top-right {

@@ -60,8 +60,11 @@
   flex-grow: 1;
   flex-wrap: wrap;
 }
-.widget-runner .minimal .current-flow-element {
+.widget-runner.minimal .current-flow-element {
   display: unset !important;
+}
+.widget-runner.minimal .right {
+  display: none;
 }
 @media (max-width: 600px) {
   .widget-runner .details {
