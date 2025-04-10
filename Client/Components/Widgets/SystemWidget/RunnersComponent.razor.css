@@ -66,6 +66,17 @@
 .widget-runner.minimal .right {
   display: none;
 }
+.widget-runner.minimal .name {
+  font-size: 0.9rem;
+  font-weight: var(--bold, 600);
+  width: 29rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 1rem;
+  display: inline-block;
+  align-content: center;
+}
 @media (max-width: 600px) {
   .widget-runner .details {
     grid-template-columns: 9rem 1fr;

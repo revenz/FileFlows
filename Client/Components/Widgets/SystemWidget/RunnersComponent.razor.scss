@@ -125,6 +125,17 @@
     .right {
       display: none;
     }
+    .name {
+      font-size: 0.9rem;
+      font-weight: var(--bold, 600);
+      width: 29rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 1rem;
+      display: inline-block;
+      align-content: center;
+    }
   }
   //@media  (max-width: 1120px) {
   //  .top-right {
