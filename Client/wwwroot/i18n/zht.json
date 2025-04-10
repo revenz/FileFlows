@@ -1075,13 +1075,13 @@
           "Peak": "{num} 峰值"
         },
         "Files": {
-          "Failed": "{count, plural, zero {失敗} other {# 失敗}}",
-          "Finished": "{count, plural, zero {完成} other {# 完成}}",
+          "Failed": "{count, plural, zero {失敗} other {{formatted} 失敗}}",
+          "Finished": "{count, plural, zero {完成} other {{formatted} 完成}}",
           "NoFailedFiles": "沒有失敗的文件",
           "NoRecentlyFinishedFiles": "沒有最近完成的文件",
           "NoUpcomingFiles": "沒有即將到來的文件",
           "Title": "文件",
-          "Upcoming": "{count, plural, zero {即將到來} other {# 即將到來}}"
+          "Upcoming": "{count, plural, zero {即將到來} other {{formatted} 即將到來}}"
         },
         "FilesOverview": {
           "FilesProcessed": "已處理文件",

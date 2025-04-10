@@ -1075,13 +1075,13 @@
           "Peak": "{num} Piek"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Mislukt} other {# Mislukt}}",
-          "Finished": "{count, plural, zero {Voltooid} other {# Voltooid}}",
+          "Failed": "{count, plural, zero {Mislukt} other {{formatted} Mislukt}}",
+          "Finished": "{count, plural, zero {Voltooid} other {{formatted} Voltooid}}",
           "NoFailedFiles": "Geen mislukte bestanden",
           "NoRecentlyFinishedFiles": "Geen recent voltooide bestanden",
           "NoUpcomingFiles": "Geen aankomende bestanden",
           "Title": "Bestanden",
-          "Upcoming": "{count, plural, zero {Aankomend} other {# Aankomend}}"
+          "Upcoming": "{count, plural, zero {Aankomend} other {{formatted} Aankomend}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Verwerkte bestanden",

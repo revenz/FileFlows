@@ -1075,13 +1075,13 @@
           "Peak": "{num} Пик"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Неудачно} other {# Неудачно}}",
-          "Finished": "{count, plural, zero {Завершено} other {# Завершено}}",
+          "Failed": "{count, plural, zero {Неудачно} other {{formatted} Неудачно}}",
+          "Finished": "{count, plural, zero {Завершено} other {{formatted} Завершено}}",
           "NoFailedFiles": "Нет неудавшихся файлов",
           "NoRecentlyFinishedFiles": "Нет недавно завершённых файлов",
           "NoUpcomingFiles": "Нет предстоящих файлов",
           "Title": "Файлы",
-          "Upcoming": "{count, plural, zero {Предстоящие} other {# Предстоящие}}"
+          "Upcoming": "{count, plural, zero {Предстоящие} other {{formatted} Предстоящие}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Обработанные файлы",

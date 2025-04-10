@@ -1075,13 +1075,13 @@
           "Peak": "{num} Pic"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Échoué} other {# Échoués}}",
-          "Finished": "{count, plural, zero {Terminé} other {# Terminés}}",
+          "Failed": "{count, plural, zero {Échoué} other {{formatted} Échoués}}",
+          "Finished": "{count, plural, zero {Terminé} other {{formatted} Terminés}}",
           "NoFailedFiles": "Aucun fichier échoué",
           "NoRecentlyFinishedFiles": "Aucun fichier récemment terminé",
           "NoUpcomingFiles": "Aucun fichier à venir",
           "Title": "Fichiers",
-          "Upcoming": "{count, plural, zero {À venir} other {# À venir}}"
+          "Upcoming": "{count, plural, zero {À venir} other {{formatted} À venir}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Fichiers traités",

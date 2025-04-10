@@ -1075,13 +1075,13 @@
           "Peak": "{num} ピーク"
         },
         "Files": {
-          "Failed": "{count, plural, zero {失敗} other {# 失敗}}",
-          "Finished": "{count, plural, zero {完了} other {# 完了}}",
+          "Failed": "{count, plural, zero {失敗} other {{formatted} 失敗}}",
+          "Finished": "{count, plural, zero {完了} other {{formatted} 完了}}",
           "NoFailedFiles": "失敗したファイルはありません",
           "NoRecentlyFinishedFiles": "最近完了したファイルはありません",
           "NoUpcomingFiles": "今後のファイルはありません",
           "Title": "ファイル",
-          "Upcoming": "{count, plural, zero {今後} other {# 今後}}"
+          "Upcoming": "{count, plural, zero {今後} other {{formatted} 今後}}"
         },
         "FilesOverview": {
           "FilesProcessed": "処理済みファイル",

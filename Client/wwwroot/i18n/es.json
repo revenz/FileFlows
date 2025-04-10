@@ -1075,13 +1075,13 @@
           "Peak": "{num} Pico"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Fallido} other {# Fallidos}}",
-          "Finished": "{count, plural, zero {Completado} other {# Completados}}",
+          "Failed": "{count, plural, zero {Fallido} other {{formatted} Fallidos}}",
+          "Finished": "{count, plural, zero {Completado} other {{formatted} Completados}}",
           "NoFailedFiles": "No hay archivos fallidos",
           "NoRecentlyFinishedFiles": "No hay archivos terminados recientemente",
           "NoUpcomingFiles": "No hay archivos próximos",
           "Title": "Archivos",
-          "Upcoming": "{count, plural, zero {Próximo} other {# Próximos}}"
+          "Upcoming": "{count, plural, zero {Próximo} other {{formatted} Próximos}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Archivos procesados",

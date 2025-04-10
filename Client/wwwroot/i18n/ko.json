@@ -1075,13 +1075,13 @@
           "Peak": "{num} 최고점"
         },
         "Files": {
-          "Failed": "{count, plural, zero {실패} other {# 실패}}",
-          "Finished": "{count, plural, zero {완료} other {# 완료}}",
+          "Failed": "{count, plural, zero {실패} other {{formatted} 실패}}",
+          "Finished": "{count, plural, zero {완료} other {{formatted} 완료}}",
           "NoFailedFiles": "실패한 파일이 없습니다.",
           "NoRecentlyFinishedFiles": "최근 완료된 파일이 없습니다.",
           "NoUpcomingFiles": "예정된 파일이 없습니다.",
           "Title": "파일",
-          "Upcoming": "{count, plural, zero {예정됨} other {# 예정됨}}"
+          "Upcoming": "{count, plural, zero {예정됨} other {{formatted} 예정됨}}"
         },
         "FilesOverview": {
           "FilesProcessed": "처리된 파일",

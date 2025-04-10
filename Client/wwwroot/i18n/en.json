@@ -1075,13 +1075,13 @@
           "Peak": "{num} Peak"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Failed} other {# Failed}}",
-          "Finished": "{count, plural, zero {Finished} other {# Finished}}",
+          "Failed": "{count, plural, zero {Failed} other {{formatted} Failed}}",
+          "Finished": "{count, plural, zero {Finished} other {{formatted} Finished}}",
           "NoFailedFiles": "No Failed Files",
           "NoRecentlyFinishedFiles": "No Recently Finished Files",
           "NoUpcomingFiles": "No Upcoming Files",
           "Title": "Files",
-          "Upcoming": "{count, plural, zero {Upcoming} other {# Upcoming}}"
+          "Upcoming": "{count, plural, zero {Upcoming} other {{formatted} Upcoming}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Files Processed",

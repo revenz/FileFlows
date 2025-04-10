@@ -1075,13 +1075,13 @@
           "Peak": "{num} Topp"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Misslyckad} other {# Misslyckade}}",
-          "Finished": "{count, plural, zero {Färdig} other {# Färdiga}}",
+          "Failed": "{count, plural, zero {Misslyckad} other {{formatted} Misslyckade}}",
+          "Finished": "{count, plural, zero {Färdig} other {{formatted} Färdiga}}",
           "NoFailedFiles": "Inga misslyckade filer",
           "NoRecentlyFinishedFiles": "Inga nyligen avslutade filer",
           "NoUpcomingFiles": "Inga kommande filer",
           "Title": "Filer",
-          "Upcoming": "{count, plural, zero {Kommande} other {# Kommande}}"
+          "Upcoming": "{count, plural, zero {Kommande} other {{formatted} Kommande}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Bearbetade filer",

@@ -1075,13 +1075,13 @@
           "Peak": "{num} 峰值"
         },
         "Files": {
-          "Failed": "{count, plural, zero {失败} other {# 失败}}",
-          "Finished": "{count, plural, zero {完成} other {# 完成}}",
+          "Failed": "{count, plural, zero {失败} other {{formatted} 失败}}",
+          "Finished": "{count, plural, zero {完成} other {{formatted} 完成}}",
           "NoFailedFiles": "没有失败的文件",
           "NoRecentlyFinishedFiles": "没有最近完成的文件",
           "NoUpcomingFiles": "没有即将到来的文件",
           "Title": "文件",
-          "Upcoming": "{count, plural, zero {即将} other {# 即将}}"
+          "Upcoming": "{count, plural, zero {即将} other {{formatted} 即将}}"
         },
         "FilesOverview": {
           "FilesProcessed": "已处理文件",

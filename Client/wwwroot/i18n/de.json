@@ -1075,13 +1075,13 @@
           "Peak": "{num} Spitze"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Fehlgeschlagen} other {# Fehlgeschlagen}}",
-          "Finished": "{count, plural, zero {Abgeschlossen} other {# Abgeschlossen}}",
+          "Failed": "{count, plural, zero {Fehlgeschlagen} other {{formatted} Fehlgeschlagen}}",
+          "Finished": "{count, plural, zero {Abgeschlossen} other {{formatted} Abgeschlossen}}",
           "NoFailedFiles": "Keine fehlgeschlagenen Dateien",
           "NoRecentlyFinishedFiles": "Keine kürzlich fertiggestellten Dateien",
           "NoUpcomingFiles": "Keine anstehenden Dateien",
           "Title": "Dateien",
-          "Upcoming": "{count, plural, zero {Bevorstehend} other {# Bevorstehend}}"
+          "Upcoming": "{count, plural, zero {Bevorstehend} other {{formatted} Bevorstehend}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Dateien verarbeitet",
