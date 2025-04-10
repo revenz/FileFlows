@@ -9,7 +9,7 @@ namespace FileFlows.Client.Components;
 /// <summary>
 /// Page view 
 /// </summary>
-public partial class PageView : IDisposable, IFlowTabs
+public partial class PageView : IFlowTabs
 {
     /// <summary>
     /// Gets or sets the nav menu component
@@ -73,78 +73,6 @@ public partial class PageView : IDisposable, IFlowTabs
     
     private string GetClassName()
         => $"{(ClassName ?? string.Empty)} {(FormPage ? "form-page" : "")} {(TabView ? "tab-view" : "")} ";
-
-    /// <summary>
-    /// If the connection to the server has been lost
-    /// </summary>
-    private bool ConnectionLost = false;
-    
-    /// <summary>
-    /// If the system is upgrading
-    /// </summary>
-    private bool Upgrading;
-    
-    /// <summary>
-    /// If the system has an upgrade pending
-    /// </summary>
-    private bool UpgradePending;
-
-    /// <summary>
-    /// Translation strings
-    /// </summary>
-    private string lblDisconnected;
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        lblDisconnected = Translater.Instant("Labels.Disconnected");
-        ConnectionLost = feService.ConnectionLost;
-        feService.OnConnectionLost += OnConnectionLost; 
-        feService.System.OnUpdatePending += OnUpgradePending; 
-        feService.System.OnUpgrading += OnUpgrading; 
-    }
-
-    /// <summary>
-    /// Called when the system is upgrading
-    /// </summary>
-    /// <param name="upgrading">if the system is upgraing</param>
-    private void OnUpgrading(bool upgrading)
-    {
-        Upgrading = upgrading;
-        UpgradePending = false;
-        StateHasChanged();
-    }
-
-    /// <summary>
-    /// Called when an upgrade is pending
-    /// </summary>
-    /// <param name="pending">if the upgrade is pending</param>
-    private void OnUpgradePending(bool pending)
-    {
-        UpgradePending = pending;
-        StateHasChanged();
-    }
-
-    /// <summary>
-    /// Called when the server connection is lost
-    /// </summary>
-    /// <param name="connectionLost">true if the connection is lost, false if the connection is restablished</param>
-    private void OnConnectionLost(bool connectionLost)
-    {
-        ConnectionLost = connectionLost;
-        StateHasChanged();
-    }
-
-    /// <summary>
-    /// Disposes of the component
-    /// </summary>
-    public void Dispose()
-    {
-        feService.OnConnectionLost -= OnConnectionLost;
-        feService.System.OnUpdatePending -= OnUpgradePending; 
-        feService.System.OnUpgrading -= OnUpgrading; 
-        
-    }
 
     /// <inheritdoc />
     public FlowTab ActiveTab { get; set; }

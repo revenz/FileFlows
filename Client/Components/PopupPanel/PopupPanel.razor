@@ -4,7 +4,30 @@
 @namespace FileFlows.Client.Components
 
 <div class="btn popup-panel-button @(Visible ? "opened" : "")" @onclick="TogglePopup">
-    @if (NumberOfRunners > 0)
+
+
+    @if (Upgrading)
+    {
+        <text>
+            <i class="fas fa-rocket" style="color:var(--green)"></i>
+            Upgrading
+        </text>
+    }
+    else if (UpgradePending)
+    {
+        <text>
+            <i class="fas fa-hourglass-half" style="color:var(--blue)"></i>
+            Upgrade Pending
+        </text>
+    }
+    else if (ConnectionLost)
+    {
+        <text>
+            <i class="fas fa-plug" style="color:var(--error)"></i>
+            @lblDisconnected
+        </text>
+    }
+    else if (NumberOfRunners > 0)
     {
         <text>
             <i class="icon fas fa-running" style="color:var(--blue);"></i>

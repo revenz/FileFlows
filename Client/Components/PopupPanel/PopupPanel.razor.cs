@@ -56,6 +56,26 @@ public partial class PopupPanel : ComponentBase, IDisposable
     private bool Visible { get; set; }
 
     /// <summary>
+    /// If the connection to the server has been lost
+    /// </summary>
+    private bool ConnectionLost = false;
+    
+    /// <summary>
+    /// If the system is upgrading
+    /// </summary>
+    private bool Upgrading;
+    
+    /// <summary>
+    /// If the system has an upgrade pending
+    /// </summary>
+    private bool UpgradePending;
+
+    /// <summary>
+    /// Translation strings
+    /// </summary>
+    private string lblDisconnected;
+
+    /// <summary>
     /// Translations
     /// </summary>
     private string lblHelp, lblChangePassword, lblLogout;
@@ -85,6 +105,43 @@ public partial class PopupPanel : ComponentBase, IDisposable
 //         ShowChangePassword = true;
 //         ShowLogout = true;
 // #endif
+
+        lblDisconnected = Translater.Instant("Labels.Disconnected");
+        ConnectionLost = feService.ConnectionLost;
+        feService.OnConnectionLost += OnConnectionLost; 
+        feService.System.OnUpdatePending += OnUpgradePending; 
+        feService.System.OnUpgrading += OnUpgrading; 
+    }
+
+    /// <summary>
+    /// Called when the system is upgrading
+    /// </summary>
+    /// <param name="upgrading">if the system is upgraing</param>
+    private void OnUpgrading(bool upgrading)
+    {
+        Upgrading = upgrading;
+        UpgradePending = false;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Called when an upgrade is pending
+    /// </summary>
+    /// <param name="pending">if the upgrade is pending</param>
+    private void OnUpgradePending(bool pending)
+    {
+        UpgradePending = pending;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Called when the server connection is lost
+    /// </summary>
+    /// <param name="connectionLost">true if the connection is lost, false if the connection is restablished</param>
+    private void OnConnectionLost(bool connectionLost)
+    {
+        ConnectionLost = connectionLost;
+        StateHasChanged();
     }
 
     /// <summary>
@@ -157,6 +214,9 @@ public partial class PopupPanel : ComponentBase, IDisposable
         feService.Notifications.OnNotificationsUpdated -= OnNotificationsUpdated;
         feService.Files.ProcessingUpdated -= OnProcessingUpdated;
         ClickOutside.OnClickOutside -= HidePopup;
+        feService.OnConnectionLost -= OnConnectionLost;
+        feService.System.OnUpdatePending -= OnUpgradePending; 
+        feService.System.OnUpgrading -= OnUpgrading; 
         _ = ClickOutside.DisposeAsync();
     }
 
