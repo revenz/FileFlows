@@ -28,7 +28,12 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// <summary>
     /// If any files are currently processing
     /// </summary>
-    private bool IsProcessing = false;
+    private bool IsProcessing => NumberOfRunners > 0;
+
+    /// <summary>
+    /// Gets the number of runners
+    /// </summary>
+    private int NumberOfRunners { get; set; }
 
     /// <summary>
     /// The notifications
@@ -54,7 +59,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
         lblChangePassword = Translater.Instant("Labels.ChangePassword");
         lblLogout = Translater.Instant("Labels.Logout");
         
-        IsProcessing = feService.Files.Processing.Count > 0;
+        NumberOfRunners = feService.Files.Processing.Count;
         feService.Notifications.OnNotificationsUpdated += OnNotificationsUpdated;
         feService.Files.ProcessingUpdated += OnProcessingUpdated;
 
@@ -73,9 +78,9 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// <param name="runners">the updated runners</param>
     private void OnProcessingUpdated(List<ProcessingLibraryFile> runners)
     {
-        if (IsProcessing == runners.Count > 0)
+        if (NumberOfRunners != runners.Count)
             return;
-        IsProcessing = runners.Count > 0;
+        NumberOfRunners = runners.Count;
         StateHasChanged();
     }
 
@@ -101,8 +106,11 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// Toggles the visiblity of the popup
     /// </summary>
     private void TogglePopup()
-        => Visible = !Visible;
-    
+    {
+        
+        Visible = !Visible;
+    }
+
     /// <summary>
     /// Confirms a user log out
     /// </summary>

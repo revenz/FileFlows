@@ -2,19 +2,19 @@ class Toast {
     static toastContainer = null;
 
     static info(title, message, timeout = 5000, svg = false) {
-        feService.Notifications.ShowToast('info', title, message, timeout, svg);
+        Toast.showToast('info', title, message, timeout, svg);
     }
 
     static error(title, message, timeout = 5000, svg = false) {
-        feService.Notifications.ShowToast('error',  title, message, timeout, svg);
+        Toast.showToast('error',  title, message, timeout, svg);
     }
 
     static warn(title, message, timeout = 5000, svg = false) {
-        feService.Notifications.ShowToast('warn', title, message, timeout, svg);
+        Toast.showToast('warn', title, message, timeout, svg);
     }
 
     static success(title, message, timeout = 5000, svg = false) {
-        feService.Notifications.ShowToast('success', title, message, timeout, svg);
+        Toast.showToast('success', title, message, timeout, svg);
     }
     static showToast(type, title, message, timeout, svg) {
         if (!Toast.toastContainer) {

@@ -4,7 +4,21 @@
 @namespace FileFlows.Client.Components
 
 <div class="btn popup-panel-button" @onclick="TogglePopup">
-    @Notifications.Count Notifications
+    @if (NumberOfRunners > 0)
+    {
+        <text>@NumberOfRunners Processing</text>
+    }
+    else if (Notifications.Count > 0)
+    {
+        <text>@Notifications.Count Notifications</text>
+    }
+    else
+    {
+        <text>
+            <i class="fas fa-hamburger"></i>
+            @(feService.Profile.Profile.Name?.EmptyAsNull() ?? "Menu")
+        </text>
+    }
 </div>
 
 @{
@@ -12,81 +26,77 @@
 }
 
 <div class="popup-panel @(Visible ? "visible" : "") @(IsProcessing ? "is-processing" : "") @(hasNotifications ? "has-notifications" : "")">
-    <div class="popup-panel-main">
-        @if (IsProcessing == false && hasNotifications == false)
-        {
-            <div class="empty">
-                No files processing and no notifications
-            </div>
-        }
-        else
-        {
-            <div class="runners @(IsProcessing ? "" : "hidden")">
-                <RunnersComponent Minimal="true" />
-            </div>
-            <div class="notifications @(hasNotifications ? "" : "hidden")">
-                @foreach (var item in Notifications)
-                {
-                    <div class="notification @item.Severity.ToString().Kebaberize()">
-                        <span class="icon">
-                            @switch (item.Severity)
-                            {
-                                case NotificationSeverity.Critical:
-                                    <i class="icon critical fas fa-exclamation-circle"></i>
-                                    break;
-                                case NotificationSeverity.Error:
-                                    <i class="icon error fas fa-times-circle"></i>
-                                    break;
-                                case NotificationSeverity.Warning:
-                                    <i class="icon warning fas fa-exclamation-triangle"></i>
-                                    break;
-                                case NotificationSeverity.Information:
-                                    <i class="icon info fas fa-info-circle"></i>
-                                    break;
-                                case NotificationSeverity.Success:
-                                    <i class="icon info fas fa-check-circle"></i>
-                                    break;
-                            }
-                        </span>
-                        <div class="center">
-                            <span class="title">@item.Title</span>
-                            @if (string.IsNullOrWhiteSpace(item.Message) == false)
-                            {
-                                <span class="message">@item.Message</span>
-                            }
-                        </div>
+    @if (IsProcessing || hasNotifications)
+    {
+        <div class="runners @(IsProcessing ? "" : "hidden")">
+            <RunnersComponent Minimal="true" />
+        </div>
+        <div class="notifications @(hasNotifications ? "" : "hidden")">
+            @foreach (var item in Notifications)
+            {
+                <div class="notification @item.Severity.ToString().Kebaberize()">
+                    <span class="icon">
+                        @switch (item.Severity)
+                        {
+                            case NotificationSeverity.Critical:
+                                <i class="icon critical fas fa-exclamation-circle"></i>
+                                break;
+                            case NotificationSeverity.Error:
+                                <i class="icon error fas fa-times-circle"></i>
+                                break;
+                            case NotificationSeverity.Warning:
+                                <i class="icon warning fas fa-exclamation-triangle"></i>
+                                break;
+                            case NotificationSeverity.Information:
+                                <i class="icon info fas fa-info-circle"></i>
+                                break;
+                            case NotificationSeverity.Success:
+                                <i class="icon info fas fa-check-circle"></i>
+                                break;
+                        }
+                    </span>
+                    <div class="center">
+                        <span class="title">@item.Title</span>
+                        @if (string.IsNullOrWhiteSpace(item.Message) == false)
+                        {
+                            <span class="message">@item.Message</span>
+                        }
                     </div>
-                }
-            </div>
-            
-        }
-    </div>
+                </div>
+            }
+        </div>
+    }
     <div class="popup-panel-bottom">
-        <span class="version">@Globals.Version</span>
-        <a class="external-link"href="https://fileflows.com/" title="FileFLows.com" target="_blank" rel="noopener noreferrer nofollow">
-            <i class="fas fa-globe"></i>
-        </a>
-        <a class="external-link" href="https://reddit.com/r/FileFlows" title="r/FileFlows" target="_blank" rel="noopener noreferrer nofollow">
-            <i class="fab fa-reddit-alien"></i>
-        </a>
-        <a class="external-link" href="https://fileflows.com/discord" title="Discord" target="_blank" rel="noopener noreferrer nofollow">
-            <i class="fab fa-discord"></i>
-        </a>
+        <div class="support">
+            <a class="external-link"href="https://fileflows.com/docs" target="_blank" rel="noopener noreferrer nofollow">
+                <i class="fas fa-globe"></i> FileFlows
+            </a>
+            <a class="external-link" href="https://reddit.com/r/FileFlows" target="_blank" rel="noopener noreferrer nofollow">
+                <i class="fab fa-reddit-alien"></i> Reddit
+            </a>
+            <a class="external-link" href="https://fileflows.com/discord" target="_blank" rel="noopener noreferrer nofollow">
+                <i class="fab fa-discord"></i> Discord
+            </a>
+        </div>
         @if (ShowLogout || ShowChangePassword)
         {
-            @if (ShowChangePassword)
-            {
-                <a class="user-link" title="@lblChangePassword" @onclick=ChangePassword>
-                    <i class="fas fa-key"></i>
-                </a>
-            }
+            <div class="user">
+                @if (ShowChangePassword)
+                {
+                    <a class="user-link" @onclick=ChangePassword>
+                        <i class="fas fa-key"></i> @lblChangePassword
+                    </a>
+                }
 
-            @if (ShowLogout)
-            {
-                <a class="user-link" href="/logout" title="@lblLogout" @onclick=LogOut>
-                    <i class="fas fa-unlock"></i>
-                </a>
-            }
+                @if (ShowLogout)
+                {
+                    <a class="user-link" href="/logout" @onclick=LogOut>
+                        <i class="fas fa-unlock"></i> @lblLogout
+                    </a>
+                }
+            </div>
         }
+
+        @* <div class="version">@Globals.Version</div> *@
     </div>
 </div>
