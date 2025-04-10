@@ -81,6 +81,18 @@
 .popup-panel .notification.success .icon {
   color: var(--success);
 }
+.popup-panel .notification .close {
+  position: absolute;
+  top: 1.35rem;
+  right: 1rem;
+  color: var(--color) !important;
+  opacity: 0.5;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.popup-panel .notification .close:hover {
+  opacity: 1;
+}
 
 .empty {
   text-align: center;

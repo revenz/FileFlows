@@ -87,6 +87,20 @@ $zindex: 1000;
         color:var(--success);
       }
     }
+
+
+    .close {
+      position: absolute;
+      top: 1.35rem;
+      right: 1rem;
+      color: var(--color) !important;
+      opacity: 0.5;
+      cursor: pointer;
+      font-size: 0.8rem;
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 }
 

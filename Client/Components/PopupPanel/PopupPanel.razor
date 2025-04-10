@@ -8,10 +8,6 @@
     {
         <text>@NumberOfRunners Processing</text>
     }
-    else if (Notifications.Count > 0)
-    {
-        <text>@Notifications.Count Notifications</text>
-    }
     else
     {
         <text>
@@ -62,6 +58,7 @@
                         <span class="message">@item.Message</span>
                     }
                 </div>
+                <span @onclick="() => Dismiss(item)" class="close"><i class="fas fa-times"></i></span>
             </div>
         }
     </div>

@@ -1,9 +1,3 @@
-using FileFlows.WebServer.Authentication;
-using FileFlows.Services;
-using FileFlows.ServerShared.Services;
-using FileFlows.Shared.Models;
-using Microsoft.AspNetCore.Mvc;
-
 namespace FileFlows.WebServer.Controllers;
 
 /// <summary>
@@ -20,4 +14,15 @@ public class NotificationController : Controller
     [HttpGet]
     public Task<List<Notification>> Get()
         => ((NotificationService)ServiceLoader.Load<INotificationService>()).GetAll(markAsRead: true);
+
+    /// <summary>
+    /// Removes a notification
+    /// </summary>
+    /// <param name="uid">the uid of the notification</param>
+    [HttpDelete("{uid}")]
+    public void Delete([FromRoute] Guid uid)
+    {
+        var service = (NotificationService)ServiceLoader.Load<INotificationService>();
+        service.Delete(uid);
+    }
 }

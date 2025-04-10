@@ -191,4 +191,13 @@ public partial class PopupPanel : ComponentBase, IDisposable
     {
         await jsRuntime.InvokeVoidAsync("closeAllToasts");
     }
+
+    /// <summary>
+    /// Dismisses a notification
+    /// </summary>
+    /// <param name="notification">the notification to dismiss</param>
+    private void Dismiss(Notification notification)
+    {
+        feService.Notifications.Dismiss(notification);
+    }
 }

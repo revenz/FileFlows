@@ -95,6 +95,7 @@ public class NotificationHandler(FrontendService feService)
         message = Translater.TranslateIfNeeded(message);
         Notification toast = new ()
         {
+            Uid = Guid.NewGuid(),
             Message = string.Empty, //message,
             Date = DateTime.UtcNow,
             Severity = level,
@@ -106,5 +107,19 @@ public class NotificationHandler(FrontendService feService)
         All.Insert(0, toast);
         Toasts.Insert(0, toast);
         OnNotificationsUpdated?.Invoke();
+    }
+
+    /// <summary>
+    /// Dismisses a notification
+    /// </summary>
+    /// <param name="notification">The notification to dismiss</param>
+    public void Dismiss(Notification notification)
+    {
+        All.Remove(notification);
+        Toasts.Remove(notification);
+        if (Notifications.Remove(notification) == false)
+            return;
+        // have to tell the Server to clear this notification
+        _ = HttpHelper.Delete("/api/notifications/" + notification.Uid);
     }
 }
