@@ -119,7 +119,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     private void OnFailedFilesUpdated(FileHandler.ListAndCount<LibraryFileMinimal> lat)
     {
         FailedFiles = lat.Data.Count > 50 ? lat.Data.Take(50).ToList() : lat.Data;
-        TotalFailed = FailedFiles.Count;
+        TotalFailed = feService.Files.FailedFilesTotal;
         lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed });
         StateHasChanged();
         OptionButtons?.TriggerStateHasChanged();
@@ -132,7 +132,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     private void OnRecentlyFinishedUpdated(FileHandler.ListAndCount<LibraryFileMinimal> lat)
     {
         RecentlyFinished = lat.Data.Count > 50 ? lat.Data.Take(50).ToList() : lat.Data;
-        TotalFinished = RecentlyFinished.Count;
+        TotalFinished = feService.Files.ProcessedTotal;
         lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished});
         StateHasChanged();
         OptionButtons?.TriggerStateHasChanged();
@@ -163,8 +163,8 @@ public partial class FilesWidget : ComponentBase, IDisposable
             : feService.Files.FailedFiles;
         
         TotalUpcoming = UpcomingFiles.Count;
-        TotalFailed = FailedFiles.Count;
-        TotalFinished = RecentlyFinished.Count;
+        TotalFailed = feService.Files.FailedFilesTotal;
+        TotalFinished = feService.Files.ProcessedTotal;
         TotalProcessing = feService.Files.Processing.Count;
         
         lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = TotalUpcoming});

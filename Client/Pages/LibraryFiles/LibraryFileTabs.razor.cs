@@ -19,7 +19,11 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
     [Inject]
     private FrontendService feService { get; set; }
 
-    private FileStatus Selected = FileStatus.Unprocessed;
+    /// <summary>
+    /// Gets or sets the selected status
+    /// </summary>
+    [Parameter]
+    public FileStatus Selected { get; set; } = FileStatus.Unprocessed;
 
 
     private LibraryFilePageTabItem Unprocessed,

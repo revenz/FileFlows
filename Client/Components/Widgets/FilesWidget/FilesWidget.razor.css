@@ -144,4 +144,21 @@
   margin-bottom: 1rem;
 }
 
+.view-more {
+  font-weight: var(--bold, 600);
+  text-align: center;
+  padding: 1rem 4rem;
+  display: block;
+  background: var(--base-darker);
+  border-radius: 3rem;
+  margin: 2rem auto;
+  color: var(--color) !important;
+  text-decoration: none !important;
+  width: fit-content;
+  opacity: 0.8;
+}
+.view-more:hover {
+  opacity: 1;
+}
+
 /*# sourceMappingURL=FilesWidget.razor.css.map */

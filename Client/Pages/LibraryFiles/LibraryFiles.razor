@@ -24,7 +24,7 @@
         <button class="btn btn-search non-mobile" @onclick=@Search>@lblSearch</button>
     }
     
-    <LibraryFileTabs OnStatusChanged="OnStatusChanged" />
+    <LibraryFileTabs Selected="@SelectedStatus" OnStatusChanged="OnStatusChanged" />
 
     <FlowTable @ref="Table" Data="@Data" TItem="LibraryFileMinimal" Selection="SelectionMode.Multiple"
                TableIdentifier=@TableIdentifier DoubleClick="@OnDoubleClick"

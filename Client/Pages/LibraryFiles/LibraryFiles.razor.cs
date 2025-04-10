@@ -17,8 +17,20 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     private FileStatus? filterStatus;
     /// <inheritdoc />
     public override string ApiUrl => "/api/library-file";
+    
+    /// <summary>
+    /// Gets or sets the navigation service
+    /// </summary>
     [Inject] private INavigationService NavigationService { get; set; }
+    /// <summary>
+    /// Gets or sets the local storage
+    /// </summary>
     [Inject] private FFLocalStorageService LocalStorage { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the navigation manager
+    /// </summary>
+    [Inject] private NavigationManager Navigation { get; set; }
     
     /// <summary>
     /// Gets or sets the JavaScript runtime
@@ -95,7 +107,22 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         // do not call base here! we dont want to load the data via a call
         // we load the initial data from the upcoming files
         
+        SelectedStatus = FileStatus.Unprocessed;
         
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+
+        var token = query.Get("status"); // Example: ?status=Processed
+
+        if (string.IsNullOrEmpty(token) == false)
+        {
+            // Use the token here...
+            _ = Enum.TryParse(token, out SelectedStatus);
+
+            // Now remove the query params
+            var newUri = uri.GetLeftPart(UriPartial.Path);
+            Navigation.NavigateTo(newUri, replace: true);
+        }
     }
 
     /// <inheritdoc />
@@ -103,7 +130,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     {
         await base.OnInitializedAsync();
         
-        this.SelectedStatus = FileFlows.Shared.Models.FileStatus.Unprocessed;
         lblForcedProcessing = Translater.Instant("Labels.ForceProcessing");
         lblReprocessByFlow = Translater.Instant("Enums.FileStatus.ReprocessByFlow");
         lblLibraryFiles = Translater.Instant("Pages.LibraryFiles.Title");

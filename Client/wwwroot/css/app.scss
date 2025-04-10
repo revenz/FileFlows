@@ -1384,6 +1384,25 @@ input[type=file]{
 
 
 /* Animation for the ripple effect */
+.ripple
+{
+    overflow: hidden;
+    position: relative;
+    &:active::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120%;
+        height: 120%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: translate(-50%, -50%) scale(0);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: ripple 0.3s linear;
+    }
+}
+
 @keyframes ripple {
     0% {
         transform: translate(-50%, -50%) scale(0);
