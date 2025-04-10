@@ -21,6 +21,11 @@ public partial class PopupPanel : ComponentBase, IDisposable
     [Inject] private ClickOutsideService ClickOutside { get; set; }
     
     /// <summary>
+    /// Gets or sets the paused service
+    /// </summary>
+    [Inject] private IPausedService PausedService { get; set; }
+    
+    /// <summary>
     /// Gets or sets the JavaScript runtime
     /// </summary>
     [Inject] private IJSRuntime jsRuntime { get; set; }
@@ -71,6 +76,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
         feService.Notifications.OnNotificationsUpdated += OnNotificationsUpdated;
         feService.Files.ProcessingUpdated += OnProcessingUpdated;
         ClickOutside.OnClickOutside += HidePopup;
+        PausedService.OnPausedLabelChanged += PausedServiceOnOnPausedLabelChanged;
 
         ShowChangePassword = feService.Profile.Profile.Security == SecurityMode.Local;
         ShowLogout = feService.Profile.Profile.Security != SecurityMode.Off;
@@ -79,6 +85,15 @@ public partial class PopupPanel : ComponentBase, IDisposable
 //         ShowChangePassword = true;
 //         ShowLogout = true;
 // #endif
+    }
+
+    /// <summary>
+    /// Gets if the paused label has changed
+    /// </summary>
+    /// <param name="label">the updated label</param>
+    private void PausedServiceOnOnPausedLabelChanged(string label)
+    {
+        StateHasChanged();
     }
 
     protected override void OnAfterRender(bool firstRender)

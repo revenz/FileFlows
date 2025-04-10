@@ -11,11 +11,18 @@
             @NumberOfRunners Processing
         </text>
     }
+    else if (PausedService.IsPaused)
+    {
+        <text>
+            <i class="fas fa-pause" style="color:var(--orange)"></i>
+            @PausedService.PausedLabel
+        </text>
+    }
     else
     {
         <text>
-            <i class="fas fa-hamburger"></i>
-            @(feService.Profile.Profile.Name?.EmptyAsNull() ?? "Menu")
+            <i class="fas fa-bed" style="color:var(--gray)"></i>
+            Idle
         </text>
     }
 </div>
