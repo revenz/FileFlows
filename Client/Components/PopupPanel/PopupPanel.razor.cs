@@ -107,7 +107,6 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// </summary>
     private void TogglePopup()
     {
-        
         Visible = !Visible;
     }
 
@@ -117,6 +116,8 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// <returns>a task to await</returns>
     private async Task LogOut()
     {
+        Visible = false;
+        
         if (await Confirm.Show(
                 Translater.Instant("Labels.ConfirmLogOutTitle"), 
                 Translater.Instant("Labels.ConfirmLogOutMessage")) == false)
@@ -131,6 +132,6 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// </summary>
     private void ChangePassword()
     {
-        
+        Visible = false;
     }
 }

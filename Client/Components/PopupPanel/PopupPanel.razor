@@ -89,7 +89,7 @@
 
                 @if (ShowLogout)
                 {
-                    <a class="user-link" href="/logout" @onclick=LogOut>
+                    <a class="user-link" href="/logout" @onclick=LogOut @onclick:preventDefault @onclick:stopPropagation>
                         <i class="fas fa-unlock"></i> @lblLogout
                     </a>
                 }
