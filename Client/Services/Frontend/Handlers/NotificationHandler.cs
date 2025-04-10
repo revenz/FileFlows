@@ -27,6 +27,11 @@ public class NotificationHandler(FrontendService feService)
     /// Event raised when notifications are updated
     /// </summary>
     public event Action? OnNotificationsUpdated; 
+    
+    /// <summary>
+    /// Event raised when notification is received
+    /// </summary>
+    public event Action<Notification> OnNotification; 
 
     /// <summary>
     /// Initializes the handler
@@ -39,6 +44,8 @@ public class NotificationHandler(FrontendService feService)
         
         feService.Registry.Register<Notification>("Notification", (ed) =>
         {
+            OnNotification?.Invoke(ed);
+            
             Notifications.Insert(0, ed);
             All.Insert(0, ed);
             OnNotificationsUpdated?.Invoke();
@@ -93,6 +100,9 @@ public class NotificationHandler(FrontendService feService)
             Severity = level,
             Title = message
         };
+        
+        OnNotification?.Invoke(toast);
+        
         All.Insert(0, toast);
         Toasts.Insert(0, toast);
         OnNotificationsUpdated?.Invoke();

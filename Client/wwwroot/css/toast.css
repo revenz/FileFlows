@@ -1,6 +1,6 @@
 .toast-container {
   position: fixed;
-  bottom: 1.5rem;
+  top: 3.5rem;
   right: 1.5rem;
   z-index: 9999;
 }
@@ -12,14 +12,14 @@
   border-radius: 0.5rem;
   color: var(--color);
   background-color: var(--base-lighter);
-  border-top: 4px solid;
+  border-left: 0.25rem solid;
   box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   transform: translateX(100%);
   opacity: 0;
 }
-.ff-feService.Notifications.Show {
+.ff-toast.show {
   transform: translateX(0);
   opacity: 1;
 }
@@ -86,3 +86,5 @@
 .ff-toast .toast-close:hover {
   opacity: 1;
 }
+
+/*# sourceMappingURL=toast.css.map */

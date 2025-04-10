@@ -60,6 +60,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
         lblLogout = Translater.Instant("Labels.Logout");
         
         NumberOfRunners = feService.Files.Processing.Count;
+        feService.Notifications.OnNotification += OnNotification;
         feService.Notifications.OnNotificationsUpdated += OnNotificationsUpdated;
         feService.Files.ProcessingUpdated += OnProcessingUpdated;
 
@@ -70,6 +71,18 @@ public partial class PopupPanel : ComponentBase, IDisposable
         ShowChangePassword = true;
         ShowLogout = true;
 #endif
+    }
+
+    /// <summary>
+    /// Called when a notification is received
+    /// </summary>
+    /// <param name="notification">the notification</param>
+    private void OnNotification(Notification notification)
+    {
+        if (Visible)
+            return;
+        _ = jsRuntime.InvokeVoidAsync("showToast",
+            notification.Severity.ToString().ToLower(), notification.Title, notification.Message);
     }
 
     /// <summary>
@@ -98,6 +111,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
+        feService.Notifications.OnNotification -= OnNotification;
         feService.Notifications.OnNotificationsUpdated -= OnNotificationsUpdated;
         feService.Files.ProcessingUpdated -= OnProcessingUpdated;
     }
@@ -108,6 +122,8 @@ public partial class PopupPanel : ComponentBase, IDisposable
     private void TogglePopup()
     {
         Visible = !Visible;
+        if (Visible)
+            CloseAllToasts();
     }
 
     /// <summary>
@@ -133,5 +149,10 @@ public partial class PopupPanel : ComponentBase, IDisposable
     private void ChangePassword()
     {
         Visible = false;
+    }
+    
+    private void CloseAllToasts()
+    {
+        _ = jsRuntime.InvokeVoidAsync("closeAllToasts");
     }
 }

@@ -483,10 +483,10 @@ a.btn {
     width: 800px;
   }
   .editor-wrapper .editor .top-row {
-    background: var(--base-darkest);
+    background: var(--main-background);
   }
   .editor-wrapper .editor > .vi-container > .content {
-    background: var(--base-darker);
+    background: var(--base-darkest);
   }
   .editor-wrapper .editor.large {
     width: 70vw;
@@ -567,7 +567,7 @@ a.btn {
 
 .toast-container {
   position: fixed;
-  bottom: 1.5rem;
+  top: 3.5rem;
   right: 1.5rem;
   z-index: 9999;
 }
@@ -579,7 +579,7 @@ a.btn {
   border-radius: 0.5rem;
   color: var(--color);
   background-color: var(--base-lighter);
-  border-top: 4px solid;
+  border-left: 0.25rem solid;
   box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
