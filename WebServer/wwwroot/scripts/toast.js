@@ -2,21 +2,25 @@ class Toast {
     static toastContainer = null;
 
     static info(title, message, timeout = 5000, svg = false) {
-        feService.Notifications.ShowToast('info', title, message, timeout, svg);
+        Toast.showToast('info', title, message, timeout, svg);
     }
 
     static error(title, message, timeout = 5000, svg = false) {
-        feService.Notifications.ShowToast('error',  title, message, timeout, svg);
+        Toast.showToast('error',  title, message, timeout, svg);
     }
 
     static warn(title, message, timeout = 5000, svg = false) {
-        feService.Notifications.ShowToast('warn', title, message, timeout, svg);
+        Toast.showToast('warn', title, message, timeout, svg);
     }
 
     static success(title, message, timeout = 5000, svg = false) {
-        feService.Notifications.ShowToast('success', title, message, timeout, svg);
+        Toast.showToast('success', title, message, timeout, svg);
     }
     static showToast(type, title, message, timeout, svg) {
+
+        if(document.querySelector('.popup-panel.visible'))
+            return;
+
         if (!Toast.toastContainer) {
             Toast.createToastContainer();
         }
@@ -115,4 +119,38 @@ class Toast {
         }
         return '';
     }
+
+    static closeAll() {
+        if (Toast.toastContainer) {
+            // Get all toasts and their associated timeouts
+            const toasts = Toast.toastContainer.querySelectorAll('.ff-toast');
+            toasts.forEach(toast => {
+                // Clear any active timeouts related to this toast (if they exist)
+                clearTimeout(toast.dismissTimeout);
+            });
+
+            // Immediately remove all toasts without animation
+            Toast.toastContainer.innerHTML = '';
+
+            // Remove the toast container if it's empty
+            document.body.removeChild(Toast.toastContainer);
+            Toast.toastContainer = null;
+        }
+    }
+}
+window.closeAllToasts = function()
+{
+    Toast.closeAll();
+}
+
+window.showToast = function(logType, title, message)
+{
+    if(logType === 'success' || logType === 'info')
+        Toast.success(title, message);
+    else if(logType === 'warn' || logType === 'warning')
+        Toast.warn(title, message);
+    else if(logType === 'error')
+        Toast.error(title, message);
+    else if(logType === 'debug')
+        Toast.info(title, message);
 }
