@@ -161,4 +161,10 @@
   opacity: 1;
 }
 
+@media (max-width: 849.99px) {
+  .view-more {
+    display: none;
+  }
+}
+
 /*# sourceMappingURL=FilesWidget.razor.css.map */

@@ -55,7 +55,8 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// <summary>
     /// Translated strings
     /// </summary>
-    private string lblTitle, lblUpcoming, lblProcessing, lblFinished, lblFailed, lblNoUpcomingFiles, lblNoFailedFiles, lblNoRecentlyFinishedFiles;
+    private string lblTitle, lblUpcoming, lblProcessing, lblFinished, lblFailed, lblNoUpcomingFiles, lblNoFailedFiles, 
+        lblNoRecentlyFinishedFiles, lblViewMore;
 
     private OptionButtons OptionButtons;
     /// <summary>
@@ -88,6 +89,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         lblNoUpcomingFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoUpcomingFiles");
         lblNoRecentlyFinishedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoRecentlyFinishedFiles");
         lblNoFailedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoFailedFiles");
+        lblViewMore = Translater.Instant("Labels.ViewMore");
         _FileMode = (FileStatus)Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 4);
         
         InitializeData();
