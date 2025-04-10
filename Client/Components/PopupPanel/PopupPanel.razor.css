@@ -97,44 +97,46 @@
 .popup-panel-bottom {
   border-top: 1px solid var(--border-color);
   background: var(--base);
-  display: flex;
-  flex-direction: column;
   align-items: center;
+  display: grid;
+  grid-template-columns: 1fr auto;
 }
 .popup-panel-bottom > div {
-  flex-direction: row;
-  display: flex;
-  flex-wrap: nowrap;
-  width: 100%;
   padding: 0.5rem 1rem;
 }
 .popup-panel-bottom .version {
   flex-grow: 1;
   text-align: left;
 }
+.popup-panel-bottom .support a {
+  border-radius: 2rem;
+}
 .popup-panel-bottom a {
-  flex: 1 1 0;
   color: var(--color) !important;
-  text-align: center;
   text-decoration: none;
   background: var(--base-lightest);
-  border-radius: 1rem;
-  overflow: hidden;
+  padding: 0.75rem;
   display: inline-flex;
+  overflow: hidden;
+}
+.popup-panel-bottom .user a {
+  text-align: center;
+  border-radius: 1rem;
   align-items: center;
   font-size: 0.9rem;
   white-space: nowrap;
   place-content: center;
   flex-wrap: wrap;
-  padding: 0.75rem;
 }
-.popup-panel-bottom a + a {
-  margin-left: 0.5rem;
+.popup-panel-bottom .user a i {
+  margin-right: 0.5rem;
+}
+.popup-panel-bottom .user a + a {
+  margin-left: 0.25rem;
 }
 .popup-panel-bottom i {
   font-size: 1.5rem;
   cursor: pointer;
-  margin-right: 0.5rem;
   opacity: 0.7;
 }
 .popup-panel-bottom i:hover {

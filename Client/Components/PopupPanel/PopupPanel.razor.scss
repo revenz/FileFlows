@@ -104,43 +104,48 @@
 .popup-panel-bottom {
   border-top: 1px solid var(--border-color);
   background: var(--base);
-  display: flex;
-  flex-direction: column;
   align-items: center;
+  display: grid;
+  grid-template-columns: 1fr auto;
   > div {
-    flex-direction: row;
-    display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
     padding:0.5rem 1rem;
   }
   .version {
     flex-grow:1;
     text-align: left;
   }
-  a {
-    + a {
-      margin-left: 0.5rem;
+  .support {
+    a {
+      border-radius:2rem;
     }
-    flex: 1 1 0;
+  }
+  a {
     color:var(--color) !important;
-    text-align: center;
     text-decoration: none;
     background: var(--base-lightest);
-    border-radius: 1rem;
-    overflow: hidden; 
+    padding: 0.75rem;
     display: inline-flex;
+    overflow: hidden;
+  }
+  .user a {
+    text-align: center;
+    border-radius: 1rem;
     align-items: center;
     font-size: 0.9rem;
     white-space: nowrap;
     place-content: center;
     flex-wrap: wrap;
-    padding: 0.75rem;
+    i {
+      margin-right:0.5rem;
+      
+    }
+    + a {
+      margin-left: 0.25rem;
+    }
   }
   i {
     font-size: 1.5rem;
     cursor:pointer;
-    margin-right:0.5rem;
     opacity: 0.7;
     &:hover {
       opacity: 1;
