@@ -122,7 +122,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     {
         FailedFiles = lat.Data.Count > 50 ? lat.Data.Take(50).ToList() : lat.Data;
         TotalFailed = feService.Files.FailedFilesTotal;
-        lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed });
+        lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed.ToString("N0") });
         StateHasChanged();
         OptionButtons?.TriggerStateHasChanged();
     }
@@ -135,7 +135,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     {
         RecentlyFinished = lat.Data.Count > 50 ? lat.Data.Take(50).ToList() : lat.Data;
         TotalFinished = feService.Files.ProcessedTotal;
-        lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished});
+        lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished.ToString("N0")});
         StateHasChanged();
         OptionButtons?.TriggerStateHasChanged();
     }
@@ -170,8 +170,8 @@ public partial class FilesWidget : ComponentBase, IDisposable
         TotalProcessing = feService.Files.Processing.Count;
         
         lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = TotalUpcoming});
-        lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished});
-        lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed });
+        lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished.ToString("N0")});
+        lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed.ToString("N0") });
 
         if (initialized == false)
         {

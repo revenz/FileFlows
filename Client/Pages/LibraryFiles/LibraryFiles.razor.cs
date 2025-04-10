@@ -225,8 +225,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
             Label = x.Value
         }).ToList();
 
-        var libraries = feService.Library.LibraryList;
-        Data = feService.Files.Unprocessed;
+        LoadServiceData();
         
         feService.Files.UnprocessedUpdated += DataUpdated;
         feService.Files.FailedFilesUpdated += DataUpdated2;
