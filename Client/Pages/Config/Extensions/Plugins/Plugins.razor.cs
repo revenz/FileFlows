@@ -13,14 +13,14 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
 
     private PluginBrowser PluginBrowser { get; set; }
 
-    private string lblTitle, lblSettings, lblInUse, lblFlowElement, lblFlowElements;
+    private string lblSettings, lblInUse, lblFlowElement, lblFlowElements;
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         Profile = feService.Profile.Profile;
         base.OnInitialized(false);
-        lblTitle = Translater.Instant("Pages.Plugins.Title");
+        Layout.SetInfo(Translater.Instant("Pages.Plugins.Title"), "fas fa-puzzle-piece");
         lblSettings = Translater.Instant("Labels.Settings");
         lblInUse = Translater.Instant("Labels.InUse");
         lblFlowElement = Translater.Instant("Labels.FlowElement");

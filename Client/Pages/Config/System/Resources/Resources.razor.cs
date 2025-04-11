@@ -15,8 +15,6 @@ public partial class Resources : ListPage<Guid, Resource>
 {
     /// <inheritdoc />
     public override string ApiUrl => "/api/resource";
-
-    private string lblTitle;
     
     /// <summary>
     /// Gets if they are licensed for this page
@@ -29,7 +27,7 @@ public partial class Resources : ListPage<Guid, Resource>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        lblTitle = Translater.Instant("Pages.Resources.Title");
+        Layout.SetInfo(Translater.Instant("Pages.Resources.Title"), "fas fa-box-open");
     }
 
     /// <summary>

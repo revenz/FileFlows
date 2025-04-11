@@ -1,8 +1,8 @@
 @charset "UTF-8";
 .blocker {
   background: rgba(var(--base-darkest-rgb), 0.9);
-  z-index: 1000;
-  position: absolute;
+  z-index: 100;
+  position: fixed;
   top: 0;
   right: 0;
   left: 0;
@@ -468,13 +468,11 @@ a.btn {
   margin-left: 0.25rem;
 }
 @media screen and (min-width: 850px) {
-  .editor-wrapper .editor, .editor-wrapper .background-overlay {
-    top: 3.5rem;
-  }
   .editor-wrapper .editor {
     left: unset;
     width: 700px;
     margin: 1rem;
+    top: 3.5rem;
     border-radius: 0.5rem;
     overflow: hidden;
     border: solid 1px var(--border-color);
@@ -3172,29 +3170,35 @@ body.photino .paused-indicator {
   overflow: hidden;
 }
 
-.page-view.dashboard-wrapper .content {
+.db-grid {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 @media (max-width: 720px) {
-  .page-view.dashboard-wrapper .content .grid {
+  .db-grid .grid {
     display: flex !important;
     flex-direction: column !important;
     height: fit-content !important;
     overflow: unset !important;
   }
-  .page-view.dashboard-wrapper .content .flow-widget {
+  .db-grid .flow-widget {
     margin-bottom: 1rem;
   }
 }
 @media (min-width: 850px) {
-  .page-view.dashboard-wrapper .content > .flow-tab-buttons button:first-child {
+  .db-grid > .flow-tab-buttons button:first-child {
     margin-left: 1rem;
   }
 }
-.page-view.dashboard-wrapper .content .flow-tabs-content {
+.db-grid > div + div {
+  margin-top: 1rem;
+}
+.db-grid .flow-tabs-content {
   padding: 0 1rem;
 }
-.page-view.dashboard-wrapper .content .flow-tabs-content .flow-tab.active {
+.db-grid .flow-tabs-content .flow-tab.active {
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -3206,32 +3210,32 @@ body.photino .paused-indicator {
   padding: 1rem;
 }
 @media screen and (max-width: 850px) {
-  .page-view.dashboard-wrapper .content .flow-tabs-content .flow-tab.active {
+  .db-grid .flow-tabs-content .flow-tab.active {
     overflow: auto;
   }
 }
-.page-view.dashboard-wrapper .content .grid {
+.db-grid .grid {
   display: grid;
   grid-gap: 0.5rem;
 }
-.page-view.dashboard-wrapper .content .grid-2 {
+.db-grid .grid-2 {
   grid-template-columns: repeat(2, 1fr);
 }
-.page-view.dashboard-wrapper .content .grid-60-40 {
+.db-grid .grid-60-40 {
   grid-template-columns: 1fr minmax(36rem, 40%);
 }
 @media (max-width: 1040px) {
-  .page-view.dashboard-wrapper .content .grid-60-40 {
+  .db-grid .grid-60-40 {
     grid-template-columns: 1fr minmax(28rem, 40%);
   }
 }
-.page-view.dashboard-wrapper .content .grid-3 {
+.db-grid .grid-3 {
   grid-template-columns: repeat(3, 1fr);
 }
-.page-view.dashboard-wrapper .content .grid-4 {
+.db-grid .grid-4 {
   grid-template-columns: repeat(4, 1fr);
 }
-.page-view.dashboard-wrapper .content .flex-grow {
+.db-grid .flex-grow {
   flex-grow: 1;
   overflow: hidden;
 }
@@ -3398,7 +3402,7 @@ td a:hover, span.column a:hover {
 }
 
 .background-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -4232,10 +4236,6 @@ hr {
     word-break: break-word;
   }
 }
-.content:has(> .flowtable) {
-  display: flex;
-}
-
 .flex {
   display: flex;
 }
@@ -4535,9 +4535,6 @@ hr {
 }
 .vi-container.form-page.page-view .row {
   margin: 0;
-}
-.vi-container.form-page.page-view .content {
-  padding-top: 1rem;
 }
 @media (min-width: 850px) {
   .vi-container.form-page.page-view .form-page-buttons {

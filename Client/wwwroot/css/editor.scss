@@ -32,13 +32,11 @@
 
 
   @media screen and (min-width: 850px) {
-    .editor, .background-overlay {
-      top: 3.5rem;
-    }
     .editor {
       left: unset;
       width: 700px;
       margin: 1rem;
+      top:3.5rem;
       border-radius: 0.5rem;
       overflow: hidden;
       border: solid 1px var(--border-color);

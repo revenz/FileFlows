@@ -1,6 +1,8 @@
-.page-view.dashboard-wrapper  .content {
-
+.db-grid {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow:hidden;
   @media (max-width: 720px) {
     .grid {
       display: flex !important;
@@ -16,6 +18,10 @@
     > .flow-tab-buttons button:first-child {
       margin-left: 1rem;
     }
+  }
+  
+  > div + div {
+    margin-top: 1rem;
   }
 
   

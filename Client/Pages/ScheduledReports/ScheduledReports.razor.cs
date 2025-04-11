@@ -8,7 +8,7 @@ namespace FileFlows.Client.Pages;
 
 /// <summary>
 /// Page for scheduled reports
-/// </summa
+/// </summary>
 public partial class ScheduledReports : ListPage<Guid, ScheduledReport>, IDisposable
 {
     /// <summary>

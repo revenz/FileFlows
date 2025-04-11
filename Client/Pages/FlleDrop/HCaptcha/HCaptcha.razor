@@ -5,15 +5,10 @@
 
 @page "/file-drop/hcaptcha"
 
-<PageView Title="@lblTitle" Icon="fas fa-key" FormPage="true">
-
-    <Body>
-    @if (initDone)
-    {
-        <InputText @bind-Value="Model.hCaptchaSiteId" Label="hCaptcha Site ID" Help="An optional Site ID for hCaptcha. When provided, users must successfully complete the hCaptcha test to register."/>
-        <InputText @bind-Value="Model.hCaptchaSecret" Label="hCaptcha Secret" Help="The secret key to verify hCaptcha results."/>
-        
-        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
-    }
-    </Body>
-</PageView>
+@if (initDone)
+{
+    <InputText @bind-Value="Model.hCaptchaSiteId" Label="hCaptcha Site ID" Help="An optional Site ID for hCaptcha. When provided, users must successfully complete the hCaptcha test to register."/>
+    <InputText @bind-Value="Model.hCaptchaSecret" Label="hCaptcha Secret" Help="The secret key to verify hCaptcha results."/>
+    
+    <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
+}

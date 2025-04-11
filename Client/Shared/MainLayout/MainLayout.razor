@@ -5,20 +5,34 @@
 <div class="page">
     
     <NavBar @ref="Menu"/>
-
+    
     <div class="main">
+        <div class="main-title-bar">
+            <div class="title">
+                @if (string.IsNullOrEmpty(_Icon) == false)
+                {
+                    <i class="icon @_Icon"></i>
+                }
+                <span class="title-text">@_Title</span>
+            </div>
+            <PopupPanel />
+        </div>
+        
         @if (Blocker != null && Menu != null && Editor != null)
         {
             <CascadingValue Value="Menu" IsFixed="true">
                 <CascadingValue Value="Blocker" IsFixed="true">
                     <CascadingValue Value="Editor" IsFixed="true">
-                        @Body
+                        <CascadingValue Value="this" IsFixed="true">
+                            <div class="content @(_NoPadding ? "no-padding" : "")">
+                                @Body
+                            </div>
+                        </CascadingValue>
                     </CascadingValue>
                 </CascadingValue>
             </CascadingValue>
         }
         
-        <PopupPanel />
 
         <Blocker @ref="Blocker"></Blocker>
         <Editor @ref="Editor"></Editor>

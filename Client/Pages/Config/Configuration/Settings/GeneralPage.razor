@@ -5,35 +5,28 @@
 
 @page "/config/settings"
 
-<PageView Title="@lblTitle" Icon="fas fa-cogs" FormPage="true">
+<InputDropDown CustomXID="Language" @bind-Value="@Language" Options=@LanguageOptions
+               Label="Pages.Settings.Fields.Language" AllowClear="false" />
 
-    <Body>
+<hr />
 
-        <InputDropDown CustomXID="Language" @bind-Value="@Language" Options=@LanguageOptions
-                       Label="Pages.Settings.Fields.Language" AllowClear="false" />
+<InputSwitch @bind-Value="@Model.ScanWhenPaused" Label="Pages.Settings.Fields.ScanWhenPaused"/>
+<InputNumber TItem="int" @bind-Value="@Model.QueueCapacity" Label="Pages.Settings.Fields.QueueCapacity" Min="10" Max="1000" />
+<InputNumber TItem="int" @bind-Value="@Model.MaxPageSize" Label="Pages.Settings.Fields.MaxPageSize" Min="100" Max="1000" />
 
-        <hr />
-        
-        <InputSwitch @bind-Value="@Model.ScanWhenPaused" Label="Pages.Settings.Fields.ScanWhenPaused"/>
-        <InputNumber TItem="int" @bind-Value="@Model.QueueCapacity" Label="Pages.Settings.Fields.QueueCapacity" Min="10" Max="1000" />
-        <InputNumber TItem="int" @bind-Value="@Model.MaxPageSize" Label="Pages.Settings.Fields.MaxPageSize" Min="100" Max="1000" />
+<hr />
+<InputSwitch @bind-Value="@Model.KeepFailedFlowTempFiles" Label="Pages.Settings.Fields.KeepFailedFlowTempFiles"/>
+<InputSwitch @bind-Value="@Model.UseTempFilesWhenMovingOrCopying" Label="Pages.Settings.Fields.DontUseTempFilesWhenMovingOrCopying" />
 
-        <hr />
-        <InputSwitch @bind-Value="@Model.KeepFailedFlowTempFiles" Label="Pages.Settings.Fields.KeepFailedFlowTempFiles"/>
-        <InputSwitch @bind-Value="@Model.UseTempFilesWhenMovingOrCopying" Label="Pages.Settings.Fields.DontUseTempFilesWhenMovingOrCopying" />
-        
-        @if (Profile.ServerOS is OperatingSystemType.Docker)
-        {
-            <hr />
-            <InputSwitch @bind-Value="@Model.DockerModsOnServer" Label="Pages.Settings.Fields.DockerModsOnServer"/>
-        }
-        @if (Model.IsLicensed)
-        {
-            <hr />
-            <InputSwitch @bind-Value="@Model.DisableTelemetry" Inverse="@true" Label="Pages.Settings.Fields.Telemetry" OnChangedValue="OnTelemetryChange"/>
-        }
-        
-        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
-    </Body>
+@if (Profile.ServerOS is OperatingSystemType.Docker)
+{
+    <hr />
+    <InputSwitch @bind-Value="@Model.DockerModsOnServer" Label="Pages.Settings.Fields.DockerModsOnServer"/>
+}
+@if (Model.IsLicensed)
+{
+    <hr />
+    <InputSwitch @bind-Value="@Model.DisableTelemetry" Inverse="@true" Label="Pages.Settings.Fields.Telemetry" OnChangedValue="OnTelemetryChange"/>
+}
 
-</PageView>
+<FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />

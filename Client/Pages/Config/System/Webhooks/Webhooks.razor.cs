@@ -19,7 +19,7 @@ public partial class Webhooks : ListPage<Guid, Webhook>
     private RepositoryBrowser ScriptBrowser { get; set; }
 
     private Webhook EditingItem = null;
-    private string lblTitle, lblRoute, lblMethod;
+    private string lblRoute, lblMethod;
     private string BaseRoute;
     /// <summary>
     /// Gets or sets the clipboard service
@@ -39,7 +39,7 @@ public partial class Webhooks : ListPage<Guid, Webhook>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        lblTitle = Translater.Instant("Pages.Webhooks.Title");
+        Layout.SetInfo(Translater.Instant("Pages.Webhooks.Title"), "fas fa-handshake");
         lblRoute = Translater.Instant("Pages.Webhooks.Columns.Route");
         lblMethod = Translater.Instant("Pages.Webhooks.Columns.Method");
         BaseRoute = NavigationManager.BaseUri.TrimEnd('/') + "/";

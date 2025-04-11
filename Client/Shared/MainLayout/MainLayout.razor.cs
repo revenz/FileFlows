@@ -22,6 +22,10 @@ public partial class MainLayout : LayoutComponentBase
     [Inject] private FrontendService FrontendService { get; set; }
     
     [Inject] private FFLocalStorageService LocalStorage { get; set; }
+    
+    private string _Title, _Icon;
+    private bool _NoPadding;
+    
     /// <summary>
     /// Gets or sets the navigation manager
     /// </summary>
@@ -32,6 +36,20 @@ public partial class MainLayout : LayoutComponentBase
     public MainLayout()
     {
         Instance = this;
+    }
+
+    /// <summary>
+    /// Sets the info
+    /// </summary>
+    /// <param name="title">the page title</param>
+    /// <param name="icon">the page icon</param>
+    /// <param name="noPadding">if no padding is applied to the content</param>
+    public void SetInfo(string title, string icon, bool noPadding = false)
+    {
+        _Title = title;
+        _Icon = icon;
+        _NoPadding = noPadding;
+        StateHasChanged();
     }
 
     /// <inheritdoc />

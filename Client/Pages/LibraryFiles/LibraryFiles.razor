@@ -8,250 +8,234 @@
 
 @page "/library-files"
 
-<PageView Flex="@true" Title="@Title">
 
-    <Head>
-        @if (App.Instance.IsMobile)
-        {
-            <button class="btn btn-search" @onclick=@Search>@lblSearch</button>
-        }
-    </Head>
+<button class="btn btn-search non-mobile" @onclick=@Search>@lblSearch</button>
 
-    <Body>
+<LibraryFileTabs Selected="@SelectedStatus" OnStatusChanged="OnStatusChanged" />
 
+<FlowTable @ref="Table" Data="@Data" TItem="LibraryFileMinimal" Selection="SelectionMode.Multiple"
+       TableIdentifier=@TableIdentifier DoubleClick="@OnDoubleClick"
+       ShowPager=@true TotalItems=@TotalItems OnPageChange=@PageChange
+       OnFilter="OnFilter">
+<ToolBar>
     @if (App.Instance.IsMobile == false)
     {
-        <button class="btn btn-search non-mobile" @onclick=@Search>@lblSearch</button>
+        <FlowTableButton Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=Add Icon="fas fa-plus" Label="Labels.Add"/>
     }
-    
-    <LibraryFileTabs Selected="@SelectedStatus" OnStatusChanged="OnStatusChanged" />
+    <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-file" Label="Labels.View"/>
+    <FlowTableButton Visible="@(SelectedStatus == FileStatus.OutOfSchedule || SelectedStatus == FileStatus.Disabled)" Clicked=ForceProcessing SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process"/>
+    <FlowTableButton Visible="@(SelectedStatus == FileStatus.Processing)" Clicked=Cancel SelectedOneOrMore="true" Icon="fas fa-window-close" Label="Labels.Cancel"/>
+    <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Remove"/>
+    <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Area="ButtonArea.ContextMenu" Clicked=DeleteFile SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete"/>
+    <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Area="ButtonArea.ContextMenu" Clicked=DownloadFile SelectedOne="true" Icon="fas fa-download" Label="Labels.Download"/>
 
-    <FlowTable @ref="Table" Data="@Data" TItem="LibraryFileMinimal" Selection="SelectionMode.Multiple"
-               TableIdentifier=@TableIdentifier DoubleClick="@OnDoubleClick"
-               ShowPager=@true TotalItems=@TotalItems OnPageChange=@PageChange
-               OnFilter="OnFilter">
-        <ToolBar>
-            @if (App.Instance.IsMobile == false)
-            {
-                <FlowTableButton Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=Add Icon="fas fa-plus" Label="Labels.Add"/>
-            }
-            <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-file" Label="Labels.View"/>
-            <FlowTableButton Visible="@(SelectedStatus == FileStatus.OutOfSchedule || SelectedStatus == FileStatus.Disabled)" Clicked=ForceProcessing SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process"/>
-            <FlowTableButton Visible="@(SelectedStatus == FileStatus.Processing)" Clicked=Cancel SelectedOneOrMore="true" Icon="fas fa-window-close" Label="Labels.Cancel"/>
-            <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Remove"/>
-            <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Area="ButtonArea.ContextMenu" Clicked=DeleteFile SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete"/>
-            <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing)" Area="ButtonArea.ContextMenu" Clicked=DownloadFile SelectedOne="true" Icon="fas fa-download" Label="Labels.Download"/>
+    <FlowTableButtonSeparator Mobile="false" Visible="@(SelectedStatus == FileStatus.Unprocessed)"/>
+    <FlowTableButton Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=MoveToTop SelectedOneOrMore="true" Icon="far fa-caret-square-up" Label="Pages.LibraryFiles.Buttons.MoveToTop"/>
+    <FlowTableButton Mobile="false" Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=Rescan Icon="fas fa-search-plus" Label="Labels.Rescan"/>
 
-            <FlowTableButtonSeparator Mobile="false" Visible="@(SelectedStatus == FileStatus.Unprocessed)"/>
-            <FlowTableButton Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=MoveToTop SelectedOneOrMore="true" Icon="far fa-caret-square-up" Label="Pages.LibraryFiles.Buttons.MoveToTop"/>
-            <FlowTableButton Mobile="false" Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=Rescan Icon="fas fa-search-plus" Label="Labels.Rescan"/>
+    <FlowTableButtonSeparator Visible="@(SelectedStatus == FileStatus.Processed || SelectedStatus == FileStatus.ProcessingFailed)"/>
+    <FlowTableButton Visible="@(SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-cogs" Label="Pages.LibraryFiles.Buttons.ProcessOptions"/>
+    <FlowTableButton Visible="@(SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Reprocess"/>
 
-            <FlowTableButtonSeparator Visible="@(SelectedStatus == FileStatus.Processed || SelectedStatus == FileStatus.ProcessingFailed)"/>
-            <FlowTableButton Visible="@(SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-cogs" Label="Pages.LibraryFiles.Buttons.ProcessOptions"/>
-            <FlowTableButton Visible="@(SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Reprocess"/>
+    <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing && SelectedStatus != FileStatus.Processed)" Area="ButtonArea.ContextMenu" Clicked="(() => SetStatus(FileStatus.Processed))" SelectedOneOrMore="true" Icon="far fa-check-circle" Label="Labels.SetStatusProcessed"/>
 
-            <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing && SelectedStatus != FileStatus.Processed)" Area="ButtonArea.ContextMenu" Clicked="(() => SetStatus(FileStatus.Processed))" SelectedOneOrMore="true" Icon="far fa-check-circle" Label="Labels.SetStatusProcessed"/>
+    <FlowTableButtonSeparator Visible="@(SelectedStatus == FileStatus.OnHold)"/>
+    <FlowTableButton Visible=@(SelectedStatus == FileStatus.OnHold) Clicked=Unhold SelectedOneOrMore="true" Icon="fas fa-running" Label="Pages.LibraryFiles.Buttons.Unhold"/>
+    <FlowTableButton Visible=@(SelectedStatus == FileStatus.Unprocessed) Area="ButtonArea.ContextMenu" Clicked=ToggleForce SelectedOneOrMore="true" Icon="fas fa-hammer" Label="Pages.LibraryFiles.Buttons.ToggleForce"/>
 
-            <FlowTableButtonSeparator Visible="@(SelectedStatus == FileStatus.OnHold)"/>
-            <FlowTableButton Visible=@(SelectedStatus == FileStatus.OnHold) Clicked=Unhold SelectedOneOrMore="true" Icon="fas fa-running" Label="Pages.LibraryFiles.Buttons.Unhold"/>
-            <FlowTableButton Visible=@(SelectedStatus == FileStatus.Unprocessed) Area="ButtonArea.ContextMenu" Clicked=ToggleForce SelectedOneOrMore="true" Icon="fas fa-hammer" Label="Pages.LibraryFiles.Buttons.ToggleForce"/>
+    <FlowTableButtonSeparator Mobile="false" />
+    <FlowTableHelpButton Mobile="false" HelpUrl="overview/files"/>
+</ToolBar>
 
-            <FlowTableButtonSeparator Mobile="false" />
-            <FlowTableHelpButton Mobile="false" HelpUrl="overview/files"/>
-        </ToolBar>
-
-        <Columns>
-            <FlowTableColumn TItem="LibraryFileMinimal" NoHeight="true">
-                <Header>
-                    <div class="header">
-                        <span class="column-header"></span>
-                        <div class="filters">
-                            @if (SelectedStatus is FileStatus.Processed)
-                            {
-                                <FlowDropDown Options="optionsSortBy" OnSelected="SelectSortBy" SelectedValue="@SelectedSortBy"
-                                              Placeholder="@lblSortBy" PlaceholderIcon="fas fa-sort"/>
-                            }
-                            @if (optionsNodes?.Any() == true)
-                            {
-                                <FlowDropDown Options="optionsNodes" OnSelected="SelectNode" SelectedValue="@SelectedNode"
-                                              Placeholder="@lblNode" PlaceholderIcon="fas fa-desktop"/>
-                            }
-                            @if (optionsFlows?.Any() == true)
-                            {
-                                <FlowDropDown Options="optionsFlows" OnSelected="SelectFlow" SelectedValue="@SelectedFlow"
-                                              Placeholder="@lblFlow" PlaceholderIcon="fas fa-sitemap"/>
-                            }
-                            @if (optionsLibraries?.Any() == true)
-                            {
-                                <FlowDropDown Options="optionsLibraries" OnSelected="SelectLibrary" SelectedValue="@SelectedLibrary"
-                                              Placeholder="@lblLibrary" PlaceholderIcon="fas fa-folder"/>
-                            }
-                            @if (optionsTags?.Any() == true)
-                            {
-                                <FlowDropDown Options="optionsTags" OnSelected="SelectTag" SelectedValue="@SelectedTag"
-                                              Placeholder="@lblTag" PlaceholderIcon="fas fa-tag"/>
-                            }
-                        </div>
-                    </div>
-                </Header>
-                <Cell Context="item">
-                    <div class="library-file table-item">
-                        <span class="icon">
-                            @{
-                                var fn = item.DisplayName + (item.Extension == null ? ".folder" : item.Extension);
-                                var iconUrl = IconHelper.GetExtensionImage(fn);
-                            }
-                            <img src="@iconUrl"/>
-                        </span>
-                        <div class="center">
-                            <span class="name">
-                                @* @if ((item.Flags & LibraryFileMinimalFlag.FileDropFile) == LibraryFileMinimalFlag.FileDropFile) *@
-                                @* { *@
-                                @*     <span class="name-actual">@item.FileDropEmail</span> *@
-                                @*     <span class="shortnameactual">@item.FileDropShortName</span> *@
-                                @* } *@
-                                @* else *@
-                                @* { *@
-                                    <span class="name-actual">@item.DisplayName</span>
-                                @* } *@
-                                @if (SelectedStatus == FileStatus.Processed && string.IsNullOrWhiteSpace(item.OutputPath) == false)
-                                {
-                                    <span class="output-path">@item.OutputPath</span>
-                                }
-                            </span>
-
-                            <div class="info">
-                                @if ((item.Flags & LibraryFileMinimalFlag.FileDropFile) == LibraryFileMinimalFlag.FileDropFile)
-                                {
-                                    <IconValue Color="IconValueColor.Pink" Icon="fas fa-tint" Value="FileDrop"/>
-                                }
-                                else if (string.IsNullOrWhiteSpace(item.LibraryName) == false)
-                                @if (string.IsNullOrWhiteSpace(item.LibraryName) == false)
-                                {
-                                    <div class="icon-value green clickable" @onclick="() => SelectLibrary(item.LibraryName)">
-                                        <i class="fas fa-folder"></i>
-                                        <span class="value">@item.LibraryName</span>
-                                    </div>
-                                }
-                                @* @if (string.IsNullOrWhiteSpace(item.Flow) == false) *@
-                                @* { *@
-                                @*     <div class="icon-value blue clickable" @onclick="() => SelectFlow(item.Flow)"> *@
-                                @*         <i class="fas fa-sitemap"></i> *@
-                                @*         <span class="value">@item.Flow</span> *@
-                                @*     </div> *@
-                                @* } *@
-                                @if ((item.Flags & LibraryFileMinimalFlag.ReprocessingByFlow) == LibraryFileMinimalFlag.ReprocessingByFlow)
-                                {
-                                    <div class="icon-value orange clickable">
-                                        <i class="fas fa-redo"></i>
-                                        <span class="value">@lblReprocessByFlow</span>
-                                    </div>
-                                    @if (string.IsNullOrWhiteSpace(item.NodeName) == false && Guid.TryParse(item.NodeName, out var nodeUid))
-                                    { 
-                                        if(feService.Node.NodeList.TryGetValue(nodeUid, out var node))
-                                        {
-                                            <div class="icon-value purple clickable" @onclick="() => SelectNode(node)">
-                                                <i class="@GetNodeIcon(node)"></i>
-                                                <span class="value">@(node == "FileFlowsServer" ? lblFileFlowsServer : node)</span>
-                                            </div>
-                                        }
-                                    }
-                                }
-                                else if (string.IsNullOrWhiteSpace(item.NodeName) == false)
-                                {
-                                    <div class="icon-value purple clickable" @onclick="() => SelectNode(item.NodeName)">
-                                        <i class="@GetNodeIcon(item.NodeName)"></i>
-                                        <span class="value">@(item.NodeName == "FileFlowsServer" ? lblFileFlowsServer : item.NodeName)</span>
-                                    </div>
-                                }
-                                @if (SelectedStatus == FileStatus.Unprocessed && (item.Flags & LibraryFileMinimalFlag.ForcedProcessing) == LibraryFileMinimalFlag.ForcedProcessing)
-                                {
-                                    <div class="icon-value pink">
-                                        <i class="fas fa-hammer"></i>
-                                        <span class="value">@lblForcedProcessing</span>
-                                    </div>
-                                }
-                                @if (item.ProcessingTime != TimeSpan.Zero && SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed or FileStatus.OnHold)
-                                {
-                                    <div class="icon-value orange">
-                                        <i class="fas fa-clock"></i>
-                                        @if (SelectedStatus == FileStatus.OnHold)
-                                        {
-                                            <span class="value">@FormatHelper.HumanizeTime(item.ProcessingTime)</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="value">@($@"{item.ProcessingTime:hh\:mm\:ss}")</span>
-                                        }
-                                    </div>
-                                }
-
-                                @if (item.Tags?.Any() == true)
-                                {
-                                    foreach (var tagUid in item.Tags)
-                                    {
-                                        var tag = optionsTags.FirstOrDefault(x => x.Value as Guid? == tagUid);
-                                        if (tag != null)
-                                        {
-                                            <div class="icon-value dark clickable" @onclick="() => SelectTag(tagUid)">
-                                                <TableItemIcon Icon="@tag.Icon" DefaultIcon="fas fa-tag" Unwrapped="true"/>
-                                                <span class="value">@tag.Label</span>
-                                            </div>
-                                        }
-                                    }
-                                }
-                            </div>
-                        </div>
-                        @if (SelectedStatus != FileStatus.OutOfSchedule && SelectedStatus != FileStatus.Processing)
+<Columns>
+    <FlowTableColumn TItem="LibraryFileMinimal" NoHeight="true">
+        <Header>
+            <div class="header">
+                <span class="column-header"></span>
+                <div class="filters">
+                    @if (SelectedStatus is FileStatus.Processed)
+                    {
+                        <FlowDropDown Options="optionsSortBy" OnSelected="SelectSortBy" SelectedValue="@SelectedSortBy"
+                                      Placeholder="@lblSortBy" PlaceholderIcon="fas fa-sort"/>
+                    }
+                    @if (optionsNodes?.Any() == true)
+                    {
+                        <FlowDropDown Options="optionsNodes" OnSelected="SelectNode" SelectedValue="@SelectedNode"
+                                      Placeholder="@lblNode" PlaceholderIcon="fas fa-desktop"/>
+                    }
+                    @if (optionsFlows?.Any() == true)
+                    {
+                        <FlowDropDown Options="optionsFlows" OnSelected="SelectFlow" SelectedValue="@SelectedFlow"
+                                      Placeholder="@lblFlow" PlaceholderIcon="fas fa-sitemap"/>
+                    }
+                    @if (optionsLibraries?.Any() == true)
+                    {
+                        <FlowDropDown Options="optionsLibraries" OnSelected="SelectLibrary" SelectedValue="@SelectedLibrary"
+                                      Placeholder="@lblLibrary" PlaceholderIcon="fas fa-folder"/>
+                    }
+                    @if (optionsTags?.Any() == true)
+                    {
+                        <FlowDropDown Options="optionsTags" OnSelected="SelectTag" SelectedValue="@SelectedTag"
+                                      Placeholder="@lblTag" PlaceholderIcon="fas fa-tag"/>
+                    }
+                </div>
+            </div>
+        </Header>
+        <Cell Context="item">
+            <div class="library-file table-item">
+                <span class="icon">
+                    @{
+                        var fn = item.DisplayName + (item.Extension == null ? ".folder" : item.Extension);
+                        var iconUrl = IconHelper.GetExtensionImage(fn);
+                    }
+                    <img src="@iconUrl"/>
+                </span>
+                <div class="center">
+                    <span class="name">
+                        @* @if ((item.Flags & LibraryFileMinimalFlag.FileDropFile) == LibraryFileMinimalFlag.FileDropFile) *@
+                        @* { *@
+                        @*     <span class="name-actual">@item.FileDropEmail</span> *@
+                        @*     <span class="shortnameactual">@item.FileDropShortName</span> *@
+                        @* } *@
+                        @* else *@
+                        @* { *@
+                            <span class="name-actual">@item.DisplayName</span>
+                        @* } *@
+                        @if (SelectedStatus == FileStatus.Processed && string.IsNullOrWhiteSpace(item.OutputPath) == false)
                         {
-                            <div class="right savings">
+                            <span class="output-path">@item.OutputPath</span>
+                        }
+                    </span>
+
+                    <div class="info">
+                        @if ((item.Flags & LibraryFileMinimalFlag.FileDropFile) == LibraryFileMinimalFlag.FileDropFile)
+                        {
+                            <IconValue Color="IconValueColor.Pink" Icon="fas fa-tint" Value="FileDrop"/>
+                        }
+                        else if (string.IsNullOrWhiteSpace(item.LibraryName) == false)
+                        @if (string.IsNullOrWhiteSpace(item.LibraryName) == false)
+                        {
+                            <div class="icon-value green clickable" @onclick="() => SelectLibrary(item.LibraryName)">
+                                <i class="fas fa-folder"></i>
+                                <span class="value">@item.LibraryName</span>
+                            </div>
+                        }
+                        @* @if (string.IsNullOrWhiteSpace(item.Flow) == false) *@
+                        @* { *@
+                        @*     <div class="icon-value blue clickable" @onclick="() => SelectFlow(item.Flow)"> *@
+                        @*         <i class="fas fa-sitemap"></i> *@
+                        @*         <span class="value">@item.Flow</span> *@
+                        @*     </div> *@
+                        @* } *@
+                        @if ((item.Flags & LibraryFileMinimalFlag.ReprocessingByFlow) == LibraryFileMinimalFlag.ReprocessingByFlow)
+                        {
+                            <div class="icon-value orange clickable">
+                                <i class="fas fa-redo"></i>
+                                <span class="value">@lblReprocessByFlow</span>
+                            </div>
+                            @if (string.IsNullOrWhiteSpace(item.NodeName) == false && Guid.TryParse(item.NodeName, out var nodeUid))
+                            { 
+                                if(feService.Node.NodeList.TryGetValue(nodeUid, out var node))
+                                {
+                                    <div class="icon-value purple clickable" @onclick="() => SelectNode(node)">
+                                        <i class="@GetNodeIcon(node)"></i>
+                                        <span class="value">@(node == "FileFlowsServer" ? lblFileFlowsServer : node)</span>
+                                    </div>
+                                }
+                            }
+                        }
+                        else if (string.IsNullOrWhiteSpace(item.NodeName) == false)
+                        {
+                            <div class="icon-value purple clickable" @onclick="() => SelectNode(item.NodeName)">
+                                <i class="@GetNodeIcon(item.NodeName)"></i>
+                                <span class="value">@(item.NodeName == "FileFlowsServer" ? lblFileFlowsServer : item.NodeName)</span>
+                            </div>
+                        }
+                        @if (SelectedStatus == FileStatus.Unprocessed && (item.Flags & LibraryFileMinimalFlag.ForcedProcessing) == LibraryFileMinimalFlag.ForcedProcessing)
+                        {
+                            <div class="icon-value pink">
+                                <i class="fas fa-hammer"></i>
+                                <span class="value">@lblForcedProcessing</span>
+                            </div>
+                        }
+                        @if (item.ProcessingTime != TimeSpan.Zero && SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed or FileStatus.OnHold)
+                        {
+                            <div class="icon-value orange">
+                                <i class="fas fa-clock"></i>
                                 @if (SelectedStatus == FileStatus.OnHold)
                                 {
-                                    <span class="top-right">
-                                        @item.Date.Subtract(DateTime.UtcNow).Humanize()
-                                    </span>
+                                    <span class="value">@FormatHelper.HumanizeTime(item.ProcessingTime)</span>
                                 }
                                 else
                                 {
-                                    <span class="top-right">
-                                        @DateString(item.Date)
-                                    </span>
-                                }
-                                @if (SelectedStatus is not FileStatus.Unprocessed and not FileStatus.OnHold)
-                                {
-                                    <div class="right-inner">
-                                        <FlowSavings FinalSize="@item.FinalSize" OriginalSize="@item.OriginalSize"/>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="right-inner">
-                                        <span class="file-size">@(item.OriginalSize > 0 ? FileSizeHelper.Humanize(item.OriginalSize) : "")</span>
-                                    </div>
+                                    <span class="value">@($@"{item.ProcessingTime:hh\:mm\:ss}")</span>
                                 }
                             </div>
                         }
-                        else if(SelectedStatus is FileStatus.Processing)
+
+                        @if (item.Tags?.Any() == true)
                         {
-                            <div class="right processing">
-                                @{
-                                    @* var worker = WorkerStatus?.FirstOrDefault(x => x.LibraryFile.Uid == item.Uid); *@
-                                    @* if (worker != null) *@
-                                    @* { *@
-                                    @*     <span class="top-right">@worker.CurrentPartName</span> *@
-                                    @*     <FlowProgress TotalParts="worker.TotalParts" CurrentPart="worker.CurrentPart" CurrentPartPercent="worker.CurrentPartPercent"/> *@
-                                    @* } *@
+                            foreach (var tagUid in item.Tags)
+                            {
+                                var tag = optionsTags.FirstOrDefault(x => x.Value as Guid? == tagUid);
+                                if (tag != null)
+                                {
+                                    <div class="icon-value dark clickable" @onclick="() => SelectTag(tagUid)">
+                                        <TableItemIcon Icon="@tag.Icon" DefaultIcon="fas fa-tag" Unwrapped="true"/>
+                                        <span class="value">@tag.Label</span>
+                                    </div>
                                 }
+                            }
+                        }
+                    </div>
+                </div>
+                @if (SelectedStatus != FileStatus.OutOfSchedule && SelectedStatus != FileStatus.Processing)
+                {
+                    <div class="right savings">
+                        @if (SelectedStatus == FileStatus.OnHold)
+                        {
+                            <span class="top-right">
+                                @item.Date.Subtract(DateTime.UtcNow).Humanize()
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="top-right">
+                                @DateString(item.Date)
+                            </span>
+                        }
+                        @if (SelectedStatus is not FileStatus.Unprocessed and not FileStatus.OnHold)
+                        {
+                            <div class="right-inner">
+                                <FlowSavings FinalSize="@item.FinalSize" OriginalSize="@item.OriginalSize"/>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="right-inner">
+                                <span class="file-size">@(item.OriginalSize > 0 ? FileSizeHelper.Humanize(item.OriginalSize) : "")</span>
                             </div>
                         }
                     </div>
-                </Cell>
-            </FlowTableColumn>
-        </Columns>
-    </FlowTable>
-    </Body>
-
-</PageView>
+                }
+                else if(SelectedStatus is FileStatus.Processing)
+                {
+                    <div class="right processing">
+                        @{
+                            @* var worker = WorkerStatus?.FirstOrDefault(x => x.LibraryFile.Uid == item.Uid); *@
+                            @* if (worker != null) *@
+                            @* { *@
+                            @*     <span class="top-right">@worker.CurrentPartName</span> *@
+                            @*     <FlowProgress TotalParts="worker.TotalParts" CurrentPart="worker.CurrentPart" CurrentPartPercent="worker.CurrentPartPercent"/> *@
+                            @* } *@
+                        }
+                    </div>
+                }
+            </div>
+        </Cell>
+    </FlowTableColumn>
+</Columns>
+</FlowTable>
 
 <FileFlows.Client.Components.Dialogs.AddFileDialog @ref="AddDialog"  />
 <ReprocessDialog @ref="ReprocessDialog" Blocker="Blocker"  />

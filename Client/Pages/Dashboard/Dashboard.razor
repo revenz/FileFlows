@@ -7,8 +7,6 @@
 {
     @if (App.Instance.IsMobile)
     {
-        <PageView Icon="fas fa-chart-pie" Title="@lblTitle">
-            <Body>
             <FilesWidget/>
             @* <FlowTab Title="@lblDashboard" Icon="fas fa-chart-pie" ClassName="dashboard"> *@
             @*     <ContainerWidget Title="@lblRunners" Scroll="true"> *@
@@ -34,14 +32,15 @@
             @*     <FileOverviewWidget IsFilesProcessed="false"/> *@
             @*     <CpuRamWidget/> *@
             @* </FlowTab> *@
-            </Body>
-        </PageView>
     }
     else
     {
-        <PageView @ref="Tabs" TabView="true" TitleOnlyOnActive="App.Instance.IsSmallMobile" ClassName="dashboard-wrapper">
-            <Body>
-            <FlowTab Title="@lblDashboard" Icon="fas fa-chart-pie" ClassName="dashboard">
+        <FlowSkyBox TItem="int" @ref=Skybox OnSelected=@SetSelected NoCount="true" />
+        
+        <div class="db-grid">
+            
+            @if (SelectedPage == 0)
+            {
                 <div class="grid grid-4">
                     <FileOverviewWidget IsFilesProcessed="true"/>
                     <FileOverviewWidget IsFilesProcessed="false"/>
@@ -53,15 +52,15 @@
                     <FilesWidget/>
                     <SystemWidget/>
                 </div>
-            </FlowTab>
-            <FlowTab Title="@lblSavings" Icon="fas fa-dollar-sign">
+            }else if (SelectedPage == 1)
+            {
                 <div class="grid grid-60-40 flex-grow savings">
                     <LargestSavingsWidget/>
                     <LibrarySavingsSummaryWidget/>
                 </div>
-            </FlowTab>
-
-            <FlowTab Title="@lblUpdates" Icon="fas fa-cloud-download-alt" Uid="updates" Visible="@(UpdateInfoData?.HasUpdates == true)">
+            }
+            else if (SelectedPage == 2)
+            {
                 @if (UpdateInfoData.FileFlowsVersion != null && UpdateInfoData.HasExtensionUpdates)
                 {
                     <div class="grid grid-60-40 flex-grow savings">
@@ -81,9 +80,7 @@
                         <ExtensionUpdatesWidget Data="UpdateInfoData" Profile="Profile"/>
                     </div>
                 }
-
-            </FlowTab>
-            </Body>
-        </PageView>
+            }
+        </div>
     }
 }

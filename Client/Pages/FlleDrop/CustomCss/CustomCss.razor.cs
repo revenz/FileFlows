@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages.FileDrop;
@@ -28,9 +29,13 @@ public partial class CustomCss
     /// Gets the profile
     /// </summary>
     protected Profile Profile { get; private set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving;
+    private string lblSaving;
     private bool initDone = false;
     
     /// <summary>
@@ -50,8 +55,8 @@ public partial class CustomCss
             return;
         }
 
+        Layout.SetInfo("Custom CSS", "fab fa-css3-alt");
         
-        lblTitle = "Custom CSS";
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

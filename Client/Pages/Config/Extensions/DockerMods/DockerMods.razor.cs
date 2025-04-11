@@ -31,14 +31,14 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
     /// <summary>
     /// Translated strings
     /// </summary>
-    private string lblTitle, lblUpdateAvailable, lblRevision;
+    private string lblUpdateAvailable, lblRevision;
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.DockerMod.Plural"), "fab fa-docker");
         Profile = feService.Profile.Profile;
         base.OnInitialized(false);
-        lblTitle = Translater.Instant("Pages.DockerMod.Plural");
         lblUpdateAvailable = Translater.Instant("Pages.DockerMod.Labels.UpdateAvailable");
         lblRevision = Translater.Instant("Pages.DockerMod.Labels.Revision");
         feService.DockerMod.DockerModsUpdated += DockerModOnDockerModsUpdated;

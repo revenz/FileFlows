@@ -1,6 +1,7 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -23,6 +24,10 @@ public partial class FileServerPage : InputRegister
     /// Gets or sets the navigation manager used
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
 
     /// <summary>
@@ -42,7 +47,7 @@ public partial class FileServerPage : InputRegister
     /// </summary>
     private const string HelpUrl = "https://fileflows.com/docs/webconsole/config/settings/file-server";
 
-    private string lblTitle, lblSaving, lblFileServerDescription;
+    private string lblSaving, lblFileServerDescription;
 
     private FileServerModel Model { get; set; } = new ();
     
@@ -56,7 +61,7 @@ public partial class FileServerPage : InputRegister
             return;
         }
 
-        lblTitle= Translater.Instant("Pages.Settings.Labels.FileServer");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.FileServer"), "fas fa-server");
         lblSaving = Translater.Instant("Labels.Saving");
         lblFileServerDescription = Translater.Instant("Pages.Settings.Fields.FileServer.Description");
         

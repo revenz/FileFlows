@@ -20,7 +20,7 @@ public partial class AccessControl: ListPage<Guid, AccessControlEntry>
     /// </summary>
     private FlowSkyBox<AccessControlType> Skybox;
 
-    private string lblTitle, lblStart, lblEnd, lblAllow;
+    private string lblStart, lblEnd, lblAllow;
     
     private List<AccessControlEntry> DataConsole = new();
     private List<AccessControlEntry> DataRemote = new();
@@ -33,8 +33,8 @@ public partial class AccessControl: ListPage<Guid, AccessControlEntry>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.AccessControl.Title"), "fas fa-shield-alt");
         base.OnInitialized();
-        lblTitle = Translater.Instant("Pages.AccessControl.Title");
         lblStart = Translater.Instant("Pages.AccessControl.Columns.Start");
         lblEnd = Translater.Instant("Pages.AccessControl.Columns.End");
         lblAllow = Translater.Instant("Pages.AccessControl.Columns.Allow");

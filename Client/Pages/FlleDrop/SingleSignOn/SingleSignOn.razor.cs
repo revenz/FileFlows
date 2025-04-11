@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages.FileDrop;
@@ -23,6 +24,10 @@ public partial class SingleSignOn
     /// Gets or sets the frotnend service
     /// </summary>
     [Inject] protected FrontendService feService { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
     /// <summary>
     /// Gets the profile
@@ -30,7 +35,7 @@ public partial class SingleSignOn
     protected Profile Profile { get; private set; }
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving;
+    private string lblSaving;
     private bool initDone = false;
 
     /// <summary>
@@ -50,7 +55,7 @@ public partial class SingleSignOn
             return;
         }
 
-        lblTitle = "Single Sign On";
+        Layout.SetInfo("Single Sign On", "fas fa-cloud");
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

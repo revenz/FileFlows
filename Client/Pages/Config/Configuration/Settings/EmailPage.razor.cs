@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Plugin;
 using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
@@ -26,6 +27,10 @@ public partial class EmailPage : InputRegister
     /// Gets or sets the navigation manager used
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
 
     /// <summary>
@@ -40,7 +45,7 @@ public partial class EmailPage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving, lblEmailDescription;
+    private string lblSaving, lblEmailDescription;
     /// <summary>
     /// The help URL
     /// </summary>
@@ -63,7 +68,7 @@ public partial class EmailPage : InputRegister
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
-        lblTitle= Translater.Instant("Pages.Settings.Labels.Email");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Email"), "fas fa-envelope");
         lblSaving = Translater.Instant("Labels.Saving");
         lblEmailDescription = Translater.Instant("Pages.Settings.Labels.EmailDescription");
         

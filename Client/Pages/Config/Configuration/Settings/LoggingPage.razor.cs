@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -23,7 +24,11 @@ public partial class LoggingPage : InputRegister
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
     
-
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
+    
     /// <summary>
     /// Gets or sets the frontend service
     /// </summary>
@@ -41,7 +46,7 @@ public partial class LoggingPage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving;
+    private string lblSaving;
 
     private LoggingModel Model { get; set; } = new ();
 
@@ -51,8 +56,8 @@ public partial class LoggingPage : InputRegister
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
-        IsLicensed = Profile.LicenseLevel != LicenseLevel.Free; 
-        lblTitle= Translater.Instant("Pages.Settings.Labels.Logging");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Logging"), "fas fa-file-alt");
+        IsLicensed = Profile.LicenseLevel != LicenseLevel.Free;
         lblSaving = Translater.Instant("Labels.Saving");
         
         Blocker.Show();

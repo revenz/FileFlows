@@ -36,6 +36,8 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
 
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.Flows.Title"), "fas fa-sitemap");
+        
         Profile = feService.Profile.Profile;
         OnInitialized(false);
         
@@ -223,6 +225,10 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
         }.Where(x => x != null).ToList(), this.SelectedType);
     }
 
+    /// <summary>
+    /// Sets the selected skybox item
+    /// </summary>
+    /// <param name="item">the skybox item</param>
     private void SetSelected(FlowSkyBoxItem<FlowType> item)
     {
         SelectedType = item.Value;

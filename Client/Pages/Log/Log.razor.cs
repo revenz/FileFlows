@@ -5,6 +5,7 @@ using FileFlows.Client.Components;
 using System.Timers;
 using System.Web;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using Microsoft.JSInterop;
 
 namespace FileFlows.Client.Pages;
@@ -31,6 +32,10 @@ public partial class Log : ComponentBase
     /// Gets or sets the navigation manager
     /// </summary>
     [Inject] NavigationManager NavigationManager { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     /// <summary>
     /// Gets or sets the Local Storage instance
     /// </summary>
@@ -100,10 +105,11 @@ public partial class Log : ComponentBase
     /// Translation strings
     /// </summary>
     private string lblDownload, lblSearch, lblSearching, lblInfo, lblWarning, lblError, lblDebug, lblText, 
-        lblIncludeHigherSeverity, lblSource, lblFile, lblSeverity, lblNodes, lblNoMatchingData, lblTitle;
+        lblIncludeHigherSeverity, lblSource, lblFile, lblSeverity, lblNodes, lblNoMatchingData;
     
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", noPadding: true);
         ActiveSearchModel = new()
         {
             Message = SearchText,
@@ -124,7 +130,6 @@ public partial class Log : ComponentBase
         lblSeverity = Translater.Instant("Pages.Log.Fields.Severity");
         lblNodes = Translater.Instant("Pages.Log.Fields.Nodes");
         lblNoMatchingData = Translater.Instant("Pages.Log.Labels.NoMatchingData");
-        lblTitle = Translater.Instant("Pages.Log.Title");
 #if (DEBUG)
         this.DownloadUrl = "http://localhost:6868/api/fileflows-log/download";
 #else

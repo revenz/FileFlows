@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages.FileDrop;
@@ -30,7 +31,7 @@ public partial class AutoTokens
     protected Profile Profile { get; private set; }
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving;
+    private string lblSaving;
     private bool initDone = false;
 
     /// <summary>
@@ -39,6 +40,10 @@ public partial class AutoTokens
     private const string HelpUrl = "https://fileflows.com/docs/file-drop/config/auto-tokens";
 
     private FileFlows.Shared.Models.FileDropSettings Model { get; set; } = new ();
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -49,8 +54,8 @@ public partial class AutoTokens
             NavigationManager.NavigateTo("/");
             return;
         }
+        Layout.SetInfo("Auto Tokens", "fas fa-clock");
         
-        lblTitle = "Auto Tokens";
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

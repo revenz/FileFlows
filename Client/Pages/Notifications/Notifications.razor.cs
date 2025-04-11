@@ -10,13 +10,11 @@ public partial class Notifications : ListPage<Guid, Notification>
     /// <inheritdoc />
     public override string ApiUrl => "/api/notification";
 
-    /// <summary>
-    /// Translation strings
-    /// </summary>
-    private string lblTitle;
     
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.Notifications.Title"), "fas fa-bullhorn");
+        
         Profile ??= feService.Profile.Profile;
         lblAdd = Translater.Instant("Labels.Add");
         lblEdit = Translater.Instant("Labels.Edit");
@@ -24,7 +22,6 @@ public partial class Notifications : ListPage<Guid, Notification>
         lblDeleting = Translater.Instant("Labels.Deleting");
         lblRefresh = Translater.Instant("Labels.Refresh");
         
-        lblTitle = Translater.Instant("Pages.Notifications.Title");
 
         Data = feService.Notifications.Notifications;
     }

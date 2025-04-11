@@ -1,6 +1,7 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -30,11 +31,16 @@ public partial class Reporting  : ComponentBase
     /// The sky box items
     /// </summary>
     private List<FlowSkyBoxItem<bool>> SkyboxItems;
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        Layout.SetInfo("Reporting", "fas fa-chart-bar");
         var profile = feService.Profile.Profile;
         if (profile.LicensedFor(LicenseFlags.Reporting) == false)
         {

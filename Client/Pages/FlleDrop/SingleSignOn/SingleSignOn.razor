@@ -5,32 +5,27 @@
 
 @page "/file-drop/single-sign-on"
 
-<PageView Title="@lblTitle" Icon="fas fa-cloud" FormPage="true">
-
-    <Body>
-    @if (initDone)
-    {
-        <FlowTabs>
-            <FlowTab Title="Google">
-                <p>Visit the <a href="https://console.cloud.google.com/apis/credentials" rel="noopener noreferrer" target="_blank">Google Cloud Console</a> to configure an OAuth Client</p>
-                <InputText @bind-Value=@Model.GoogleClientId Label="Client ID"/>
-                <InputText @bind-Value=@Model.GoogleClientSecret Label="Client Secret"/>
-            </FlowTab>
-            <FlowTab Title="Microsoft">
-                <p>Visit the <a href="https://portal.azure.com" rel="noopener noreferrer" target="_blank">Azure Portal</a>
-                    and create an App registration.</p>
-                <InputText @bind-Value=@Model.MicrosoftClientId Label="Client ID"/>
-                <InputText @bind-Value=@Model.MicrosoftClientSecret Label="Secret ID"/>
-            </FlowTab>
-            <FlowTab Title="Custom">
-                <InputText @bind-Value=@Model.CustomProviderName Label="Name"/>
-                <InputText @bind-Value=@Model.CustomProviderAuthority Label="Authority"/>
-                <InputText @bind-Value=@Model.CustomProviderClientId Label="Client ID"/>
-                <InputText @bind-Value=@Model.CustomProviderClientSecret Label="Client Secret"/>
-            </FlowTab>
-        </FlowTabs>
-        
-        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
-    }
-    </Body>
-</PageView>
+@if (initDone)
+{
+    <FlowTabs>
+        <FlowTab Title="Google">
+            <p>Visit the <a href="https://console.cloud.google.com/apis/credentials" rel="noopener noreferrer" target="_blank">Google Cloud Console</a> to configure an OAuth Client</p>
+            <InputText @bind-Value=@Model.GoogleClientId Label="Client ID"/>
+            <InputText @bind-Value=@Model.GoogleClientSecret Label="Client Secret"/>
+        </FlowTab>
+        <FlowTab Title="Microsoft">
+            <p>Visit the <a href="https://portal.azure.com" rel="noopener noreferrer" target="_blank">Azure Portal</a>
+                and create an App registration.</p>
+            <InputText @bind-Value=@Model.MicrosoftClientId Label="Client ID"/>
+            <InputText @bind-Value=@Model.MicrosoftClientSecret Label="Secret ID"/>
+        </FlowTab>
+        <FlowTab Title="Custom">
+            <InputText @bind-Value=@Model.CustomProviderName Label="Name"/>
+            <InputText @bind-Value=@Model.CustomProviderAuthority Label="Authority"/>
+            <InputText @bind-Value=@Model.CustomProviderClientId Label="Client ID"/>
+            <InputText @bind-Value=@Model.CustomProviderClientSecret Label="Client Secret"/>
+        </FlowTab>
+    </FlowTabs>
+    
+    <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
+}

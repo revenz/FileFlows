@@ -5,20 +5,15 @@
 
 @page "/file-drop/home-page"
 
-<PageView Title="@lblTitle" Icon="fas fa-home" FormPage="true" Flex="true">
+@if (initDone)
+{
+    <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl">
+        <Description>
+            <p>Here you can customise the home page for logged in users and set the custom HTML to show to the user.</p>
+            <p>If this is left blank, then the user will not have a home page and the first alphabetical flow will be their defacto landing page.</p>
+        </Description>
+    </FlowFormPageButtons>
 
-    <Body>
-    @if (initDone)
-    {
-        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl">
-            <Description>
-                <p>Here you can customise the home page for logged in users and set the custom HTML to show to the user.</p>
-                <p>If this is left blank, then the user will not have a home page and the first alphabetical flow will be their defacto landing page.</p>
-            </Description>
-        </FlowFormPageButtons>
-
-        <InputCode Language="html" @bind-Value="Model"/>
-        
-    }
-    </Body>
-</PageView>
+    <InputCode Language="html" @bind-Value="Model"/>
+    
+}

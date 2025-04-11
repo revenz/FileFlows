@@ -2,6 +2,7 @@ using System.Threading;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.ServerShared.Models;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
@@ -31,6 +32,10 @@ public partial class Audit : ComponentBase
     /// Gets or sets the frontend service
     /// </summary>
     [Inject] protected FrontendService feService { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
     /// <summary>
     /// Gets the profile
@@ -53,7 +58,7 @@ public partial class Audit : ComponentBase
     /// <summary>
     /// The column titles
     /// </summary>
-    private string lblTitle, lblDate, lblType, lblAction, lblOperator, lblIPAddress, lblSummary;
+    private string lblDate, lblType, lblAction, lblOperator, lblIPAddress, lblSummary;
 
     private Dictionary<AuditAction, string> AuditActionTranslations = new();
     
@@ -66,7 +71,7 @@ public partial class Audit : ComponentBase
             NavigationManager.NavigateTo("/");
             return;
         }
-        lblTitle = Translater.Instant("Pages.Audit.Title");
+        Layout.SetInfo(Translater.Instant("Pages.Audit.Title"), "fas fa-clipboard-list");
         lblDate = Translater.Instant("Pages.Audit.Columns.Date"); 
         lblType = Translater.Instant("Pages.Audit.Columns.Type");
         lblAction = Translater.Instant("Pages.Audit.Columns.Action");

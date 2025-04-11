@@ -4,38 +4,32 @@
 @inherits InputRegister
 @namespace FileFlows.Client.Pages.Config.Configuration.Settings
 
-<PageView Title="@lblTitle" Icon="fas fa-shield-alt" FormPage="true">
 
-    <Body>
-
-        <p style="white-space: pre-wrap">@((MarkupString)mdSecurityDescription)</p>
+<p style="white-space: pre-wrap">@((MarkupString)mdSecurityDescription)</p>
+<hr/>
+<InputSelect @bind-Value="@Security" AllowClear="false"
+             Disabled="@((Profile.ConfigurationStatus & ConfigurationStatus.Users) != ConfigurationStatus.Users)"
+             Options=@SecurityOptions Label="Pages.Settings.Fields.Security.Mode"/>
+@if (Model.Security != SecurityMode.Off)
+{
+    <InputAccessToken @bind-Value="Model.AccessToken" Label="Pages.Settings.Fields.Security.AccessToken"/>
+    <InputPeriod @bind-Value="Model.TokenExpiryMinutes" Label="Pages.Settings.Fields.Security.TokenExpiryMinutes" ShowWeeks="false"/>
+    @if (Model.Security == SecurityMode.OpenIdConnect)
+    {
         <hr/>
-        <InputSelect @bind-Value="@Security" AllowClear="false"
-                     Disabled="@((Profile.ConfigurationStatus & ConfigurationStatus.Users) != ConfigurationStatus.Users)"
-                     Options=@SecurityOptions Label="Pages.Settings.Fields.Security.Mode"/>
-        @if (Model.Security != SecurityMode.Off)
-        {
-            <InputAccessToken @bind-Value="Model.AccessToken" Label="Pages.Settings.Fields.Security.AccessToken"/>
-            <InputPeriod @bind-Value="Model.TokenExpiryMinutes" Label="Pages.Settings.Fields.Security.TokenExpiryMinutes" ShowWeeks="false"/>
-            @if (Model.Security == SecurityMode.OpenIdConnect)
-            {
-                <hr/>
 
-                <InputText @bind-Value="@Model.OidcAuthority" Label="Pages.Settings.Fields.Security.Authority"/>
-                <InputText @bind-Value="@Model.OidcClientId" Label="Pages.Settings.Fields.Security.ClientId"/>
-                <InputText @bind-Value="@Model.OidcClientSecret" Label="Pages.Settings.Fields.Security.ClientSecret"/>
-                <InputText @bind-Value="@Model.OidcCallbackAddress" Label="Pages.Settings.Fields.Security.CallbackAddress" Placeholder="@Model.OidcCallbackAddressPlaceholder"/>
-            }
-            else
-            {
-                <hr/>
+        <InputText @bind-Value="@Model.OidcAuthority" Label="Pages.Settings.Fields.Security.Authority"/>
+        <InputText @bind-Value="@Model.OidcClientId" Label="Pages.Settings.Fields.Security.ClientId"/>
+        <InputText @bind-Value="@Model.OidcClientSecret" Label="Pages.Settings.Fields.Security.ClientSecret"/>
+        <InputText @bind-Value="@Model.OidcCallbackAddress" Label="Pages.Settings.Fields.Security.CallbackAddress" Placeholder="@Model.OidcCallbackAddressPlaceholder"/>
+    }
+    else
+    {
+        <hr/>
 
-                <InputNumber @bind-Value="@Model.LoginMaxAttempts" Label="Pages.Settings.Fields.Security.MaxAttempts"/>
-                <InputNumber @bind-Value="@Model.LoginLockoutMinutes" Label="Pages.Settings.Fields.Security.LockoutMinutes"/>
-            }
-        }
-        
-        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
-    </Body>
+        <InputNumber @bind-Value="@Model.LoginMaxAttempts" Label="Pages.Settings.Fields.Security.MaxAttempts"/>
+        <InputNumber @bind-Value="@Model.LoginLockoutMinutes" Label="Pages.Settings.Fields.Security.LockoutMinutes"/>
+    }
+}
 
-</PageView>
+<FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />

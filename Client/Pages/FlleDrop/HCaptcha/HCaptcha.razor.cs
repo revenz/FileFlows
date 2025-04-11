@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages.FileDrop;
@@ -18,6 +19,10 @@ public partial class HCaptcha
     /// Gets or sets blocker instance
     /// </summary>
     [CascadingParameter] Blocker Blocker { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
 
     /// <summary>
     /// Gets or sets the frotnend service
@@ -30,7 +35,7 @@ public partial class HCaptcha
     protected Profile Profile { get; private set; }
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving;
+    private string lblSaving;
     private bool initDone = false;
 
     /// <summary>
@@ -49,8 +54,8 @@ public partial class HCaptcha
             NavigationManager.NavigateTo("/");
             return;
         }
-        
-        lblTitle = "hCaptcha";
+
+        Layout.SetInfo("hCaptcha", "fas fa-key");
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

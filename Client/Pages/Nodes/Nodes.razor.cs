@@ -15,10 +15,6 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
     const string FileFlowsServer = "FileFlowsServer";
 
     // private NodeStatusSummary EditingItem = null;
-
-    private string lblTitle;
-
-
     /// <summary>
     /// we only want to do the sort the first time, otherwise the list will jump around for the user
     /// </summary>
@@ -26,13 +22,13 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
     
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.Nodes.Title"), "fas fa-desktop");
         Profile ??= feService.Profile.Profile;
         lblAdd = Translater.Instant("Labels.Add");
         lblEdit = Translater.Instant("Labels.Edit");
         lblDelete = Translater.Instant("Labels.Delete");
         lblDeleting = Translater.Instant("Labels.Deleting");
         lblRefresh = Translater.Instant("Labels.Refresh");
-        lblTitle = Translater.Instant("Pages.Nodes.Title");
 
         Data = feService.Node.NodeStatusSummaries
             .OrderBy(x => x.Status is ProcessingNodeStatus.Offline ? 1 : 0)

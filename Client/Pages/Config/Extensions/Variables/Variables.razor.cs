@@ -7,14 +7,14 @@ public partial class Variables : ListPage<Guid, Variable>, IDisposable
     public override string ApiUrl => "/api/variable";
 
     private Variable EditingItem = null;
-    private string lblValue, lblTitle;
+    private string lblValue;
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         Profile = feService.Profile.Profile;
+        Layout.SetInfo(Translater.Instant("Pages.Variables.Title"), "fas fa-at");
         base.OnInitialized(false);
-        lblTitle = Translater.Instant("Pages.Variables.Title");
         lblValue = Translater.Instant("Pages.Flow.Fields.VariablesValue");
         feService.Variable.VariablesUpdated += VariableOnVariablesUpdated ;
         Data = feService.Variable.Variables;

@@ -4,18 +4,9 @@
 @namespace FileFlows.Client.Shared
 
 <div class="configuration-layout">
-    <div class="top-row  show-title">
-        <span class="title">
-            @if (string.IsNullOrEmpty(Active?.Icon) == false)
-            {
-                <span class="icon @Active.Icon"></span>
-            }
-            @Active?.Title
-        </span>
-    </div>
     <div class="configuration-layout-menu">
 
-        <span class="active-item" @onclick="() => ToggleOpen()">
+        <span class="active-item" @onclick="ToggleOpen">
             <i class="fas fa-caret-down"></i>
             <i class="@Active.Icon"></i>
             <span class="title">@Active.Title</span>

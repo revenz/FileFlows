@@ -274,12 +274,12 @@ public partial class NavBar
             MenuItems.Add(new ("nodes", Translater.Instant("Pages.Nodes.Title"), "fas fa-desktop", "nodes"));
          
         if(Profile.LicensedFor(LicenseFlags.Reporting) && Profile.HasRole(UserRole.Reports))
-            MenuItems.Add(new ("reporting", Translater.Instant("Pages.Reporting.Title"), "fas fa-chart-pie", "reporting", false));
+            MenuItems.Add(new ("reporting", Translater.Instant("Pages.Reporting.Title"), "fas fa-chart-bar", "reporting", false));
 
         if (Profile.HasRole(UserRole.Log))
         {
-            BottomNavBarItems.Add(new("notifications", Translater.Instant("Pages.Notifications.Title"),
-                "fas fa-bullhorn", "notifications"));
+            // BottomNavBarItems.Add(new("notifications", Translater.Instant("Pages.Notifications.Title"),
+            //     "fas fa-bullhorn", "notifications"));
             BottomNavBarItems.Add(new("log", Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", "log"));
         }
 

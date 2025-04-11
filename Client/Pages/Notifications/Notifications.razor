@@ -6,57 +6,48 @@
 
 @page "/notifications"
 
-<PageView ClassName="flex" Icon="fas fa-bullhorn" Title="@lblTitle">
 
-    <Head>
-    </Head>
+<FlowTable @ref="Table" Data="@Data" TItem="Notification" Selection="SelectionMode.None" TableIdentifier="Notifications">
+<ToolBar>
+    <FlowTableHelpButton HelpUrl="admin/notifications" />
+</ToolBar>
 
-    <Body>
-
-    <FlowTable @ref="Table" Data="@Data" TItem="Notification" Selection="SelectionMode.None" TableIdentifier="Notifications">
-        <ToolBar>
-            <FlowTableHelpButton HelpUrl="admin/notifications" />
-        </ToolBar>
-
-        <Columns>
-            <FlowTableColumn TItem="Notification" NoHeight="true">
-                <Header>
-                    Notification
-                </Header>
-                <Cell Context="item">
-                    <div class="table-item">
-                        <span class="icon">
-                            @switch (item.Severity)
-                            {
-                                case NotificationSeverity.Critical:
-                                    <i class="icon critical fas fa-exclamation-circle"></i>
-                                    break;
-                                case NotificationSeverity.Error:
-                                    <i class="icon error fas fa-times-circle"></i>
-                                    break;
-                                case NotificationSeverity.Warning:
-                                    <i class="icon warning fas fa-exclamation-triangle"></i>
-                                    break;
-                                case NotificationSeverity.Information:
-                                    <i class="icon info fas fa-info-circle"></i>
-                                    break;
-                            }
-                        </span>
-                        <div class="center">
-                            <span class="title">@item.Title</span>
-                            @if (string.IsNullOrWhiteSpace(item.Message) == false)
-                            {
-                                <span class="message">@item.Message</span>
-                            }
-                        </div>
-                        <div class="right">
-                            <span class="top-right">@item.Date.ToLocalTime().Humanize()</span>
-                        </div>
-                    </div>
-                </Cell>
-            </FlowTableColumn>
-        </Columns>
-    </FlowTable>
-
-    </Body>
-</PageView>
+<Columns>
+    <FlowTableColumn TItem="Notification" NoHeight="true">
+        <Header>
+            Notification
+        </Header>
+        <Cell Context="item">
+            <div class="table-item">
+                <span class="icon">
+                    @switch (item.Severity)
+                    {
+                        case NotificationSeverity.Critical:
+                            <i class="icon critical fas fa-exclamation-circle"></i>
+                            break;
+                        case NotificationSeverity.Error:
+                            <i class="icon error fas fa-times-circle"></i>
+                            break;
+                        case NotificationSeverity.Warning:
+                            <i class="icon warning fas fa-exclamation-triangle"></i>
+                            break;
+                        case NotificationSeverity.Information:
+                            <i class="icon info fas fa-info-circle"></i>
+                            break;
+                    }
+                </span>
+                <div class="center">
+                    <span class="title">@item.Title</span>
+                    @if (string.IsNullOrWhiteSpace(item.Message) == false)
+                    {
+                        <span class="message">@item.Message</span>
+                    }
+                </div>
+                <div class="right">
+                    <span class="top-right">@item.Date.ToLocalTime().Humanize()</span>
+                </div>
+            </div>
+        </Cell>
+    </FlowTableColumn>
+</Columns>
+</FlowTable>

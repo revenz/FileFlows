@@ -6,42 +6,32 @@
 
 @page "/config/variables"
 
-<PageView ClassName="flex" Title="@lblTitle" Icon="fas fa-at">
+<FlowTable @ref="Table" Data="@Data" TItem="Variable" Selection="SelectionMode.Multiple"
+    DoubleClick="@OnDoubleClick">
+    <ToolBar>
+        <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+        <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
+        <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />       
+        <FlowTableButtonSeparator />             
+        <FlowTableHelpButton HelpUrl="config/extensions/variables" />
+    </ToolBar>
 
-    <Head>
-    </Head>
-
-    <Body>
-        <FlowTable @ref="Table" Data="@Data" TItem="Variable" Selection="SelectionMode.Multiple"
-            DoubleClick="@OnDoubleClick">
-            <ToolBar>
-                <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
-                <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
-                <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />       
-                <FlowTableButtonSeparator />             
-                <FlowTableHelpButton HelpUrl="config/extensions/variables" />
-            </ToolBar>
-
-            <Columns>
-                <FlowTableColumn TItem="Variable" Width="14rem" MobileWidth="auto">
-                    <Header>
-                        @Globals.lblName
-                    </Header>
-                    <Cell Context="item">
-                        <span class="name-actual">@item.Name</span>
-                    </Cell>
-                </FlowTableColumn>
-                <FlowTableColumn TItem="Variable" MobileWidth="0">
-                    <Header>
-                        @lblValue
-                    </Header>
-                    <Cell Context="item">
-                        <span>@item.Value</span>
-                    </Cell>
-                </FlowTableColumn>
-            </Columns>
-        </FlowTable>
-
-    </Body>
-
-</PageView>
+    <Columns>
+        <FlowTableColumn TItem="Variable" Width="14rem" MobileWidth="auto">
+            <Header>
+                @Globals.lblName
+            </Header>
+            <Cell Context="item">
+                <span class="name-actual">@item.Name</span>
+            </Cell>
+        </FlowTableColumn>
+        <FlowTableColumn TItem="Variable" MobileWidth="0">
+            <Header>
+                @lblValue
+            </Header>
+            <Cell Context="item">
+                <span>@item.Value</span>
+            </Cell>
+        </FlowTableColumn>
+    </Columns>
+</FlowTable>

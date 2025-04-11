@@ -14,6 +14,7 @@ using FileFlows.Client.Components.Common;
 using FileFlows.Client.Components.Inputs;
 using FileFlows.Client.Helpers;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Client.Wizards;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -45,6 +46,10 @@ public partial class Flow : ComponentBase, IDisposable
     private ffElement[] AvailablePlugins { get; set; }
     private ffElement[] AvailableScripts { get; set; }
     private ffElement[] AvailableSubFlows { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
 
     /// <summary>
     /// The flow element lists
@@ -113,7 +118,7 @@ public partial class Flow : ComponentBase, IDisposable
 
     const string API_URL = "/api/flow";
 
-    private string lblTitle, lblSave, lblSaving, lblClose, lblUnsavedChanges;
+    private string lblSave, lblSaving, lblClose, lblUnsavedChanges;
 
     private bool _needsRendering = false;
 
@@ -140,8 +145,8 @@ public partial class Flow : ComponentBase, IDisposable
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        Profile = feService.Profile.Profile;
-        lblTitle = Translater.Instant("Pages.Flows.Title");
+        Layout.SetInfo(Translater.Instant("Pages.Flows.Title"), "fas fa-sitemap", noPadding: true);
+        Profile = feService.Profile.Profile; 
         lblSave = Translater.Instant("Labels.Save");
         lblClose = Translater.Instant("Labels.Close");
         lblSaving = Translater.Instant("Labels.Saving");
@@ -159,7 +164,7 @@ public partial class Flow : ComponentBase, IDisposable
         lblElements = Translater.Instant("Labels.Elements");
         lblScripts = Translater.Instant("Labels.Scripts");
         lblSubFlows = Translater.Instant("Labels.SubFlows");
-        lblUnsavedChanges =Translater.Instant("Labels.UnsavedChanges");
+        lblUnsavedChanges = Translater.Instant("Labels.UnsavedChanges");
 
         NavigationCheck = async () =>
         {

@@ -1,3 +1,6 @@
+using FileFlows.Client.Shared;
+using Microsoft.AspNetCore.Components;
+
 namespace FileFlows.Client.Pages.FileDrop;
 
 /// <summary>
@@ -7,10 +10,6 @@ public partial class FileDropUsers : ListPage<Guid, FileDropUser>
 {
     /// <inheritdoc />
     public override string ApiUrl => "/api/file-drop/user";
-    /// <summary>
-    /// Translation strings
-    /// </summary>
-    private string lblPageTitle;
     
     /// <summary>
     /// The current page
@@ -24,8 +23,8 @@ public partial class FileDropUsers : ListPage<Guid, FileDropUser>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.FileDrop.User.Plural"), "fas fa-user-astronaut");
         base.OnInitialized();
-        lblPageTitle = Translater.Instant("Pages.FileDrop.User.Plural");
     }
 
     /// <inheritdoc />

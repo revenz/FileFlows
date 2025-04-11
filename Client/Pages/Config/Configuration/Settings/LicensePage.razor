@@ -5,28 +5,22 @@
 @inherits InputRegister
 @namespace FileFlows.Client.Pages.Config.Configuration.Settings
 
-<PageView Title="@lblTitle" Icon="fas fa-money-check" FormPage="true">
+<p>Here you can enter your license key to enable additional features
+    See <a href="https://fileflows.com/pricing" target="_blank" rel="noreferrer">FileFlows.com</a> for more information.</p>
+<InputText @bind-Value=@Model.LicenseEmail Label="Pages.Settings.Fields.License.Email"/>
+<InputText @bind-Value=@Model.LicenseKey Label="Pages.Settings.Fields.License.Key"/>
+<hr/>
+<InputText @bind-Value=@Model.LicenseStatus Label="Pages.Settings.Fields.License.Status" ReadOnly="true"/>
+<InputText Value=@Model.LicenseLevel.Humanize() Label="Pages.Settings.Fields.License.Level" ReadOnly="true"/>
+<InputText Value=@Model.LicenseProcessingNodes.ToString() Label="Pages.Settings.Fields.License.ProcessingNodes" ReadOnly="true"/>
+@if (IsLicensed)
+{
+    @if ((Model.LicenseFlags & LicenseFlags.FileDrop) == LicenseFlags.FileDrop)
+    {
+        <InputText Value="@Model.LicensedFileDropUsers.ToString()" Label="Pages.Settings.Fields.License.FileDropUsers" ReadOnly="true" />
+    }
+    <InputText Value=@Model.LicenseExpiryDate.ToString("f") Label="Pages.Settings.Fields.License.ExpiryDate" ReadOnly="true"/>
+    <InputTextArea @bind-Value=@LicenseFlagsString Label="Pages.Settings.Fields.License.Flags" ReadOnly="true" Rows="10"/>
+}
 
-    <Body>
-        <p>Here you can enter your license key to enable additional features
-            See <a href="https://fileflows.com/pricing" target="_blank" rel="noreferrer">FileFlows.com</a> for more information.</p>
-        <InputText @bind-Value=@Model.LicenseEmail Label="Pages.Settings.Fields.License.Email"/>
-        <InputText @bind-Value=@Model.LicenseKey Label="Pages.Settings.Fields.License.Key"/>
-        <hr/>
-        <InputText @bind-Value=@Model.LicenseStatus Label="Pages.Settings.Fields.License.Status" ReadOnly="true"/>
-        <InputText Value=@Model.LicenseLevel.Humanize() Label="Pages.Settings.Fields.License.Level" ReadOnly="true"/>
-        <InputText Value=@Model.LicenseProcessingNodes.ToString() Label="Pages.Settings.Fields.License.ProcessingNodes" ReadOnly="true"/>
-        @if (IsLicensed)
-        {
-            @if ((Model.LicenseFlags & LicenseFlags.FileDrop) == LicenseFlags.FileDrop)
-            {
-                <InputText Value="@Model.LicensedFileDropUsers.ToString()" Label="Pages.Settings.Fields.License.FileDropUsers" ReadOnly="true" />
-            }
-            <InputText Value=@Model.LicenseExpiryDate.ToString("f") Label="Pages.Settings.Fields.License.ExpiryDate" ReadOnly="true"/>
-            <InputTextArea @bind-Value=@LicenseFlagsString Label="Pages.Settings.Fields.License.Flags" ReadOnly="true" Rows="10"/>
-        }
-        
-        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
-    </Body>
-
-</PageView>
+<FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />

@@ -11,11 +11,6 @@ public partial class Tags : ListPage<Guid, Tag>, IDisposable
 {
     /// <inheritdoc />
     public override string ApiUrl => "/api/tag";
-    
-    /// <summary>
-    /// Translation strings
-    /// </summary>
-    private string lblTitle;
         
     /// <summary>
     /// The item being edited
@@ -29,8 +24,8 @@ public partial class Tags : ListPage<Guid, Tag>, IDisposable
     protected override void OnInitialized()
     {
         Profile = feService.Profile.Profile;
+        Layout.SetInfo(Translater.Instant("Pages.Tags.Title"), "fas fa-tags");
         base.OnInitialized(false);
-        lblTitle = Translater.Instant("Pages.Tags.Title");
         feService.Tag.TagsUpdated += TagOnTagsUpdated;
         Data = feService.Tag.Tags;
     }

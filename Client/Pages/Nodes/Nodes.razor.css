@@ -6,17 +6,13 @@
   .btn-download-node {
     display: none !important;
   }
-  .page-node-list {
-    margin-left: -1.5rem;
-    margin-right: -1.5rem;
-  }
-  .page-node-list ::deep .flowtable-toolbar, .page-node-list ::deep .flowtable-header {
+  ::deep .flowtable-toolbar, ::deep .flowtable-header {
     display: none !important;
   }
-  .page-node-list ::deep .flowtable-select {
+  ::deep .flowtable-select {
     display: none;
   }
-  .page-node-list ::deep .flowtable-row {
+  ::deep .flowtable-row {
     left: 0;
     margin: 1rem;
     border-radius: 0.5rem;
@@ -24,7 +20,7 @@
     overflow: hidden;
     width: calc(100% - 2rem);
   }
-  .page-node-list ::deep .flowtable-body {
+  ::deep .flowtable-body {
     border: none;
     height: calc(100vh - 13rem) !important;
     background: var(--main-background);
@@ -32,26 +28,23 @@
   }
 }
 @media (min-width: 850px) {
-  .page-node-list {
-    height: 100%;
-  }
-  .page-node-list ::deep .flowtable-body .flowtable-row {
+  ::deep .flowtable-body .flowtable-row {
     position: relative;
     padding-left: 0;
     border-left: solid 3px transparent;
     left: -3px;
   }
-  .page-node-list ::deep .flowtable-body .flowtable-row.selected {
+  ::deep .flowtable-body .flowtable-row.selected {
     border-left-color: var(--accent);
   }
-  .page-node-list ::deep .flowtable-body .flowtable-row .flowtable-select {
+  ::deep .flowtable-body .flowtable-row .flowtable-select {
     position: absolute;
     left: 1rem;
   }
-  .page-node-list ::deep .flowtable-body .processing-node {
+  ::deep .flowtable-body .processing-node {
     padding-left: 3.5rem;
   }
-  .page-node-list ::deep .flowtable-body span.no-height {
+  ::deep .flowtable-body span.no-height {
     padding: 0 !important;
   }
 }

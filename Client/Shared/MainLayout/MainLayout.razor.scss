@@ -7,6 +7,37 @@
 .main {
     flex: 1;
     background:var(--main-background);
+    display: grid;
+    grid-template-rows: 3.5rem 1fr;
+}
+
+.main-title-bar {
+    display: flex;
+    background:var(--main-background);    
+    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+    padding:1rem;
+    .title  {
+        font-size: 1.5rem;
+        .icon {
+            color:var(--accent);
+            margin-right: .75rem;
+        }
+    }
+}
+
+.content {
+    background: var(--base-darkest);
+    position: relative;
+    height: 100%;
+    &:not(.no-padding) {
+        padding: 1rem;
+    }
+    &:has( > .skybox) {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        overflow: hidden;
+    }
 }
 
 .sidebar {
@@ -33,6 +64,7 @@
     .main {
         position: relative;
         overflow: hidden;
+        height: 100vh;
     }
 }
 .expand-collapse {

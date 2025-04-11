@@ -1,6 +1,7 @@
 using System.Text;
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -28,6 +29,10 @@ public partial class LicensePage : InputRegister
     /// Gets or sets the frontend service
     /// </summary>
     [Inject] protected FrontendService feService { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
     /// <summary>
     /// Gets the profile
@@ -36,7 +41,7 @@ public partial class LicensePage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving;
+    private string lblSaving;
     
     /// <summary>
     /// The help URL
@@ -51,7 +56,7 @@ public partial class LicensePage : InputRegister
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
-        lblTitle = Translater.Instant("Pages.Settings.Labels.License");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.License"), "fas fa-money-check");
         lblSaving = Translater.Instant("Labels.Saving");
         
         Blocker.Show();

@@ -3,6 +3,7 @@ using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Models;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -33,6 +34,11 @@ public partial class SecurityPage : InputRegister
     [Inject] protected FrontendService feService { get; set; }
     
     /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
+    
+    /// <summary>
     /// Gets the profile
     /// </summary>
     protected Profile Profile { get; private set; }
@@ -44,7 +50,7 @@ public partial class SecurityPage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving, mdSecurityDescription;
+    private string lblSaving, mdSecurityDescription;
 
 
     private SettingsUiModel Model { get; set; } = new ();
@@ -85,7 +91,7 @@ public partial class SecurityPage : InputRegister
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
-        lblTitle = Translater.Instant("Pages.Settings.Fields.Security.Title");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Fields.Security.Title"), "fas fa-shield-alt");
         lblSaving = Translater.Instant("Labels.Saving");
         mdSecurityDescription = RenderMarkdown("Pages.Settings.Fields.Security.Description");
         

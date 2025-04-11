@@ -3,103 +3,93 @@
 
 @page "/flows"
 
-<PageView Flex="@true" >
 
-    <Head>
-    </Head>
+<FlowSkyBox TItem="FlowType" @ref=Skybox OnSelected=@SetSelected />
 
-    <Body>
-    
-        <FlowSkyBox TItem="FlowType" @ref=Skybox OnSelected=@SetSelected />
-    
 @if (SelectedType == FlowType.Failure)
 {
-    <div class="info box">@lblFailureFlowDescription</div>
+<div class="info box">@lblFailureFlowDescription</div>
 }
-    <FlowTable @ref="Table" Data="@(SelectedType == FlowType.Failure ? DataFailure : 
+<FlowTable @ref="Table" Data="@(SelectedType == FlowType.Failure ? DataFailure : 
 SelectedType == FlowType.SubFlow ? DataSubFlows :
 SelectedType == FlowType.FileDrop ? DataFileDrop : 
 DataStandard)" TItem="FlowListModel" Selection="SelectionMode.Multiple"
-            DoubleClick="@OnDoubleClick" TableIdentifier=@TableIdentifier>
-            <ToolBar>            
-                <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
-                <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
-                <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
-                @if (SelectedType == FlowType.Standard && Profile?.LicensedFor(LicenseFlags.FileDrop) == true)
-                {
-                    <FlowTableButton Clicked="@(() => Duplicate(true))" SelectedOne="true"
-                                     Icon="fas fa-copy" Label="Pages.Flows.Labels.DuplicateAsFileDropFlow"
-                                     Area="ButtonArea.ContextMenu" />
-                }
-                <FlowTableButtonSeparator />
-                @if (SelectedType == FlowType.Failure)
-                {
-                    <FlowTableButton Clicked=SetDefault SelectedOne="true" Icon="fas fa-check" Label="Labels.Default" />
-                }
-                @if (App.Instance.IsMobile == false)
-                {
-                    <FlowTableButton Clicked="@(() => Duplicate())" SelectedOne="true" Icon="fas fa-clone" Label="Labels.Duplicate" />
-                    <FlowTableButton Clicked=Import Icon="fas fa-file-import" Label="Labels.Import" />
-                    <FlowTableButton Clicked=Export SelectedOneOrMore="true" Icon="fas fa-file-export" Label="Labels.Export" />
-                    <FlowTableButtonSeparator />
-                }
-                <FlowTableButton Clicked=UsedBy SelectedOne="true" Icon="fas fa-info-circle" Label="Labels.UsedBy" />   
-                @if (Profile != null && Profile.LicensedFor(LicenseFlags.Revisions) && Profile.HasRole(UserRole.Revisions))
-                {
-                    <FlowTableButton Clicked=Revisions SelectedOne="true" Icon="fas fa-history" Label="Labels.Revisions" />
-                }
-                @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
-                {
-                    <FlowTableButton Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
-                }
-                <FlowTableButtonSeparator />
-                <FlowTableHelpButton HelpUrl="flows" />
-            </ToolBar>
+    DoubleClick="@OnDoubleClick" TableIdentifier=@TableIdentifier>
+    <ToolBar>            
+        <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+        <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
+        <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
+        @if (SelectedType == FlowType.Standard && Profile?.LicensedFor(LicenseFlags.FileDrop) == true)
+        {
+            <FlowTableButton Clicked="@(() => Duplicate(true))" SelectedOne="true"
+                             Icon="fas fa-copy" Label="Pages.Flows.Labels.DuplicateAsFileDropFlow"
+                             Area="ButtonArea.ContextMenu" />
+        }
+        <FlowTableButtonSeparator />
+        @if (SelectedType == FlowType.Failure)
+        {
+            <FlowTableButton Clicked=SetDefault SelectedOne="true" Icon="fas fa-check" Label="Labels.Default" />
+        }
+        @if (App.Instance.IsMobile == false)
+        {
+            <FlowTableButton Clicked="@(() => Duplicate())" SelectedOne="true" Icon="fas fa-clone" Label="Labels.Duplicate" />
+            <FlowTableButton Clicked=Import Icon="fas fa-file-import" Label="Labels.Import" />
+            <FlowTableButton Clicked=Export SelectedOneOrMore="true" Icon="fas fa-file-export" Label="Labels.Export" />
+            <FlowTableButtonSeparator />
+        }
+        <FlowTableButton Clicked=UsedBy SelectedOne="true" Icon="fas fa-info-circle" Label="Labels.UsedBy" />   
+        @if (Profile != null && Profile.LicensedFor(LicenseFlags.Revisions) && Profile.HasRole(UserRole.Revisions))
+        {
+            <FlowTableButton Clicked=Revisions SelectedOne="true" Icon="fas fa-history" Label="Labels.Revisions" />
+        }
+        @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
+        {
+            <FlowTableButton Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
+        }
+        <FlowTableButtonSeparator />
+        <FlowTableHelpButton HelpUrl="flows" />
+    </ToolBar>
 
-            <Columns>
-                <FlowTableColumn TItem="FlowListModel"  NoHeight="true">
-                    <Header>
-                        @Globals.lblName
-                    </Header>
-                    <Cell Context="item">
-                        <div class="table-item">
-                            <span class="icon">
-                                <TableItemIcon Icon="@item.Icon" DefaultIcon="fas fa-sitemap" />
-                            </span>
-                            <div class="center">
-                                <span class="name">
-                                    <span class="name-actual">@item.Name</span>
-                                @if (string.IsNullOrWhiteSpace(item.Description) == false)
-                                {
-                                    <span class="description"><span>@item.Description</span></span>
-                                }
-                                </span>
-                            </div>
-                        </div>
-                    </Cell>
-                </FlowTableColumn>
-                <FlowTableColumn TItem="FlowListModel" Width="10rem"  NoHeight="true">
-                    <Header>
-                        <span class="in-use">
-                            @lblInUse
-                        </span>
-                    </Header>
-                    <Cell Context="item">
-                        @if (item.UsedBy?.Any() == true)
+    <Columns>
+        <FlowTableColumn TItem="FlowListModel"  NoHeight="true">
+            <Header>
+                @Globals.lblName
+            </Header>
+            <Cell Context="item">
+                <div class="table-item">
+                    <span class="icon">
+                        <TableItemIcon Icon="@item.Icon" DefaultIcon="fas fa-sitemap" />
+                    </span>
+                    <div class="center">
+                        <span class="name">
+                            <span class="name-actual">@item.Name</span>
+                        @if (string.IsNullOrWhiteSpace(item.Description) == false)
                         {
-                            <div class="in-use">
-                                <i class="fas fa-check"></i>
-                            </div>
+                            <span class="description"><span>@item.Description</span></span>
                         }
-                    </Cell>
-                </FlowTableColumn>
-               
-            </Columns>
-        </FlowTable>
-
-    </Body>
-
-</PageView>
+                        </span>
+                    </div>
+                </div>
+            </Cell>
+        </FlowTableColumn>
+        <FlowTableColumn TItem="FlowListModel" Width="10rem"  NoHeight="true">
+            <Header>
+                <span class="in-use">
+                    @lblInUse
+                </span>
+            </Header>
+            <Cell Context="item">
+                @if (item.UsedBy?.Any() == true)
+                {
+                    <div class="in-use">
+                        <i class="fas fa-check"></i>
+                    </div>
+                }
+            </Cell>
+        </FlowTableColumn>
+       
+    </Columns>
+</FlowTable>
 
 @if(SelectedType != FlowType.Failure && Loaded && Data.Count == 0)
 {

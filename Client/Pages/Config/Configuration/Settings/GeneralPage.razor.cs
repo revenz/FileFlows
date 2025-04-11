@@ -3,6 +3,7 @@ using FileFlows.Client.Components.Dialogs;
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Shared.Models.Configuration;
 using Microsoft.JSInterop;
 
@@ -27,6 +28,10 @@ public partial class GeneralPage : InputRegister
     /// Gets or sets the navigation manager used
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
 
     /// <summary>
@@ -41,7 +46,7 @@ public partial class GeneralPage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving, lblTestingDatabase;
+    private string lblSaving, lblTestingDatabase;
 
     private GeneralModel Model { get; set; } = new ();
     
@@ -77,7 +82,7 @@ public partial class GeneralPage : InputRegister
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
-        lblTitle = Translater.Instant("Pages.Settings.Labels.General");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.General"), "fas fa-cogs");
         lblSaving = Translater.Instant("Labels.Saving");
         lblTestingDatabase = Translater.Instant("Pages.Settings.Messages.Database.TestingDatabase");
         

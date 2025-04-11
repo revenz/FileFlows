@@ -2,6 +2,7 @@ using System.Text.Json;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Inputs;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Plugin;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
@@ -37,6 +38,10 @@ public partial class Report : ComponentBase
     /// Gets or sets the JS Runtime
     /// </summary>
     [Inject] public IJSRuntime jsRuntime { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
     /// <summary>
     /// Gets or sets the report instance
@@ -129,6 +134,7 @@ public partial class Report : ComponentBase
         ReportName = Translater.Instant($"Reports.{rd.Type}.Name");
         ReportDescription = Translater.Instant($"Reports.{rd.Type}.Description");;
         ReportIcon = rd.Icon;
+        Layout.SetInfo(ReportName, rd.Icon);
         HelpUrl = $"https://fileflows.com/docs/webconsole/admin/reporting/{rd.Type.Kebaberize()}";
 
         // clone the fields as they get wiped

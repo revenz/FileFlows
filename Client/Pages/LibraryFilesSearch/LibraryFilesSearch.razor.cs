@@ -14,7 +14,6 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
 {
     [Inject] private INavigationService NavigationService { get; set; }
     public override string ApiUrl => "/api/library-file";
-    private string Title;
     private string lblSearch, lblSearching, lblClose;
     private string NameMinWidth = "20ch";
     private bool Searched = false;
@@ -37,10 +36,11 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
     
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-file", noPadding: true);
+        
         base.OnInitialized();
         this.lblSearch = Translater.Instant("Labels.Search");
         this.lblClose = Translater.Instant("Labels.Close");
-        this.Title = Translater.Instant("Pages.LibraryFiles.Title");
         this.lblSearching = Translater.Instant("Labels.Searching");
         StatusOptions = new List<ListOption>()
         {

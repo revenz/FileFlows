@@ -5,33 +5,28 @@
 
 @page "/file-drop/auto-tokens"
 
-<PageView Title="@lblTitle" Icon="fas fa-clock" FormPage="true">
-
-<Body>
-    @if (initDone)
+@if (initDone)
+{
+    <p>This feature allows you to configure automated token distribution for each user. For example, you can
+        allocate 10 free tokens daily to each user, with a cap of 100 tokens. If a user already has 90 tokens,
+        they will receive an additional 10, bringing their total to 100. However, if a user has 95 tokens and
+        is eligible for 10 more, the system will still limit their total to 100. Users with more than 100
+        tokens will not receive any additional free tokens.
+    </p>
+    <p>
+        To be eligible for token distribution, the user must have been created for a period longer than the
+        specified timeframe. For example, if the period is set to one week, the user must have an account
+        older than one week in order to receive the tokens.
+    </p>
+    <hr/>
+    <InputSwitch @bind-Value="Model.AutoTokens" Label="Labels.Enabled"/>
+    @if (Model.AutoTokens)
     {
-        <p>This feature allows you to configure automated token distribution for each user. For example, you can
-            allocate 10 free tokens daily to each user, with a cap of 100 tokens. If a user already has 90 tokens,
-            they will receive an additional 10, bringing their total to 100. However, if a user has 95 tokens and
-            is eligible for 10 more, the system will still limit their total to 100. Users with more than 100
-            tokens will not receive any additional free tokens.
-        </p>
-        <p>
-            To be eligible for token distribution, the user must have been created for a period longer than the
-            specified timeframe. For example, if the period is set to one week, the user must have an account
-            older than one week in order to receive the tokens.
-        </p>
-        <hr/>
-        <InputSwitch @bind-Value="Model.AutoTokens" Label="Labels.Enabled"/>
-        @if (Model.AutoTokens)
-        {
-            <InputNumber TItem="Int32" @bind-Value="Model.AutoTokensAmount" Label="Tokens"/>
-            <InputNumber TItem="Int32" @bind-Value="Model.AutoTokensMaximum" Label="Maximum"/>
-            <InputPeriod @bind-Value="Model.AutoTokensPeriodMinutes" Label="Period"
-                         ShowWeeks="false" Seconds="false" ShowMinutes="false"/>
-        }
-        
-        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
+        <InputNumber TItem="Int32" @bind-Value="Model.AutoTokensAmount" Label="Tokens"/>
+        <InputNumber TItem="Int32" @bind-Value="Model.AutoTokensMaximum" Label="Maximum"/>
+        <InputPeriod @bind-Value="Model.AutoTokensPeriodMinutes" Label="Period"
+                     ShowWeeks="false" Seconds="false" ShowMinutes="false"/>
     }
-</Body>
-</PageView>
+    
+    <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
+}

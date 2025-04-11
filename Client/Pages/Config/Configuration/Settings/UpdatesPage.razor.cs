@@ -1,6 +1,7 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -24,7 +25,11 @@ public partial class UpdatesPage : InputRegister
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
     
-
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
+    
     /// <summary>
     /// Gets or sets the frontend service
     /// </summary>
@@ -37,7 +42,7 @@ public partial class UpdatesPage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving, lblCheckNow;
+    private string lblSaving, lblCheckNow;
     
     /// <summary>
     /// The help URL
@@ -56,7 +61,7 @@ public partial class UpdatesPage : InputRegister
             return;
         }
 
-        lblTitle= Translater.Instant("Pages.Settings.Labels.Updates");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Updates"), "fas fa-cloud");
         lblSaving = Translater.Instant("Labels.Saving");
         lblCheckNow = Translater.Instant("Pages.Settings.Labels.CheckNow");
         

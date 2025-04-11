@@ -34,6 +34,7 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.Libraries.Title"), "fas fa-folder");
         Profile = feService.Profile.Profile;
         base.OnInitialized(false);
         lblLastScanned = Translater.Instant("Labels.LastScanned");

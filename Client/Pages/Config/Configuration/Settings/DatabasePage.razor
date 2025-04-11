@@ -1,41 +1,34 @@
 @layout ConfigLayout
 
 @page "/config/database"
-@using Humanizer
+
 @inherits InputRegister
 @namespace FileFlows.Client.Pages.Config.Configuration.Settings
 
-<PageView Title="@lblTitle" Icon="fas fa-database" FormPage="true">
 
-    <Body>
+<p>@lblDbDescription</p>
+<hr />
+<InputSelect @bind-Value="@DbType" Options=@DbTypes Label="Pages.Settings.Fields.Database.Type" AllowClear="false"/>
+@if (Model.DbType is DatabaseType.Sqlite == false)
+{
+    <InputText @bind-Value=@Model.DbServer Label="Pages.Settings.Fields.Database.Server" Validators=@RequiredValidator/>
+    <InputText @bind-Value=@Model.DbName Label="Pages.Settings.Fields.Database.Name" Validators=@RequiredValidator/>
+    <InputNumber @bind-Value=@Model.DbPort Label="Pages.Settings.Fields.Database.Port" Validators=@RequiredValidator Min="1" Max="65535" Help="@GetDatabasePortHelp()"/>
+    <InputText @bind-Value=@Model.DbUser Label="Pages.Settings.Fields.Database.User" Validators=@RequiredValidator/>
+    <InputPassword @bind-Value=@Model.DbPassword Label="Pages.Settings.Fields.Database.Password" Validators=@RequiredValidator/>
+    @if (Model.DbServer != OriginalServer || Model.DbName != OriginalDatabase || Model.DbType != OriginalDbType)
+    {
+        <InputSwitch @bind-Value="@Model.RecreateDatabase" Label="Pages.Settings.Fields.Database.RecreateDatabase"/>
+    }
 
-        <p>@lblDbDescription</p>
-        <hr />
-        <InputSelect @bind-Value="@DbType" Options=@DbTypes Label="Pages.Settings.Fields.Database.Type" AllowClear="false"/>
-        @if (Model.DbType is DatabaseType.Sqlite == false)
-        {
-            <InputText @bind-Value=@Model.DbServer Label="Pages.Settings.Fields.Database.Server" Validators=@RequiredValidator/>
-            <InputText @bind-Value=@Model.DbName Label="Pages.Settings.Fields.Database.Name" Validators=@RequiredValidator/>
-            <InputNumber @bind-Value=@Model.DbPort Label="Pages.Settings.Fields.Database.Port" Validators=@RequiredValidator Min="1" Max="65535" Help="@GetDatabasePortHelp()"/>
-            <InputText @bind-Value=@Model.DbUser Label="Pages.Settings.Fields.Database.User" Validators=@RequiredValidator/>
-            <InputPassword @bind-Value=@Model.DbPassword Label="Pages.Settings.Fields.Database.Password" Validators=@RequiredValidator/>
-            @if (Model.DbServer != OriginalServer || Model.DbName != OriginalDatabase || Model.DbType != OriginalDbType)
-            {
-                <InputSwitch @bind-Value="@Model.RecreateDatabase" Label="Pages.Settings.Fields.Database.RecreateDatabase"/>
-            }
+    <InputSwitch @bind-Value="@Model.DontBackupOnUpgrade" Label="Pages.Settings.Fields.Database.DontBackupOnUpgrade" OnChangedValue="OnDbBackupChange"/>
+}
+<div class="btn-test">
+    @if (Model.DbType is DatabaseType.Sqlite == false)
+    {
+        <button class="btn" @onclick=@TestDbConnection>@lblTest</button>
+    }
+    <button class="btn" @onclick=@Restart>@lblRestart</button>
+</div>
 
-            <InputSwitch @bind-Value="@Model.DontBackupOnUpgrade" Label="Pages.Settings.Fields.Database.DontBackupOnUpgrade" OnChangedValue="OnDbBackupChange"/>
-        }
-        <div class="btn-test">
-            @if (Model.DbType is DatabaseType.Sqlite == false)
-            {
-                <button class="btn" @onclick=@TestDbConnection>@lblTest</button>
-            }
-            <button class="btn" @onclick=@Restart>@lblRestart</button>
-        </div>
-        
-        <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
-    
-    </Body>
-
-</PageView>
+<FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />

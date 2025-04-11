@@ -5,9 +5,6 @@
 
 @page "/file-drop/general"
 
-<PageView Title="@lblTitle" Icon="fas fa-cogs" FormPage="true">
-
-<Body>
 <div class="settings">
     @if (initDone)
     {
@@ -25,5 +22,3 @@
         <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
     }
 </div>
-</Body>
-</PageView>

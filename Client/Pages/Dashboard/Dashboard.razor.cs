@@ -1,6 +1,7 @@
 using System.Diagnostics.Tracing;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
@@ -19,6 +20,10 @@ public partial class Dashboard : ComponentBase, IDisposable
     /// Gets or sets the paused service
     /// </summary>
     [Inject] private IPausedService PausedService { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
 
     /// <summary>
     /// The users profile
@@ -31,22 +36,27 @@ public partial class Dashboard : ComponentBase, IDisposable
     public UpdateInfo? UpdateInfoData;
 
     /// <summary>
-    /// The tabs
+    /// Selected page
     /// </summary>
-    private IFlowTabs Tabs;
+    private int SelectedPage;
+
+    /// <summary>
+    /// The skybox
+    /// </summary>
+    private FlowSkyBox<int> Skybox;
 
     /// <summary>
     /// Translations
     /// </summary>
-    private string lblTitle, lblDashboard, lblSavings, lblUpdates, lblStatistics, lblNodes, lblRunners;
+    private string  lblOverview, lblSavings, lblStatistics, lblNodes, lblRunners;
 
     private bool loaded = false;
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        lblTitle = Translater.Instant("Pages.Dashboard.Title");
-        lblDashboard = Translater.Instant("Pages.Dashboard.Tabs.Dashboard");
+        Layout.SetInfo(Translater.Instant("Pages.Dashboard.Title"), "fas fa-chart-pie");
+        lblOverview = Translater.Instant("Pages.Dashboard.Tabs.Overview");
         lblSavings = Translater.Instant("Pages.Dashboard.Tabs.Savings");
         lblStatistics = Translater.Instant("Pages.Dashboard.Tabs.Statistics");
         lblNodes = Translater.Instant("Pages.Nodes.Title");
@@ -56,17 +66,67 @@ public partial class Dashboard : ComponentBase, IDisposable
         
         feService.Dashboard.UpdateInfoUpdated += OnUpdatesUpdateInfo;
         Profile = feService.Profile.Profile;
+        
 
         if(App.Instance.IsMobile)
             PausedService.OnPausedLabelChanged += OnPausedLabelChanged;
         //await Refresh();
         
+        StateHasChanged();
+            
         loaded = true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender && Skybox != null)
+            SetSkyBoxItems();
+    }
+
+    private void SetSkyBoxItems()
+    {
+        if (Skybox == null)
+            return;
+        bool hasUpdates = feService.Dashboard.CurrentUpdatesInfo?.HasUpdates == true;
+        if (SelectedPage == 2 && hasUpdates == false)
+            SelectedPage = 0;
+        Skybox.SetItems(new List<FlowSkyBoxItem<int>>()
+        {
+            new()
+            {
+                Name = lblOverview,
+                Icon = "fas fa-chart-pie",
+                Value = 0
+            },
+            new()
+            {
+                Name = lblSavings,
+                Icon = "fas fa-dollar-sign",
+                Value = 1
+            },
+            hasUpdates ? new()
+            {
+                Name = Translater.Instant("Pages.Dashboard.Widgets.System.Updates",  new { count = 0 }),
+                Icon = "fas fa-cloud-download-alt",
+                Value = 2
+            } : null
+        }.Where(x => x != null).ToList(),
+            SelectedPage);
         StateHasChanged();
     }
 
     private void OnPausedLabelChanged(string label)
     {
+        StateHasChanged();
+    }
+    
+    /// <summary>
+    /// Sets the selected skybox item
+    /// </summary>
+    /// <param name="item">the skybox item</param>
+    private void SetSelected(FlowSkyBoxItem<int> item)
+    {
+        SelectedPage = item.Value;
         StateHasChanged();
     }
 
@@ -77,16 +137,8 @@ public partial class Dashboard : ComponentBase, IDisposable
     private void OnUpdatesUpdateInfo(UpdateInfo info)
     {
         UpdateInfoData = info;
-        int count = UpdateInfoData?.NumberOfUpdates ?? 0;
-        lblUpdates = Translater.Instant("Pages.Dashboard.Widgets.System.Updates",
-                 new { count = 0 });
+        SetSkyBoxItems();
         StateHasChanged();
-        if (count == 0 && Tabs?.ActiveTab?.Uid == "updates")
-        {
-            Tabs.SelectFirstTab(true);
-        }
-        else
-            Tabs?.TriggerStateHasChanged();
     }
 
     
@@ -97,7 +149,7 @@ public partial class Dashboard : ComponentBase, IDisposable
     {
         if (UpdateInfoData.HasUpdates)
         {
-            Tabs?.SelectTabByUid("updates");
+            // Tabs?.SelectTabByUid("updates");
         }
     }
 

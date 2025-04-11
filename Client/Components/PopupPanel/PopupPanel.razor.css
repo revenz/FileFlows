@@ -8,6 +8,7 @@
   top: 0.6rem;
   right: 1.25rem;
   cursor: pointer;
+  z-index: 1000;
 }
 .popup-panel-button.opened {
   background: var(--base-lighter) !important;

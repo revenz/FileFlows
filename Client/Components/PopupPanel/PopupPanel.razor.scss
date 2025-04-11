@@ -13,6 +13,7 @@ $zindex: 1000;
   top: 0.6rem;
   right: 1.25rem;
   cursor: pointer;
+  z-index: 1000;
   &.opened {
     background:$bkg !important;
     border-bottom-left-radius: 0 !important;

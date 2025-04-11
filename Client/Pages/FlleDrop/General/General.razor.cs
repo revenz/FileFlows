@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -24,6 +25,10 @@ public partial class General
     /// Gets or sets the frotnend service
     /// </summary>
     [Inject] protected FrontendService feService { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
     /// <summary>
     /// Gets the profile
@@ -31,7 +36,7 @@ public partial class General
     protected Profile Profile { get; private set; }
     private bool IsSaving { get; set; }
 
-    private string lblTitle, lblSaving;
+    private string lblSaving;
 
     private const string HelpUrl = "https://fileflows.com/docs/file-drop/config/general";
 
@@ -48,7 +53,7 @@ public partial class General
             return;
         }
 
-        lblTitle = "General";
+        Layout.SetInfo("General", "fas fa-cogs");
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

@@ -4,109 +4,98 @@
 
 @page "/libraries"
 
-<PageView ClassName="flex">
 
-    <Head>
-    </Head>
+<FlowTable @ref="Table" Data="@Data" TItem="LibraryListModel" Selection="SelectionMode.Multiple"
+    DoubleClick="@OnDoubleClick" TableIdentifier="Libraries" DisableColumn="(item) => !item.Enabled">
+    <ToolBar>            
+        <FlowTableButton Mobile="false" Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+        <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
+        <FlowTableButton Mobile="false" Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
+        <FlowTableButtonSeparator />            
+        <FlowTableButton Clicked=Rescan SelectedOneOrMore=true Icon="fas fa-search-plus" Label="Labels.Rescan" />
+        <FlowTableButton Mobile="false" Clicked=Duplicate SelectedOne="true" Icon="fas fa-clone" Label="Labels.Duplicate" />
+        @if (Profile != null && Profile.LicensedFor(LicenseFlags.Revisions) && Profile.HasRole(UserRole.Revisions))
+        {
+            <FlowTableButton Mobile="false" Clicked=Revisions SelectedOne="true" Icon="fas fa-history" Label="Labels.Revisions" />
+        }
+        @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
+        {
+            <FlowTableButton Mobile="false" Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
+        }
+        <FlowTableButton Clicked=Reset SelectedOneOrMore=true Area="ButtonArea.ContextMenu" Icon="fas fa-sync-alt" Label="Labels.Reset" />
+        <FlowTableButtonSeparator Mobile="false" />
+        <FlowTableHelpButton Mobile="false" HelpUrl="libraries" />
+    </ToolBar>
 
-    <Body>
-        
-        <FlowTable @ref="Table" Data="@Data" TItem="LibraryListModel" Selection="SelectionMode.Multiple"
-            DoubleClick="@OnDoubleClick" TableIdentifier="Libraries" DisableColumn="(item) => !item.Enabled">
-            <ToolBar>            
-                <FlowTableButton Mobile="false" Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
-                <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
-                <FlowTableButton Mobile="false" Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
-                <FlowTableButtonSeparator />            
-                <FlowTableButton Clicked=Rescan SelectedOneOrMore=true Icon="fas fa-search-plus" Label="Labels.Rescan" />
-                <FlowTableButton Mobile="false" Clicked=Duplicate SelectedOne="true" Icon="fas fa-clone" Label="Labels.Duplicate" />
-                @if (Profile != null && Profile.LicensedFor(LicenseFlags.Revisions) && Profile.HasRole(UserRole.Revisions))
-                {
-                    <FlowTableButton Mobile="false" Clicked=Revisions SelectedOne="true" Icon="fas fa-history" Label="Labels.Revisions" />
-                }
-                @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
-                {
-                    <FlowTableButton Mobile="false" Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
-                }
-                <FlowTableButton Clicked=Reset SelectedOneOrMore=true Area="ButtonArea.ContextMenu" Icon="fas fa-sync-alt" Label="Labels.Reset" />
-                <FlowTableButtonSeparator Mobile="false" />
-                <FlowTableHelpButton Mobile="false" HelpUrl="libraries" />
-            </ToolBar>
-
-            <Columns>
-                <FlowTableColumn TItem="LibraryListModel" NoHeight="true">
-                    <Header>
-                        @Translater.Instant("Pages.Libraries.Title")
-                    </Header>
-                    <Cell Context="item">
-                        <div class="table-item">
-                            <span class="icon">
-                                <i class="icon @GetPriorityIcon(item)"></i>
-                            </span>
-                            <div class="center">
-                                <span class="name">
-                                    <span class="name">@item.Name</span>
-                                    <span class="page">@item.Path</span>
-                                </span>
-                                <div class="info">
-                                    @if (item.Uid != CommonVariables.ManualLibraryUid)
-                                    {
-                                        <IconValue Icon="fas fa-sitemap" Color="IconValueColor.Blue"
-                                                   Value="@item.Flow?.Name" OnClick="() => OpenFlow(item.Flow?.Uid)"/>
-                                    }
-                                </div>
-                            </div>
+    <Columns>
+        <FlowTableColumn TItem="LibraryListModel" NoHeight="true">
+            <Header>
+                @Translater.Instant("Pages.Libraries.Title")
+            </Header>
+            <Cell Context="item">
+                <div class="table-item">
+                    <span class="icon">
+                        <i class="icon @GetPriorityIcon(item)"></i>
+                    </span>
+                    <div class="center">
+                        <span class="name">
+                            <span class="name">@item.Name</span>
+                            <span class="page">@item.Path</span>
+                        </span>
+                        <div class="info">
+                            @if (item.Uid != CommonVariables.ManualLibraryUid)
+                            {
+                                <IconValue Icon="fas fa-sitemap" Color="IconValueColor.Blue"
+                                           Value="@item.Flow?.Name" OnClick="() => OpenFlow(item.Flow?.Uid)"/>
+                            }
                         </div>
-                    </Cell>
-                </FlowTableColumn>
-                <FlowTableColumn TItem="LibraryListModel" Width="9rem" MobileWidth="0">
-                    <Header>
-                        @lblLastScanned
-                    </Header>
-                    <Cell Context="item">
-                        <span>@TimeSpanToString(item)</span>
-                    </Cell>
-                </FlowTableColumn>
-                <FlowTableColumn TItem="LibraryListModel" Width="6rem" MobileWidth="4rem">
-                    <Header>
-                        @Globals.lblEnabled
-                    </Header>
-                    <Cell Context="item">
-                        @if (item.Uid == CommonVariables.ManualLibraryUid)
-                        {
-                            <FlowSwitch Value="true" ReadOnly="true" />
-                        }
-                        else
-                        {
-                            <FlowSwitch Value="@item.Enabled" ValueChanged="@(args =>
-                                                                            {
-                                                                                item.Enabled = args;
-                                                                                Enable(args, item);
-                                                                            })"/>
-                        }
+                    </div>
+                </div>
+            </Cell>
+        </FlowTableColumn>
+        <FlowTableColumn TItem="LibraryListModel" Width="9rem" MobileWidth="0">
+            <Header>
+                @lblLastScanned
+            </Header>
+            <Cell Context="item">
+                <span>@TimeSpanToString(item)</span>
+            </Cell>
+        </FlowTableColumn>
+        <FlowTableColumn TItem="LibraryListModel" Width="6rem" MobileWidth="4rem">
+            <Header>
+                @Globals.lblEnabled
+            </Header>
+            <Cell Context="item">
+                @if (item.Uid == CommonVariables.ManualLibraryUid)
+                {
+                    <FlowSwitch Value="true" ReadOnly="true" />
+                }
+                else
+                {
+                    <FlowSwitch Value="@item.Enabled" ValueChanged="@(args =>
+                                                                    {
+                                                                        item.Enabled = args;
+                                                                        Enable(args, item);
+                                                                    })"/>
+                }
 
-                    </Cell>
-                </FlowTableColumn>
-                <FlowTableColumn TItem="LibraryListModel" Width="16rem" MobileWidth="0" NoHeight="true">
-                    <Header>
-                    </Header>
-                    <Cell Context="item">
-                        @if (item.Uid != CommonVariables.ManualLibraryUid && item.OriginalSize > 0)
-                        {
-                            <span class="top-right">@Translater.Instant("Pages.Libraries.Labels.Files", new { TotalFiles = item.Files, TotalString = item.Files.ToString("#,##0") })</span>
-                            <div class="savings-bar">
-                                <FlowSavings FinalSize="item.FinalSize" OriginalSize="item.OriginalSize"/>
-                            </div>
-                        }
-                    </Cell>
-                </FlowTableColumn>
-            </Columns>
-        </FlowTable>
-
-    </Body>
-
-</PageView>
-
+            </Cell>
+        </FlowTableColumn>
+        <FlowTableColumn TItem="LibraryListModel" Width="16rem" MobileWidth="0" NoHeight="true">
+            <Header>
+            </Header>
+            <Cell Context="item">
+                @if (item.Uid != CommonVariables.ManualLibraryUid && item.OriginalSize > 0)
+                {
+                    <span class="top-right">@Translater.Instant("Pages.Libraries.Labels.Files", new { TotalFiles = item.Files, TotalString = item.Files.ToString("#,##0") })</span>
+                    <div class="savings-bar">
+                        <FlowSavings FinalSize="item.FinalSize" OriginalSize="item.OriginalSize"/>
+                    </div>
+                }
+            </Cell>
+        </FlowTableColumn>
+    </Columns>
+</FlowTable>
 @if(HasCreatedLibraries == false)
 {
     <div class="pointer-add">@lblAdd</div>

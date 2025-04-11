@@ -4,6 +4,7 @@ using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Models;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Plugin;
 using FileFlows.Shared.Models.Configuration;
 using Microsoft.AspNetCore.Components;
@@ -27,6 +28,10 @@ public partial class DatabasePage : InputRegister
     /// Gets or sets the navigation manager used
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
 
     /// <summary>
@@ -41,7 +46,7 @@ public partial class DatabasePage : InputRegister
 
     private bool IsSaving { get; set; }
 
-    private string lblTitle,  lblSaving,  lblDbDescription, lblTest, lblRestart, lblTestingDatabase;
+    private string lblSaving, lblDbDescription, lblTest, lblRestart, lblTestingDatabase;
 
     private string OriginalDatabase, OriginalServer;
     private DatabaseType OriginalDbType;
@@ -88,8 +93,8 @@ public partial class DatabasePage : InputRegister
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Database"), "fas fa-database");
         Profile = feService.Profile.Profile;
-        lblTitle = Translater.Instant("Pages.Settings.Labels.Database");
         lblSaving = Translater.Instant("Labels.Saving");
         lblDbDescription = Translater.Instant("Pages.Settings.Fields.Database.Description");
         lblTest = Translater.Instant("Labels.Test");

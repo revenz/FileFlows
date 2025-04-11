@@ -12,7 +12,7 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
     public override string ApiUrl => "/api/task";
 
     private string lblLastRun, lblNever, lblTrigger;
-    private string lblTitle, lblRunAt, lblSuccess, lblReturnCode, lblEditScript;
+    private string lblRunAt, lblSuccess, lblReturnCode, lblEditScript;
 
     private enum TimeSchedule
     {
@@ -49,7 +49,7 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
     
     protected override void OnInitialized()
     {
-        lblTitle = Translater.Instant("Pages.Tasks.Title");
+        Layout.SetInfo(Translater.Instant("Pages.Tasks.Title"), "fas fa-clock");
         lblNever = Translater.Instant("Labels.Never");
         lblLastRun = Translater.Instant("Labels.LastRun");
         lblTrigger = Translater.Instant("Labels.Trigger");

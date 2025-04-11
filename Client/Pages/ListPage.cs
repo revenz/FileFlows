@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Helpers;
 using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 
 namespace FileFlows.Client.Pages;
 
@@ -31,6 +32,10 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     /// Gets or sets the editor
     /// </summary>
     [CascadingParameter] public Editor Editor { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     /// <summary>
     /// Translations
     /// </summary>

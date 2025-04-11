@@ -7,77 +7,68 @@
 
 @page "/config/dockermods"
 
-<PageView ClassName="flex" Title="@lblTitle" Icon="fab fa-docker">
 
-    <Head>
-    </Head>
+<FlowTable @ref="Table" Data="@Data" TItem="DockerMod" Selection="SelectionMode.Multiple"
+    DoubleClick="@DoubleClick" TableIdentifier="DockerMods"  DisableColumn="(item) => !item.Enabled">
+    <ToolBar>            
+        <FlowTableButton Mobile="false" Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+        <FlowTableButton Mobile="false" Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
+        <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
+        <FlowTableButton Clicked=Export SelectedOne="true" Icon="fas fa-file-export" Label="Labels.Export" Area="ButtonArea.ContextMenu" />
+        <FlowTableButtonSeparator Mobile="false" />
+        <FlowTableButton Mobile="false" Clicked=MoveUp Icon="fas fa-arrow-up" Label="Pages.AccessControl.Buttons.MoveUp" SelectedOneOrMore="true" />
+        <FlowTableButton Mobile="false" Clicked=MoveDown Icon="fas fa-arrow-down" Label="Pages.AccessControl.Buttons.MoveDown" SelectedOneOrMore="true" />
+        <FlowTableButtonSeparator Mobile="false" />
+        <FlowTableButton Clicked=OpenBrowser Icon="fas fa-code-branch" Label="Labels.Repository"/>
+        <FlowTableButton Mobile="false" Clicked=Update SelectedOneOrMore="true" Icon="fas fa-cloud-download-alt" Label="Labels.Update" />
+        @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
+        {  
+            <FlowTableButton Mobile="false" Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
+        }
+        <FlowTableButtonSeparator Mobile="false" />               
+        <FlowTableHelpButton HelpUrl="config/extensions/dockermods" />
+    </ToolBar>
 
-    <Body>
-        
-        <FlowTable @ref="Table" Data="@Data" TItem="DockerMod" Selection="SelectionMode.Multiple"
-            DoubleClick="@DoubleClick" TableIdentifier="DockerMods"  DisableColumn="(item) => !item.Enabled">
-            <ToolBar>            
-                <FlowTableButton Mobile="false" Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
-                <FlowTableButton Mobile="false" Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
-                <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
-                <FlowTableButton Clicked=Export SelectedOne="true" Icon="fas fa-file-export" Label="Labels.Export" Area="ButtonArea.ContextMenu" />
-                <FlowTableButtonSeparator Mobile="false" />
-                <FlowTableButton Mobile="false" Clicked=MoveUp Icon="fas fa-arrow-up" Label="Pages.AccessControl.Buttons.MoveUp" SelectedOneOrMore="true" />
-                <FlowTableButton Mobile="false" Clicked=MoveDown Icon="fas fa-arrow-down" Label="Pages.AccessControl.Buttons.MoveDown" SelectedOneOrMore="true" />
-                <FlowTableButtonSeparator Mobile="false" />
-                <FlowTableButton Clicked=OpenBrowser Icon="fas fa-code-branch" Label="Labels.Repository"/>
-                <FlowTableButton Mobile="false" Clicked=Update SelectedOneOrMore="true" Icon="fas fa-cloud-download-alt" Label="Labels.Update" />
-                @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
-                {  
-                    <FlowTableButton Mobile="false" Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
-                }
-                <FlowTableButtonSeparator Mobile="false" />               
-                <FlowTableHelpButton HelpUrl="config/extensions/dockermods" />
-            </ToolBar>
-
-            <Columns>
-                <FlowTableColumn TItem="DockerMod" NoHeight="true">
-                    <Header>
-                        @Globals.lblName
-                    </Header>
-                    <Cell Context="item">
-                        <div class="table-item">
-                            <TableItemIcon Icon="@item.Icon" DefaultIcon="fab fa-docker" />
-                            <div class="center">
-                                @{
-                                    string key = item.Name.Replace(".", "").Replace("-", "").Dehumanize();
-                                    string label = Translater.TranslateIfHasTranslation($"DockerMods.{key}.Label", item.Name);
-                                    string description = Translater.TranslateIfHasTranslation($"DockerMods.{key}.Description", item.Description);
-                                }
-                                <span class="name"><span class="name-actual">@label</span></span>
-                                <span class="description">@description</span>
-                                <div class="info">
-                                    @if (item.LatestRevision > item.Revision)
-                                    {
-                                        <IconValue Color="IconValueColor.Pink" OnClick="() => _ = Update(item.Uid)" 
-                                                   Icon="fas fa-cloud-download-alt" Value="@item.LatestRevision.ToString()" />
-                                    }
-                                </div>
-                            </div>
-                            <div class="right">
-                                @if (item.LatestRevision > item.Revision)
-                                {
-                                    <span class="top-right warning">@lblUpdateAvailable</span>
-                                }
-                                else
-                                {
-                                    <span class="top-right">@lblRevision: @item.Revision</span>
-                                }
-                                <FlowSwitch Value="@item.Enabled" ValueChanged="@(args => { item.Enabled = args; Enable(args, item); })"/>
-                            </div>
+    <Columns>
+        <FlowTableColumn TItem="DockerMod" NoHeight="true">
+            <Header>
+                @Globals.lblName
+            </Header>
+            <Cell Context="item">
+                <div class="table-item">
+                    <TableItemIcon Icon="@item.Icon" DefaultIcon="fab fa-docker" />
+                    <div class="center">
+                        @{
+                            string key = item.Name.Replace(".", "").Replace("-", "").Dehumanize();
+                            string label = Translater.TranslateIfHasTranslation($"DockerMods.{key}.Label", item.Name);
+                            string description = Translater.TranslateIfHasTranslation($"DockerMods.{key}.Description", item.Description);
+                        }
+                        <span class="name"><span class="name-actual">@label</span></span>
+                        <span class="description">@description</span>
+                        <div class="info">
+                            @if (item.LatestRevision > item.Revision)
+                            {
+                                <IconValue Color="IconValueColor.Pink" OnClick="() => _ = Update(item.Uid)" 
+                                           Icon="fas fa-cloud-download-alt" Value="@item.LatestRevision.ToString()" />
+                            }
                         </div>
-                            
-                    </Cell>
-                </FlowTableColumn>
-            </Columns>
-        </FlowTable>
-    </Body>
-
-</PageView>
+                    </div>
+                    <div class="right">
+                        @if (item.LatestRevision > item.Revision)
+                        {
+                            <span class="top-right warning">@lblUpdateAvailable</span>
+                        }
+                        else
+                        {
+                            <span class="top-right">@lblRevision: @item.Revision</span>
+                        }
+                        <FlowSwitch Value="@item.Enabled" ValueChanged="@(args => { item.Enabled = args; Enable(args, item); })"/>
+                    </div>
+                </div>
+                    
+            </Cell>
+        </FlowTableColumn>
+    </Columns>
+</FlowTable>
 
 <RepositoryBrowser @ref="Browser" Type="DockerMod" Icons="true" Icon="fab fa-docker" />

@@ -1,7 +1,7 @@
 .blocker {
     background: rgba(var(--base-darkest-rgb), 0.9);
-    z-index:1000;
-    position: absolute;
+    z-index:100;
+    position: fixed;
     top: 0;
     right: 0;
     left: 0;
