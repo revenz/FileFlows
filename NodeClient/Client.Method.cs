@@ -295,16 +295,16 @@ public partial class Client
         }
     }
     
-    private async Task<bool> HandleClientProcessFile(RunFileArguments args)
+    private async Task<FileCheckResult> HandleClientProcessFile(RunFileArguments args)
     {
         await EnsureRegisteredAsync();
-        _logger.ILog("Handling process file request...");
+        //_logger.ILog("Handling process file request...");
         try
         {
-            _logger.ILog($"Trying to start runner for: {args.LibraryFile.Name}");
-            bool result = await _runnerManager.TryStartRunner(this, args, _node, _configurationService.CurrentConfig!);
-            _logger.ILog($"Process file result: {result}");
-            if (result)
+            //_logger.ILog($"Trying to start runner for: {args.LibraryFile.Name}");
+            var result = await _runnerManager.TryStartRunner(this, args, _node, _configurationService.CurrentConfig!);
+            //_logger.ILog($"Process file result: {result}");
+            if (result == FileCheckResult.CanProcess)
                 TriggerStatusUpdate();
             else if (_runnerManager.ActiveRunners.ContainsKey(args.LibraryFile.Uid))
                 _runnerManager.ActiveRunners.Remove(args.LibraryFile.Uid);
@@ -313,7 +313,7 @@ public partial class Client
         catch (Exception ex)
         {
             _logger.ELog($"Error processing file: {ex.Message}");
-            return false;
+            return FileCheckResult.UnknownError;
         }
     }
 

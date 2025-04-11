@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using FileFlows.Common;
 using FileFlows.Helpers;
 using FileFlows.RemoteServices;
+using FileFlows.ServerShared;
 using FileFlows.ServerShared.Models;
 using FileFlows.ServerShared.Services;
 using FileFlows.Shared;
@@ -90,7 +91,7 @@ public partial class Client : IDisposable
             .WithAutomaticReconnect(_retryPolicyLoop)
             .Build();
 
-        _connection.On<RunFileArguments, bool>("ClientProcessFile", HandleClientProcessFile);
+        _connection.On<RunFileArguments, FileCheckResult>("ClientProcessFile", HandleClientProcessFile);
         _connection.On<ProcessingNode>("NodeUpdated", UpdateNode);
         _connection.On<int>("ConfigUpdated", UpdateConfiguration);
         _connection.On<Guid, bool>("AbortFile", AbortFile);

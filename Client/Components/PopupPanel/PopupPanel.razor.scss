@@ -118,10 +118,10 @@ $zindex: 1000;
   display:none;
 }
 
-.runners {
+.runners, .notifications {
   display: flex;
   flex-direction: column;
-  max-height: min(22rem, 50vh);
+  max-height: min(36rem, 50vh);
   overflow: auto;
 }
 

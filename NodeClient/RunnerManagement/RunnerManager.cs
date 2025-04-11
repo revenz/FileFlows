@@ -61,33 +61,24 @@ public class RunnerManager
     /// <param name="node">the processing node</param>
     /// <param name="config">the current configuration</param>
     /// <returns>True if the runner was started, otherwise false.</returns>
-    public async Task<bool> TryStartRunner(Client client, RunFileArguments args, ProcessingNode node, ConfigurationRevision config)
+    public async Task<FileCheckResult> TryStartRunner(Client client, RunFileArguments args, ProcessingNode node, ConfigurationRevision config)
     {
         if (await _runnerSemaphore.WaitAsync(10_000) == false)
-            return false;
+            return FileCheckResult.UnknownError;
 
         try
         {
             int maxRunners = args.MaxRunnersOnNode;
 
             if (_activeRunners.Count >= maxRunners)
-            {
-                Logger.ILog($"At maximum number of runners reached ({_activeRunners.Count} vs {maxRunners}).");
-                return false;
-            }
+                return FileCheckResult.AtMaximumRunners;
 
             if (args.CanRunPreExecuteCheck && PreExecuteScriptTest(node, _activeRunners.Count, config) == false)
-            {
-                Logger.ILog("Pre-execute check failed");
-                return false;
-            }
+                return FileCheckResult.PreCheckFailed;
 
             var tempPath = GetTempPath(node);
             if (tempPath == null)
-            {
-                Logger.ILog("Failed to locate temp path.");
-                return false;
-            }
+                return FileCheckResult.FailedToLocateTempPath;
 
             // move the file as Processing
             var lf = args.LibraryFile;
@@ -104,10 +95,13 @@ public class RunnerManager
 
             var cfgService = ServiceLoader.Load<ConfigurationService>();
             var flow = cfgService.CurrentConfig?.Flows.FirstOrDefault(x => x.Uid == args.FlowUid);
+            if (flow == null)
+                return FileCheckResult.FlowNotFound;
+            
             lf.Flow = new()
             {
                 Uid = args.FlowUid,
-                Name = flow?.Name,
+                Name = flow.Name,
                 Type = typeof(Flow).FullName!
             };
 
@@ -117,19 +111,18 @@ public class RunnerManager
                 if (await client.FileStartProcessing(lf) == false)
                 {
                     _activeRunners.TryRemove(runner.Id, out _);
-                    Logger.ILog("FileStartProcessing failed: " + lf.Name);
                     // abort, could not start processing file
-                    return false;
+                    return FileCheckResult.CannotProcess;
                 }
                 Logger.ILog("Starting runner: " + runner.Id + " : " + lf.Name);
                 runner.Start(lf);
                 EventManager.Broadcast(EventNames.RUNNERS_UPDATED, _activeRunners.Count);
                 RunnerUpdated?.Invoke();
-                return true;
+                return FileCheckResult.CanProcess;
             }
 
             Logger.ILog("Failed to add runner");
-            return false;
+            return FileCheckResult.CannotProcess;
         }
         finally
         {

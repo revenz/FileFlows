@@ -47,12 +47,12 @@ public class NodeHubBridge : INodeHubService
     }
 
     /// <inheritdoc/>
-    public async Task<Result<bool>> ProcessFile(Guid nodeUid, LibraryFile file, Guid flowUid, string connectionId, int maxNodeRunners)
+    public async Task<Result<FileCheckResult>> ProcessFile(Guid nodeUid, LibraryFile file, Guid flowUid, string connectionId, int maxNodeRunners)
     {
         try
         {
             return await _hubContext.Clients.Client(connectionId)
-                .InvokeAsync<bool>("ClientProcessFile", new RunFileArguments()
+                .InvokeAsync<FileCheckResult>("ClientProcessFile", new RunFileArguments()
                 {
                     LibraryFile = file,
                     FlowUid = flowUid,
@@ -63,7 +63,7 @@ public class NodeHubBridge : INodeHubService
         }
         catch (Exception ex)
         {
-            return Result<bool>.Fail($"Failed to communicate with node: {ex.Message}");
+            return Result<FileCheckResult>.Fail($"Failed to communicate with node: {ex.Message}");
         }
     }
 
