@@ -39,6 +39,13 @@
       }
       ::deep .row {
         margin:0.5rem 0 !important;
+        .input-label {
+          width: 18rem;
+          min-width: 18rem;
+        }
+      }
+      ::deep .form-page-buttons {
+        margin: 2rem 0 0 18rem;
       }
       &:has(> .row) {
         padding: 1rem 2rem; 

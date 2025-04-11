@@ -40,6 +40,13 @@
   .configuration-layout .config-content ::deep .row {
     margin: 0.5rem 0 !important;
   }
+  .configuration-layout .config-content ::deep .row .input-label {
+    width: 18rem;
+    min-width: 18rem;
+  }
+  .configuration-layout .config-content ::deep .form-page-buttons {
+    margin: 2rem 0 0 18rem;
+  }
   .configuration-layout .config-content:has(> .row) {
     padding: 1rem 2rem;
   }
