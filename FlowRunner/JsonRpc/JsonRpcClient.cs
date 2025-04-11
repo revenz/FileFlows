@@ -100,11 +100,14 @@ public class JsonRpcClient : IDisposable
                 {
                     try
                     {
-                        #if(DEBUG)
-                        _ = Basic.LogMessage("Json Message Received: " + message);
-                        #else
+                        if (message.Contains("{\"Id\":1,") == false)
+                        {
+#if(DEBUG)
+                            _ = Basic.LogMessage("Json Message Received: " + message);
+#else
                         Console.WriteLine("Json Message Received: " + message);
-                        #endif
+#endif
+                        }
 
                         var rpcMessage = JsonSerializer.Deserialize<RpcMessage>(message);
                         if (rpcMessage?.Method == "Abort")
@@ -168,6 +171,11 @@ public class JsonRpcClient : IDisposable
         {
             // Write the request to the server
             var requestJson = JsonSerializer.Serialize(request);
+#if(DEBUG)
+            _ = Basic.LogMessage("Json Message Sent: " + requestJson);
+#else
+            Console.WriteLine("Json Message Sent: " + requestJson);
+#endif
             await writer.WriteLineAsync(requestJson);
 
             // Wait for the response and return the deserialized result
@@ -207,6 +215,11 @@ public class JsonRpcClient : IDisposable
         await streamLock.WaitAsync();
         try
         {
+#if(DEBUG)
+            _ = Basic.LogMessage("Json Message Sent: " + request);
+#else
+            Console.WriteLine("Json Message Sent: " + request);
+#endif
             // Write the request to the server
             var requestJson = JsonSerializer.Serialize(request);
             await writer.WriteLineAsync(requestJson);
