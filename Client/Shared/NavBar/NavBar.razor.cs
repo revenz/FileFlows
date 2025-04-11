@@ -90,6 +90,9 @@ public partial class NavBar
 
         ProfileService.OnRefresh += ProfileServiceOnOnRefresh; 
         Profile = feService.Profile.Profile;
+        
+        PausedService.OnPaused += OnPaused;
+        PausedService.OnResume += OnResume;
 
         TotalUnprocessed = feService.Files.Unprocessed.Count;
         TotalProcessing = feService.Files.Processing.Count;
@@ -137,6 +140,15 @@ public partial class NavBar
             // ignored
         }
     }
+    /// <summary>
+    /// Called when the system is paused
+    /// </summary>
+    private void OnPaused() => StateHasChanged();
+
+    /// <summary>
+    /// Called when the system is resumed
+    /// </summary>
+    private void OnResume() => StateHasChanged();
 
     /// <summary>
     /// Called when notifications are updated

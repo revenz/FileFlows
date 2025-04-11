@@ -2,24 +2,6 @@ using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Services.Frontend;
 
 namespace FileFlows.Client.Services;
-/// <summary>
-/// Represents the method that handles the PausedLabelChanged event.
-/// </summary>
-/// <param name="label">The argument passed to the event handler.</param>
-/// <returns>A task representing the asynchronous operation.</returns>
-public delegate void OnPausedLabelChangedEventHandler(string label);
-
-/// <summary>
-/// Represents the method that handles the OnPaused event.
-/// </summary>
-/// <returns>A task representing the asynchronous operation.</returns>
-public delegate Task OnPausedEventHandler();
-
-/// <summary>
-/// Represents the method that handles the OnResume event.
-/// </summary>
-/// <returns>A task representing the asynchronous operation.</returns>
-public delegate Task OnResumeEventHandler();
 
 /// <summary>
 /// Service that monitors the system's paused status.
@@ -34,6 +16,10 @@ public interface IPausedService
     /// Gets if the system is paused
     /// </summary>
     bool IsPaused { get; }
+    /// <summary>
+    /// Gets if the system is paused indefinitely
+    /// </summary>
+    bool PausedIndefinitely { get; }
     /// <summary>
     /// Toggles the paused system
     /// </summary>
@@ -51,17 +37,17 @@ public interface IPausedService
     /// <summary>
     /// Occurs when the paused label changes.
     /// </summary>
-    event OnPausedLabelChangedEventHandler OnPausedLabelChanged;
+    event Action<string>? OnPausedLabelChanged;
 
     /// <summary>
     /// Occurs when the system is paused.
     /// </summary>
-    event OnPausedEventHandler OnPaused;
+    event Action? OnPaused;
 
     /// <summary>
     /// Occurs when the system resumes from a paused state.
     /// </summary>
-    event OnResumeEventHandler OnResume;
+    event Action? OnResume;
 }
 
 /// <summary>
@@ -77,7 +63,7 @@ public class PausedService : IPausedService, IDisposable
     public string PausedLabel { get; private set; }
     
     /// <summary>
-    /// Gets if the system is paused indefinetly
+    /// Gets if the system is paused indefinitely
     /// </summary>
     public bool PausedIndefinitely { get; private set; }
 
@@ -213,9 +199,12 @@ public class PausedService : IPausedService, IDisposable
         }
     }
 
-    public event OnPausedLabelChangedEventHandler OnPausedLabelChanged;
-    public event OnPausedEventHandler OnPaused;
-    public event OnResumeEventHandler OnResume;
+    /// <inheritdoc />
+    public event Action<string>? OnPausedLabelChanged;
+    /// <inheritdoc />
+    public event Action? OnPaused;
+    /// <inheritdoc />
+    public event Action? OnResume;
 
     /// <summary>
     /// Disposes of the service

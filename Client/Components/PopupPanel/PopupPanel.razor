@@ -37,7 +37,7 @@
     {
         <text>
             <i class="fas fa-pause" style="color:var(--orange)"></i>
-            @(PausedService.IsPaused ? lblPaused :  PausedService.PausedLabel)
+            @(PausedService.PausedIndefinitely ? lblPaused :  PausedService.PausedLabel)
         </text>
     }
     else
