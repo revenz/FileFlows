@@ -114,7 +114,7 @@ public class RunnerManager
                     // abort, could not start processing file
                     return FileCheckResult.CannotProcess;
                 }
-                Logger.ILog("Starting runner: " + runner.Id + " : " + lf.Name);
+                Logger.ILog($"[{runner.Id}]: Starting runner: " + runner.Id + " : " + lf.Name);
                 runner.Start(lf);
                 EventManager.Broadcast(EventNames.RUNNERS_UPDATED, _activeRunners.Count);
                 RunnerUpdated?.Invoke();

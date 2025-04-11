@@ -75,7 +75,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         }
         catch (Exception ex)
         {
-            Logger.Instance.ELog("Error in file: " + ex);
+            Logger.Instance.ELog($"[{lf.Uid}]: Error in file: " + ex);
         }
 
         StopUpdateTimer();
@@ -110,11 +110,11 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         }
         catch (Exception ex)
         {
-            Logger.Instance.ELog($"Failed to notify server of file finishing:{lf.Name}\n{ex}");
+            Logger.Instance.ELog($"[{lf.Uid}]: Failed to notify server of file finishing:{lf.Name}\n{ex}");
         }
         finally
         {
-            Logger.Instance.ILog("Finishing Runner: " + Id + " : " + lf.Status + " : " + lf.Name);
+            Logger.Instance.ILog($"[{lf.Uid}]: Finishing Runner: " + lf.Status + " : " + lf.Name);
             onCompleted(Id);
             _isRunning = false;
         }
@@ -254,7 +254,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 if (args.Data.Trim().StartsWith("Heartbeat: "))
                     return; // Ignore heartbeats in logging
                 
-                Console.WriteLine(args.Data); // Write error to the console
+                Console.WriteLine($"[{libFile.Uid}]: " + args.Data); // Write error to the console
                 runLog.AppendLine(args.Data);
 
                 if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1))) // Avoid deadlocks
@@ -275,7 +275,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                     return;
                 lastOutputTime = DateTime.UtcNow; // Reset timeout timer
                 
-                await Console.Error.WriteLineAsync(args.Data); // Write error to the console
+                await Console.Error.WriteLineAsync($"[{libFile.Uid}]: " + args.Data); // Write error to the console
                 runLog.AppendLine(args.Data);
 
                 if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1))) // Avoid deadlocks
@@ -345,7 +345,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             
             if (Enum.IsDefined(typeof(FileStatus), _exitCode))
             {
-                Console.WriteLine($"_exitCode {_exitCode} is a valid FileStatus value.");
+                Console.WriteLine($"[{libFile.Uid}]: _exitCode {_exitCode} is a valid FileStatus value.");
             }
             else
             {
