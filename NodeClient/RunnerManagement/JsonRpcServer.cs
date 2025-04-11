@@ -50,7 +50,7 @@ public class JsonRpcServer : IDisposable
     /// <param name="logMessage">Action for logging messages.</param>
     public JsonRpcServer(Client client, RunnerParameters runnerParameters, Action<string> logMessage)
     {
-        LogPrefix = $"JsonRpcClient[{runnerParameters.Uid}]: "; 
+        LogPrefix = $"[{runnerParameters.Uid}] JsonRpcClient: "; 
         _client = client;
         this.cts = new CancellationTokenSource();
         this.runnerParameters = runnerParameters;
