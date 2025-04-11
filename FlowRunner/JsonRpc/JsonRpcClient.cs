@@ -105,7 +105,7 @@ public class JsonRpcClient : IDisposable
 #if(DEBUG)
                             _ = Basic.LogMessage("Json Message Received: " + message);
 #else
-                        Console.WriteLine("Json Message Received: " + message);
+                            Console.WriteLine("Json Message Received: " + message);
 #endif
                         }
 
@@ -172,7 +172,8 @@ public class JsonRpcClient : IDisposable
             // Write the request to the server
             var requestJson = JsonSerializer.Serialize(request);
 #if(DEBUG)
-            _ = Basic.LogMessage("Json Message Sent: " + requestJson);
+            if (method != "LogMessage")
+                _ = Basic.LogMessage("Json Message Sent: " + requestJson);
 #else
             Console.WriteLine("Json Message Sent: " + requestJson);
 #endif
@@ -216,7 +217,8 @@ public class JsonRpcClient : IDisposable
         try
         {
 #if(DEBUG)
-            _ = Basic.LogMessage("Json Message Sent: " + request);
+            if(method != "LogMessage")
+                _ = Basic.LogMessage("Json Message Sent: " + request);
 #else
             Console.WriteLine("Json Message Sent: " + request);
 #endif

@@ -1067,6 +1067,7 @@
       },
       "Tabs": {
         "Dashboard": "Panel",
+        "Overview": "Resumen",
         "Savings": "Ahorros",
         "Statistics": "Estadísticas"
       },
