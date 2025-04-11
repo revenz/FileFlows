@@ -7,31 +7,7 @@
 {
     @if (App.Instance.IsMobile)
     {
-            <FilesWidget/>
-            @* <FlowTab Title="@lblDashboard" Icon="fas fa-chart-pie" ClassName="dashboard"> *@
-            @*     <ContainerWidget Title="@lblRunners" Scroll="true"> *@
-            @*         <Head> *@
-            @*             <OptionButtons> *@
-            @*                 <WidgetOption Label="@PausedService.PausedLabel" Value="1" *@
-            @*                               Icon="@(PausedService.IsPaused ? "fas fa-play" : "fas fa-pause")" *@
-            @*                               OnClick="PausedService.Toggle"/> *@
-            @*             </OptionButtons> *@
-            @*         </Head> *@
-            @*         <Body> *@
-            @*         <RunnersComponent/> *@
-            @*         </Body> *@
-            @*     </ContainerWidget> *@
-            @*     <FilesWidget/> *@
-            @* </FlowTab> *@
-            @* <FlowTab Title="@lblSavings" Icon="fas fa-dollar-sign"> *@
-            @*     <LibrarySavingsSummaryWidget/> *@
-            @*     <LargestSavingsWidget/> *@
-            @* </FlowTab> *@
-            @* <FlowTab Title="@lblStatistics" Icon="fas fa-chart-bar" ClassName="statistics"> *@
-            @*     <FileOverviewWidget IsFilesProcessed="true"/> *@
-            @*     <FileOverviewWidget IsFilesProcessed="false"/> *@
-            @*     <CpuRamWidget/> *@
-            @* </FlowTab> *@
+        <FilesWidget/>
     }
     else
     {
@@ -41,15 +17,17 @@
             
             @if (SelectedPage == 0)
             {
-                <div class="grid grid-4">
-                    <FileOverviewWidget IsFilesProcessed="true"/>
-                    <FileOverviewWidget IsFilesProcessed="false"/>
-                    <CpuRamWidget/>
-                    <StatusWidget OnUpdatesClicked="Status_OnUpdatesClicked"/>
-                </div>
-
                 <div class="grid grid-60-40 flex-grow">
-                    <FilesWidget/>
+                    <div class="flex-grow grid-vertical">
+                        <div class="grid grid-3">
+                            <FileOverviewWidget IsFilesProcessed="true"/>
+                            <FileOverviewWidget IsFilesProcessed="false"/>
+                            <CpuRamWidget/>
+                            @* <StatusWidget OnUpdatesClicked="Status_OnUpdatesClicked"/> *@
+                        </div>
+
+                        <FilesWidget/>
+                    </div>
                     <SystemWidget/>
                 </div>
             }else if (SelectedPage == 1)

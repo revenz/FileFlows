@@ -78,7 +78,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// <summary>
     /// Translations
     /// </summary>
-    private string lblHelp, lblChangePassword, lblLogout;
+    private string lblHelp, lblChangePassword, lblLogout, lblPaused, lblIdle, lblPause, lblResume;
 
     private ElementReference elePopupPanel;
     
@@ -90,6 +90,10 @@ public partial class PopupPanel : ComponentBase, IDisposable
         lblHelp = Translater.Instant("Labels.Help");
         lblChangePassword = Translater.Instant("Labels.ChangePassword");
         lblLogout = Translater.Instant("Labels.Logout");
+        lblPaused = Translater.Instant("Labels.Paused");
+        lblIdle = Translater.Instant("Labels.Idle");
+        lblPause = Translater.Instant("Labels.Pause");
+        lblResume = Translater.Instant("Labels.Resume");
         
         NumberOfRunners = feService.Files.Processing.Count;
         feService.Notifications.OnNotification += OnNotification;
@@ -101,10 +105,10 @@ public partial class PopupPanel : ComponentBase, IDisposable
         ShowChangePassword = feService.Profile.Profile.Security == SecurityMode.Local;
         ShowLogout = feService.Profile.Profile.Security != SecurityMode.Off;
         
-//         #if(DEBUG)
-//         ShowChangePassword = true;
-//         ShowLogout = true;
-// #endif
+#if(DEBUG)
+        ShowChangePassword = true;
+        ShowLogout = true;
+#endif
 
         lblDisconnected = Translater.Instant("Labels.Disconnected");
         ConnectionLost = feService.ConnectionLost;
@@ -274,5 +278,23 @@ public partial class PopupPanel : ComponentBase, IDisposable
     private void Dismiss(Notification notification)
     {
         feService.Notifications.Dismiss(notification);
+    }
+
+    /// <summary>
+    /// Resume processing
+    /// </summary>
+    private void ResumeProcessing()
+    {
+        PausedService.Resume();
+        Visible = false;
+    }
+    
+    /// <summary>
+    /// Pause processing
+    /// </summary>
+    private void PauseProcessing()
+    {
+        _ = PausedService.Pause();
+        Visible = false;
     }
 }

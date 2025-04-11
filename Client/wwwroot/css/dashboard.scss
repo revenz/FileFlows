@@ -23,6 +23,12 @@
   > div + div {
     margin-top: 1rem;
   }
+  
+  .grid-vertical {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-rows:auto 1fr;
+  } 
 
   
  .flow-tabs-content {

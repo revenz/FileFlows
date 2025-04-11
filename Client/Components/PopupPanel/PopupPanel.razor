@@ -4,8 +4,7 @@
 @namespace FileFlows.Client.Components
 
 <div class="btn popup-panel-button @(Visible ? "opened" : "")" @onclick="TogglePopup">
-
-
+    
     @if (Upgrading)
     {
         <text>
@@ -38,14 +37,14 @@
     {
         <text>
             <i class="fas fa-pause" style="color:var(--orange)"></i>
-            @PausedService.PausedLabel
+            @(PausedService.IsPaused ? lblPaused :  PausedService.PausedLabel)
         </text>
     }
     else
     {
         <text>
             <i class="fas fa-bed" style="color:var(--gray)"></i>
-            Idle
+            @lblIdle
         </text>
     }
 </div>
@@ -96,7 +95,7 @@
         }
     </div>
     </div>
-    <div class="popup-panel-bottom @(ShowLogout || ShowChangePassword ? "" : "no-user")">
+    <div class="popup-panel-bottom">
         <div class="support">
             <a class="external-link" title="FileFlows.com" href="https://fileflows.com/docs" target="_blank" rel="noopener noreferrer nofollow">
                 <i class="fas fa-globe"></i>
@@ -108,24 +107,35 @@
                 <i class="fab fa-discord"></i> 
             </a>
         </div>
-        @if (ShowLogout || ShowChangePassword)
-        {
-            <div class="user">
-                @if (ShowChangePassword)
-                {
-                    <a class="user-link" @onclick=ChangePassword>
-                        <i class="fas fa-key"></i> @lblChangePassword
-                    </a>
-                }
+        
+        <div class="user">
+            @if (ShowChangePassword)
+            {
+                <a class="user-link" @onclick=ChangePassword>
+                    <i class="fas fa-key"></i> @lblChangePassword
+                </a>
+            }
 
-                @if (ShowLogout)
-                {
-                    <a class="user-link" href="/logout" @onclick=LogOut @onclick:preventDefault @onclick:stopPropagation>
-                        <i class="fas fa-unlock"></i> @lblLogout
-                    </a>
-                }
-            </div>
-        }
+            @if (ShowLogout)
+            {
+                <a class="user-link" href="/logout" @onclick=LogOut @onclick:preventDefault @onclick:stopPropagation>
+                    <i class="fas fa-unlock"></i> @lblLogout
+                </a>
+            }
+            
+            @if (PausedService.IsPaused)
+            {
+                <a class="pause-resume" title="@lblResume" @onclick="ResumeProcessing">
+                    <i class="fas fa-play"></i>
+                </a>
+            }
+            else
+            {
+                <a class="pause-resume" title="@lblPause" @onclick="PauseProcessing">
+                    <i class="fas fa-pause"></i>
+                </a>
+            }
+        </div>
 
         @* <div class="version">@Globals.Version</div> *@
     </div>

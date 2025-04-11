@@ -36,7 +36,7 @@ $zindex: 1000;
   border-radius: 0.5rem;
   overflow: hidden;
   max-width: 60rem;
-  min-width: min(36rem, 80vw);
+  min-width: 40rem;
   &.visible {
     display: grid;
     grid-template-rows:1fr auto;
@@ -139,10 +139,8 @@ $zindex: 1000;
   &.no-user {
     text-align: right;
   }
-  .support {
-    a {
-      border-radius:2rem;
-    }
+  .support a, .pause-resume {
+    border-radius:2rem;
   }
   a {
     color:var(--color) !important;
@@ -152,7 +150,7 @@ $zindex: 1000;
     display: inline-flex;
     overflow: hidden;
   }
-  .user a {
+  .user a:not(.pause-resume) {
     text-align: center;
     border-radius: 1rem;
     align-items: center;

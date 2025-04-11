@@ -32,7 +32,7 @@
   border-radius: 0.5rem;
   overflow: hidden;
   max-width: 60rem;
-  min-width: min(36rem, 80vw);
+  min-width: 40rem;
 }
 .popup-panel.visible {
   display: grid;
@@ -130,7 +130,7 @@
 .popup-panel-bottom.no-user {
   text-align: right;
 }
-.popup-panel-bottom .support a {
+.popup-panel-bottom .support a, .popup-panel-bottom .pause-resume {
   border-radius: 2rem;
 }
 .popup-panel-bottom a {
@@ -141,7 +141,7 @@
   display: inline-flex;
   overflow: hidden;
 }
-.popup-panel-bottom .user a {
+.popup-panel-bottom .user a:not(.pause-resume) {
   text-align: center;
   border-radius: 1rem;
   align-items: center;
@@ -150,10 +150,10 @@
   place-content: center;
   flex-wrap: wrap;
 }
-.popup-panel-bottom .user a i {
+.popup-panel-bottom .user a:not(.pause-resume) i {
   margin-right: 0.5rem;
 }
-.popup-panel-bottom .user a + a {
+.popup-panel-bottom .user a:not(.pause-resume) + a {
   margin-left: 0.25rem;
 }
 .popup-panel-bottom i {

@@ -75,6 +75,11 @@ public class PausedService : IPausedService, IDisposable
     
     /// <inheritdoc />
     public string PausedLabel { get; private set; }
+    
+    /// <summary>
+    /// Gets if the system is paused indefinetly
+    /// </summary>
+    public bool PausedIndefinitely { get; private set; }
 
     /// <inheritdoc />
     public bool IsPaused => SystemInfo?.IsPaused == true;
@@ -97,6 +102,7 @@ public class PausedService : IPausedService, IDisposable
         lblPaused = "Resume Processing";
         lblPausedWithTime = "Pause for";
         PausedLabel = IsPaused ? lblPaused : lblPause;
+        PausedIndefinitely = IsPaused;
     }
 
     private void OnSystemInfoUpdated(SystemInfo info)
@@ -130,15 +136,18 @@ public class PausedService : IPausedService, IDisposable
         if (SystemInfo.IsPaused == false)
         {
             PausedLabel = lblPause;
+            PausedIndefinitely = false;
             return;
         }
 
         if (SystemInfo.PausedUntil > SystemInfo.CurrentTime.AddYears(1))
         {
             PausedLabel = lblPaused;
+            PausedIndefinitely = true;
             return;
         }
         
+        PausedIndefinitely = false;
         var pausedToLocal = SystemInfo.PausedUntil.Add(TimeDiff);
         var time = pausedToLocal.Subtract(DateTime.UtcNow);
         PausedLabel = lblPausedWithTime + " " + time.ToString(@"h\:mm\:ss");

@@ -23,6 +23,11 @@
 .db-grid > div + div {
   margin-top: 1rem;
 }
+.db-grid .grid-vertical {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-rows: auto 1fr;
+}
 .db-grid .flow-tabs-content {
   padding: 0 1rem;
 }
