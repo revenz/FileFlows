@@ -6,6 +6,7 @@
   left: 0;
   right: 0;
   z-index: 0;
+  pointer-events: none;
 }
 @mixin bottomBar {
   position:absolute;
