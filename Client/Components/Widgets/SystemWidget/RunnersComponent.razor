@@ -3,17 +3,17 @@
 
 @if (Runners is { Count: > 0 })
 {
-    @foreach (var runner in Runners)
+    foreach (var runner in Runners)
     {
     var overall = runner.TotalParts == 0 ? 100 : ((runner.CurrentPart / (double)runner.TotalParts)) * 100;
     var current = runner.CurrentPartPercent;
     var expandable = runner.FramesPerSecond > 0 || runner.Additional?.Any() == true;
-    var expanded = true; //RunnersState.ContainsKey(runner.Uid) && RunnersState[runner.Uid];
 
-    <div class="widget-runner table-item @(Minimal ? "minimal" : "") @(expandable && expanded ? "expanded" : "collapsed")" @key="runner.Uid" @onclick="() => ToggleExpand(runner)">
+    <div class="widget-runner table-item @(Minimal ? "minimal" : "") @(expandable ? "expanded" : "collapsed")" 
+         @key="runner.Uid" @onclick="() => OpenRunner(runner)">
         <div class="current-progress" style="width:@(current)%"></div>
         <div class="overall-progress" style="width:@(overall)%"></div>
-        <div class="runner-content" @ondblclick="() => OpenRunner(runner)">
+        <div class="runner-content">
             <div class="actions" @onclick:stopPropagation>
                 <i class="fas fa-times-circle" @onclick="() => Cancel(runner)"></i>
             </div>
@@ -34,17 +34,17 @@
                 </span>
                 <div class="info">
                     <div class="current-flow-element">
-                        <FlowIconValue Icon="fas fa-puzzle-piece" Color="dark" Value="@runner.CurrentPartName"></FlowIconValue>
+                        <FlowIconValue Icon="fas fa-puzzle-piece" Color="dark" Value="@runner.CurrentPartName" />
                     </div>
                     
                     <div class="others">
                         @if (string.IsNullOrEmpty(runner.NodeName) == false)
                         {
-                            <FlowIconValue Icon="node" Color="dark" Value="@runner.NodeName"></FlowIconValue>
+                            <FlowIconValue Icon="node" Color="dark" Value="@runner.NodeName" />
                         }
                         @if (string.IsNullOrEmpty(runner.LibraryName))
                         {
-                            <FlowIconValue Icon="library" Color="dark" Value="@runner.LibraryName"></FlowIconValue>
+                            <FlowIconValue Icon="library" Color="dark" Value="@runner.LibraryName" />
                         }
                     </div>
 

@@ -41,11 +41,6 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     private int Mode { get; set; }
 
     /// <summary>
-    /// The expanded/collapsed state of the runners
-    /// </summary>
-    private Dictionary<Guid, bool> RunnersState = new();
-
-    /// <summary>
     /// Translation strings
     /// </summary>
     private string lblAborting;
@@ -76,15 +71,6 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     private void OnProcessingUpdated(List<ProcessingLibraryFile> obj)
     {
         Runners = obj;
-        // remove the RunnersState that are no longer in the list
-        // do not add the runners that arent in the list to the list
-        RunnersState = RunnersState.Where(x => Runners.Any(y => y.Uid == x.Key))
-            .ToDictionary(x => x.Key, x => x.Value);
-
-        var first = Runners.FirstOrDefault();
-        if(first != null)
-            RunnersState.TryAdd(first.Uid, true);
-        
         StateHasChanged();
     }
     
@@ -124,16 +110,6 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// <param name="runner">the runner</param>
     private async Task OpenRunner(ProcessingLibraryFile runner)
         => await Helpers.LibraryFileEditor.Open(Blocker, Editor, runner.Uid, feService.Profile.Profile, feService);
-
-    /// <summary>
-    /// Toggle the expand state of a runner
-    /// </summary>
-    /// <param name="runner">the runner to toggle</param>
-    private void ToggleExpand(ProcessingLibraryFile runner)
-    {
-        if (RunnersState.TryAdd(runner.Uid, true) == false)
-            RunnersState[runner.Uid] = !RunnersState[runner.Uid];
-    }
     
     
     /// <summary>

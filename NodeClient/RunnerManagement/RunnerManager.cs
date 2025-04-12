@@ -322,10 +322,10 @@ public class RunnerManager
     {
         if (_activeRunners.TryGetValue(info.LibraryFile.Uid, out var runner) == false)
             return;
+        
         // started at isnt tracked in the runner it self
         info.StartedAt = runner.Info.StartedAt;
         info.Aborted = runner.Info.Aborted;
-        info.TotalParts = runner.Info.TotalParts;
         
         runner.Info = info;
         RunnerUpdated?.Invoke();
