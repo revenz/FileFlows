@@ -39,11 +39,20 @@
   grid-template-rows: 1fr auto;
   z-index: 1000;
 }
-.popup-panel.visible.is-processing.has-notifications .popup-panel-main {
+.popup-panel.visible .notifications, .popup-panel.visible .runners {
+  display: none;
+}
+.popup-panel.visible.has-notifications .notifications {
+  display: block;
+}
+.popup-panel.visible.is-processing .runners, .popup-panel.visible:not(.has-notifications) .runners {
+  display: block;
+}
+.popup-panel.visible.has-notifications.is-processing .popup-panel-main {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-.popup-panel.visible.is-processing.has-notifications .popup-panel-main .notifications {
+.popup-panel.visible.has-notifications.is-processing .popup-panel-main .notifications {
   border-left: 1px solid var(--border-color);
 }
 .popup-panel .popup-panel-main {
@@ -55,12 +64,15 @@
   border-left: solid 0.3rem;
   display: grid;
   grid-template-columns: 2rem 1fr;
-  min-height: 3rem;
   align-content: center;
   background: var(--base-darker);
   border-radius: 0.5rem;
   padding: 1rem 2rem 1rem 1rem;
   position: relative;
+}
+.popup-panel .notification .center {
+  word-wrap: break-word;
+  overflow: hidden;
 }
 .popup-panel .notification.information {
   border-color: var(--info);
@@ -102,10 +114,6 @@
 .empty {
   text-align: center;
   padding: 2rem;
-}
-
-.hidden {
-  display: none;
 }
 
 .runners, .notifications {
@@ -167,6 +175,26 @@
 
 .external-link + .user-link {
   border-left: solid 1px var(--border-color);
+}
+
+.dismiss-all {
+  font-weight: var(--bold, 600);
+  text-align: center;
+  padding: 1rem 4rem;
+  display: block;
+  background: var(--base-darker);
+  border-radius: 3rem;
+  margin: 2rem auto;
+  color: var(--color) !important;
+  text-decoration: none !important;
+  width: fit-content;
+  opacity: 0.8;
+  height: fit-content;
+  min-height: fit-content;
+  cursor: pointer;
+}
+.dismiss-all:hover {
+  opacity: 1;
 }
 
 /*# sourceMappingURL=PopupPanel.razor.css.map */

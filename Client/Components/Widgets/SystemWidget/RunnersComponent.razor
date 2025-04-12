@@ -38,8 +38,11 @@
                     </div>
                     
                     <div class="others">
-                        <FlowIconValue Icon="node" Color="dark" Value="@runner.NodeName"></FlowIconValue>
-                        @if (string.IsNullOrWhiteSpace(runner.LibraryName))
+                        @if (string.IsNullOrEmpty(runner.NodeName) == false)
+                        {
+                            <FlowIconValue Icon="node" Color="dark" Value="@runner.NodeName"></FlowIconValue>
+                        }
+                        @if (string.IsNullOrEmpty(runner.LibraryName))
                         {
                             <FlowIconValue Icon="library" Color="dark" Value="@runner.LibraryName"></FlowIconValue>
                         }

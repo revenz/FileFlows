@@ -78,10 +78,8 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// <summary>
     /// Translations
     /// </summary>
-    private string lblHelp, lblChangePassword, lblLogout, lblPaused, lblIdle, lblPause, lblResume;
+    private string lblHelp, lblChangePassword, lblLogout, lblPaused, lblIdle, lblPause, lblResume, lblDismissAll;
 
-    private ElementReference elePopupPanel;
-    
     private bool ShowLogout, ShowChangePassword;
     
     /// <inheritdoc />
@@ -94,6 +92,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
         lblIdle = Translater.Instant("Labels.Idle");
         lblPause = Translater.Instant("Labels.Pause");
         lblResume = Translater.Instant("Labels.Resume");
+        lblDismissAll = Translater.Instant("Labels.DismissAll");
         
         NumberOfRunners = feService.Files.Processing.Count;
         feService.Notifications.OnNotification += OnNotification;
@@ -160,7 +159,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
     protected override void OnAfterRender(bool firstRender)
     {
         if(firstRender)
-            ClickOutside.Watch(elePopupPanel);
+            ClickOutside.Watch(".popup-panel");
         
         base.OnAfterRender(firstRender);
     }
@@ -297,4 +296,10 @@ public partial class PopupPanel : ComponentBase, IDisposable
         _ = PausedService.Pause();
         Visible = false;
     }
+
+    /// <summary>
+    /// Dismisses all notifications
+    /// </summary>
+    private void DismissAll()
+        => feService.Notifications.DismissAll();
 }

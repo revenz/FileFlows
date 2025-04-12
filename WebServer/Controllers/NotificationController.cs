@@ -25,4 +25,15 @@ public class NotificationController : Controller
         var service = (NotificationService)ServiceLoader.Load<INotificationService>();
         service.Delete(uid);
     }
+    
+    /// <summary>
+    /// Dismisses all the notifications
+    /// </summary>
+    [HttpDelete("dismiss-all")]
+    public void Delete()
+    {
+        var service = (NotificationService)ServiceLoader.Load<INotificationService>();
+        service.DeleteAll();
+    }
+
 }

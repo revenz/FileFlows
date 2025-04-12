@@ -120,6 +120,23 @@ public class NotificationHandler(FrontendService feService)
         if (Notifications.Remove(notification) == false)
             return;
         // have to tell the Server to clear this notification
-        _ = HttpHelper.Delete("/api/notifications/" + notification.Uid);
+        _ = HttpHelper.Delete("/api/notification/" + notification.Uid);
+    }
+
+    /// <summary>
+    /// Dismisses all notifications
+    /// </summary>
+    public void DismissAll()
+    {
+        if (All.Count == 0 && Toasts.Count == 0 && Notifications.Count == 0)
+            return;
+        All.Clear();
+        Toasts.Clear();
+        if (Notifications.Count > 0)
+        {
+            // have to tell the Server to clear this notification
+            _ = HttpHelper.Delete("/api/notification/dismiss-all");
+        }
+        OnNotificationsUpdated?.Invoke();
     }
 }

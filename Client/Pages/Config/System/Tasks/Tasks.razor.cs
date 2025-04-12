@@ -58,7 +58,7 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
         lblReturnCode = Translater.Instant("Labels.ReturnCode");
         lblEditScript = Translater.Instant("Pages.Tasks.Buttons.EditScript");
 
-        lblCustomSchedule = Translater.Instant("Pages.Tasks.Fields.CustomSchedule");
+        lblCustomSchedule = Translater.Instant("Pages.Task.Fields.CustomSchedule");
         lblFileAdded = Translater.Instant($"Enums.{nameof(TaskType)}.{nameof(TaskType.FileAdded)}");
         lblFileProcessed = Translater.Instant($"Enums.{nameof(TaskType)}.{nameof(TaskType.FileProcessed)}");
         lblFileProcessing = Translater.Instant($"Enums.{nameof(TaskType)}.{nameof(TaskType.FileProcessing)}");

@@ -1,16 +1,12 @@
-export function addClickOutsideListener(elementRef, dotnetHelper) {
-    const element = elementRef instanceof HTMLElement ? elementRef : elementRef instanceof Object && elementRef instanceof Element ? elementRef : elementRef && elementRef.getBoundingClientRect ? elementRef : elementRef; // defensive fallback
+export function addClickOutsideListener(selector, dotnetHelper) {
+    const element = document.querySelector(selector);
 
     const handler = (event) => {
-        // This resolves the element if passed from Blazor
-        const domElement = element instanceof HTMLElement ? element : element?.[0] || element;
-
-        if (!domElement || typeof domElement.contains !== 'function') {
-            console.warn("clickOutside: Invalid element passed", domElement);
+        let targetElement = event.target;
+        if (!document.body.contains(targetElement)) {
             return;
         }
-
-        if (!domElement.contains(event.target)) {
+        if (!element.contains(event.target)) {
             dotnetHelper.invokeMethodAsync('NotifyClickOutside');
         }
     };
@@ -20,7 +16,7 @@ export function addClickOutsideListener(elementRef, dotnetHelper) {
 }
 
 export function removeClickOutsideListener(elementRef) {
-    const element = elementRef instanceof HTMLElement ? elementRef : elementRef?.[0] || elementRef;
+    const element = document.querySelector(selector);
     const handler = element._clickOutsideHandler;
     if (handler) {
         document.removeEventListener('click', handler);

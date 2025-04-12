@@ -11,7 +11,6 @@ public class ClickOutsideService : IAsyncDisposable
 {
     private readonly IJSRuntime _jsRuntime;
     private DotNetObjectReference<ClickOutsideService>? _dotNetRef;
-    private ElementReference _element;
     private IJSObjectReference? _module;
 
     /// <summary>
@@ -31,17 +30,15 @@ public class ClickOutsideService : IAsyncDisposable
     /// <summary>
     /// Watches for clicks outside the given element.
     /// </summary>
-    /// <param name="element">The element to watch.</param>
-    public async void Watch(ElementReference element)
+    /// <param name="selector">The selector to watch.</param>
+    public async void Watch(string selector)
     {
-        _element = element;
-
         _dotNetRef?.Dispose();
         _dotNetRef = DotNetObjectReference.Create(this);
 
         _module ??= await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/scripts/ClientOutsideService.js");
 
-        await _module.InvokeVoidAsync("addClickOutsideListener", _element, _dotNetRef);
+        await _module.InvokeVoidAsync("addClickOutsideListener", selector, _dotNetRef);
     }
 
     /// <summary>

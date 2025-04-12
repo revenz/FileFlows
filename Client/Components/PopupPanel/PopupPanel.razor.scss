@@ -41,7 +41,20 @@ $zindex: 1000;
     display: grid;
     grid-template-rows:1fr auto;
     z-index:$zindex;
-    &.is-processing.has-notifications .popup-panel-main {
+    .notifications, .runners {
+      display:none;
+    }
+    &.has-notifications {
+      .notifications {
+        display:block;
+      }
+    }
+    &.is-processing,&:not(.has-notifications) {
+      .runners {
+        display:block;
+      }
+    }
+    &.has-notifications.is-processing .popup-panel-main {
       display: grid;
       grid-template-columns: 1fr 1fr;
       .notifications {
@@ -58,12 +71,15 @@ $zindex: 1000;
     border-left: solid 0.3rem;
     display: grid;
     grid-template-columns: 2rem 1fr;
-    min-height: 3rem;
     align-content: center;
     background: var(--base-darker);
     border-radius: 0.5rem;
     padding: 1rem 2rem 1rem 1rem;
     position: relative;
+    .center {
+      word-wrap: break-word;
+      overflow: hidden;
+    }
 
     &.information {
       border-color: var(--info);
@@ -112,10 +128,6 @@ $zindex: 1000;
 .empty {
   text-align: center;
   padding:2rem;
-}
-
-.hidden {
-  display:none;
 }
 
 .runners, .notifications {
@@ -178,4 +190,25 @@ $zindex: 1000;
 
 .external-link + .user-link {
   border-left:solid 1px var(--border-color);
+}
+
+.dismiss-all {
+  font-weight: var(--bold, 600);
+  text-align: center;
+  padding: 1rem 4rem;
+  display: block;
+  background: var(--base-darker);
+  border-radius: 3rem;
+  margin: 2rem auto;
+  color: var(--color) !important;
+  text-decoration: none !important;
+  width: fit-content;
+  opacity: 0.8;
+  height: fit-content;
+  min-height: fit-content;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
 }
