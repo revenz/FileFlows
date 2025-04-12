@@ -132,6 +132,17 @@
                              OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText ZeroAsEmpty="@zeroAsEmpty" />
             }
             break;
+        case FormInputType.FlowIconValue:
+        {
+            var value = GetParameter<string>(field, nameof(FlowIconValue.Value));
+            var icon = GetParameter<string>(field, nameof(FlowIconValue.Icon));
+            var ValueUid = GetParameter<Guid?>(field, nameof(FlowIconValue.ValueUid));
+            var color = GetParameter<string>(field, nameof(FlowIconValue.Color));
+            <InputChild Field=@field Label="@label">
+                <FlowIconValue Icon="@icon" Value="@value" ValueUid="@ValueUid" Color="@color" />
+            </InputChild>
+        } 
+            break;
         case FormInputType.IconPicker:
         {
             var value = GetValue<string>(field.Name);

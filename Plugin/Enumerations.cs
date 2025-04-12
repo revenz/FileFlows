@@ -215,7 +215,11 @@ public enum FormInputType
     /// <summary>
     /// Input for custom field options
     /// </summary>
-    CustomFieldOptions = 50
+    CustomFieldOptions = 50,
+    /// <summary>
+    /// Renders a flow icon value
+    /// </summary>
+    FlowIconValue = 51
 }
 
 

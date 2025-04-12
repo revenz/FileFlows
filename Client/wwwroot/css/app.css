@@ -4418,6 +4418,7 @@ hr {
   height: 1.5rem;
   user-select: none;
   cursor: default;
+  width: fit-content;
 }
 .icon-value.blue {
   --iv-color: #345772;

@@ -84,6 +84,9 @@ public abstract class EditorBase : InputRegister
             return @default;
         try
         {
+            if (val is Guid? && typeof(T) == typeof(Guid?))
+                return (T)val;
+            
             var converted = Converter.ConvertObject(typeof(T), val);
             T result = (T)converted;
             if(result is List<ListOption> options)

@@ -71,6 +71,9 @@
   word-wrap: break-word;
   overflow: hidden;
 }
+.popup-panel .notification .title, .popup-panel .notification .message {
+  white-space: pre-wrap;
+}
 .popup-panel .notification.information {
   border-color: var(--info);
 }

@@ -190,7 +190,14 @@ public class LibraryFileEditor
         else
         {
             // just show basic info
-            await editor.Open(new () { TypeName = "Pages.LibraryFile", Title = model.RelativePath, Fields = GetInfoTab(model), Model = model, Large = true, ReadOnly = true, NoTranslateTitle = true});
+            await editor.Open(new()
+            {
+                TypeName = "Pages.LibraryFile", Title = model.RelativePath,
+                Fields = GetInfoTab(model), Model = model, Large = true, ReadOnly = true,
+                NoTranslateTitle = true,
+                
+            });
+
         }
     }
 
@@ -293,15 +300,6 @@ public class LibraryFileEditor
             });
         }
 
-        if (string.IsNullOrEmpty(item.Fingerprint) == false)
-        {
-            fields.Add(new ElementField
-            {
-                InputType = FormInputType.TextLabel,
-                Name = nameof(item.Fingerprint)
-            });
-        }
-
         if (item.Status != FileStatus.Disabled && item.Status != FileStatus.Unprocessed &&
             item.Status != FileStatus.OutOfSchedule)
         {
@@ -318,8 +316,14 @@ public class LibraryFileEditor
         {
             fields.Add(new ElementField
             {
-                InputType = FormInputType.TextLabel,
-                Name = nameof(item.Flow)
+                InputType = FormInputType.FlowIconValue,
+                Name = nameof(item.Flow),
+                Parameters = new Dictionary<string, object>
+                {
+                    { nameof(FlowIconValue.ValueUid), item.FlowUid },
+                    { nameof(FlowIconValue.Value), item.FlowName },
+                    { nameof(FlowIconValue.Icon), "flow" }
+                }
             });
         }
 
