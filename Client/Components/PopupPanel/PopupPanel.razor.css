@@ -55,9 +55,6 @@
 .popup-panel.visible.has-notifications.is-processing .popup-panel-main .notifications {
   border-left: 1px solid var(--border-color);
 }
-.popup-panel .popup-panel-main {
-  padding: 1rem;
-}
 .popup-panel .notification {
   margin: 0.5rem 0.5rem 0 0.5rem;
   background: var(--base-lightest);
