@@ -98,11 +98,6 @@
                             </div>
                         }
                     }
-
-                    @if (file.FailureReason != null)
-                    {
-                        <div class="message"><span>@file.FailureReason</span></div>
-                    }
                     
                     <div class="info">
                         <FlowIconValue Icon="library" Value="@file.LibraryName"  />
@@ -117,6 +112,11 @@
                     </div>
                     
                 </div>
+
+                @if (string.IsNullOrWhiteSpace(file.FailureReason) == false)
+                {
+                    <div class="message"><span>@file.FailureReason</span></div>
+                }
             </div>
         }
 

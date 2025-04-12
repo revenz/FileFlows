@@ -30,13 +30,13 @@
     background: var(--base-darkest);
     position: relative;
     height: 100%;
+    overflow: hidden;    
     &:not(.no-padding) {
         padding: 1rem;
     }
     &:has( > .skybox) {
         display: grid;
         grid-template-rows: auto 1fr;
-        overflow: hidden;
     }
 }
 

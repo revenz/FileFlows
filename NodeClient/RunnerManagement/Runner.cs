@@ -110,11 +110,11 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         }
         catch (Exception ex)
         {
-            Logger.Instance.ELog($"[{lf.Uid}]: Failed to notify server of file finishing:{lf.Name}\n{ex}");
+            Logger.Instance.ELog($"[{lf.Uid}] Failed to notify server of file finishing:{lf.Name}\n{ex}");
         }
         finally
         {
-            Logger.Instance.ILog($"[{lf.Uid}]: Finishing Runner: " + lf.Status + " : " + lf.Name);
+            Logger.Instance.ILog($"[{lf.Uid}] Finishing Runner: " + lf.Status + " : " + lf.Name);
             onCompleted(Id);
             _isRunning = false;
         }

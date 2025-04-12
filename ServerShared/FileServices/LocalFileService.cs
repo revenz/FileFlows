@@ -83,7 +83,10 @@ public class LocalFileService(bool dontUseTemporaryFilesForMoveCopy) : IFileServ
             return Result<string[]>.Fail("Cannot access protected path: " + path);
         try
         {
-            return Directory.GetFiles(path, searchPattern ?? string.Empty,
+            if (string.IsNullOrWhiteSpace(searchPattern))
+                searchPattern = "*";
+            
+            return Directory.GetFiles(path, searchPattern,
                 recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
         }
         catch (Exception)

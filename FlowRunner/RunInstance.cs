@@ -200,6 +200,7 @@ public class RunInstance(RunnerProperties properties)
                 var existsResult = RpcClient.LibraryFileHandler.ExistsOnServer(properties.LibraryFile.Name, properties.LibraryFile.IsDirectory).Result;
                 if (existsResult.Failed(out var error))
                 {
+                    properties.LibraryFile.FailureReason = "Library file does not exist.";
                     properties.Logger.WLog(error);
                     return (FileStatus.ProcessingFailed, false);
                 }

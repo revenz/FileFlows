@@ -165,7 +165,7 @@ public class RunnerManager
     private void OnRunnerCompleted(Guid runnerId)
     {
         _activeRunners.TryRemove(runnerId, out _);
-        Logger?.ILog("Runner completed: " + runnerId + ", total runners remaining: " + _activeRunners.Count);
+        Logger?.ILog($"[{runnerId}] Runner completed.  Total runners remaining: " + _activeRunners.Count);
         EventManager.Broadcast(EventNames.RUNNERS_UPDATED,  _activeRunners.Count);
         RunnerUpdated?.Invoke();
     }

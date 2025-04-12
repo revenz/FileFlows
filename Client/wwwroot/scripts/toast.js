@@ -145,12 +145,12 @@ window.closeAllToasts = function()
 
 window.showToast = function(logType, title, message)
 {
-    if(logType === 'success' || logType === 'info')
+    if(logType === 'success')
         Toast.success(title, message);
     else if(logType === 'warn' || logType === 'warning')
         Toast.warn(title, message);
     else if(logType === 'error')
         Toast.error(title, message);
-    else if(logType === 'debug')
+    else if(logType === 'debug' || logType === 'info' || logType === 'information')
         Toast.info(title, message);
 }

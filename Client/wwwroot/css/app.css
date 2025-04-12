@@ -3419,6 +3419,27 @@ td a:hover, span.column a:hover {
   background: rgba(12, 12, 12, 0.82);
 }
 
+@media (min-width: 850px) {
+  .background-overlay {
+    position: fixed;
+    top: 3.5rem;
+    left: 6rem;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    background: rgba(12, 12, 12, 0.82);
+  }
+  .background-overlay::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: all;
+  }
+}
 button .fas, button .far {
   width: 1rem;
 }
