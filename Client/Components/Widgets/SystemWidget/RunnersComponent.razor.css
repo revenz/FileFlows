@@ -33,6 +33,7 @@
   border-radius: var(--container-border-radius);
   overflow: hidden;
   border: solid 1px var(--border-color);
+  cursor: pointer;
 }
 .widget-runner:hover .actions {
   left: 0;
