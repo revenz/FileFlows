@@ -190,6 +190,8 @@
         bottom: 5.75rem;
         left:0;
         right:0;
+        display: grid;
+        grid-template-rows: 5rem 1fr;
     }
     ::deep {
         .navbar {
@@ -197,6 +199,12 @@
             bottom:0;
             left:0;
             right:0;
+        }
+    }
+    .main-title-bar {
+        img {
+            height: 3rem;
+            margin:auto;
         }
     }
     .content {

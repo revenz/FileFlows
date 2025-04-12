@@ -8,14 +8,21 @@
     
     <div class="main">
         <div class="main-title-bar">
-            <div class="title">
-                @if (string.IsNullOrEmpty(_Icon) == false)
-                {
-                    <i class="icon @_Icon"></i>
-                }
-                <span class="title-text">@_Title</span>
-            </div>
-            <PopupPanel />
+            @if (App.Instance.IsMobile)
+            {
+                <img src="logo-color-full.svg" alt="FileFlows" />
+            }
+            else
+            {
+                <div class="title">
+                    @if (string.IsNullOrEmpty(_Icon) == false)
+                    {
+                        <i class="icon @_Icon"></i>
+                    }
+                    <span class="title-text">@_Title</span>
+                </div>
+            }
+            <PopupPanel/>
         </div>
         
         @if (Blocker != null && Menu != null && Editor != null)

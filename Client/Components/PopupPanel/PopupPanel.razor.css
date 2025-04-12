@@ -1,8 +1,3 @@
-@media (max-width: 849.99px) {
-  .popup-panel-button, .popup-panel {
-    display: none;
-  }
-}
 .popup-panel-button {
   position: fixed;
   top: 0.6rem;
@@ -195,6 +190,24 @@
 }
 .dismiss-all:hover {
   opacity: 1;
+}
+
+@media (max-width: 849.99px) {
+  .popup-panel-button {
+    top: 1.25rem !important;
+  }
+  .popup-panel {
+    top: calc(3.5rem - 2px) !important;
+    width: calc(100vw - 1rem);
+    max-width: calc(100vw - 1rem);
+    min-width: calc(100vw - 1rem);
+  }
+  .popup-panel .support {
+    display: none;
+  }
+  .popup-panel .user {
+    text-align: right;
+  }
 }
 
 /*# sourceMappingURL=PopupPanel.razor.css.map */
