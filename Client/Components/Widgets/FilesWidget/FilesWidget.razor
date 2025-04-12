@@ -16,107 +16,115 @@
     {
         <RunnersComponent />
     }
-    else if (SelectedStatus == FileStatus.Unprocessed)
+    else if (SelectedStatus == FileStatus.Unprocessed && UpcomingFiles.Count == 0)
     {
-        @if (UpcomingFiles.Count == 0)
-        {
-            <div class="no-files">
-                <i class="fas fa-box-open"></i>
-                <span>@lblNoUpcomingFiles</span>
-            </div>
-        }
-        else
-        {
-            @foreach (var file in UpcomingFiles)
-            {
-                <div class="file-table-row">
-                    <span class="icon">
-                        <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/>
-                    </span>
-                    <span class="path">
-                        <span @onclick="() => OpenFile(file)">@file.DisplayName</span>
-                    </span>
-                    <span class="library">
-                        <FlowIconValue Icon="library" Value="@file.LibraryName"/>
-                    </span>
-                </div>
-            }
-        }
+        <div class="no-files">
+            <i class="fas fa-box-open"></i>
+            <span>@lblNoUpcomingFiles</span>
+        </div>
     }
+    @* else *@
+    @* { *@
+    @*         @foreach (var file in UpcomingFiles) *@
+    @*         { *@
+    @*             <div class="file-table-row"> *@
+    @*                 <span class="icon"> *@
+    @*                     <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/> *@
+    @*                 </span> *@
+    @*                 <span class="path"> *@
+    @*                     <span @onclick="() => OpenFile(file)">@file.DisplayName</span> *@
+    @*                 </span> *@
+    @*                 <span class="library"> *@
+    @*                     <FlowIconValue Icon="library" Value="@file.LibraryName"/> *@
+    @*                 </span> *@
+    @*             </div> *@
+    @*         } *@
+    @*     } *@
+    @* } *@
     else
     {
-        var list = (SelectedStatus is FileStatus.ProcessingFailed ? FailedFiles : RecentlyFinished) ?? [];
-        var total = SelectedStatus is FileStatus.ProcessingFailed ? TotalFailed : TotalFinished;
-        if (list.Count == 0)
+        var (list, total, label, viewMore) = SelectedStatus switch
         {
-            var label = SelectedStatus == FileStatus.ProcessingFailed ? lblNoFailedFiles : lblNoRecentlyFinishedFiles;
-            <div class="no-files">
-                <i class="fas fa-box-open"></i>
-                <span>@label</span>
-            </div>
-        }
-        else
+            FileStatus.ProcessingFailed => (FailedFiles, TotalFailed, lblNoFailedFiles, TotalFailed > 50),
+            FileStatus.Unprocessed => (UpcomingFiles, UpcomingFiles.Count, lblNoUpcomingFiles, false),
+            _ => (RecentlyFinished, TotalFinished, lblNoRecentlyFinishedFiles, TotalFinished > 50)
+        };
+        
+        foreach (var file in list ?? [])
         {
-            foreach (var file in list ?? [])
-            {
-                <div class="file-table-row fm-@SelectedStatus.ToString().Kebaberize() @(file.FailureReason != null ? "has-message" : "no-message")">
+            <div class="file-table-row fm-@SelectedStatus.ToString().Kebaberize() 
+                @(file.FailureReason != null ? "has-message" : "no-message")"
+                 @onclick="() => OpenFile(file)">
+                @if (SelectedStatus == FileStatus.Processed)
+                {
+                    var percentage = Math.Min(100, (file.FinalSize / (double)file.OriginalSize) * 100);
+                    <div class="savings" style="width: @percentage%"></div>
+                }
+                <span class="icon">
                     @if (SelectedStatus == FileStatus.Processed)
                     {
-                        var percentage = Math.Min(100, (file.FinalSize / (double)file.OriginalSize) * 100);
-                        <div class="savings" style="width: @percentage%"></div>
+                        <img id="thumb-@file.Uid" class="icon thumbnail" src="@GetThumbUrl(file)" @onclick="() => OpenFile(file)"/>
                     }
-                    <span class="icon">
-                        @if (SelectedStatus == FileStatus.Processed)
-                        {
-                            <img id="thumb-@file.Uid" class="icon thumbnail" src="@GetThumbUrl(file)" @onclick="() => OpenFile(file)"/>
-                        }
-                        else
-                        {
-                            <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/>
-                        }
+                    else
+                    {
+                        <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/>
+                    }
+                </span>
+                <div class="center">
+                    <span class="path">
+                        <span>@file.DisplayName</span>
                     </span>
-                    <div class="center">
-                        <span class="path">
-                            <span @onclick="() => OpenFile(file)">@file.DisplayName</span>
+                    <span class="time">
+                        <span>
+                            @DateString(file.Date)
                         </span>
-                        <span class="time">
-                            <span @onclick="() => OpenFile(file)">
-                                @DateString(file.Date)
+                    </span>
+                    @if (SelectedStatus == FileStatus.Processed)
+                    {
+                        @if (file.FinalSize > 0)
+                        {
+                            <span class="size">
+                                @FileSizeFormatter.FormatSize(file.FinalSize)
                             </span>
-                        </span>
-                        @if (SelectedStatus == FileStatus.Processed)
-                        {
-                            @if (file.FinalSize > 0)
-                            {
-                                <span class="size">
-                                    @FileSizeFormatter.FormatSize(file.FinalSize)
-                                </span>
-                            }
-
-                            @if (file.Traits?.Any() == true)
-                            {
-                                <div class="traits">
-                                    @foreach (var trait in file.Traits)
-                                    {
-                                        <span class="trait">@trait</span>
-                                    }
-                                </div>
-                            }
                         }
-                        @if (file.FailureReason != null)
+
+                        @if (file.Traits?.Any() == true)
                         {
-                            <div class="message" @onclick="() => OpenFile(file)"><span>@file.FailureReason</span></div>
+                            <div class="traits">
+                                @foreach (var trait in file.Traits)
+                                {
+                                    <span class="trait" @onclick:stopPropagation @onclick:preventDefault>@trait</span>
+                                }
+                            </div>
+                        }
+                    }
+
+                    @if (file.FailureReason != null)
+                    {
+                        <div class="message"><span>@file.FailureReason</span></div>
+                    }
+                    
+                    <div class="info">
+                        <FlowIconValue Icon="library" Value="@file.LibraryName"  />
+                        @if (string.IsNullOrEmpty(file.NodeName) == false)
+                        {
+                            <FlowIconValue Icon="node" Value="@file.NodeName" ValueUid="@file.NodeUid"/>
+                        }
+                        @if (string.IsNullOrEmpty(file.FlowName) == false)
+                        {
+                            <FlowIconValue Icon="flow" Value="@file.FlowName" ValueUid="@file.FlowUid"/>
                         }
                     </div>
+                    
                 </div>
-            }
+            </div>
+        }
 
-            if (total > 0)
-            {
-                <a href="/library-files?status=@SelectedStatus" class="view-more ripple">
-                    <span>@lblViewMore</span>
-                </a>
-            }
+        if (viewMore)
+        {
+            <a href="/library-files?status=@SelectedStatus" class="view-more ripple">
+                <span>@lblViewMore</span>
+            </a>
         }
     }
 

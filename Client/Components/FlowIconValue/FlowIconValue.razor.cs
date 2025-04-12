@@ -11,7 +11,12 @@ public partial class FlowIconValue : ComponentBase
     private string _color = string.Empty;
     private string _value = string.Empty;
     private static string _InternalProcessingNode;
-
+    
+    /// <summary>
+    /// Gets or sets the navigation manager used
+    /// </summary>
+    [Inject] private NavigationManager NavigationManager { get; set; }
+    
     static FlowIconValue()
     {
         _InternalProcessingNode = Translater.Instant("Labels.InternalProcessingNode");
@@ -44,23 +49,39 @@ public partial class FlowIconValue : ComponentBase
         get => _color;
         set => _color = value;
     }
-
+    
+    /// <summary>
+    /// Gets or sets a value uid for onclick events
+    /// </summary>
+    [Parameter] public Guid? ValueUid { get; set; }
     
     /// <summary>
     /// Gets or sets the on click event
     /// </summary>
     [Parameter] public EventCallback OnClick { get; set; }
-    
+
     /// <summary>
     /// Gets if this is clickable
     /// </summary>
-    private bool Clickable => OnClick.HasDelegate;
-    
+    private bool Clickable => OnClick.HasDelegate || _IsUidClickable;
+
+    private bool _IsFlow, _IsUidClickable;
+
     /// <summary>
     /// Handles the click event
     /// </summary>
     private void ClickHandler()
-        => _ = OnClick.InvokeAsync();
+    {
+        if (OnClick.HasDelegate)
+        {
+            _ = OnClick.InvokeAsync();
+        }
+        else if(ValueUid != null)
+        {
+            if(_IsFlow)
+                NavigationManager.NavigateTo($"/flows/{ValueUid.Value}");
+        }
+    }
 
     protected override void OnParametersSet()
     {
@@ -72,6 +93,8 @@ public partial class FlowIconValue : ComponentBase
         }
         else if (_icon == "flow")
         {
+            _IsUidClickable = ValueUid != null;
+            _IsFlow = true;
             _icon = "fas fa-sitemap";
             _color = _color?.EmptyAsNull() ?? "blue";
         }

@@ -1,6 +1,7 @@
 @namespace FileFlows.Client.Components
 
-<div class="icon-value @Color.ToLowerInvariant() @(Clickable ? "clickable" :"")" @onclick="ClickHandler">
+<div class="icon-value @Color.ToLowerInvariant() @(Clickable ? "clickable" :"")" @onclick="ClickHandler"
+     @onclick:stopPropagation @onclick:preventDefault>
     <i class="@Icon"></i>
     <span class="value">@Value</span>
 </div>

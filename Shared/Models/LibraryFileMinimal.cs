@@ -44,6 +44,18 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
     public Guid NodeUid { get; set; }
     
     /// <summary>
+    /// Gets or sets the flow name
+    /// </summary>
+    [JsonPropertyName("fn")]
+    public string? FlowName { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the UID of the flow
+    /// </summary>
+    [JsonPropertyName("fu")]
+    public Guid? FlowUid { get; set; }
+    
+    /// <summary>
     /// Gets or sets the library name
     /// </summary>
     [JsonPropertyName("l")]
@@ -138,6 +150,8 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
             OriginalSize = file.OriginalSize,
             FinalSize = file.FinalSize,
             NodeName = file.NodeName,
+            FlowName = file.FlowName?.EmptyAsNull(),
+            FlowUid = file.FlowUid,
             Tags = file.Tags,
             Flags = LibraryFileMinimalFlag.None,
             ProcessingTime = file.ProcessingTime,

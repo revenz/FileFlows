@@ -278,6 +278,8 @@ public class RunInstance(RunnerProperties properties)
             LibraryFile = properties.LibraryFile,
             NodeUid = node.Uid,
             NodeName = node.Name,
+            FlowName = properties.StartingFlow.Name,
+            FlowUid = properties.StartingFlow.Uid,
             IsRemote = properties.IsRemote,
             TotalParts = properties.StartingFlow.Parts.Count,
             CurrentPart = 0,

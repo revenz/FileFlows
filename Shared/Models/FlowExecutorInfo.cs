@@ -13,14 +13,24 @@ public class FlowExecutorInfo
     public LibraryFile LibraryFile { get; set; }
     
     /// <summary>
-    /// Gets or sets the UID of the node execution this flow
+    /// Gets or sets the UID of the node execution thi
     /// </summary>
     public Guid NodeUid { get; set; }
     
     /// <summary>
-    /// Gets or sets the name of the Node executing this flow
+    /// Gets or sets the name of the Node executing this
     /// </summary>
     public string NodeName { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the UID of the flow
+    /// </summary>
+    public Guid FlowUid { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the name of the flow
+    /// </summary>
+    public string FlowName { get; set; }
     
     /// <summary>
     /// Gets or sets if this is a remote file from the server

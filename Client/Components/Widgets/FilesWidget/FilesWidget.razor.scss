@@ -30,59 +30,48 @@
 .file-table-row {
   @include row;
   position:relative;
-  &.fm-processing-failed.has-message .center {
-    display:grid;
-    grid-template-columns: 1fr 8rem;
-    .message {
-      grid-column: 1 / span 2;
-      font-weight: 600;
-      font-size: 0.8rem;
-      color: var(--red);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      > span {
-        cursor: pointer;
-        position:relative;
-      }
-    }
-  }
-  &.fm-processed
-  {  
-    margin: 0.5rem;
-    border-radius: 0.5rem;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  cursor: pointer;
+  
+  .message {
+    grid-column: 1 / span 2;
+    color: var(--error);
     overflow: hidden;
-    .center {
-      flex-direction: column;
-      align-items: unset;
-    }
-    .size, .time {
-      font-weight: var(--bold, 600);
-      position: absolute;
-      right:0;
-      padding:0.5rem;
-      background:rgb(48 48 48);
-      width: fit-content;
-    }
-    .size {
-      bottom:0;
-      border-top-left-radius: 0.5rem;  
-      border-top: solid 1px var(--base);
-      border-left: solid 1px var(--base);
-    }
-    .time {
-      top:0;
-      border-bottom-left-radius: 0.5rem;
-      border-bottom: solid 1px var(--base);
-      border-left: solid 1px var(--base);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    > span {
+      position:relative;
     }
   }
   .center {
+    flex-direction: column;
+    align-items: unset;
     display: flex;
     align-content: center;
     width: 100%;
     overflow: hidden;
-    align-items: center;
+  }
+  .size, .time {
+    font-weight: var(--bold, 600);
+    position: absolute;
+    right:0;
+    padding:0.5rem;
+    background:rgb(48 48 48);
+    width: fit-content;
+  }
+  .size {
+    bottom:0;
+    border-top-left-radius: 0.5rem;  
+    border-top: solid 1px var(--base);
+    border-left: solid 1px var(--base);
+  }
+  .time {
+    top:0;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom: solid 1px var(--base);
+    border-left: solid 1px var(--base);
   }
 }
 .path {
@@ -107,6 +96,7 @@
   display: flex;
   margin-top:0.5rem;
   .trait {
+    cursor: default;
     border: solid 1px var(--info);
     font-size: 0.8rem;
     font-weight: var(--bold, 600);
@@ -120,26 +110,31 @@
   @include backgroundBar;
 }
 
+.info {
+  display: flex;
+  margin-top: 0.5rem;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
 .icon {
   .icon {
-    height:2.25rem;
-    width:3rem;
-    cursor: pointer;
-    position: relative;
+    --icon-size:4rem;
+    height: var( --icon-size);
+    max-height: var( --icon-size);
+    min-height: var( --icon-size);
+    width: var( --icon-size);
+    max-width: var( --icon-size);
+    min-width: var( --icon-size);
+    margin:1.5rem 1.75rem;
+    overflow: hidden;
   }
   .icon.thumbnail {
-    height: 7rem;
-    max-height: 7rem;
-    min-height: 7rem;
-    width: 7rem;
-    max-width: 7rem;
-    min-width: 7rem;
-    cursor: pointer;
-    position: relative;
-    margin-right: 0.5rem;
+    --icon-size:7rem;
+    margin:0 0.5rem 0 0;
     object-fit: cover;
-    border-radius: 0.5rem;
-    overflow: hidden;
+    border-radius: 1rem;
   }
 }
 
