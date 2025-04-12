@@ -171,12 +171,15 @@ public class JsonRpcClient : IDisposable
         {
             // Write the request to the server
             var requestJson = JsonSerializer.Serialize(request);
-#if(DEBUG)
             if (method != "LogMessage" && method != "UpdateRunnerInfo")
+            {
+#if(DEBUG)
                 _ = Basic.LogMessage("Json Message Sent: " + requestJson);
 #else
-            Console.WriteLine("Json Message Sent: " + requestJson);
+                Console.WriteLine("Json Message Sent: " + requestJson);
 #endif
+            }
+
             await writer.WriteLineAsync(requestJson);
 
             // Wait for the response and return the deserialized result
@@ -216,12 +219,15 @@ public class JsonRpcClient : IDisposable
         await streamLock.WaitAsync();
         try
         {
+            if (method != "LogMessage" && method != "UpdateRunnerInfo")
+            {
 #if(DEBUG)
-            if(method != "LogMessage" && method != "UpdateRunnerInfo")
                 _ = Basic.LogMessage("Json Message Sent: " + request);
 #else
-            Console.WriteLine("Json Message Sent: " + request);
+                Console.WriteLine("Json Message Sent: " + request);
 #endif
+            }
+
             // Write the request to the server
             var requestJson = JsonSerializer.Serialize(request);
             await writer.WriteLineAsync(requestJson);
