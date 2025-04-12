@@ -23,24 +23,6 @@
             <span>@lblNoUpcomingFiles</span>
         </div>
     }
-    @* else *@
-    @* { *@
-    @*         @foreach (var file in UpcomingFiles) *@
-    @*         { *@
-    @*             <div class="file-table-row"> *@
-    @*                 <span class="icon"> *@
-    @*                     <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/> *@
-    @*                 </span> *@
-    @*                 <span class="path"> *@
-    @*                     <span @onclick="() => OpenFile(file)">@file.DisplayName</span> *@
-    @*                 </span> *@
-    @*                 <span class="library"> *@
-    @*                     <FlowIconValue Icon="library" Value="@file.LibraryName"/> *@
-    @*                 </span> *@
-    @*             </div> *@
-    @*         } *@
-    @*     } *@
-    @* } *@
     else
     {
         var (list, total, label, viewMore) = SelectedStatus switch
@@ -54,7 +36,7 @@
         {
             <div class="file-table-row fm-@SelectedStatus.ToString().Kebaberize() 
                 @(file.FailureReason != null ? "has-message" : "no-message")"
-                 @onclick="() => OpenFile(file)">
+                 @ondblclick="() => OpenFile(file)">
                 @if (SelectedStatus == FileStatus.Processed)
                 {
                     var percentage = Math.Min(100, (file.FinalSize / (double)file.OriginalSize) * 100);

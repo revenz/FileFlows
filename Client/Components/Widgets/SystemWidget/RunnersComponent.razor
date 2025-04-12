@@ -10,7 +10,7 @@
     var expandable = runner.FramesPerSecond > 0 || runner.Additional?.Any() == true;
 
     <div class="widget-runner table-item @(Minimal ? "minimal" : "") @(expandable ? "expanded" : "collapsed")" 
-         @key="runner.Uid" @onclick="() => OpenRunner(runner)">
+         @key="runner.Uid" @ondblclick="() => OpenRunner(runner)">
         <div class="current-progress" style="width:@(current)%"></div>
         <div class="overall-progress" style="width:@(overall)%"></div>
         <div class="runner-content">
