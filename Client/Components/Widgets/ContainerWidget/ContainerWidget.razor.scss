@@ -1,11 +1,3 @@
-@media (max-width: 850px){
-  .flow-widget {
-    height: fit-content !important;
-    overflow: unset !important;
-    min-height: fit-content !important;
-  }
-}
-
 .flow-widget {
   border: solid 1px var(--border-color);
   border-radius: var(--container-border-radius);

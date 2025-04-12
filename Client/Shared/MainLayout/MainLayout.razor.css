@@ -159,17 +159,54 @@
   }
 }
 @media screen and (max-width: 849.99px) {
-  .page {
-    display: grid;
-    grid-template-rows: 1fr auto;
-  }
-  .page .main {
+  .main {
     overflow: hidden;
-    position: relative;
     grid-row-start: 1;
+    position: absolute;
+    top: 0;
+    bottom: 5.75rem;
+    left: 0;
+    right: 0;
   }
-  .page ::deep .nav-bar {
-    grid-row-start: 2;
+  ::deep .navbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .content {
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+  }
+  .content ::deep .flow-widget {
+    height: 100%;
+    position: relative;
+  }
+  .content ::deep .flow-widget .widget-content {
+    overflow: auto;
+    top: 3.5rem;
+    left: 0.25rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    position: absolute;
+  }
+  .content ::deep > .configuration-layout {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(100vh - 5.5rem);
+    overflow: hidden;
+    display: unset;
+  }
+  .content ::deep > .configuration-layout .config-content {
+    overflow: hidden;
+    position: absolute;
+    top: 5rem;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
   }
 }
 
