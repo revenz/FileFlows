@@ -358,10 +358,11 @@ public partial class Client
     public async Task FileFinishProcessing(LibraryFile libraryFile, string log)
     {
         int count = 0;
-        while (++count < 30)
+        while (++count < 10)
         {
             try
             {
+                await AwaitConnection();
                 var result = await _connection.InvokeAsync<bool>("FileFinishProcessing", libraryFile, log);
                 if (result)
                     return;
@@ -370,7 +371,6 @@ public partial class Client
             {
                 _logger.WLog($"Failed to notify file '{libraryFile.RelativePath}' finished processing[{count}]: {ex.Message}");
             }
-            await Task.Delay(1000);
         }
     }
 

@@ -285,7 +285,7 @@ public partial class Client : IDisposable
     /// </summary>
     /// <param name="timeoutInSeconds">time in seconds to wait for connection</param>
     /// <returns>true if connected, otherwise false if timed out</returns>
-    public async Task<bool> AwaitConnection(int timeoutInSeconds = 30)
+    public async Task<bool> AwaitConnection(int timeoutInSeconds = 60)
     {
         if (_disposed)
             return false;
