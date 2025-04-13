@@ -1,0 +1,52 @@
+@namespace FileFlows.Client.Components.Editors
+
+@using FileFlows.Plugin
+@inherits ModalEditor
+
+<Editor @ref="Editor"></Editor>
+@if (Editor != null && InitDone)
+{
+    <CascadingValue IsFixed="true" Value="Editor">
+        <ViContainer @ref=Container Title="@lblTitle" AlwaysShowTitle=@true Maximise=true>
+
+            <Head>
+                @if (ReadOnly)
+                {
+                    <button x-uid="cancel" class="btn" @onclick=@Cancel>@lblClose</button>
+                }
+                else
+                {
+                    <button x-uid="save" class="btn" @onclick=@Save>@(IsSaving ? lblSaving : lblSave)</button>
+                    <button x-uid="cancel" class="btn" @onclick=@Cancel>@lblCancel</button>
+                }
+
+                @if (string.IsNullOrEmpty(HelpUrl) == false)
+                {
+                    <button x-uid="help" class="btn btn-help" @onclick=@OpenHelp>@lblHelp</button>
+                }
+            </Head>
+
+            <Body>
+            <div class="fields">
+                @if (ReadOnly)
+                {
+                    <InputText ReadOnly="true" Value="@Name" Label="Label.Name" />
+                    <InputCode ReadOnly="true" Value="@Code" HideLabel="true" />
+                }
+                else
+                {
+                    <InputText @bind-Value="@Name" Label="Label.Name" Validators="RequiredValidator" />
+                    
+                    @if (Language is not ScriptLanguage.JavaScript)
+                    {
+                        <InputTextArea @bind-Value="@Description" Label="Label.Description" />
+                        <InputKeyValueInt  @bind-Value="@Outputs" HideLabel="true" HideKeyValueLabels="true" />
+                    }
+                
+                    <InputCode @bind-Value="@Code" HideLabel="true" Validators="RequiredValidator" />
+                }
+            </div>
+            </Body>
+        </ViContainer>
+    </CascadingValue>
+}

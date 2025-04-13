@@ -1,3 +1,5 @@
+using FileFlows.Client.Components.Editors;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components;
@@ -16,6 +18,16 @@ public partial class FlowIconValue : ComponentBase
     /// Gets or sets the navigation manager used
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject]
+    protected FrontendService feService { get; set; }
     
     static FlowIconValue()
     {
@@ -65,7 +77,7 @@ public partial class FlowIconValue : ComponentBase
     /// </summary>
     private bool Clickable => OnClick.HasDelegate || _IsUidClickable;
 
-    private bool _IsFlow, _IsUidClickable;
+    private bool _IsFlow, _IsScript, _IsUidClickable;
 
     /// <summary>
     /// Handles the click event
@@ -80,7 +92,20 @@ public partial class FlowIconValue : ComponentBase
         {
             if(_IsFlow)
                 NavigationManager.NavigateTo($"/flows/{ValueUid.Value}");
+            if (_IsScript)
+                OpenScript();
         }
+    }
+
+    /// <summary>
+    /// Opens a script for editing
+    /// </summary>
+    private void OpenScript()
+    {
+        _ = ModalService.ShowModal<Editors.ScriptEditor, Script>(new ModalEditorOptions()
+        {
+            Uid = ValueUid!.Value
+        });
     }
 
     protected override void OnParametersSet()
@@ -111,6 +136,16 @@ public partial class FlowIconValue : ComponentBase
             };
             if (_value == "FileFlowsServer")
                 _value = _InternalProcessingNode;
+        }
+        else if (_icon == "script")
+        {
+            _icon = "fas fa-scroll";
+            _color = _color?.EmptyAsNull() ?? "blue";
+            _IsScript = true;
+            if (feService.HasRole(UserRole.Scripts))
+            {
+                _IsUidClickable = ValueUid != null;
+            }
         }
         
     }

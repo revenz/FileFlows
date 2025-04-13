@@ -76,3 +76,34 @@
     padding: 0.5rem 1rem;
 }
 
+.modal-render .vi-container {
+    position: fixed !important;
+    height: unset !important;
+    top: 4.5rem;
+    right: 1rem;
+    border: solid 1px var(--border-color);
+    border-radius: var(--container-border-radius);
+    background: var(--widget-background);
+    bottom: 1rem;
+    max-width: 56rem;
+    width: calc(100% - 2rem);
+    .content {
+        padding:1.5rem 0.5rem;
+    }
+    .fields .row {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+    .top-row .other {
+        display: flex;
+        gap: 0.5rem;
+        button {
+            min-width: 7rem;
+            width: fit-content;
+        }
+    }
+    .blocker {
+        position: absolute;
+        background: rgba(var(--base-darkest-rgb), 0.6)
+    }
+}

@@ -1,6 +1,6 @@
 @namespace FileFlows.Client.Components
 
-<div class="vi-container @(FullWidth ? "fullwidth" : "") @(Flex ? "flex" : "") @ClassName @(PageView ? "page-view" : "")">
+<div class="vi-container @(IsMaximised ? "vi-maximized" : "") @(FullWidth ? "fullwidth" : "") @(Flex ? "flex" : "") @ClassName @(PageView ? "page-view" : "")">
     <div class="top-row  @(AlwaysShowTitle ? "show-title" : "")">
         <span class="title">
             @if (Maximise)
@@ -22,4 +22,5 @@
     <div class="content">
         @Body
     </div>
+    <Blocker @ref="Blocker"></Blocker>
 </div>

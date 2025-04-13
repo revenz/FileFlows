@@ -355,4 +355,12 @@ public class FrontendService : IAsyncDisposable
         await (_listeningTask ?? Task.CompletedTask);
         _cts?.Dispose();
     }
+
+    /// <summary>
+    /// Checks if this profile has a role
+    /// </summary>
+    /// <param name="role">the role to check</param>
+    /// <returns>true if they have this role</returns>
+    public bool HasRole(UserRole role)
+        => Profile.Profile.HasRole(role);
 }

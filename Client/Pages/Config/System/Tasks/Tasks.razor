@@ -40,7 +40,8 @@
                         <div class="info">
                             @if (Scripts.TryGetValue(item.Script, out var scriptName))
                             {
-                                <IconValue Color="IconValueColor.Blue" Icon="fas fa-scroll" Value="@scriptName" />
+                                <FlowIconValue Icon="script" Value="@scriptName" ValueUid="item.Script" />
+                                @* <IconValue Color="IconValueColor.Blue" Icon="fas fa-scroll" Value="@scriptName"  /> *@
                             }
                             else
                             {
