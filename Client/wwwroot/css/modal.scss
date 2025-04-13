@@ -87,6 +87,15 @@
     bottom: 1rem;
     max-width: 56rem;
     width: calc(100% - 2rem);
+    &.vi-maximized {
+        left: 6.5rem;
+        width: unset;
+        max-width: unset;
+        top: 4rem;
+        right: 0.5rem;
+        bottom: 0.5rem;
+    }
+    
     .content {
         padding:1.5rem 0.5rem;
     }
