@@ -59,12 +59,15 @@ public partial class Client
 
         await UpdateConfiguration();
     }
-
+    
     /// <summary>
     /// Called when the configuration has to be updated
     /// </summary>
     public async Task UpdateConfiguration()
     {
+        if (_updatingConfiguration)
+            return;
+        
         const string prefix = "UpdateConfiguration:";
         _logger.ILog($"{prefix} Updating configuration");
         if (_node == null)
@@ -73,9 +76,9 @@ public partial class Client
             return;
         }
 
-        if (await _configurationSemaphore.WaitAsync(20_000) == false)
+        if (await _configurationSemaphore.WaitAsync(1_000) == false)
         {
-            _logger.ILog($"{prefix} Failed to acquire configuration update semaphore within 20 seconds.");
+            _logger.ILog($"{prefix} Failed to acquire configuration update semaphore, already updating.");
             return;
         }
         try
@@ -259,7 +262,7 @@ public partial class Client
                     if (result == NodeStatusUpdateResult.UpdateConfiguration)
                     {
                         _logger.ILog($"Configuration out of date for {(_node?.Name?.EmptyAsNull() ?? _hostname)}");
-                        await UpdateConfiguration();
+                        _ =  UpdateConfiguration(); // do not await this, as this could cause the node to stop sending updates
                     }
                 }
             }
