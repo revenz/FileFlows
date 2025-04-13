@@ -10,8 +10,5 @@
     <InputSwitch @bind-Value="@Model.LogEveryRequest" Label="Pages.Settings.Fields.LogEveryRequest" />
     <InputNumber @bind-Value="@Model.LogFileRetention" Label="Pages.Settings.Fields.LogFileRetention" Min=1 Max=100 />
 }
-<InputSwitch @bind-Value="@Model.ShowFileAddedNotifications" Inverse="false" Label="Pages.Settings.Fields.ShowFileAddedNotifications" />
-<InputSwitch @bind-Value="@Model.HideProcessingStartedNotifications" Inverse="true" Label="Pages.Settings.Fields.HideProcessingStartedNotifications" />
-<InputSwitch @bind-Value="@Model.HideProcessingFinishedNotifications" Inverse="true" Label="Pages.Settings.Fields.HideProcessingFinishedNotifications" />
 
 <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />

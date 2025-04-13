@@ -19,19 +19,4 @@ public class LoggingModel
     /// Gets or sets if every request to the server should be logged
     /// </summary>
     public bool LogEveryRequest { get; set; }
-    
-    /// <summary>
-    /// Gets or sets if the notifications for file added should be shown
-    /// </summary>
-    public bool ShowFileAddedNotifications { get; set; }
-    
-    /// <summary>
-    /// Gets or sets if the notifications for processing started added should not be shown
-    /// </summary>
-    public bool HideProcessingStartedNotifications { get; set; }
-    
-    /// <summary>
-    /// Gets or sets if the notifications for processing finished added should not be shown
-    /// </summary>
-    public bool HideProcessingFinishedNotifications { get; set; }
 }

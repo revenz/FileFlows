@@ -71,21 +71,6 @@ public class Settings : FileFlowObject
     /// Gets or sets if the Queue messages should be logged
     /// </summary>
     public bool LogQueueMessages { get; set; }
-    
-    /// <summary>
-    /// Gets or sets if the notifications for file added should be shown
-    /// </summary>
-    public bool ShowFileAddedNotifications { get; set; }
-    
-    /// <summary>
-    /// Gets or sets if the notifications for processing started added should not be shown
-    /// </summary>
-    public bool HideProcessingStartedNotifications { get; set; }
-    
-    /// <summary>
-    /// Gets or sets if the notifications for processing finished added should not be shown
-    /// </summary>
-    public bool HideProcessingFinishedNotifications { get; set; }
 
     /// <summary>
     /// Gets or sets the revision of the configuration
