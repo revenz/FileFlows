@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using System.Text.Json;
 using FileFlows.Common;
 using FileFlows.Helpers;
+using FileFlows.Plugin;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared;
 using FileFlows.ServerShared.Models;
@@ -329,7 +330,12 @@ public partial class Client
         {
             try
             {
-                return await _connection.InvokeAsync<bool>("FileStartProcessing", libraryFile);
+                return await _connection.InvokeAsync<bool>("FileStartProcessing", libraryFile, new ObjectReference()
+                {
+                    Uid = _nodeUid,
+                    Name = _node!.Name,
+                    Type = _node.GetType().FullName!
+                });
             }
             catch (Exception ex)
             {

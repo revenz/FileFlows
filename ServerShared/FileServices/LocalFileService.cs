@@ -151,7 +151,7 @@ public class LocalFileService(bool dontUseTemporaryFilesForMoveCopy) : IFileServ
                                     System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                             {
                                 Logger?.ILog("Matching file found: " + file);
-                                return false; // File matches, directory is not empty
+                                return false; // File matches, directoryc is not empty
                             }
                         }
                         catch (Exception)

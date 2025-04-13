@@ -51,10 +51,11 @@ public partial class NodeHub
     /// Starts processing a file
     /// </summary>
     /// <param name="libraryFile">the library file </param>
+    /// <param name="node">the node that is processing this file</param>
     /// <returns>true that it was received</returns>
-    public async Task<bool> FileStartProcessing(LibraryFile libraryFile)
+    public async Task<bool> FileStartProcessing(LibraryFile libraryFile, ObjectReference node)
     {
-        _logger.ILog($"NodeHub.FileStartProcessing: {libraryFile.Name}");
+        _logger.ILog($"NodeHub.FileStartProcessing: {libraryFile.Name} : Node: {node.Name}");
         var sorter = ServiceLoader.Load<FileSorterService>();
 
         // the library file passed in isnt the cached instance, so get one from tdb
@@ -66,8 +67,8 @@ public partial class NodeHub
         }
 
         file.Status = FileStatus.Processing;
-        if(libraryFile.Node != null && file.Node.Uid != Guid.Empty)
-            file.Node = libraryFile.Node;
+        file.Node = node;
+        
         if(libraryFile.Flow != null && file.Flow.Uid != Guid.Empty)
             file.Flow = libraryFile.Flow;
         
