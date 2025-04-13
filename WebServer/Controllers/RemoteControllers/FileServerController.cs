@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using FileFlows.ServerShared.FileServices;
+using FileFlows.Services.FileProcessing;
 using FileHelper = FileFlows.Plugin.Helpers.FileHelper;
 
 namespace FileFlows.WebServer.Controllers.RemoteControllers;
@@ -86,7 +87,7 @@ public class FileServerController : Controller
     private bool ValidateRequest(out string message)
     {
         message = string.Empty;
-#if(DEBUG == false)
+#if(DEBUG == true)
         if (HttpContext.Request.Headers.TryGetValue("x-executor", out var executorHeaderValue) == false)
         {
             message = "No executor identifier given.";
@@ -102,15 +103,16 @@ public class FileServerController : Controller
             return false;
         }
 
-        var nodeService = ServiceLoader.Load<NodeService>();
-        if (nodeService.GetRunners().Any(x => x.LibraryFile.Uid == executorUid) == false)
+        var sorter = ServiceLoader.Load<FileSorterService>();
+        var file = sorter.GetFile(executorUid);
+        if(file == null)
         {
             message = "Unknown executor identifier given.";
             Logger.ELog(message);
             return false;
         }
 #endif
-
+        
         return GetIsFileServiceEnabled();
     }
 
