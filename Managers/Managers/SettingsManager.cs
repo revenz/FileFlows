@@ -72,8 +72,12 @@ public class SettingsManager
             int revision = Instance!.Revision + 1;
             Instance!.Revision = revision;
             await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(Instance, null);
-            
-            RevisionUpdated?.Invoke(Instance.Revision);
+
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(50);
+                RevisionUpdated?.Invoke(Instance.Revision);
+            });
         }
         catch (Exception ex)
         {
