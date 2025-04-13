@@ -6,10 +6,10 @@
 
 <FlowSkyBox TItem="FlowType" @ref=Skybox OnSelected=@SetSelected />
 
-@if (SelectedType == FlowType.Failure)
-{
-<div class="info box">@lblFailureFlowDescription</div>
-}
+@* @if (SelectedType == FlowType.Failure) *@
+@* { *@
+@* <div class="info box">@lblFailureFlowDescription</div> *@
+@* } *@
 <FlowTable @ref="Table" Data="@(SelectedType == FlowType.Failure ? DataFailure : 
 SelectedType == FlowType.SubFlow ? DataSubFlows :
 SelectedType == FlowType.FileDrop ? DataFileDrop : 

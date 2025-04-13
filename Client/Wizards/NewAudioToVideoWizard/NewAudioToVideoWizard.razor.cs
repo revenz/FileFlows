@@ -93,7 +93,7 @@ public partial class NewAudioToVideoWizard
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        if (Options is NewImageFlowWizardOptions options)
+        if (Options is NewAudioToVideoWizardOptions options)
             FileDropFlow = options.FileDropFlow;
         VideoCodecs =
         [
