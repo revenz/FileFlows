@@ -1,5 +1,6 @@
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace FileFlows.Client.Services;
 
@@ -65,9 +66,18 @@ public interface IModal : IComponent
 public class ModalService : IModalService
 {
     private readonly List<IModal> activeModals = new();
+    private readonly IJSRuntime jsRuntime;
+    private DotNetObjectReference<ModalService> dotNetRef;
 
     /// <inheritdoc />    
     public event Action OnModalsChanged;
+
+    public ModalService(IJSRuntime jsRuntime)
+    {
+        this.jsRuntime = jsRuntime;
+        dotNetRef = DotNetObjectReference.Create(this);
+        _ = jsRuntime.InvokeVoidAsync("ff.modalServiceHandleEscape", dotNetRef);
+    }
 
     /// <inheritdoc />
     public async Task<Result<V>> ShowModal<T, V>(IModalOptions options) where T : IModal, new()
@@ -104,4 +114,28 @@ public class ModalService : IModalService
 
     /// <inheritdoc />
     public List<IModal> GetActiveModals() => activeModals.ToList();
+    
+    /// <summary>
+    /// Handles the escape key being pushed
+    /// </summary>
+    [JSInvokable]
+    public void OnEscapePressed()
+    {
+        if (activeModals.Count == 0)
+            return;
+
+        // Get the last modal (top-most)
+        var topModal = activeModals[^1];
+        topModal.Cancel();
+    }
+
+    /// <summary>
+    /// Disposes of hte service
+    /// </summary>
+    /// <returns>the value task</returns>
+    public ValueTask DisposeAsync()
+    {
+        dotNetRef?.Dispose();
+        return ValueTask.CompletedTask;
+    }
 }

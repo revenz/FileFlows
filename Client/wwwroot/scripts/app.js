@@ -506,5 +506,12 @@ window.ff = {
             window.removeEventListener('click', clickHandler);
             delete window.elementClickHandlers[elementId];
         }
+    },
+    modalServiceHandleEscape: function (dotNetHelper) {
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                dotNetHelper.invokeMethodAsync('OnEscapePressed');
+            }
+        });
     }
 };
