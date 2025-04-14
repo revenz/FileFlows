@@ -153,7 +153,6 @@ public class NodeController : BaseController
                 internalNode.AllLibraries = node.AllLibraries;
                 internalNode.MaxFileSizeMb = node.MaxFileSizeMb;
                 internalNode.Variables = node.Variables ?? new();
-                internalNode.ProcessFileCheckInterval = node.ProcessFileCheckInterval;
                 internalNode.PreExecuteScript = node.PreExecuteScript;
                 internalNode.ProcessingOrder = node.ProcessingOrder;
                 

@@ -19,28 +19,43 @@ public abstract class ModalEditor : ComponentBase, IModal
     /// </summary>
     [Inject]
     protected NavigationManager NavigationManager { get; set; }
-
+    
     /// <summary>
     /// Gets or sets if the init is done
     /// </summary>
-    protected bool InitDone { get; private set; }
+    public bool InitDone { get; private set; }
 
     /// <summary>
     /// Translation strings
     /// </summary>
-    protected string lblTitle, lblClose, lblCancel, lblSave, lblSaving, lblHelp;
+    protected string lblClose, lblCancel, lblSave, lblSaving, lblHelp;
 
     private Editor _Editor;
 
     /// <summary>
     /// Gets or sets if the editor is being saved
     /// </summary>
-    protected bool IsSaving { get; set; }
+    public bool IsSaving { get; protected set; }
+    
+    /// <summary>
+    /// Gets or sets if this is readonly 
+    /// </summary>
+    public bool ReadOnly{ get; protected set; }
 
     /// <summary>
     /// Gets the help URL
     /// </summary>
-    protected virtual string HelpUrl { get; }
+    public virtual string HelpUrl { get; }
+
+    /// <summary>
+    /// Gets the title
+    /// </summary>
+    public string Title { get; protected set; }
+
+    /// <summary>
+    /// Gets or sets the container
+    /// </summary>
+    public ViContainer Container { get; set; }
 
     /// <summary>
     /// Gets or sets the editor
@@ -58,6 +73,13 @@ public abstract class ModalEditor : ComponentBase, IModal
         }
     }
 
+    public virtual async Task Load()
+    {
+        await LoadModel();
+        InitDone = true;
+    }
+    
+    public virtual Task LoadModel() => Task.CompletedTask;
 
     /// <inheritdoc />
     [Parameter]
@@ -65,9 +87,15 @@ public abstract class ModalEditor : ComponentBase, IModal
 
     /// <inheritdoc />
     [Parameter]
-    #pragma warning disable BL0007
-    public abstract IModalOptions Options { get; set; }
-    #pragma warning restore BL0007
+    public virtual IModalOptions Options { get; set; }
+
+    /// <summary>
+    /// Gets if the user is licensed for a feature
+    /// </summary>
+    /// <param name="flag">the flag</param>
+    /// <returns>true if licensed, otherwise false</returns>
+    protected bool LicensedFor(LicenseFlags flag)
+        => feService.Profile.Profile.LicensedFor(flag);
 
     /// <summary>
     /// Closes the dialog
@@ -95,8 +123,6 @@ public abstract class ModalEditor : ComponentBase, IModal
         lblCancel = Translater.Instant("Labels.Cancel");
         lblClose = Translater.Instant("Labels.Close");
         lblHelp = Translater.Instant("Labels.Help");
-
-        InitDone = true;
     }
 
     /// <summary>
@@ -128,6 +154,12 @@ public abstract class ModalEditor : ComponentBase, IModal
     /// <returns>the model UID or empty GUID if none set</returns>
     protected Guid GetModelUid()
         => (Options as ModalEditorOptions)?.Uid ?? Guid.Empty;
+
+    /// <summary>
+    /// Saves the modal
+    /// </summary>
+    /// <returns>a task to await</returns>
+    public virtual Task Save() => Task.CompletedTask;
 }
 
 /// <summary>

@@ -40,8 +40,8 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
     /// <summary>
     /// Gets or sets the UID of the node
     /// </summary>
-    [JsonIgnore]
-    public Guid NodeUid { get; set; }
+    [JsonPropertyName("nu")]
+    public Guid? NodeUid { get; set; }
     
     /// <summary>
     /// Gets or sets the flow name
@@ -54,6 +54,12 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
     /// </summary>
     [JsonPropertyName("fu")]
     public Guid? FlowUid { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the UID of the library
+    /// </summary>
+    [JsonPropertyName("lu")]
+    public Guid? LibraryUid { get; set; }
     
     /// <summary>
     /// Gets or sets the library name
@@ -145,13 +151,19 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
             Uid = file.Uid,
             FailureReason = file.FailureReason,
             Status = file.Status,
-            LibraryName = file.LibraryName,
             Traits = file.Additional?.Traits != null ? new List<string>(file.Additional?.Traits) : new List<string>(),
             OriginalSize = file.OriginalSize,
             FinalSize = file.FinalSize,
+            
+            LibraryName = file.LibraryName,
+            LibraryUid = file.LibraryUid,
+            
             NodeName = file.NodeName,
+            NodeUid = file.NodeUid,
+            
             FlowName = file.FlowName?.EmptyAsNull(),
             FlowUid = file.FlowUid,
+            
             Tags = file.Tags,
             Flags = LibraryFileMinimalFlag.None,
             ProcessingTime = file.ProcessingTime,
@@ -233,12 +245,6 @@ public class ProcessingLibraryFile : LibraryFileMinimal
     [JsonPropertyName("wf")]
     public string WorkingFile { get; set; }
     
-    /// <summary>
-    /// Gets or sets the UID fo the library
-    /// that the library file belongs
-    /// </summary>
-    [JsonPropertyName("lu")]
-    public Guid LibraryUid { get; set; }
 
     /// <summary>
     /// Gets or sets the total parts in the flow that is executing

@@ -1,0 +1,33 @@
+@namespace FileFlows.Client.Components.Editors
+
+<Editor @ref="Editor"></Editor>
+<CascadingValue IsFixed="true" Value="Editor">
+    <ViContainer @ref=Container Title="@Title" AlwaysShowTitle=@true Maximise=true>
+
+        <Head>
+            @if (ReadOnly)
+            {
+                <button x-uid="cancel" class="btn" @onclick=@Cancel>@lblClose</button>
+            }
+            else
+            {
+                <button x-uid="save" class="btn" @onclick=@Save>@(IsSaving ? lblSaving : lblSave)</button>
+                <button x-uid="cancel" class="btn" @onclick=@Cancel>@lblCancel</button>
+            }
+
+            @if (string.IsNullOrEmpty(HelpUrl) == false)
+            {
+                <button x-uid="help" class="btn btn-help" @onclick=@OpenHelp>@lblHelp</button>
+            }
+        </Head>
+
+        <Body>
+        @if (Editor != null && InitDone)
+        {
+            <div class="fields">
+                @ChildContent
+            </div>
+        }
+        </Body>
+    </ViContainer>
+</CascadingValue>

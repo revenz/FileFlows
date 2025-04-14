@@ -850,6 +850,11 @@
       "Minutes": "Minutes",
       "Weeks": "Weeks"
     },
+    "ProcessingLibraries": {
+      "All": "All",
+      "AllExcept": "All Except",
+      "Only": "Only"
+    },
     "ProcessingNodeStatus": {
       "ConfigurationMismatch": "Configuration Outdated",
       "Disabled": "Disabled",
@@ -1546,9 +1551,6 @@
         "PreExecuteScript-Help": "A script that will run before any file is processed.  The result of this script must be 1 for it to pass anything else and the node will not process a file.",
         "Priority": "Priority",
         "Priority-Help": "The higher the number the higher the priority.  Nodes with a higher priority will be favoured and given files to process first, unless those nodes are out of schedule, disabled, at their maximum runners.",
-        "ProcessFileCheckInterval": "File Check Interval",
-        "ProcessFileCheckInterval-Help": "How often to check for a new file to processing in the processing nodes.\nSet to 0 to use the system value.",
-        "ProcessFileCheckInterval-Suffix": "seconds",
         "ProcessingDescription": "This allows you to configure what this Processing Node can process.\n\nFor example, you could limit this node to only process certain libraries or a maximum file size if this node is a lower powered node.",
         "ProcessingOrder": "Processing Order",
         "ProcessingOrder-Help": "Specifies the order in which files are processed by this Node. This setting overrides the library's default processing order. Set to 'Default' to use the library's processing order.",
@@ -1561,6 +1563,14 @@
         "VariablesDescription": "Variables let you configure advanced variables to set on a processing node.",
         "VariablesKey": "Name",
         "VariablesValue": "Value"
+      },
+      "Tabs": {
+        "Advanced": "Advanced",
+        "General": "General",
+        "Mappings": "Mappings",
+        "Processing": "Processing",
+        "Schedule": "Schedule",
+        "Variables": "Variables"
       }
     },
     "Report": {
@@ -1724,9 +1734,6 @@
         "MaxPageSize-Help": "The maximum number of items to display in a list. This applies to processed file data sent to the UI during loading. This number should be equal to or greater than the Queue Capacity.",
         "PluginRepositoryUrls": "Plugin Repositories",
         "PluginRepositoryUrls-Help": "A line separated list of plugin repository URLs to use when searching for plugins.\nThe order is important, if multiple repositories contain the same plugin, the first repository will be used as it''s source.\nThe default repository will always be added to the end of this list.",
-        "ProcessFileCheckInterval": "File Check Interval",
-        "ProcessFileCheckInterval-Help": "How often to check for a new file to processing in the processing nodes.",
-        "ProcessFileCheckInterval-Suffix": "seconds",
         "QueueCapacity": "Queue Capacity",
         "QueueCapacity-Help": "The maximum number of items that can be added to the queue. These include items that are out of schedule, on hold, or disabled. Increasing this number increases the data sent to the UI and may impact performance.",
         "ScanWhenPaused": "Scan While Paused",

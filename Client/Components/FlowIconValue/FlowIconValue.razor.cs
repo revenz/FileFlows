@@ -77,7 +77,7 @@ public partial class FlowIconValue : ComponentBase
     /// </summary>
     private bool Clickable => OnClick.HasDelegate || _IsUidClickable;
 
-    private bool _IsFlow, _IsScript, _IsUidClickable;
+    private bool _IsFlow, _IsLibrary, _IsNode, _IsScript, _IsUidClickable;
 
     /// <summary>
     /// Handles the click event
@@ -88,15 +88,41 @@ public partial class FlowIconValue : ComponentBase
         {
             _ = OnClick.InvokeAsync();
         }
-        else if(ValueUid != null)
+        else if(_IsUidClickable && ValueUid != null)
         {
             if(_IsFlow)
                 NavigationManager.NavigateTo($"/flows/{ValueUid.Value}");
+            if (_IsLibrary)
+                OpenLibrary();
+            if (_IsNode)
+                OpenNode();
             if (_IsScript)
                 OpenScript();
         }
     }
 
+    /// <summary>
+    /// Opens a library for editing
+    /// </summary>
+    private void OpenLibrary()
+    {
+        // _ = ModalService.ShowModal<Editors.NodeEditor, ProcessingNode>(new ModalEditorOptions()
+        // {
+        //     Uid = ValueUid!.Value
+        // });
+    }
+    
+    /// <summary>
+    /// Opens a node for editing
+    /// </summary>
+    private void OpenNode()
+    {
+        _ = ModalService.ShowModal<Editors.NodeEditor, ProcessingNode>(new ModalEditorOptions()
+        {
+            Uid = ValueUid!.Value
+        });
+    }
+    
     /// <summary>
     /// Opens a script for editing
     /// </summary>
@@ -113,8 +139,13 @@ public partial class FlowIconValue : ComponentBase
         _icon = _icon.ToLowerInvariant();
         if (_icon == "library")
         {
+            _IsLibrary = true;
             _icon = "fas fa-folder";
             _color = _color?.EmptyAsNull() ?? "green";
+            if (feService.HasRole(UserRole.Libraries))
+            {
+                _IsUidClickable = ValueUid != null && ValueUid != Guid.Empty;
+            }
         }
         else if (_icon == "flow")
         {
@@ -125,6 +156,7 @@ public partial class FlowIconValue : ComponentBase
         }
         else if (_icon.StartsWith("node"))
         {
+            _IsNode = true;
             _color = _color?.EmptyAsNull() ?? "purple";
             _icon = _icon switch
             {
@@ -136,6 +168,10 @@ public partial class FlowIconValue : ComponentBase
             };
             if (_value == "FileFlowsServer")
                 _value = _InternalProcessingNode;
+            if (feService.HasRole(UserRole.Nodes))
+            {
+                _IsUidClickable = ValueUid != null && ValueUid != Guid.Empty;
+            }
         }
         else if (_icon == "script")
         {

@@ -850,6 +850,11 @@
       "Minutes": "分钟",
       "Weeks": "周"
     },
+    "ProcessingLibraries": {
+      "All": "全部",
+      "AllExcept": "除了以下全部",
+      "Only": "仅"
+    },
     "ProcessingNodeStatus": {
       "ConfigurationMismatch": "配置已过时",
       "Disabled": "已禁用",
@@ -1546,9 +1551,6 @@
         "PreExecuteScript-Help": "在处理任何文件之前运行的脚本。此脚本的结果必须为1才能通过，否则节点将不会处理文件。",
         "Priority": "优先级",
         "Priority-Help": "数字越高，优先级越高。优先级较高的节点将优先处理文件，除非这些节点超出计划、禁用或达到其最大运行程序。",
-        "ProcessFileCheckInterval": "文件检查间隔",
-        "ProcessFileCheckInterval-Help": "处理节点中检查新文件的频率。\n设置为0以使用系统值。",
-        "ProcessFileCheckInterval-Suffix": "秒",
         "ProcessingDescription": "这允许您配置此处理节点可以处理的内容。\n\n例如，如果此节点是低功耗节点，您可以限制此节点仅处理某些库或最大文件大小。",
         "ProcessingOrder": "处理顺序",
         "ProcessingOrder-Help": "指定此节点处理文件的顺序。此设置将覆盖库的默认处理顺序。设置为“默认”以使用库的处理顺序。",
@@ -1561,6 +1563,14 @@
         "VariablesDescription": "变量让您配置要在处理节点上设置的高级变量。",
         "VariablesKey": "名称",
         "VariablesValue": "值"
+      },
+      "Tabs": {
+        "Advanced": "高级",
+        "General": "常规",
+        "Mappings": "映射",
+        "Processing": "处理",
+        "Schedule": "计划",
+        "Variables": "变量"
       }
     },
     "Report": {
@@ -1724,9 +1734,6 @@
         "MaxPageSize-Help": "列表中可显示的最大项目数。这适用于在加载时发送到 UI 的已处理文件数据。此数值应等于或大于队列容量。",
         "PluginRepositoryUrls": "插件仓库",
         "PluginRepositoryUrls-Help": "用于搜索插件的插件仓库 URL 的换行分隔列表。\n顺序很重要，如果多个仓库包含相同的插件，将使用第一个仓库作为其来源。\n默认仓库将始终添加到此列表的末尾。",
-        "ProcessFileCheckInterval": "文件检查间隔",
-        "ProcessFileCheckInterval-Help": "在处理节点中检查新文件的频率。",
-        "ProcessFileCheckInterval-Suffix": "秒",
         "QueueCapacity": "队列容量",
         "QueueCapacity-Help": "可以添加到队列的最大项目数。这包括超出计划、暂停或禁用的项目。增加此数值会增加发送到 UI 的数据，并可能影响性能。",
         "ScanWhenPaused": "暂停时扫描",

@@ -850,6 +850,11 @@
       "Minutes": "Minutes",
       "Weeks": "Semaines"
     },
+    "ProcessingLibraries": {
+      "All": "Tous",
+      "AllExcept": "Tous sauf",
+      "Only": "Seulement"
+    },
     "ProcessingNodeStatus": {
       "ConfigurationMismatch": "Configuration obsolète",
       "Disabled": "Désactivé",
@@ -1546,9 +1551,6 @@
         "PreExecuteScript-Help": "Un script qui sera exécuté avant qu'un fichier ne soit traité. Le résultat de ce script doit être 1 pour qu'il réussisse, sinon le nœud ne traitera pas de fichier.",
         "Priority": "Priorité",
         "Priority-Help": "Plus le nombre est élevé, plus la priorité est élevée. Les nœuds avec une priorité plus élevée seront favorisés et recevront les fichiers à traiter en premier, sauf si ces nœuds sont hors programme, désactivés, ou à leur maximum d'exécuteurs.",
-        "ProcessFileCheckInterval": "Intervalle de vérification des fichiers",
-        "ProcessFileCheckInterval-Help": "À quelle fréquence vérifier un nouveau fichier à traiter dans les nœuds de traitement.\nRéglez sur 0 pour utiliser la valeur système.",
-        "ProcessFileCheckInterval-Suffix": "secondes",
         "ProcessingDescription": "Cela vous permet de configurer ce que ce nœud de traitement peut traiter.\n\nPar exemple, vous pourriez limiter ce nœud à traiter uniquement certaines bibliothèques ou une taille de fichier maximale si ce nœud est moins puissant.",
         "ProcessingOrder": "Ordre de Traitement",
         "ProcessingOrder-Help": "Spécifie l'ordre dans lequel les fichiers sont traités par ce Nœud. Ce paramètre remplace l'ordre de traitement par défaut de la bibliothèque. Réglez sur 'Par défaut' pour utiliser l'ordre de traitement de la bibliothèque.",
@@ -1561,6 +1563,14 @@
         "VariablesDescription": "Les variables vous permettent de configurer des variables avancées à définir sur un nœud de traitement.",
         "VariablesKey": "Nom",
         "VariablesValue": "Valeur"
+      },
+      "Tabs": {
+        "Advanced": "Avancé",
+        "General": "Général",
+        "Mappings": "Mappages",
+        "Processing": "Traitement",
+        "Schedule": "Calendrier",
+        "Variables": "Variables"
       }
     },
     "Report": {
@@ -1724,9 +1734,6 @@
         "MaxPageSize-Help": "Le nombre maximal d'éléments à afficher dans une liste. Cela s'applique aux données des fichiers traités envoyées à l'UI lors du chargement. Ce nombre doit être égal ou supérieur à la Capacité de la File d'Attente.",
         "PluginRepositoryUrls": "Dépôts de plugins",
         "PluginRepositoryUrls-Help": "Une liste séparée par des lignes des URL des dépôts de plugins à utiliser lors de la recherche de plugins.\nL'ordre est important, si plusieurs dépôts contiennent le même plugin, le premier dépôt sera utilisé comme source.\nLe dépôt par défaut sera toujours ajouté à la fin de cette liste.",
-        "ProcessFileCheckInterval": "Intervalle de vérification des fichiers",
-        "ProcessFileCheckInterval-Help": "À quelle fréquence vérifier un nouveau fichier à traiter dans les nœuds de traitement.",
-        "ProcessFileCheckInterval-Suffix": "secondes",
         "QueueCapacity": "Capacité de la File d'Attente",
         "QueueCapacity-Help": "Le nombre maximum d'éléments pouvant être ajoutés à la file d'attente. Cela inclut les éléments hors programme, en attente ou désactivés. Augmenter cette valeur augmente les données envoyées à l'UI et peut affecter les performances.",
         "ScanWhenPaused": "Analyser en pause",

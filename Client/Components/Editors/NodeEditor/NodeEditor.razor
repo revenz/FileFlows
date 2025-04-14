@@ -1,0 +1,81 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper Modal="@this">
+    
+    <FlowTabs>
+        <FlowTab Title="Pages.ProcessingNode.Tabs.General">
+            
+            @if (IsExternalNode)
+            {
+                <InputText @bind-Value="Model.Name" Label="Labels.Name" Validators="RequiredValidator"/>
+                <InputText @bind-Value="Model.Address" Label="Pages.ProcessingNode.Fields.Address" Validators="RequiredValidator"/>
+            }
+            
+            <InputSwitch @bind-Value="@Model.Enabled" Label="Pages.ProcessingNode.Fields.Enabled" />
+            <InputNumber TItem="Int32" @bind-Value="@Model.FlowRunners" Label="Pages.ProcessingNode.Fields.FlowRunners" Min="1" Max="100" />
+
+            <InputNumber TItem="Int32" @bind-Value="@Model.Priority" Label="Pages.ProcessingNode.Fields.Priority" Min="0" Max="100" />
+            
+            @if (IsExternalNode)
+            {
+                <InputText @bind-Value="Model.TempPath" Label="Pages.ProcessingNode.Fields.TempPath" Validators="RequiredValidator"/>
+            }
+            else
+            {
+                <InputFile @bind-Value="Model.TempPath" Label="Pages.ProcessingNode.Fields.TempPath" Validators="RequiredValidator" Directory="true" />
+            }
+            
+            @if (LicensedFor(LicenseFlags.Tasks))
+            {
+                <InputSelect @bind-Value="BoundPreExecuteScript" Options="ScriptOptions" Label="Pages.ProcessingNode.Fields.PreExecuteScript" />
+            }
+            
+            <InputIconPicker @bind-Value="Model.Icon" Label="Pages.ProcessingNode.Fields.Icon" />
+
+        </FlowTab>
+        <FlowTab Title="Pages.ProcessingNode.Tabs.Schedule">
+            <p class="tab-description">@lblScheduleDescription</p>
+            
+            <InputSchedule @bind-Value="Model.Schedule" Label="Pages.ProcessingNode.Fields.Schedule" HideLabel="true" />
+        </FlowTab>
+        <FlowTab Title="Pages.ProcessingNode.Tabs.Mappings" Visible="@IsExternalNode">
+            <p class="tab-description">@lblMappingsDescription</p>
+            <InputKeyValue @bind-Value="Model.Mappings" Label="Pages.ProcessingNode.Fields.Mappings" HideLabel="true" /> 
+        </FlowTab>
+        <FlowTab Title="Pages.ProcessingNode.Tabs.Processing">
+            <p class="tab-description">@lblProcessing</p>
+            <InputSelect @bind-Value="BoundAllLibraries" Options="AllLibrariesOptions" Label="Pages.ProcessingNode.Fields.AllLibraries" />
+            
+            <InputChecklist @bind-Value="BoundLibraries" Options="LibraryOptions"
+                            Label="Pages.ProcessingNode.Fields.Libraries"
+                            Hidden="@(Model.AllLibraries == ProcessingLibraries.All)"
+                            />
+            
+            <InputNumber TItem="Int32" @bind-Value="Model.MaxFileSizeMb" Label="Pages.ProcessingNode.Fields.MaxFileSizeMb" />
+           
+            @if (LicensedFor(LicenseFlags.ProcessingOrder))
+            {
+                <InputSelect @bind-Value="BoundProcessingOrder" Options="ProcessingOrderOptions" Label="Pages.ProcessingNode.Fields.ProcessingOrder" />
+            }
+            
+        </FlowTab>
+        <FlowTab Title="Pages.ProcessingNode.Tabs.Advanced" Visible="@(WindowsNode == false)">
+            <InputSwitch @bind-Value="@Model.DontChangeOwner" Label="Pages.ProcessingNode.Fields.DontChangeOwner" Inverse="true" />
+            <InputSwitch @bind-Value="@Model.DontSetPermissions" Label="Pages.ProcessingNode.Fields.DontSetPermissions" Inverse="true" />
+            
+            <InputNumber TItem="Int32"  @bind-Value="PermissionsFiles" Label="Pages.ProcessingNode.Fields.PermissionsFiles"  
+                         Placeholder="@FileFlows.Common.Globals.DefaultPermissionsFile.ToString("D3")"
+                         ZeroAsEmpty="true" Max="777" Hidden="Model.DontSetPermissions" />
+            <InputNumber TItem="Int32"  @bind-Value="PermissionsFolders" Label="Pages.ProcessingNode.Fields.PermissionsFolders"
+                         Placeholder="@FileFlows.Common.Globals.DefaultPermissionsFolder.ToString("D3")"
+                         ZeroAsEmpty="true" Max="777" Hidden="Model.DontSetPermissions" />
+        </FlowTab>
+        <FlowTab Title="Pages.ProcessingNode.Tabs.Variables">
+            <p class="tab-description">@lblVariables</p>
+            <InputKeyValue @bind-Value="Model.Variables" Label="Pages.ProcessingNode.Fields.Variables" HideLabel="true" />
+        </FlowTab>
+    </FlowTabs>
+
+</ModalEditorWrapper>

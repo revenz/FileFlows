@@ -99,9 +99,19 @@
     .content {
         padding:1.5rem 0.5rem;
     }
+    .fields {
+        height: 100%;
+        .tab-description {
+            white-space:pre-wrap;
+            padding:0.5rem;
+        }
+    }
     .fields .row {
         margin-left: 1rem;
         margin-right: 1rem;
+        + .row {
+            margin-top:1rem;
+        }
     }
     .top-row .other {
         display: flex;

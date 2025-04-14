@@ -850,6 +850,11 @@
       "Minutes": "分鐘",
       "Weeks": "週"
     },
+    "ProcessingLibraries": {
+      "All": "全部",
+      "AllExcept": "除了以下全部",
+      "Only": "僅"
+    },
     "ProcessingNodeStatus": {
       "ConfigurationMismatch": "設定已過時",
       "Disabled": "已禁用",
@@ -1546,9 +1551,6 @@
         "PreExecuteScript-Help": "在處理任何檔案之前執行的腳本。此腳本的結果必須為1，否則節點將不會處理檔案。",
         "Priority": "優先級",
         "Priority-Help": "數字越高優先級越高。具有較高優先級的節點將被優先考慮並首先分配檔案處理，除非這些節點超出排程、已禁用或達到其最大執行者數量。",
-        "ProcessFileCheckInterval": "檔案檢查間隔",
-        "ProcessFileCheckInterval-Help": "多久檢查一次處理節點中的新檔案。\n設置為0以使用系統值。",
-        "ProcessFileCheckInterval-Suffix": "秒",
         "ProcessingDescription": "這允許您配置該處理節點可以處理的內容。\n\n例如，如果這是一個較低功率的節點，您可以將其限制為僅處理某些資料庫或最大檔案大小。",
         "ProcessingOrder": "處理順序",
         "ProcessingOrder-Help": "指定此節點處理文件的順序。此設置將覆蓋庫的默認處理順序。設置為“默認”以使用庫的處理順序。",
@@ -1561,6 +1563,14 @@
         "VariablesDescription": "變量允許您在處理節點上設置高級變量。",
         "VariablesKey": "名稱",
         "VariablesValue": "值"
+      },
+      "Tabs": {
+        "Advanced": "進階",
+        "General": "一般",
+        "Mappings": "映射",
+        "Processing": "處理",
+        "Schedule": "排程",
+        "Variables": "變數"
       }
     },
     "Report": {
@@ -1724,9 +1734,6 @@
         "MaxPageSize-Help": "列表中可顯示的最大項目數。這適用於在加載時發送到 UI 的已處理文件數據。此數值應等於或大於隊列容量。",
         "PluginRepositoryUrls": "插件庫",
         "PluginRepositoryUrls-Help": "用於查找插件的插件庫 URL 列表，以換行分隔。\n順序很重要，如果多個庫包含相同的插件，將使用第一個庫作為其來源。\n默認庫將始終添加到此列表的末尾。",
-        "ProcessFileCheckInterval": "文件檢查間隔",
-        "ProcessFileCheckInterval-Help": "在處理節點中檢查新文件的頻率。",
-        "ProcessFileCheckInterval-Suffix": "秒",
         "QueueCapacity": "隊列容量",
         "QueueCapacity-Help": "可以添加到隊列的最大項目數。這包括超出計劃、暫停或禁用的項目。增加此數值會增加發送到 UI 的數據，並可能影響性能。",
         "ScanWhenPaused": "暫停時掃描",

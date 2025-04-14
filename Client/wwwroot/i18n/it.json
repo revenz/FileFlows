@@ -850,6 +850,11 @@
       "Minutes": "Minuti",
       "Weeks": "Settimane"
     },
+    "ProcessingLibraries": {
+      "All": "Tutti",
+      "AllExcept": "Tutti tranne",
+      "Only": "Solo"
+    },
     "ProcessingNodeStatus": {
       "ConfigurationMismatch": "Configurazione obsoleta",
       "Disabled": "Disabilitato",
@@ -1546,9 +1551,6 @@
         "PreExecuteScript-Help": "Uno script che verrà eseguito prima di elaborare un file. Il risultato di questo script deve essere 1 affinché passi; in caso contrario, il nodo non elaborerà il file.",
         "Priority": "Priorità",
         "Priority-Help": "Maggiore è il numero, maggiore è la priorità. I nodi con una priorità più alta saranno privilegiati e riceveranno i file da elaborare per primi, a meno che quei nodi non siano fuori programma, disabilitati o al massimo degli esecutori.",
-        "ProcessFileCheckInterval": "Intervallo di controllo file",
-        "ProcessFileCheckInterval-Help": "Con quale frequenza controllare un nuovo file da elaborare nei nodi di elaborazione.\nImposta a 0 per utilizzare il valore di sistema.",
-        "ProcessFileCheckInterval-Suffix": "secondi",
         "ProcessingDescription": "Questo ti consente di configurare cosa può elaborare questo nodo di elaborazione.\n\nAd esempio, potresti limitare questo nodo a elaborare solo determinate librerie o una dimensione massima del file se questo nodo è un nodo a bassa potenza.",
         "ProcessingOrder": "Ordine di Elaborazione",
         "ProcessingOrder-Help": "Specifica l'ordine in cui i file vengono elaborati da questo Nodo. Questa impostazione sovrascrive l'ordine di elaborazione predefinito della libreria. Impostare su 'Predefinito' per utilizzare l'ordine di elaborazione della libreria.",
@@ -1561,6 +1563,14 @@
         "VariablesDescription": "Le variabili ti consentono di configurare variabili avanzate da impostare su un nodo di elaborazione.",
         "VariablesKey": "Nome",
         "VariablesValue": "Valore"
+      },
+      "Tabs": {
+        "Advanced": "Avanzate",
+        "General": "Generale",
+        "Mappings": "Mappature",
+        "Processing": "Elaborazione",
+        "Schedule": "Programma",
+        "Variables": "Variabili"
       }
     },
     "Report": {
@@ -1724,9 +1734,6 @@
         "MaxPageSize-Help": "Il numero massimo di elementi da visualizzare in un elenco. Questo si applica ai dati dei file elaborati inviati all'UI durante il caricamento. Questo numero dovrebbe essere uguale o superiore alla Capacità della Coda.",
         "PluginRepositoryUrls": "Repository di Plugin",
         "PluginRepositoryUrls-Help": "Un elenco separato da righe di URL dei repository di plugin da utilizzare quando si cerca plugin.\nL'ordine è importante; se più repository contengono lo stesso plugin, verrà utilizzato come sorgente il primo repository.\nIl repository predefinito sarà sempre aggiunto alla fine di questo elenco.",
-        "ProcessFileCheckInterval": "Intervallo di Controllo dei File",
-        "ProcessFileCheckInterval-Help": "Con quale frequenza controllare per un nuovo file da elaborare nei nodi di elaborazione.",
-        "ProcessFileCheckInterval-Suffix": "secondi",
         "QueueCapacity": "Capacità della Coda",
         "QueueCapacity-Help": "Il numero massimo di elementi che possono essere aggiunti alla coda. Ciò include elementi fuori programma, in attesa o disabilitati. Aumentare questo numero aumenta i dati inviati all'UI e può influire sulle prestazioni.",
         "ScanWhenPaused": "Scansiona mentre è in pausa",

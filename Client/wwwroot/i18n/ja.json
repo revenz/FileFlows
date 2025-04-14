@@ -850,6 +850,11 @@
       "Minutes": "分",
       "Weeks": "週"
     },
+    "ProcessingLibraries": {
+      "All": "すべて",
+      "AllExcept": "すべて（以下を除く）",
+      "Only": "のみ"
+    },
     "ProcessingNodeStatus": {
       "ConfigurationMismatch": "構成が古くなっています",
       "Disabled": "無効",
@@ -1546,9 +1551,6 @@
         "PreExecuteScript-Help": "ファイルが処理される前に実行されるスクリプト。このスクリプトの結果は1でなければならず、それ以外の場合はノードはファイルを処理しません。",
         "Priority": "優先度",
         "Priority-Help": "数字が高いほど優先度が高くなります。優先度の高いノードは、スケジュールが外れている、無効になっている、最大ランナーに達している場合を除いて、最初に処理するファイルを優先されます。",
-        "ProcessFileCheckInterval": "ファイルチェック間隔",
-        "ProcessFileCheckInterval-Help": "処理ノードで新しいファイルを処理するためにどのくらいの頻度でチェックするか。\n0に設定すると、システム値を使用します。",
-        "ProcessFileCheckInterval-Suffix": "秒",
         "ProcessingDescription": "これにより、この処理ノードが何を処理できるかを設定できます。\n\n例えば、このノードが低パワーノードである場合、特定のライブラリや最大ファイルサイズのみを処理するように制限できます。",
         "ProcessingOrder": "処理順序",
         "ProcessingOrder-Help": "このノードがファイルを処理する順序を指定します。この設定はライブラリのデフォルトの処理順序を上書きします。「デフォルト」に設定すると、ライブラリの処理順序を使用します。",
@@ -1561,6 +1563,14 @@
         "VariablesDescription": "変数を使用すると、処理ノードに設定する高度な変数を構成できます。",
         "VariablesKey": "名前",
         "VariablesValue": "値"
+      },
+      "Tabs": {
+        "Advanced": "詳細設定",
+        "General": "一般",
+        "Mappings": "マッピング",
+        "Processing": "処理",
+        "Schedule": "スケジュール",
+        "Variables": "変数"
       }
     },
     "Report": {
@@ -1724,9 +1734,6 @@
         "MaxPageSize-Help": "リストに表示できる最大項目数です。これは、ロード時にUIに送信される処理済みファイルデータに適用されます。この数値はキューの容量以上である必要があります。",
         "PluginRepositoryUrls": "プラグインリポジトリ",
         "PluginRepositoryUrls-Help": "プラグインを検索する際に使用するプラグインリポジトリのURLのリストです。\n順序が重要です。同じプラグインが複数のリポジトリに含まれている場合、最初のリポジトリがそのソースとして使用されます。\nデフォルトのリポジトリは常にこのリストの最後に追加されます。",
-        "ProcessFileCheckInterval": "ファイルチェック間隔",
-        "ProcessFileCheckInterval-Help": "処理ノードで新しいファイルを処理するためにチェックする頻度。",
-        "ProcessFileCheckInterval-Suffix": "秒",
         "QueueCapacity": "キューの容量",
         "QueueCapacity-Help": "キューに追加できる最大アイテム数です。スケジュール外、保留中、または無効化されたアイテムが含まれます。この数値を増やすと、UI に送信されるデータが増え、パフォーマンスに影響を与える可能性があります。",
         "ScanWhenPaused": "一時停止中にスキャン",

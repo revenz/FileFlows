@@ -313,11 +313,6 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>
             InputType = FormInputType.Int,
             Name = nameof(node.MaxFileSizeMb)
         });
-        fields.Add(new ElementField
-        {
-            InputType = FormInputType.Int,
-            Name = nameof(node.ProcessFileCheckInterval)
-        });
 
         if(Profile.LicensedFor(LicenseFlags.ProcessingOrder))
         {

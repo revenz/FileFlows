@@ -850,6 +850,11 @@
       "Minutes": "Minuter",
       "Weeks": "Veckor"
     },
+    "ProcessingLibraries": {
+      "All": "Alla",
+      "AllExcept": "Alla utom",
+      "Only": "Endast"
+    },
     "ProcessingNodeStatus": {
       "ConfigurationMismatch": "Konfigurationen är föråldrad",
       "Disabled": "Inaktiverad",
@@ -1546,9 +1551,6 @@
         "PreExecuteScript-Help": "Ett skript som kommer att köras innan någon fil bearbetas. Resultatet av detta skript måste vara 1 för att det ska passera, annars kommer noden inte att bearbeta en fil.",
         "Priority": "Prioritet",
         "Priority-Help": "Ju högre nummer, desto högre prioritet. Noder med högre prioritet kommer att föredras och få filer att bearbeta först, såvida inte dessa noder är ur schema, inaktiverade eller har maximala körningar.",
-        "ProcessFileCheckInterval": "Filkontrollintervall",
-        "ProcessFileCheckInterval-Help": "Hur ofta kontrollera om en ny fil ska bearbetas i behandlingsnoder.\nStäll in på 0 för att använda systemvärdet.",
-        "ProcessFileCheckInterval-Suffix": "sekunder",
         "ProcessingDescription": "Detta låter dig konfigurera vad denna behandlingsnod kan bearbeta.\n\nTill exempel, du kan begränsa denna nod till att bara bearbeta vissa bibliotek eller en maximal filstorlek om denna nod är en lågpresterande nod.",
         "ProcessingOrder": "处理顺序",
         "ProcessingOrder-Help": "指定此节点处理文件的顺序。此设置将覆盖库的默认处理顺序。设置为“默认”以使用库的处理顺序。",
@@ -1561,6 +1563,14 @@
         "VariablesDescription": "Variabler låter dig konfigurera avancerade variabler att ställa in på en behandlingsnod.",
         "VariablesKey": "Namn",
         "VariablesValue": "Värde"
+      },
+      "Tabs": {
+        "Advanced": "Avancerat",
+        "General": "Allmänt",
+        "Mappings": "Kartläggningar",
+        "Processing": "Bearbetning",
+        "Schedule": "Schema",
+        "Variables": "Variabler"
       }
     },
     "Report": {
@@ -1724,9 +1734,6 @@
         "MaxPageSize-Help": "Det maximala antalet objekt som visas i en lista. Detta gäller för de bearbetade fildata som skickas till UI vid inläsning. Detta antal bör vara lika med eller större än Kökapaciteten.",
         "PluginRepositoryUrls": "Plugin-repositorier",
         "PluginRepositoryUrls-Help": "En linje-separerad lista över plugin-repository-URL:er som ska användas vid sökning efter plugins.\nOrdningen är viktig; om flera repositorier innehåller samma plugin kommer det första repositoriet att användas som källa.\nDet standardrepoet kommer alltid att läggas till i slutet av denna lista.",
-        "ProcessFileCheckInterval": "Filkontrollintervall",
-        "ProcessFileCheckInterval-Help": "Hur ofta som en ny fil ska kontrolleras för bearbetning i bearbetningsnoderna.",
-        "ProcessFileCheckInterval-Suffix": "sekunder",
         "QueueCapacity": "Kökapacitet",
         "QueueCapacity-Help": "Det maximala antalet objekt som kan läggas till i kön. Detta inkluderar objekt som är utanför schemat, pausade eller inaktiverade. Att öka detta antal ökar mängden data som skickas till UI och kan påverka prestandan.",
         "ScanWhenPaused": "Skanna medan pausad",

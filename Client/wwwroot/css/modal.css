@@ -95,9 +95,19 @@
 .modal-render .vi-container .content {
   padding: 1.5rem 0.5rem;
 }
+.modal-render .vi-container .fields {
+  height: 100%;
+}
+.modal-render .vi-container .fields .tab-description {
+  white-space: pre-wrap;
+  padding: 0.5rem;
+}
 .modal-render .vi-container .fields .row {
   margin-left: 1rem;
   margin-right: 1rem;
+}
+.modal-render .vi-container .fields .row + .row {
+  margin-top: 1rem;
 }
 .modal-render .vi-container .top-row .other {
   display: flex;

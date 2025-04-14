@@ -850,6 +850,11 @@
       "Minutes": "Minuten",
       "Weeks": "Weeken"
     },
+    "ProcessingLibraries": {
+      "All": "Alle",
+      "AllExcept": "Alles behalve",
+      "Only": "Alleen"
+    },
     "ProcessingNodeStatus": {
       "ConfigurationMismatch": "Configuratie verouderd",
       "Disabled": "Uitgeschakeld",
@@ -1546,9 +1551,6 @@
         "PreExecuteScript-Help": "Een script dat zal worden uitgevoerd voordat een bestand wordt verwerkt. Het resultaat van dit script moet 1 zijn om door te gaan; anders zal het knooppunt geen bestand verwerken.",
         "Priority": "Prioriteit",
         "Priority-Help": "Hoe hoger het getal, hoe hoger de prioriteit. Knooppunten met een hogere prioriteit worden bevoordeeld en krijgen als eerste bestanden om te verwerken, tenzij die knooppunten buiten schema zijn, zijn uitgeschakeld of op hun maximale runners zitten.",
-        "ProcessFileCheckInterval": "Bestand Controle Interval",
-        "ProcessFileCheckInterval-Help": "Hoe vaak er gecontroleerd moet worden op een nieuw bestand om te verwerken in de verwerkingsknooppunten.\nStel in op 0 om de systeewaarde te gebruiken.",
-        "ProcessFileCheckInterval-Suffix": "seconden",
         "ProcessingDescription": "Dit stelt je in staat om te configureren wat dit Verwerkingsknooppunt kan verwerken.\n\nBijvoorbeeld, je kunt dit knooppunt beperken tot alleen bepaalde bibliotheken of een maximale bestandsgrootte als dit knooppunt een minder krachtige knooppunt is.",
         "ProcessingOrder": "Verwerkingsvolgorde",
         "ProcessingOrder-Help": "Geeft de volgorde aan waarin bestanden door deze Node worden verwerkt. Deze instelling overschrijft de standaardverwerkingsvolgorde van de bibliotheek. Stel in op 'Standaard' om de verwerkingsvolgorde van de bibliotheek te gebruiken.",
@@ -1561,6 +1563,14 @@
         "VariablesDescription": "Variabelen stellen je in staat om geavanceerde variabelen in te stellen op een verwerkingsknooppunt.",
         "VariablesKey": "Naam",
         "VariablesValue": "Waarde"
+      },
+      "Tabs": {
+        "Advanced": "Geavanceerd",
+        "General": "Algemeen",
+        "Mappings": "Koppelingen",
+        "Processing": "Verwerking",
+        "Schedule": "Schema",
+        "Variables": "Variabelen"
       }
     },
     "Report": {
@@ -1724,9 +1734,6 @@
         "MaxPageSize-Help": "Het maximale aantal items dat in een lijst kan worden weergegeven. Dit geldt voor de verwerkte bestandsgegevens die bij het laden naar de UI worden verzonden. Dit aantal moet gelijk aan of groter zijn dan de Wachtrijcapaciteit.",
         "PluginRepositoryUrls": "Plugin Repositories",
         "PluginRepositoryUrls-Help": "Een lijst met plugin-repository-URL's gescheiden door regels die moeten worden gebruikt bij het zoeken naar plugins.\nDe volgorde is belangrijk; als meerdere repositories dezelfde plugin bevatten, wordt de eerste repository gebruikt als bron.\nDe standaardrepository wordt altijd aan het einde van deze lijst toegevoegd.",
-        "ProcessFileCheckInterval": "Bestand Controle Interval",
-        "ProcessFileCheckInterval-Help": "Hoe vaak er moet worden gecontroleerd op een nieuw bestand om te verwerken in de verwerkingsnodes.",
-        "ProcessFileCheckInterval-Suffix": "seconden",
         "QueueCapacity": "Wachtrijcapaciteit",
         "QueueCapacity-Help": "Het maximale aantal items dat aan de wachtrij kan worden toegevoegd. Dit omvat items die buiten het schema vallen, in de wacht staan of zijn uitgeschakeld. Het verhogen van dit aantal verhoogt de gegevens die naar de UI worden verzonden en kan de prestaties beïnvloeden.",
         "ScanWhenPaused": "Scannen terwijl gepauzeerd",

@@ -15,9 +15,11 @@ public interface IInput
     string Placeholder { get; set; }
     string ErrorMessage { get; set; }
     bool HideLabel { get; set; }
+    bool Hidden { get; set; }
     bool Disabled { get; set; }
     bool Visible { get; set; }
     string? CustomXID { get; set; }
+    
 
     void Dispose();
 
@@ -78,6 +80,11 @@ public abstract class Input<T> : ComponentBase, IInput, IDisposable
     /// Gets or ses if the label should be hidden
     /// </summary>
     [Parameter] public bool HideLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets if this is hidden
+    /// </summary>
+    [Parameter] public bool Hidden { get; set; }
 
 #pragma warning disable BL0007
     /// <summary>

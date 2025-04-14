@@ -13,7 +13,6 @@
   border-radius: var(--container-border-radius);
   border: solid 1px var(--border-color);
   overflow: hidden;
-  cursor: pointer;
 }
 .file-table-row + .file-table-row {
   margin-top: 0.5rem;

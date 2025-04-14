@@ -9,7 +9,6 @@
   border-radius: var(--container-border-radius);
   border:solid 1px var(--border-color);
   overflow: hidden;
-  cursor: pointer;
 }
 @mixin backgroundBar($alpha:0.05) {
   background: rgba(255, 255, 255, $alpha);
@@ -29,7 +28,6 @@
 
 .file-table {
   height: 100%;
-
 }
 
 .file-table-row {

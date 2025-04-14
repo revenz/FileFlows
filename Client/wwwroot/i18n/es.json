@@ -850,6 +850,11 @@
       "Minutes": "Minutos",
       "Weeks": "Semanas"
     },
+    "ProcessingLibraries": {
+      "All": "Todos",
+      "AllExcept": "Todos excepto",
+      "Only": "Solo"
+    },
     "ProcessingNodeStatus": {
       "ConfigurationMismatch": "Configuración desactualizada",
       "Disabled": "Deshabilitado",
@@ -1546,9 +1551,6 @@
         "PreExecuteScript-Help": "Un script que se ejecutará antes de que se procese cualquier archivo. El resultado de este script debe ser 1 para que pase, cualquier otro valor y el nodo no procesará un archivo.",
         "Priority": "Prioridad",
         "Priority-Help": "Cuanto mayor sea el número, mayor será la prioridad. Los nodos con una prioridad más alta serán favorecidos y se les asignarán archivos para procesar primero, a menos que esos nodos estén fuera de horario, deshabilitados o en su máximo de ejecutores.",
-        "ProcessFileCheckInterval": "Intervalo de Verificación de Archivos",
-        "ProcessFileCheckInterval-Help": "Con qué frecuencia verificar un nuevo archivo para procesar en los nodos de procesamiento.\nEstablecer en 0 para usar el valor del sistema.",
-        "ProcessFileCheckInterval-Suffix": "segundos",
         "ProcessingDescription": "Esto te permite configurar qué puede procesar este Nodo de Procesamiento.\n\nPor ejemplo, podrías limitar este nodo para que solo procese ciertas bibliotecas o un tamaño máximo de archivo si este nodo es de menor potencia.",
         "ProcessingOrder": "Orden de Procesamiento",
         "ProcessingOrder-Help": "Especifica el orden en que los archivos serán procesados por este Nodo. Esta configuración anula el orden predeterminado de procesamiento de la biblioteca. Establezca 'Predeterminado' para usar el orden de procesamiento de la biblioteca.",
@@ -1561,6 +1563,14 @@
         "VariablesDescription": "Las variables te permiten configurar variables avanzadas para establecer en un nodo de procesamiento.",
         "VariablesKey": "Nombre",
         "VariablesValue": "Valor"
+      },
+      "Tabs": {
+        "Advanced": "Avanzado",
+        "General": "General",
+        "Mappings": "Mapeos",
+        "Processing": "Procesamiento",
+        "Schedule": "Horario",
+        "Variables": "Variables"
       }
     },
     "Report": {
@@ -1724,9 +1734,6 @@
         "MaxPageSize-Help": "El número máximo de elementos que se pueden mostrar en una lista. Esto se aplica a los datos de archivos procesados enviados a la UI durante la carga. Este número debe ser igual o superior a la Capacidad de la Cola.",
         "PluginRepositoryUrls": "Repositorios de complementos",
         "PluginRepositoryUrls-Help": "Una lista separada por líneas de URLs de repositorios de complementos a utilizar al buscar complementos.\nEl orden es importante, si varios repositorios contienen el mismo complemento, se utilizará el primer repositorio como su fuente.\nEl repositorio predeterminado siempre se agregará al final de esta lista.",
-        "ProcessFileCheckInterval": "Intervalo de verificación de archivos",
-        "ProcessFileCheckInterval-Help": "Con qué frecuencia verificar un nuevo archivo para procesar en los nodos de procesamiento.",
-        "ProcessFileCheckInterval-Suffix": "segundos",
         "QueueCapacity": "Capacidad de la Cola",
         "QueueCapacity-Help": "El número máximo de elementos que se pueden agregar a la cola. Esto incluye elementos fuera de horario, en espera o deshabilitados. Aumentar este número incrementa los datos enviados a la UI y puede afectar el rendimiento.",
         "ScanWhenPaused": "Escanear mientras está en pausa",

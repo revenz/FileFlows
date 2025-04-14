@@ -1,4 +1,3 @@
-using FileFlows.Client.Components.Inputs;
 using FileFlows.Plugin;
 
 namespace FileFlows.Client.Components.Editors;
@@ -8,11 +7,6 @@ namespace FileFlows.Client.Components.Editors;
 /// </summary>
 public partial class ScriptEditor : ModalEditor
 {
-    /// <inheritdoc />
-    public override IModalOptions Options { get; set; }
-
-    private bool ReadOnly = false;
-
     /// <summary>
     /// Gets or sets the UID of script
     /// </summary>
@@ -27,11 +21,11 @@ public partial class ScriptEditor : ModalEditor
     /// Gets or sets the description of script
     /// </summary>
     private string Description { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the javascript code of the script
     /// </summary>
-    public string Code { get; set; }
+    public string Code { get; set; } = string.Empty;
     /// <summary>
     /// Gets or sets a list of outputs for the script
     /// </summary>
@@ -51,23 +45,29 @@ public partial class ScriptEditor : ModalEditor
     /// Gets or sets the Language of script
     /// </summary>
     public ScriptLanguage Language { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the container
-    /// </summary>
-    public ViContainer Container { get; set; }
 
     /// <inheritdoc />
-    protected override string HelpUrl => "https://fileflows.com/docs/webconsole/config/extensions/scripts";
+    public override string HelpUrl => "https://fileflows.com/docs/webconsole/config/extensions/scripts";
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        lblTitle = Translater.Instant("Pages.Script.Title");
+        Title = Translater.Instant("Pages.Script.Title");
 
+    }
+
+    public override async Task LoadModel()
+    {
         var uid = GetModelUid();
-        var result  = await HttpHelper.Get<Script>("/api/script/" + uid);
+
+        var result = await HttpHelper.Get<Script>("/api/script/" + uid);
+        if (result.Success == false || result.Data == null)
+        {
+            Container.HideBlocker();
+            Close();
+        }
+
         InitializeModel(result.Data);
     }
 
@@ -79,7 +79,6 @@ public partial class ScriptEditor : ModalEditor
     /// <returns>true if the script was saved, otherwise false</returns>
     public void InitializeModel(Script model)
     {
-        List<IFlowField> fields = new();
         bool flowScript = model.Type == ScriptType.Flow;
         Uid = model.Uid;
         Code = model.Code;
@@ -209,18 +208,17 @@ return 1;
         
         if (ReadOnly)
         {
-            lblTitle = Translater.Instant("Pages.Script.LanguageTitle", new { Language = langTitle }) + ":" + Name;
+            Title = Translater.Instant("Pages.Script.LanguageTitle", new { Language = langTitle }) + ":" + Name;
         }
     }
     
     /// <summary>
     /// Saves the script
     /// </summary>
-    private async Task Save()
+    public override async Task Save()
     {
         Container.ShowBlocker();
         
-
         try
         {
             var saveResult = await HttpHelper.Post<Script>($"/api/script", new 
