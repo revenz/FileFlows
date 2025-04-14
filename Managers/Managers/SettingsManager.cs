@@ -10,16 +10,11 @@ public class SettingsManager
     private static FairSemaphore _semaphore = new(1);
     // Special case, we always cache the settings, as it is constantly looked up
     private static Settings? Instance;
-    
-    /// <summary>
-    /// Revision updated handler
-    /// </summary>
-    public delegate void RevisionUpdatedHandler(int revision);
 
     /// <summary>
     /// Called when the revision is updated
     /// </summary>
-    public static event RevisionUpdatedHandler? RevisionUpdated;
+    public static Action<int>? RevisionUpdated;
 
     static SettingsManager()
     {
@@ -66,18 +61,14 @@ public class SettingsManager
     /// </summary>
     public async Task RevisionIncrement()
     {
+        int revision = Instance!.Revision + 1;
+        bool updated = false;
         await _semaphore.WaitAsync();
         try
         {
-            int revision = Instance!.Revision + 1;
             Instance!.Revision = revision;
             await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(Instance, null);
-
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(50);
-                RevisionUpdated?.Invoke(Instance.Revision);
-            });
+            updated = true;
         }
         catch (Exception ex)
         {
@@ -86,6 +77,11 @@ public class SettingsManager
         finally
         {
             _semaphore.Release();
+        }
+
+        if (updated)
+        {
+            _ = Task.Run(() => { RevisionUpdated?.Invoke(Instance.Revision); });
         }
     }
 
@@ -104,13 +100,13 @@ public class SettingsManager
             
             Instance = model;
             await DatabaseAccessManager.Instance.FileFlowsObjectManager.AddOrUpdateObject(Instance, auditDetails);
-            
-            RevisionUpdated?.Invoke(Instance.Revision);
         }
         finally
         {
             _semaphore.Release();
         }
+        
+        _ = Task.Run(() => { RevisionUpdated?.Invoke(Instance.Revision); });
     }
     
     /// <summary>
