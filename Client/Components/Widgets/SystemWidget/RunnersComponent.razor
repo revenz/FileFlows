@@ -40,11 +40,11 @@
                     <div class="others">
                         @if (string.IsNullOrEmpty(runner.NodeName) == false)
                         {
-                            <FlowIconValue Icon="node" Color="dark" Value="@runner.NodeName" />
+                            <FlowIconValue Icon="node" Value="@runner.NodeName" ValueUid="@runner.NodeUid" />
                         }
-                        @if (string.IsNullOrEmpty(runner.LibraryName))
+                        @if (string.IsNullOrEmpty(runner.LibraryName) == false)
                         {
-                            <FlowIconValue Icon="library" Color="dark" Value="@runner.LibraryName" />
+                            <FlowIconValue Icon="library" Value="@runner.LibraryName" ValueUid="@runner.LibraryUid" />
                         }
                     </div>
 

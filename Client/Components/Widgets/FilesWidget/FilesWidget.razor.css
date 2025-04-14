@@ -4,7 +4,7 @@
 
 .file-table-row {
   display: grid;
-  grid-template-columns: 7rem 1fr;
+  grid-template-columns: 8rem 1fr;
   grid-template-rows: 1fr auto;
   font-size: 0.9rem;
   align-items: center;
@@ -120,7 +120,6 @@
 }
 .icon .icon.thumbnail {
   --icon-size:7rem;
-  margin: 0 0.5rem 0 0;
   object-fit: cover;
   border-radius: 1rem;
 }
