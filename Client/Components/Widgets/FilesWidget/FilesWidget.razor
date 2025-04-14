@@ -84,11 +84,25 @@
                     <div class="info">
                         @if (string.IsNullOrEmpty(file.LibraryName) == false)
                         {
-                            <FlowIconValue Icon="library" Value="@file.LibraryName" ValueUid="@file.LibraryUid" />
+                            if (file.LibraryUid == CommonVariables.ManualLibraryUid)
+                            {
+                                <FlowIconValue Icon="library" Value="@lblManualLibrary" ValueUid="@file.LibraryUid"/>
+                            }
+                            else
+                            {
+                                <FlowIconValue Icon="library" Value="@file.LibraryName" ValueUid="@file.LibraryUid"/>
+                            }
                         }
                         @if (string.IsNullOrEmpty(file.NodeName) == false)
                         {
-                            <FlowIconValue Icon="node" Value="@file.NodeName" ValueUid="@file.NodeUid" />
+                            if (file.NodeUid == CommonVariables.InternalNodeUid)
+                            {
+                                <FlowIconValue Icon="node" Value="@lblInternalProcessingNode" ValueUid="@file.NodeUid" />
+                            }
+                            else
+                            {
+                                <FlowIconValue Icon="node" Value="@file.NodeName" ValueUid="@file.NodeUid"/>
+                            }
                         }
                         @if (string.IsNullOrEmpty(file.FlowName) == false)
                         {

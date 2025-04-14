@@ -1389,6 +1389,12 @@
         "WaitTimeSeconds": "Wachtijd",
         "WaitTimeSeconds-Help": "Het aantal seconden dat moet zijn verstreken sinds de laatste wijziging die in deze map is geschreven om deze in de bibliotheek te scannen.",
         "WaitTimeSeconds-Suffix": "seconden"
+      },
+      "Tabs": {
+        "Advanced": "Geavanceerd",
+        "Detection": "Detectie",
+        "General": "Algemeen",
+        "Schedule": "Planning"
       }
     },
     "LibraryFile": {

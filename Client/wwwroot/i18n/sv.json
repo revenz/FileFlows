@@ -1389,6 +1389,12 @@
         "WaitTimeSeconds": "Väntetid",
         "WaitTimeSeconds-Help": "Antalet sekunder som måste ha passerat sedan den senaste ändringen skrevs till denna mapp för att den ska skannas in i biblioteket.",
         "WaitTimeSeconds-Suffix": "sekunder"
+      },
+      "Tabs": {
+        "Advanced": "Avancerat",
+        "Detection": "Detektering",
+        "General": "Allmänt",
+        "Schedule": "Schema"
       }
     },
     "LibraryFile": {

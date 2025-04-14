@@ -106,10 +106,10 @@ public partial class FlowIconValue : ComponentBase
     /// </summary>
     private void OpenLibrary()
     {
-        // _ = ModalService.ShowModal<Editors.NodeEditor, ProcessingNode>(new ModalEditorOptions()
-        // {
-        //     Uid = ValueUid!.Value
-        // });
+        _ = ModalService.ShowModal<Editors.LibraryEditor, Library>(new ModalEditorOptions()
+        {
+            Uid = ValueUid!.Value
+        });
     }
     
     /// <summary>

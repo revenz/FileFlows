@@ -1389,6 +1389,12 @@
         "WaitTimeSeconds": "Wait Time",
         "WaitTimeSeconds-Help": "The number of seconds that have to passed since the last change was written to this folder for it to be scanned into the library.",
         "WaitTimeSeconds-Suffix": "seconds"
+      },
+      "Tabs": {
+        "Advanced": "Advanced",
+        "Detection": "Detection",
+        "General": "General",
+        "Schedule": "Schedule"
       }
     },
     "LibraryFile": {

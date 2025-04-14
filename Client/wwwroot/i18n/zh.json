@@ -1389,6 +1389,12 @@
         "WaitTimeSeconds": "等待时间",
         "WaitTimeSeconds-Help": "在扫描该文件夹到库之前，必须经过的秒数，最后一次更改写入该文件夹。",
         "WaitTimeSeconds-Suffix": "秒"
+      },
+      "Tabs": {
+        "Advanced": "高级",
+        "Detection": "检测",
+        "General": "常规",
+        "Schedule": "计划"
       }
     },
     "LibraryFile": {

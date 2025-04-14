@@ -1,0 +1,36 @@
+.input-list-string-wrapper {
+  background: var(--input-background);
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 40rem;
+}
+.input-list-string-wrapper input {
+  background: transparent;
+  outline: unset !important;
+  display: inline;
+  flex-grow: 1;
+  height: var(--input-height, 2.1875rem);
+}
+
+.chip {
+  border: solid 1px var(--accent);
+  display: inline;
+  height: 1.9375rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.1875rem;
+  border-radius: 0.5rem;
+  margin: 0.125rem 0.25rem;
+}
+.chip .remove {
+  width: 1.5rem;
+  display: inline-block;
+  padding-left: 0.5rem;
+  cursor: pointer;
+}
+.chip .remove:hover {
+  color: var(--accent);
+}
+
+/*# sourceMappingURL=InputListString.razor.css.map */

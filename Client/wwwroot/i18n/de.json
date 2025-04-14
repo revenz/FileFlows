@@ -1389,6 +1389,12 @@
         "WaitTimeSeconds": "Wartezeit",
         "WaitTimeSeconds-Help": "Die Anzahl der Sekunden, die seit der letzten Änderung in diesem Ordner vergangen sein müssen, damit sie in die Bibliothek aufgenommen werden.",
         "WaitTimeSeconds-Suffix": "Sekunden"
+      },
+      "Tabs": {
+        "Advanced": "Erweitert",
+        "Detection": "Erkennung",
+        "General": "Allgemein",
+        "Schedule": "Zeitplan"
       }
     },
     "LibraryFile": {

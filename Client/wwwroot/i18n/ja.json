@@ -1389,6 +1389,12 @@
         "WaitTimeSeconds": "待機時間",
         "WaitTimeSeconds-Help": "このフォルダーに対して最後の変更が書き込まれてからスキャンされるまでに経過する必要がある秒数。",
         "WaitTimeSeconds-Suffix": "秒"
+      },
+      "Tabs": {
+        "Advanced": "詳細設定",
+        "Detection": "検出",
+        "General": "一般",
+        "Schedule": "スケジュール"
       }
     },
     "LibraryFile": {

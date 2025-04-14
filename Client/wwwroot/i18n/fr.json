@@ -1389,6 +1389,12 @@
         "WaitTimeSeconds": "Temps d'Attente",
         "WaitTimeSeconds-Help": "Le nombre de secondes qui doivent s'écouler depuis le dernier changement enregistré dans ce dossier pour qu'il soit scanné dans la bibliothèque.",
         "WaitTimeSeconds-Suffix": "secondes"
+      },
+      "Tabs": {
+        "Advanced": "Avancé",
+        "Detection": "Détection",
+        "General": "Général",
+        "Schedule": "Programme"
       }
     },
     "LibraryFile": {

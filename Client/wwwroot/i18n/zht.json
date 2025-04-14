@@ -1389,6 +1389,12 @@
         "WaitTimeSeconds": "等待時間",
         "WaitTimeSeconds-Help": "自最後一次變更寫入此資料夾後需要等待的秒數，才能將其掃描進資料庫。",
         "WaitTimeSeconds-Suffix": "秒"
+      },
+      "Tabs": {
+        "Advanced": "進階",
+        "Detection": "偵測",
+        "General": "一般",
+        "Schedule": "排程"
       }
     },
     "LibraryFile": {

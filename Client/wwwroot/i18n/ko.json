@@ -1389,6 +1389,12 @@
         "WaitTimeSeconds": "대기 시간",
         "WaitTimeSeconds-Help": "이 폴더에 마지막 변경이 기록된 이후로 스캔되기까지 경과해야 하는 시간(초)입니다.",
         "WaitTimeSeconds-Suffix": "초"
+      },
+      "Tabs": {
+        "Advanced": "고급",
+        "Detection": "감지",
+        "General": "일반",
+        "Schedule": "일정"
       }
     },
     "LibraryFile": {

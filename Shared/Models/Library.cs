@@ -55,7 +55,7 @@ public class Library : FileFlowObject
     /// <summary>
     /// Gets or sets the lower value for file creation last written
     /// </summary>
-    public long DetectFileLastWrittenLower { get; set; }
+    public int DetectFileLastWrittenLower { get; set; }
     /// <summary>
     /// Gets or sets the upper value for file creation last written
     /// </summary>

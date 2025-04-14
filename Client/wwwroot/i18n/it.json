@@ -1389,6 +1389,12 @@
         "WaitTimeSeconds": "Tempo di Attesa",
         "WaitTimeSeconds-Help": "Il numero di secondi che devono passare dall'ultima modifica scritta in questa cartella affinché venga scansionata nella biblioteca.",
         "WaitTimeSeconds-Suffix": "secondi"
+      },
+      "Tabs": {
+        "Advanced": "Avanzate",
+        "Detection": "Rilevamento",
+        "General": "Generale",
+        "Schedule": "Pianificazione"
       }
     },
     "LibraryFile": {
