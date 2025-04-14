@@ -86,6 +86,7 @@ public partial class NodeEditor : ModalEditor
         ];
     }
 
+    /// <inheritdoc />
     public override async Task LoadModel()
     {
         var uid = GetModelUid();

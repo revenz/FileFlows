@@ -73,12 +73,19 @@ public abstract class ModalEditor : ComponentBase, IModal
         }
     }
 
+    /// <summary>
+    /// Loads the model for the edtor
+    /// </summary>
     public virtual async Task Load()
     {
         await LoadModel();
         InitDone = true;
     }
     
+    /// <summary>
+    /// Actual method that does the loading of the model
+    /// </summary>
+    /// <returns>a task to await</returns>
     public virtual Task LoadModel() => Task.CompletedTask;
 
     /// <inheritdoc />
