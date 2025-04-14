@@ -112,7 +112,7 @@
                     
                 </div>
 
-                @if (string.IsNullOrWhiteSpace(file.FailureReason) == false)
+                @if (SelectedStatus == FileStatus.ProcessingFailed && string.IsNullOrWhiteSpace(file.FailureReason) == false)
                 {
                     <div class="message"><span>@file.FailureReason</span></div>
                 }
