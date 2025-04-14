@@ -52,7 +52,6 @@
   border-radius: var(--container-border-radius);
   overflow: hidden;
   border: solid 1px var(--border-color);
-  cursor:pointer;
   &:hover {
     .actions {
       left: 0; // Slide in from the left
