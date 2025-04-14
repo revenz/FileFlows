@@ -394,7 +394,8 @@ public class NodeParameters
     /// <param name="libraryPath">the path of the library this file exists in</param>
     /// <param name="fileService">the FileService to user</param>
     /// <param name="cancellationToken">the cancellation token</param>
-    public NodeParameters(string? filename, ILogger logger, bool isDirectory, string? libraryPath, IFileService fileService, CancellationToken cancellationToken = default)
+    public NodeParameters(string? filename, ILogger logger, bool isDirectory, string? libraryPath,
+        IFileService fileService, CancellationToken cancellationToken = default)
     {
         Fake = string.IsNullOrEmpty(filename);
         this.IsDirectory = isDirectory;
@@ -411,14 +412,17 @@ public class NodeParameters
             {
                 this.WorkingFileSize = IsDirectory ? GetDirectorySize(filename) : new FileInfo(filename).Length;
             }
-            catch (Exception) { } // can fail in unit tests
+            catch (Exception)
+            {
+            } // can fail in unit tests
         }
+
         this.RelativeFile = string.Empty;
         this.TempPath = string.Empty;
         this.Logger = logger;
         //InitFile(filename);
         this.Process = new ProcessHelper(logger, cancellationToken, this.Fake);
-        }
+    }
 
     /// <summary>
     /// Constructs a new basic node parameters with no file 

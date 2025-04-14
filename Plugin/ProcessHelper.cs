@@ -198,6 +198,7 @@ public class ProcessHelper : IProcessHelper
         this.Logger = logger;
         this.Fake = fake;
         _cancellationToken = cancellationToken;
+        cancellationToken.Register(Kill);
     }
 
     /// <summary>
