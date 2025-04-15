@@ -1392,6 +1392,9 @@
         "WaitTimeSeconds-Help": "Antalet sekunder som måste ha passerat sedan den senaste ändringen skrevs till denna mapp för att den ska skannas in i biblioteket.",
         "WaitTimeSeconds-Suffix": "sekunder"
       },
+      "Messages": {
+        "ScanFailed": "Skanning av biblioteket ''{name}'' misslyckades"
+      },
       "Tabs": {
         "Advanced": "Avancerat",
         "Detection": "Detektering",

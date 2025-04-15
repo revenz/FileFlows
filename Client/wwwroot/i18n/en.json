@@ -1392,6 +1392,9 @@
         "WaitTimeSeconds-Help": "The number of seconds that have to passed since the last change was written to this folder for it to be scanned into the library.",
         "WaitTimeSeconds-Suffix": "seconds"
       },
+      "Messages": {
+        "ScanFailed": "Library ''{name}'' scan failed"
+      },
       "Tabs": {
         "Advanced": "Advanced",
         "Detection": "Detection",

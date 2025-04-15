@@ -1392,6 +1392,9 @@
         "WaitTimeSeconds-Help": "Die Anzahl der Sekunden, die seit der letzten Änderung in diesem Ordner vergangen sein müssen, damit sie in die Bibliothek aufgenommen werden.",
         "WaitTimeSeconds-Suffix": "Sekunden"
       },
+      "Messages": {
+        "ScanFailed": "Scan der Bibliothek ''{name}'' fehlgeschlagen"
+      },
       "Tabs": {
         "Advanced": "Erweitert",
         "Detection": "Erkennung",

@@ -1392,6 +1392,9 @@
         "WaitTimeSeconds-Help": "El número de segundos que deben pasar desde la última vez que se escribió un cambio en esta carpeta para que se escanee en la biblioteca.",
         "WaitTimeSeconds-Suffix": "segundos"
       },
+      "Messages": {
+        "ScanFailed": "Error al escanear la biblioteca ''{name}''"
+      },
       "Tabs": {
         "Advanced": "Avanzado",
         "Detection": "Detección",

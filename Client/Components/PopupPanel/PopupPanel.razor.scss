@@ -73,6 +73,7 @@ $zindex: 1000;
     }
     .title, .message {
       white-space: pre-wrap;
+      display: block;
     }
 
     &.information {

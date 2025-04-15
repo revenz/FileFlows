@@ -1392,6 +1392,9 @@
         "WaitTimeSeconds-Help": "Le nombre de secondes qui doivent s'écouler depuis le dernier changement enregistré dans ce dossier pour qu'il soit scanné dans la bibliothèque.",
         "WaitTimeSeconds-Suffix": "secondes"
       },
+      "Messages": {
+        "ScanFailed": "Échec de l’analyse de la bibliothèque ''{name}''"
+      },
       "Tabs": {
         "Advanced": "Avancé",
         "Detection": "Détection",

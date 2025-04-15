@@ -1392,6 +1392,9 @@
         "WaitTimeSeconds-Help": "Het aantal seconden dat moet zijn verstreken sinds de laatste wijziging die in deze map is geschreven om deze in de bibliotheek te scannen.",
         "WaitTimeSeconds-Suffix": "seconden"
       },
+      "Messages": {
+        "ScanFailed": "Scan van bibliotheek ''{name}'' mislukt"
+      },
       "Tabs": {
         "Advanced": "Geavanceerd",
         "Detection": "Detectie",

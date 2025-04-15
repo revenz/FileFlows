@@ -68,6 +68,7 @@
 }
 .popup-panel .notification .title, .popup-panel .notification .message {
   white-space: pre-wrap;
+  display: block;
 }
 .popup-panel .notification.information {
   border-color: var(--info);

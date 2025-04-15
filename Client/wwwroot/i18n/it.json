@@ -1392,6 +1392,9 @@
         "WaitTimeSeconds-Help": "Il numero di secondi che devono passare dall'ultima modifica scritta in questa cartella affinché venga scansionata nella biblioteca.",
         "WaitTimeSeconds-Suffix": "secondi"
       },
+      "Messages": {
+        "ScanFailed": "Scansione della libreria ''{name}'' non riuscita"
+      },
       "Tabs": {
         "Advanced": "Avanzate",
         "Detection": "Rilevamento",
