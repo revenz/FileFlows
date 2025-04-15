@@ -191,7 +191,9 @@ public partial class Client
                 return;
             }
 
+            _logger.ILog("About to call RegisterNode on server.");
             var result = await _connection.InvokeAsync<NodeRegisterResult>("RegisterNode", parameters);
+            _logger.ILog("RegisterNode result: " + result.Success);
             
             if (!result.Success)
                 return;
@@ -218,7 +220,7 @@ public partial class Client
         }
         catch (Exception ex)
         {
-            _logger.ELog($"Node registration failed: {ex.Message}");
+            _logger.ELog($"Node registration failed: {ex}");
             _registrationCompletion.TrySetResult(false);
         }
     }
@@ -362,7 +364,12 @@ public partial class Client
         {
             try
             {
-                await AwaitConnection();
+                if (await AwaitConnection() == false)
+                {
+                    _logger.WLog("Failed to connect to notify file finished. Attempt: " + count);
+                    continue;
+                }
+
                 var result = await _connection.InvokeAsync<bool>("FileFinishProcessing", libraryFile, log);
                 if (result)
                     return;
