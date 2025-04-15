@@ -348,6 +348,9 @@ a.btn {
 .modal-render .vi-container .fields .row + .row {
   margin-top: 1rem;
 }
+.modal-render .vi-container .fields .row.hide-label input[type=text], .modal-render .vi-container .fields .row.hide-label textarea {
+  max-width: unset;
+}
 .modal-render .vi-container .top-row .other {
   display: flex;
   gap: 0.5rem;

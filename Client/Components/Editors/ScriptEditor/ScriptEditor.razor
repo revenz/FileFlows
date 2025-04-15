@@ -19,12 +19,12 @@
     }
     else
     {
-        <InputText @bind-Value="@Model.Name" Label="Label.Name" Validators="RequiredValidator"/>
+        <InputText @bind-Value="@Model.Name" Label="Label.Name" Validators="RequiredValidator" HideLabel="true"/>
 
         @if (Model.Language is not ScriptLanguage.JavaScript)
         {
-            <InputTextArea @bind-Value="@Model.Description" Label="Label.Description"/>
-            <InputKeyValueInt @bind-Value="@Model.Outputs" HideLabel="true" HideKeyValueLabels="true"/>
+            <InputTextArea @bind-Value="@Model.Description" Label="Pages.Script.Fields.Description" HideLabel="true" Rows="3"  />
+            <InputKeyValueInt @bind-Value="@Model.Outputs" HideLabel="true" HideKeyValueLabels="true"  />
         }
 
         <InputCode @ref=CodeInput @bind-Value="@Model.Code" HideLabel="true" Validators="RequiredValidator" Language="@editorLanguage" />

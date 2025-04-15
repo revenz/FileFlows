@@ -35,14 +35,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
     private List<Script> DataShared = new();
     private ScriptType SelectedType = ScriptType.Flow;
 
-    private string lblUpdateScripts, lblUpdatingScripts, lblInUse, lblReadOnly, lblUpdateAvailable,
-        lblFileDisplayName ,lblFileDisplayNameDescription;
-
-
-    /// <summary>
-    /// The language picker dialog
-    /// </summary>
-    private ScriptLanguagePicker LanguagePicker;
+    private string lblUpdateScripts, lblUpdatingScripts, lblInUse, lblReadOnly, lblUpdateAvailable;
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -52,8 +45,6 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
         base.OnInitialized(false);
         lblUpdateScripts = Translater.Instant("Pages.Scripts.Buttons.UpdateAllScripts");
         lblUpdatingScripts = Translater.Instant("Pages.Scripts.Labels.UpdatingScripts");
-        lblFileDisplayName = Translater.Instant("Dialogs.ScriptLanguage.Labels.FileDisplayName");
-        lblFileDisplayNameDescription = Translater.Instant("Dialogs.ScriptLanguage.Labels.FileDisplayNameDescription");
         lblInUse = Translater.Instant("Labels.InUse");
         lblReadOnly = Translater.Instant("Labels.ReadOnly");
         lblUpdateAvailable = Translater.Instant("Pages.Scripts.Labels.UpdateAvailable");
@@ -92,7 +83,8 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
             language = ScriptLanguage.JavaScript;
         else
         {
-            var result = await LanguagePicker.Show();
+            var result = await ModalService.ShowModal<ScriptLanguagePicker, ScriptLanguage>(new RepositoryOptions());
+            
             if (result.IsFailed)
                 return;
             language = result.Value;
@@ -108,32 +100,6 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
         };
 
         await Edit(script);
-    }
-
-
-    async Task<bool> Save(ExpandoObject model)
-    {
-        Blocker.Show();
-        this.StateHasChanged();
-
-        try
-        {
-            var saveResult = await HttpHelper.Post<Script>($"{ApiUrl}", model);
-            if (saveResult.Success == false)
-            {
-                feService.Notifications.ShowError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
-                return false;
-            }
-
-            await Task.Delay(500); // give change for script to get updated in list
-
-            return true;
-        }
-        finally
-        {
-            Blocker.Hide();
-            this.StateHasChanged();
-        }
     }
 
     private async Task Export()

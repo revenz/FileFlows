@@ -120,6 +120,11 @@
         + .row {
             margin-top:1rem;
         }
+        &.hide-label {
+            input[type=text], textarea {
+                max-width:unset;
+            }   
+        }
     }
     .top-row .other {
         display: flex;

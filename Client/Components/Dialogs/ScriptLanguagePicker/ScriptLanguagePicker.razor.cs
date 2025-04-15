@@ -6,17 +6,24 @@ namespace FileFlows.Client.Components.Dialogs;
 /// <summary>
 /// Dialog for choosing a script language
 /// </summary>
-public partial class ScriptLanguagePicker : VisibleEscapableComponent
+public partial class ScriptLanguagePicker :  IModal
 {
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
+
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+    
     private string lblNext, lblCancel, lblJavaScriptDescription, lblBatchDescription, lblCSharpDescription, 
         lblPowerShellDescription, lblShellDescription;
     private string Title;
-    TaskCompletionSource<Result<ScriptLanguage>> ShowTask;
-    
+
     /// <summary>
     /// Gets or sets the language
     /// </summary>
-    private ScriptLanguage Language { get; set; }
+    private ScriptLanguage Language { get; set; } = ScriptLanguage.JavaScript;
     
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -30,38 +37,31 @@ public partial class ScriptLanguagePicker : VisibleEscapableComponent
         lblShellDescription = Translater.Instant("Dialogs.ScriptLanguage.Labels.ShellDescription");
         Title = Translater.Instant("Dialogs.ScriptLanguage.Title");
     }
-    
-    /// <summary>
-    /// Shows the language picker
-    /// </summary>
-    /// <returns>the task to await</returns>
-    public Task<Result<ScriptLanguage>> Show()
-    {
-        this.Language = ScriptLanguage.JavaScript;
-        this.Visible = true;
-        this.StateHasChanged();
-
-        ShowTask = new TaskCompletionSource<Result<ScriptLanguage>>();
-        return ShowTask.Task;
-    }
-
-    /// <summary>
-    /// Cancels the dialog
-    /// </summary>
-    public override void Cancel()
-    {
-        this.Visible = false;
-        ShowTask.TrySetResult(Result<ScriptLanguage>.Fail("Canceled"));
-    }
 
     /// <summary>
     /// Language is choosen
     /// </summary>
     private async void Next()
     {
-        this.Visible = false;
-        ShowTask.TrySetResult(Language);
+        TaskCompletionSource.TrySetResult(Language);
         await Task.CompletedTask;
+    }
+    
+    
+    /// <summary>
+    /// Closes the dialog
+    /// </summary>
+    public void Close()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
+    }
+
+    /// <summary>
+    /// Cancels the dialog
+    /// </summary>
+    public void Cancel()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
     }
     
     private void SetLanguage(ScriptLanguage language, bool close = false)
