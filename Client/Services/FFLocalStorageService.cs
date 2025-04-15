@@ -114,7 +114,21 @@ public class FFLocalStorageService
         if (_localStorageEnabled == null)
             await CheckLocalStorageEnabled();
         if (_localStorageEnabled == true)
-            return await GetItemAsync<string>("ACCESS_TOKEN");
+        {
+            try
+            {
+                var json = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "ACCESS_TOKEN");
+                if (json == null)
+                    return default;
+
+                return JsonSerializer.Deserialize<string>(json);
+            }
+            catch
+            {
+                return default;
+            }
+        }
+        
         return _accessToken;
     }
     
@@ -129,7 +143,11 @@ public class FFLocalStorageService
         if (_localStorageEnabled == null)
             await CheckLocalStorageEnabled();
         if (_localStorageEnabled == true)
-            await SetItemAsync("ACCESS_TOKEN", token);
+        {
+            string json = JsonSerializer.Serialize(token);
+            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "ACCESS_TOKEN", json);
+        }
+        
         await _jsRuntime.InvokeVoidAsync("ff.setAccessToken", token);
     }
     
