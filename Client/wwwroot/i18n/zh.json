@@ -930,6 +930,8 @@
     "CannotDeleteInternalNode": "您不能删除内部处理节点。",
     "DeleteFailed": "删除失败",
     "DuplicatesFound": "发现重复项",
+    "LibraryScanAtCapacity": "扫描已达上限 — 当前无法添加更多项目。请等待现有项目完成，或减少未处理、已禁用或计划中的项目。",
+
     "NameInUse": "名称已被使用",
     "NameRequired": "名称是必需的",
     "NoFlowSpecified": "未指定流，您必须选择一个流来创建库",

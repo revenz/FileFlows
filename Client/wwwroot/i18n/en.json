@@ -930,6 +930,7 @@
     "CannotDeleteInternalNode": "You cannot delete the internal processing node.",
     "DeleteFailed": "Failed to delete",
     "DuplicatesFound": "Duplicates found",
+    "LibraryScanAtCapacity": "Scan limit reached — no more items can be added right now. Wait for existing ones to finish or reduce unprocessed, disabled, or scheduled items.",
     "NameInUse": "Name is already in use",
     "NameRequired": "Name is required",
     "NoFlowSpecified": "No flow specified, you must select a flow to create a library",

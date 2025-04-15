@@ -118,9 +118,9 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         this.Blocker.Show("Scanning Libraries");
         try
         {
-            await HttpHelper.Post("/api/library/rescan-enabled");
-            await Refresh();
-            feService.Notifications.ShowSuccess(Translater.Instant("Pages.LibraryFiles.Labels.ScanTriggered"));
+            var result = await HttpHelper.Post("/api/library/rescan-enabled");
+            if(result.Success == false)
+                feService.Notifications.ShowWarning(Translater.TranslateIfNeeded(result.Body));
         }
         finally
         {

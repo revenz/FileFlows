@@ -206,10 +206,16 @@ public class LibraryController : BaseController
     /// <param name="model">A reference model containing UIDs to rescan</param>
     /// <returns>an awaited task</returns>
     [HttpPut("rescan")]
-    public async Task Rescan([FromBody] ReferenceModel<Guid> model)
+    public async Task<IActionResult> Rescan([FromBody] ReferenceModel<Guid> model)
     {
+        var sorter = ServiceLoader.Load<FileSorterService>();
+        bool atCapacity = sorter.AtCapacity();
+        if(atCapacity)
+            return BadRequest("ErrorMessages.LibraryScanAtCapacity");
+        
         var service = ServiceLoader.Load<LibraryService>();
         await service.Rescan(model.Uids);
+        return Ok();
     }
 
     /// <summary>
@@ -222,25 +228,17 @@ public class LibraryController : BaseController
     public async Task Reset([FromBody] ReferenceModel<Guid> model)
     {
         await ServiceLoader.Load<LibraryFileService>().ResetLibraries(model.Uids);
-        Rescan(model);
+        _ = Rescan(model);
     }
-
-    /// <summary>
-    /// Cleans a value for a json key
-    /// </summary>
-    /// <param name="value">the text value</param>
-    /// <returns>the cleaned json key</returns>
-    private string CleanForJsonKey(string value)
-        => Regex.Replace(value, @"[\s/\\]", string.Empty);
 
     /// <summary>
     /// Rescans enabled libraries and waits for them to be scanned
     /// </summary>
     [HttpPost("rescan-enabled")]
-    public async Task RescanEnabled()
+    public async Task<IActionResult> RescanEnabled()
     {
         var service = ServiceLoader.Load<LibraryService>();
         var libs = (await service.GetAllAsync()).Where(x => x.Enabled).Select(x => x.Uid).ToArray();
-        Rescan(new ReferenceModel<Guid> { Uids = libs });
+        return await Rescan(new ReferenceModel<Guid> { Uids = libs });
     }
 }

@@ -930,6 +930,8 @@
     "CannotDeleteInternalNode": "Je kunt de interne verwerkingsknoop niet verwijderen.",
     "DeleteFailed": "Verwijderen mislukt",
     "DuplicatesFound": "Duplicaten gevonden",
+    "LibraryScanAtCapacity": "Scanlimiet bereikt — er kunnen momenteel geen items meer worden toegevoegd. Wacht tot bestaande items zijn verwerkt of verminder het aantal onverwerkte, uitgeschakelde of geplande items.",
+
     "NameInUse": "Naam is al in gebruik",
     "NameRequired": "Naam is vereist",
     "NoFlowSpecified": "Geen flow opgegeven, je moet een flow selecteren om een bibliotheek te maken",

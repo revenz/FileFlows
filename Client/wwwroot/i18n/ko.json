@@ -930,6 +930,8 @@
     "CannotDeleteInternalNode": "내부 처리 노드를 삭제할 수 없습니다.",
     "DeleteFailed": "삭제 실패",
     "DuplicatesFound": "중복 항목이 발견되었습니다.",
+    "LibraryScanAtCapacity": "스캔 제한에 도달했습니다 — 지금은 항목을 더 이상 추가할 수 없습니다. 기존 항목이 처리되기를 기다리거나 미처리, 비활성화 또는 예약된 항목을 줄이세요.",
+
     "NameInUse": "이름이 이미 사용 중입니다.",
     "NameRequired": "이름이 필요합니다.",
     "NoFlowSpecified": "지정된 흐름이 없습니다. 라이브러리를 만들기 위해 흐름을 선택해야 합니다.",

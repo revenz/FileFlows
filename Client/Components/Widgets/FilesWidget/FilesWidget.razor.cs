@@ -33,7 +33,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         {
             _FileMode = (FileStatus)value;
             if(initialized)
-                _ = LocalStorage.SetItemAsync(LocalStorageKey, value);
+                _ = LocalStorage.SetItemAsync(LocalStorageKey, value, TimeSpan.FromMinutes(1));
         }
     }
 

@@ -930,6 +930,8 @@
     "CannotDeleteInternalNode": "Vous ne pouvez pas supprimer le nœud de traitement interne.",
     "DeleteFailed": "Échec de la suppression",
     "DuplicatesFound": "Doublons trouvés",
+    "LibraryScanAtCapacity": "Limite de scan atteinte — aucun nouvel élément ne peut être ajouté pour le moment. Attendez que les éléments existants soient terminés ou réduisez les éléments non traités, désactivés ou planifiés.",
+
     "NameInUse": "Le nom est déjà utilisé",
     "NameRequired": "Le nom est requis",
     "NoFlowSpecified": "Aucun flow spécifié, vous devez sélectionner un flow pour créer une bibliothèque",

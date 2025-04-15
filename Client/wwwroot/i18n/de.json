@@ -930,6 +930,7 @@
     "CannotDeleteInternalNode": "Sie können den internen Node nicht löschen!",
     "DeleteFailed": "Löschen fehlgeschlagen!",
     "DuplicatesFound": "Duplikate gefunden!",
+    "LibraryScanAtCapacity": "Scan-Limit erreicht – derzeit können keine weiteren Elemente hinzugefügt werden. Warten Sie, bis bestehende abgeschlossen sind, oder reduzieren Sie unbearbeitete, deaktivierte oder geplante Elemente.",
     "NameInUse": "Der Name ist bereits in Verwendung!",
     "NameRequired": "Name ist erforderlich!",
     "NoFlowSpecified": "Kein Flow angegeben, Sie müssen ein Flow auswählen, um eine Bibliothek zu erstellen",

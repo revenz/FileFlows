@@ -930,6 +930,8 @@
     "CannotDeleteInternalNode": "内部処理ノードを削除することはできません。",
     "DeleteFailed": "削除に失敗しました",
     "DuplicatesFound": "重複が見つかりました",
+    "LibraryScanAtCapacity": "スキャンの上限に達しました。これ以上アイテムを追加できません。既存のアイテムの処理が完了するのを待つか、未処理、無効、またはスケジュール済みのアイテムを減らしてください。",
+
     "NameInUse": "名前はすでに使用されています",
     "NameRequired": "名前は必須です",
     "NoFlowSpecified": "フローが指定されていません。ライブラリを作成するにはフローを選択する必要があります",

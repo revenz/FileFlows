@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.JSInterop;
 
 namespace FileFlows.Client.Services;
@@ -26,47 +27,65 @@ public class FFLocalStorageService
     }
 
     /// <summary>
-    /// Sets an item in the local storage.
+    /// Sets an item in the local storage with optional expiration.
     /// </summary>
     /// <param name="key">The key of the item to set.</param>
     /// <param name="value">The value of the item to set.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    public async Task SetItemAsync(string key, object value)
+    /// <param name="expiry">Optional expiration timespan.</param>
+    public async Task SetItemAsync(string key, object value, TimeSpan? expiry = null)
     {
         if (_localStorageEnabled == null)
             await CheckLocalStorageEnabled();
-        if(_localStorageEnabled == true)
+
+        if (_localStorageEnabled == true)
         {
-            if (value != null)
-                value = System.Text.Json.JsonSerializer.Serialize(value);
-            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", key, value);
+            var item = new StorageItem<object>
+            {
+                Value = value,
+                ExpiresAt = expiry.HasValue ? DateTime.UtcNow.Add(expiry.Value) : (DateTime?)null
+            };
+            string json = JsonSerializer.Serialize(item);
+            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", key, json);
         }
-        // Handle case where local storage is not enabled
     }
 
     /// <summary>
-    /// Gets an item from the local storage.
+    /// Gets an item from the local storage. Removes it if expired.
     /// </summary>
     /// <typeparam name="T">The type of the item to get.</typeparam>
     /// <param name="key">The key of the item to get.</param>
-    /// <returns>A task representing the asynchronous operation. The task result contains the value of the item, or default(T) if not found.</returns>
+    /// <returns>The item or default if not found/expired.</returns>
     public async Task<T> GetItemAsync<T>(string key)
     {
         if (_localStorageEnabled == null)
             await CheckLocalStorageEnabled();
-        if(_localStorageEnabled == true)
+
+        if (_localStorageEnabled == true)
         {
             try
             {
-                var result = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", key);
-                return result != null ? System.Text.Json.JsonSerializer.Deserialize<T>(result) : default;
+                var json = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", key);
+                if (json == null)
+                    return default;
+
+                var item = JsonSerializer.Deserialize<StorageItem<T>>(json);
+                if (item == null)
+                    return default;
+
+                if (item.ExpiresAt.HasValue && item.ExpiresAt.Value < DateTime.UtcNow)
+                {
+                    await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", key);
+                    return default;
+                }
+
+                return item.Value;
             }
-            catch (Exception)
+            catch
             {
                 return default;
             }
         }
-        // Handle case where local storage is not enabled
+
         return default;
     }
 
@@ -113,4 +132,22 @@ public class FFLocalStorageService
             await SetItemAsync("ACCESS_TOKEN", token);
         await _jsRuntime.InvokeVoidAsync("ff.setAccessToken", token);
     }
+    
+    /// <summary>
+    /// Represents a value stored in local storage with an optional expiration time.
+    /// </summary>
+    /// <typeparam name="T">The type of the value being stored.</typeparam>
+    private class StorageItem<T>
+    {
+        /// <summary>
+        /// Gets or sets the value to be stored.
+        /// </summary>
+        public T Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets the expiration time of the item. If null, the item does not expire.
+        /// </summary>
+        public DateTime? ExpiresAt { get; set; }
+    }
+
 }

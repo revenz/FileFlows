@@ -930,6 +930,7 @@
     "CannotDeleteInternalNode": "No puedes eliminar el nodo de procesamiento interno.",
     "DeleteFailed": "Error al eliminar",
     "DuplicatesFound": "Se encontraron duplicados",
+    "LibraryScanAtCapacity": "Límite de escaneo alcanzado: no se pueden agregar más elementos en este momento. Espere a que se procesen los existentes o reduzca los elementos no procesados, deshabilitados o programados.",
     "NameInUse": "El nombre ya está en uso",
     "NameRequired": "Se requiere un nombre",
     "NoFlowSpecified": "No se especificó un flow, debes seleccionar un flow para crear una biblioteca",

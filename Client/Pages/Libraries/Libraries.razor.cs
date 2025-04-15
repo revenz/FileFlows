@@ -204,7 +204,7 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
         {
             var result = await HttpHelper.Put($"{ApiUrl}/rescan", new ReferenceModel<Guid> { Uids = uids });
             if (result.Success == false)
-                return;
+                feService.Notifications.ShowWarning(Translater.TranslateIfNeeded(result.Body));
         }
         finally
         {
