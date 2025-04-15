@@ -1,3 +1,5 @@
+using FileFlows.Client.Components.Editors;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components;
@@ -16,6 +18,16 @@ public partial class ProcessingNodeElement : ComponentBase
     /// Gets or sets if this is rendered on the list page
     /// </summary>
     [Parameter] public bool ListPage { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
     
     /// <summary>
     /// Translation strings
@@ -110,5 +122,19 @@ public partial class ProcessingNodeElement : ComponentBase
     
         // If more than 7 days ago, show the local date
         return nodeLastSeen.ToLocalTime().ToString("D");
+    }
+
+    /// <summary>
+    /// When the item is double clicked
+    /// </summary>
+    private void OnDoubleClick()
+    {
+        if (feService.Profile.Profile.HasRole(UserRole.Nodes) == false)
+            return;
+        
+        _ = ModalService.ShowModal<Editors.NodeEditor, ProcessingNode>(new ModalEditorOptions()
+        {
+            Uid = Node.Uid
+        });
     }
 }

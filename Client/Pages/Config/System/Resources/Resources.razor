@@ -12,7 +12,6 @@
         <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
         <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
         <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
-        <FlowTableButtonSeparator/>
         @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
         {
             <FlowTableButtonSeparator />     
