@@ -39,11 +39,6 @@ public partial class FileBrowser : IModal
     private bool ShowHidden = false;
     private FileBrowserItem Selected;
     List<FileBrowserItem> Items = new List<FileBrowserItem>();
-
-    // /// <summary>
-    // /// Gets or sets the profile service
-    // /// </summary>
-    // [Inject] private ProfileService ProfileService { get; set; }
     
     /// <summary>
     /// The API url to call

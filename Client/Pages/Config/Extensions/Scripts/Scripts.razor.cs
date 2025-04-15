@@ -2,19 +2,25 @@ using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using RepositoryBrowser = FileFlows.Client.Components.Editors.RepositoryBrowser;
 
 namespace FileFlows.Client.Pages;
 
-using FileFlows.Client.Components;
 
 /// <summary>
 /// Page for processing nodes
 /// </summary>
 public partial class Scripts : ListPage<Guid, Script>, IDisposable
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
     public override string ApiUrl => "/api/script";
 
     const string FileFlowsServer = "FileFlowsServer";
@@ -32,10 +38,6 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
     private string lblUpdateScripts, lblUpdatingScripts, lblInUse, lblReadOnly, lblUpdateAvailable,
         lblFileDisplayName ,lblFileDisplayNameDescription;
 
-    /// <summary>
-    /// Gets or sets the instance of the ScriptBrowser
-    /// </summary>
-    private RepositoryBrowser ScriptBrowser { get; set; }
 
     /// <summary>
     /// The language picker dialog
@@ -55,7 +57,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
         lblInUse = Translater.Instant("Labels.InUse");
         lblReadOnly = Translater.Instant("Labels.ReadOnly");
         lblUpdateAvailable = Translater.Instant("Pages.Scripts.Labels.UpdateAvailable");
-        feService.Script.ScriptsUpdated += ScriptOnScriptsUpdated;
+        feService.Script.ScriptsUpdated += OnScriptsUpdated;
         Data = feService.Script.Scripts;
     }
 
@@ -75,7 +77,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
     /// Called when script are updated
     /// </summary>
     /// <param name="data">the updated scripts</param>
-    private void ScriptOnScriptsUpdated(List<Script> data)
+    private void OnScriptsUpdated(List<Script> data)
     {
         Data = data;
         UpdateTypeData();
@@ -258,9 +260,9 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
     
     private void UpdateTypeData()
     {
-        this.DataFlow = this.Data.Where(x => x.Type == ScriptType.Flow).ToList();
-        this.DataSystem = this.Data.Where(x => x.Type == ScriptType.System).ToList();
-        this.DataShared = this.Data.Where(x => x.Type == ScriptType.Shared).ToList();
+        this.DataFlow = this.Data.Where(x => x.Type == ScriptType.Flow).OrderBy(x => x.Name.ToLowerInvariant()).ToList();
+        this.DataSystem = this.Data.Where(x => x.Type == ScriptType.System).OrderBy(x => x.Name.ToLowerInvariant()).ToList();
+        this.DataShared = this.Data.Where(x => x.Type == ScriptType.Shared).OrderBy(x => x.Name.ToLowerInvariant()).ToList();
         foreach (var script in this.Data)
         {
             if (script.Code?.StartsWith("// path: ") == true)
@@ -294,9 +296,35 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
             }
         }, this.SelectedType);
     }
-    
+
     async Task Browser()
-        => await ScriptBrowser.Open();//this.SelectedType);
+    {
+        await ModalService.ShowModal<RepositoryBrowser>(new RepositoryOptions()
+        {
+            Type = SelectedType == ScriptType.System ? RepositoryType.ScriptSystem : RepositoryType.ScriptFlow
+        });
+    }
+    
+    /// <summary>
+    /// Editor for a Script
+    /// </summary>
+    /// <param name="item">the script to edit</param>
+    /// <returns>the result of the edit</returns>
+    public override async Task<bool> Edit(Script item)
+    {
+        var options = new ModalEditorOptions();
+        if(item.Uid == Guid.Empty)
+        {
+            options.Model = item;
+        }
+        else
+        {
+            options.Uid = item.Uid;
+        }
+        
+        await ModalService.ShowModal<ScriptEditor>(options);
+        return false;
+    }
 
     async Task Update()
     {
@@ -393,6 +421,6 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
     /// </summary>
     public void Dispose()
     {
-        feService.Script.ScriptsUpdated -= ScriptOnScriptsUpdated;
+        feService.Script.ScriptsUpdated -= OnScriptsUpdated;
     }
 }

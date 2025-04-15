@@ -4,14 +4,21 @@ using FileFlows.Client.Components;
 using FileFlows.Plugin;
 using FileFlows.Client.Components.Inputs;
 using System.Text.Json;
+using FileFlows.Client.Components.Editors;
+using Microsoft.AspNetCore.Components;
+using RepositoryBrowser = FileFlows.Client.Components.Editors.RepositoryBrowser;
 
 namespace FileFlows.Client.Pages;
 
 public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
 {
+    
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
     public override string ApiUrl => "/api/plugin";
-
-    private PluginBrowser PluginBrowser { get; set; }
 
     private string lblSettings, lblInUse, lblFlowElement, lblFlowElements;
 
@@ -54,7 +61,12 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
     protected override string DeleteMessage => "Pages.Plugins.Messages.DeletePlugins";
 
     async Task Add()
-        => await PluginBrowser.Open();
+    {
+        await ModalService.ShowModal<RepositoryBrowser>(new RepositoryOptions()
+        {
+            Type = RepositoryType.Plugins
+        });
+    }
 
     async Task Update()
     {

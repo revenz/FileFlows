@@ -3,24 +3,31 @@
 @using FileFlows.Plugin
 @inherits ModalEditor
 
-<ModalEditorWrapper Modal="@this">
+<ModalEditorWrapper Modal="@this" AdditionalButtons="AdditionalButtons">
     
-@if (ReadOnly)
-{
-    <InputText ReadOnly="true" Value="@Name" Label="Label.Name"/>
-    <InputCode ReadOnly="true" Value="@Code" HideLabel="true"/>
-}
-else
-{
-    <InputText @bind-Value="@Name" Label="Label.Name" Validators="RequiredValidator"/>
-
-    @if (Language is not ScriptLanguage.JavaScript)
-    {
-        <InputTextArea @bind-Value="@Description" Label="Label.Description"/>
-        <InputKeyValueInt @bind-Value="@Outputs" HideLabel="true" HideKeyValueLabels="true"/>
+    @{
+        var editorLanguage = Model.Language switch
+        {
+            ScriptLanguage.Batch => "bat",
+            _ => Model.Language.ToString().ToLowerInvariant()
+        };
     }
 
-    <InputCode @bind-Value="@Code" HideLabel="true" Validators="RequiredValidator"/>
-}
+    @if (ReadOnly)
+    {
+        <InputCode ReadOnly="true" Value="@Model.Code" HideLabel="true" Language="@editorLanguage" />
+    }
+    else
+    {
+        <InputText @bind-Value="@Model.Name" Label="Label.Name" Validators="RequiredValidator"/>
+
+        @if (Model.Language is not ScriptLanguage.JavaScript)
+        {
+            <InputTextArea @bind-Value="@Model.Description" Label="Label.Description"/>
+            <InputKeyValueInt @bind-Value="@Model.Outputs" HideLabel="true" HideKeyValueLabels="true"/>
+        }
+
+        <InputCode @ref=CodeInput @bind-Value="@Model.Code" HideLabel="true" Validators="RequiredValidator" Language="@editorLanguage" />
+    }
 
 </ModalEditorWrapper>

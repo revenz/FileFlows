@@ -5,6 +5,13 @@
     <ViContainer @ref=Container Title="@Title" AlwaysShowTitle=@true Maximise=true>
 
         <Head>
+            @if (AdditionalButtons is { Length: > 0 })
+            {
+                foreach (var btn in AdditionalButtons)
+                {
+                    <button x-uid="@btn.Uid" class="btn" @onclick="@(() => btn.Clicked(null, null))">@btn.Label</button>
+                }
+            }
             @if (ReadOnly)
             {
                 <button x-uid="cancel" class="btn" @onclick=@Cancel>@lblClose</button>

@@ -23,11 +23,6 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
     /// </summary>
     [Inject] private IModalService ModalService { get; set; }
 
-    // /// <summary>
-    // /// Gets or sets the DockerMod Browser isntance
-    // /// </summary>
-    // private RepositoryBrowser Browser { get; set; }
-
     /// <summary>
     /// Gets or sets the JavaScript runtime
     /// </summary>
@@ -97,10 +92,6 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
         {
             Type = RepositoryType.DockerMod
         });
-        
-        // bool result = await Browser.Open();
-        // if (result)
-        //     await Refresh();
     }
 
 

@@ -1,5 +1,4 @@
 using FileFlows.Client.Components.Common;
-using FileFlows.Plugin;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
 
@@ -24,11 +23,6 @@ public partial class RepositoryBrowser : ModalEditor
     /// Gets or sets the table
     /// </summary>
     public FlowTable<RepositoryObject> Table { get; set; }
-    
-    /// <summary>
-    /// Gets or sets if icons should be shown
-    /// </summary>
-    private bool Icons { get; set; }
 
     /// <summary>
     /// Gets or sets the repository type
@@ -37,6 +31,11 @@ public partial class RepositoryBrowser : ModalEditor
 
     /// <inheritdoc />
     public override string HelpUrl => "https://fileflows.com/docs/webconsole/config/extensions/nodes";
+
+    /// <summary>
+    /// Maps repository objects to plugsin
+    /// </summary>
+    private Dictionary<RepositoryObject, PluginPackageInfo> Plugins = [];
     
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -50,6 +49,12 @@ public partial class RepositoryBrowser : ModalEditor
     /// <inheritdoc />
     public override async Task LoadModel()
     {
+        if (Type == RepositoryType.Plugins)
+        {
+            await LoadPlugins();
+            return;
+        }
+        
         var result = await HttpHelper.Get<List<RepositoryObject>>("/api/repository/by-type/" + Type);
         if (result.Success == false)
         {
@@ -59,9 +64,8 @@ public partial class RepositoryBrowser : ModalEditor
             return;
         }
 
-        if (Type == RepositoryType.Script)
+        if (Type is RepositoryType.ScriptFlow or RepositoryType.ScriptSystem)
         {
-            Icons = false;
             foreach (var item in result.Data)
             {
                 item.Icon = ScriptIconHelper.GetIcon(item.Name);
@@ -69,7 +73,6 @@ public partial class RepositoryBrowser : ModalEditor
         }
         else if (Type ==  RepositoryType.DockerMod)
         {
-            Icons = true;
             foreach (var item in result.Data)
             {
                 string key = item.Name.Replace(".", "").Replace("-", "").Dehumanize();
@@ -78,8 +81,53 @@ public partial class RepositoryBrowser : ModalEditor
                     Translater.TranslateIfHasTranslation($"DockerMods.{key}.Description", item.Description);
             }
         }
+        else if (Type ==  RepositoryType.Plugins)
+        {
+            foreach (var item in result.Data)
+            {
+                string key = item.Name.Replace(".", "").Replace("-", "").Dehumanize();
+                item.Name = Translater.TranslateIfHasTranslation($"Plugins.{key}.Label", item.Name);
+                item.Description =
+                    Translater.TranslateIfHasTranslation($"Plugins.{key}.Description", item.Description);
+            }
+        }
 
         Data = result.Data;
+    }
+
+    /// <summary>
+    /// Loads the plugins
+    /// </summary>
+    private async Task LoadPlugins()
+    {
+        var result = await HttpHelper.Get<List<PluginPackageInfo>>("/api/plugin/plugin-packages?missing=true");
+        if (result.Success == false)
+        {
+            feService.Notifications.ShowError(result.Body, duration: 15_000);
+            // close this and show message
+            Close();
+            return;
+        }
+        
+        foreach (var item in result.Data)
+        {
+            string key = item.Name.Replace(".", "").Replace("-", "").Dehumanize();
+            item.Name = Translater.TranslateIfHasTranslation($"Plugins.{key}.Label", item.Name);
+            item.Description =
+                Translater.TranslateIfHasTranslation($"Plugins.{key}.Description", item.Description);
+        }
+
+        Data = result.Data.Select(x =>
+        {
+            var ro = new RepositoryObject()
+            {
+                Name = x.Name,
+                Description = x.Description,
+                Icon = x.Icon,
+            };
+            Plugins[ro] = x;
+            return ro;
+        }).ToList();
     }
 
     
@@ -91,12 +139,26 @@ public partial class RepositoryBrowser : ModalEditor
     {
         var selected = Table.GetSelected().ToArray();
         var items = selected;
-        if (items.Any() == false)
+        if (items.Length == 0)
             return;
         Container.ShowBlocker();
         try
         {
-            var result = await HttpHelper.Post($"/api/repository/download/{Type}", items);
+            RequestResult<string> result;
+            if (Type == RepositoryType.Plugins)
+            {
+                var packages = items.Where(x => Plugins.ContainsKey(x))
+                    .Select(x => Plugins[x]).ToList();
+                if (packages.Count == 0)
+                    return;
+                
+                result = await HttpHelper.Post("/api/plugin/download", new { Packages = packages });
+            }
+            else
+            {
+                result = await HttpHelper.Post($"/api/repository/download/{Type}", items);
+            }
+            
             if (result.Success == false)
             {
                 // close this and show message
@@ -146,34 +208,20 @@ public partial class RepositoryBrowser : ModalEditor
                     }
                 });
                 break;
+            case RepositoryType.ScriptFlow:
+            case RepositoryType.ScriptSystem:
+                await ModalService.ShowModal<ScriptEditor>(new ModalEditorOptions()
+                {
+                    Model = new Script()
+                    {
+                        Name = item.Name,
+                        Description = item.Description,
+                        Repository = true,
+                        Code = item.Path
+                    }
+                });
+                break;
         }
-        // Blocker.Show();
-        // List<IFlowField> fields;
-        // object model;
-        // try
-        // {
-        //     var result = await HttpHelper.Post<FormFieldsModel>($"/api/repository/{Type}/fields", item);
-        //     if (result.Success == false)
-        //         return;
-        //     fields = result.Data.Fields.Select(x => (IFlowField)x).ToList();
-        //     model = result.Data.Model;
-        //     if(Type == "DockerMod")
-        //     {
-        //         if(model is IDictionary<string, object> dockerModel)
-        //         {
-        //             string key = item.Name.Replace(".", "").Replace("-", "").Dehumanize();
-        //             dockerModel["Name"] = Translater.TranslateIfHasTranslation($"DockerMods.{key}.Label", item.Name);
-        //             dockerModel["Description"] = Translater.TranslateIfHasTranslation($"DockerMods.{key}.Description", item.Description);
-        //         }
-        //     }
-        // }
-        // finally
-        // {
-        //     Blocker.Hide();
-        // }
-        //
-        // await Editor.Open(new () { TypeName = "Pages.RepositoryObject", Title = item.Name, Fields = fields, 
-        //     Model = model, ReadOnly= true});
     }
 
 }
@@ -193,5 +241,7 @@ public class RepositoryOptions : IModalOptions
 public enum RepositoryType
 {
     DockerMod,
-    Script
+    Plugins,
+    ScriptFlow,
+    ScriptSystem
 }

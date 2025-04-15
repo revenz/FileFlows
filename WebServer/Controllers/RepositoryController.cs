@@ -24,8 +24,8 @@ public class RepositoryController : BaseController
         var objects = (type.ToLowerInvariant() switch
         {
             "dockermod" => repo.DockerMods,
-            "script:system" => repo.SystemScripts,
-            "script:flow" => repo.FlowScripts,
+            "scriptsystem" => repo.SystemScripts,
+            "scriptflow" => repo.FlowScripts,
             "script:shared" => repo.SharedScripts,
             "script:webhook" => repo.WebhookScripts,
             _ => new List<RepositoryObject>()
@@ -38,9 +38,9 @@ public class RepositoryController : BaseController
             var known = type.ToLowerInvariant() switch
             {
                 "dockermod" => CanAccess(UserRole.DockerMods) ? (await ServiceLoader.Load<DockerModService>().GetAll()).Select(x => x.Name).ToList() : [],
-                "script:system" => CanAccess(UserRole.Scripts) ? (await ServiceLoader.Load<ScriptService>().GetAllByType(ScriptType.System)).Where(x => x.Repository).Select(x => x.Name).ToList() : [],
+                "scriptsystem" => CanAccess(UserRole.Scripts) ? (await ServiceLoader.Load<ScriptService>().GetAllByType(ScriptType.System)).Where(x => x.Repository).Select(x => x.Name).ToList() : [],
+                "scriptflow" => CanAccess(UserRole.Scripts) | CanAccess(UserRole.Flows) ? (await ServiceLoader.Load<ScriptService>().GetAllByType(ScriptType.Flow)).Where(x => x.Repository).Select(x => x.Name).ToList() : [],
                 "script:shared" => CanAccess(UserRole.Scripts) ? (await ServiceLoader.Load<ScriptService>().GetAllByType(ScriptType.Shared)).Where(x => x.Repository).Select(x => x.Name).ToList() : [],
-                "script:flow" => CanAccess(UserRole.Scripts) | CanAccess(UserRole.Flows) ? (await ServiceLoader.Load<ScriptService>().GetAllByType(ScriptType.Flow)).Where(x => x.Repository).Select(x => x.Name).ToList() : [],
                 "script:webhook" => CanAccess(UserRole.Webhooks) ? (await ServiceLoader.Load<ScriptService>().GetAllByType(ScriptType.Webhook)).Where(x => x.Repository).Select(x => x.Name).ToList() : [],
                 _ => []
             };
@@ -76,7 +76,7 @@ public class RepositoryController : BaseController
                 processor = (ro, content, auditDetails) => dmService.ImportFromRepository(content, auditDetails);
             }
             break;
-            case "script:flow":
+            case "scriptflow":
             {
                 if (CanAccess(UserRole.Scripts) == false && CanAccess(UserRole.Flows) == false)
                     throw new UnauthorizedAccessException();
@@ -89,7 +89,7 @@ public class RepositoryController : BaseController
                 processor = (ro, content, auditDetails) => scriptService.ImportFromRepository(ScriptType.Flow, ro, content, auditDetails);
             }
             break;
-            case "script:system":
+            case "scriptsystem":
             {
                 if (CanAccess(UserRole.Scripts) == false)
                     throw new UnauthorizedAccessException();

@@ -1,14 +1,19 @@
-using System.Web;
-using FileFlows.Client.Components;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Components.Inputs;
-using FileFlows.Client.Components.ScriptEditor;
 using FileFlows.Plugin;
 using Humanizer;
+using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
 
 public partial class Tasks : ListPage<Guid, FileFlowsTask>
 {
+    
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
     public override string ApiUrl => "/api/task";
 
     private string lblLastRun, lblNever, lblTrigger;
@@ -474,27 +479,10 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
         if (item == null)
             return;
 
-        this.Blocker.Show();
-        Script script;
-        try
+        await ModalService.ShowModal<FileFlows.Client.Components.Editors.ScriptEditor, Script>(new ModalEditorOptions()
         {
-            var response =
-                await HttpHelper.Get<Script>("/api/script/" + HttpUtility.UrlPathEncode(item.Script.ToString()) + "?type=System");
-            if (response.Success == false)
-            {
-                feService.Notifications.ShowError("Failed to load script");
-                return;
-            }
-
-            script = response.Data!;
-        }
-        finally
-        {
-            this.Blocker.Hide();
-        }
-
-        var editor = new ScriptEditor(feService, Editor, ScriptImporter, blocker: Blocker);
-        await editor.Open(script);
+            Uid = item.Script
+        });
     }
 
     /// <summary>

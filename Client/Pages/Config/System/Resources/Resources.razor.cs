@@ -1,7 +1,6 @@
 using System.Web;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Inputs;
-using FileFlows.Client.Components.ScriptEditor;
 using FileFlows.Client.Helpers;
 using FileFlows.Plugin;
 using Humanizer;
@@ -45,7 +44,6 @@ public partial class Resources : ListPage<Guid, Resource>
         Blocker.Show();
         try
         {
-
             // need to actually load the item
             if (item.Uid != Guid.Empty)
             {

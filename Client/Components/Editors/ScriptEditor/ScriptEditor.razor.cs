@@ -1,4 +1,8 @@
+using System.Web;
+using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Components.Inputs;
 using FileFlows.Plugin;
+using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Editors;
 
@@ -8,69 +12,123 @@ namespace FileFlows.Client.Components.Editors;
 public partial class ScriptEditor : ModalEditor
 {
     /// <summary>
-    /// Gets or sets the UID of script
+    /// Gets or sets the model
     /// </summary>
-    private Guid Uid { get; set; }
-
+    private Script Model { get; set; }
+    
     /// <summary>
-    /// Gets or sets the name of script
+    /// Gets or sets the modal service
     /// </summary>
-    private string Name { get; set; }
-
-    /// <summary>
-    /// Gets or sets the description of script
-    /// </summary>
-    private string Description { get; set; }
-
-    /// <summary>
-    /// Gets or sets the javascript code of the script
-    /// </summary>
-    public string Code { get; set; } = string.Empty;
-    /// <summary>
-    /// Gets or sets a list of outputs for the script
-    /// </summary>
-    public List<KeyValuePair<int, string>> Outputs { get; set; } = new ();
-
-    /// <summary>
-    /// Gets or sets if this script is a from a repository and cannot be modified
-    /// </summary>
-    public bool Repository { get; set; }
-
-    /// <summary>
-    /// Gets or sets the type of script
-    /// </summary>
-    public ScriptType Type { get; set; }
-
-    /// <summary>
-    /// Gets or sets the Language of script
-    /// </summary>
-    public ScriptLanguage Language { get; set; }
+    [Inject] private IModalService ModalService { get; set; }
 
     /// <inheritdoc />
     public override string HelpUrl => "https://fileflows.com/docs/webconsole/config/extensions/scripts";
+
+    private ActionButton[] AdditionalButtons = [];
+
+    private InputCode CodeInput;
+    private List<Script> _Shared;
+
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         Title = Translater.Instant("Pages.Script.Title");
-
     }
 
     public override async Task LoadModel()
     {
-        var uid = GetModelUid();
-
-        var result = await HttpHelper.Get<Script>("/api/script/" + uid);
-        if (result.Success == false || result.Data == null)
+        if ((Options as ModalEditorOptions)?.Model is Script model)
         {
-            Container.HideBlocker();
-            Close();
+            if (model.Repository)
+            {
+                // need to get the code from backend
+                var contentResult =
+                    await HttpHelper.Get<string>("/api/repository/content?path=" + HttpUtility.UrlEncode(model.Code));
+                if (contentResult.Success == false || string.IsNullOrWhiteSpace(contentResult.Data))
+                {
+                    Close();
+                    return;
+                }
+
+                // int index = contentResult.Data.IndexOf("#!/bin/bash", StringComparison.InvariantCultureIgnoreCase);
+                // model.Code = index > 0 ? contentResult.Data[index..] : contentResult.Data;
+                model.Code = contentResult.Data;
+                Title = model.Name;
+                ReadOnly = true;
+            }
+            else if (model.Uid == Guid.Empty)
+                InitializeModel(model);
+
+            Model = model;
+        }
+        else
+        {
+            var uid = GetModelUid();
+
+            var result = await HttpHelper.Get<Script>("/api/script/" + uid);
+            if (result.Success == false || result.Data == null)
+            {
+                Container.HideBlocker();
+                Close();
+            }
+
+            InitializeModel(result.Data);
         }
 
-        InitializeModel(result.Data);
+        if (ReadOnly == false && Model.Language == ScriptLanguage.JavaScript)
+        {
+            AdditionalButtons =
+            [
+                new()
+                {
+                    Uid = "import",
+                    Label = "Labels.Import",
+                    Clicked = async (_, _) =>
+                    {
+                        string code = await CodeInput.GetCode() ?? string.Empty;
+                        var shared = await GetShared();
+                        var available = shared
+                            .Where(x => code.IndexOf("Shared/" + x.Name, StringComparison.Ordinal) < 0)
+                            .Select(x => x.Name).ToList();
+                        if (available.Any() == false)
+                        {
+                            feService.Notifications.ShowWarning("Dialogs.ImportScript.Messages.NoMoreImports");
+                            return;
+                        }
+
+                        var result = await ModalService.ShowModal<ImportScript, string[]>(new ImportScriptOptions()
+                        {
+                            AvailableScripts = available
+                        });
+                        if (result.IsFailed || result.Value == null || result.Value.Length == 0)
+                            return;
+                        
+                        await CodeInput.AddImports(result.Value.ToList());
+                    }
+                }
+            ];
+        }
+
+        StateHasChanged();
     }
 
+    /// <summary>
+    /// Gets the shared scripts
+    /// </summary>
+    /// <returns>the shared scripts</returns>
+    private async Task<List<Script>> GetShared()
+    {
+        if (_Shared == null)
+        {
+            var result = await HttpHelper.Get<List<Script>>("/api/script/list/Shared");
+            if (result.Success)
+                this._Shared = result.Data;
+        }
+
+        return _Shared ?? new ();
+    }
 
     /// <summary>
     /// Opens the script editor to edit a specific script
@@ -79,23 +137,16 @@ public partial class ScriptEditor : ModalEditor
     /// <returns>true if the script was saved, otherwise false</returns>
     public void InitializeModel(Script model)
     {
+        Model = model;
         bool flowScript = model.Type == ScriptType.Flow;
-        Uid = model.Uid;
-        Code = model.Code;
-        Language = model.Language;
         ReadOnly = model.Repository || feService.HasRole(UserRole.Scripts) == false;
-        Name = model.Name ?? string.Empty;
-        Description = model.Description ?? string.Empty;
-        Type = model.Type;
-        Outputs = model.Outputs;
 
-        string editorLanguage = Language.ToString().ToLowerInvariant();
 
-        if (string.IsNullOrEmpty(Code))
+        if (string.IsNullOrEmpty(model.Code))
         {
-            if (Language == ScriptLanguage.JavaScript)
+            if (model.Language == ScriptLanguage.JavaScript)
             {
-                Code = flowScript
+                model.Code = flowScript
                     ? @"
 /**
  * @description The description of this script
@@ -114,10 +165,9 @@ import { FileFlowsApi } from 'Shared/FileFlowsApi';
 let ffApi = new FileFlowsApi();
 ";
             }
-            else if (Language == ScriptLanguage.Batch)
+            else if (model.Language == ScriptLanguage.Batch)
             {
-                editorLanguage = "bat";
-                Code = @"
+                model.Code = @"
 REM This is a template batch file
 
 REM Replace {file.FullName} and {file.Orig.FullName} with actual values
@@ -135,9 +185,9 @@ REM copy ""%WorkingFile%"" ""C:\Backup\%~nxWorkingFile%""
 REM Set the exit code to 1
 EXIT /B 1".Trim();
             }
-            else if (Language == ScriptLanguage.PowerShell)
+            else if (model.Language == ScriptLanguage.PowerShell)
             {
-                Code = @"
+                model.Code = @"
 # This is a template PowerShell script
 
 # Replace {WorkingFile} and {OriginalFile} with actual values
@@ -155,9 +205,9 @@ Write-Output ""Original file location: $OriginalFile""
 # Set the exit code to 1
 exit 1".Trim();
             }
-            else if (Language == ScriptLanguage.Shell)
+            else if (model.Language == ScriptLanguage.Shell)
             {
-                Code = @"
+                model.Code = @"
 # This is a template shell script
 
 # Replace {file.FullName} and {file.Orig.FullName} with actual values
@@ -175,9 +225,9 @@ echo ""Original file location: $OriginalFile""
 # Set the exit code to 1
 exit 1".Trim();
             }
-            else if (Language == ScriptLanguage.CSharp)
+            else if (model.Language == ScriptLanguage.CSharp)
             {
-                Code = @"
+                model.Code = @"
 // A C# script will have full access to the executing flow.
 // Return the output to call next
 
@@ -194,22 +244,24 @@ return 1;
 ".Trim();
             }
         }
-        else if(Language == ScriptLanguage.JavaScript)
+        else if(model.Language == ScriptLanguage.JavaScript)
         {
-            Code = ScriptParser.GetCodeWithCommentBlock(model, true);
+            model.Code = ScriptParser.GetCodeWithCommentBlock(model, true);
         }
 
-        Code = Code.Replace("\r\n", "\n").Trim();
-        string langTitle = Language switch
+        model.Code = model.Code.Replace("\r\n", "\n").Trim();
+        string langTitle = model.Language switch
         {
             ScriptLanguage.CSharp => "C#",
-            _ => Language.ToString()
+            _ => model.Language.ToString()
         };
         
         if (ReadOnly)
         {
-            Title = Translater.Instant("Pages.Script.LanguageTitle", new { Language = langTitle }) + ":" + Name;
+            Title = Translater.Instant("Pages.Script.LanguageTitle", new { Language = langTitle }) + ":" + model.Name;
         }
+        
+        StateHasChanged();
     }
     
     /// <summary>
@@ -221,14 +273,7 @@ return 1;
         
         try
         {
-            var saveResult = await HttpHelper.Post<Script>($"/api/script", new 
-            {
-                 Uid,
-                 Name,
-                 Code,
-                 Type,
-                 Language,
-            });
+            var saveResult = await HttpHelper.Post<Script>($"/api/script", Model);
             if (saveResult.Success == false)
             {
                 feService.Notifications.ShowError(saveResult.Body?.EmptyAsNull() ?? 

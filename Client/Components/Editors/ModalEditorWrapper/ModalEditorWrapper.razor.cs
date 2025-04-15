@@ -26,6 +26,12 @@ public partial class ModalEditorWrapper : ComponentBase
     [Parameter] public ModalEditor Modal { get; set; }
 
     /// <summary>
+    /// Gets or sets any additional buttons
+    /// </summary>
+    [Parameter]
+    public ActionButton[] AdditionalButtons { get; set; } = [];
+    
+    /// <summary>
     /// Gets or sets if the init is done
     /// </summary>
     protected bool InitDone => Modal.InitDone;
