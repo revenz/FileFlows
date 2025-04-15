@@ -77,6 +77,7 @@
     "Log": "日誌",
     "Logout": "登出",
     "LogPartialNotAvailable": "找不到節點的部分日誌。",
+    "ManualLibrary": "手動資料庫",
     "MappingIssue": "映射問題",
     "Memory": "記憶體",
     "MissingDependencies": "缺少依賴項",
@@ -931,7 +932,6 @@
     "DeleteFailed": "刪除失敗",
     "DuplicatesFound": "找到重複項",
     "LibraryScanAtCapacity": "掃描已達上限 — 無法再新增項目。請等待現有項目完成，或減少未處理、已停用或排程中的項目。",
-
     "NameInUse": "名稱已被使用",
     "NameRequired": "名稱為必填項",
     "NoFlowSpecified": "未指定流，必須選擇一個流來創建庫",

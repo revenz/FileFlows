@@ -389,7 +389,11 @@ public class Runner
         nodeParameters.RelativeFile = runInstance.LibraryFile.RelativePath;
         nodeParameters.PartPercentageUpdate = (percent) =>
             runInstance.Properties.RpcClient.RunnerInfo.UpdatePartPercentage(percent).Wait();
+#if(!DEBUG) 
+// since this is in debug setting this logger would make all server requests use this logger
+// eg loading the repository.  In a build, this is a separate process so this wouldn't happen.
         HttpHelper.Logger = nodeParameters.Logger;
+#endif
 
         nodeParameters.Result = NodeResult.Success;
         nodeParameters.GetToolPathActual = (name) =>

@@ -97,10 +97,18 @@
 }
 .modal-render .vi-container .fields {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .modal-render .vi-container .fields .tab-description {
   white-space: pre-wrap;
   padding: 0.5rem;
+}
+.modal-render .vi-container .fields .flow-tabs {
+  overflow: hidden;
+}
+.modal-render .vi-container .fields .flow-tabs .flow-tabs-content {
+  overflow: auto;
 }
 .modal-render .vi-container .fields .row {
   margin-left: 1rem;

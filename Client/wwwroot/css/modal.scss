@@ -101,9 +101,17 @@
     }
     .fields {
         height: 100%;
+        display: flex;
+        flex-direction: column;
         .tab-description {
             white-space:pre-wrap;
             padding:0.5rem;
+        }
+        .flow-tabs {
+            overflow:hidden;
+            .flow-tabs-content {
+                overflow: auto;
+            }
         }
     }
     .fields .row {

@@ -170,7 +170,7 @@ public abstract class ModalEditor : ComponentBase, IModal
 }
 
 /// <summary>
-/// Generic modal ediotr options
+/// Generic modal editor options
 /// </summary>
 public class ModalEditorOptions : IModalOptions
 {

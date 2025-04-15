@@ -1,8 +1,10 @@
 using System.Text;
 using System.Text.Json;
 using FileFlows.Client.Components;
+using FileFlows.Client.Components.Editors;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using RepositoryBrowser = FileFlows.Client.Components.Editors.RepositoryBrowser;
 
 namespace FileFlows.Client.Pages;
 
@@ -15,11 +17,16 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
     /// The API URL
     /// </summary>
     public override string ApiUrl => "/api/dockermod";
-
+    
     /// <summary>
-    /// Gets or sets the DockerMod Browser isntance
+    /// Gets or sets the modal service
     /// </summary>
-    private RepositoryBrowser Browser { get; set; }
+    [Inject] private IModalService ModalService { get; set; }
+
+    // /// <summary>
+    // /// Gets or sets the DockerMod Browser isntance
+    // /// </summary>
+    // private RepositoryBrowser Browser { get; set; }
 
     /// <summary>
     /// Gets or sets the JavaScript runtime
@@ -86,9 +93,14 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
     
     async Task OpenBrowser()
     {
-        bool result = await Browser.Open();
-        if (result)
-            await Refresh();
+        await ModalService.ShowModal<RepositoryBrowser>(new RepositoryOptions()
+        {
+            Type = RepositoryType.DockerMod
+        });
+        
+        // bool result = await Browser.Open();
+        // if (result)
+        //     await Refresh();
     }
 
 

@@ -24,6 +24,14 @@ public interface IModalService
     /// <param name="options">The options to pass to the modal dialog.</param>
     /// <returns>A task that represents the asynchronous operation, containing the result of the modal dialog.</returns>
     Task<Result<U>> ShowModal<T, U>(IModalOptions options) where T : IModal, new();
+    
+    /// <summary>
+    /// Shows a modal dialog of type <typeparamref name="T"/> with the specified options.
+    /// </summary>
+    /// <typeparam name="T">The type of the modal dialog to show. It must implement <see cref="IModal{TResult, TOptions}"/>.</typeparam>
+    /// <param name="options">The options to pass to the modal dialog.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the result of the modal dialog.</returns>
+    Task ShowModal<T>(IModalOptions options) where T : IModal, new();
 
     /// <summary>
     /// Retrieves a list of currently active modal dialogs.
@@ -104,6 +112,34 @@ public class ModalService : IModalService
         catch (Exception ex)
         {
             return Result<V>.Fail(ex.Message);
+        }
+        finally
+        {
+            activeModals.Remove(modal);
+            OnModalsChanged?.Invoke();
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task ShowModal<T>(IModalOptions options) where T : IModal, new()
+    {
+        var modal = new T
+        {
+            Options = options // Set the options directly
+        };
+
+        // Create a TaskCompletionSource to manage modal result
+        modal.TaskCompletionSource = new ();
+
+        activeModals.Add(modal);
+        OnModalsChanged?.Invoke(); // Notify about the new modal
+        try
+        {
+            await modal.TaskCompletionSource.Task;
+        }
+        catch (Exception)
+        {
+            // Ignored
         }
         finally
         {

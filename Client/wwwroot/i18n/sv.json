@@ -77,6 +77,7 @@
     "Log": "Logg",
     "Logout": "Logga ut",
     "LogPartialNotAvailable": "Kunde inte hitta delad logg för nod.",
+    "ManualLibrary": "Manuellt Bibliotek",
     "MappingIssue": "Mappningsproblem",
     "Memory": "Minne",
     "MissingDependencies": "Saknade beroenden",
@@ -931,7 +932,6 @@
     "DeleteFailed": "Borttagning misslyckades",
     "DuplicatesFound": "Dubbletter hittades",
     "LibraryScanAtCapacity": "Skanningsgräns nådd – inga fler objekt kan läggas till just nu. Vänta tills befintliga är klara eller minska antalet oprocessade, inaktiverade eller schemalagda objekt.",
-
     "NameInUse": "Namnet används redan",
     "NameRequired": "Namn krävs",
     "NoFlowSpecified": "Ingen flöde angiven, du måste välja ett flöde för att skapa ett bibliotek",

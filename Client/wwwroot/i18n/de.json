@@ -77,6 +77,7 @@
     "Log": "Log",
     "Logout": "Abmelden",
     "LogPartialNotAvailable": "Für die Node ist teilweise kein Protokoll verfügbar!",
+    "ManualLibrary": "Manuelle Bibliothek",
     "MappingIssue": "Zuordnungsproblem",
     "Memory": "Speicher",
     "MissingDependencies": "Fehlende Abhängigkeiten",

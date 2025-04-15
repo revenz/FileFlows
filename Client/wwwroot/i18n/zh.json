@@ -77,6 +77,7 @@
     "Log": "日志",
     "Logout": "登出",
     "LogPartialNotAvailable": "无法找到节点的部分日志。",
+    "ManualLibrary": "手动库",
     "MappingIssue": "映射问题",
     "Memory": "内存",
     "MissingDependencies": "缺少依赖项",
@@ -931,7 +932,6 @@
     "DeleteFailed": "删除失败",
     "DuplicatesFound": "发现重复项",
     "LibraryScanAtCapacity": "扫描已达上限 — 当前无法添加更多项目。请等待现有项目完成，或减少未处理、已禁用或计划中的项目。",
-
     "NameInUse": "名称已被使用",
     "NameRequired": "名称是必需的",
     "NoFlowSpecified": "未指定流，您必须选择一个流来创建库",

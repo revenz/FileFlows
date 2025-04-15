@@ -77,6 +77,7 @@
     "Log": "Log",
     "Logout": "Sair",
     "LogPartialNotAvailable": "Não foi possível encontrar log parcial para o nó.",
+    "ManualLibrary": "Biblioteca Manual",
     "MappingIssue": "Problema de Mapeamento",
     "Memory": "Memória",
     "MissingDependencies": "Dependências Faltando",
@@ -931,7 +932,6 @@
     "DeleteFailed": "Falha ao excluir",
     "DuplicatesFound": "Duplicatas encontradas",
     "LibraryScanAtCapacity": "Limite de verificação atingido — nenhum item adicional pode ser adicionado no momento. Aguarde a conclusão dos existentes ou reduza os itens não processados, desativados ou agendados.",
-
     "NameInUse": "O nome já está em uso",
     "NameRequired": "O nome é obrigatório",
     "NoFlowSpecified": "Nenhum flow especificado, você deve selecionar um flow para criar uma biblioteca",

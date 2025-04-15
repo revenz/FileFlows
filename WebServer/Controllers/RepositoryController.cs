@@ -19,7 +19,7 @@ public class RepositoryController : BaseController
     [HttpGet("by-type/{type}")]
     public async Task<IEnumerable<RepositoryObject>> GetByType([FromRoute] string type, [FromQuery] bool missing = true)
     {
-        var repo = await new RepositoryService().GetRepository();
+        var repo = await ServiceLoader.Load<RepositoryService>().GetRepository();
         
         var objects = (type.ToLowerInvariant() switch
         {

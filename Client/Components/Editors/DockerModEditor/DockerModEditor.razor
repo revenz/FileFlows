@@ -1,0 +1,32 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper Modal="@this">
+    
+    @if (Model.Repository)
+    {
+        if (string.IsNullOrWhiteSpace(Model.Description) == false)
+        {
+            <p class="tab-description">
+                @Model.Description
+            </p>
+        }
+    }
+    else
+    {
+        <InputText ReadOnly="@ReadOnly" Value="@Model.Name" Label="Label.Name"/>
+        <InputTextArea ReadOnly="@ReadOnly" Value="@Model.Description" Label="Pages.DockerMod.Fields.Description" Rows="3"/>
+
+        @if (ReadOnly == false)
+        {
+            <InputIconPicker Value="@Model.Icon" Label="Pages.DockerMod.Fields.Icon"/>
+        }
+    }
+
+    <div style="flex-grow:1">
+        <InputCode ReadOnly="@ReadOnly" Value="@Model.Code" Label="Pages.DockerMod.Fields.Code" HideLabel="true"
+                   Language="shell"/>
+    </div>
+
+</ModalEditorWrapper>

@@ -30,6 +30,7 @@ html {
     overflow: hidden;
 }
 
+
 body {
     --bold:600;
     --nav-menu-bold:700;
@@ -38,7 +39,6 @@ body {
 .initial-config + .toast-button {
     display:none;
 }
-
 
 @media screen and (max-width: 849.99px) {
     html, body, #app, .page{

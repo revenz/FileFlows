@@ -77,6 +77,7 @@
     "Log": "Log",
     "Logout": "Disconnetti",
     "LogPartialNotAvailable": "Impossibile trovare il log parziale per il nodo.",
+    "ManualLibrary": "Libreria Manuale",
     "MappingIssue": "Problema di Mappatura",
     "Memory": "Memoria",
     "MissingDependencies": "Dipendenze Mancanti",
@@ -931,7 +932,6 @@
     "DeleteFailed": "Eliminazione fallita",
     "DuplicatesFound": "Duplicati trovati",
     "LibraryScanAtCapacity": "Limite di scansione raggiunto: al momento non è possibile aggiungere altri elementi. Attendere il completamento di quelli esistenti o ridurre gli elementi non elaborati, disabilitati o pianificati.",
-
     "NameInUse": "Il nome è già in uso",
     "NameRequired": "Il nome è obbligatorio",
     "NoFlowSpecified": "Nessun flow specificato, devi selezionare un flow per creare una libreria",

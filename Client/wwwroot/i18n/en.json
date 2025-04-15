@@ -77,6 +77,7 @@
     "Log": "Log",
     "Logout": "Logout",
     "LogPartialNotAvailable": "Unable to find partial log for node.",
+    "ManualLibrary": "Manual Library",
     "MappingIssue": "Mapping Issue",
     "Memory": "Memory",
     "MissingDependencies": "Missing Dependencies",

@@ -77,6 +77,7 @@
     "Log": "Journal",
     "Logout": "Déconnexion",
     "LogPartialNotAvailable": "Impossible de trouver le journal partiel pour le nœud.",
+    "ManualLibrary": "Bibliothèque Manuelle",
     "MappingIssue": "Problème de mapping",
     "Memory": "Mémoire",
     "MissingDependencies": "Dépendances manquantes",
@@ -931,7 +932,6 @@
     "DeleteFailed": "Échec de la suppression",
     "DuplicatesFound": "Doublons trouvés",
     "LibraryScanAtCapacity": "Limite de scan atteinte — aucun nouvel élément ne peut être ajouté pour le moment. Attendez que les éléments existants soient terminés ou réduisez les éléments non traités, désactivés ou planifiés.",
-
     "NameInUse": "Le nom est déjà utilisé",
     "NameRequired": "Le nom est requis",
     "NoFlowSpecified": "Aucun flow spécifié, vous devez sélectionner un flow pour créer une bibliothèque",
