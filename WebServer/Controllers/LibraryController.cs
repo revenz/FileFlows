@@ -206,10 +206,10 @@ public class LibraryController : BaseController
     /// <param name="model">A reference model containing UIDs to rescan</param>
     /// <returns>an awaited task</returns>
     [HttpPut("rescan")]
-    public void Rescan([FromBody] ReferenceModel<Guid> model)
+    public async Task Rescan([FromBody] ReferenceModel<Guid> model)
     {
         var service = ServiceLoader.Load<LibraryService>();
-        service.Rescan(model.Uids);
+        await service.Rescan(model.Uids);
     }
 
     /// <summary>
