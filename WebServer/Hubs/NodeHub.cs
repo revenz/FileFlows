@@ -175,6 +175,7 @@ public partial class NodeHub : Hub
         }
 
         _nodeService.SetConnectionId(Context.ConnectionId, parameters.ConfigRevision, node, parameters.ActiveRunners);
+        
         _logger.ILog($"Node registered: {node.Name} ({node.Uid})");
         await ServiceLoader.Load<NodeService>().UpdateNodeStatusSummaries();
         return new NodeRegisterResult()
@@ -186,7 +187,22 @@ public partial class NodeHub : Hub
             CurrentConfigRevision = await _settingsService.GetCurrentConfigurationRevision()
         };
     }
+
+    /// <summary>
+    /// Syncs the log with the server
+    /// </summary>
+    /// <param name="nodeUid">The UID of the node.</param>
+    /// <param name="log">the log to sync</param>
+    public async Task SyncLog(Guid nodeUid, string log)
+    {
+        var node = await _nodeService.GetByUidAsync(nodeUid); 
+        if (node == null)
+            return;
+        _logger.ILog($"Syncing log: {node.Name}");
+        await _nodeLogger.Sync(node.Name, log);
+    }
     
+
     /// <summary>
     /// Retrieves the current configuration.
     /// </summary>

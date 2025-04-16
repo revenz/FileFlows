@@ -121,7 +121,7 @@ public partial class Client : IDisposable
             return Task.CompletedTask;
         };
 
-        _ = TryStartConnectionAsync();
+        // _ = TryStartConnectionAsync();
     }
 
 
@@ -131,40 +131,40 @@ public partial class Client : IDisposable
     private void OnRunnerUpdated()
         => TriggerStatusUpdate();
 
-    /// <summary>
-    /// Attempts to start the connection and retry if it fails initially.
-    /// </summary>
-    private async Task TryStartConnectionAsync()
-    {
-        OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
-
-        while (!_cts.Token.IsCancellationRequested)
-        {
-            try
-            {
-                lock (_lock)
-                {
-                    if (_connection.State != HubConnectionState.Disconnected)
-                    {
-                        _logger.WLog($"Connection is in state {_connection.State}, skipping StartAsync.");
-                        return;
-                    }
-                }
-
-                _logger.ILog("Attempting to start connection...");
-                await _connection.StartAsync(_cts.Token);
-                OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-                await RegisterNodeAsync();
-                _ = Task.Run(SendNodeStatusAsync, _cts.Token);
-                return; // Exit loop on successful connection
-            }
-            catch (Exception ex)
-            {
-                _logger.WLog($"Connection failed: {ex.Message}. Retrying in 5 seconds...");
-                await Task.Delay(5000, _cts.Token);
-            }
-        }
-    }
+    // /// <summary>
+    // /// Attempts to start the connection and retry if it fails initially.
+    // /// </summary>
+    // private async Task TryStartConnectionAsync()
+    // {
+    //     OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
+    //
+    //     while (!_cts.Token.IsCancellationRequested)
+    //     {
+    //         try
+    //         {
+    //             lock (_lock)
+    //             {
+    //                 if (_connection.State != HubConnectionState.Disconnected)
+    //                 {
+    //                     _logger.WLog($"Connection is in state {_connection.State}, skipping StartAsync.");
+    //                     return;
+    //                 }
+    //             }
+    //
+    //             _logger.ILog("Attempting to start connection...");
+    //             await _connection.StartAsync(_cts.Token);
+    //             OnConnectionUpdated?.Invoke(ConnectionState.Connected);
+    //             await RegisterNodeAsync();
+    //             // _ = Task.Run(SendNodeStatusAsync, _cts.Token);
+    //             return; // Exit loop on successful connection
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             _logger.WLog($"Connection failed: {ex.Message}. Retrying in 5 seconds...");
+    //             await Task.Delay(5000, _cts.Token);
+    //         }
+    //     }
+    // }
 
     /// <summary>
     /// Starts the connection and attempts to register the node once connected.

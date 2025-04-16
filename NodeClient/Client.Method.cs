@@ -7,6 +7,7 @@ using FileFlows.RemoteServices;
 using FileFlows.ServerShared;
 using FileFlows.ServerShared.Models;
 using FileFlows.ServerShared.Services;
+using FileFlows.Shared;
 using FileFlows.Shared.Models;
 using FileFlows.Shared.Models.SignalAre;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -217,6 +218,8 @@ public partial class Client
                     await UpdateConfiguration(result.CurrentConfigRevision);
                 });
             }
+
+            TriggerLogSync();
         }
         catch (Exception ex)
         {
@@ -234,9 +237,14 @@ public partial class Client
         => await _runnerManager.AbortRunner(uid);
     
     private CancellationTokenSource _delayCts = new();
+    private CancellationTokenSource _logSyncCts = new();
 
+    /// <summary>
+    /// Sends a update to the server about this node
+    /// </summary>
     private async Task SendNodeStatusAsync()
     {
+        _ = SyncLog();
         while (true)
         {
             try
@@ -290,6 +298,53 @@ public partial class Client
     }
 
     /// <summary>
+    /// Syncs the node log with the server
+    /// </summary>
+    private async Task SyncLog()
+    {
+        while (true)
+        {
+            try
+            {
+                if (_connection.State != HubConnectionState.Connected || _node == null)
+                {
+                    await Task.Delay(TimeSpan.FromMinutes(5), _logSyncCts.Token);
+                    continue;
+                }
+
+                if (_node.Uid == CommonVariables.InternalNodeUid)
+                    return; // we dont sync this log
+
+                if (Logger.Instance.TryGetLogger(out FileLogger logger))
+                {
+                    var file = logger.GetLogFilename();
+                    if (File.Exists(file))
+                    {
+                        var log = await File.ReadAllTextAsync(file);
+                        if(string.IsNullOrWhiteSpace(log) == false)
+                        {
+                            await _connection.InvokeAsync("SyncLog", _node.Uid, log);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // Ignore
+            }
+
+            try
+            {
+                await Task.Delay(TimeSpan.FromMinutes(60), _logSyncCts.Token);
+            }
+            catch (TaskCanceledException)
+            {
+                // Task.Delay was interrupted, continue immediately
+            }
+        }
+    }
+    
+    /// <summary>
     /// Triggers an immediate node status update.
     /// </summary>
     public void TriggerStatusUpdate()
@@ -299,6 +354,23 @@ public partial class Client
             _delayCts.Cancel(); // Cancels the current delay
             _delayCts.Dispose();
             _delayCts = new CancellationTokenSource(); // Reset for the next delay
+        }
+        catch (Exception)
+        {
+            // Ignored
+        }
+    }
+    
+    /// <summary>
+    /// Triggers an immediate node status update.
+    /// </summary>
+    private void TriggerLogSync()
+    {
+        try
+        {
+            _logSyncCts.Cancel(); // Cancels the current delay
+            _logSyncCts.Dispose();
+            _logSyncCts = new CancellationTokenSource(); // Reset for the next delay
         }
         catch (Exception)
         {

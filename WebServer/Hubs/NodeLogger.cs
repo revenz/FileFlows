@@ -61,6 +61,49 @@ public class NodeLogger
             // Ignore    
         }
     }
+
+    /// <summary>
+    /// Replaces the complete log with one from the node
+    /// </summary>
+    /// <param name="nodeAddress">the UID of the node</param>
+    /// <param name="log">The complete log from the node</param>
+    public async Task Sync(string nodeAddress, string log)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(nodeAddress) || string.IsNullOrEmpty(log))
+                return;
+
+            await _semaphoreSlim.WaitAsync();
+            try
+            {
+                if (Loggers.TryGetValue(nodeAddress, out var logger) == false)
+                {
+                    string name = nodeAddress;
+                    if (IsValidFileName(name) == false)
+                        return;
+
+                    Loggers[nodeAddress] = new(DirectoryHelper.LoggingDirectory, "Node-" + name, false);
+                    logger = Loggers[nodeAddress];
+                }
+                
+                await logger.SetLogContent(log);
+            }
+            catch (Exception)
+            {
+                // Ignored
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
+        }
+        catch(Exception)
+        {
+            // Ignore    
+        }
+        
+    }
     
     /// <summary>
     /// Checks if a file name is valid.

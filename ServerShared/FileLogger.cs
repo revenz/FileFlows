@@ -100,6 +100,32 @@ public class FileLogger : ILogWriter
     }
 
     /// <summary>
+    /// Sets the entire log content with the one provided
+    /// </summary>
+    /// <param name="log">the log content</param>
+    public async Task SetLogContent(string log)
+    {
+        await mutex.WaitAsync();
+        try
+        {
+
+            if (logFile == null || currentLogDate.DayOfYear != DateTime.Now.DayOfYear)
+            {
+                logFile = GetLogFilename();
+                currentLogDate = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            }
+
+            await File.WriteAllTextAsync(logFile, log);
+            
+            CurrentLogSize = Encoding.UTF8.GetByteCount(log) + 1;
+        }
+        finally
+        {
+            mutex.Release();
+        }
+    }
+
+    /// <summary>
     /// Appends a message to the specified log file, retrying if the file is locked.
     /// </summary>
     /// <param name="logFile">The path to the log file.</param>
