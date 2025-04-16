@@ -1426,6 +1426,7 @@
       "Tabs": {
         "CustomVariables": "Aangepaste Variabelen",
         "FinalMetadata": "Uitvoer",
+        "LogServer": "Serverlogboek",
         "OriginalMetadata": "Invoer"
       }
     },

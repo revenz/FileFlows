@@ -1426,6 +1426,7 @@
       "Tabs": {
         "CustomVariables": "自訂變量",
         "FinalMetadata": "輸出",
+        "LogServer": "伺服器日誌",
         "OriginalMetadata": "輸入"
       }
     },

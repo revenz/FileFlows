@@ -1426,6 +1426,7 @@
       "Tabs": {
         "CustomVariables": "Variables Personnalisées",
         "FinalMetadata": "Sortie",
+        "LogServer": "Journal du Serveur",
         "OriginalMetadata": "Entrée"
       }
     },

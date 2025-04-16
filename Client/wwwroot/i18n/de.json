@@ -1426,6 +1426,7 @@
       "Tabs": {
         "CustomVariables": "Benutzerdefinierte Variablen",
         "FinalMetadata": "Geänderte Datei",
+        "LogServer": "Serverprotokoll",
         "OriginalMetadata": "Original Datei"
       }
     },

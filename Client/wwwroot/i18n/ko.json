@@ -1426,6 +1426,7 @@
       "Tabs": {
         "CustomVariables": "사용자 정의 변수",
         "FinalMetadata": "출력",
+        "LogServer": "서버 로그",
         "OriginalMetadata": "입력"
       }
     },

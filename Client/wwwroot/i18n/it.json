@@ -1426,6 +1426,7 @@
       "Tabs": {
         "CustomVariables": "Variabili Personalizzate",
         "FinalMetadata": "Output",
+        "LogServer": "Registro del Server",
         "OriginalMetadata": "Input"
       }
     },

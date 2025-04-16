@@ -1426,6 +1426,7 @@
       "Tabs": {
         "CustomVariables": "Anpassade variabler",
         "FinalMetadata": "Utdata",
+        "LogServer": "Serverlogg",
         "OriginalMetadata": "Indata"
       }
     },

@@ -1426,6 +1426,7 @@
       "Tabs": {
         "CustomVariables": "カスタム変数",
         "FinalMetadata": "出力",
+        "LogServer": "サーバーログ",
         "OriginalMetadata": "入力"
       }
     },

@@ -1426,6 +1426,7 @@
       "Tabs": {
         "CustomVariables": "自定义变量",
         "FinalMetadata": "输出",
+        "LogServer": "服务器日志",
         "OriginalMetadata": "输入"
       }
     },
