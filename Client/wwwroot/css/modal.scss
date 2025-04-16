@@ -87,6 +87,9 @@
     bottom: 1rem;
     max-width: 56rem;
     width: calc(100% - 2rem);
+    &.large {
+        max-width: min(90rem, calc(100vw - 2rem));
+    }
     &.vi-maximized {
         left: 6.5rem;
         width: unset;

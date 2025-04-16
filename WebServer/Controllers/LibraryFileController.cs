@@ -157,6 +157,23 @@ public class LibraryFileController : Controller
     }
 
     /// <summary>
+    /// Get the server log of a library file
+    /// </summary>
+    /// <param name="uid">The UID of the library file</param>
+    /// <returns>The log of the library file</returns>
+    [HttpGet("{uid}/server-log")]
+    public string GetServerLog([FromRoute] Guid uid)
+    {
+        try
+        {
+            return LibraryFileLogHelper.GetServerLog(uid);
+        }
+        catch (Exception ex)
+        {
+            return "Error opening log: " + ex.Message;
+        }
+    }
+    /// <summary>
     /// A reference model of library files to move to the top of the processing queue
     /// </summary>
     /// <param name="model">The reference model of items in order to move</param>

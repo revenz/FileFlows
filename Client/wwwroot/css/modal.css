@@ -84,6 +84,9 @@
   max-width: 56rem;
   width: calc(100% - 2rem);
 }
+.modal-render .vi-container.large {
+  max-width: min(90rem, 100vw - 2rem);
+}
 .modal-render .vi-container.vi-maximized {
   left: 6.5rem;
   width: unset;

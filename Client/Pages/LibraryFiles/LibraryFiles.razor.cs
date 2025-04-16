@@ -17,6 +17,10 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     private FileStatus? filterStatus;
     /// <inheritdoc />
     public override string ApiUrl => "/api/library-file";
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
     
     /// <summary>
     /// Gets or sets the navigation service

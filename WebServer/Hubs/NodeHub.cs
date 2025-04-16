@@ -15,6 +15,7 @@ public partial class NodeHub : Hub
     private readonly ISettingsService _settingsService;
     private readonly ILogger _logger;
     private readonly NodeLogger _nodeLogger = new();
+    private LibraryFileLoggerService _lfLogger;
     
     /// <summary>
     /// Special token just for internal use.
@@ -28,6 +29,7 @@ public partial class NodeHub : Hub
     {
         _nodeService = ServiceLoader.Load<NodeService>();
         _settingsService = ServiceLoader.Load<ISettingsService>();
+        _lfLogger = ServiceLoader.Load<LibraryFileLoggerService>();
         _logger = Logger.Instance;
     }
     

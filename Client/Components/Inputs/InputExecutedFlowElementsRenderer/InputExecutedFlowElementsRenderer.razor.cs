@@ -16,14 +16,13 @@ public partial class InputExecutedFlowElementsRenderer : ExecuteFlowElementView,
     /// <summary>
     /// Gets or sets the model
     /// </summary>
-    [Parameter] public ExpandoObject Model { get; set; }
+    public List<ExecutedNode> ExecutedNodes { get; set; }
     
     /// <summary>
     /// Gets or sets the frontend service
     /// </summary>
     [Inject] private FrontendService feService { get; set; }
     
-    private List<ExecutedNode> ExecutedNodes = [];
     private List<FlowElement> FlowElements = [];
     private List<FlowPart> parts = [];
     private bool _needsRendering = false;
@@ -37,26 +36,14 @@ public partial class InputExecutedFlowElementsRenderer : ExecuteFlowElementView,
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        FlowElements = feService.Flow.FlowElements;
+        ExecutedNodes = Value.ToList();
+        
         _ = Initialize();
     }
 
     private async Task Initialize()
     {
-        var dict = Model as IDictionary<string, object>;
-        if (dict == null)
-            return;
-        dict.TryGetValue("Log", out var oLog);
-        _Log = oLog as string ?? string.Empty;
-        
-        dict.TryGetValue(nameof(LibraryFile.ExecutedNodes), out var oExecutedNodes);
-        if(oExecutedNodes == null)
-            return;
-        if(oExecutedNodes is JsonElement jsonElement)
-            ExecutedNodes = jsonElement.Deserialize<List<ExecutedNode>>();
-        else if(oExecutedNodes is List<ExecutedNode> list)
-            ExecutedNodes = list;
-        FlowElements = feService.Flow.FlowElements;
-
         var dotNetObjRef = DotNetObjectReference.Create(this);
         var js = await jsRuntime.InvokeAsync<IJSObjectReference>("import",
             $"./Components/Inputs/InputExecutedFlowElementsRenderer/InputExecutedFlowElementsRenderer.razor.js?v={Globals.Version}");

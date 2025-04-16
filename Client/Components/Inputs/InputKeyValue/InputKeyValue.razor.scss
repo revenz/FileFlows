@@ -8,9 +8,11 @@
 table {
     width: 100%;
 }
-td:last-child {
-    width:2rem;
-    text-align:center;
+.input-keyvalue-wrapper:not(.read-only) {
+    td:last-child {
+        width: 2rem;
+        text-align: center;
+    }
 }
 input {
     outline: unset !important;

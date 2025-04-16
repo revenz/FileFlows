@@ -1,3 +1,4 @@
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
@@ -5,6 +6,10 @@ namespace FileFlows.Client.Components.Widgets;
 
 public partial class LargestSavingsWidget : ComponentBase
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
     /// <summary>
     /// Gets or sets the blocker
     /// </summary>
@@ -92,7 +97,8 @@ public partial class LargestSavingsWidget : ComponentBase
     /// </summary>
     /// <param name="file">the file</param>
     private void OpenFile(LibraryFileMinimal file)
-    {
-        _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile, feService);
-    }
+        => ModalService.ShowModal<FileViewer>(new ModalEditorOptions()
+        {
+            Uid = file.Uid
+        });
 }

@@ -1,0 +1,113 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper Modal="@this" Large="true" AdditionalButtons="AdditionalButtons">
+    
+    <FlowTabs>
+        <FlowTab Title="Enums.LogType.Info">
+            
+            <InputTextLabel Value="Model.Name" Label="Labels.Name" />
+            
+            @if (string.IsNullOrWhiteSpace(Model.OutputPath) == false)
+            {
+                <InputTextLabel Value="Model.OutputPath" Label="Pages.LibraryFile.Fields.OutputPath" />
+            }
+
+            <InputTextLabel Value="Model.CreationTime" Label="Pages.LibraryFile.Fields.CreationTime" />
+            <InputTextLabel Value="Model.OriginalSize" Label="Pages.LibraryFile.Fields.OriginalSize" Formatter="FileSizeFormatter" />
+            @if (Model.Status == FileStatus.Processed)
+            {
+                <InputTextLabel Value="Model.FinalSize" Label="Pages.LibraryFile.Fields.FinalSize" Formatter="FileSizeFormatter" />
+            }
+            @if (Model.Status != FileStatus.Disabled && Model.Status != FileStatus.Unprocessed &&
+                 Model.Status != FileStatus.OutOfSchedule)
+            {
+                <InputChild Label="Pages.ProcessingNode.Title">
+                    <FlowIconValue Icon="node" Value="@Model.Node.Name" ValueUid="@Model.Node.Uid" />
+                </InputChild>
+            }
+            @if (string.IsNullOrWhiteSpace(Model.FlowName) == false)
+            {
+                <InputChild Label="Pages.Flow.Title">
+                    <FlowIconValue Icon="flow" Value="@Model.FlowName" ValueUid="@Model.FlowUid" />
+                </InputChild>
+            }
+            @if (string.IsNullOrWhiteSpace(Model.LibraryName) == false)
+            {
+                <InputChild Label="Pages.Library.Title">
+                    <FlowIconValue Icon="library" Value="@Model.LibraryName" ValueUid="@Model.LibraryUid" />
+                </InputChild>
+            }
+            @{
+                var statusLabel = Translater.Instant("Enums.FileStatus." + Model.Status);
+            }
+            <InputTextLabel Value="Model.ProcessingTime" Label="Pages.LibraryFile.Fields.ProcessingTime" />
+            <InputTextLabel Value="statusLabel" Label="Pages.LibraryFile.Fields.Status" />
+            @if (string.IsNullOrEmpty(Tags) == false)
+            {
+                <InputTextLabel Value="Tags" Label="Pages.LibraryFile.Fields.Tags" />
+            }
+            @if (string.IsNullOrWhiteSpace(Model.FailureReason) == false && Model.Status == FileStatus.ProcessingFailed)
+            {
+                <InputTextLabel Value="Model.FailureReason" Label="Pages.LibraryFile.Fields.FailureReason" Error="true" />
+            }
+            @if (Model.ExecutedNodes?.Any() == true)
+            {
+                <InputExecutedNodes Value="Model.ExecutedNodes" Label="Pages.LibraryFile.Fields.ExecutedNodes" 
+                                    HideLabel="true" Log="@Log" />
+            }
+
+        </FlowTab>
+
+        @if (Model.Status == FileStatus.Processing || string.IsNullOrWhiteSpace(Log) == false)
+        {
+            <FlowTab Title="Pages.LibraryFile.Fields.Log">
+                @if (Model.Status == FileStatus.Processing)
+                {
+                    <InputLogView Label="Pages.LibraryFile.Fields.Log" Value="@Log" RefreshUrl="@LogUrl" RefreshSeconds="5"/>
+                }
+                else
+                {
+                    <InputLogView Label="Pages.LibraryFile.Fields.Log" Value="@Log"/>
+                }
+            </FlowTab>
+        }
+        
+        @if (string.IsNullOrWhiteSpace(LogServer) == false)
+        {
+            <FlowTab Title="Pages.LibraryFile.Tabs.LogServer">
+                <InputLogView Label="Pages.LibraryFile.Fields.LogServer" Value="@LogServer"/>
+            </FlowTab>
+        }
+        @if (Model.OriginalMetadata?.Any() == true)
+        {
+            <FlowTab Title="Pages.LibraryFile.Fields.OriginalMetadata">
+                <InputMetadata Value="Model.OriginalMetadata" Label="Pages.LibraryFile.Fields.OriginalMetadata" />
+            </FlowTab>
+        }
+        @if (Model.FinalMetadata?.Any() == true)
+        {
+            <FlowTab Title="Pages.LibraryFile.Fields.FinalMetadata">
+                <InputMetadata Value="Model.FinalMetadata" Label="Pages.LibraryFile.Fields.FinalMetadata" />
+            </FlowTab>
+        }
+        @if (CustomVariables.Count > 0)
+        {
+            <FlowTab Title="Pages.LibraryFile.Tabs.CustomVariables">
+                <InputKeyValue Value="CustomVariables"
+                               HideLabel="true" HideKeyValueLabels="true"
+                               ReadOnly="true"/>
+            </FlowTab>
+        }
+        @if (Model.ExecutedNodes?.Any() == true)
+        {
+            <FlowTab Title="Pages.LibraryFile.Fields.ExecutedNodes">
+                <InputExecutedFlowElementsRenderer Value="Model.ExecutedNodes" 
+                                                   Log="@Log"
+                                                   Label="Pages.LibraryFile.Fields.ExecutedNodes" />
+            </FlowTab>
+        }
+    </FlowTabs>
+
+</ModalEditorWrapper>

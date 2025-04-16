@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Components.Editors;
 
 namespace FileFlows.Client.Pages;
 
@@ -13,7 +14,10 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
 {
     public override async Task<bool> Edit(LibraryFileMinimal item)
     {
-        await Helpers.LibraryFileEditor.Open(Blocker, Editor, item.Uid, Profile, feService);
+        await ModalService.ShowModal<FileViewer>(new ModalEditorOptions()
+        {
+            Uid = item.Uid
+        });
         return false;
     }
 

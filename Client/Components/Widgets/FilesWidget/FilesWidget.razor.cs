@@ -1,4 +1,5 @@
 using System.IO;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Helpers;
 using FileFlows.Client.Services.Frontend;
 using FileFlows.Client.Services.Frontend.Handlers;
@@ -20,6 +21,10 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// Gets or sets the editor
     /// </summary>
     [CascadingParameter] Editor Editor { get; set; }
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
 
     private FileStatus _FileMode = 0;
     
@@ -238,13 +243,19 @@ public partial class FilesWidget : ComponentBase, IDisposable
     {
         _needsRendering = false;
     }
-    
+
     /// <summary>
     /// Opens the file for viewing
     /// </summary>
     /// <param name="file">the file</param>
     private void OpenFile(LibraryFileMinimal file)
-        => _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile, feService);
+    {
+        _ = ModalService.ShowModal<FileViewer>(new ModalEditorOptions()
+        {
+            Uid =  file.Uid
+        });
+    }
+        //=> _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile, feService);
     
     /// <summary>
     /// Disposes of the component

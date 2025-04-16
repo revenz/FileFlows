@@ -32,6 +32,12 @@ public partial class ModalEditorWrapper : ComponentBase
     public ActionButton[] AdditionalButtons { get; set; } = [];
     
     /// <summary>
+    /// Gets or sets if this is a larger modal window
+    /// </summary>
+    [Parameter]
+    public bool Large { get; set; }
+    
+    /// <summary>
     /// Gets or sets if the init is done
     /// </summary>
     protected bool InitDone => Modal.InitDone;

@@ -71,27 +71,3 @@
     }
 
 </InputWrapper>
-
-@if (PartialLogNode != null)
-{
-    <div class="editor-wrapper log-partial-viewer ">
-        <div class="background-overlay"></div>
-        <div id=@ResizerUid class="editor @(Maximised ? "maximised" : "") ">
-
-            <ViContainer Title="@FormatNodeName(PartialLogNode)" FullWidth=@true AlwaysShowTitle=@true Maximise=true OnMaximised=@OnMaximised>
-
-                <Head>
-                    <button class="btn" @onclick=@ClosePartialLog>@lblClose</button>
-                </Head>
-
-                <Body>
-                    <CascadingValue IsFixed="true" Value="this">
-                        <div class="fields">
-                            <InputLogView Value=@PartialLog />
-                        </div>
-                    </CascadingValue>
-                </Body>
-            </ViContainer>
-        </div>
-    </div>
-}

@@ -39,6 +39,11 @@ public partial class InputKeyValue : Input<List<KeyValuePair<string, string>>>
     [Parameter] public bool AllowDuplicates { get; set; }
     
     /// <summary>
+    /// Gets or sets if the key value labels are hidden
+    /// </summary>
+    [Parameter] public bool HideKeyValueLabels { get; set; }
+    
+    /// <summary>
     /// The data for the input
     /// </summary>
     private Dictionary<Guid, KeyValue> Data = new ();
@@ -59,8 +64,13 @@ public partial class InputKeyValue : Input<List<KeyValuePair<string, string>>>
     /// </summary>
     protected override void OnInitialized()
     {
-        lblKey = Translater.Instant(this.LabelOriginal + "Key");
-        lblValue = Translater.Instant(this.LabelOriginal + "Value");
+        if (HideKeyValueLabels == false)
+        {
+            lblKey = Translater.Instant(this.LabelOriginal + "Key");
+            lblValue = Translater.Instant(this.LabelOriginal + "Value");
+        }
+        
+
         base.OnInitialized();
         if (Value == null)
             Value = new List<KeyValuePair<string, string>>();
@@ -154,6 +164,8 @@ public partial class InputKeyValue : Input<List<KeyValuePair<string, string>>>
     /// </summary>
     void OnBlur()
     {
+        if (ReadOnly)
+            return;
         // CheckForDuplicates();
         UpdateBindValue();
     }

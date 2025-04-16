@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
@@ -7,6 +8,10 @@ namespace FileFlows.Client.Components.Widgets;
 
 public partial class RunnersComponent : ComponentBase, IDisposable
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
     /// <summary>
     /// Gets or sets the frontend service
     /// </summary>
@@ -103,13 +108,16 @@ public partial class RunnersComponent : ComponentBase, IDisposable
             Uids = [runner.Uid]
         });
     }
-    
+
     /// <summary>
     /// Opens the runner in detail
     /// </summary>
     /// <param name="runner">the runner</param>
     private async Task OpenRunner(ProcessingLibraryFile runner)
-        => await Helpers.LibraryFileEditor.Open(Blocker, Editor, runner.Uid, feService.Profile.Profile, feService);
+        => await ModalService.ShowModal<FileViewer>(new ModalEditorOptions()
+        {
+            Uid = runner.Uid
+        });
     
     
     /// <summary>

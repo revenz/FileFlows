@@ -2,7 +2,7 @@
 
 <Editor @ref="Editor"></Editor>
 <CascadingValue IsFixed="true" Value="Editor">
-    <ViContainer @ref=Container Title="@Title" AlwaysShowTitle=@true Maximise=true>
+    <ViContainer @ref=Container Title="@Title" AlwaysShowTitle=@true Maximise=true ClassName="@(Large ? "large" : "")">
 
         <Head>
             @if (AdditionalButtons is { Length: > 0 })

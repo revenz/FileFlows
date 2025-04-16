@@ -1,5 +1,6 @@
 using BlazorDateRangePicker;
 using FileFlows.Client.Components;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Shared;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +13,10 @@ namespace FileFlows.Client.Pages;
 /// </summary>
 public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
     [Inject] private INavigationService NavigationService { get; set; }
     public override string ApiUrl => "/api/library-file";
     private string lblSearch, lblSearching, lblClose;
@@ -65,7 +70,10 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
 
     public override async Task<bool> Edit(LibraryFile item)
     {
-        await Helpers.LibraryFileEditor.Open(Blocker, Editor, item.Uid, Profile, feService);
+        await ModalService.ShowModal<FileViewer>(new ModalEditorOptions()
+        {
+            Uid = item.Uid
+        });
         return false;
     }
     async Task Search()
