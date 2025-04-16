@@ -224,7 +224,7 @@ public partial class NodeHub : Hub
     /// </summary>
     public override async Task OnDisconnectedAsync(Exception exception)
     {
-        _logger.ILog($"Node disconnected: {Context.ConnectionId}");
+        _logger.ILog($"Node disconnected: {Context.ConnectionId}: " + exception);
         _nodeService.SetPendingDisconnect(Context.ConnectionId);
         await base.OnDisconnectedAsync(exception);
         await ServiceLoader.Load<NodeService>().UpdateNodeStatusSummaries();
