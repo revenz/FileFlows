@@ -266,6 +266,11 @@ public partial class Client
                         _logger.ILog($"Configuration out of date for {(_node?.Name?.EmptyAsNull() ?? _hostname)}");
                         _ =  UpdateConfiguration(); // do not await this, as this could cause the node to stop sending updates
                     }
+                    _logger.DLog("Node Status Update Result: " + result);
+                }
+                else if(_node != null)
+                {
+                    _logger.WLog("Cannot send not status update node is not connected to server");
                 }
             }
             catch (Exception ex)

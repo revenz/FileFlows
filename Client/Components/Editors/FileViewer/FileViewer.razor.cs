@@ -36,7 +36,7 @@ public partial class FileViewer : ModalEditor
     private ActionButton[] AdditionalButtons = [];
 
     private List<KeyValuePair<string, string>> CustomVariables = [];
-    private string Tags;
+    private string Tags = string.Empty;
     
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -102,17 +102,20 @@ public partial class FileViewer : ModalEditor
             LogServer = taskLogServer.Result.Data;
         
 
-        CustomVariables = Model.CustomVariables.Select(x =>
-            new KeyValuePair<string, string>(x.Key, x.Value.ToString())).ToList();
+        CustomVariables = Model.CustomVariables?.Select(x =>
+            new KeyValuePair<string, string>(x.Key, x.Value.ToString()))?.ToList() ?? [];
                 
         if(Model.Node?.Name == "FileFlowsServer")
             Model.Node.Name = Translater.Instant("Labels.InternalProcessingNode");
-        
-        var known = feService.Tag.Tags.Where(x => Model.Tags.Contains(x.Uid)).Select(x => x.Name)
-            .OrderBy(x => x.ToLowerInvariant())
-            .ToList();
-        Tags = string.Join(", ", known);
-        
+
+        if (Model.Tags?.Any() == true && feService.Tag.Tags.Count > 0)
+        {
+            var known = feService.Tag.Tags.Where(x => Model.Tags.Contains(x.Uid)).Select(x => x.Name)
+                .OrderBy(x => x.ToLowerInvariant())
+                .ToList();
+            Tags = string.Join(", ", known);
+        }
+
         AdditionalButtons = buttons.ToArray();
         
         StateHasChanged();

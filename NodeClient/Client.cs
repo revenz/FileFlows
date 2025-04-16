@@ -295,10 +295,15 @@ public partial class Client : IDisposable
         while (DateTime.Now < end)
         {
             if (_connection.State == HubConnectionState.Connected)
+            {
+                _logger.ILog("Await Connection is connected");
                 return true;
+            }
+
             await Task.Delay(250);
         }
 
+        _logger.WLog("Failed to await connection");
         return false;
 
     }

@@ -17,10 +17,9 @@ public class RetryPolicyLoop(ILogger logger) : IRetryPolicy
     {
         TimeSpan.FromSeconds(5),
         TimeSpan.FromSeconds(10),
-        TimeSpan.FromSeconds(15),
-        TimeSpan.FromSeconds(20),
-        TimeSpan.FromSeconds(30),
-        // Add more or modify the pattern as needed.
+        // TimeSpan.FromSeconds(15),
+        // TimeSpan.FromSeconds(20),
+        // TimeSpan.FromSeconds(30)
     };
     
     private int _retryCount = 0;  // Tracks the number of retry attempts
