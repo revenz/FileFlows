@@ -291,16 +291,19 @@ public partial class Client : IDisposable
             return false;
 
         var end = DateTime.Now.AddSeconds(timeoutInSeconds);
+        bool delayed = false;
 
         while (DateTime.Now < end)
         {
             if (_connection.State == HubConnectionState.Connected)
             {
-                _logger.ILog("Await Connection is connected");
+                if(delayed)
+                    _logger.ILog("Await Connection is connected");
                 return true;
             }
 
             await Task.Delay(250);
+            delayed = true;
         }
 
         _logger.WLog("Failed to await connection");
