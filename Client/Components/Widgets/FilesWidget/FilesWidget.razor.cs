@@ -83,6 +83,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     private int TotalUpcoming, TotalFinished, TotalFailed, TotalProcessing;
     private bool initialized = false;
     
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
@@ -180,6 +181,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
         lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished, formatted = TotalFinished.ToString("N0")});
         lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed, formatted = TotalFailed.ToString("N0") });
 
+        
         if (initialized == false)
         {
             switch (SelectedStatus)
@@ -218,6 +220,9 @@ public partial class FilesWidget : ComponentBase, IDisposable
                     break;
                 }
             }
+            
+            if (TotalProcessing > 0)
+                FileMode = (int)FileStatus.Processing; // always make it show processing if its processing
 
             initialized = true;
         }

@@ -46,6 +46,10 @@
                         {
                             <FlowIconValue Icon="library" Value="@runner.LibraryName" ValueUid="@runner.LibraryUid" />
                         }
+                        @if (string.IsNullOrEmpty(runner.FlowName) == false)
+                        {
+                            <FlowIconValue Icon="flow" Value="@runner.FlowName" ValueUid="@runner.FlowUid" />
+                        }
                     </div>
 
                     @if (runner.Traits?.Any() == true)
