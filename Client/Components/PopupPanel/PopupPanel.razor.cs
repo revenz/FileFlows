@@ -16,6 +16,12 @@ public partial class PopupPanel : ComponentBase, IDisposable
     [Inject]private FrontendService feService { get; set; }
     
     /// <summary>
+    /// Gets or sets the local storage service
+    /// </summary>
+    [Inject]
+    private FFLocalStorageService LocalStorageService { get; set; }
+    
+    /// <summary>
     /// Gets or sets the click outside serice
     /// </summary>
     [Inject] private ClickOutsideService ClickOutside { get; set; }
@@ -80,10 +86,12 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// </summary>
     private string lblHelp, lblChangePassword, lblLogout, lblPaused, lblIdle, lblPause, lblResume, lblDismissAll;
 
+    private List<Guid> SeenNotifications = [];
+
     private bool ShowLogout, ShowChangePassword;
     
     /// <inheritdoc />
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         lblHelp = Translater.Instant("Labels.Help");
         lblChangePassword = Translater.Instant("Labels.ChangePassword");
@@ -93,6 +101,9 @@ public partial class PopupPanel : ComponentBase, IDisposable
         lblPause = Translater.Instant("Labels.Pause");
         lblResume = Translater.Instant("Labels.Resume");
         lblDismissAll = Translater.Instant("Labels.DismissAll");
+        
+        SeenNotifications = await LocalStorageService.GetItemAsync<List<Guid>>("SeenNotifications") ?? [];
+
         
         NumberOfRunners = feService.Files.Processing.Count;
         feService.Notifications.OnNotification += OnNotification;
@@ -114,6 +125,14 @@ public partial class PopupPanel : ComponentBase, IDisposable
         feService.OnConnectionLost += OnConnectionLost; 
         feService.System.OnUpdatePending += OnUpgradePending; 
         feService.System.OnUpgrading += OnUpgrading; 
+        
+        foreach (var notification in feService.Notifications.Notifications)
+        {
+            if (SeenNotifications.Contains(notification.Uid))
+                continue;
+            _ = jsRuntime.InvokeVoidAsync("showToast",
+                notification.Severity.ToString().ToLower(), notification.Title, notification.Message);
+        }
     }
 
     /// <summary>
@@ -168,12 +187,15 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// Called when a notification is received
     /// </summary>
     /// <param name="notification">the notification</param>
-    private void OnNotification(Notification notification)
+    /// <param name="isToast">if its a toast notification from the client side</param>
+    private void OnNotification(Notification notification, bool isToast)
     {
         if (Visible)
             return;
         _ = jsRuntime.InvokeVoidAsync("showToast",
             notification.Severity.ToString().ToLower(), notification.Title, notification.Message);
+        if(isToast == false)
+            _ = SetAsSeen(notification.Uid);
     }
 
     /// <summary>
@@ -274,9 +296,11 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// Dismisses a notification
     /// </summary>
     /// <param name="notification">the notification to dismiss</param>
-    private void Dismiss(Notification notification)
+    private async Task Dismiss(Notification notification)
     {
         feService.Notifications.Dismiss(notification);
+        if(SeenNotifications.Remove(notification.Uid))
+            await LocalStorageService.SetItemAsync("SeenNotifications", SeenNotifications);
     }
 
     /// <summary>
@@ -300,6 +324,22 @@ public partial class PopupPanel : ComponentBase, IDisposable
     /// <summary>
     /// Dismisses all notifications
     /// </summary>
-    private void DismissAll()
-        => feService.Notifications.DismissAll();
+    private async Task DismissAll()
+    {
+        feService.Notifications.DismissAll();
+        SeenNotifications = [];
+        await LocalStorageService.SetItemAsync("SeenNotifications", SeenNotifications);
+    }
+
+    /// <summary>
+    /// Sets a notification as seen
+    /// </summary>
+    /// <param name="uid">the UID of the notification</param>
+    private async Task SetAsSeen(Guid uid)
+    {
+        SeenNotifications.Add(uid);
+        while(SeenNotifications.Count > 30)
+            SeenNotifications.RemoveAt(0);
+        await LocalStorageService.SetItemAsync("SeenNotifications", SeenNotifications);
+    }
 }
