@@ -154,8 +154,8 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// <param name="files">the updated files</param>
     private void UnprocessedUpdated(List<LibraryFileMinimal> files)
     {
+        TotalUpcoming = files.Count;
         UpcomingFiles = files.Count > 50 ? files.Take(50).ToList() : files;
-        TotalUpcoming = UpcomingFiles.Count;
         lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = TotalUpcoming, formatted = TotalUpcoming.ToString("N0")});
         StateHasChanged();
         OptionButtons?.TriggerStateHasChanged();
@@ -172,7 +172,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
             ? feService.Files.FailedFiles.Take(50).ToList()
             : feService.Files.FailedFiles;
         
-        TotalUpcoming = UpcomingFiles.Count;
+        TotalUpcoming = feService.Files.Unprocessed.Count;
         TotalFailed = feService.Files.FailedFilesTotal;
         TotalFinished = feService.Files.ProcessedTotal;
         TotalProcessing = feService.Files.Processing.Count;

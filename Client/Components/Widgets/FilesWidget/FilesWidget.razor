@@ -28,7 +28,7 @@
         var (list, total, label, viewMore) = SelectedStatus switch
         {
             FileStatus.ProcessingFailed => (FailedFiles, TotalFailed, lblNoFailedFiles, TotalFailed > 50),
-            FileStatus.Unprocessed => (UpcomingFiles, UpcomingFiles.Count, lblNoUpcomingFiles, false),
+            FileStatus.Unprocessed => (UpcomingFiles, TotalUpcoming, lblNoUpcomingFiles, TotalUpcoming > 50),
             _ => (RecentlyFinished, TotalFinished, lblNoRecentlyFinishedFiles, TotalFinished > 50)
         };
         
