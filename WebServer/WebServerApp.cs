@@ -170,7 +170,7 @@ public class WebServerApp
         builder.Services.AddSignalR(options =>
         {
             options.AddFilter<MessageTrackingFilter>();
-            options.MaximumReceiveMessageSize = 1048576; // Set to 1 MB (1048576 bytes)
+            options.MaximumReceiveMessageSize = 10485760; // Set to 10 MB (10485760 bytes)
         });
         builder.Services.AddResponseCompression();
         builder.Services.AddControllers().AddJsonOptions(options =>

@@ -193,13 +193,14 @@ public partial class NodeHub : Hub
     /// </summary>
     /// <param name="nodeUid">The UID of the node.</param>
     /// <param name="log">the log to sync</param>
-    public async Task SyncLog(Guid nodeUid, string log)
+    public async Task SyncLog(Guid nodeUid, byte[] log)
     {
         var node = await _nodeService.GetByUidAsync(nodeUid); 
         if (node == null)
             return;
+        var decompressed = Gzipper.DecompressFromBytes(log);
         _logger.ILog($"Syncing log: {node.Name}");
-        await _nodeLogger.Sync(node.Name, log);
+        await _nodeLogger.Sync(node.Name, decompressed);
     }
     
 

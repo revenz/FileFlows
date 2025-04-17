@@ -323,7 +323,8 @@ public partial class Client
                         var log = await File.ReadAllTextAsync(file);
                         if(string.IsNullOrWhiteSpace(log) == false)
                         {
-                            await _connection.InvokeAsync("SyncLog", _node.Uid, log);
+                            var compressed = Gzipper.CompressToBytes(log);
+                            await _connection.InvokeAsync("SyncLog", _node.Uid, compressed);
                         }
                     }
                 }
