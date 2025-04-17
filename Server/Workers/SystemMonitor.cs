@@ -114,8 +114,10 @@ public class SystemMonitor:Worker, ISystemMonitorService
                 Name = x.Name,
                 Version = x.Version,
                 Enabled = x.Enabled,
-                OutOfSchedule = TimeHelper.InSchedule(x.Schedule) == false,
-                ScheduleResumesAtUtc = TimeHelper.UtcDateUntilInSchedule(x.Schedule)
+                OutOfSchedule = x.DisableSchedule == false && TimeHelper.InSchedule(x.Schedule) == false,
+                ScheduleResumesAtUtc = x.DisableSchedule == false
+                    ? DateTime.MinValue
+                    : TimeHelper.UtcDateUntilInSchedule(x.Schedule)
             }).ToList()
         });
     }

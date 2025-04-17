@@ -84,6 +84,10 @@ public class ProcessingNode: FileFlowObject
     /// </summary>
     public string Schedule { get; set; }
     /// <summary>
+    /// Gets or sets if the schedule is disabled
+    /// </summary>
+    public bool DisableSchedule { get; set; }
+    /// <summary>
     /// Gets or sets if the owner should not be changed
     /// </summary>
     public bool DontChangeOwner { get; set; }

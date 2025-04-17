@@ -1537,6 +1537,7 @@
         "AllLibraries": "Toutes les bibliothèques",
         "AllLibraries-Help": "Quelles bibliothèques ce nœud traitera",
         "CopyMappings": "Copier les mappages",
+        "DisableSchedule": "Activer le Calendrier",
         "DontChangeOwner": "Changer le propriétaire",
         "DontChangeOwner-Help": "Lorsque cette option est cochée, le nœud changera le propriétaire de tous les fichiers nouvellement créés au PGID et PUID définis dans les valeurs environnementales.\nSi ces variables environnementales ne sont pas définies, le propriétaire sera changé en ''users:nobody''.",
         "DontSetPermissions": "Définir les permissions",

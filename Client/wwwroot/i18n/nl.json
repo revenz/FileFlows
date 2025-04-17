@@ -1537,6 +1537,7 @@
         "AllLibraries": "Alle Bibliotheken",
         "AllLibraries-Help": "Welke bibliotheken deze knooppunt zal verwerken",
         "CopyMappings": "Kopieer Mappingen",
+        "DisableSchedule": "Planning Inschakelen",
         "DontChangeOwner": "Verander Eigenaar",
         "DontChangeOwner-Help": "Wanneer aangevinkt, zal het knooppunt de eigenaar van nieuwe bestanden wijzigen naar de PGID en PUID die zijn gedefinieerd in de omgevingsvariabelen.\nAls deze omgevingsvariabelen niet zijn ingesteld, wordt de eigenaar gewijzigd in ''users:nobody''.",
         "DontSetPermissions": "Stel Machtigingen In",

@@ -1537,6 +1537,7 @@
         "AllLibraries": "所有資料庫",
         "AllLibraries-Help": "該節點將處理哪些資料庫",
         "CopyMappings": "複製映射",
+        "DisableSchedule": "啟用排程",
         "DontChangeOwner": "變更擁有者",
         "DontChangeOwner-Help": "選中時，節點將更改任何新創建檔案的擁有者為環境變量中定義的PGID和PUID。\n如果未設置這些環境變量，擁有者將被更改為“users:nobody”。",
         "DontSetPermissions": "設置權限",

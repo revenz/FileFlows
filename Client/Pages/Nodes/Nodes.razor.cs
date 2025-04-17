@@ -2,6 +2,8 @@ using BlazorContextMenu;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Components.Editors;
+using Markdig.Extensions.Tables;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
@@ -11,6 +13,11 @@ namespace FileFlows.Client.Pages;
 /// </summary>
 public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
     public override string ApiUrl => "/api/node";
     const string FileFlowsServer = "FileFlowsServer";
 
@@ -38,6 +45,16 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
             .ToList();
         initialSortOrder = Data.Select(x => x.Uid).ToList();
         feService.Node.NodeStatusUpdated += NodeOnNodeStatusUpdated;
+    }
+
+    /// <inheridoc />
+    public override async Task<bool> Edit(NodeStatusSummary nss)
+    {
+        await ModalService.ShowModal<NodeEditor>(new ModalEditorOptions()
+        {
+            Uid = nss.Uid
+        });
+        return false;
     }
 
     /// <summary>

@@ -141,6 +141,7 @@ public class NodeController : BaseController
             if(internalNode != null)
             {
                 internalNode.Schedule = node.Schedule;
+                internalNode.DisableSchedule = node.DisableSchedule;
                 internalNode.FlowRunners = node.FlowRunners;
                 internalNode.Enabled = node.Enabled;
                 internalNode.Priority = node.Priority;

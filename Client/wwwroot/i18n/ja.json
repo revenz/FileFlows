@@ -1537,6 +1537,7 @@
         "AllLibraries": "すべてのライブラリ",
         "AllLibraries-Help": "このノードが処理するライブラリ",
         "CopyMappings": "マッピングをコピー",
+        "DisableSchedule": "スケジュールを有効にする",
         "DontChangeOwner": "所有者を変更しない",
         "DontChangeOwner-Help": "チェックされている場合、ノードは新しく作成されたファイルの所有者を環境変数で定義されたPGIDとPUIDに変更します。\nこれらの環境変数が設定されていない場合、所有者は''users:nobody''に変更されます。",
         "DontSetPermissions": "権限を設定しない",

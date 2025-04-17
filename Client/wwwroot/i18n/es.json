@@ -1537,6 +1537,7 @@
         "AllLibraries": "Todas las Bibliotecas",
         "AllLibraries-Help": "Qué bibliotecas procesará este nodo",
         "CopyMappings": "Copiar Mapeos",
+        "DisableSchedule": "Habilitar Horario",
         "DontChangeOwner": "Cambiar Propietario",
         "DontChangeOwner-Help": "Cuando está marcado, el nodo cambiará el propietario de cualquier archivo recién creado a los valores PGID y PUID definidos en las variables ambientales.\nSi estas variables ambientales no están configuradas, el propietario se cambiará a ''users:nobody''.",
         "DontSetPermissions": "Establecer Permisos",

@@ -1537,6 +1537,7 @@
         "AllLibraries": "모든 라이브러리",
         "AllLibraries-Help": "이 노드에서 처리할 라이브러리",
         "CopyMappings": "매핑 복사",
+        "DisableSchedule": "일정 활성화",
         "DontChangeOwner": "소유자 변경",
         "DontChangeOwner-Help": "체크할 경우, 노드는 새로 생성된 파일의 소유자를 환경 변수에 정의된 PGID 및 PUID로 변경합니다.\n이 환경 변수가 설정되지 않은 경우, 소유자는 ''users:nobody''로 변경됩니다.",
         "DontSetPermissions": "권한 설정",

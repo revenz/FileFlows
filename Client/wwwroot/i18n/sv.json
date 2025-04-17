@@ -1537,6 +1537,7 @@
         "AllLibraries": "Alla bibliotek",
         "AllLibraries-Help": "Vilka bibliotek denna nod kommer att bearbeta",
         "CopyMappings": "Kopiera mappningar",
+        "DisableSchedule": "Aktivera Schema",
         "DontChangeOwner": "Ändra ägare",
         "DontChangeOwner-Help": "När det är markerat kommer noden att ändra ägaren av alla nyligen skapade filer till PGID och PUID definierade i de miljövariabler.\nOm dessa miljövariabler inte är inställda kommer ägaren att ändras till ''users:nobody''.",
         "DontSetPermissions": "Ställ in behörigheter",

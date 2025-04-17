@@ -1537,6 +1537,7 @@
         "AllLibraries": "Alle Bibliotheken",
         "AllLibraries-Help": "Welche Bibliotheken dieser Node verarbeiten wird.",
         "CopyMappings": "Mappings kopieren",
+        "DisableSchedule": "Zeitplan Aktivieren",
         "DontChangeOwner": "Besitzer wechseln",
         "DontChangeOwner-Help": "Wenn diese Option aktiviert ist, ändert der Knoten den Eigentümer aller neu erstellten Dateien in die PGID und PUID, die in den Umgebungsvariablen definiert sind. Wenn diese Umgebungsvariablen nicht gesetzt sind, wird der Eigentümer geändert in ''users:nobody''.",
         "DontSetPermissions": "Berechtigungen festlegen",

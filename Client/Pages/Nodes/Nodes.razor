@@ -6,7 +6,7 @@
 @page "/nodes"
 
 <FlowTable @ref="Table" Data="@Data" TItem="NodeStatusSummary" Selection="SelectionMode.Multiple" TableIdentifier="Nodes"
-           DoubleClick="@OnDoubleClick" DisableColumn="(item) => !item.Enabled">
+           DisableColumn="(item) => !item.Enabled">
     <ToolBar>
         <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit"/>
         <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete"/>

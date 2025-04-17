@@ -1537,6 +1537,7 @@
         "AllLibraries": "All Libraries",
         "AllLibraries-Help": "Which libraries this node will process",
         "CopyMappings": "Copy Mappings",
+        "DisableSchedule": "Enable Schedule",
         "DontChangeOwner": "Change Owner",
         "DontChangeOwner-Help": "When checked the node will change the owner of any newly created files to the PGID and PUID defined in the environmental values.\nIf these environmental variables are not set the owner will be changed to ''users:nobody''.",
         "DontSetPermissions": "Set Permissions",

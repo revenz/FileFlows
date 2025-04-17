@@ -1537,6 +1537,7 @@
         "AllLibraries": "所有库",
         "AllLibraries-Help": "此节点将处理哪些库",
         "CopyMappings": "复制映射",
+        "DisableSchedule": "启用计划",
         "DontChangeOwner": "更改所有者",
         "DontChangeOwner-Help": "选中后，节点将将任何新创建文件的所有者更改为环境值中定义的PGID和PUID。\n如果未设置这些环境变量，所有者将更改为 ''users:nobody''。",
         "DontSetPermissions": "设置权限",

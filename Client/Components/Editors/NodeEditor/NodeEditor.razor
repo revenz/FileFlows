@@ -38,7 +38,11 @@
         <FlowTab Title="Pages.ProcessingNode.Tabs.Schedule">
             <p class="tab-description">@lblScheduleDescription</p>
             
-            <InputSchedule @bind-Value="Model.Schedule" Label="Pages.ProcessingNode.Fields.Schedule" HideLabel="true" />
+            <InputSwitch @bind-Value="Model.DisableSchedule"  Label="Pages.ProcessingNode.Fields.DisableSchedule"  Inverse="true" />
+            
+            <InputSchedule @bind-Value="Model.Schedule" Label="Pages.ProcessingNode.Fields.Schedule" HideLabel="true" 
+                           Hidden="Model.DisableSchedule" />
+            
         </FlowTab>
         <FlowTab Title="Pages.ProcessingNode.Tabs.Mappings" Visible="@IsExternalNode">
             <p class="tab-description">@lblMappingsDescription</p>
