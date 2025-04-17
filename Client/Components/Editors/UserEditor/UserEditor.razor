@@ -1,0 +1,18 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper Modal="@this">
+    
+    <InputText @bind-Value="@Model.Name" Label="Label.Name" Validators="RequiredValidator"/>
+    <InputText @bind-Value="@Model.Email" Label="Pages.Users.Fields.Email" Validators="RequiredValidator"/>
+    
+    @if (ShowPassword && IsUser == false)
+    {
+        <InputPassword @bind-Value="@Model.Password" Label="Pages.Users.Fields.Password" Validators="RequiredValidator"/>
+    }
+    <InputSwitch @bind-Value="@Administrator" Label="Pages.Users.Fields.IsAdmin" ReadOnly="IsUser" />
+    
+    <InputChecklist @bind-Value="@Roles" Label="Pages.Users.Fields.Roles" Options="RoleOptions" ReadOnly="IsUser" Hidden="Administrator" />
+
+</ModalEditorWrapper>

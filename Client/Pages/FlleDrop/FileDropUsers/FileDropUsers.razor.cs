@@ -1,3 +1,4 @@
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
 
@@ -8,6 +9,11 @@ namespace FileFlows.Client.Pages.FileDrop;
 /// </summary>
 public partial class FileDropUsers : ListPage<Guid, FileDropUser>
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
     /// <inheritdoc />
     public override string ApiUrl => "/api/file-drop/user";
     
@@ -77,5 +83,17 @@ public partial class FileDropUsers : ListPage<Guid, FileDropUser>
     {
         this.PageIndex = 0;
         await this.Refresh();
+    }
+
+    /// <inheritdoc />
+    public override async Task<bool> Edit(FileDropUser item)
+    {
+        var result = await ModalService.ShowModal<FileDropUserEditor, FileDropUser>(new ModalEditorOptions()
+        {
+            Model = item
+        });
+        if(result.IsFailed == false)
+            await Load(result.Value.Uid);
+        return false;
     }
 }

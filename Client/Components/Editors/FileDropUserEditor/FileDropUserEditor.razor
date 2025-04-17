@@ -1,0 +1,14 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper Modal="@this">
+    
+    <InputText Value="@Model.Name" Label="Label.Name" ReadOnly="true" />
+    <InputText Value="@Model.Provider" Label="Pages.FileDrop.User.Fields.Provider" ReadOnly="true" />
+    
+    <hr />
+    
+    <InputNumber TItem="Int32" @bind-Value="@Model.Tokens" Label="Pages.FileDrop.User.Fields.Tokens" Min="0" />
+    
+</ModalEditorWrapper>

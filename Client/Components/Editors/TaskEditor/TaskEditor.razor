@@ -1,0 +1,19 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper Modal="@this">
+    
+    <InputText @bind-Value="@Model.Name" Label="Label.Name" Validators="RequiredValidator"/>    
+    
+    <InputSelect @bind-Value="BoundScript" Options="ScriptOptions" Label="Pages.Task.Fields.Script" />
+    <InputSelect @bind-Value="BoundType" Options="TypeOptions" Label="Pages.Task.Fields.Type" />
+
+    <InputSelect @bind-Value="BoundSchedule" Options="TimeScheduleOptions" Label="Pages.Task.Fields.Schedule"
+                 Hidden="@(Model.Type != TaskType.Schedule)" />
+    
+    <InputSchedule @bind-Value="CustomSchedule" HideLabel="true" Hidden="@(Model.Type != TaskType.Schedule || Schedule != TimeSchedule.Custom)" />
+    
+    <InputSwitch @bind-Value="@Model.Enabled" Label="Pages.Task.Fields.Enabled" />
+
+</ModalEditorWrapper>

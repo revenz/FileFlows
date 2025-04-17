@@ -918,9 +918,11 @@
       "Nodes": "Nodes",
       "PauseProcessing": "Verarbeitung Pausieren",
       "Plugins": "Plugins",
+      "Reports": "Berichte",
       "Resources": "Ressourcen",
       "Revisions": "Überarbeitungen",
       "Scripts": "Scripts",
+      "Tags": "Tags",
       "Tasks": "Aufgaben",
       "Variables": "Variablen",
       "Webhooks": "Webhooks"
@@ -1885,6 +1887,8 @@
       "Fields": {
         "CustomSchedule": "Benutzerdefinierter Zeitplan",
         "CustomSchedule-Help": "Diese Aufgabe wird einmal pro 15-Minuten-Block zu Beginn dieses Blocks ausgeführt",
+        "Enabled": "Aktiviert",
+        "Enabled-Help": "Legt fest, ob diese Aufgabe aktiv ist und basierend auf Ereignistriggern oder einem Zeitplan ausgeführt wird.",
         "Schedule": "Zeitplan",
         "Schedule-Help": "Wann dieses Skript ausgeführt werden soll",
         "Script": "Script",

@@ -918,9 +918,11 @@
       "Nodes": "Nodos",
       "PauseProcessing": "Pausar Procesamiento",
       "Plugins": "Complementos",
+      "Reports": "Informes",
       "Resources": "Recursos",
       "Revisions": "Revisiones",
       "Scripts": "Scripts",
+      "Tags": "Etiquetas",
       "Tasks": "Tareas",
       "Variables": "Variables",
       "Webhooks": "Webhooks"
@@ -1885,6 +1887,8 @@
       "Fields": {
         "CustomSchedule": "Horario Personalizado",
         "CustomSchedule-Help": "Esta tarea se ejecutará una vez por bloque de 15 minutos al inicio de ese bloque",
+        "Enabled": "Habilitado",
+        "Enabled-Help": "Determina si esta tarea está activa y se ejecutará según desencadenantes de eventos o un horario programado.",
         "Schedule": "Horario",
         "Schedule-Help": "Cuándo debe ejecutarse este script",
         "Script": "Script",

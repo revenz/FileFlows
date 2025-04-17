@@ -918,9 +918,11 @@
       "Nodes": "Knopen",
       "PauseProcessing": "Verwerking Pauzeren",
       "Plugins": "Plugins",
+      "Reports": "Rapporten",
       "Resources": "Hulpbronnen",
       "Revisions": "Herzieningen",
       "Scripts": "Scripts",
+      "Tags": "Tags",
       "Tasks": "Taken",
       "Variables": "Variabelen",
       "Webhooks": "Webhooks"
@@ -1885,6 +1887,8 @@
       "Fields": {
         "CustomSchedule": "Aangepast Schema",
         "CustomSchedule-Help": "Deze taak wordt eenmaal per blok van 15 minuten uitgevoerd aan het begin van dat blok.",
+        "Enabled": "Ingeschakeld",
+        "Enabled-Help": "Bepaalt of deze taak actief is en wordt uitgevoerd op basis van gebeurtenistriggers of een geplande tijd.",
         "Schedule": "Schema",
         "Schedule-Help": "Wanneer dit script moet worden uitgevoerd",
         "Script": "Script",

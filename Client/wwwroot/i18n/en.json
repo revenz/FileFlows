@@ -918,9 +918,11 @@
       "Nodes": "Nodes",
       "PauseProcessing": "Pause Processing",
       "Plugins": "Plugins",
+      "Reports": "Reports",
       "Resources": "Resources",
       "Revisions": "Revisions",
       "Scripts": "Scripts",
+      "Tags": "Tags",
       "Tasks": "Tasks",
       "Variables": "Variables",
       "Webhooks": "Webhooks"
@@ -1885,6 +1887,8 @@
       "Fields": {
         "CustomSchedule": "Custom Schedule",
         "CustomSchedule-Help": "This task will run once per 15 minute block at the start of that block",
+        "Enabled": "Enabled",
+        "Enabled-Help": "Determines whether this task is active and will run based on event triggers or a scheduled time.",
         "Schedule": "Schedule",
         "Schedule-Help": "When this script should execute",
         "Script": "Script",

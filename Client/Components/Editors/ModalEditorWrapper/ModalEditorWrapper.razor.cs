@@ -150,5 +150,10 @@ public partial class ModalEditorWrapper : ComponentBase
     /// Saves the modal
     /// </summary>
     /// <returns>a task to await</returns>
-    protected virtual Task Save() => Modal.Save();
+    protected async Task Save()
+    {
+        if (await Editor.Validate() == false)
+            return;
+        await Modal.Save();
+    }
 }

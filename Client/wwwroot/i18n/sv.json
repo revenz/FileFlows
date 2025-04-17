@@ -918,9 +918,11 @@
       "Nodes": "Noder",
       "PauseProcessing": "Pausa bearbetning",
       "Plugins": "Plugins",
+      "Reports": "Rapporter",
       "Resources": "Resurser",
       "Revisions": "Revisioner",
       "Scripts": "Skript",
+      "Tags": "Taggar",
       "Tasks": "Uppgifter",
       "Variables": "Variabler",
       "Webhooks": "Webhooks"
@@ -1885,6 +1887,8 @@
       "Fields": {
         "CustomSchedule": "Anpassad Schema",
         "CustomSchedule-Help": "Denna uppgift kommer att köras en gång per 15-minuters block i början av det blocket",
+        "Enabled": "Aktiverad",
+        "Enabled-Help": "Anger om denna uppgift är aktiv och kommer att köras baserat på händelsetriggare eller ett schemalagt klockslag.",
         "Schedule": "Schema",
         "Schedule-Help": "När detta skript ska köras",
         "Script": "Skript",

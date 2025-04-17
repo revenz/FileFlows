@@ -918,9 +918,11 @@
       "Nodes": "节点",
       "PauseProcessing": "暂停处理",
       "Plugins": "插件",
+      "Reports": "报告",
       "Resources": "资源",
       "Revisions": "修订",
       "Scripts": "脚本",
+      "Tags": "标签",
       "Tasks": "任务",
       "Variables": "变量",
       "Webhooks": "Webhooks"
@@ -1885,6 +1887,8 @@
       "Fields": {
         "CustomSchedule": "自定义计划",
         "CustomSchedule-Help": "此任务将在每个 15 分钟块的开始运行一次",
+        "Enabled": "已启用",
+        "Enabled-Help": "确定此任务是否处于活动状态，并会根据事件触发或计划时间运行。",
         "Schedule": "计划",
         "Schedule-Help": "此脚本应在何时执行",
         "Script": "脚本",

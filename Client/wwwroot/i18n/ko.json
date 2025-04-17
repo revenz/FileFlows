@@ -918,9 +918,11 @@
       "Nodes": "노드",
       "PauseProcessing": "처리 일시 중지",
       "Plugins": "플러그인",
+      "Reports": "보고서",
       "Resources": "리소스",
       "Revisions": "수정",
       "Scripts": "스크립트",
+      "Tags": "태그",
       "Tasks": "작업",
       "Variables": "변수",
       "Webhooks": "웹훅"
@@ -1885,6 +1887,8 @@
       "Fields": {
         "CustomSchedule": "사용자 정의 일정",
         "CustomSchedule-Help": "이 작업은 15분 블록의 시작 부분에 한 번 실행됩니다.",
+        "Enabled": "활성화됨",
+        "Enabled-Help": "이 작업이 활성 상태이며 이벤트 트리거 또는 예약된 시간에 따라 실행되는지 여부를 결정합니다.",
         "Schedule": "일정",
         "Schedule-Help": "이 스크립트가 실행되어야 하는 시간",
         "Script": "스크립트",

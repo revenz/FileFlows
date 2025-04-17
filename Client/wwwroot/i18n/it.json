@@ -918,9 +918,11 @@
       "Nodes": "Nodi",
       "PauseProcessing": "Metti in Pausa Elaborazione",
       "Plugins": "Plugin",
+      "Reports": "Report",
       "Resources": "Risorse",
       "Revisions": "Revisioni",
       "Scripts": "Script",
+      "Tags": "Tag",
       "Tasks": "Attività",
       "Variables": "Variabili",
       "Webhooks": "Webhook"
@@ -1885,6 +1887,8 @@
       "Fields": {
         "CustomSchedule": "Piano Personalizzato",
         "CustomSchedule-Help": "Questo compito verrà eseguito una volta per ogni blocco di 15 minuti all'inizio di quel blocco",
+        "Enabled": "Abilitato",
+        "Enabled-Help": "Determina se questa attività è attiva ed eseguita in base a trigger di eventi o a un programma pianificato.",
         "Schedule": "Piano",
         "Schedule-Help": "Quando questo script dovrebbe essere eseguito",
         "Script": "Script",

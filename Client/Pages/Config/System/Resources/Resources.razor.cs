@@ -1,9 +1,6 @@
-using System.Web;
-using FileFlows.Client.Components;
-using FileFlows.Client.Components.Inputs;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Helpers;
-using FileFlows.Plugin;
-using Humanizer;
+using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
 
@@ -12,6 +9,11 @@ namespace FileFlows.Client.Pages;
 /// </summary>
 public partial class Resources : ListPage<Guid, Resource>
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
     /// <inheritdoc />
     public override string ApiUrl => "/api/resource";
     
@@ -34,116 +36,26 @@ public partial class Resources : ListPage<Guid, Resource>
     /// </summary>
     private async Task Add()
     {
-        await Edit(new Resource());
+        var result = await ModalService.ShowModal<ResourceEditor, Resource>(new ModalEditorOptions()
+        {
+            Model = new Resource()
+        });
+        if(result.IsFailed == false)
+            await Load(result.Value.Uid);
     }
-    
+
     /// <inheritdoc />
     public override async Task<bool> Edit(Resource item)
     {
-        List<IFlowField> fields = new ();
-        Blocker.Show();
-        try
+        var result = await ModalService.ShowModal<ResourceEditor, Resource>(new ModalEditorOptions()
         {
-            // need to actually load the item
-            if (item.Uid != Guid.Empty)
-            {
-                var result = await HttpHelper.Get<Resource>(ApiUrl + "/" + item.Uid);
-                if (result is { Success: true, Data: not null })
-                    item = result.Data;
-            }
-
-            fields.Add(new ElementField
-            {
-                InputType = FormInputType.Text,
-                Name = nameof(item.Name),
-                Validators = new List<Validator>
-                {
-                    new Required(),
-                    new SafeName()
-                }
-            });
-            fields.Add(new ElementField
-            {
-                InputType = FormInputType.Binary,
-                Name = "FileData",
-                Validators = new List<Validator>
-                {
-                    new Required()
-                }
-            });
-        }
-        finally
-        {
-            Blocker.Hide();
-        }
-
-        await Editor.Open(new()
-        {
-            TypeName = "Pages.Resources", Title = "Pages.Resources.Singular", Fields = fields, Model = new
-            {
-                item.Uid,
-                item.Name,
-                FileData = item is { MimeType: not null, Data: not null } ? new FileData()
-                {
-                    MimeType = item.MimeType,
-                    Content = item.Data
-                } : null
-            },
-            SaveCallback = Save
+            Uid = item.Uid
         });
-        
+        if(result.IsFailed == false)
+            await Load(result.Value.Uid);
         return false;
     }
     
-    
-    /// <summary>
-    /// Saves a task
-    /// </summary>
-    /// <param name="model">the model of the task to save</param>
-    /// <returns>true if successful and if the editor should be closed</returns>
-    async Task<bool> Save(ExpandoObject model)
-    {
-        Blocker.Show();
-        this.StateHasChanged();
-        var resource = new Resource();
-        var dict = model as IDictionary<string, object>;
-        resource.Name = dict["Name"].ToString() ?? string.Empty;
-        resource.Uid = (Guid)dict["Uid"];
-        if (dict.TryGetValue("FileData", out var value))
-        {
-            var data = (FileData)value;
-            resource.MimeType = data.MimeType;
-            resource.Data = data.Content;
-        }
-
-        if (string.IsNullOrWhiteSpace(resource.MimeType) || resource.Data == null || resource.Data.Length == 0)
-            return false;
-
-        try
-        {
-            var saveResult = await HttpHelper.Post<Resource>($"{ApiUrl}", resource);
-            if (saveResult.Success == false)
-            {
-                feService.Notifications.ShowError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
-                return false;
-            }
-
-            int index = this.Data.FindIndex(x => x.Uid == saveResult.Data.Uid);
-            if (index < 0)
-                this.Data.Add(saveResult.Data);
-            else
-                this.Data[index] = saveResult.Data;
-            await this.Load(saveResult.Data.Uid);
-
-            return true;
-        }
-        finally
-        {
-            Blocker.Hide();
-            this.StateHasChanged();
-        }
-    }
-
     /// <summary>
     /// Gets the icon for a task
     /// </summary>

@@ -5,6 +5,7 @@ using FileFlows.Services;
 using FileFlows.Shared.Models;
 using FileFlows.WebServer.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FileFlows.WebServer.Controllers;
 
@@ -46,6 +47,37 @@ public class UserController : BaseController
             DateModified = x.DateModified,
         }).ToList();
         return uiList;
+    }
+    
+    /// <summary>
+    /// Get a user by their UID
+    /// </summary>
+    /// <returns>The user if found</returns>
+    [HttpGet("{uid}")]
+    [SwaggerIgnore]
+    public async Task<IActionResult> GetByUid([FromRoute] Guid uid)
+    {
+        if (LicenseService.IsLicensed(LicenseFlags.UserSecurity) == false)
+            return NotFound();
+
+        var service = ServiceLoader.Load<UserService>();
+        var user = await service.GetByUid(uid);
+        if (user == null)
+            return NotFound();
+
+        var newUser =  new User()
+        {
+            Uid = user.Uid,
+            Name = user.Name,
+            Email = user.Email,
+            Role = user.Role,
+            Password = string.IsNullOrWhiteSpace(user.Password) ? string.Empty : DUMMY_PASSWORD,
+            LastLoggedIn = user.LastLoggedIn,
+            LastLoggedInAddress = user.LastLoggedInAddress,
+            DateCreated = user.DateCreated,
+            DateModified = user.DateModified,
+        };
+        return Ok(newUser);
     }
     
     /// <summary>

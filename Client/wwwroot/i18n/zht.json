@@ -918,9 +918,11 @@
       "Nodes": "節點",
       "PauseProcessing": "暫停處理",
       "Plugins": "插件",
+      "Reports": "報告",
       "Resources": "文件",
       "Revisions": "版本",
       "Scripts": "腳本",
+      "Tags": "標籤",
       "Tasks": "任務",
       "Variables": "變數",
       "Webhooks": "網路鉤子"
@@ -1885,6 +1887,8 @@
       "Fields": {
         "CustomSchedule": "自訂排程",
         "CustomSchedule-Help": "此任務將在每個 15 分鐘的區塊開始時運行一次",
+        "Enabled": "已啟用",
+        "Enabled-Help": "決定此任務是否啟用，並根據事件觸發或排定時間執行。",
         "Schedule": "排程",
         "Schedule-Help": "此腳本應該在何時執行",
         "Script": "腳本",

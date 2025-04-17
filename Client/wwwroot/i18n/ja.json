@@ -918,9 +918,11 @@
       "Nodes": "ノード",
       "PauseProcessing": "処理を一時停止",
       "Plugins": "プラグイン",
+      "Reports": "レポート",
       "Resources": "リソース",
       "Revisions": "リビジョン",
       "Scripts": "スクリプト",
+      "Tags": "タグ",
       "Tasks": "タスク",
       "Variables": "変数",
       "Webhooks": "ウェブフック"
@@ -1885,6 +1887,8 @@
       "Fields": {
         "CustomSchedule": "カスタムスケジュール",
         "CustomSchedule-Help": "このタスクは、15分ごとのブロックの開始時に1回実行されます",
+        "Enabled": "有効",
+        "Enabled-Help": "このタスクが有効かどうかを判断し、イベントトリガーまたはスケジュールに基づいて実行されます。",
         "Schedule": "スケジュール",
         "Schedule-Help": "このスクリプトが実行される時間",
         "Script": "スクリプト",
