@@ -1,8 +1,10 @@
 @namespace FileFlows.Client.Components.Inputs
 @inherits Input<string>
 
-<InputWrapper Input="@this">
-    <div class="@(Field?.FlexGrow == true ? "flex-grow" :"")">
-        <textarea id=@Uid @bind-value="Value" @bind-value:event="oninput" placeholder="@GetPlaceholder()" rows="@Rows" readonly="@(ReadOnly ? "readonly" : null)"></textarea>
+<InputWrapper Input="@this" FlexGrow="@FlexGrow" >
+    <div class="@(Field?.FlexGrow == true || FlexGrow ? "flex-grow" : "")">
+        <textarea id=@Uid @bind-value="Value" @bind-value:event="oninput" 
+            placeholder="@GetPlaceholder()" rows="@Rows" 
+            readonly="@(ReadOnly ? "readonly" : null)"></textarea>
     </div>
 </InputWrapper>

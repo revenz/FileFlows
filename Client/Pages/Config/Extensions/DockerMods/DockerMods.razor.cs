@@ -73,18 +73,30 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
     }
 
 
-    Task Add()
-        => OpenEditor(new ()
+    async Task Add()
+    {
+        await ModalService.ShowModal<DockerModEditor>(new ModalEditorOptions()
         {
-            Code = "#!/bin/bash\n\n",
-            Enabled = true
+            Model = new DockerMod()
+            {
+                Code = "#!/bin/bash\n\n",
+                Enabled = true
+            }
         });
-    public override Task<bool> Edit(DockerMod item)
-        => OpenEditor(item);
+    }
 
     private Task DoubleClick(DockerMod item)
-        => OpenEditor(item);
+        => Edit(item);
 
+    /// <inheridoc />
+    public override async Task<bool> Edit(DockerMod item)
+    {
+        await ModalService.ShowModal<DockerModEditor>(new ModalEditorOptions()
+        {
+            Uid = item.Uid
+        });
+        return false;
+    }
     
     async Task OpenBrowser()
     {

@@ -14,7 +14,7 @@ public partial class DockerModEditor : ModalEditor
     public DockerMod Model { get; set; }
 
     /// <inheritdoc />
-    public override string HelpUrl => "https://fileflows.com/docs/webconsole/config/extensions/DockerMods";
+    public override string HelpUrl => "https://fileflows.com/docs/webconsole/config/extensions/dockermods";
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()

@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Wizards;
 using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
@@ -18,10 +19,6 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
     [Inject] private IModalService ModalService { get; set; }
     /// <inheritdoc />
     public override string ApiUrl => "/api/library";
-    /// <summary>
-    /// The current item being edited
-    /// </summary>
-    private LibraryListModel EditingItem = null;
     /// <summary>
     /// Translation strings
     /// </summary>
@@ -62,6 +59,16 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
     private async Task Add()
         => await ModalService.ShowModal<NewLibraryWizard, Library>(new NewLibraryWizardOptions());
 
+    /// <inheridoc />
+    public override async Task<bool> Edit(LibraryListModel item)
+    {
+        await ModalService.ShowModal<LibraryEditor>(new ModalEditorOptions()
+        {
+            Uid = item.Uid
+        });
+        return false;
+    }
+    
     /// <summary>
     /// Duplicate the selected item
     /// </summary>
@@ -93,13 +100,6 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
             Blocker.Hide();
         }
     }
-    
-    public override async Task<bool> Edit(LibraryListModel library)
-    {
-        this.EditingItem = library;
-        return await OpenEditor(library);
-    }
-
     private void TemplateValueChanged(object sender, object value) 
     {
         if (value == null)

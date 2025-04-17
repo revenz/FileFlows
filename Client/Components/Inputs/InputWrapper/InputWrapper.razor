@@ -9,7 +9,7 @@
 
 }
 <div x-id="@(Input?.Field?.Name?.EmptyAsNull() ?? Input?.CustomXID)" class="row @(NoSpacing ? "mt-0" : "") @(invalid ? "error" : "") 
-@(Input?.Field?.FlexGrow == true ? "flex-grow" : "") 
+@(Input?.Field?.FlexGrow == true || FlexGrow ? "flex-grow" : "") 
 @(Input?.HideLabel == true ? "hide-label" : "") 
 @(Input?.Disabled == true ? "disabled" : "")
 @(Input?.Hidden == true ? "hidden" : "")

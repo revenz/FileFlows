@@ -1,12 +1,18 @@
-using FileFlows.Client.Components;
+using FileFlows.Client.Components.Editors;
+using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
 
 public partial class Variables : ListPage<Guid, Variable>, IDisposable
 {
+    
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
     public override string ApiUrl => "/api/variable";
 
-    private Variable EditingItem = null;
     private string lblValue;
 
     /// <inheritdoc />
@@ -42,65 +48,33 @@ public partial class Variables : ListPage<Guid, Variable>, IDisposable
         base.OnAfterRender(firstRender);
     }
 
+    /// <summary>
+    /// Adds a new tag
+    /// </summary>
     private async Task Add()
     {
-        await Edit(new Variable());
+        await ModalService.ShowModal<VariableEditor>(new ModalEditorOptions()
+        {
+            Model = new Variable()
+            {
+            }
+        });
     }
 
 
     /// <inheritdoc />
     public override async Task<bool> Edit(Variable variable)
     {
-        this.EditingItem = variable;
-        List<IFlowField> fields = new ();
-        fields.Add(new ElementField
+        await ModalService.ShowModal<VariableEditor>(new ModalEditorOptions()
         {
-            InputType = FileFlows.Plugin.FormInputType.Text,
-            Name = nameof(variable.Name),
-            HideLabel = true,
-            Validators = new List<Validator> {
-                new Required()
-            },
-            
-        });
-        fields.Add(new ElementField
-        {
-            InputType = FileFlows.Plugin.FormInputType.TextArea,
-            FlexGrow = true,
-            HideLabel = true,
-            Name = nameof(variable.Value),
-            Validators = new List<Validator> {
-                new Required()
+            Model = new Variable()
+            {
+                Uid = variable.Uid,
+                Name = variable.Name,
+                Value = variable.Value
             }
-        });
-        await Editor.Open(new () { TypeName = "Pages.Variable", Title = "Pages.Variable.Title", 
-            Fields = fields, Model = variable, SaveCallback = Save,
-            FullWidth = true
         });
         return false;
-    }
-
-    async Task<bool> Save(ExpandoObject model)
-    {
-        Blocker.Show();
-        this.StateHasChanged();
-
-        try
-        {
-            var saveResult = await HttpHelper.Post<Variable>($"{ApiUrl}", model);
-            if (saveResult.Success == false)
-            {
-                feService.Notifications.ShowError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
-                return false;
-            }
-
-            return true;
-        }
-        finally
-        {
-            Blocker.Hide();
-            this.StateHasChanged();
-        }
     }
 
     /// <summary>

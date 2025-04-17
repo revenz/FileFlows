@@ -1,6 +1,8 @@
 using FileFlows.Client.Components;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Components.Inputs;
 using FileFlows.Plugin;
+using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Pages;
 
@@ -11,11 +13,11 @@ public partial class Tags : ListPage<Guid, Tag>, IDisposable
 {
     /// <inheritdoc />
     public override string ApiUrl => "/api/tag";
-        
+    
     /// <summary>
-    /// The item being edited
+    /// Gets or sets the modal service
     /// </summary>
-    private Tag EditingItem = null;
+    [Inject] private IModalService ModalService { get; set; }
     
     /// <inheritdoc />
     protected override string DeleteMessage => "Pages.Tags.Messages.DeleteItems";
@@ -56,63 +58,29 @@ public partial class Tags : ListPage<Guid, Tag>, IDisposable
     /// Adds a new tag
     /// </summary>
     private async Task Add()
-        => await Edit(new Tag());
+    {
+        await ModalService.ShowModal<TagEditor>(new ModalEditorOptions()
+        {
+            Model = new Tag()
+            {
+            }
+        });
+    }
 
     /// <inheritdoc />
     public override async Task<bool> Edit(Tag item)
     {
-        this.EditingItem = item;
-        List<IFlowField> fields = new ();
-        fields.Add(new ElementField
+        await ModalService.ShowModal<TagEditor>(new ModalEditorOptions()
         {
-            InputType = FormInputType.Text,
-            Name = nameof(item.Name),
-            Validators = new List<Validator> {
-                new Required()
-            }
-        });
-        fields.Add(new ElementField
-        {
-            InputType = FormInputType.TextArea,
-            Name = nameof(item.Description),
-            Parameters = new ()
+            Model = new Tag()
             {
-                { nameof(InputTextArea.Rows), 5 }
+                Uid = item.Uid,
+                Name = item.Name,
+                Description = item.Description,
+                Icon = item.Icon
             }
-        });
-        fields.Add(new ElementField()
-        {
-            Name = nameof(item.Icon),
-            InputType = FormInputType.IconPicker
-        });
-        await Editor.Open(new () { TypeName = "Pages.Tags", Title = "Pages.Tags.Title", 
-            Fields = fields, Model = item, SaveCallback = Save,
-            FullWidth = true
         });
         return false;
-    }
-
-    async Task<bool> Save(ExpandoObject model)
-    {
-        Blocker.Show();
-        StateHasChanged();
-
-        try
-        {
-            var saveResult = await HttpHelper.Post<Tag>($"{ApiUrl}", model);
-            if (saveResult.Success == false)
-            {
-                feService.Notifications.ShowError( saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
-                return false;
-            }
-
-            return true;
-        }
-        finally
-        {
-            Blocker.Hide();
-            StateHasChanged();
-        }
     }
 
     /// <summary>

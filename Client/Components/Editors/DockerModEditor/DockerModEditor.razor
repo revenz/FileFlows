@@ -15,17 +15,17 @@
     }
     else
     {
-        <InputText ReadOnly="@ReadOnly" Value="@Model.Name" Label="Label.Name"/>
-        <InputTextArea ReadOnly="@ReadOnly" Value="@Model.Description" Label="Pages.DockerMod.Fields.Description" Rows="3"/>
+        <InputText ReadOnly="@ReadOnly" @bind-Value="@Model.Name" Label="Label.Name"/>
+        <InputTextArea ReadOnly="@ReadOnly" @bind-Value="@Model.Description" Label="Pages.DockerMod.Fields.Description" Rows="3"/>
 
         @if (ReadOnly == false)
         {
-            <InputIconPicker Value="@Model.Icon" Label="Pages.DockerMod.Fields.Icon"/>
+            <InputIconPicker @bind-Value="@Model.Icon" Label="Pages.DockerMod.Fields.Icon"/>
         }
     }
 
     <div style="flex-grow:1">
-        <InputCode ReadOnly="@ReadOnly" Value="@Model.Code" Label="Pages.DockerMod.Fields.Code" HideLabel="true"
+        <InputCode ReadOnly="@ReadOnly" @bind-Value="@Model.Code" Label="Pages.DockerMod.Fields.Code" HideLabel="true"
                    Language="shell"/>
     </div>
 
