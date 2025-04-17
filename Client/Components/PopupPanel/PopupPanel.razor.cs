@@ -128,6 +128,8 @@ public partial class PopupPanel : ComponentBase, IDisposable
         
         foreach (var notification in feService.Notifications.Notifications)
         {
+            if (notification.Severity is NotificationSeverity.Information or NotificationSeverity.Success)
+                continue; // dont care about these ones
             if (SeenNotifications.Contains(notification.Uid))
                 continue;
             _ = jsRuntime.InvokeVoidAsync("showToast",

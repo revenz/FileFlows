@@ -23,7 +23,7 @@ public partial class Client : IDisposable
     private readonly RetryPolicyLoop _retryPolicyLoop; 
     private readonly ConfigurationService _configurationService;
     private readonly ILogger _logger;
-    private readonly CancellationTokenSource _cts;
+    private CancellationTokenSource _cts;
     
     private TaskCompletionSource<bool> _registrationCompletion = new(TaskCreationOptions.RunContinuationsAsynchronously);
     internal readonly HubConnection _connection;
@@ -131,68 +131,80 @@ public partial class Client : IDisposable
     private void OnRunnerUpdated()
         => TriggerStatusUpdate();
 
-    // /// <summary>
-    // /// Attempts to start the connection and retry if it fails initially.
-    // /// </summary>
-    // private async Task TryStartConnectionAsync()
-    // {
-    //     OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
-    //
-    //     while (!_cts.Token.IsCancellationRequested)
-    //     {
-    //         try
-    //         {
-    //             lock (_lock)
-    //             {
-    //                 if (_connection.State != HubConnectionState.Disconnected)
-    //                 {
-    //                     _logger.WLog($"Connection is in state {_connection.State}, skipping StartAsync.");
-    //                     return;
-    //                 }
-    //             }
-    //
-    //             _logger.ILog("Attempting to start connection...");
-    //             await _connection.StartAsync(_cts.Token);
-    //             OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-    //             await RegisterNodeAsync();
-    //             // _ = Task.Run(SendNodeStatusAsync, _cts.Token);
-    //             return; // Exit loop on successful connection
-    //         }
-    //         catch (Exception ex)
-    //         {
-    //             _logger.WLog($"Connection failed: {ex.Message}. Retrying in 5 seconds...");
-    //             await Task.Delay(5000, _cts.Token);
-    //         }
-    //     }
-    // }
-
     /// <summary>
-    /// Starts the connection and attempts to register the node once connected.
+    /// Attempts to start the connection and retry if it fails initially.
     /// </summary>
-    public async Task StartAsync()
+    public async Task Start()
     {
-        _logger.ILog($"Starting client... (Connection {_connection.State})");
-        try
+        if (_cts != null)
         {
-            if(_connection.State == HubConnectionState.Disconnected)
-                await _connection.StartAsync(_cts.Token);
-            _logger.ILog($"Starting client 2... (Connection {_connection.State})");
-            int count = 0;
-            while (_connection.State == HubConnectionState.Connecting && ++count < 20)
-                await Task.Delay(100);
-            if (_connection.State == HubConnectionState.Connected)
+            await _cts.CancelAsync();
+            _cts.Dispose();
+        }
+
+        _cts = new();
+        
+        OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
+
+        _ = Task.Run(async () =>
+        {
+            while (_cts != null && _cts.Token.IsCancellationRequested == false)
             {
-                OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-                await RegisterNodeAsync();
+                try
+                {
+                    lock (_lock)
+                    {
+                        if (_connection.State != HubConnectionState.Disconnected)
+                        {
+                            _logger.WLog($"Connection is in state {_connection.State}, skipping StartAsync.");
+                            return;
+                        }
+                    }
+                    
+                    _logger.ILog("Attempting to start connection...");
+                    await _connection.StartAsync(_cts.Token);
+                    OnConnectionUpdated?.Invoke(ConnectionState.Connected);
+                    await RegisterNodeAsync();
+                    _ = Task.Run(SendNodeStatusAsync, _cts.Token);
+                    return; // Exit loop on successful connection
+                }
+                catch (Exception ex)
+                {
+                    _logger.WLog($"Connection failed: {ex.Message}. Retrying in 5 seconds...");
+                    await Task.Delay(5000, _cts.Token);
+                }
             }
 
-            _ = Task.Run(SendNodeStatusAsync, _cts.Token);
-        }
-        catch (Exception ex)
-        {
-            _logger.WLog($"Failed to start connection: {ex.Message}");
-        }
+        });
     }
+    
+    // /// <summary>
+    // /// Starts the connection and attempts to register the node once connected.
+    // /// </summary>
+    // public async Task StartAsync()
+    // {
+    //     _logger.ILog($"Starting client... (Connection {_connection.State})");
+    //     try
+    //     {
+    //         if(_connection.State == HubConnectionState.Disconnected)
+    //             await _connection.StartAsync(_cts.Token);
+    //         _logger.ILog($"Starting client 2... (Connection {_connection.State})");
+    //         int count = 0;
+    //         while (_connection.State == HubConnectionState.Connecting && ++count < 20)
+    //             await Task.Delay(100);
+    //         if (_connection.State == HubConnectionState.Connected)
+    //         {
+    //             OnConnectionUpdated?.Invoke(ConnectionState.Connected);
+    //             await RegisterNodeAsync();
+    //         }
+    //
+    //         _ = Task.Run(SendNodeStatusAsync, _cts.Token);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         _logger.WLog($"Failed to start connection: {ex.Message}");
+    //     }
+    // }
 
     /// <summary>
     /// Stops the connection and unregisters the node.
@@ -229,13 +241,24 @@ public partial class Client : IDisposable
     /// <summary>
     /// Ensures the node is registered before proceeding.
     /// </summary>
-    private async Task EnsureRegisteredAsync()
+    /// <returns>true if registered, otherwise false</returns>
+    public async Task<bool> EnsureRegisteredAsync(TimeSpan? timeOut = null)
     {
-        if (!IsRegistered)
+        if (IsRegistered == false)
         {
             _logger.ILog("Waiting for registration...");
-            await _registrationCompletion.Task;
+            try
+            {
+                var toyTask = Task.Delay(timeOut ?? TimeSpan.FromSeconds(60), CancellationToken.None);
+                await Task.WhenAny(_registrationCompletion.Task, toyTask);
+            }
+            catch(Exception)
+            {
+                
+                // Ignored
+            }
         }
+        return IsRegistered;
     }
 
     /// <summary>

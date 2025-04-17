@@ -381,7 +381,9 @@ public partial class Client
     
     private async Task<FileCheckResult> HandleClientProcessFile(RunFileArguments args)
     {
-        await EnsureRegisteredAsync();
+        if (await EnsureRegisteredAsync() == false)
+            return FileCheckResult.CannotProcessLibrary;
+        
         //_logger.ILog("Handling process file request...");
         try
         {

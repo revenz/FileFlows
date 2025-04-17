@@ -34,10 +34,10 @@ public class NodeManager
     /// </summary>
     public Client? Client => _client;
     
-    /// <summary>
-    /// Gets or sets if this node is registered
-    /// </summary>
-    public bool Registered { get; private set; }
+    // /// <summary>
+    // /// Gets or sets if this node is registered
+    // /// </summary>
+    // public bool Registered { get; private set; }
 
     /// <summary>
     /// Gets the current connection state
@@ -86,7 +86,7 @@ public class NodeManager
     {
         Shared.Logger.Instance?.ILog("Starting workers");
 
-        _ = Register();
+        StartClient();
         
         var updater = new NodeUpdater();
         
@@ -108,9 +108,25 @@ public class NodeManager
     /// <returns>whether it was registered</returns>
     public async Task<(bool Success, string Message)> Register()
     {
+        try
+        {
+            StartClient();
+            bool success = await _client!.EnsureRegisteredAsync(TimeSpan.FromSeconds(20));
+            return (success, success ? string.Empty : "Failed to register node");
+        }
+        catch (Exception ex)
+        {
+            return (false, ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Registers the node with the server
+    /// </summary>
+    /// <returns>whether it was registered</returns>
+    private void StartClient()
+    {
         var settings = AppSettings.Instance;
-        if (string.IsNullOrEmpty(settings.ServerUrl))
-            return (false, "Server URL not set");
         
         if (_client != null)
         {
@@ -131,27 +147,8 @@ public class NodeManager
         _client.OnConnectionUpdated += ClientOnOnConnectionUpdated;
         
         RemoteService.AccessToken = settings.AccessToken;
-        
-        try
-        {
-            await _client.StartAsync();
-            if(_client.IsRegistered == false)
-                return (false, "Failed to register");
-        }
-        catch (TaskCanceledException ex)
-        {
-            Logger.Instance?.ELog("Failed to register with server: " + ex.Message);
-            this.Registered = false;
-            return (false, "Connection timed out. Check network and address.");
-        }
-        catch (Exception ex)
-        {
-            Logger.Instance?.ELog("Failed to register with server: " + ex.Message);
-            this.Registered = false;
-            if(ex.Message.StartsWith("A task was canceled"))
-                return (false, "Connection timed out. Check network and address.");
-            return (false, ex.Message);
-        }
+
+        _client.Start().GetAwaiter().GetResult();
 
         if(_client.NodeUid! != CommonVariables.InternalNodeUid) // internal node uid is already set elsewhere to a unique UID for security
             RemoteService.NodeUid = _client.NodeUid!.Value;
@@ -161,10 +158,6 @@ public class NodeManager
             RemoteService.ServiceBaseUrl = RemoteService.ServiceBaseUrl[..^1];
 
         Logger.Instance?.ILog("Successfully registered node");
-
-        settings.Save();
-        this.Registered = true;
-        return (true, string.Empty);
     }
 
     /// <summary>

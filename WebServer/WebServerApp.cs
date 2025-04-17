@@ -330,7 +330,7 @@ public class WebServerApp
             Hostname = CommonVariables.InternalNodeName,
             AccessToken = NodeHub.InternalAccessToken
         }, Logger.Instance);
-        _ =  client.StartAsync();
+        _ =  client.Start();
         
         task.Wait();
         //client.StopAsync().Wait();

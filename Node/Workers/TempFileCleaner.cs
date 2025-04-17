@@ -32,21 +32,10 @@ public class TempFileCleaner : Worker
     /// </summary>
     protected sealed override void Execute()
     {
-        var service = ServiceLoader.Load<INodeService>();
-        ProcessingNode? node = null;
-        try
-        {
-            node = string.IsNullOrWhiteSpace(nodeAddress)
-                ? service.GetServerNodeAsync().Result
-                : service.GetByAddressAsync(nodeAddress).Result;
-        }
-        catch (Exception ex)
-        {
-            Logger.Instance.WLog("Failed to fetch node: " + ex.Message);
-        }
-        
+        ProcessingNode? node = NodeManager.Instance?.Client?.Node;
         if (string.IsNullOrWhiteSpace(node?.TempPath))
             return;
+        
         var tempDir = new DirectoryInfo(node.TempPath);
         if (tempDir.Exists == false)
             return;
