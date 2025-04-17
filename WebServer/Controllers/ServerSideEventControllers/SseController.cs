@@ -91,8 +91,13 @@ public class SseController : Controller
         }
         finally
         {
-            if(clientId != null)
-                _broker.RemoveClient(clientId.Value);
+            if (clientId != null)
+            {
+                _broker.RemoveClient(clientId.Value); // <-- stop writing before disposing
+                await writer.FlushAsync(); // optional safety flush
+            }
+
+            await writer.DisposeAsync(); // ensures writer is cleaned up
         }
     }
 
