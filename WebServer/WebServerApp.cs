@@ -7,6 +7,7 @@ using FileFlows.Services.Interfaces;
 using FileFlows.WebServer.Filters;
 using FileFlows.WebServer.Hubs;
 using FileFlows.WebServer.Middleware;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.SignalR;
 using HttpMethod = System.Net.Http.HttpMethod;
 using ServiceLoader = FileFlows.Services.ServiceLoader;
@@ -170,6 +171,7 @@ public class WebServerApp
         builder.Services.AddSignalR(options =>
         {
             options.AddFilter<MessageTrackingFilter>();
+            options.EnableDetailedErrors = true;
             options.MaximumReceiveMessageSize = 10485760; // Set to 10 MB (10485760 bytes)
         });
         builder.Services.AddResponseCompression();
@@ -287,9 +289,19 @@ public class WebServerApp
                 defaults: new { controller = "Home", action = "Index" }
             );
         //});
+        
+        app.UseExceptionHandler(errorApp =>
+        {
+            errorApp.Run(context =>
+            {
+                var eee = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+                if (eee != null)
+                    Logger.Instance.ELog($"ExceptionHandler: {eee}");
+                return Task.CompletedTask;
+            });
+        });
 
         
-        // app.MapHub<FlowHub>("/flow");
         app.MapHub<NodeHub>("/node");
 
         app.UseResponseCompression();
