@@ -103,7 +103,6 @@ public class FileDownloader
             request.Headers.Add("x-executor", executorUid.ToString());
             if(string.IsNullOrWhiteSpace(AccessToken) == false)
                 request.Headers.Add("x-token", AccessToken);
-            request.Headers.Add("x-node", RemoteNodeUid.ToString());
             string json = JsonSerializer.Serialize(new { path });
             request.Content  = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -276,7 +275,6 @@ public class FileDownloader
             request.Headers.Add("x-executor", executorUid.ToString());
             if(string.IsNullOrWhiteSpace(AccessToken) == false)
                 request.Headers.Add("x-token", AccessToken);
-            request.Headers.Add("x-node", RemoteNodeUid.ToString());
             string json = JsonSerializer.Serialize(new { path });
             request.Content  = new StringContent(json, Encoding.UTF8, "application/json");
 

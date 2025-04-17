@@ -43,7 +43,6 @@ public class RunInstance(RunnerProperties properties)
             LogInfo("Base URL: " + parameters.BaseUrl);
             RemoteService.ServiceBaseUrl = parameters.BaseUrl;
             RemoteService.AccessToken = parameters.AccessToken;
-            RemoteService.NodeUid = parameters.RemoteNodeUid;
 
             string tempPath = parameters.TempPath;
             if (string.IsNullOrEmpty(tempPath) || Directory.Exists(tempPath) == false)
@@ -165,7 +164,7 @@ public class RunInstance(RunnerProperties properties)
             else if (args.Config.AllowRemote)
                 _fileService = new RemoteFileService(properties.Uid, RemoteService.ServiceBaseUrl, args.WorkingDirectory,
                     properties.Logger,
-                    properties.LibraryFile.Name.Contains('/') ? '/' : '\\', RemoteService.AccessToken, RemoteService.NodeUid,
+                    properties.LibraryFile.Name.Contains('/') ? '/' : '\\', RemoteService.AccessToken, node.Uid,
                     args.Config.DontUseTempFilesWhenMovingOrCopying);
             else
                 _fileService = new MappedFileService(node, properties.Logger, args.Config.DontUseTempFilesWhenMovingOrCopying);
@@ -251,7 +250,7 @@ public class RunInstance(RunnerProperties properties)
                         args.WorkingDirectory,
                         properties.Logger,
                         properties.LibraryFile.Name.Contains('/') ? '/' : '\\', RemoteService.AccessToken,
-                        RemoteService.NodeUid,
+                        node.Uid,
                         args.Config.DontUseTempFilesWhenMovingOrCopying);
                 }
             }

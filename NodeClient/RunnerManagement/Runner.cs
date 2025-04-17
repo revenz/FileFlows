@@ -154,7 +154,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         runnerParameters.ConfigPath = cfgService.GetConfigurationDirectory();
         runnerParameters.BaseUrl = RemoteService.ServiceBaseUrl;
         runnerParameters.AccessToken = RemoteService.AccessToken;
-        runnerParameters.RemoteNodeUid = RemoteService.NodeUid;
+        runnerParameters.RemoteNodeUid = runnerParameters.NodeUid;
         runnerParameters.IsDocker = Globals.IsDocker;
         runnerParameters.IsInternalServerNode = isServer;
         runnerParameters.Hostname = isServer ? null : node.Name;

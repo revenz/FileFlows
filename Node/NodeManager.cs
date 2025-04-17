@@ -149,9 +149,6 @@ public class NodeManager
         RemoteService.AccessToken = settings.AccessToken;
 
         _client.Start().GetAwaiter().GetResult();
-
-        if(_client.NodeUid! != CommonVariables.InternalNodeUid) // internal node uid is already set elsewhere to a unique UID for security
-            RemoteService.NodeUid = _client.NodeUid!.Value;
         
         RemoteService.ServiceBaseUrl = settings.ServerUrl;
         if (RemoteService.ServiceBaseUrl.EndsWith('/'))

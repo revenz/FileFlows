@@ -99,7 +99,6 @@ public class FileUploader
             request.Headers.Add("x-executor", executorUid.ToString());
             if(string.IsNullOrWhiteSpace(_accessToken) == false)
                 request.Headers.Add("x-token", _accessToken);
-            request.Headers.Add("x-node", RemoteNodeUid.ToString());
             request.Content = new StringContent(json, Encoding.UTF8, "application/json");;
             var response = await _client.SendAsync(request);
 
@@ -161,7 +160,6 @@ public class FileUploader
             request.Headers.Add("x-executor", executorUid.ToString());
             if(string.IsNullOrWhiteSpace(_accessToken) == false)
                 request.Headers.Add("x-token", _accessToken);
-            request.Headers.Add("x-node", RemoteNodeUid.ToString());
             request.Content = content;
             var response = await _client.SendAsync(request);
             
@@ -227,7 +225,6 @@ public class FileUploader
             request.Headers.Add("x-executor", executorUid.ToString());
             if(string.IsNullOrWhiteSpace(_accessToken) == false)
                 request.Headers.Add("x-token", _accessToken);
-            request.Headers.Add("x-node", RemoteNodeUid.ToString());
             request.Content = new StringContent(json, Encoding.UTF8, "application/json");;
             var response = await _client.SendAsync(request);
 

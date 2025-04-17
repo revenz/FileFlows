@@ -164,7 +164,6 @@ public class StartupService : IStartupService
 
         FileFlows.RemoteServices.RemoteService.ServiceBaseUrl = Globals.ServerUrl;
         FileFlows.RemoteServices.RemoteService.AccessToken = settings.AccessToken;
-        FileFlows.RemoteServices.RemoteService.NodeUid = Application.RunningUid;
 
         WebServerApp.FullyStarted = true;
     }

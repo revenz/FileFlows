@@ -101,18 +101,19 @@ public partial class SettingsWindow: FileFlows.AvaloniaUi.UiWindow
                     await Message("Failed", result.Message);
                     return;
                 }
+
+                _tcs?.TrySetResult(true);
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    IsEnabled = true;
+                    this.Close();
+                });
             }
             catch (Exception ex)
             {
                 await Message("Failed", ex.Message);
                 return;
             }
-
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                IsEnabled = true;
-                this.Close();
-            });
         });
     }
 }

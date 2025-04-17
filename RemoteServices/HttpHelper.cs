@@ -119,7 +119,6 @@ class HttpHelper
         
         if(string.IsNullOrWhiteSpace(ServerGlobals.AccessToken) == false)
             request.Headers.Add("x-token", ServerGlobals.AccessToken);
-        request.Headers.Add("x-node", RemoteService.NodeUid.ToString());
 
         if (method == System.Net.Http.HttpMethod.Post && data == null)
         {
