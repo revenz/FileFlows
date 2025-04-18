@@ -1,4 +1,5 @@
 @using FileFlows.Client.Components.Widgets
+@using FileFlows.Client.Helpers
 @using Humanizer
 
 @namespace FileFlows.Client.Components
@@ -89,6 +90,7 @@
                     {
                         <span class="message">@item.Message</span>
                     }
+                    <span class="time">@FormatHelper.HumanizeDate(item.Date)</span>
                 </div>
                 <span @onclick="() => Dismiss(item)" class="close"><i class="fas fa-times"></i></span>
             </div>

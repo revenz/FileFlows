@@ -59,14 +59,16 @@ $zindex: 1000;
   .notification {
     margin: 0.5rem 0.5rem 0 0.5rem;
     background: var(--base-lightest);
+    border:solid 1px var(--border-color);
     border-left: solid 0.3rem;
     display: grid;
     grid-template-columns: 2rem 1fr;
     align-content: center;
     background: var(--base-darker);
     border-radius: 0.5rem;
-    padding: 1rem 2rem 1rem 1rem;
+    padding: 1rem 2rem 3rem 1rem;
     position: relative;
+    overflow: hidden;
     .center {
       word-wrap: break-word;
       overflow: hidden;
@@ -75,30 +77,43 @@ $zindex: 1000;
       white-space: pre-wrap;
       display: block;
     }
+    
+    .time {
+      font-weight: var(--bold, 600);
+      margin-top: 0.5rem;
+      background: var(--base-lighter);
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      padding: 0.5rem 1rem;
+      text-align: right;
+      font-size: 0.85rem;
+      border-top-left-radius: 0.5rem;
+    }
 
     &.information {
-      border-color: var(--info);
-      .toast-icon {
+      border-left-color: var(--info);
+      .icon {
         color:var(--info);
       }
     }
 
     &.error {
-      border-color: var(--error);
+      border-left-color: var(--error);
       .icon {
         color:var(--error);
       }
     }
 
     &.warning {
-      border-color: var(--warning);
+      border-left-color: var(--warning);
       .icon {
         color:var(--warning);
       }
     }
 
     &.success {
-      border-color: var(--success);
+      border-left-color: var(--success);
       .icon {
         color:var(--success);
       }
@@ -107,8 +122,8 @@ $zindex: 1000;
 
     .close {
       position: absolute;
-      top: 1.35rem;
-      right: 1rem;
+      top: 1.15rem;
+      right: 1.15rem;
       color: var(--color) !important;
       opacity: 0.5;
       cursor: pointer;
