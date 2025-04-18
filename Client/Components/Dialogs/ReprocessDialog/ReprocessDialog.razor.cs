@@ -7,8 +7,16 @@ namespace FileFlows.Client.Components.Dialogs;
 /// <summary>
 /// Dialog used to reprocess files
 /// </summary>
-public partial class ReprocessDialog : VisibleEscapableComponent
+public partial class ReprocessDialog : IModal
 {
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
+
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+    
     /// <summary>
     /// Gets or sets if this is in the process options mode
     /// </summary>
@@ -17,14 +25,12 @@ public partial class ReprocessDialog : VisibleEscapableComponent
     /// Gets or sets the frontend service
     /// </summary>
     [Inject] private FrontendService feService { get; set; }
+    
     /// <summary>
-    /// Gets or sets ths blocker to use
+    /// Gets or sets the modal instance
     /// </summary>
-    [Parameter] public Blocker Blocker { get; set; }
-    /// <summary>
-    /// The task returned when showing the dialog
-    /// </summary>
-    TaskCompletionSource<bool> ShowTask;
+    private Modal Modal { get; set; }
+    
     /// <summary>
     /// Gets or sets the flow to run against
     /// </summary>
@@ -76,6 +82,12 @@ public partial class ReprocessDialog : VisibleEscapableComponent
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        if (Options is ReprocessOptions rOptions == false)
+        {
+            Close();
+            return;
+        }
+        
         lblReprocessTitle = Translater.Instant("Dialogs.ReprocessDialog.Title");
         lblReprocessDescription = Translater.Instant("Dialogs.ReprocessDialog.Description");
         lblProcessOptionsTitle = Translater.Instant("Dialogs.ReprocessDialog.ProcessOptions.Title");
@@ -105,60 +117,50 @@ public partial class ReprocessDialog : VisibleEscapableComponent
             new () { Label = lblMerge, Value = ReprocessModel.CustomVariablesMode.Merge },
             new () { Label = lblReplace, Value = ReprocessModel.CustomVariablesMode.Replace },
         ];
-    }
-    
-    /// <summary>
-    /// Shows the language picker
-    /// </summary>
-    /// <param name="flows">the list of flows</param>
-    /// <param name="nodes">the list of nodes</param>
-    /// <param name="files">the files to reprocessed</param>
-    /// <param name="processOptionsMode">if this is in the process options mode for unprocessed files</param>
-    /// <returns>the task to await</returns>
-    public Task<bool> Show(Dictionary<Guid, string> flows, Dictionary<Guid, string> nodes, List<LibraryFile> files, bool processOptionsMode = false)
-    {
-        ProcessOptionsMode = processOptionsMode;
-        lblDescription = processOptionsMode ? lblProcessOptionsDescription : lblReprocessDescription;
-        lblTitle = processOptionsMode ? lblProcessOptionsTitle : lblReprocessTitle;
-        CustomVariables = ObjectHelper.GetCommonCustomVariables(files.Select(file => file.CustomVariables ?? []).ToList())
-            .Select(x => new KeyValuePair<string, string>(x.Key, x.Value.ToString())).ToList();
-
-        FlowOptions = flows.OrderBy(x => x.Value.ToLowerInvariant())
-            .Select(x => new ListOption { Label = x.Value, Value = x.Key }).ToList();
+        
+        FlowOptions = feService.Flow.Flows.OrderBy(x => x.Name.ToLowerInvariant())
+            .Select(x => new ListOption { Label = x.Name, Value = x.Uid }).ToList();
         FlowOptions.Insert(0, new() { Label = lblSameFlow, Value = Guid.Empty });
         FlowUid = Guid.Empty;
         VariablesMode = ReprocessModel.CustomVariablesMode.Original;
         BottomOfQueue = false;
-        Files = files;
         
-        NodeOptions = nodes.OrderBy(x => x.Value.ToLowerInvariant())
+        NodeOptions = feService.Node.NodeList.OrderBy(x => x.Value.ToLowerInvariant())
             .Select(x => new ListOption { Label = x.Value == "FileFlowsServer" ? "Internal Processing Node" : x.Value, Value = x.Key }).ToList();
 
         NodeOptions.Insert(0, new() { Label = lblAnyNode, Value = Guid.Empty });
         NodeUid = Guid.Empty;
-        Visible = true;
-        StateHasChanged();
+        ProcessOptionsMode = rOptions.ProcessOptionsMode;
+        lblDescription = rOptions.ProcessOptionsMode ? lblProcessOptionsDescription : lblReprocessDescription;
+        lblTitle = rOptions.ProcessOptionsMode ? lblProcessOptionsTitle : lblReprocessTitle;
+        CustomVariables = ObjectHelper.GetCommonCustomVariables(rOptions.Files.Select(file => file.CustomVariables ?? []).ToList())
+            .Select(x => new KeyValuePair<string, string>(x.Key, x.Value.ToString())).ToList();
 
-        ShowTask = new TaskCompletionSource<bool>();
-        return ShowTask.Task;
+        Files = rOptions.Files;
+    }
+    
+    /// <summary>
+    /// Closes the dialog
+    /// </summary>
+    public void Close()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
     }
 
     /// <summary>
     /// Cancels the dialog
     /// </summary>
-    public override void Cancel()
+    public void Cancel()
     {
-        this.Visible = false;
-        ShowTask.TrySetResult(new ());
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
     }
+    
 
     /// <summary>
     /// Language is chosen
     /// </summary>
     private async void Save()
     {
-        this.Visible = false;
-
         var dict = new Dictionary<string, object>();
         foreach (var kv in CustomVariables)
         {
@@ -167,7 +169,7 @@ public partial class ReprocessDialog : VisibleEscapableComponent
             dict[kv.Key] = ObjectHelper.StringToObject(kv.Value);
         }
 
-        Blocker.Show();
+        Modal?.Blocker?.Show();
         try
         {
             var result = await HttpHelper.Post(ApiUrl + (ProcessOptionsMode ? "/set-process-options" : "/reprocess"), new ReprocessModel
@@ -187,10 +189,10 @@ public partial class ReprocessDialog : VisibleEscapableComponent
         }
         finally
         {
-            Blocker.Hide();
+            Modal?.Blocker?.Hide();
         }
-        
-        ShowTask.TrySetResult(true);
+
+        TaskCompletionSource.TrySetResult(true);
         await Task.CompletedTask;
     }
     
@@ -249,4 +251,19 @@ public partial class ReprocessDialog : VisibleEscapableComponent
                 VariablesMode = mode;
         }
     }
+}
+/// <summary>
+/// Options for the reprocess
+/// </summary>
+public class ReprocessOptions : IModalOptions
+{
+    /// <summary>
+    /// Gets or sets the files to reprocessed
+    /// </summary>
+    public List<LibraryFile> Files { get; set;}
+
+    /// <summary>
+    /// Gets or sets if this is in the process options mode for unprocessed files
+    /// </summary>
+    public bool ProcessOptionsMode { get; set; }
 }

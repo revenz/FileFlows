@@ -1,3 +1,4 @@
+using FileFlows.Client.Components.Dialogs;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -12,6 +13,11 @@ public partial class FileViewer : ModalEditor
     /// Gets or sets the JavaScript runtime
     /// </summary>
     [Inject] private IJSRuntime jsRuntime { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
     
     /// <summary>
     /// Gets or sets the model being edited
@@ -126,15 +132,12 @@ public partial class FileViewer : ModalEditor
     /// </summary>
     private async Task Reprocess()
     {
-        string url = $"/api/library-file/reprocess";
-        var result = await HttpHelper.Post(url, new { Uids = new[] { Model.Uid } });
-        if (result.Success == false)
+        var result = await ModalService.ShowModal<ReprocessDialog, bool>(new ReprocessOptions()
         {
-            var msg = result.Body?.EmptyAsNull() ?? Translater.Instant("Pages.LibraryFiles.Messages.FailedToReprocess");
-            feService.Notifications.ShowError(msg);
-            return;
-        }
-        feService.Notifications.ShowSuccess(Translater.Instant("Pages.LibraryFiles.Messages.ReprocessingFile"));
-        Close();
+            Files = [Model],
+            ProcessOptionsMode = Model.Status == FileStatus.Unprocessed
+        });
+        if(result)
+            Close();
     }
 }

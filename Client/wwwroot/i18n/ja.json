@@ -254,9 +254,6 @@
       "Speed": "速度",
       "UploadedAmount": "アップロード済み"
     },
-    "FlowTemplatePicker": {
-      "Title": "開始するテンプレートを選択"
-    },
     "IconPicker": {
       "Title": "アイコンを選択"
     },

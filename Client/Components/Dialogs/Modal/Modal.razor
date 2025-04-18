@@ -6,15 +6,19 @@
 
     <div class="flow-modal" style="@Styling">
         <div class="flow-modal-inner">
-            <div class="flow-modal-title">
-                <span>@Title</span>
-            </div>
-            <div class="flow-modal-body">
-                @Body
-            </div>
-            <div class="flow-modal-footer">
-                @Footer
-            </div>
+            <Editor @ref="Editor"></Editor>
+            <CascadingValue IsFixed="true" Value="Editor">
+                <div class="flow-modal-title">
+                    <span>@Title</span>
+                </div>
+                <div class="flow-modal-body">
+                    @Body
+                </div>
+                <div class="flow-modal-footer">
+                    @Footer
+                </div>
+                <Blocker @ref="Blocker" />
+            </CascadingValue>
         </div>
     </div>
 }

@@ -1,10 +1,9 @@
 @namespace FileFlows.Client.Components.Dialogs
-@inherits VisibleEscapableComponent
 
-<Modal Title="@lblTitle" Visible="Visible" Styling="width: min(650px, 90vw);">
+<Modal @ref=Modal Title="@lblTitle" Visible="true" Styling="width: min(650px, 90vw);">
 
     <Body>
-    <p>@lblDescription</p>
+        <p>@lblDescription</p>
     <div class="dialog-fields">
         <InputSelect @bind-Value="@BoundFlowUid" AllowClear="false" Options=@FlowOptions Label="@lblFlow" />
         @if (NodeOptions.Count > 2)
@@ -15,12 +14,14 @@
         {
             <InputSelect @bind-Value="@BoundPosition" AllowClear="false" Options=@PositionOptions Label="@lblPosition"/>
         }
-        <InputSelect @bind-Value="@BoundVariablesMode" AllowClear="false" Options=@CustomVariableModeOptions Label="@lblCustomVariablesMode"/>
+        <InputSelect @bind-Value="@BoundVariablesMode" AllowClear="false" Options=@CustomVariableModeOptions 
+                     Label="@lblCustomVariablesMode"/>
     </div>
+    
 
-    <div class="custom-variables @(VariablesMode != ReprocessModel.CustomVariablesMode.Original ? "" : "not-visible")">
-        <InputKeyValue @bind-Value="CustomVariables" HideLabel="true" Label="Dialogs.ReprocessDialog.Fields.CustomVariables"></InputKeyValue>
-    </div>
+         <InputKeyValue @bind-Value="CustomVariables" HideLabel="true" 
+                        Hidden="@(VariablesMode == ReprocessModel.CustomVariablesMode.Original)"
+                        Label="Dialogs.ReprocessDialog.Fields.CustomVariables" />
     </Body>
     <Footer>
         <button class="btn" @onclick=@Save>@(ProcessOptionsMode ? lblSave : lblReprocess)</button>

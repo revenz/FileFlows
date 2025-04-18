@@ -254,9 +254,6 @@
       "Speed": "Hastighet",
       "UploadedAmount": "Uppladdad"
     },
-    "FlowTemplatePicker": {
-      "Title": "Välj en mall att utgå ifrån"
-    },
     "IconPicker": {
       "Title": "Välj ikon"
     },

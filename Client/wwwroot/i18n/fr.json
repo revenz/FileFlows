@@ -254,9 +254,6 @@
       "Speed": "Vitesse",
       "UploadedAmount": "Téléversé"
     },
-    "FlowTemplatePicker": {
-      "Title": "Sélectionner un modèle à partir duquel commencer"
-    },
     "IconPicker": {
       "Title": "Choisir une icône"
     },

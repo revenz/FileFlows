@@ -254,9 +254,6 @@
       "Speed": "Velocidad",
       "UploadedAmount": "Subido"
     },
-    "FlowTemplatePicker": {
-      "Title": "Selecciona una plantilla para empezar"
-    },
     "IconPicker": {
       "Title": "Elegir icono"
     },

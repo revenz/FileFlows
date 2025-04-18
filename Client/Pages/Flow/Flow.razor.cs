@@ -74,10 +74,6 @@ public partial class Flow : ComponentBase, IDisposable
     /// </summary>
     private FlowPropertiesEditor PropertiesEditor { get; set; }
     /// <summary>
-    /// The flow template picker instance
-    /// </summary>
-    private FlowTemplatePicker TemplatePicker;
-    /// <summary>
     /// The Add editor instance
     /// </summary>
     private NewFlowEditor AddEditor;
@@ -1184,25 +1180,6 @@ public partial class Flow : ComponentBase, IDisposable
             this.Blocker.Hide();
         }
     }
-
-
-    private async Task AddNewFlow(FFlow flow, bool isDirty)
-    {
-        if (flow.Uid == Guid.Empty)
-            flow.Uid = Guid.NewGuid();
-        
-        FlowEditor editor = new FlowEditor(this, flow, feService);
-        editor.IsDirty = isDirty;
-        await editor.Initialize();
-        bool first = OpenedFlows.Any() == false;
-        OpenedFlows.Add(editor);
-        ActivateFlow(editor);
-        if(this.Zoom != 100)
-            _ = editor.ffFlow.zoom(this.Zoom);
-        await editor.ffFlow.focusName();
-        if (first)
-             await WaitForRender();
-    }
     
     /// <summary>
     /// Shows the add flow wizard
@@ -1219,50 +1196,6 @@ public partial class Flow : ComponentBase, IDisposable
             return;
         await OpenFlowInNewTab(result.Value.Uid, showBlocker: true);
         StateHasChanged();
-        
-        //
-        //
-        //
-        // var result  = await TemplatePicker.Show((FlowType)(-1));
-        // if(result == null || result.Result == FlowTemplatePickerResult.ResultCode.Cancel)
-        //     return; // twas canceled
-        // if (result.Result == FlowTemplatePickerResult.ResultCode.Open)
-        // {
-        //     if (result.Uid != null)
-        //     {
-        //         await OpenFlowInNewTab(result.Uid.Value, showBlocker: true);
-        //         StateHasChanged();
-        //     }
-        //
-        //     return;
-        // }
-        //
-        // var flowTemplateModel = result.Model;
-        // if (flowTemplateModel.Fields?.Any() != true)
-        // {
-        //     // nothing extra to fill in, go to the flow editor, typically this if basic flows
-        //     await AddNewFlow(flowTemplateModel.Flow, isDirty: true);
-        //     return;
-        // }
-        //
-        // var newFlow = await AddEditor.Show(flowTemplateModel);
-        // if (newFlow == null)
-        //     return; // was canceled
-        //
-        // if (newFlow.Uid != Guid.Empty)
-        // {
-        //     if ((Profile.ConfigurationStatus & ConfigurationStatus.Flows) != ConfigurationStatus.Flows)
-        //     {
-        //         // refresh the app configuration status
-        //         await ProfileService.Refresh();
-        //     }
-        //     await AddNewFlow(newFlow, isDirty: false);
-        // }
-        // else
-        // {
-        //     // edit it
-        //     await AddNewFlow(newFlow, isDirty: true);
-        // }
     }
 
 } 

@@ -91,7 +91,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
     public async Task Reprocess()
     {
         var selected = Table.GetSelected().ToList();
-        var uids = selected.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
+        var uids = selected.Select(x => x.Uid)?.ToArray() ?? [];
         if (uids.Length == 0)
             return; // nothing to reprocess
         bool processOptions = SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold;
@@ -112,9 +112,11 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
             Blocker.Hide();
         }
 
-        var nodes = Nodes.ToDictionary(x => x.Value.Uid, x => x.Value.Name);
-        
-        await ReprocessDialog.Show(Flows, nodes, files, processOptions);
+        await ModalService.ShowModal<ReprocessDialog>(new ReprocessOptions()
+        {
+            Files = files,
+            ProcessOptionsMode = processOptions
+        });
     }
 
     private async Task Rescan()

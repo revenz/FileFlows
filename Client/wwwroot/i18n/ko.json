@@ -254,9 +254,6 @@
       "Speed": "속도",
       "UploadedAmount": "업로드된"
     },
-    "FlowTemplatePicker": {
-      "Title": "시작할 템플릿을 선택하세요"
-    },
     "IconPicker": {
       "Title": "아이콘 선택"
     },

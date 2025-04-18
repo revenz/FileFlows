@@ -254,9 +254,6 @@
       "Speed": "Speed",
       "UploadedAmount": "Uploaded"
     },
-    "FlowTemplatePicker": {
-      "Title": "Select a template to start from"
-    },
     "IconPicker": {
       "Title": "Pick Icon"
     },

@@ -254,9 +254,6 @@
       "Speed": "Скорость",
       "UploadedAmount": "Загружено"
     },
-    "FlowTemplatePicker": {
-      "Title": "Выберите шаблон для начала"
-    },
     "IconPicker": {
       "Title": "Выбрать значок"
     },

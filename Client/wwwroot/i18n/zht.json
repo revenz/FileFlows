@@ -254,9 +254,6 @@
       "Speed": "速度",
       "UploadedAmount": "已上傳"
     },
-    "FlowTemplatePicker": {
-      "Title": "選擇一個模板作為起點"
-    },
     "IconPicker": {
       "Title": "選擇圖標"
     },
