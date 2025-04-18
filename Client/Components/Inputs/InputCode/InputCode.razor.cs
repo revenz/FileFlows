@@ -13,6 +13,11 @@ public partial class InputCode : Input<string>, IDisposable
     private MonacoEditor CodeEditor { get; set; }
     
     /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
+    
+    /// <summary>
     /// Gets or sets the language the editor is editing
     /// </summary>
     [Parameter] public string Language { get; set; }
@@ -97,7 +102,7 @@ public partial class InputCode : Input<string>, IDisposable
         this.Updating = false;
         if (this.InitialValue?.Trim()?.EmptyAsNull() != this.Value?.Trim()?.EmptyAsNull())
         {
-            bool cancel = await Dialogs.Confirm.Show(Translater.Instant("Labels.Confirm"), Translater.Instant("Labels.CancelMessage"));
+            bool cancel = await Confirm.Show(Translater.Instant("Labels.Confirm"), Translater.Instant("Labels.CancelMessage"));
             if (cancel == false)
                 return false;
         }

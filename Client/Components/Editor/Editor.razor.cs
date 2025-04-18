@@ -15,6 +15,11 @@ public partial class Editor : EditorBase, IDisposable
     /// </summary>
     [Inject] public IJSRuntime jsRuntime { get; private set; }
     
+    /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
+    
     
     /// <summary>
     /// Gets or sets if this is the flow element editor, and if it is, renders slightly differently

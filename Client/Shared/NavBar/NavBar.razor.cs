@@ -18,6 +18,11 @@ public partial class NavBar
     [Inject] private IJSRuntime jsRuntime { get; set; }
     
     /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
+    
+    /// <summary>
     /// Gets or sets the navigation service
     /// </summary>
     [Inject] private INavigationService NavigationService { get; set; }

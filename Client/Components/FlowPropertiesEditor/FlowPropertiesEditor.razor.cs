@@ -21,6 +21,11 @@ public partial class FlowPropertiesEditor
     [Inject] IJSRuntime jsRuntime { get; set; }
     
     /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
+    
+    /// <summary>
     /// Gets or sets the mode being edited
     /// </summary>
     [Parameter] public string Mode { get; set; }

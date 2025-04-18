@@ -4,6 +4,7 @@ using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
 using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ffPart = FileFlows.Shared.Models.FlowPart;
 using FFlow = FileFlows.Shared.Models.Flow;
@@ -16,6 +17,12 @@ public class FlowEditor : IDisposable
     public FFlow Flow { get; set; }
     private IJSRuntime jsRuntime => FlowPage.jsRuntime;
     private IBlazorContextMenuService ContextMenuService => FlowPage.ContextMenuService;
+    
+    
+    /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
     
     /// <summary>
     /// Gets or sets the frontend service

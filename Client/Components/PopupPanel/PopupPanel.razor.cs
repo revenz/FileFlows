@@ -16,6 +16,11 @@ public partial class PopupPanel : ComponentBase, IDisposable
     [Inject]private FrontendService feService { get; set; }
     
     /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
+    
+    /// <summary>
     /// Gets or sets the local storage service
     /// </summary>
     [Inject]

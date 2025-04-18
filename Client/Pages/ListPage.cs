@@ -20,6 +20,12 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     /// Gets or sets the navigation manager
     /// </summary>
     [Inject] public NavigationManager NavigationManager { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] protected ConfirmService Confirm { get; set; }
+    
     /// <summary>
     /// Gets or sets the table instance
     /// </summary>

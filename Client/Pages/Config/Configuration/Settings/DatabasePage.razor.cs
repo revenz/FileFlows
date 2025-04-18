@@ -25,6 +25,11 @@ public partial class DatabasePage : InputRegister
     [Inject] IJSRuntime jsRuntime { get; set; }
     
     /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
+    
+    /// <summary>
     /// Gets or sets the navigation manager used
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }

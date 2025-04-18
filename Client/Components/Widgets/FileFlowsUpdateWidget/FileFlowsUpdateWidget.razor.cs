@@ -19,6 +19,11 @@ public partial class FileFlowsUpdateWidget : ComponentBase
     [Inject] private FrontendService feService { get; set; }
     
     /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
+    
+    /// <summary>
     /// Gets or sets if this user can update FileFlows automatically
     /// </summary>
     [Parameter] public bool CanUpdate { get; set; }

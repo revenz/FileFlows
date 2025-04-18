@@ -20,6 +20,11 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// Gets or sets the blocker
     /// </summary>
     [CascadingParameter] public Blocker Blocker { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
     /// <summary>
     /// Gets or sets the editor
     /// </summary>

@@ -20,6 +20,11 @@ public partial class GeneralPage : InputRegister
     [CascadingParameter] Blocker Blocker { get; set; }
     
     /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
+    
+    /// <summary>
     /// Gets or sets the javascript runtime used
     /// </summary>
     [Inject] IJSRuntime jsRuntime { get; set; }

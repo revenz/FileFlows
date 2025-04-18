@@ -26,6 +26,11 @@ public partial class Flow : ComponentBase, IDisposable
     /// Editor for flow elements/parts
     /// </summary>
     public Editor Editor { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the confirm service
+    /// </summary>
+    [Inject] ConfirmService Confirm { get; set; }
     /// <summary>
     /// Editor for custom fields
     /// </summary>

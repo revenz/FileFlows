@@ -61,6 +61,11 @@ public class PausedService : IPausedService, IDisposable
     private string lblPause, lblPaused, lblPausedWithTime;
     
     /// <summary>
+    /// The confirm service
+    /// </summary>
+    private readonly ConfirmService Confirm;
+    
+    /// <summary>
     /// Gets or sets the modal service
     /// </summary>
     private IModalService ModalService { get; set; }
@@ -81,10 +86,11 @@ public class PausedService : IPausedService, IDisposable
     /// <summary>
     /// Constructs an instance of the paused worker
     /// </summary>
-    public PausedService(FrontendService feService, IModalService modalService)
+    public PausedService(FrontendService feService, IModalService modalService, ConfirmService confirmService)
     {
         this.feService = feService;
         ModalService = modalService;
+        Confirm = confirmService;
         var bkgTask = new BackgroundTask(TimeSpan.FromMilliseconds(1_000), () => _ = DoWork());
         bkgTask.Start();
         SystemInfo = feService.Dashboard.CurrentSystemInfo;
