@@ -114,7 +114,7 @@ public partial class NodeEditor : ModalEditor
         if(IsExternalNode == false)
             Title = Translater.Instant("Labels.InternalProcessingNode");
         Model = model;
-        BoundLibraries = model.Libraries.Cast<object>().ToList();
+        BoundLibraries = model.Libraries?.Cast<object>()?.ToList() ?? [];
         PermissionsFolders = model.PermissionsFolders ?? 0;
         PermissionsFiles = model.PermissionsFiles ?? 0;
     }

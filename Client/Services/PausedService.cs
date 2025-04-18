@@ -1,4 +1,5 @@
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Services.Frontend;
 
 namespace FileFlows.Client.Services;
@@ -59,6 +60,11 @@ public class PausedService : IPausedService, IDisposable
     private TimeSpan TimeDiff;
     private string lblPause, lblPaused, lblPausedWithTime;
     
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    private IModalService ModalService { get; set; }
+    
     /// <inheritdoc />
     public string PausedLabel { get; private set; }
     
@@ -75,9 +81,10 @@ public class PausedService : IPausedService, IDisposable
     /// <summary>
     /// Constructs an instance of the paused worker
     /// </summary>
-    public PausedService(FrontendService feService)
+    public PausedService(FrontendService feService, IModalService modalService)
     {
         this.feService = feService;
+        ModalService = modalService;
         var bkgTask = new BackgroundTask(TimeSpan.FromMilliseconds(1_000), () => _ = DoWork());
         bkgTask.Start();
         SystemInfo = feService.Dashboard.CurrentSystemInfo;
@@ -148,10 +155,10 @@ public class PausedService : IPausedService, IDisposable
         int duration = 0;
         if (paused == false)
         {
-            duration = await PausePrompt.Show();
-            if (duration < 1)
+            var result = await ModalService.ShowModal<PausePrompt, int>(new ModalEditorOptions());
+            if (result.IsFailed)
                 return;
-
+            duration = result.Value;
         }
 
         await SetPausedState(duration);
@@ -160,11 +167,9 @@ public class PausedService : IPausedService, IDisposable
     /// <inheritdoc />
     public async Task Pause()
     {
-        int duration = await PausePrompt.Show();
-        if (duration < 1)
-            return;
-
-        await SetPausedState(duration);
+        var result = await ModalService.ShowModal<PausePrompt, int>(new ModalEditorOptions());
+        if (result.Success(out int duration))
+            await SetPausedState(duration);
     }
 
     /// <inheritdoc />
