@@ -77,6 +77,7 @@ public class RunInstance(RunnerProperties properties)
 
             Globals.IsDocker = parameters.IsDocker;
             LogInfo("Docker: " + Globals.IsDocker);
+            LogInfo("Config Revision: " + config.Revision);
 
             string workingDir = parameters.WorkingDirectory;
 
