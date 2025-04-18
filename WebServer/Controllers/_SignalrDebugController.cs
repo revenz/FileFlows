@@ -3,6 +3,7 @@
 using System.Text;
 using FileFlows.Services.FileProcessing;
 using Humanizer;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FileFlows.WebServer.Controllers;
 
@@ -10,8 +11,17 @@ namespace FileFlows.WebServer.Controllers;
 public class _SignalrDebugController : Controller
 {
     [HttpGet]
+    [SwaggerIgnore]
     public async Task<IActionResult> GetHtmlOverview()
     {
+        #if(DEBUG == false)
+        if (Globals.FileFlowsDotComUrl == null)
+            return Forbid();
+        if(Globals.FileFlowsDotComUrl.Contains("pre") == false && 
+           Globals.FileFlowsDotComUrl.Contains("10.") == false)
+            return Forbid();
+        #endif 
+
         StringBuilder builder = new StringBuilder();
         builder.AppendLine("""
 <html>
