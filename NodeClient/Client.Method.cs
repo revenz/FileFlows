@@ -120,7 +120,7 @@ public partial class Client
     /// <summary>
     /// Registers the node with the server
     /// </summary>
-    private async Task RegisterNodeAsync()
+    private async Task<bool> RegisterNodeAsync()
     {
         try
         {
@@ -189,7 +189,7 @@ public partial class Client
             if (_connection.State == HubConnectionState.Disconnected)
             {
                 _registrationCompletion.TrySetResult(false);
-                return;
+                return false;
             }
 
             _logger.ILog("About to call RegisterNode on server: " + JsonSerializer.Serialize(parameters));
@@ -198,7 +198,7 @@ public partial class Client
             _logger.ILog("RegisterNode result: " + result.Success);
             
             if (!result.Success)
-                return;
+                return false;
             
             _node = result.Node;
             _logger.ILog("Node successfully registered.");
@@ -221,11 +221,13 @@ public partial class Client
             }
 
             TriggerLogSync();
+            return true;
         }
         catch (Exception ex)
         {
             _logger.ELog($"Node registration failed: {ex}");
             _registrationCompletion.TrySetResult(false);
+            return false;
         }
     }
 

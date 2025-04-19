@@ -174,8 +174,13 @@ public partial class Client : IDisposable
                     await Task.Delay(5000);
                     continue;
                 }
-                    
-                await RegisterNodeAsync();
+
+                if (await RegisterNodeAsync() == false)
+                {
+                    await Task.Delay(5000);
+                    continue;
+                }
+                
                 _ = Task.Run(SendNodeStatusAsync, _cts.Token);
                 return; // Exit loop on successful connection
             }
