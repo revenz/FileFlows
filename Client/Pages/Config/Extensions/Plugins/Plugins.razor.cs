@@ -263,7 +263,7 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
     /// <param name="item">the plugin info model to open used by for</param>
     /// <returns>a task to await</returns>
     private Task OpenUsedBy(PluginInfoModel item)
-        => UsedByDialog.Show(item.UsedBy);
+        => Message.UsedBy(item.UsedBy);
     
 
     /// <summary>

@@ -274,7 +274,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
         var item = Table.GetSelected()?.FirstOrDefault();
         if (item?.UsedBy?.Any() != true)
             return;
-        await UsedByDialog.Show(item.UsedBy);
+        await Message.UsedBy(item.UsedBy);
     }
 
     /// <summary>

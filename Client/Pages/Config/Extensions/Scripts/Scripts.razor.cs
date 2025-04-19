@@ -213,7 +213,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
         var item = Table.GetSelected()?.FirstOrDefault();
         if (item?.UsedBy?.Any() != true)
             return;
-        await UsedByDialog.Show(item.UsedBy);
+        await Message.UsedBy(item.UsedBy);
     }
     
     /// <summary>
@@ -222,7 +222,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
     /// <param name="item">the item to open used by for</param>
     /// <returns>a task to await</returns>
     private Task OpenUsedBy(Script item)
-        => UsedByDialog.Show(item.UsedBy);
+        => Message.UsedBy(item.UsedBy);
     
     public override Task PostLoad()
     {

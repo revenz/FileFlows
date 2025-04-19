@@ -7,50 +7,49 @@ namespace FileFlows.Client.Components.Dialogs;
 /// <summary>
 /// Confirm dialog that prompts the user for confirmation 
 /// </summary>
-public partial class UsedByDialog : VisibleEscapableComponent
+public partial class UsedByDialog : IModal
 {
     private string lblTitle, lblClose, lblName, lblType;
-    TaskCompletionSource ShowTask;
     private List<ObjectReference> UsedBy;
+    
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
 
-    private static UsedByDialog Instance { get; set; }
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
+
 
     protected override void OnInitialized()
     {
+        if (Options is UsedByDialogOptions options == false)
+        {
+            Close();
+            return;
+            
+        }
         this.lblClose = Translater.Instant("Labels.Close");
         this.lblTitle = Translater.TranslateIfNeeded("Labels.UsedBy");
         this.lblName = Translater.TranslateIfNeeded("Labels.Name");
         this.lblType = Translater.TranslateIfNeeded("Labels.Type");
-        Instance = this;
+        UsedBy = options.UsedBy;
+    }
+    
+    /// <summary>
+    /// Closes the dialog
+    /// </summary>
+    public void Close()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
     }
 
     /// <summary>
-    /// Shows a used by dialog
+    /// Cancels the dialog
     /// </summary>
-    /// <param name="usedBy">a list of items this is used by</param>
-    /// <returns>the task to await for the dialog to close</returns>
-    public static Task Show(List<ObjectReference> usedBy)
+    public void Cancel()
     {
-        if (Instance == null)
-            return Task.FromResult(false);
-
-        return Instance.ShowInstance(usedBy);
-    }
-
-    private Task ShowInstance(List<ObjectReference> usedBy)
-    {
-        this.UsedBy = usedBy;
-        this.Visible = true;
-        this.StateHasChanged();
-
-        Instance.ShowTask = new TaskCompletionSource();
-        return Instance.ShowTask.Task;
-    }
-
-    public override void Cancel()
-    {
-        this.Visible = false;
-        Instance.ShowTask.SetResult();
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
     }
 
     private string GetTypeName(string type)
@@ -58,4 +57,15 @@ public partial class UsedByDialog : VisibleEscapableComponent
         type = type.Substring(type.LastIndexOf(".") + 1);
         return Translater.Instant($"Pages.{type}.Title");
     }
+}
+
+/// <summary>
+/// Options for the used by dialog
+/// </summary>
+public class UsedByDialogOptions : IModalOptions 
+{
+    /// <summary>
+    /// Gets or sets the items that are using a specific object
+    /// </summary>
+    public List<ObjectReference> UsedBy { get; set; } = new();
 }

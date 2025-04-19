@@ -80,4 +80,17 @@ public class MessageService
             Message = message
         });
     }
+
+    /// <summary>
+    /// Shows a used by dialog
+    /// </summary>
+    /// <param name="usedBy">a list of items this is used by</param>
+    /// <returns>the task to await for the dialog to close</returns>
+    public async Task UsedBy(List<ObjectReference> usedBy)
+    {
+        await ModalService.ShowModal<UsedByDialog>(new UsedByDialogOptions()
+        {
+            UsedBy = usedBy
+        });
+    }
 }
