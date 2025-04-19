@@ -40,16 +40,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     /// Gets or sets the JavaScript runtime
     /// </summary>
     [Inject] private IJSRuntime jsRuntime { get; set; }
-
-    /// <summary>
-    /// Gets or sets the add file dialog
-    /// </summary>
-    private AddFileDialog AddDialog { get; set; }
     
-    /// <summary>
-    /// Gets or sets the reprocess dialog
-    /// </summary>
-    private ReprocessDialog ReprocessDialog { get; set; }
 
     private FileFlows.Shared.Models.FileStatus SelectedStatus;
 

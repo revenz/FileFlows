@@ -179,7 +179,11 @@
   cursor: pointer;
   opacity: 0.7;
 }
-.popup-panel-bottom i:hover {
+.popup-panel-bottom .user-link {
+  user-select: none;
+  cursor: pointer;
+}
+.popup-panel-bottom .user-link:hover i {
   opacity: 1;
 }
 

@@ -259,17 +259,10 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
             this.StateHasChanged();
         }
     }
-
-
-
+    
     /// <summary>
     /// THe manual add button was clicked
     /// </summary>
     private async Task Add()
-    {
-        var nodes = Nodes.ToDictionary(x => x.Value.Uid, x => x.Value.Name);
-        var result = await AddDialog.Show(Blocker, Flows, nodes);
-        if(result)
-            await Refresh();
-    }
+        => await ModalService.ShowModal<AddFileDialog>(new ModalEditorOptions());
 }

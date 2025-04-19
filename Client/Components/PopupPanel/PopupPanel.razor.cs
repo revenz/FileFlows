@@ -1,4 +1,5 @@
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -10,6 +11,11 @@ namespace FileFlows.Client.Components;
 /// </summary>
 public partial class PopupPanel : ComponentBase, IDisposable
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
     /// <summary>
     /// Gets or sets the frontend service
     /// </summary>
@@ -289,6 +295,8 @@ public partial class PopupPanel : ComponentBase, IDisposable
     private void ChangePassword()
     {
         Visible = false;
+
+        _ = ModalService.ShowModal<ChangePassword>(new ModalEditorOptions());
     }
     
     /// <summary>

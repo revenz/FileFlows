@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -11,12 +12,15 @@ namespace FileFlows.Client.Components.Dialogs;
 /// <summary>
 /// Dialog used when adding a file manually
 /// </summary>
-public partial class AddFileDialog : VisibleEscapableComponent
+public partial class AddFileDialog : IModal
 {
-    /// <summary>
-    /// The task returned when showing the dialog
-    /// </summary>
-    TaskCompletionSource<bool> ShowTask;
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
 
     /// <summary>
     /// Gets or sets the local storage service
@@ -30,17 +34,23 @@ public partial class AddFileDialog : VisibleEscapableComponent
     [Inject] private IModalService ModalService { get; set; }
 
     /// <summary>
-    /// Gets or sets the blocker to use
+    /// Gets or sets the frontend service
     /// </summary>
-    private Blocker? Blocker { get; set; }
+    [Inject] private FrontendService feService { get; set; }
+
+    /// <summary>
+    /// Gets or sets the modal to use
+    /// </summary>
+    private Modal Modal { get; set; }
     /// <summary>
     /// Gets or sets the files in the list mode
     /// </summary>
     private List<string> Files = new ();
+
     /// <summary>
     /// Gets or sets the text list when using raw mode
     /// </summary>
-    private string TextList { get; set; }
+    private string TextList { get; set; } = string.Empty;
     /// <summary>
     /// Gets or sets the text of the new item being added in the list mode
     /// </summary>
@@ -109,11 +119,28 @@ public partial class AddFileDialog : VisibleEscapableComponent
             new() { Label = lblRaw, Value = 1 },
             new() { Label = lblUpload, Value = 2 },
         ];
+        
+        
+        FlowOptions = feService.Flow.FlowList.OrderBy(x => x.Value.ToLowerInvariant())
+            .Select(x => new ListOption { Label = x.Value, Value = x.Key }).ToList();
+        
+        NodeOptions = feService.Node.NodeList.OrderBy(x => x.Value.ToLowerInvariant())
+            .Select(x => new ListOption { Label = x.Value == "FileFlowsServer" ? "Internal Processing Node" : x.Value, Value = x.Key }).ToList();
+
+        NodeOptions.Insert(0, new() { Label = lblAnyNode, Value = Guid.Empty });
 
         Mode = await LocalStorageService.GetItemAsync<int>(LSKEY_MODE);
         NodeUid = await LocalStorageService.GetItemAsync<Guid>(LSKEY_NODE);
+        if (NodeUid == Guid.Empty || feService.Node.NodeList.ContainsKey(NodeUid) == false)
+            NodeUid = (Guid)NodeOptions[0].Value!;
+        
         FlowUid = await LocalStorageService.GetItemAsync<Guid>(LSKEY_FLOW);
-        CustomVariables = await LocalStorageService.GetItemAsync<List<KeyValuePair<string, string>>>(LSKEY_CUSTOM_VARIABLES);
+        if (FlowUid == Guid.Empty || feService.Flow.FlowList.ContainsKey(FlowUid) == false)
+            FlowUid = (Guid)FlowOptions[0].Value!;
+
+        CustomVariables =
+            await LocalStorageService.GetItemAsync<List<KeyValuePair<string, string>>>(LSKEY_CUSTOM_VARIABLES)
+            ?? [];
     }
 
     /// <summary>
@@ -164,43 +191,21 @@ public partial class AddFileDialog : VisibleEscapableComponent
         StateHasChanged();
     }
     
+
     /// <summary>
-    /// Shows the language picker
+    /// Closes the dialog
     /// </summary>
-    /// <param name="blocker">the blocker to use</param>
-    /// <param name="flows">the list of flows</param>
-    /// <param name="nodes">the list of nodes</param>
-    /// <returns>the task to await</returns>
-    public Task<bool> Show(Blocker blocker, Dictionary<Guid, string> flows, Dictionary<Guid, string> nodes)
+    public void Close()
     {
-        Blocker = blocker;
-        Files = new ();
-        TextList = string.Empty;
-        file = null;
-        CustomVariables ??= new();
-        Visible = true;
-        FlowOptions = flows.OrderBy(x => x.Value.ToLowerInvariant())
-            .Select(x => new ListOption { Label = x.Value, Value = x.Key }).ToList();
-        //FlowUid = (Guid)FlowOptions.First().Value!;
-        
-        NodeOptions = nodes.OrderBy(x => x.Value.ToLowerInvariant())
-            .Select(x => new ListOption { Label = x.Value == "FileFlowsServer" ? "Internal Processing Node" : x.Value, Value = x.Key }).ToList();
-
-        NodeOptions.Insert(0, new() { Label = lblAnyNode, Value = Guid.Empty });
-        //NodeUid = Guid.Empty;
-        StateHasChanged();
-
-        ShowTask = new TaskCompletionSource<bool>();
-        return ShowTask.Task;
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
     }
 
     /// <summary>
     /// Cancels the dialog
     /// </summary>
-    public override void Cancel()
+    public void Cancel()
     {
-        this.Visible = false;
-        ShowTask.TrySetResult(new ());
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
     }
 
     /// <summary>
@@ -208,19 +213,18 @@ public partial class AddFileDialog : VisibleEscapableComponent
     /// </summary>
     private async void Save()
     {
-        this.Visible = false;
-
         var dict = new Dictionary<string, object>();
-        foreach (var kv in CustomVariables)
+        foreach (var kv in CustomVariables ?? [])
         {
             if (dict.Keys.Any(x => x.Equals(kv.Key, StringComparison.InvariantCultureIgnoreCase)))
                 continue;
             dict[kv.Key] = ObjectHelper.StringToObject(kv.Value);
         }
 
-        await LocalStorageService.SetItemAsync(LSKEY_CUSTOM_VARIABLES, CustomVariables);
+        if(CustomVariables != null)
+            await LocalStorageService.SetItemAsync(LSKEY_CUSTOM_VARIABLES, CustomVariables);
         
-        Blocker?.Show();
+        Modal?.Blocker?.Show();
         try
         {
             // Prepare the request data for other modes
@@ -236,11 +240,12 @@ public partial class AddFileDialog : VisibleEscapableComponent
                 CustomVariables = dict,
                 Files = fileEntries // Files contains text entries for Modes 0 and 1
             });
-            ShowTask.TrySetResult(true);
+            
+            TaskCompletionSource.TrySetResult(true);
         }
         finally
         {
-            Blocker?.Hide();
+            Modal?.Blocker?.Hide();
         }
     }
     
