@@ -9,15 +9,21 @@ using System.IO;
 
 namespace FileFlows.Client.Components.Dialogs;
 
-public partial class ImportDialog : VisibleEscapableComponent
+public partial class ImportDialog : IModal
 {
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
+    
     private string lblImport, lblCancel, lblBrowse;
     private string Message, Title;
-    TaskCompletionSource<(string filename, string content)> ShowTask;
 
     private string FileName { get; set; }
     private bool HasFile { get; set; }
-    private static ImportDialog Instance { get; set; }
     private string Value { get; set; }
 
     private string[] Extensions = new[] { "json" };
@@ -35,43 +41,35 @@ public partial class ImportDialog : VisibleEscapableComponent
         this.lblBrowse = Translater.Instant("Labels.Browse");
         this.Title = Translater.Instant("Dialogs.Import.Title");
         this.Message = Translater.Instant("Dialogs.Import.Message");
-        Instance = this;
+        
+        if(Options is ImportDialogOptions options)
+            Extensions = options.Extensions;
+        Extensions = Extensions?.Any() == true ? Extensions : new[] { "json" };
+        AcceptedTypes = string.Join(", ", Extensions.Select(x => "." + x));
     }
 
-    public static Task<(string filename, string content)> Show(params string[] extensions)
+
+    private void Accept()
     {
-        if (Instance == null)
-            return Task.FromResult<(string, string)>((string.Empty, string.Empty));
-
-        return Instance.ShowInstance(extensions);
+        TaskCompletionSource.TrySetResult(new ImportDialogResult(FileName, Value)); // Set result when closing
     }
 
-    private Task<(string filename, string content)> ShowInstance(string[] extensions = null)
+    /// <summary>
+    /// Closes the dialog
+    /// </summary>
+    public void Close()
     {
-        this.Value = string.Empty;
-        this.FileName = string.Empty;
-        this.Visible = true;
-        this.Extensions = extensions?.Any() == true ? extensions : new[] { "json" };
-        this.AcceptedTypes = string.Join(", ", this.Extensions.Select(x => "." + x));
-        this.StateHasChanged();
-
-        Instance.ShowTask = new TaskCompletionSource<(string filename, string content)>();
-        return Instance.ShowTask.Task;
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
     }
 
-    private async void Accept()
+    /// <summary>
+    /// Cancels the dialog
+    /// </summary>
+    public void Cancel()
     {
-        this.Visible = false;
-        Instance.ShowTask.TrySetResult((FileName, Value));
-        await Task.CompletedTask;
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
     }
-
-    public override void Cancel()
-    {
-        this.Visible = false;
-        Instance.ShowTask.TrySetResult((string.Empty, string.Empty));
-    }
-
+    
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
         if (e.FileCount == 0)
@@ -88,3 +86,21 @@ public partial class ImportDialog : VisibleEscapableComponent
         this.StateHasChanged();
     }
 }
+
+/// <summary>
+/// Import dialog options
+/// </summary>
+public class ImportDialogOptions : IModalOptions
+{
+    /// <summary>
+    /// Gets or sets the extension to show
+    /// </summary>
+    public string[] Extensions { get; set; }
+}
+
+/// <summary>
+/// Import dialog result
+/// </summary>
+/// <param name="FileName">the filename</param>
+/// <param name="Content">the content of the file</param>
+public record ImportDialogResult(string FileName, string Content);

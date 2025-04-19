@@ -132,15 +132,21 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
 
     private async Task Import()
     {
-        var idResult = await ImportDialog.Show("js");//, "ps1", "cs", "bat", "sh");
-        string js = idResult.content;
+        var result = await ModalService.ShowModal<ImportDialog, ImportDialogResult>(new ImportDialogOptions()
+        {
+            Extensions = ["js"]
+        });
+
+        if (result.IsFailed)
+            return;
+        string js = result.Value.Content;
         if (string.IsNullOrEmpty(js))
             return;
 
         Blocker.Show();
         try
         {
-            var newItem = await HttpHelper.Post<Script>("/api/script/import?filename=" + UrlEncoder.Create().Encode(idResult.filename) + "&type=" + SelectedType, js);
+            var newItem = await HttpHelper.Post<Script>("/api/script/import?filename=" + UrlEncoder.Create().Encode(result.Value.FileName) + "&type=" + SelectedType, js);
             if (newItem != null && newItem.Success)
             {
                 feService.Notifications.ShowSuccess(Translater.Instant("Pages.Scripts.Messages.Imported",

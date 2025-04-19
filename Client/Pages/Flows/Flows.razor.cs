@@ -130,8 +130,11 @@ public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
 
     private async Task Import()
     {
-        var idResult = await ImportDialog.Show();
-        string json = idResult.content;
+        var result = await ModalService.ShowModal<ImportDialog, ImportDialogResult>(new ImportDialogOptions());
+        
+        if (result.IsFailed)
+            return;
+        string json = result.Value.Content;
         if (string.IsNullOrEmpty(json))
             return;
 
