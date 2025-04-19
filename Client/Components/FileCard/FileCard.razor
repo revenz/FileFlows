@@ -29,7 +29,12 @@
                 <i class="fas fa-times-circle" @onclick="() => Cancel(runner)"></i>
             </div>
         }
-        @if (Model.Status == FileStatus.Processed)
+        @if (runner?.HasThumbnail == true)
+        {
+            <img @key="Model.Uid" class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.Uid,
+                                                 runner.DisplayName + runner.Extension, runner.IsDirectory)" />
+        }
+        e;se if (Model.Status is FileStatus.Processed or FileStatus.Processing)
         {
             <img @key="Model.Uid" id="thumb-@Model.Uid" class="icon thumbnail" src="@GetThumbUrl()" @onclick="OpenFile"/>
         }

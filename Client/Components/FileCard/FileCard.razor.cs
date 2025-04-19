@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Components;
 namespace FileFlows.Client.Components;
 
 /// <summary>
-/// File View
+/// File Card
 /// </summary>
-public partial class FileItem : ComponentBase
+public partial class FileCard : ComponentBase
 {
     /// <summary>
     /// Gets or sets the modal service
