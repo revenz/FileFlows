@@ -108,7 +108,7 @@ public partial class Client : IDisposable
         {
             _logger.ILog("Reconnected, registering node...");
             OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-            await RegisterNodeAsync();
+            _ = Register();
             _retryPolicyLoop.ResetBackoff();
         };
 
@@ -146,36 +146,38 @@ public partial class Client : IDisposable
         
         OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
 
-        _ = Task.Run(async () =>
-        {
-            while (_cts != null && _cts.Token.IsCancellationRequested == false)
-            {
-                try
-                {
-                    lock (_lock)
-                    {
-                        if (_connection.State != HubConnectionState.Disconnected)
-                        {
-                            _logger.WLog($"Connection is in state {_connection.State}, skipping StartAsync.");
-                            return;
-                        }
-                    }
-                    
-                    _logger.ILog("Attempting to start connection...");
-                    await _connection.StartAsync(_cts.Token);
-                    OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-                    await RegisterNodeAsync();
-                    _ = Task.Run(SendNodeStatusAsync, _cts.Token);
-                    return; // Exit loop on successful connection
-                }
-                catch (Exception ex)
-                {
-                    _logger.WLog($"Connection failed: {ex.Message}. Retrying in 5 seconds...");
-                    await Task.Delay(5000, _cts.Token);
-                }
-            }
+        _ = Register();
+    }
 
-        });
+    async Task Register()
+    {
+        while (_cts != null && _cts.Token.IsCancellationRequested == false)
+        {
+            try
+            {
+                lock (_lock)
+                {
+                    if (_connection.State != HubConnectionState.Disconnected)
+                    {
+                        _logger.WLog($"Connection is in state {_connection.State}, skipping StartAsync.");
+                        return;
+                    }
+                }
+                    
+                _logger.ILog("Attempting to start connection...");
+                await _connection.StartAsync(_cts.Token);
+                OnConnectionUpdated?.Invoke(ConnectionState.Connected);
+                await RegisterNodeAsync();
+                _ = Task.Run(SendNodeStatusAsync, _cts.Token);
+                return; // Exit loop on successful connection
+            }
+            catch (Exception ex)
+            {
+                _logger.WLog($"Connection failed: {ex.Message}. Retrying in 5 seconds...");
+                await Task.Delay(5000, _cts.Token);
+            }
+        }
+
     }
     
     // /// <summary>

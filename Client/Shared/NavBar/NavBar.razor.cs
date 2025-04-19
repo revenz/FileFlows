@@ -103,10 +103,7 @@ public partial class NavBar
         TotalProcessing = feService.Files.Processing.Count;
         TotalFailed = feService.Files.FailedFiles.Count;
         
-        this.LoadMenu();
-        //BottomNavBarItems.Add(new(lblReddit, "fab fa-reddit-alien", "https://reddit.com/r/FileFlows"));
-        //BottomNavBarItems.Add(new(lblDiscord, "fab fa-discord", "https://fileflows.com/discord"));
-        
+        LoadMenu();
 
         OnNotificationsUpdated();
         feService.Notifications.OnNotificationsUpdated += OnNotificationsUpdated;
@@ -158,7 +155,6 @@ public partial class NavBar
     /// <summary>
     /// Called when notifications are updated
     /// </summary>
-    /// <param name="list">the updated notifications</param>
     private void OnNotificationsUpdated()
     {
         var list = feService.Notifications.Notifications;
@@ -179,7 +175,6 @@ public partial class NavBar
         if (TotalUnprocessed == obj.Count)
             return;
         TotalUnprocessed = obj.Count;
-        Logger.Instance.ILog("TotalUnprocessed Updated: " + TotalUnprocessed);
         StateHasChanged();
     }
 
@@ -192,7 +187,6 @@ public partial class NavBar
         if (TotalProcessing == obj.Count)
             return;
         TotalProcessing = obj.Count;
-        Logger.Instance.ILog("TotalProcessing Updated: " + TotalProcessing);
         StateHasChanged();
     }
 
@@ -205,7 +199,6 @@ public partial class NavBar
         if (obj.Total == TotalFailed)
             return;
         TotalFailed = obj.Total;
-        Logger.Instance.ILog("TotalFailed Updated: " + TotalFailed);
         StateHasChanged();
     }
 
@@ -294,12 +287,8 @@ public partial class NavBar
             MenuItems.Add(new ("reporting", Translater.Instant("Pages.Reporting.Title"), "fas fa-chart-bar", "reporting", false));
 
         if (Profile.HasRole(UserRole.Log))
-        {
-            // BottomNavBarItems.Add(new("notifications", Translater.Instant("Pages.Notifications.Title"),
-            //     "fas fa-bullhorn", "notifications"));
             BottomNavBarItems.Add(new("log", Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", "log"));
-        }
-
+     
         var firstConfig = ConfigLayout.GetFirstAvailableItem(Profile);
         if(string.IsNullOrEmpty(firstConfig) == false)
             BottomNavBarItems.Add(new ("config", Translater.Instant("MenuGroups.Config"), "fas fa-cogs", firstConfig));
@@ -308,11 +297,6 @@ public partial class NavBar
         {
             BottomNavBarItems.Add(new ("filedrop", "FileDrop", "fas fa-tint", "/file-drop/general", false));
         }        
-        
-        // if(Profile.Security == SecurityMode.Local)
-        //     BottomNavBarItems.Add(new ("change-password", lblChangePassword, "fas fa-key", "#change-password"));
-        // if(Profile.Security != SecurityMode.Off)
-        //     BottomNavBarItems.Add(new ("logout", lblLogout, "fas fa-unlock", "/logout"));
     }
     
     async Task Click(NavBarItem item)

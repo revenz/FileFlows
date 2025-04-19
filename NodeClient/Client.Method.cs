@@ -193,7 +193,8 @@ public partial class Client
             }
 
             _logger.ILog("About to call RegisterNode on server: " + JsonSerializer.Serialize(parameters));
-            var result = await _connection.InvokeAsync<NodeRegisterResult>("RegisterNode", parameters);
+            _logger.ILog("_connection: " + (_connection == null ? "is null" : "is not null"));
+            var result = await _connection!.InvokeAsync<NodeRegisterResult>("RegisterNode", parameters);
             _logger.ILog("RegisterNode result: " + result.Success);
             
             if (!result.Success)
