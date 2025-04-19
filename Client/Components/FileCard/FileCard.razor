@@ -31,19 +31,6 @@
         }
 
         <img @key="Model.Uid" class="@GetIconClass()" src="@GetIconSource()" />
-        @if (runner?.HasThumbnail == true)
-        {
-            <img @key="Model.Uid" class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.Uid,
-                                                 runner.DisplayName + runner.Extension, runner.IsDirectory)" />
-        }
-        else if (Model.Status is FileStatus.Processed)
-        {
-            <img @key="Model.Uid" id="thumb-@Model.Uid" class="icon thumbnail" src="@GetThumbUrl()" />
-        }
-        else
-        {
-            <img @key="Model.Uid" class="icon" src="@GetExtensionImage()" />
-        }
     </span>
         <div class="center">
             <span class="path">
