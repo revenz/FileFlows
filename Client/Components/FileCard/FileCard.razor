@@ -34,13 +34,13 @@
             <img @key="Model.Uid" class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.Uid,
                                                  runner.DisplayName + runner.Extension, runner.IsDirectory)" />
         }
-        else if (Model.Status is FileStatus.Processed or FileStatus.Processing)
+        else if (Model.Status is FileStatus.Processed)
         {
-            <img @key="Model.Uid" id="thumb-@Model.Uid" class="icon thumbnail" src="@GetThumbUrl()" @onclick="OpenFile"/>
+            <img @key="Model.Uid" id="thumb-@Model.Uid" class="icon thumbnail" src="@GetThumbUrl()" />
         }
         else
         {
-            <img @key="Model.Uid" class="icon" src="@GetExtensionImage()" @onclick="OpenFile"/>
+            <img @key="Model.Uid" class="icon" src="@GetExtensionImage()" />
         }
     </span>
         <div class="center">
