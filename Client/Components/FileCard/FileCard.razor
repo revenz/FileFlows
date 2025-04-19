@@ -29,6 +29,8 @@
                 <i class="fas fa-times-circle" @onclick="() => Cancel(runner)"></i>
             </div>
         }
+
+        <img @key="Model.Uid" class="@GetIconClass()" src="@GetIconSource()" />
         @if (runner?.HasThumbnail == true)
         {
             <img @key="Model.Uid" class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.Uid,
@@ -121,9 +123,8 @@
 
         </div>
 
-        @if (runner != null)
+        @if (runner?.Additional?.Any() == true)
         {
-
             <div class="details">
                 @if (runner.FramesPerSecond > 0)
                 {

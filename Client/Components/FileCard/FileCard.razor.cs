@@ -161,4 +161,37 @@ public partial class FileCard : ComponentBase
             Uids = [runner.Uid]
         });
     }
+
+    /// <summary>
+    /// Gets the icon class
+    /// </summary>
+    /// <returns>the icon class</returns>
+    private string GetIconClass()
+    {
+        var runner = Model as ProcessingLibraryFile;
+        if (runner?.HasThumbnail == true)
+            return "icon thumbnail";
+        if (Model.Status is FileStatus.Processed)
+            return "icon thumbnail";
+        return "icon";
+    }
+
+    /// <summary>
+    /// Gets the icon source
+    /// </summary>
+    /// <returns>the icon source</returns>
+    private string GetIconSource()
+    {
+        var runner = Model as ProcessingLibraryFile;
+        if (runner?.HasThumbnail == true)
+        {
+            return IconHelper.GetThumbnail(runner.Uid,
+                runner.DisplayName + runner.Extension, runner.IsDirectory);
+        }
+
+        if (Model.Status is FileStatus.Processed)
+            return GetThumbUrl();
+        
+        return GetExtensionImage();
+    }
 }
