@@ -149,6 +149,9 @@ public partial class Client : IDisposable
         _ = Register();
     }
 
+    /// <summary>
+    /// Registers the node
+    /// </summary>
     async Task Register()
     {
         while (_cts != null && _cts.Token.IsCancellationRequested == false)
