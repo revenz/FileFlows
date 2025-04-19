@@ -1,0 +1,218 @@
+.file-table-row.in-table {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  grid-template-rows: 1fr auto auto;
+  font-size: 0.9rem;
+  align-items: center;
+  position: relative;
+  margin: 0.25rem 0.5rem;
+  border-radius: var(--container-border-radius);
+  border: solid 1px var(--border-color);
+  overflow: hidden;
+}
+.file-table-row:not(.in-table) {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  grid-template-rows: 1fr auto auto;
+  font-size: 0.9rem;
+  align-items: center;
+  position: relative;
+  margin: 0.5rem;
+  border-radius: var(--container-border-radius);
+  border: solid 1px var(--border-color);
+  overflow: hidden;
+}
+.file-table-row:not(.in-table) + .file-table-row {
+  margin-top: 0.5rem;
+}
+.file-table-row .message {
+  grid-column: 1/3;
+  font-weight: var(--bold, 600);
+  background: var(--danger);
+  padding: 0.25rem 0.75rem;
+  text-align: right;
+}
+.file-table-row .center {
+  flex-direction: column;
+  align-items: unset;
+  display: flex;
+  align-content: center;
+  width: 100%;
+  overflow: hidden;
+  padding: 0.5rem 0;
+}
+.file-table-row .size, .file-table-row .time, .file-table-row .top-right {
+  font-weight: var(--bold, 600);
+  position: absolute;
+  right: 0;
+  padding: 0.5rem;
+  background: rgb(48, 48, 48);
+  width: fit-content;
+}
+.file-table-row .size {
+  bottom: 0;
+  border-top-left-radius: 0.5rem;
+  border-top: solid 1px var(--base);
+  border-left: solid 1px var(--base);
+}
+.file-table-row .top-right {
+  top: 0;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom: solid 1px var(--base);
+  border-left: solid 1px var(--base);
+  padding: 0.25rem 0.5rem !important;
+}
+.file-table-row .overall-progress {
+  background: rgba(255, 255, 255, 0.05);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+.file-table-row .current-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 0.25rem;
+  background: var(--accent-2);
+}
+
+.path {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.path > span {
+  cursor: pointer;
+  position: relative;
+}
+
+.time {
+  width: 8rem;
+  min-width: 8rem;
+  text-align: center;
+}
+.time > span {
+  cursor: pointer;
+  position: relative;
+}
+
+.traits {
+  display: flex;
+  margin-top: 0.5rem;
+}
+.traits .trait {
+  cursor: default;
+  border: solid 1px var(--info);
+  font-size: 0.8rem;
+  font-weight: var(--bold, 600);
+  padding: 0 0.25rem;
+  border-radius: 0.5rem;
+  margin-right: 0.25rem;
+  opacity: 0.75;
+}
+
+.savings {
+  background: rgba(255, 255, 255, 0.05);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.info {
+  display: flex;
+  margin-top: 0.5rem;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
+.icon {
+  position: relative;
+}
+.icon .icon {
+  --icon-size:4rem;
+  height: var(--icon-size);
+  max-height: var(--icon-size);
+  min-height: var(--icon-size);
+  width: var(--icon-size);
+  max-width: var(--icon-size);
+  min-width: var(--icon-size);
+  margin: 1.5rem 1.75rem;
+  overflow: hidden;
+}
+.icon .icon.thumbnail {
+  --icon-size:7rem;
+  object-fit: cover;
+  border-radius: 1rem;
+  margin: 0.5rem 1rem 0.5rem 0.5rem;
+}
+.icon .actions {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 7rem;
+  bottom: 0;
+  display: flex;
+  place-content: center;
+  flex-wrap: wrap;
+  z-index: 1;
+  transition: left 0.15s ease-out;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  align-items: center;
+  background: var(--base-lightest-2);
+  font-size: 1.75rem;
+  align-content: center;
+}
+.icon .actions i {
+  cursor: pointer;
+  opacity: 0.5;
+}
+.icon .actions i:hover {
+  opacity: 1;
+}
+.icon:hover .actions {
+  left: 0;
+}
+
+.steps {
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: var(--bold, 600);
+  border-radius: var(--container-border-radius);
+  width: fit-content;
+  position: absolute;
+  right: 1rem;
+  top: 3.5rem;
+}
+
+.top-right.aborting {
+  background: var(--danger);
+}
+
+.details {
+  grid-column: 1/3;
+  grid-template-columns: repeat(6, auto);
+  padding: 0.5rem 2rem 1rem;
+  border-top: solid 1px var(--border-color);
+  font-size: 0.9rem;
+  display: grid;
+}
+
+.label {
+  font-weight: var(--bold, 600);
+  display: inline-block;
+}
+
+.value {
+  opacity: 0.9;
+}
+
+/*# sourceMappingURL=FileItem.razor.css.map */

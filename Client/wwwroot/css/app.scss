@@ -1548,3 +1548,39 @@ input[type=file]{
         color:var(--accent);
     }
 }
+
+
+.page.library-files
+{
+    .flowtable-body {
+        padding-top:0.5rem;
+        .flowtable-row {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+
+            > span.no-height {
+                padding: 0 !important;
+            }
+
+            .file-table-row {
+                margin: 0.25rem 0.5rem 0.25rem 0.5rem;
+                position: relative;
+            }
+
+            &.selected .file-table-row {
+                border-left-color: var(--accent);
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    width: 0.3rem;
+                    background-color: var(--accent);
+                }
+            }
+        }
+    }
+}

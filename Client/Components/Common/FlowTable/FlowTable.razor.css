@@ -96,54 +96,56 @@
   }
 }
 .flowtable-row {
-  border: solid 1px var(--input-background);
   display: flex;
   flex-direction: row;
   user-select: none;
   position: relative;
   width: 100%;
+}
+.flowtable-row:not(.no-styling) {
+  border: solid 1px var(--input-background);
   padding-left: 0.25rem;
 }
-.flowtable-row:nth-child(odd) {
+.flowtable-row:not(.no-styling):nth-child(odd) {
   background: rgba(255, 255, 255, 0.03);
 }
-.flowtable-row:not(.flowtable-header-row) {
-  border-top-color: transparent;
-  border-right-color: transparent;
-  border-left-color: transparent;
-}
-.flowtable-row:not(.flowtable-header-row):hover {
-  background: var(--base-lighter);
-}
-.flowtable-row.selected {
+.flowtable-row:not(.no-styling).selected {
   border-left: solid 3px var(--accent);
   padding-left: calc(0.25rem - 2px);
   background: var(--base);
 }
-.flowtable-row.disabled ::deep .column > span, .flowtable-row.disabled ::deep .column > div {
-  opacity: 0.5;
+.flowtable-row:not(.no-styling):not(.flowtable-header-row) {
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-left-color: transparent;
 }
-.flowtable-row > span {
+.flowtable-row:not(.no-styling):not(.flowtable-header-row):hover {
+  background: var(--base-lighter);
+}
+.flowtable-row:not(.no-styling) > span {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   height: 2.2rem;
   line-height: 2.2rem;
 }
-.flowtable-row > span:not(.flowtable-select) {
+.flowtable-row:not(.no-styling) > span:not(.flowtable-select) {
   padding-left: 0.5rem;
 }
-.flowtable-row > span.pre-text {
+.flowtable-row:not(.no-styling) > span.pre-text {
   white-space: pre-line;
   height: unset;
   line-height: unset;
   margin: 0.3rem 0;
 }
-.flowtable-row > span.no-height {
+.flowtable-row:not(.no-styling) > span.no-height {
   height: unset;
   line-height: unset;
   margin-bottom: auto;
   padding: 0.25rem 0;
+}
+.flowtable-row.disabled ::deep .column > span, .flowtable-row.disabled ::deep .column > div {
+  opacity: 0.5;
 }
 
 .flowtable-header-row {

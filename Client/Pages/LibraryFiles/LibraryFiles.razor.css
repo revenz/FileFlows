@@ -50,65 +50,12 @@
     visibility: unset;
   }
 }
-.worker-progress.has-current .current-progress {
-  bottom: 0.3rem !important;
-  background: #2b8fb3 !important;
+::deep .flowtable-row {
+  border: unset !important;
+  padding: unset !important;
 }
-.worker-progress.has-current .overall-progress {
-  flex-grow: 1;
-  width: 25%;
-  top: unset;
-  height: 0.2rem;
-}
-
-.flags {
-  margin-right: 0.5rem;
-}
-
-.library-file .center .name span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.library-file .center .name span:first-child:has(+ span) {
-  font-weight: var(--bold, 600);
-}
-.library-file .right {
-  width: 14rem;
-  min-width: 14rem;
-}
-.library-file .right .right-inner {
-  height: 4rem;
-  padding: 1.75rem 0 0 0.5rem;
-}
-
-@media screen and (max-width: 850px) {
-  .library-file .icon {
-    display: none;
-  }
-  .library-file .right {
-    min-width: 8rem;
-    width: 8rem;
-  }
-  .library-file .time, .library-file .node {
-    display: none;
-  }
-}
-@media screen and (max-width: 450px) {
-  .library-file .name {
-    white-space: pre-wrap;
-    --bold:300;
-  }
-  .library-file .info, .library-file .output-path {
-    display: none !important;
-  }
-}
-.file-size {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  font-weight: var(--bold, 600);
+::deep .flowtable-row:hover {
+  background: unset !important;
 }
 
 /*# sourceMappingURL=LibraryFiles.razor.css.map */

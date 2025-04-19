@@ -52,11 +52,10 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     private Guid? SelectedNode, SelectedLibrary, SelectedFlow, SelectedTag;
     private FilesSortBy? SelectedSortBy;
 
-    private string lblSearch, lblDeleteSwitch, lblForcedProcessing, lblReprocessByFlow, lblSortBy, lblNode, lblFlow, lblLibrary, lblTag;
+    private string lblSearch, lblDeleteSwitch, lblSortBy, lblNode, lblFlow, lblLibrary, lblTag;
 
     private string TableIdentifier => "LibraryFiles_" + this.SelectedStatus; 
 
-    private string lblLibraryFiles, lblFileFlowsServer;
     /// <summary>
     /// The total number of items across all pages
     /// </summary>
@@ -92,7 +91,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        Layout.SetInfo(Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-file");
+        Layout.SetInfo(Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-file", pageClass: "library-files");
             
         lblAdd = Translater.Instant("Labels.Add");
         lblEdit = Translater.Instant("Labels.Edit");
@@ -125,10 +124,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     {
         await base.OnInitializedAsync();
         
-        lblForcedProcessing = Translater.Instant("Labels.ForceProcessing");
-        lblReprocessByFlow = Translater.Instant("Enums.FileStatus.ReprocessByFlow");
-        lblLibraryFiles = Translater.Instant("Pages.LibraryFiles.Title");
-        lblFileFlowsServer = Translater.Instant("Pages.Nodes.Labels.FileFlowsServer");
         this.lblSearch = Translater.Instant("Labels.Search");
         this.lblDeleteSwitch = Translater.Instant("Labels.DeleteLibraryFilesPhysicallySwitch");
         lblSortBy = Translater.Instant("Labels.SortBy");

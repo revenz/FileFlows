@@ -80,6 +80,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     private bool _needsRendering = false;
 
     private List<LibraryFileMinimal> UpcomingFiles = [], RecentlyFinished = [], FailedFiles = [];
+    private List<ProcessingLibraryFile> Processing = [];
     private int TotalUpcoming, TotalFinished, TotalFailed, TotalProcessing;
     private bool initialized = false;
     
@@ -118,6 +119,7 @@ public partial class FilesWidget : ComponentBase, IDisposable
     {
         TotalProcessing = info.Count;
         lblProcessing = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = TotalProcessing});
+        Processing = info;
         OptionButtons?.TriggerStateHasChanged();
         StateHasChanged();
     }

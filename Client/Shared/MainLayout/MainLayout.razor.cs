@@ -23,7 +23,7 @@ public partial class MainLayout : LayoutComponentBase
     
     [Inject] private FFLocalStorageService LocalStorage { get; set; }
     
-    private string _Title, _Icon;
+    private string _Title, _Icon, _PageClass;
     private bool _NoPadding;
     
     /// <summary>
@@ -44,11 +44,12 @@ public partial class MainLayout : LayoutComponentBase
     /// <param name="title">the page title</param>
     /// <param name="icon">the page icon</param>
     /// <param name="noPadding">if no padding is applied to the content</param>
-    public void SetInfo(string title, string icon, bool noPadding = false)
+    public void SetInfo(string title, string icon, bool noPadding = false, string? pageClass = null)
     {
         _Title = title;
         _Icon = icon;
         _NoPadding = noPadding;
+        _PageClass = pageClass;
         StateHasChanged();
     }
 

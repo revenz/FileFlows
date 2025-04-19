@@ -14,7 +14,10 @@
     <Body>
     @if (SelectedStatus == FileStatus.Processing)
     {
-        <RunnersComponent />
+        foreach (var file in Processing ?? [])
+        {
+            <FileItem Model="file" />
+        }
     }
     else if (SelectedStatus == FileStatus.Unprocessed && UpcomingFiles.Count == 0)
     {
@@ -25,98 +28,16 @@
     }
     else
     {
-        var (list, total, label, viewMore) = SelectedStatus switch
+        var (list, viewMore) = SelectedStatus switch
         {
-            FileStatus.ProcessingFailed => (FailedFiles, TotalFailed, lblNoFailedFiles, TotalFailed > 50),
-            FileStatus.Unprocessed => (UpcomingFiles, TotalUpcoming, lblNoUpcomingFiles, TotalUpcoming > 50),
-            _ => (RecentlyFinished, TotalFinished, lblNoRecentlyFinishedFiles, TotalFinished > 50)
+            FileStatus.ProcessingFailed => (FailedFiles, TotalFailed > 50),
+            FileStatus.Unprocessed => (UpcomingFiles, TotalUpcoming > 50),
+            _ => (RecentlyFinished, TotalFinished > 50)
         };
         
         foreach (var file in list ?? [])
         {
-            <div class="file-table-row fm-@SelectedStatus.ToString().Kebaberize() 
-                @(file.FailureReason != null ? "has-message" : "no-message")"
-                 @ondblclick="() => OpenFile(file)">
-                @if (SelectedStatus == FileStatus.Processed)
-                {
-                    var percentage = Math.Min(100, (file.FinalSize / (double)file.OriginalSize) * 100);
-                    <div class="savings" style="width: @percentage%"></div>
-                }
-                <span class="icon">
-                    @if (SelectedStatus == FileStatus.Processed)
-                    {
-                        <img id="thumb-@file.Uid" class="icon thumbnail" src="@GetThumbUrl(file)" @onclick="() => OpenFile(file)"/>
-                    }
-                    else
-                    {
-                        <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/>
-                    }
-                </span>
-                <div class="center">
-                    <span class="path">
-                        <span>@file.DisplayName</span>
-                    </span>
-                    <span class="time">
-                        <span>
-                            @DateString(file.Date)
-                        </span>
-                    </span>
-                    @if (SelectedStatus == FileStatus.Processed)
-                    {
-                        @if (file.FinalSize > 0)
-                        {
-                            <span class="size">
-                                @FileSizeFormatter.FormatSize(file.FinalSize)
-                            </span>
-                        }
-
-                        @if (file.Traits?.Any() == true)
-                        {
-                            <div class="traits">
-                                @foreach (var trait in file.Traits)
-                                {
-                                    <span class="trait" @onclick:stopPropagation @onclick:preventDefault>@trait</span>
-                                }
-                            </div>
-                        }
-                    }
-                    
-                    <div class="info">
-                        @if (string.IsNullOrEmpty(file.LibraryName) == false)
-                        {
-                            if (file.LibraryUid == CommonVariables.ManualLibraryUid)
-                            {
-                                <FlowIconValue Icon="library" Value="@lblManualLibrary" ValueUid="@file.LibraryUid"/>
-                            }
-                            else
-                            {
-                                <FlowIconValue Icon="library" Value="@file.LibraryName" ValueUid="@file.LibraryUid"/>
-                            }
-                        }
-                        @if (string.IsNullOrEmpty(file.NodeName) == false)
-                        {
-                            if (file.NodeUid == CommonVariables.InternalNodeUid)
-                            {
-                                <FlowIconValue Icon="node" Value="@lblInternalProcessingNode" ValueUid="@file.NodeUid" />
-                            }
-                            else
-                            {
-                                <FlowIconValue Icon="node" Value="@file.NodeName" ValueUid="@file.NodeUid"/>
-                            }
-                        }
-                        @if (string.IsNullOrEmpty(file.FlowName) == false)
-                        {
-                            <FlowIconValue Icon="flow" Value="@file.FlowName" ValueUid="@file.FlowUid"/>
-                        }
-                    </div>
-                    
-                </div>
-
-                @if (SelectedStatus == FileStatus.ProcessingFailed && string.IsNullOrWhiteSpace(file.FailureReason) == false)
-                {
-                    <div class="message"><span>@file.FailureReason</span></div>
-                }
-            </div>
+            <FileItem Model="file" />
         }
 
         if (viewMore)

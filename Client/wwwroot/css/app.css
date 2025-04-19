@@ -4725,4 +4725,32 @@ hr {
   color: var(--accent);
 }
 
+.page.library-files .flowtable-body {
+  padding-top: 0.5rem;
+}
+.page.library-files .flowtable-body .flowtable-row {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.page.library-files .flowtable-body .flowtable-row > span.no-height {
+  padding: 0 !important;
+}
+.page.library-files .flowtable-body .flowtable-row .file-table-row {
+  margin: 0.25rem 0.5rem 0.25rem 0.5rem;
+  position: relative;
+}
+.page.library-files .flowtable-body .flowtable-row.selected .file-table-row {
+  border-left-color: var(--accent);
+}
+.page.library-files .flowtable-body .flowtable-row.selected .file-table-row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0.3rem;
+  background-color: var(--accent);
+}
+
 /*# sourceMappingURL=app.css.map */
