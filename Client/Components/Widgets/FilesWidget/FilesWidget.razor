@@ -16,7 +16,7 @@
     {
         foreach (var file in Processing ?? [])
         {
-            <FileItem Model="file" />
+            <FileCard Model="file" />
         }
     }
     else if (SelectedStatus == FileStatus.Unprocessed && UpcomingFiles.Count == 0)
@@ -37,7 +37,7 @@
         
         foreach (var file in list ?? [])
         {
-            <FileItem Model="file" />
+            <FileCard Model="file" />
         }
 
         if (viewMore)

@@ -185,10 +185,7 @@ public class PluginScanner : IPluginScanner
                 }
 
                 Logger.Instance.DLog("Plugin.Name: " + plugin.Name);
-                Logger.Instance.DLog("Plugin.PackageName: " + plugin.PackageName);
                 Logger.Instance.DLog("Plugin.Version: " + plugin.Version);
-                Logger.Instance.DLog("Plugin.Url: " + plugin.Url);
-                Logger.Instance.DLog("Plugin.Authors: " + plugin.Authors);
 
                 if (Version.TryParse(pi.Version, out Version? piVersion) && piVersion != null)
                 {
