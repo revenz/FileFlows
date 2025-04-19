@@ -155,18 +155,23 @@ public partial class Client : IDisposable
         {
             try
             {
-                lock (_lock)
-                {
-                    if (_connection.State != HubConnectionState.Disconnected)
+                // lock (_lock)
+                // {
+                    if (_connection.State == HubConnectionState.Disconnected)
                     {
-                        _logger.WLog($"Connection is in state {_connection.State}, skipping StartAsync.");
-                        return;
+                        _logger.ILog("Attempting to start connection...");
+                        await _connection.StartAsync(_cts.Token);
+                        OnConnectionUpdated?.Invoke(ConnectionState.Connected);
+                        //_logger.WLog($"Connection is in state {_connection.State}, skipping StartAsync.");
+                        //return;
                     }
+                //}
+                if (await AwaitConnection() == false)
+                {
+                    await Task.Delay(5000);
+                    continue;
                 }
                     
-                _logger.ILog("Attempting to start connection...");
-                await _connection.StartAsync(_cts.Token);
-                OnConnectionUpdated?.Invoke(ConnectionState.Connected);
                 await RegisterNodeAsync();
                 _ = Task.Run(SendNodeStatusAsync, _cts.Token);
                 return; // Exit loop on successful connection
