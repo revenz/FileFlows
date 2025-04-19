@@ -50,13 +50,16 @@ public class Client : IDisposable
     /// </summary>
     public ProcessingNode? Node => Connection.Node;
 
-    private ClientParameters _parameters;
+    private bool _nodeStatusStarted;
+
+    private readonly ClientParameters _parameters;
     private bool _updatingConfiguration = false;
 
     private readonly SemaphoreSlim _configurationSemaphore = new SemaphoreSlim(1, 1);
 
     private CancellationTokenSource _delayCts = new();
     private CancellationTokenSource _logSyncCts = new();
+    private bool Disposed = false;
 
 
     /// <summary>
@@ -113,6 +116,8 @@ public class Client : IDisposable
             Task.Run(() => UpdateConfiguration(Connection.ServerConfigRevision));
         }
 
+        SendNodeStatusAsync();
+
         TriggerLogSync();
     }
 
@@ -140,7 +145,16 @@ public class Client : IDisposable
     /// Disposes the client, ensuring all resources are properly cleaned up.
     /// </summary>
     public void Dispose()
-        => Connection.Dispose();
+    {
+        Disposed = true;
+        if (_delayCts != null)
+        {
+            _delayCts.Cancel();
+            _delayCts.Dispose();
+        }
+
+        Connection.Dispose();
+    }
 
     /// <summary>
     /// Called when the configuration has to be updated
@@ -290,14 +304,25 @@ public class Client : IDisposable
     /// <summary>
     /// Sends a update to the server about this node
     /// </summary>
-    private async Task SendNodeStatusAsync()
+    private void SendNodeStatusAsync()
     {
-        _ = SyncLog();
-        while (true)
+        if (_nodeStatusStarted)
+            return;
+        
+        _nodeStatusStarted = true;
+        _ = Task.Run(async () =>
         {
-            try
+
+            _ = SyncLog();
+            while (Disposed == false)
             {
-                if (await Connection.AwaitConnection() && Connection.Node is { } node)
+                if (await Connection.AwaitConnection() == false || Connection.Node is { } node == false)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(5), _delayCts.Token);
+                    continue;
+                }
+
+                try
                 {
                     var info = new
                     {
@@ -325,25 +350,21 @@ public class Client : IDisposable
 
                     _logger.DLog("Node Status Update Result: " + result);
                 }
-                else if (Connection.Node != null)
+                catch (Exception ex)
                 {
-                    _logger.WLog("Cannot send not status update node is not connected to server");
+                    _logger.ELog($"Error sending node status: {ex.Message}");
+                }
+
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(10), _delayCts.Token);
+                }
+                catch (TaskCanceledException)
+                {
+                    // Task.Delay was interrupted, continue immediately
                 }
             }
-            catch (Exception ex)
-            {
-                _logger.ELog($"Error sending node status: {ex.Message}");
-            }
-
-            try
-            {
-                await Task.Delay(TimeSpan.FromSeconds(10), _delayCts.Token);
-            }
-            catch (TaskCanceledException)
-            {
-                // Task.Delay was interrupted, continue immediately
-            }
-        }
+        });
     }
 
     /// <summary>
