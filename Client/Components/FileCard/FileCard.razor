@@ -34,7 +34,7 @@
             <img @key="Model.Uid" class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.Uid,
                                                  runner.DisplayName + runner.Extension, runner.IsDirectory)" />
         }
-        e;se if (Model.Status is FileStatus.Processed or FileStatus.Processing)
+        else if (Model.Status is FileStatus.Processed or FileStatus.Processing)
         {
             <img @key="Model.Uid" id="thumb-@Model.Uid" class="icon thumbnail" src="@GetThumbUrl()" @onclick="OpenFile"/>
         }
