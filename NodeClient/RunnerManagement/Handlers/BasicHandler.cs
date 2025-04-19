@@ -10,7 +10,7 @@ namespace FileFlows.NodeClient.Handlers;
 public class BasicHandler
 {
     private JsonRpcServer rpcServer;
-    private Client _client;
+    private ClientConnection _client;
 
     /// <summary>
     /// Constructs a new instance of the Basic Handler
@@ -20,7 +20,7 @@ public class BasicHandler
     public BasicHandler(JsonRpcServer rpcServer, RpcRegister rpcRegister)
     {
         this.rpcServer = rpcServer;
-        _client = rpcServer._client;
+        _client = rpcServer._client.Connection;
         #if(DEBUG)
         rpcRegister.Register(nameof(LogMessage), LogMessage);
         #endif
@@ -43,24 +43,32 @@ public class BasicHandler
     /// <returns>the node executing this runner</returns>
     public ProcessingNode GetNode()
         => rpcServer._client.Node!;
-    
-    
+
+
     /// <summary>
     /// Sends an email to the provided recipients
     /// </summary>
     /// <param name="model">the email model</param>
     /// <returns>true if successfully sent, otherwise false</returns>
     public async Task<string> SendEmail(EmailModel model)
-        => await _client.InvokeAsync<string>(nameof(SendEmail), model.To, model.Subject, model.Body);
-        
+    {
+        if(await _client.AwaitConnection() == false)
+            throw new Exception("Not connected to server.");
+        return await _client.InvokeAsync<string>(nameof(SendEmail), model.To, model.Subject, model.Body);
+    }
+
     /// <summary>
     /// Records a new notification with the specified severity, title, and message.
     /// </summary>
     /// <param name="model">the notification model</param>
     public void RecordNotification(RecordNotificationModel model)
-        => _ = _client.InvokeAsync<string>(nameof(RecordNotification), model.Severity, model.Title, model.Message);
-    
-    #if(DEBUG)
+    {
+        if(_client.AwaitConnection().GetAwaiter().GetResult() == false)
+            return;
+        _ = _client.InvokeAsync<string>(nameof(RecordNotification), model.Severity, model.Title, model.Message);
+    }
+
+#if(DEBUG)
     /// <summary>
     /// Logs a message
     /// </summary>

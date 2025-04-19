@@ -8,7 +8,7 @@ namespace FileFlows.NodeClient.Handlers;
 public class CacheHandler
 {
     private JsonRpcServer rpcServer;
-    private HubConnection _connection;
+    private ClientConnection _connection;
 
     /// <summary>
     /// Constructs a new instance of the handler
@@ -18,7 +18,7 @@ public class CacheHandler
     public CacheHandler(JsonRpcServer rpcServer, RpcRegister rpcRegister)
     {
         this.rpcServer = rpcServer;
-        _connection = rpcServer._client._connection;
+        _connection = rpcServer._client.Connection;
         rpcRegister.Register<string, string>(nameof(GetJsonAsync), GetJsonAsync);
         rpcRegister.Register<StoreJsonModel>(nameof(StoreJsonAsync), StoreJsonAsync);
     }
@@ -28,8 +28,12 @@ public class CacheHandler
     /// </summary>
     /// <param name="key">The cache key.</param>
     /// <returns>A task representing the asynchronous operation, containing the JSON string if found; otherwise, <c>null</c>.</returns>
-    public Task<string> GetJsonAsync(string key)
-        => _connection.InvokeAsync<string>("Cache" + nameof(GetJsonAsync), key);
+    public async Task<string> GetJsonAsync(string key)
+    {
+        if(await _connection.AwaitConnection() == false)
+            return string.Empty;
+        return await _connection.InvokeAsync<string>("Cache" + nameof(GetJsonAsync), key);
+    }
 
     /// <summary>
     /// Stores a JSON string in the cache with an optional expiration time.
@@ -37,7 +41,11 @@ public class CacheHandler
     /// <param name="model">the model of the data</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     public void StoreJsonAsync(StoreJsonModel model)
-        => _ = _connection.SendAsync("Cache" + nameof(StoreJsonAsync), model.Key, model.Json, model.Expiration);
+    {
+        if(_connection.AwaitConnection().GetAwaiter().GetResult() == false)
+            return;
+        _ = _connection.SendAsync("Cache" + nameof(StoreJsonAsync), model.Key, model.Json, model.Expiration);
+    }
 
     /// <summary>
     /// Running total model

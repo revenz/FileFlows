@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using FileFlows.Common;
 using FileFlows.Helpers;
@@ -9,6 +8,7 @@ using FileFlows.ServerShared.Services;
 using FileFlows.Shared;
 using FileFlows.Shared.Models;
 using FileFlows.Shared.Models.SignalAre;
+using FileFlows.Plugin;
 using Microsoft.AspNetCore.SignalR.Client;
 using ILogger = FileFlows.Common.ILogger;
 
@@ -17,28 +17,11 @@ namespace FileFlows.NodeClient;
 /// <summary>
 /// SignalR Node Client for connecting to the server.
 /// </summary>
-public partial class Client : IDisposable
+public class Client : IDisposable
 {
-    private readonly object _lock = new(); 
-    private readonly RetryPolicyLoop _retryPolicyLoop; 
     private readonly ConfigurationService _configurationService;
     private readonly ILogger _logger;
-    private CancellationTokenSource _cts;
     
-    private TaskCompletionSource<bool> _registrationCompletion = new(TaskCreationOptions.RunContinuationsAsynchronously);
-    internal readonly HubConnection _connection;
-    private bool _disposed;
-
-    /// <summary>
-    /// Connection updated event
-    /// </summary>
-    public delegate void ConnectionUpdated(ConnectionState state);
-    
-    /// <summary>
-    /// Event fired when connection state changes
-    /// </summary>
-    public event ConnectionUpdated OnConnectionUpdated;
-
     /// <summary>
     /// If DockerMods are installing
     /// </summary>
@@ -48,6 +31,33 @@ public partial class Client : IDisposable
     /// The name of the DockerMod being installed
     /// </summary>
     private string _InstallingDockerMod;
+
+    /// <summary>
+    /// The client connection to the server
+    /// </summary>
+    public ClientConnection Connection { get; init; }
+    
+    private readonly string _hostname;
+    private readonly RunnerManager _runnerManager;
+
+    /// <summary>
+    /// Gets the runner manager
+    /// </summary>
+    public RunnerManager Manager => _runnerManager;
+
+    /// <summary>
+    /// Gets the node
+    /// </summary>
+    public ProcessingNode? Node => Connection.Node;
+
+    private ClientParameters _parameters;
+    private bool _updatingConfiguration = false;
+
+    private readonly SemaphoreSlim _configurationSemaphore = new SemaphoreSlim(1, 1);
+
+    private CancellationTokenSource _delayCts = new();
+    private CancellationTokenSource _logSyncCts = new();
+
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Client"/> class.
@@ -65,8 +75,14 @@ public partial class Client : IDisposable
         _runnerManager = ServiceLoader.Load<RunnerManager>();
         _runnerManager.RunnerUpdated += OnRunnerUpdated;
         _runnerManager.Logger = _logger;
-        _retryPolicyLoop = new RetryPolicyLoop(logger);
-        _cts = new CancellationTokenSource();
+
+        Connection = new(logger, parameters.ServerUrl, parameters.AccessToken, GetRegisterParameters);
+
+
+        Connection.FileCheckHandler = HandleClientProcessFile;
+        Connection.AbortFileHandler = AbortFile;
+        Connection.ConfigurationUpdated += (revision) => _ = UpdateConfiguration(revision);
+        Connection.Connected += ConnectionOnConnected;
         
         EventManager.Subscribe("InstallingDockerMods", (bool installing) =>
         {
@@ -78,50 +94,26 @@ public partial class Client : IDisposable
             _InstallingDockerMod = dockerMod;
             TriggerStatusUpdate();
         });
+    }
 
-        parameters.ServerUrl = parameters.ServerUrl.Replace("http:", "ws:").Replace("https:", "wss:").TrimEnd('/');
-
-        _connection = new HubConnectionBuilder()
-            .WithUrl($"{parameters.ServerUrl}/node", options =>
-            {
-                if (string.IsNullOrWhiteSpace(parameters.AccessToken) == false)
-                    options.Headers.Add("Authorization", parameters.AccessToken);
-            })
-            .WithKeepAliveInterval(TimeSpan.FromSeconds(10))
-            .WithAutomaticReconnect(_retryPolicyLoop)
-            .Build();
-
-        _connection.On<RunFileArguments, FileCheckResult>("ClientProcessFile", HandleClientProcessFile);
-        _connection.On<ProcessingNode>("NodeUpdated", UpdateNode);
-        _connection.On<int>("ConfigUpdated", UpdateConfiguration);
-        _connection.On<Guid, bool>("AbortFile", AbortFile);
-
-        _connection.Reconnecting += error =>
+    
+    /// <summary>
+    /// Connection established and node registered
+    /// </summary>
+    private void ConnectionOnConnected()
+    {
+        if (Connection.ServerVersion != Globals.Version)
         {
-            _logger.WLog("Connection lost, attempting to reconnect...");
-            OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
-            _registrationCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            return Task.CompletedTask;
-        };
-
-        _connection.Reconnected += async connectionId =>
+            _logger.ILog(
+                $"Server version '{Connection.ServerVersion}' does not match node version '{Globals.Version}'");
+            EventManager.Broadcast("NodeVersionMismatch", Connection.ServerVersion);
+        }
+        else if (Connection.Node!.Enabled && Connection.ServerConfigRevision != _configurationService.CurrentConfig?.Revision)
         {
-            _logger.ILog("Reconnected, registering node...");
-            OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-            _ = Register();
-            _retryPolicyLoop.ResetBackoff();
-        };
+            Task.Run(() => UpdateConfiguration(Connection.ServerConfigRevision));
+        }
 
-        _connection.Closed += error =>
-        {
-            _logger.WLog("Connection closed.");
-            OnConnectionUpdated?.Invoke(ConnectionState.Disconnected);
-            _registrationCompletion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            _retryPolicyLoop.ResetBackoff();
-            return Task.CompletedTask;
-        };
-
-        // _ = TryStartConnectionAsync();
+        TriggerLogSync();
     }
 
 
@@ -134,218 +126,416 @@ public partial class Client : IDisposable
     /// <summary>
     /// Attempts to start the connection and retry if it fails initially.
     /// </summary>
-    public async Task Start()
-    {
-        if (_cts != null)
-        {
-            await _cts.CancelAsync();
-            _cts.Dispose();
-        }
-
-        _cts = new();
-        
-        OnConnectionUpdated?.Invoke(ConnectionState.Connecting);
-
-        _ = Register();
-    }
-
-    /// <summary>
-    /// Registers the node
-    /// </summary>
-    async Task Register()
-    {
-        while (_cts != null && _cts.Token.IsCancellationRequested == false)
-        {
-            try
-            {
-                // lock (_lock)
-                // {
-                    if (_connection.State == HubConnectionState.Disconnected)
-                    {
-                        _logger.ILog("Attempting to start connection...");
-                        await _connection.StartAsync(_cts.Token);
-                        OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-                        //_logger.WLog($"Connection is in state {_connection.State}, skipping StartAsync.");
-                        //return;
-                    }
-                //}
-                if (await AwaitConnection() == false)
-                {
-                    await Task.Delay(5000);
-                    continue;
-                }
-
-                if (await RegisterNodeAsync() == false)
-                {
-                    await Task.Delay(5000);
-                    continue;
-                }
-                
-                _ = Task.Run(SendNodeStatusAsync, _cts.Token);
-                return; // Exit loop on successful connection
-            }
-            catch (Exception ex)
-            {
-                _logger.WLog($"Connection failed: {ex.Message}. Retrying in 5 seconds...");
-                await Task.Delay(5000, _cts.Token);
-            }
-        }
-
-    }
+    public void Start()
+        => Connection.Start();
     
-    // /// <summary>
-    // /// Starts the connection and attempts to register the node once connected.
-    // /// </summary>
-    // public async Task StartAsync()
-    // {
-    //     _logger.ILog($"Starting client... (Connection {_connection.State})");
-    //     try
-    //     {
-    //         if(_connection.State == HubConnectionState.Disconnected)
-    //             await _connection.StartAsync(_cts.Token);
-    //         _logger.ILog($"Starting client 2... (Connection {_connection.State})");
-    //         int count = 0;
-    //         while (_connection.State == HubConnectionState.Connecting && ++count < 20)
-    //             await Task.Delay(100);
-    //         if (_connection.State == HubConnectionState.Connected)
-    //         {
-    //             OnConnectionUpdated?.Invoke(ConnectionState.Connected);
-    //             await RegisterNodeAsync();
-    //         }
-    //
-    //         _ = Task.Run(SendNodeStatusAsync, _cts.Token);
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         _logger.WLog($"Failed to start connection: {ex.Message}");
-    //     }
-    // }
 
     /// <summary>
     /// Stops the connection and unregisters the node.
     /// </summary>
     public async Task StopAsync()
-    {
-        if (_disposed)
-            return;
-
-        try
-        {
-            if (IsRegistered)
-            {
-                _logger.ILog("Unregistering node...");
-                await _connection.InvokeAsync("UnregisterNode", _nodeUid);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.WLog($"Failed to unregister node: {ex.Message}");
-        }
-
-        try
-        {
-            _logger.ILog("Stopping connection...");
-            await _connection.StopAsync();
-        }
-        catch (Exception ex)
-        {
-            _logger.WLog($"Failed to stop connection: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// Ensures the node is registered before proceeding.
-    /// </summary>
-    /// <returns>true if registered, otherwise false</returns>
-    public async Task<bool> EnsureRegisteredAsync(TimeSpan? timeOut = null)
-    {
-        if (IsRegistered == false)
-        {
-            _logger.ILog("Waiting for registration...");
-            try
-            {
-                var toyTask = Task.Delay(timeOut ?? TimeSpan.FromSeconds(60), CancellationToken.None);
-                await Task.WhenAny(_registrationCompletion.Task, toyTask);
-            }
-            catch(Exception)
-            {
-                
-                // Ignored
-            }
-        }
-        return IsRegistered;
-    }
+        => await Connection.StopAsync();
 
     /// <summary>
     /// Disposes the client, ensuring all resources are properly cleaned up.
     /// </summary>
     public void Dispose()
+        => Connection.Dispose();
+
+    /// <summary>
+    /// Called when the configuration has to be updated
+    /// </summary>
+    /// <param name="revision">the revision on the server</param>
+    private async Task UpdateConfiguration(int revision)
     {
-        if (_disposed)
+        if (Connection.Node?.Enabled != true)
+            return;
+        const string prefix = "UpdateConfiguration:";
+        _logger.ILog($"{prefix} Update Configuration to '{revision}' requested");
+
+        if (_configurationService.CurrentConfig?.Revision >= revision)
+        {
+            _logger.ILog(
+                $"{prefix} Configuration already updated to '{_configurationService.CurrentConfig?.Revision}'");
+            return; // already up to date
+        }
+
+        await UpdateConfiguration();
+    }
+
+    /// <summary>
+    /// Called when the configuration has to be updated
+    /// </summary>
+    public async Task UpdateConfiguration()
+    {
+        if (_updatingConfiguration)
             return;
 
-        lock (_lock)
+        const string prefix = "UpdateConfiguration:";
+        _logger.ILog($"{prefix} Updating configuration");
+        if (Connection.Node == null)
         {
-            if (_disposed)
-                return;
-            
-            _disposed = true;
-            _logger.ILog("Disposing client...");
+            _logger.ILog($"{prefix} Updating configuration: Node is null");
+            return;
+        }
 
+        if (await _configurationSemaphore.WaitAsync(1_000) == false)
+        {
+            _logger.ILog($"{prefix} Failed to acquire configuration update semaphore, already updating.");
+            return;
+        }
+
+        try
+        {
+            _updatingConfiguration = true;
+            TriggerStatusUpdate();
+            _logger.ILog($"{prefix} Updating configuration...");
+            using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            var cfg = await Connection.InvokeAsync<ConfigurationRevision>("GetConfiguration", cts2.Token);
+
+            if (cfg != null && _configurationService.CurrentConfig?.Revision != cfg.Revision && Connection.Node is {} node)
+            {
+                await _configurationService.SaveConfiguration(cfg, node);
+                _logger.ILog($"{prefix} Configuration updated");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Ignore
+            _logger.WLog($"{prefix} Failed to update: {ex}");
+        }
+        finally
+        {
+            _updatingConfiguration = false;
+            _configurationSemaphore.Release();
+        }
+
+        TriggerStatusUpdate();
+    }
+
+    /// <summary>
+    /// Gets the register parameters
+    /// </summary>
+    /// <returns>the register parameters</returns>
+    private NodeRegisterParameters GetRegisterParameters()
+    {
+        string path = DirectoryHelper.BaseDirectory;
+
+        bool windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+        List<RegisterModelMapping> mappings = new List<RegisterModelMapping>
+        {
+            new()
+            {
+                Server = "ffmpeg",
+                Local = Globals.IsDocker ? "/usr/local/bin/ffmpeg" :
+                    windows ? Path.Combine(path, "Tools", "ffmpeg.exe") : "/usr/local/bin/ffmpeg"
+            }
+        };
+        if (_parameters.EnvironmentalMappings?.Any() == true)
+        {
+            _logger.ILog("Environmental mappings found, adding those");
+            mappings.AddRange(_parameters.EnvironmentalMappings);
+        }
+
+        string tempPath = _parameters.ForcedTempPath?.EmptyAsNull()
+                          ?? (Globals.IsDocker ? "/temp" : Path.Combine(DirectoryHelper.BaseDirectory, "Temp"));
+
+        HardwareInfo? hardwareInfo = null;
+        try
+        {
+            hardwareInfo = ServiceLoader.Load<HardwareInfoService>().GetHardwareInfo();
+            _logger.ILog("Hardware Info: " + Environment.NewLine + hardwareInfo);
+        }
+        catch (Exception ex)
+        {
+            _logger.ELog("Failed to get hardware info: " + ex.Message);
+        }
+
+        var parameters = new NodeRegisterParameters()
+        {
+            Hostname = _hostname,
+            ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
+            HardwareInfo = hardwareInfo,
+            TempPath = tempPath,
+            Version = Globals.Version,
+            Mappings = mappings.Select(x => new KeyValuePair<string, string>(x.Server, x.Local)).ToList(),
+            Architecture = RuntimeInformation.ProcessArchitecture == Architecture.Arm ? ArchitectureType.Arm32 :
+                RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? ArchitectureType.Arm64 :
+                RuntimeInformation.ProcessArchitecture == Architecture.Arm ? ArchitectureType.Arm64 :
+                RuntimeInformation.ProcessArchitecture == Architecture.X64 ? ArchitectureType.x64 :
+                RuntimeInformation.ProcessArchitecture == Architecture.X86 ? ArchitectureType.x86 :
+                IntPtr.Size == 8 ? ArchitectureType.x64 :
+                IntPtr.Size == 4 ? ArchitectureType.x86 :
+                ArchitectureType.Unknown,
+            OperatingSystem = Globals.IsDocker ? OperatingSystemType.Docker :
+                Globals.IsWindows ? OperatingSystemType.Windows :
+                Globals.IsLinux ? OperatingSystemType.Linux :
+                Globals.IsMac ? OperatingSystemType.Mac :
+                Globals.IsFreeBsd ? OperatingSystemType.FreeBsd :
+                OperatingSystemType.Unknown,
+            ActiveRunners = _runnerManager?.ActiveRunners?.Keys?.ToArray() ?? []
+        };
+        return parameters;
+    }
+
+    /// <summary>
+    /// Aborts a file
+    /// </summary>
+    /// <param name="uid">the UID of the file to abort</param>
+    /// <returns>true if the runner was requested to cancel</returns>
+    private async Task<bool> AbortFile(Guid uid)
+        => await _runnerManager.AbortRunner(uid);
+
+    /// <summary>
+    /// Sends a update to the server about this node
+    /// </summary>
+    private async Task SendNodeStatusAsync()
+    {
+        _ = SyncLog();
+        while (true)
+        {
             try
             {
-                _cts.Cancel();
-                StopAsync().GetAwaiter().GetResult();
+                if (await Connection.AwaitConnection() && Connection.Node is { } node)
+                {
+                    var info = new
+                    {
+                        Name = node.Name?.EmptyAsNull() ?? _hostname,
+                        NodeUid = node.Uid,
+                        ConfigRevision = _configurationService.CurrentConfig?.Revision ?? 0,
+                        NodeVersion = Globals.Version,
+                        UpdatingConfiguration = _updatingConfiguration,
+                        InstallingDockerMods = _InstallingDockerMods,
+                        InstallingDockerMod = _InstallingDockerMods ? _InstallingDockerMod?.EmptyAsNull() : null,
+                        Runners = _runnerManager.ActiveRunners
+                            .Where(x =>
+                                x.Value.FinishedProcessing == false &&
+                                // x.Value.IsRunning && 
+                                x.Value.Info.LibraryFile != null)
+                            .ToDictionary(x => x.Key, x => x.Value.Info),
+                    };
+                    var result = await Connection.InvokeAsync<NodeStatusUpdateResult>("UpdateNodeStatus", info);
+
+                    if (result == NodeStatusUpdateResult.UpdateConfiguration)
+                    {
+                        _logger.ILog($"Configuration out of date for {(node.Name?.EmptyAsNull() ?? _hostname)}");
+                        _ = UpdateConfiguration(); // do not await this, as this could cause the node to stop sending updates
+                    }
+
+                    _logger.DLog("Node Status Update Result: " + result);
+                }
+                else if (Connection.Node != null)
+                {
+                    _logger.WLog("Cannot send not status update node is not connected to server");
+                }
             }
             catch (Exception ex)
             {
-                _logger.WLog($"Exception during disposal: {ex.Message}");
-            }
-            finally
-            {
-                _cts.Dispose();
-                _connection.DisposeAsync().GetAwaiter().GetResult();
+                _logger.ELog($"Error sending node status: {ex.Message}");
             }
 
-            // Unsubscribe event handlers to prevent memory leaks
-            if (OnConnectionUpdated != null)
+            try
             {
-                foreach (var listener in OnConnectionUpdated.GetInvocationList())
-                {
-                    OnConnectionUpdated -= (ConnectionUpdated)listener;
-                }
+                await Task.Delay(TimeSpan.FromSeconds(10), _delayCts.Token);
+            }
+            catch (TaskCanceledException)
+            {
+                // Task.Delay was interrupted, continue immediately
             }
         }
     }
 
     /// <summary>
-    /// Awaits the connection 
+    /// Syncs the node log with the server
     /// </summary>
-    /// <param name="timeoutInSeconds">time in seconds to wait for connection</param>
-    /// <returns>true if connected, otherwise false if timed out</returns>
-    public async Task<bool> AwaitConnection(int timeoutInSeconds = 60)
+    private async Task SyncLog()
     {
-        if (_disposed)
-            return false;
-
-        var end = DateTime.Now.AddSeconds(timeoutInSeconds);
-        bool delayed = false;
-
-        while (DateTime.Now < end)
+        while (true)
         {
-            if (_connection.State == HubConnectionState.Connected)
+            try
             {
-                if(delayed)
-                    _logger.ILog("Await Connection is connected");
-                return true;
+                if (await Connection.AwaitConnection() == false)
+                {
+                    await Task.Delay(TimeSpan.FromMinutes(5), _logSyncCts.Token);
+                    continue;
+                }
+
+                var node = Connection.Node;
+                if (node == null)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+                    continue;
+                }
+
+                if (node.Uid == CommonVariables.InternalNodeUid)
+                    return; // we dont sync this log
+
+                if (Logger.Instance.TryGetLogger(out FileLogger logger))
+                {
+                    var file = logger.GetLogFilename();
+                    if (File.Exists(file))
+                    {
+                        var log = await File.ReadAllTextAsync(file);
+                        if (string.IsNullOrWhiteSpace(log) == false)
+                        {
+                            var compressed = Gzipper.CompressToBytes(log);
+                            await Connection.InvokeAsync("SyncLog", node.Uid, compressed);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // Ignore
             }
 
-            await Task.Delay(250);
-            delayed = true;
+            try
+            {
+                await Task.Delay(TimeSpan.FromMinutes(60), _logSyncCts.Token);
+            }
+            catch (TaskCanceledException)
+            {
+                // Task.Delay was interrupted, continue immediately
+            }
+        }
+    }
+
+    /// <summary>
+    /// Triggers an immediate node status update.
+    /// </summary>
+    public void TriggerStatusUpdate()
+    {
+        try
+        {
+            _delayCts.Cancel(); // Cancels the current delay
+            _delayCts.Dispose();
+            _delayCts = new CancellationTokenSource(); // Reset for the next delay
+        }
+        catch (Exception)
+        {
+            // Ignored
+        }
+    }
+
+    /// <summary>
+    /// Triggers an immediate node status update.
+    /// </summary>
+    private void TriggerLogSync()
+    {
+        try
+        {
+            _logSyncCts.Cancel(); // Cancels the current delay
+            _logSyncCts.Dispose();
+            _logSyncCts = new CancellationTokenSource(); // Reset for the next delay
+        }
+        catch (Exception)
+        {
+            // Ignored
+        }
+    }
+
+    private async Task<FileCheckResult> HandleClientProcessFile(RunFileArguments args)
+    {
+        //_logger.ILog("Handling process file request...");
+        try
+        {
+            //_logger.ILog($"Trying to start runner for: {args.LibraryFile.Name}");
+            var result = await _runnerManager.TryStartRunner(this, args, Connection.Node!, _configurationService.CurrentConfig!);
+            //_logger.ILog($"Process file result: {result}");
+            if (result == FileCheckResult.CanProcess)
+                TriggerStatusUpdate();
+            else if (_runnerManager.ActiveRunners.ContainsKey(args.LibraryFile.Uid))
+                _runnerManager.ActiveRunners.Remove(args.LibraryFile.Uid);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.ELog($"Error processing file: {ex.Message}");
+            return FileCheckResult.UnknownError;
+        }
+    }
+
+    /// <summary>
+    /// Starts processing a file
+    /// </summary>
+    /// <param name="libraryFile">the library file</param>
+    /// <returns>true if could start processing</returns>
+    public async Task<bool> FileStartProcessing(LibraryFile libraryFile)
+    {
+        int count = 0;
+        while (++count < 60)
+        {
+            try
+            {
+                var node = Connection.Node;
+                if (node != null)
+                {
+                    return await Connection.InvokeAsync<bool>("FileStartProcessing", libraryFile, new ObjectReference()
+                    {
+                        Uid = node.Uid,
+                        Name = node.Name,
+                        Type = node.GetType().FullName!
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.WLog(
+                    $"Failed to notify file '{libraryFile.RelativePath}' started processing[{count}]: {ex.Message}");
+            }
+
+            await Task.Delay(500);
         }
 
-        _logger.WLog("Failed to await connection");
         return false;
-
     }
+
+    /// <summary>
+    /// Called when the file finishes processing
+    /// </summary>
+    /// <param name="libraryFile">the library file</param>
+    /// <param name="log">the complete log of the file processing</param>
+    public async Task FileFinishProcessing(LibraryFile libraryFile, string log)
+    {
+        int count = 0;
+        while (++count < 10)
+        {
+            try
+            {
+                if (await Connection.AwaitConnection() == false)
+                {
+                    _logger.WLog("Failed to connect to notify file finished. Attempt: " + count);
+                    continue;
+                }
+
+                var result = await Connection.InvokeAsync<bool>("FileFinishProcessing", libraryFile, log);
+                if (result)
+                    return;
+            }
+            catch (Exception ex)
+            {
+                _logger.WLog(
+                    $"Failed to notify file '{libraryFile.RelativePath}' finished processing[{count}]: {ex.Message}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Prepends the text to the log file on the server
+    /// </summary>
+    /// <param name="libFileUid">the UID of the file</param>
+    /// <param name="lines">the lines of the log</param>
+    /// <param name="overwrite">if the file should be overwritten or appended to</param>
+    public async Task FileLogAppend(Guid libFileUid, string lines, bool overwrite = false)
+        => await Connection.SendAsync(nameof(FileLogAppend), libFileUid, lines, overwrite);
+
+    /// <summary>
+    /// Sends a log message to the server
+    /// </summary>
+    /// <param name="messages">the messages being logged</param>
+    public async Task Log(string[] messages)
+        => await Connection.SendAsync(nameof(Log),
+            Connection.Node?.Address?.EmptyAsNull() ?? Connection.Node?.Name?.EmptyAsNull() ?? Environment.MachineName, messages);
+
 }

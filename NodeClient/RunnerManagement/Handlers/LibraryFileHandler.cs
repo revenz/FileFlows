@@ -7,11 +7,11 @@ namespace FileFlows.NodeClient.Handlers;
 public class LibraryFileHandler
 {
     private JsonRpcServer rpcServer;
-    private Client _client;
+    private ClientConnection _client;
     public LibraryFileHandler(JsonRpcServer rpcServer, RpcRegister rpcRegister)
     {
         this.rpcServer = rpcServer;
-        _client = rpcServer._client;
+        _client = rpcServer._client.Connection;
         rpcRegister.Register<LibraryFile>(nameof(UpdateLibraryFile), UpdateLibraryFile);
         rpcRegister.Register(nameof(LibraryIgnorePath), LibraryIgnorePath);
         // rpcRegister.Register(nameof(DeleteLibraryFile), DeleteLibraryFile);
@@ -31,13 +31,17 @@ public class LibraryFileHandler
             // Ignored
         }
     }
+
     /// <summary>
     /// Tells the server to ignore the specified path when scanning
     /// </summary>
     /// <param name="path">the Path to ignore</param>
     public async Task LibraryIgnorePath(string path)
-        => await _client.SendAsync("LibraryIgnorePath", path);
-    
+    {
+        if(await _client.AwaitConnection())
+            await _client.SendAsync("LibraryIgnorePath", path);
+    }
+
 
     // public void DeleteLibraryFile(Guid uid)
     // {
@@ -50,7 +54,11 @@ public class LibraryFileHandler
     /// <param name="model">The model</param>
     /// <returns>true if exists otherwise false</returns>
     public async Task<bool> ExistsOnServer(ExistsOnServerModel model)
-        => await _client.InvokeAsync<bool>(nameof(ExistsOnServer), model.Path, model.IsDirectory);
+    {
+        if(await _client.AwaitConnection())
+            return await _client.InvokeAsync<bool>(nameof(ExistsOnServer), model.Path, model.IsDirectory);
+        return false;
+    }
 
     /// <summary>
     /// Sets a thumbnail for a file
@@ -59,9 +67,9 @@ public class LibraryFileHandler
     /// <returns>a completed task</returns>
     public void SetThumbnail(string base64)
     {
-        _ = _client.SendAsync("SetThumbnail", this.rpcServer.runnerParameters.LibraryFile.Uid,
-            Convert.FromBase64String(base64));
-        
+        if (_client.AwaitConnection().GetAwaiter().GetResult())
+            _ = _client.SendAsync("SetThumbnail", this.rpcServer.runnerParameters.LibraryFile.Uid,
+                Convert.FromBase64String(base64));
     }
 
     /// <summary>

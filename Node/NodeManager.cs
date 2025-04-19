@@ -47,7 +47,7 @@ public class NodeManager
     /// <summary>
     /// Event fired when connection state changes
     /// </summary>
-    public event Client.ConnectionUpdated? OnConnectionUpdated;
+    public event Action<ConnectionState>? OnConnectionUpdated;
 
 
     /// <summary>
@@ -111,7 +111,7 @@ public class NodeManager
         try
         {
             StartClient();
-            bool success = await _client!.EnsureRegisteredAsync(TimeSpan.FromSeconds(20));
+            bool success = await _client!.Connection.AwaitConnection(20);
             return (success, success ? string.Empty : "Failed to register node");
         }
         catch (Exception ex)
@@ -130,7 +130,7 @@ public class NodeManager
         
         if (_client != null)
         {
-            _client.OnConnectionUpdated -= ClientOnOnConnectionUpdated;
+            _client.Connection.ConnectedUpdated -= ClientOnOnConnectionUpdated;
             _client.Dispose();
             _client = null; // Ensure a fresh instance is created
         }
@@ -144,11 +144,11 @@ public class NodeManager
             EnvironmentalMappings = AppSettings.EnvironmentalMappings
         }, Logger.Instance!);
 
-        _client.OnConnectionUpdated += ClientOnOnConnectionUpdated;
+        _client.Connection.ConnectedUpdated += ClientOnOnConnectionUpdated;
         
         RemoteService.AccessToken = settings.AccessToken;
 
-        _client.Start().GetAwaiter().GetResult();
+        _client.Start();
         
         RemoteService.ServiceBaseUrl = settings.ServerUrl;
         if (RemoteService.ServiceBaseUrl.EndsWith('/'))

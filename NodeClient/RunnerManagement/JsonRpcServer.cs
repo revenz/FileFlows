@@ -117,7 +117,7 @@ public class JsonRpcServer : IDisposable
                             }
 
                             string? responseJson;
-                            if (await _client.AwaitConnection() == false)
+                            if (await _client.Connection.AwaitConnection() == false)
                                 responseJson = JsonSerializer.Serialize(new { request.Id, Error = "Not connected to server." });
                             else
                                 responseJson = await _rpcRegister.HandleRequest(request);
