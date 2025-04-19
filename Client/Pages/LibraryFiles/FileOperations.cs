@@ -47,7 +47,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         if (uids.Length == 0)
             return; // nothing to move
 
-        if (await Confirm.Show("Labels.Cancel",
+        if (await Message.Confirm("Labels.Cancel",
             Translater.Instant("Labels.CancelItems", new { count = uids.Length })) == false)
             return; // rejected the confirmation
 
@@ -178,7 +178,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         if (uids.Length == 0)
             return; // nothing to delete
         var msg = Translater.Instant("Labels.DeleteLibraryFilesPhysicallyMessage", new { count = uids.Length });
-        if ((await Confirm.Show("Labels.Delete", msg, switchMessage: lblDeleteSwitch, switchState: false, requireSwitch:true)).Confirmed == false)
+        if ((await Message.Confirm("Labels.Delete", msg, switchMessage: lblDeleteSwitch, switchState: false, requireSwitch:true)).Confirmed == false)
             return; // rejected the confirm
         
         

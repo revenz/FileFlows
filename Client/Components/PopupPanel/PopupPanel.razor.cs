@@ -16,9 +16,9 @@ public partial class PopupPanel : ComponentBase, IDisposable
     [Inject]private FrontendService feService { get; set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    [Inject] MessageService Message { get; set; }
     
     /// <summary>
     /// Gets or sets the local storage service
@@ -274,7 +274,7 @@ public partial class PopupPanel : ComponentBase, IDisposable
     {
         Visible = false;
         
-        if (await Confirm.Show(
+        if (await Message.Confirm(
                 Translater.Instant("Labels.ConfirmLogOutTitle"), 
                 Translater.Instant("Labels.ConfirmLogOutMessage")) == false)
             return;

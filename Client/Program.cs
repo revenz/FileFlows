@@ -15,7 +15,7 @@ builder.Services.AddSingleton<INavigationService, NavigationService>();
 builder.Services.AddSingleton<IClipboardService, ClipboardService>();
 builder.Services.AddSingleton<ProfileService>();
 builder.Services.AddSingleton<IModalService, ModalService>();
-builder.Services.AddTransient<ConfirmService>();
+builder.Services.AddSingleton<MessageService>();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IPausedService, PausedService>();
 builder.Services.AddTransient<ClickOutsideService>();

@@ -16,9 +16,9 @@ public partial class UpdatesPage : InputRegister
     [CascadingParameter] Blocker Blocker { get; set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    [Inject] MessageService Message { get; set; }
     
     /// <summary>
     /// Gets or sets the javascript runtime used
@@ -142,7 +142,7 @@ public partial class UpdatesPage : InputRegister
             return;
         }
 
-        if (await Confirm.Show("Pages.Settings.Messages.Update.Title",
+        if (await Message.Confirm("Pages.Settings.Messages.Update.Title",
                 "Pages.Settings.Messages.Update.Message") == false)
             return;
         await HttpHelper.Post("/api/configuration/updates/upgrade-now");

@@ -21,9 +21,9 @@ public partial class FlowPropertiesEditor
     [Inject] IJSRuntime jsRuntime { get; set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    [Inject] MessageService Message { get; set; }
     
     /// <summary>
     /// Gets or sets the mode being edited
@@ -169,7 +169,7 @@ public partial class FlowPropertiesEditor
     /// <param name="item">the field to delete</param>
     async Task Delete(FlowField item)
     {
-        if (await Confirm.Show("Labels.Delete", "Are you sure you want to delete this field?") == false)
+        if (await Message.Confirm("Labels.Delete", "Are you sure you want to delete this field?") == false)
             return;
         Fields.Remove(item);
         MarkDirty();

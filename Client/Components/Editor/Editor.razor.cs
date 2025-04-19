@@ -16,9 +16,9 @@ public partial class Editor : EditorBase, IDisposable
     [Inject] public IJSRuntime jsRuntime { get; private set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    [Inject] MessageService Message { get; set; }
     
     
     /// <summary>
@@ -349,7 +349,7 @@ public partial class Editor : EditorBase, IDisposable
                 Logger.Instance.ILog(CleanModelJson);
                 Logger.Instance.ILog("currentModelJson");
                 Logger.Instance.ILog(currentModelJson);
-                bool confirmResult = await Confirm.Show("Labels.Confirm", "Labels.CancelMessage");
+                bool confirmResult = await Message.Confirm("Labels.Confirm", "Labels.CancelMessage");
                 if(confirmResult == false)
                     return;
             }

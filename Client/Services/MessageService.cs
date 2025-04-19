@@ -6,17 +6,17 @@ using Microsoft.JSInterop;
 namespace FileFlows.Client.Services;
 
 /// <summary>
-/// Implementation of the modal service.
+/// Implementation of the message service.
 /// </summary>
-public class ConfirmService
+public class MessageService
 {
     private readonly IModalService ModalService;
 
     /// <summary>
-    /// Constructs a new instance of the confirm service
+    /// Constructs a new instance of the message service
     /// </summary>
     /// <param name="modalService">the modal service</param>
-    public ConfirmService(IModalService modalService)
+    public MessageService(IModalService modalService)
     {
         this.ModalService = modalService;
     }
@@ -29,7 +29,7 @@ public class ConfirmService
     /// <param name="message">the message of the confirm message</param>
     /// <param name="defaultValue">the default value to have highlighted, true for confirm, false for reject</param>
     /// <returns>the task to await for the confirm result</returns>
-    public async Task<bool> Show(string title, string message, bool defaultValue = true)
+    public async Task<bool> Confirm(string title, string message, bool defaultValue = true)
     {
         var result = await ModalService.ShowModal<Confirm, bool>(new ConfirmOptions()
         {
@@ -50,7 +50,7 @@ public class ConfirmService
     /// <param name="switchState">the switch state</param>
     /// <param name="requireSwitch">if the switch is required to be checked for the YES button to become enabled</param>
     /// <returns>the task to await for the confirm result</returns>
-    public async Task<(bool Confirmed, bool SwitchState)> Show(string title, string message, string switchMessage, bool switchState = false, bool requireSwitch = false)
+    public async Task<(bool Confirmed, bool SwitchState)> Confirm(string title, string message, string switchMessage, bool switchState = false, bool requireSwitch = false)
     {
         var result = await ModalService.ShowModal<Confirm, (bool, bool)>(new ConfirmOptions()
         {
@@ -64,5 +64,20 @@ public class ConfirmService
         if (result.IsFailed)
             return (false, false);
         return result.Value;
+    }
+
+    /// <summary>
+    /// Shows a message
+    /// </summary>
+    /// <param name="title">the title of the message</param>
+    /// <param name="message">the message of the message</param>
+    /// <returns>the task to await for the message box to close</returns>
+    public async Task Message(string title, string message)
+    {
+        await ModalService.ShowModal<MessageBox>(new MessageBoxOptions()
+        {
+            Title = title,
+            Message = message
+        });
     }
 }

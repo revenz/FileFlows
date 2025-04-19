@@ -63,7 +63,7 @@ public class PausedService : IPausedService, IDisposable
     /// <summary>
     /// The confirm service
     /// </summary>
-    private readonly ConfirmService Confirm;
+    private readonly MessageService _message;
     
     /// <summary>
     /// Gets or sets the modal service
@@ -86,11 +86,11 @@ public class PausedService : IPausedService, IDisposable
     /// <summary>
     /// Constructs an instance of the paused worker
     /// </summary>
-    public PausedService(FrontendService feService, IModalService modalService, ConfirmService confirmService)
+    public PausedService(FrontendService feService, IModalService modalService, MessageService messageService)
     {
         this.feService = feService;
         ModalService = modalService;
-        Confirm = confirmService;
+        _message = messageService;
         var bkgTask = new BackgroundTask(TimeSpan.FromMilliseconds(1_000), () => _ = DoWork());
         bkgTask.Start();
         SystemInfo = feService.Dashboard.CurrentSystemInfo;
@@ -190,7 +190,7 @@ public class PausedService : IPausedService, IDisposable
     {
         if (duration == 0)
         {
-            if (await Confirm.Show("Dialogs.ResumeDialog.Title", "Dialogs.ResumeDialog.Message") == false)
+            if (await _message.Confirm("Dialogs.ResumeDialog.Title", "Dialogs.ResumeDialog.Message") == false)
                 return;
         }
         await HttpHelper.Post($"/api/system/pause?duration=" + duration);

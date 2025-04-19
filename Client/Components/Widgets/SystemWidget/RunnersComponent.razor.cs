@@ -22,9 +22,9 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     [CascadingParameter] public Blocker Blocker { get; set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    [Inject] MessageService Message { get; set; }
     /// <summary>
     /// Gets or sets the editor
     /// </summary>
@@ -105,7 +105,7 @@ public partial class RunnersComponent : ComponentBase, IDisposable
     /// <param name="runner">the runner to cancel</param>
     private async Task Cancel(ProcessingLibraryFile runner)
     {
-        if (await Confirm.Show("Labels.Cancel",
+        if (await Message.Confirm("Labels.Cancel",
                 Translater.Instant("Labels.CancelMessage", new { runner.DisplayName })) == false)
             return; // rejected the confirmation
         await HttpHelper.Delete($"/api/library-file/abort", new ReferenceModel<Guid>()

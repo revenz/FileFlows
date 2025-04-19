@@ -28,9 +28,9 @@ public partial class Flow : ComponentBase, IDisposable
     public Editor Editor { get; set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    [Inject] MessageService Message { get; set; }
     /// <summary>
     /// Editor for custom fields
     /// </summary>
@@ -171,7 +171,7 @@ public partial class Flow : ComponentBase, IDisposable
         {
             if (OpenedFlows?.Any(x => x.IsDirty) == true)
             {
-                bool result = await Confirm.Show(lblUnsavedChanges, $"Pages.{nameof(Flow)}.Messages.Close");
+                bool result = await Message.Confirm(lblUnsavedChanges, $"Pages.{nameof(Flow)}.Messages.Close");
                 if (result == false)
                     return false;
             }
@@ -311,7 +311,7 @@ public partial class Flow : ComponentBase, IDisposable
                              new FFlow { Parts = new List<ffPart>() };
             }
 
-            var fEditor = new FlowEditor(this, flow, feService);
+            var fEditor = new FlowEditor(this, flow, feService, Message);
             await fEditor.Initialize();
             OpenedFlows.Add(fEditor);
             ActivateFlow(fEditor);
@@ -1132,7 +1132,7 @@ public partial class Flow : ComponentBase, IDisposable
 
     private async Task CloseEditor(FlowEditor editor)
     {
-        if (editor.IsDirty && await Confirm.Show(lblClose, $"Pages.{nameof(Flow)}.Messages.Close") == false)
+        if (editor.IsDirty && await Message.Confirm(lblClose, $"Pages.{nameof(Flow)}.Messages.Close") == false)
             return;
         
         int index = Math.Max(0, OpenedFlows.IndexOf(editor) - 1);

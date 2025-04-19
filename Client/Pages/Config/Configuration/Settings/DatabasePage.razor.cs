@@ -25,9 +25,9 @@ public partial class DatabasePage : InputRegister
     [Inject] IJSRuntime jsRuntime { get; set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    [Inject] MessageService Message { get; set; }
     
     /// <summary>
     /// Gets or sets the navigation manager used
@@ -244,7 +244,7 @@ public partial class DatabasePage : InputRegister
 
     async void Restart()
     {
-        var confirmed = await Confirm.Show(
+        var confirmed = await Message.Confirm(
             Translater.Instant("Pages.Settings.Messages.Restart.Title"),
             Translater.Instant("Pages.Settings.Messages.Restart.Message")
         );
@@ -263,7 +263,7 @@ public partial class DatabasePage : InputRegister
     {
         if (firstRenderedAt < DateTime.UtcNow.AddSeconds(-1) && enabled)
         {
-            if (await Confirm.Show("Labels.Confirm",
+            if (await Message.Confirm("Labels.Confirm",
                     "Pages.Settings.Messages.Database.DontBackupOnUpgrade",
                     false) == false)
             {

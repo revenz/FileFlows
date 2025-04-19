@@ -20,9 +20,9 @@ public class FlowEditor : IDisposable
     
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    MessageService Message { get; set; }
     
     /// <summary>
     /// Gets or sets the frontend service
@@ -47,11 +47,12 @@ public class FlowEditor : IDisposable
     const string API_URL = "/api/flow";
     private DateTime LoadedAt;
 
-    public FlowEditor(Flow flowPage, FFlow flow, FrontendService feService)
+    public FlowEditor(Flow flowPage, FFlow flow, FrontendService feService, MessageService message)
     {
         this.FlowPage = flowPage;
         this.Flow = flow;
         this.feService = feService;
+        Message = message;
     }
 
     /// <summary>
@@ -124,19 +125,20 @@ public class FlowEditor : IDisposable
             string title = Translater.Instant("Labels.ObsoleteConfirm.Title");
 
             msg += "\n\n" + confirmMessage;
-            var confirmed = await Confirm.Show(title, msg);
+            var confirmed = await Message.Confirm(title, msg);
             if (confirmed == false)
                 return null;
         }
 
-        if ((int)element.LicenseLevel > (int)Profile.LicenseLevel)
-        {
-            await MessageBox.Show(
-                Translater.Instant("Labels.Unlicensed"), 
-                Translater.Instant("Labels.UnlicensedFlowElement", new {level = element.LicenseLevel.ToString()})
-                );
-            return null;
-        }
+       if ((int)element.LicenseLevel > (int)Profile.LicenseLevel)
+       {
+           await Message.Message(
+               Translater.Instant("Labels.Unlicensed"),
+               Translater.Instant("Labels.UnlicensedFlowElement",
+                   new { level = element.LicenseLevel.ToString() })
+           );
+           return null;
+       }
 
         element.Name = name;
         return new { element, uid = Guid.NewGuid() };

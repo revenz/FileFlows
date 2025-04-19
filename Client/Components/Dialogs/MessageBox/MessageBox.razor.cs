@@ -9,68 +9,42 @@ namespace FileFlows.Client.Components.Dialogs;
 /// <summary>
 /// Message box popup with an OK button 
 /// </summary>
-public partial class MessageBox : VisibleEscapableComponent
+public partial class MessageBox : IModal
 {
     /// <summary>
-    /// Gets or sets th e javascrpt runtime
+    /// Gets or sets th e javascript runtime
     /// </summary>
     [Inject] public IJSRuntime jsRuntime { get; set; }
     
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
+    
     private string lblOk;
     private string Message, Title;
-    TaskCompletionSource ShowTask;
     private string btnOkUid; 
 
     private static MessageBox Instance { get; set; }
-
-    private bool focused = false;
 
     /// <summary>
     /// Initializes the component
     /// </summary>
     protected override void OnInitialized()
     {
-        this.lblOk = Translater.Instant("Labels.Ok");
-        Instance = this;
-    }
-
-    /// <summary>
-    /// Shows a message
-    /// </summary>
-    /// <param name="title">the title of the message</param>
-    /// <param name="message">the message of the message</param>
-    /// <returns>the task to await for the message box to close</returns>
-    public static Task Show(string title, string message)
-    {
-        if (Instance == null)
-            return Task.FromResult(false);
-
-        return Instance.ShowInstance(title, message);
-    }
-
-    /// <summary>
-    /// Shows the instance of the message box
-    /// </summary>
-    /// <param name="title">the title of the message</param>
-    /// <param name="message">the message of the message</param>
-    /// <returns>the task to await for the message box to close</returns>
-    private Task ShowInstance(string title, string message)
-    {
-        Task.Run(async () =>
+        if (Options is MessageBoxOptions options == false)
         {
-            // wait a short delay this is in case a "Close" from an escape key is in the middle
-            // of processing, and if we show this confirm too soon, it may automatically be closed
-            await Task.Delay(5);
-            this.btnOkUid = Guid.NewGuid().ToString();
-            this.focused = false;
-            this.Title = Translater.TranslateIfNeeded(title?.EmptyAsNull() ?? "Labels.Message");
-            this.Message = Translater.TranslateIfNeeded(message ?? "");
-            this.Visible = true;
-            this.StateHasChanged();
-        });
-
-        Instance.ShowTask = new TaskCompletionSource();
-        return Instance.ShowTask.Task;
+            Close();
+            return;
+        }
+        
+        lblOk = Translater.Instant("Labels.Ok");
+        btnOkUid = Guid.NewGuid().ToString();
+        Title = Translater.TranslateIfNeeded(options.Title?.EmptyAsNull() ?? "Labels.Message");
+        Message = Translater.TranslateIfNeeded(options.Message ?? string.Empty);
     }
     
 
@@ -80,19 +54,40 @@ public partial class MessageBox : VisibleEscapableComponent
     /// <param name="firstRender">true if its the first render or not</param>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Visible && focused == false)
+        if (firstRender)
         {
-            focused = true;
             await jsRuntime.InvokeVoidAsync("eval", $"document.getElementById('{this.btnOkUid}').focus()");
         }
     }
 
     /// <summary>
-    /// Closes the message box
+    /// Closes the dialog
     /// </summary>
-    public override void Cancel()
+    public void Close()
     {
-        this.Visible = false;
-        Instance.ShowTask.TrySetResult();
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
     }
+
+    /// <summary>
+    /// Cancels the dialog
+    /// </summary>
+    public void Cancel()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
+    }
+}
+
+/// <summary>
+/// Message box options
+/// </summary>
+public class MessageBoxOptions : IModalOptions
+{
+    /// <summary>
+    /// Gets or sets the title
+    /// </summary>
+    public string Title { get; set; }
+    /// <summary>
+    /// Gets or sets the message
+    /// </summary>
+    public string Message { get; set; }
 }

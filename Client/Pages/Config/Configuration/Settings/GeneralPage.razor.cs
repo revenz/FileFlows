@@ -20,9 +20,9 @@ public partial class GeneralPage : InputRegister
     [CascadingParameter] Blocker Blocker { get; set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    [Inject] MessageService Message { get; set; }
     
     /// <summary>
     /// Gets or sets the javascript runtime used
@@ -175,7 +175,7 @@ public partial class GeneralPage : InputRegister
     {
         if (firstRenderedAt < DateTime.UtcNow.AddSeconds(-1) && disabled)
         {
-            if (await Confirm.Show("Pages.Settings.Messages.DisableTelemetryConfirm.Title",
+            if (await Message.Confirm("Pages.Settings.Messages.DisableTelemetryConfirm.Title",
                     "Pages.Settings.Messages.DisableTelemetryConfirm.Message",
                     false) == false)
             {

@@ -132,7 +132,7 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
 
     public async Task DeleteItem(ProcessingNode item)
     {
-        if (await Confirm.Show("Labels.Delete",
+        if (await Message.Confirm("Labels.Delete",
                 Translater.Instant("Pages.Nodes.Messages.DeleteNode", new { name = item.Name })) == false)
             return; // rejected the confirm
 

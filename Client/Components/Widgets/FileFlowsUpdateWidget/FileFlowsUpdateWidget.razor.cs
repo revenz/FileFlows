@@ -19,9 +19,9 @@ public partial class FileFlowsUpdateWidget : ComponentBase
     [Inject] private FrontendService feService { get; set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    [Inject] MessageService Message { get; set; }
     
     /// <summary>
     /// Gets or sets if this user can update FileFlows automatically
@@ -73,7 +73,7 @@ public partial class FileFlowsUpdateWidget : ComponentBase
             return;
         }
         
-        if (await Confirm.Show("Pages.Settings.Messages.Update.Title",
+        if (await Message.Confirm("Pages.Settings.Messages.Update.Title",
                 "Pages.Settings.Messages.Update.Message") == false)
             return;
         await HttpHelper.Post("/api/settings/upgrade-now");

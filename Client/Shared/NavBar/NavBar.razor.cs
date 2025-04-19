@@ -18,9 +18,9 @@ public partial class NavBar
     [Inject] private IJSRuntime jsRuntime { get; set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] ConfirmService Confirm { get; set; }
+    [Inject] MessageService Message { get; set; }
     
     /// <summary>
     /// Gets or sets the navigation service
@@ -358,7 +358,7 @@ public partial class NavBar
     /// <returns>a task to await</returns>
     private async Task ConfirmLogOut()
     {
-        if (await Confirm.Show(
+        if (await Message.Confirm(
                 Translater.Instant("Labels.ConfirmLogOutTitle"), 
                 Translater.Instant("Labels.ConfirmLogOutMessage")) == false)
             return;

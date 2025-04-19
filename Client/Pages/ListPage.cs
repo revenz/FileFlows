@@ -22,9 +22,9 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     [Inject] public NavigationManager NavigationManager { get; set; }
     
     /// <summary>
-    /// Gets or sets the confirm service
+    /// Gets or sets the message service
     /// </summary>
-    [Inject] protected ConfirmService Confirm { get; set; }
+    [Inject] protected MessageService Message { get; set; }
     
     /// <summary>
     /// Gets or sets the table instance
@@ -297,7 +297,7 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
         var uids = Table.GetSelected()?.Select(x => x.Uid)?.ToArray() ?? new U[] { };
         if (uids.Length == 0)
             return; // nothing to delete
-        if (await Confirm.Show("Labels.Remove",
+        if (await Message.Confirm("Labels.Remove",
             Translater.Instant(DeleteMessage, new { count = uids.Length })) == false)
             return; // rejected the confirm
 

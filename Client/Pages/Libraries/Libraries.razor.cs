@@ -222,7 +222,7 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
         if (uids.Length == 0)
             return; // nothing to rescan
 
-        if (await Confirm.Show("Pages.Libraries.Messages.Reset.Title",
+        if (await Message.Confirm("Pages.Libraries.Messages.Reset.Title",
                 "Pages.Libraries.Messages.Reset.Message", defaultValue: false) == false)
             return;
 
@@ -248,7 +248,7 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
             .Select(x => x.Uid)?.ToArray() ?? new System.Guid[] { };
         if (uids.Length == 0)
             return; // nothing to delete
-        var confirmResult = await Confirm.Show("Labels.Delete",
+        var confirmResult = await Message.Confirm("Labels.Delete",
             Translater.Instant("Pages.Libraries.Messages.DeleteConfirm", new { count = uids.Length })
         );
         if (confirmResult == false)
