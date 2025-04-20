@@ -48,6 +48,15 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
     }
 
     /// <summary>
+    /// Sets the current flow executing
+    /// </summary>
+    /// <param name="flow">the flow</param>
+    public void SetFlow(Flow flow)
+    {
+        runInfo.Flow = flow;
+    }
+
+    /// <summary>
     /// Updates the flow executing info
     /// </summary>
     /// <returns>a task to await</returns>
@@ -57,8 +66,8 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
             LibraryFile = client.LibraryFile,
             NodeUid = client.Node.Uid,
             NodeName = client.Node.Name,
-            FlowName = runInfo.FlowName,
-            FlowUid = runInfo.FlowUid,
+            FlowName = runInfo.Flow?.Name,
+            FlowUid = runInfo.Flow?.Uid ?? Guid.Empty,
             AdditionalInfos = runInfo.AdditionalInfos,
             CurrentPart = runInfo.CurrentPart,
             CurrentPartPercent = runInfo.CurrentPartPercent,

@@ -62,7 +62,7 @@
   border-left: solid 1px var(--base);
   padding: 0.25rem 0.5rem !important;
 }
-.file-table-row .current-progress {
+.file-table-row .background-indicator {
   background: rgba(255, 255, 255, 0.05);
   position: absolute;
   top: 0;

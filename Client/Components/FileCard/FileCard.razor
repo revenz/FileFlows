@@ -14,13 +14,13 @@
         var overall = runner.TotalParts == 0 ? 100 : ((runner.CurrentPart / (double)runner.TotalParts)) * 100;
         var current = runner.CurrentPartPercent;
         
-        <div class="current-progress" style="width:@(current)%"></div>
-        <div class="overall-progress bottom-indicator" style="width:@(overall)%"></div>
+        <div class="current-progress bottom-indicator" style="width:@(current)%"></div>
+        <div class="overall-progress background-indicator" style="width:@(overall)%"></div>
     }
     else if (Model.Status == FileStatus.Processed)
     {
         var percentage = Math.Min(100, (Model.FinalSize / (double)Model.OriginalSize) * 100);
-        <div class="savings bottom-indicator" style="width: @percentage%"></div>
+        <div class="saving background-indicator" style="width: @percentage%"></div>
     }
     <span class="icon">
         @if (runner != null)

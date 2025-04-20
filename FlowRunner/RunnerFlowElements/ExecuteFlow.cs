@@ -79,6 +79,8 @@ public class ExecuteFlow : Node
                 { "FailureReason", args.FailureReason?.EmptyAsNull() }
             });
         }
+
+        Runner.runInstance.RpcClient.RunnerInfo.SetFlow(Flow);
         Runner.ExecutedFlows.Add(Flow);
        
         // find the first node
