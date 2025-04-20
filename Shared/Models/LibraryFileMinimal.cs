@@ -151,7 +151,7 @@ public class LibraryFileMinimal : IUniqueObject<Guid>
             Uid = file.Uid,
             FailureReason = file.FailureReason,
             Status = file.Status,
-            Traits = file.Additional?.Traits != null ? new List<string>(file.Additional?.Traits) : new List<string>(),
+            Traits = file.Additional?.Traits ?? [],
             OriginalSize = file.OriginalSize,
             FinalSize = file.FinalSize,
             
