@@ -203,4 +203,15 @@
   opacity: 0.9;
 }
 
+@container file-card (min-width: 900px) {
+  .details {
+    grid-template-columns: repeat(8, auto);
+  }
+}
+@container file-card (min-width: 1200px) {
+  .details {
+    grid-template-columns: repeat(10, auto);
+  }
+}
+
 /*# sourceMappingURL=FileCard.razor.css.map */
