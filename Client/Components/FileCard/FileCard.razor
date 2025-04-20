@@ -51,16 +51,6 @@
                             @FileSizeFormatter.FormatSize(Model.FinalSize)
                         </span>
                     }
-
-                    @if (Model.Traits?.Any() == true)
-                    {
-                        <div class="traits">
-                            @foreach (var trait in Model.Traits)
-                            {
-                                <span class="trait" @onclick:stopPropagation @onclick:preventDefault>@trait</span>
-                            }
-                        </div>
-                    }
                 }
             }
             else
@@ -76,6 +66,16 @@
 
                 <div class="steps">
                     @FormatProcessingTime(runner.ProcessingTime)
+                </div>
+            }
+
+            @if (Model.Traits?.Any() == true)
+            {
+                <div class="traits">
+                    @foreach (var trait in Model.Traits)
+                    {
+                        <span class="trait">@trait</span>
+                    }
                 </div>
             }
 
