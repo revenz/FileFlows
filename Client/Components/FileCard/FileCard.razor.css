@@ -62,7 +62,7 @@
   border-left: solid 1px var(--base);
   padding: 0.25rem 0.5rem !important;
 }
-.file-table-row .overall-progress {
+.file-table-row .current-progress {
   background: rgba(255, 255, 255, 0.05);
   position: absolute;
   top: 0;
@@ -71,7 +71,7 @@
   right: 0;
   pointer-events: none;
 }
-.file-table-row .current-progress {
+.file-table-row .bottom-indicator {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -215,4 +215,4 @@
   opacity: 0.9;
 }
 
-/*# sourceMappingURL=FileItem.razor.css.map */
+/*# sourceMappingURL=FileCard.razor.css.map */

@@ -88,10 +88,10 @@
     border-left: solid 1px var(--base);
     padding: 0.25rem 0.5rem !important;
   }
-  .overall-progress{
+  .current-progress {
     @include backgroundBar;
   }
-  .current-progress {
+  .bottom-indicator {
     @include bottomBar;
   }
 }
