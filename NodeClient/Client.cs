@@ -205,7 +205,7 @@ public class Client : IDisposable
             TriggerStatusUpdate();
             _logger.ILog($"{prefix} Updating configuration...");
             using var cts2 = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            var cfg = await Connection.InvokeAsync<ConfigurationRevision>("GetConfiguration", cts2.Token);
+            var cfg = await Connection.InvokeAsync<ConfigurationRevision>("GetConfiguration");
 
             if (cfg != null && _configurationService.CurrentConfig?.Revision != cfg.Revision && Connection.Node is {} node)
             {
