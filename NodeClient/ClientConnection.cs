@@ -35,7 +35,7 @@ public class ClientConnection : IDisposable
     /// <summary>
     /// Gets the server version
     /// </summary>
-    public string ServerVersion { get; private set; }
+    public string? ServerVersion { get; private set; }
 
     /// <summary>
     /// If its started or not
@@ -122,7 +122,7 @@ public class ClientConnection : IDisposable
         _connection.Reconnecting += error =>
         {
             ConnectedUpdated?.Invoke(ConnectionState.Connecting);
-            _logger.WLog("Connection lost, attempting to reconnect...");
+            WLog("Connection lost, attempting to reconnect...");
             IsRegistered = false;
             return Task.CompletedTask;
         };
@@ -130,7 +130,7 @@ public class ClientConnection : IDisposable
         _connection.Reconnected += async connectionId =>
         {
             ConnectedUpdated?.Invoke(ConnectionState.Connected);
-            _logger.ILog("Reconnected, registering node...");
+            ILog("Reconnected, registering node...");
             IsRegistered = false;
             retryPolicyLoop.ResetBackoff();
             
@@ -139,7 +139,7 @@ public class ClientConnection : IDisposable
         _connection.Closed += error =>
         {
             ConnectedUpdated?.Invoke(ConnectionState.Disconnected);
-            _logger.WLog("Connection closed.");
+            WLog("Connection closed.");
             IsRegistered = false;
             retryPolicyLoop.ResetBackoff();
             return Task.CompletedTask;
@@ -156,6 +156,7 @@ public class ClientConnection : IDisposable
             return; // already started
 
         _started = true;
+        ILog("Starting connection...");
         
         _ = Task.Run(EnsureConnected, _cts.Token);
     }
@@ -171,14 +172,14 @@ public class ClientConnection : IDisposable
             {
                 if (_connection.State == HubConnectionState.Disconnected)
                 {
-                    _logger.ILog("Attempting to start connection...");
+                    ILog("Attempting to start connection...");
                     await _connection.StartAsync(_cts.Token);
-                    _logger.ILog("Connection started.");
+                    ILog("Connection started.");
                 }
 
                 if (_connection.State != HubConnectionState.Connected)
                 {
-                    _logger.WLog("Connection did not establish. Retrying in 5 seconds...");
+                    WLog("Connection did not establish. Retrying in 5 seconds...");
                     await Task.Delay(5000, _cts.Token);
                     continue;
                 }
@@ -193,7 +194,7 @@ public class ClientConnection : IDisposable
                 // This will ensure the node is re-registered after reconnection as well.
                 if (await RegisterNodeAsync() == false)
                 {
-                    _logger.WLog("Node registration failed or not registered yet. Retrying in 5 seconds...");
+                    WLog("Node registration failed or not registered yet. Retrying in 5 seconds...");
                     await Task.Delay(5000, _cts.Token);
                     continue;
                 }
@@ -201,23 +202,24 @@ public class ClientConnection : IDisposable
                 // If successfully connected and registered, invoke the connected event and return.
                 _ = Task.Run(() => ConnectedUpdated?.Invoke(ConnectionState.Connected));
                 _ = Task.Run(() => Connected?.Invoke());
-                _logger.ILog("Node connected and registered.");
+                ILog("Node connected and registered.");
             }
             catch (OperationCanceledException)
             {
                 // expected on Stop()
+                WLog("EnsureConnected: Connection was canceled.");
                 return;
             }
             catch (Exception ex)
             {
                 if (ex is InvalidDataException && ex.InnerException is JsonException jsonEx && jsonEx.Message.Contains("'<'" ))
                 {
-                    _logger.WLog("Connection failed: Server returned invalid data (likely HTML instead of JSON). " +
+                    WLog("Connection failed: Server returned invalid data (likely HTML instead of JSON). " +
                                  "Check if the Hub URL is correct and accessible. Retrying in 5 seconds...");
                 }
                 else
                 {
-                    _logger.WLog($"Connection failed: {ex.Message}. Retrying in 5 seconds...");
+                    WLog($"Connection failed: {ex.Message}. Retrying in 5 seconds...");
                 }
                 await Task.Delay(5000, _cts.Token);
             }
@@ -233,24 +235,30 @@ public class ClientConnection : IDisposable
         await _registerLock.WaitAsync();
         try
         {
-            _logger.ILog("Registering node...");
+            ILog("Registering node...");
             Node = null;
 
             if (_connection.State == HubConnectionState.Disconnected)
+            {
+                ILog("Connection is disconnected, cannot register");
                 return false;
+            }
 
             var parameters = _getRegisterParameters();
 
-            _logger.ILog("About to call RegisterNode on server: " + JsonSerializer.Serialize(parameters));
-            _logger.ILog("_connection: " + (_connection == null ? "is null" : "is not null"));
+            ILog("About to call RegisterNode on server: " + JsonSerializer.Serialize(parameters));
+            ILog("_connection: " + (_connection == null ? "is null" : "is not null"));
             var result = await _connection!.InvokeAsync<NodeRegisterResult>("RegisterNode", parameters);
-            _logger.ILog("RegisterNode result: " + result.Success);
+            ILog("RegisterNode result: " + result.Success);
 
-            if (!result.Success)
+            if (result.Success == false)
+            {
+                WLog("Failed to register node");
                 return false;
+            }
 
             Node = result.Node;
-            _logger.ILog("Node successfully registered.");
+            ILog("Node successfully registered.");
 
             ServerConfigRevision = result.CurrentConfigRevision;
             ServerVersion = result.ServerVersion;
@@ -260,7 +268,7 @@ public class ClientConnection : IDisposable
         }
         catch (Exception ex)
         {
-            _logger.ELog($"Node registration failed: {ex}");
+            ELog($"Node registration failed: {ex}");
             return false;
         }
         finally
@@ -275,6 +283,7 @@ public class ClientConnection : IDisposable
     /// </summary>
     public async Task StopAsync()
     {
+        ILog("Closing connection");
         if (_disposed)
             return;
 
@@ -284,23 +293,23 @@ public class ClientConnection : IDisposable
         {
             if (IsRegistered && Node != null) 
             {
-                _logger.ILog("Unregistering node...");
+                ILog("Unregistering node...");
                 await _connection.InvokeAsync("UnregisterNode", Node.Uid);
             }
         }
         catch (Exception ex)
         {
-            _logger.WLog($"Failed to unregister node: {ex.Message}");
+            WLog($"Failed to unregister node: {ex.Message}");
         }
 
         try
         {
-            _logger.ILog("Stopping connection...");
+            ILog("Stopping connection...");
             await _connection.StopAsync();
         }
         catch (Exception ex)
         {
-            _logger.WLog($"Failed to stop connection: {ex.Message}");
+            WLog($"Failed to stop connection: {ex.Message}");
         }
     }
 
@@ -310,6 +319,7 @@ public class ClientConnection : IDisposable
     /// </summary>
     public void Dispose()
     {
+        ILog("Disposing of connection");
         if (_disposed)
             return;
 
@@ -319,7 +329,7 @@ public class ClientConnection : IDisposable
                 return;
             
             _disposed = true;
-            _logger.ILog("Disposing client...");
+            ILog("Disposing client...");
 
             try
             {
@@ -328,7 +338,7 @@ public class ClientConnection : IDisposable
             }
             catch (Exception ex)
             {
-                _logger.WLog($"Exception during disposal: {ex.Message}");
+                WLog($"Exception during disposal: {ex.Message}");
             }
             finally
             {
@@ -346,7 +356,10 @@ public class ClientConnection : IDisposable
     public async Task<bool> AwaitConnection(int timeoutInSeconds = 60)
     {
         if (_disposed)
+        {
+            ILog("Cannot await connection because the connection has been disposed.");
             return false;
+        }
 
         var end = DateTime.Now.AddSeconds(timeoutInSeconds);
         bool delayed = false;
@@ -356,7 +369,7 @@ public class ClientConnection : IDisposable
             if (_connection.State == HubConnectionState.Connected && IsRegistered)
             {
                 if(delayed)
-                    _logger.ILog("Await Connection is connected");
+                    ILog("Await Connection is connected");
                 return true;
             }
 
@@ -364,11 +377,10 @@ public class ClientConnection : IDisposable
             delayed = true;
         }
 
-        _logger.WLog("Failed to await connection");
+        WLog("Failed to await connection");
         return false;
 
     }
-    
     
     /// <summary>
     /// Invokes a hub method on the server using the specified method name and arguments.
@@ -425,7 +437,7 @@ public class ClientConnection : IDisposable
             }
         }
 
-        _logger.ELog("Failed to invoke method on server as no connection could be established.");
+        ELog("Failed to invoke method on server as no connection could be established.");
         throw new Exception($"Failed to invoke method on server as no connection established.");
     }
     
@@ -492,7 +504,7 @@ public class ClientConnection : IDisposable
             }
         }
 
-        _logger.ELog("Failed to invoke method on server as no connection could be established.");
+        ELog("Failed to invoke method on server as no connection could be established.");
         throw new Exception($"Failed to invoke method on server as no connection established.");
     }
 
@@ -550,7 +562,41 @@ public class ClientConnection : IDisposable
             }
         }
 
-        _logger.ELog("Failed to sending method on server as no connection could be established.");
+        ELog("Failed to sending method on server as no connection could be established.");
         throw new Exception($"Failed to sending method on server as no connection established.");
+    }
+    
+    
+    /// <summary>
+    /// Information log
+    /// </summary>
+    /// <param name="message">the message</param>
+    private void ILog(string message)
+    {
+        message = "ClientConnection: " + message;
+        Console.WriteLine(message);
+        _logger.ILog(message);
+    }
+
+    /// <summary>
+    /// Warning log
+    /// </summary>
+    /// <param name="message">the message</param>
+    private void WLog(string message)
+    {
+        message = "ClientConnection: " + message;
+        Console.WriteLine(message);
+        _logger.WLog(message);
+    }
+    
+    /// <summary>
+    /// Error log
+    /// </summary>
+    /// <param name="message">the message</param>
+    private void ELog(string message)
+    {
+        message = "ClientConnection: " + message;
+        Console.WriteLine(message);
+        _logger.ELog(message);
     }
 }

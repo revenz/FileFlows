@@ -256,7 +256,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 if (args.Data.Trim().StartsWith("Heartbeat: "))
                     return; // Ignore heartbeats in logging
                 
-                Console.WriteLine($"[{libFile.Uid}]: " + args.Data); // Write error to the console
+                // Console.WriteLine($"[{libFile.Uid}]: " + args.Data); // Write error to the console
                 runLog.AppendLine(args.Data);
 
                 if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1))) // Avoid deadlocks
@@ -277,7 +277,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                     return;
                 lastOutputTime = DateTime.UtcNow; // Reset timeout timer
                 
-                await Console.Error.WriteLineAsync($"[{libFile.Uid}]: " + args.Data); // Write error to the console
+                // await Console.Error.WriteLineAsync($"[{libFile.Uid}]: " + args.Data); // Write error to the console
                 runLog.AppendLine(args.Data);
 
                 if (await logSemaphore.WaitAsync(TimeSpan.FromSeconds(1))) // Avoid deadlocks
