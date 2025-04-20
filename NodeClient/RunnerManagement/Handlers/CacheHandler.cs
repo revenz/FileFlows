@@ -32,7 +32,14 @@ public class CacheHandler
     {
         if(await _connection.AwaitConnection() == false)
             return string.Empty;
-        return await _connection.InvokeAsync<string>("Cache" + nameof(GetJsonAsync), key);
+        try
+        {
+            return await _connection.InvokeAsync<string>("Cache" + nameof(GetJsonAsync), key);
+        }
+        catch (Exception)
+        {
+            return string.Empty;
+        }
     }
 
     /// <summary>
@@ -42,9 +49,16 @@ public class CacheHandler
     /// <returns>A task representing the asynchronous operation.</returns>
     public void StoreJsonAsync(StoreJsonModel model)
     {
-        if(_connection.AwaitConnection().GetAwaiter().GetResult() == false)
-            return;
-        _ = _connection.SendAsync("Cache" + nameof(StoreJsonAsync), model.Key, model.Json, model.Expiration);
+        try
+        {
+            if (_connection.AwaitConnection().GetAwaiter().GetResult() == false)
+                return;
+            _ = _connection.SendAsync("Cache" + nameof(StoreJsonAsync), model.Key, model.Json, model.Expiration);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
     }
 
     /// <summary>

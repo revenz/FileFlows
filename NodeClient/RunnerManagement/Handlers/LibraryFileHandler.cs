@@ -38,15 +38,16 @@ public class LibraryFileHandler
     /// <param name="path">the Path to ignore</param>
     public async Task LibraryIgnorePath(string path)
     {
-        if(await _client.AwaitConnection())
-            await _client.SendAsync("LibraryIgnorePath", path);
+        try
+        {
+            if (await _client.AwaitConnection())
+                await _client.SendAsync("LibraryIgnorePath", path);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
     }
-
-
-    // public void DeleteLibraryFile(Guid uid)
-    // {
-    //     throw new Exception("TODO");
-    // }
 
     /// <summary>
     /// Checks if the file exists on the server
@@ -55,8 +56,16 @@ public class LibraryFileHandler
     /// <returns>true if exists otherwise false</returns>
     public async Task<bool> ExistsOnServer(ExistsOnServerModel model)
     {
-        if(await _client.AwaitConnection())
-            return await _client.InvokeAsync<bool>(nameof(ExistsOnServer), model.Path, model.IsDirectory);
+        try
+        {
+            if (await _client.AwaitConnection())
+                return await _client.InvokeAsync<bool>(nameof(ExistsOnServer), model.Path, model.IsDirectory);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
+
         return false;
     }
 
@@ -67,9 +76,16 @@ public class LibraryFileHandler
     /// <returns>a completed task</returns>
     public void SetThumbnail(string base64)
     {
-        if (_client.AwaitConnection().GetAwaiter().GetResult())
-            _ = _client.SendAsync("SetThumbnail", this.rpcServer.runnerParameters.LibraryFile.Uid,
-                Convert.FromBase64String(base64));
+        try
+        {
+            if (_client.AwaitConnection().GetAwaiter().GetResult())
+                _ = _client.SendAsync("SetThumbnail", this.rpcServer.runnerParameters.LibraryFile.Uid,
+                    Convert.FromBase64String(base64));
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
     }
 
     /// <summary>

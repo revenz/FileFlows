@@ -232,7 +232,11 @@ public class ClientConnection : IDisposable
     /// </summary>
     private async Task<bool> RegisterNodeAsync()
     {
-        await _registerLock.WaitAsync();
+        if (await _registerLock.WaitAsync(TimeSpan.FromSeconds(20)) == false)
+        {
+            WLog("Failed to wait for semaphore to register node.");
+            return false;
+        }
         try
         {
             ILog("Registering node...");
@@ -364,8 +368,11 @@ public class ClientConnection : IDisposable
         var end = DateTime.Now.AddSeconds(timeoutInSeconds);
         bool delayed = false;
 
-        while (DateTime.Now < end)
+        while (DateTime.Now < end || delayed == false)
         {
+            if(delayed)
+                await Task.Delay(250);
+            
             if (_connection.State == HubConnectionState.Connected && IsRegistered)
             {
                 if(delayed)
@@ -373,7 +380,6 @@ public class ClientConnection : IDisposable
                 return true;
             }
 
-            await Task.Delay(250);
             delayed = true;
         }
 
@@ -437,8 +443,8 @@ public class ClientConnection : IDisposable
             }
         }
 
-        ELog("Failed to invoke method on server as no connection could be established.");
-        throw new Exception($"Failed to invoke method on server as no connection established.");
+        ELog($"Failed to invoke method '{methodName}' on server as no connection could be established.");
+        throw new Exception($"Failed to invoke method '{methodName}' on server as no connection established.");
     }
     
     /// <summary>
@@ -504,8 +510,8 @@ public class ClientConnection : IDisposable
             }
         }
 
-        ELog("Failed to invoke method on server as no connection could be established.");
-        throw new Exception($"Failed to invoke method on server as no connection established.");
+        ELog($"Failed to invoke method '{methodName}' on server as no connection could be established.");
+        throw new Exception($"Failed to invoke method '{methodName}' on server as no connection established.");
     }
 
     /// <summary>
@@ -562,8 +568,8 @@ public class ClientConnection : IDisposable
             }
         }
 
-        ELog("Failed to sending method on server as no connection could be established.");
-        throw new Exception($"Failed to sending method on server as no connection established.");
+        ELog($"Failed to sending method '{methodName}' on server as no connection could be established.");
+        throw new Exception($"Failed to sending method '{methodName}' on server as no connection established.");
     }
     
     
@@ -574,7 +580,7 @@ public class ClientConnection : IDisposable
     private void ILog(string message)
     {
         message = "ClientConnection: " + message;
-        Console.WriteLine(message);
+        //Console.WriteLine(message);
         _logger.ILog(message);
     }
 
@@ -585,7 +591,7 @@ public class ClientConnection : IDisposable
     private void WLog(string message)
     {
         message = "ClientConnection: " + message;
-        Console.WriteLine(message);
+        //Console.WriteLine(message);
         _logger.WLog(message);
     }
     
@@ -596,7 +602,7 @@ public class ClientConnection : IDisposable
     private void ELog(string message)
     {
         message = "ClientConnection: " + message;
-        Console.WriteLine(message);
+        //Console.WriteLine(message);
         _logger.ELog(message);
     }
 }

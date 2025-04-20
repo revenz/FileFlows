@@ -549,14 +549,36 @@ public class Client : IDisposable
     /// <param name="lines">the lines of the log</param>
     /// <param name="overwrite">if the file should be overwritten or appended to</param>
     public async Task FileLogAppend(Guid libFileUid, string lines, bool overwrite = false)
-        => await Connection.SendAsync(nameof(FileLogAppend), libFileUid, lines, overwrite);
+    {
+        try
+        {
+            await Connection.SendAsync(nameof(FileLogAppend), libFileUid, lines, overwrite);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
+    }
 
     /// <summary>
     /// Sends a log message to the server
     /// </summary>
     /// <param name="messages">the messages being logged</param>
     public async Task Log(string[] messages)
-        => await Connection.SendAsync(nameof(Log),
-            Connection.Node?.Address?.EmptyAsNull() ?? Connection.Node?.Name?.EmptyAsNull() ?? Environment.MachineName, messages);
+    {
+        try
+        {
+            if(await Connection.AwaitConnection(0) == false)
+                Console.WriteLine("Couldn't send log to server due to lost connection.");
+            
+            await Connection.SendAsync(nameof(Log),
+                Connection.Node?.Address?.EmptyAsNull() ??
+                Connection.Node?.Name?.EmptyAsNull() ?? Environment.MachineName, messages);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
+    }
 
 }

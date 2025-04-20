@@ -29,8 +29,15 @@ public class StatisticsHandler
     /// <param name="model">the model of the data</param>
     public void RecordRunningTotal(RecordRunningTotalModel model)
     {
-        if(_client.AwaitConnection().GetAwaiter().GetResult())
-            _ = _client.SendAsync(nameof(RecordRunningTotal), model.Name, model.Value);
+        try
+        {
+            if (_client.AwaitConnection().GetAwaiter().GetResult())
+                _ = _client.SendAsync(nameof(RecordRunningTotal), model.Name, model.Value);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
     }
 
     /// <summary>
@@ -39,8 +46,15 @@ public class StatisticsHandler
     /// <param name="model">the model of the data</param>
     public void RecordAverage(RecordAverageModel model)
     {
-        if(_client.AwaitConnection().GetAwaiter().GetResult())
-            _ = _client.SendAsync(nameof(RecordAverage), model.Name, model.Value);
+        try
+        {
+            if (_client.AwaitConnection().GetAwaiter().GetResult())
+                _ = _client.SendAsync(nameof(RecordAverage), model.Name, model.Value);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
     }
 
     /// <summary>

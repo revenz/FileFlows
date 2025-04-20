@@ -65,7 +65,14 @@ public class BasicHandler
     {
         if(_client.AwaitConnection().GetAwaiter().GetResult() == false)
             return;
-        _ = _client.InvokeAsync<string>(nameof(RecordNotification), model.Severity, model.Title, model.Message);
+        try
+        {
+            _ = _client.InvokeAsync<string>(nameof(RecordNotification), model.Severity, model.Title, model.Message);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
     }
 
 #if(DEBUG)
