@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Helpers;
 using Microsoft.AspNetCore.Components;
@@ -48,11 +49,28 @@ public partial class FileCard : ComponentBase
         { "speed", 4 },
         { "fps", 5 }
     };
+    
+    private static readonly Regex VideoCodecRegex = new(
+        @"\b(hevc|h[\.\- ]?26[45]|av1|vp[89]|mpeg[\- ]?2|mpeg[\- ]?4|xvid|divx|wmv|theora|prores|dnxhd|vc\-1|rv\d+)\b",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+    private static readonly Regex AudioCodecRegex = new(
+        @"\b(aac|ac[\- ]?3|eac[\- ]?3|dts(:?-hd|:?-ma)?|flac|mp3|opus|vorbis|truehd|pcm|alac|wav|wma|atmos|amr|mka)\b",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+    private static readonly Regex AudioLayoutRegex = new(
+        @"\b(mono|dual mono|stereo|2\.0|2ch|2 channels|5\.1|6\.1|7\.1|7ch|8ch|surround|quadraphonic|3\.0|4\.0|5\.0|6\.0|7\.0)\b",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+    private static readonly Regex ResolutionRegex = new(
+        @"\b(720p|1080p|1440p|2160p|4k|8k|\d{3,4}x\d{3,4})\b",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled);
     /// <summary>
     /// Translations
     /// </summary>
     private string lblAborting, lblInternalProcessingNode, lblManualLibrary;
+
+    private List<KeyValuePair<string, string>> Traits = [];
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -60,6 +78,21 @@ public partial class FileCard : ComponentBase
         lblAborting = Translater.Instant("Labels.Aborting");
         lblInternalProcessingNode = Translater.Instant("Labels.InternalProcessingNode");
         lblManualLibrary = Translater.Instant("Labels.ManualLibrary");
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        Traits = (Model?.Traits ?? []).Select(x =>
+        {
+            string icon = VideoCodecRegex.IsMatch(x) ? "fas fa-video"
+                : AudioCodecRegex.IsMatch(x) ? "fas fa-volume-up"
+                : AudioLayoutRegex.IsMatch(x) ? "fas fa-headphones"
+                : ResolutionRegex.IsMatch(x) ? "fas fa-tv"
+                : "fas fa-tag";
+
+            return new  KeyValuePair<string, string>(x, icon);
+        }).ToList();
     }
 
     /// <summary>

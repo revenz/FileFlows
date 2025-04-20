@@ -6,7 +6,7 @@
     var runner = Model as ProcessingLibraryFile;
 }
 
-<div @key="Model.Uid" class="file-table-row fm-@Model.Status.ToString().Kebaberize() @(InTable ? "in-table" : "")
+<div @key="Model.Uid" class="file-table-row file-card fm-@Model.Status.ToString().Kebaberize() @(InTable ? "in-table" : "")
                 @(Model.FailureReason != null ? "has-message" : "no-message")>"
      @ondblclick="OpenFile">
     @if (runner != null)
@@ -32,99 +32,108 @@
 
         <img @key="Model.Uid" class="@GetIconClass()" src="@GetIconSource()" />
     </span>
-        <div class="center">
-            <span class="path">
-                <span>@Model.DisplayName</span>
+
+
+    <div class="top-right">
+        @if (runner == null)
+        {
+            <span class="time">
+                @DateString(Model.Date)
             </span>
-            @if (runner == null)
+        }
+        else
+        {
+            @if (runner.Aborted)
             {
-                <span class="top-right time">
-                    <span>
-                        @DateString(Model.Date)
-                    </span>
-                </span>
-                @if (Model.Status == FileStatus.Processed)
+                <span class="aborting">@lblAborting</span>
+            }
+            else if (Minimal == false)
+            {
+                <span class="time">@runner.CurrentPartName</span>
+            }
+        }
+    </div>
+
+    @if (runner == null && Model is { Status: FileStatus.Processed, FinalSize: > 0 })
+    {
+        <div class="bottom-right">
+            <span class=" size">
+                @FileSizeFormatter.FormatSize(Model.FinalSize)
+            </span>
+        </div>
+    }
+    
+    <div class="center">
+        <span class="path">
+            <span>@Model.DisplayName</span>
+        </span>
+
+        <div class="info">
+            @if (string.IsNullOrEmpty(Model.LibraryName) == false)
+            {
+                if (Model.LibraryUid == CommonVariables.ManualLibraryUid)
                 {
-                    @if (Model.FinalSize > 0)
-                    {
-                        <span class="size">
-                            @FileSizeFormatter.FormatSize(Model.FinalSize)
-                        </span>
-                    }
+                    <FlowIconValue Icon="library" Value="@lblManualLibrary" ValueUid="@Model.LibraryUid"/>
+                }
+                else
+                {
+                    <FlowIconValue Icon="library" Value="@Model.LibraryName" ValueUid="@Model.LibraryUid"/>
                 }
             }
-            else
+            @if (string.IsNullOrEmpty(Model.NodeName) == false)
             {
-                @if (runner.Aborted)
+                if (Model.NodeUid == CommonVariables.InternalNodeUid)
                 {
-                    <span class="top-right aborting"><span>@lblAborting</span></span>
+                    <FlowIconValue Icon="node" Value="@lblInternalProcessingNode" ValueUid="@Model.NodeUid"/>
                 }
-                else if (Minimal == false)
+                else
                 {
-                    <span class="top-right time"><span>@runner.CurrentPartName</span></span>
+                    <FlowIconValue Icon="node" Value="@Model.NodeName" ValueUid="@Model.NodeUid"/>
                 }
-
-                <div class="steps">
-                    @FormatProcessingTime(runner.ProcessingTime)
-                </div>
             }
-
-            @if (Model.Traits?.Any() == true)
+            @if (string.IsNullOrEmpty(Model.FlowName) == false)
             {
-                <div class="traits">
-                    @foreach (var trait in Model.Traits)
-                    {
-                        <span class="trait">@trait</span>
-                    }
-                </div>
+                <FlowIconValue Icon="flow" Value="@Model.FlowName" ValueUid="@Model.FlowUid"/>
             }
-
-            <div class="info">
-                @if (string.IsNullOrEmpty(Model.LibraryName) == false)
-                {
-                    if (Model.LibraryUid == CommonVariables.ManualLibraryUid)
-                    {
-                        <FlowIconValue Icon="library" Value="@lblManualLibrary" ValueUid="@Model.LibraryUid"/>
-                    }
-                    else
-                    {
-                        <FlowIconValue Icon="library" Value="@Model.LibraryName" ValueUid="@Model.LibraryUid"/>
-                    }
-                }
-                @if (string.IsNullOrEmpty(Model.NodeName) == false)
-                {
-                    if (Model.NodeUid == CommonVariables.InternalNodeUid)
-                    {
-                        <FlowIconValue Icon="node" Value="@lblInternalProcessingNode" ValueUid="@Model.NodeUid"/>
-                    }
-                    else
-                    {
-                        <FlowIconValue Icon="node" Value="@Model.NodeName" ValueUid="@Model.NodeUid"/>
-                    }
-                }
-                @if (string.IsNullOrEmpty(Model.FlowName) == false)
-                {
-                    <FlowIconValue Icon="flow" Value="@Model.FlowName" ValueUid="@Model.FlowUid"/>
-                }
-            </div>
-
         </div>
 
-        @if (runner?.Additional?.Any() == true)
+        @if (Traits.Count > 0)
         {
-            <div class="details">
-                @if (runner.FramesPerSecond > 0)
+            <div class="traits">
+                @foreach (var trait in Traits)
                 {
-                    <span class="label">FPS</span>
-                    <span class="value">@runner.FramesPerSecond</span>
-                }
-                @foreach (var additional in GetSortedAdditional(runner))
-                {
-                    <span class="label">@additional[0]</span>
-                    <span class="value">@additional[1]</span>
+                    <FlowIconValue Icon="@trait.Value" Value="@trait.Key" Color="dark" />
                 }
             </div>
         }
+    </div>
+
+    <div class="right">
+
+        @if (runner != null)
+        {
+            <div class="steps">
+                @FormatProcessingTime(runner.ProcessingTime)
+            </div>
+        }
+    </div>
+
+
+    @if (runner?.Additional?.Any() == true)
+    {
+        <div class="details">
+            @if (runner.FramesPerSecond > 0)
+            {
+                <span class="label">FPS</span>
+                <span class="value">@runner.FramesPerSecond</span>
+            }
+            @foreach (var additional in GetSortedAdditional(runner))
+            {
+                <span class="label">@additional[0]</span>
+                <span class="value">@additional[1]</span>
+            }
+        </div>
+    }
 
     @if (Model.Status == FileStatus.ProcessingFailed && string.IsNullOrWhiteSpace(Model.FailureReason) == false)
     {
