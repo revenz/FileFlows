@@ -116,51 +116,46 @@
     user-select: none;
     position: relative;
     width: 100%;
-    &:not(.no-styling)
-    {
-        border: solid 1px $borderColor;
-        padding-left: 0.25rem;
-        &:nth-child(odd) {
-            background:rgb(255 255 255 / 3%);
+    border: solid 1px $borderColor;
+    padding-left: 0.25rem;
+    &:nth-child(odd) {
+        background:rgb(255 255 255 / 3%);
+    }
+
+    &.selected {
+        border-left:solid 3px var(--accent);
+        padding-left:calc(0.25rem - 2px);
+        background: var(--base);
+    }
+    &:not(.flowtable-header-row) {
+        border-top-color: transparent;
+        &:hover {
+            background: var(--base-lighter);
+        }
+    }
+
+    > span {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        height: 2.2rem;
+        line-height: 2.2rem;
+
+        &:not(.flowtable-select) {
+            padding-left: 0.5rem;
         }
 
-        &.selected {
-            border-left:solid 3px var(--accent);
-            padding-left:calc(0.25rem - 2px);
-            background: var(--base);
+        &.pre-text {
+            white-space: pre-line;
+            height: unset;
+            line-height: unset;
+            margin: 0.3rem 0;
         }
-        &:not(.flowtable-header-row) {
-            border-top-color: transparent;
-            border-right-color: transparent;
-            border-left-color: transparent;
-            &:hover {
-                background: var(--base-lighter);
-            }
-        }
-
-        > span {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            height: 2.2rem;
-            line-height: 2.2rem;
-
-            &:not(.flowtable-select) {
-                padding-left: 0.5rem;
-            }
-
-            &.pre-text {
-                white-space: pre-line;
-                height: unset;
-                line-height: unset;
-                margin: 0.3rem 0;
-            }
-            &.no-height {
-                height: unset;
-                line-height: unset;
-                margin-bottom: auto;
-                padding: 0.25rem 0;
-            }
+        &.no-height {
+            height: unset;
+            line-height: unset;
+            margin-bottom: auto;
+            padding: 0.25rem 0;
         }
     }
     &.disabled ::deep .column {

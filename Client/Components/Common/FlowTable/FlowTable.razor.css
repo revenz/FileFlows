@@ -101,44 +101,40 @@
   user-select: none;
   position: relative;
   width: 100%;
-}
-.flowtable-row:not(.no-styling) {
   border: solid 1px var(--input-background);
   padding-left: 0.25rem;
 }
-.flowtable-row:not(.no-styling):nth-child(odd) {
+.flowtable-row:nth-child(odd) {
   background: rgba(255, 255, 255, 0.03);
 }
-.flowtable-row:not(.no-styling).selected {
+.flowtable-row.selected {
   border-left: solid 3px var(--accent);
   padding-left: calc(0.25rem - 2px);
   background: var(--base);
 }
-.flowtable-row:not(.no-styling):not(.flowtable-header-row) {
+.flowtable-row:not(.flowtable-header-row) {
   border-top-color: transparent;
-  border-right-color: transparent;
-  border-left-color: transparent;
 }
-.flowtable-row:not(.no-styling):not(.flowtable-header-row):hover {
+.flowtable-row:not(.flowtable-header-row):hover {
   background: var(--base-lighter);
 }
-.flowtable-row:not(.no-styling) > span {
+.flowtable-row > span {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   height: 2.2rem;
   line-height: 2.2rem;
 }
-.flowtable-row:not(.no-styling) > span:not(.flowtable-select) {
+.flowtable-row > span:not(.flowtable-select) {
   padding-left: 0.5rem;
 }
-.flowtable-row:not(.no-styling) > span.pre-text {
+.flowtable-row > span.pre-text {
   white-space: pre-line;
   height: unset;
   line-height: unset;
   margin: 0.3rem 0;
 }
-.flowtable-row:not(.no-styling) > span.no-height {
+.flowtable-row > span.no-height {
   height: unset;
   line-height: unset;
   margin-bottom: auto;
