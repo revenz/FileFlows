@@ -312,16 +312,23 @@ public class Client : IDisposable
         _nodeStatusStarted = true;
         _ = Task.Run(async () =>
         {
-
             _ = SyncLog();
             while (Disposed == false)
             {
-                if (await Connection.AwaitConnection() == false || Connection.Node is { } node == false)
+                if (await Connection.AwaitConnection() == false )
                 {
+                    _logger.DLog("Failed to await connection to send node status update");
                     await Task.Delay(TimeSpan.FromSeconds(5), _delayCts.Token);
                     continue;
                 }
-
+                
+                if (Connection.Node is { } node == false)
+                {
+                    _logger.DLog("Node was null, cannot send node status update");
+                    await Task.Delay(TimeSpan.FromSeconds(5), _delayCts.Token);
+                    continue;
+                }
+                
                 try
                 {
                     var info = new
@@ -364,6 +371,8 @@ public class Client : IDisposable
                     // Task.Delay was interrupted, continue immediately
                 }
             }
+            
+            _logger.ILog("Disposed, stop sending node status updates");
         });
     }
 

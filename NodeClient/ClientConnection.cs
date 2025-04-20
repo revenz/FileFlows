@@ -403,35 +403,36 @@ public class ClientConnection : IDisposable
             if (await AwaitConnection(30) == false)
                 continue;
             try
-            {
+            {            
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
                 switch (args.Length)
                 {
-                    case 0: await _connection.InvokeAsync(methodName); break;
-                    case 1: await _connection.InvokeAsync(methodName, args[0]); break;
-                    case 2: await _connection.InvokeAsync(methodName, args[0], args[1]); break;
+                    case 0: await _connection.InvokeAsync(methodName, cancellationToken: cts.Token); break;
+                    case 1: await _connection.InvokeAsync(methodName, args[0], cancellationToken: cts.Token); break;
+                    case 2: await _connection.InvokeAsync(methodName, args[0], args[1], cancellationToken: cts.Token); break;
                     case 3:
-                        await _connection.InvokeAsync(methodName, args[0], args[1], args[2]); break;
+                        await _connection.InvokeAsync(methodName, args[0], args[1], args[2], cancellationToken: cts.Token); break;
                     case 4:
-                        await _connection.InvokeAsync(methodName, args[0], args[1], args[2], args[3]);
+                        await _connection.InvokeAsync(methodName, args[0], args[1], args[2], args[3], cancellationToken: cts.Token);
                         break;
                     case 5:
                         await _connection.InvokeAsync(methodName, args[0], args[1], args[2], args[3],
-                            args[4]); break;
+                            args[4], cancellationToken: cts.Token); break;
                     case 6:
                         await _connection.InvokeAsync(methodName, args[0], args[1], args[2], args[3],
-                            args[4], args[5]); break;
+                            args[4], args[5], cancellationToken: cts.Token); break;
                     case 7:
                         await _connection.InvokeAsync(methodName, args[0], args[1], args[2], args[3],
-                            args[4], args[5], args[6]); break;
+                            args[4], args[5], args[6], cancellationToken: cts.Token); break;
                     case 8:
                         await _connection.InvokeAsync(methodName, args[0], args[1], args[2], args[3],
-                            args[4], args[5], args[6], args[7]); break;
+                            args[4], args[5], args[6], args[7], cancellationToken: cts.Token); break;
                     case 9:
                         await _connection.InvokeAsync(methodName, args[0], args[1], args[2], args[3],
-                            args[4], args[5], args[6], args[7], args[8]); break;
+                            args[4], args[5], args[6], args[7], args[8], cancellationToken: cts.Token); break;
                     case 10:
                         await _connection.InvokeAsync(methodName, args[0], args[1], args[2], args[3],
-                            args[4], args[5], args[6], args[7], args[8], args[9]); break;
+                            args[4], args[5], args[6], args[7], args[8], args[9], cancellationToken: cts.Token); break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(args), "Too many arguments provided.");
                 }
@@ -469,34 +470,35 @@ public class ClientConnection : IDisposable
             try
             {
                 TResult result;
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
                 switch (args.Length)
                 {
-                    case 0: result = await _connection.InvokeAsync<TResult>(methodName); break;
-                    case 1: result = await _connection.InvokeAsync<TResult>(methodName, args[0]); break;
-                    case 2: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1]); break;
+                    case 0: result = await _connection.InvokeAsync<TResult>(methodName, cancellationToken: cts.Token); break;
+                    case 1: result = await _connection.InvokeAsync<TResult>(methodName, args[0], cancellationToken: cts.Token); break;
+                    case 2: result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], cancellationToken: cts.Token); break;
                     case 3:
-                        result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2]); break;
+                        result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], cancellationToken: cts.Token); break;
                     case 4:
-                        result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3]);
+                        result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3], cancellationToken: cts.Token);
                         break;
                     case 5:
                         result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3],
-                            args[4]); break;
+                            args[4], cancellationToken: cts.Token); break;
                     case 6:
                         result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3],
-                            args[4], args[5]); break;
+                            args[4], args[5], cancellationToken: cts.Token); break;
                     case 7:
                         result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3],
-                            args[4], args[5], args[6]); break;
+                            args[4], args[5], args[6], cancellationToken: cts.Token); break;
                     case 8:
                         result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3],
-                            args[4], args[5], args[6], args[7]); break;
+                            args[4], args[5], args[6], args[7], cancellationToken: cts.Token); break;
                     case 9:
                         result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3],
-                            args[4], args[5], args[6], args[7], args[8]); break;
+                            args[4], args[5], args[6], args[7], args[8], cancellationToken: cts.Token); break;
                     case 10:
                         result = await _connection.InvokeAsync<TResult>(methodName, args[0], args[1], args[2], args[3],
-                            args[4], args[5], args[6], args[7], args[8], args[9]); break;
+                            args[4], args[5], args[6], args[7], args[8], args[9], cancellationToken: cts.Token); break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(args), "Too many arguments provided.");
                 }
@@ -532,29 +534,30 @@ public class ClientConnection : IDisposable
                 continue;
             try
             {
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
                 switch (args.Length)
                 {
-                    case 0: await _connection.SendAsync(methodName); break;
-                    case 1: await _connection.SendAsync(methodName, args[0]); break;
-                    case 2: await _connection.SendAsync(methodName, args[0], args[1]); break;
-                    case 3: await _connection.SendAsync(methodName, args[0], args[1], args[2]); break;
-                    case 4: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3]); break;
-                    case 5: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4]); break;
+                    case 0: await _connection.SendAsync(methodName, cancellationToken: cts.Token); break;
+                    case 1: await _connection.SendAsync(methodName, args[0], cancellationToken: cts.Token); break;
+                    case 2: await _connection.SendAsync(methodName, args[0], args[1], cancellationToken: cts.Token); break;
+                    case 3: await _connection.SendAsync(methodName, args[0], args[1], args[2], cancellationToken: cts.Token); break;
+                    case 4: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], cancellationToken: cts.Token); break;
+                    case 5: await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4], cancellationToken: cts.Token); break;
                     case 6:
                         await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4],
-                            args[5]); break;
+                            args[5], cancellationToken: cts.Token); break;
                     case 7:
                         await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4], args[5],
-                            args[6]); break;
+                            args[6], cancellationToken: cts.Token); break;
                     case 8:
                         await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4], args[5],
-                            args[6], args[7]); break;
+                            args[6], args[7], cancellationToken: cts.Token); break;
                     case 9:
                         await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4], args[5],
-                            args[6], args[7], args[8]); break;
+                            args[6], args[7], args[8], cancellationToken: cts.Token); break;
                     case 10:
                         await _connection.SendAsync(methodName, args[0], args[1], args[2], args[3], args[4], args[5],
-                            args[6], args[7], args[8], args[9]); break;
+                            args[6], args[7], args[8], args[9], cancellationToken: cts.Token); break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(args), "Too many arguments provided.");
                 }
