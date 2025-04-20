@@ -1584,17 +1584,3 @@ input[type=file]{
         }
     }
 }
-
-
-@container file-card (min-width: 700px) {
-  .center {
-    display:grid !important;;
-    grid-template-columns: 1fr auto;
-      .traits {
-          margin-top:0 !important;
-      }
-      .info {
-          grid-column: 1 / 3;
-      }
-  }
-}
