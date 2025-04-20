@@ -140,6 +140,8 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             LibraryFile = libFile,
             Flow = flow
         };
+        Info.FlowName = flow.Name;
+        Info.FlowUid = flow.Uid;
         runnerParameters.Uid = libFile.Uid;
         runnerParameters.MaxFlowParts = cfgService.CurrentConfig?.MaxNodes ?? 30;
         runnerParameters.NodeUid = node2!.Uid;

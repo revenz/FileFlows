@@ -326,6 +326,14 @@ public class RunnerManager
         // started at isnt tracked in the runner it self
         info.StartedAt = runner.Info.StartedAt;
         info.Aborted = runner.Info.Aborted;
+        if (info.FlowName == null)
+            info.FlowName = runner.Info.FlowName;
+        if (info.FlowUid == Guid.Empty)
+            info.FlowUid = runner.Info.FlowUid;
+        if (info.NodeName == null)
+            info.NodeName = runner.Info.NodeName;
+        if (info.NodeUid == Guid.Empty)
+            info.NodeUid = runner.Info.NodeUid;
         
         runner.Info = info;
         RunnerUpdated?.Invoke();
