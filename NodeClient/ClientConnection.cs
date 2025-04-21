@@ -186,6 +186,7 @@ public class ClientConnection : IDisposable
 
                 if (IsRegistered)
                 {
+                    ILog("Connected and registered.");
                     await Task.Delay(5000, _cts.Token);
                     continue;
                 }

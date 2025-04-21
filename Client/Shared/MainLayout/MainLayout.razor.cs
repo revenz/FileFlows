@@ -6,6 +6,9 @@ namespace FileFlows.Client.Shared;
 
 public partial class MainLayout : LayoutComponentBase
 {
+    /// <summary>
+    /// Gets or sets the menu
+    /// </summary>
     public NavBar Menu { get; set; }
     /// <summary>
     /// Gets or sets the blocker
