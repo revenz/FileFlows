@@ -94,7 +94,13 @@ public class InitialClientData
     /// Gets or sets the file queue
     /// </summary>
     [JsonPropertyName("fq")]
-    public List<LibraryFileMinimal> FileQueue { get; set; }
+    public List<LibraryFileMinimal> Unprocessed { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the total in the file queue
+    /// </summary>
+    [JsonPropertyName("fqt")]
+    public int UnprocessedTotal { get; set; }
     
     /// <summary>
     /// Gets or sets the successfully processed files

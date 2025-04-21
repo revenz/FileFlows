@@ -216,7 +216,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
 
         LoadServiceData();
         
-        feService.Files.UnprocessedUpdated += DataUpdated;
+        feService.Files.UnprocessedUpdated += DataUpdatedWithTotal;
         feService.Files.FailedFilesUpdated += DataUpdated2;
         feService.Files.SuccessfulUpdated += DataUpdated2;
         feService.Files.OutOfScheduleUpdated += DataUpdated;
@@ -232,6 +232,13 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         LoadServiceData();
     }
 
+    private void DataUpdatedWithTotal(List<LibraryFileMinimal> obj, int total)
+    {
+        if (PageIndex > 0)
+            return;
+        LoadServiceData();
+    }
+    
     private void DataUpdated2(FileHandler.ListAndCount<LibraryFileMinimal> obj)
     {
         if (PageIndex > 0)
@@ -370,7 +377,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     /// </summary>
     public void Dispose()
     {
-        feService.Files.UnprocessedUpdated -= DataUpdated;
+        feService.Files.UnprocessedUpdated -= DataUpdatedWithTotal;
         feService.Files.FailedFilesUpdated -= DataUpdated2;
         feService.Files.SuccessfulUpdated -= DataUpdated2;
         feService.Files.OutOfScheduleUpdated -= DataUpdated;

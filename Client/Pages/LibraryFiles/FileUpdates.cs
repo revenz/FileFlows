@@ -45,7 +45,8 @@ public partial class LibraryFiles
     /// Called when the files are updated
     /// </summary>
     /// <param name="files">the files</param>
-    private void OnUnprocessedUpdated(List<LibraryFileMinimal> files)
+    /// <param name="total">the total unprocessed</param>
+    private void OnUnprocessedUpdated(List<LibraryFileMinimal> files, int total)
     {
         if (SelectedStatus != FileStatus.Unprocessed)
             return;

@@ -63,10 +63,11 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
     /// Called when the unprocessing data is updated
     /// </summary>
     /// <param name="data">the data</param>
-    private void OnUnprocessedUpdated(List<LibraryFileMinimal> data)
+    /// <param name="total">the total unprocessed</param>
+    private void OnUnprocessedUpdated(List<LibraryFileMinimal> data, int total)
     {
-        if (Unprocessed.Count == data.Count) return;
-        Unprocessed.Count = data.Count;
+        if (Unprocessed.Count == total) return;
+        Unprocessed.Count = total;
         StateHasChanged();
     }
 

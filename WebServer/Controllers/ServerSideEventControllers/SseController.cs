@@ -191,6 +191,7 @@ public class SseController : Controller
             failed = failed.Take(50).ToList();
 
         var upcoming = fileSorter.GetData(FileStatus.Unprocessed);
+        int upcomingTotal = upcoming.Count;
         if (mobile ||(userRole & UserRole.Files) != UserRole.Files && upcoming.Count > 50)
             upcoming = upcoming.Take(50).ToList();
         
@@ -225,7 +226,8 @@ public class SseController : Controller
             FailedFilesTotal = failedTotal,
             Successful = successful.Select(x => (LibraryFileMinimal)x).ToList(),
             SuccessfulTotal = successfulTotal,
-            FileQueue = upcoming.Select(x => (LibraryFileMinimal)x).ToList(),
+            Unprocessed = upcoming.Select(x => (LibraryFileMinimal)x).ToList(),
+            UnprocessedTotal = upcomingTotal,
             TopSavingsAll = savingsAll,
             TopSavings31Days = savings31,
             LibraryFileCounts = lfStatuses,

@@ -170,11 +170,11 @@ public partial class NavBar
         StateHasChanged();
     }
 
-    private void OnUnprocessedUpdated(List<LibraryFileMinimal> obj)
+    private void OnUnprocessedUpdated(List<LibraryFileMinimal> obj, int total)
     {
-        if (TotalUnprocessed == obj.Count)
+        if (TotalUnprocessed == total)
             return;
-        TotalUnprocessed = obj.Count;
+        TotalUnprocessed = total;
         StateHasChanged();
     }
 
