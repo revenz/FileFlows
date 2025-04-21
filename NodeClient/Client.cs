@@ -312,25 +312,26 @@ public class Client : IDisposable
         _nodeStatusStarted = true;
         _ = Task.Run(async () =>
         {
-            _ = SyncLog();
             while (Disposed == false)
             {
-                if (await Connection.AwaitConnection() == false )
-                {
-                    _logger.DLog("Failed to await connection to send node status update");
-                    await Task.Delay(TimeSpan.FromSeconds(5), _delayCts.Token);
-                    continue;
-                }
-                
-                if (Connection.Node is { } node == false)
-                {
-                    _logger.DLog("Node was null, cannot send node status update");
-                    await Task.Delay(TimeSpan.FromSeconds(5), _delayCts.Token);
-                    continue;
-                }
-                
                 try
                 {
+                    if (await Connection.AwaitConnection() == false )
+                    {
+                        _logger.WLog("Failed to await connection to send node status update");
+                        await Task.Delay(TimeSpan.FromSeconds(5), _delayCts.Token);
+                        continue;
+                    }
+                
+                    if (Connection.Node is { } node == false)
+                    {
+                        _logger.WLog("Node was null, cannot send node status update");
+                        await Task.Delay(TimeSpan.FromSeconds(5), _delayCts.Token);
+                        continue;
+                    }
+                
+                    _logger.ILog("Node connected ant not null, should be able to send update");
+                    
                     var info = new
                     {
                         Name = node.Name?.EmptyAsNull() ?? _hostname,
@@ -355,7 +356,7 @@ public class Client : IDisposable
                         _ = UpdateConfiguration(); // do not await this, as this could cause the node to stop sending updates
                     }
 
-                    _logger.DLog("Node Status Update Result: " + result);
+                    _logger.ILog("Node Status Update Result: " + result);
                 }
                 catch (Exception ex)
                 {
@@ -366,14 +367,17 @@ public class Client : IDisposable
                 {
                     await Task.Delay(TimeSpan.FromSeconds(10), _delayCts.Token);
                 }
-                catch (TaskCanceledException)
+                catch (Exception)
                 {
                     // Task.Delay was interrupted, continue immediately
                 }
             }
-            
+           
+            _nodeStatusStarted = false; 
             _logger.ILog("Disposed, stop sending node status updates");
         });
+        
+        _ = SyncLog();
     }
 
     /// <summary>
@@ -381,52 +385,64 @@ public class Client : IDisposable
     /// </summary>
     private async Task SyncLog()
     {
+        TimeSpan delay = TimeSpan.FromSeconds(5);
         while (true)
         {
             try
             {
-                if (await Connection.AwaitConnection() == false)
-                {
-                    await Task.Delay(TimeSpan.FromMinutes(5), _logSyncCts.Token);
-                    continue;
-                }
+                if (Disposed)
+                    return;
+                
+                await Task.Delay(delay, _logSyncCts.Token);
+                
+                if (Disposed)
+                    return;
 
                 var node = Connection.Node;
                 if (node == null)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(10));
+                    delay = TimeSpan.FromSeconds(10);
                     continue;
                 }
 
                 if (node.Uid == CommonVariables.InternalNodeUid)
                     return; // we dont sync this log
 
-                if (Logger.Instance.TryGetLogger(out FileLogger logger))
+                if (Logger.Instance.TryGetLogger(out FileLogger logger) == false)
                 {
-                    var file = logger.GetLogFilename();
-                    if (File.Exists(file))
-                    {
-                        var log = await File.ReadAllTextAsync(file);
-                        if (string.IsNullOrWhiteSpace(log) == false)
-                        {
-                            var compressed = Gzipper.CompressToBytes(log);
-                            await Connection.InvokeAsync("SyncLog", node.Uid, compressed);
-                        }
-                    }
+                    delay = TimeSpan.FromMinutes(5);
+                    continue;
                 }
+
+
+                var file = logger.GetLogFilename();
+                if (File.Exists(file) == false)
+                {
+                    delay = TimeSpan.FromMinutes(5);
+                    continue;
+                }
+
+                var log = await File.ReadAllTextAsync(file);
+                if (string.IsNullOrWhiteSpace(log))
+                {
+                    delay = TimeSpan.FromMinutes(5);
+                    continue;
+                }
+
+                var compressed = Gzipper.CompressToBytes(log);
+
+                if (await Connection.AwaitConnection() == false)
+                {
+                    delay = TimeSpan.FromMinutes(5);
+                    continue;
+                }
+
+                await Connection.InvokeAsync("SyncLog", node.Uid, compressed);
+                delay = TimeSpan.FromMinutes(60);
             }
             catch (Exception)
             {
                 // Ignore
-            }
-
-            try
-            {
-                await Task.Delay(TimeSpan.FromMinutes(60), _logSyncCts.Token);
-            }
-            catch (TaskCanceledException)
-            {
-                // Task.Delay was interrupted, continue immediately
             }
         }
     }
