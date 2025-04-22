@@ -98,7 +98,7 @@ public partial class FileViewer : ModalEditor
                     Label = "Labels.DownloadLog",
                     Clicked = (_, _) =>
                     {
-                        _ = jsRuntime.InvokeVoidAsync("ff.saveTextAsFile", $"{uid}.log", Log);
+                        _ = DownloadLog();
                     }
                 });
             }
@@ -139,5 +139,20 @@ public partial class FileViewer : ModalEditor
         });
         if(result)
             Close();
+    }
+    
+    /// <summary>
+    /// Downloads the log
+    /// </summary>
+    private async Task DownloadLog()
+    {
+        var result = await HttpHelper.Get<string>($"/api/library-file/{Model.Uid}/log/download");
+        if (result.Success == false)
+        {
+            feService.Notifications.ShowError(Translater.Instant("Pages.Log.Labels.FailedToDownloadLog"));
+            return;
+        }
+
+        await jsRuntime.InvokeVoidAsync("ff.saveTextAsFile", Model.Uid + ".log", result.Body);
     }
 }
