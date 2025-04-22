@@ -2,7 +2,7 @@ namespace FileFlows.Shared.Models;
 
 /// <summary>
 /// The data that is sent to connecting clients (browsers) when first loaded
-/// This populates all the cached data for them, so future pages do no need to make heaps of requests
+/// This populates all the cached data for them, so future pages do not need to make heaps of requests
 /// </summary>
 public class InitialClientData
 {

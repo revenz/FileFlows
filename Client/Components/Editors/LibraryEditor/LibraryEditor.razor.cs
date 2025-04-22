@@ -19,7 +19,7 @@ public partial class LibraryEditor : ModalEditor
     /// <summary>
     /// Translations
     /// </summary>
-    private string lblScheduleDescription, lblDetectionDescription;
+    private string lblManualLibrary, lblScheduleDescription, lblDetectionDescription;
     
     private List<ListOption> FlowOptions = [], PriorityOptions = [], ProcessingOrderOptions = [],
         MatchOptions = [], MatchDateOptions = [];
@@ -29,6 +29,7 @@ public partial class LibraryEditor : ModalEditor
     {
         await base.OnInitializedAsync();;
         Title = Translater.Instant("Pages.Library.Title");
+        lblManualLibrary = Translater.Instant("Labels.ManualLibrary");
         lblScheduleDescription = Translater.Instant("Pages.Library.Fields.ScheduleDescription");
         lblDetectionDescription = Translater.Instant("Pages.Library.Fields.DetectionDescription");
         
@@ -69,6 +70,8 @@ public partial class LibraryEditor : ModalEditor
             new () { Value = MatchRange.After, Label = $"Enums.{nameof(MatchRange)}.{nameof(MatchRange.After)}" },
             new () { Value = MatchRange.Before, Label = $"Enums.{nameof(MatchRange)}.{nameof(MatchRange.Before)}" }
         ]).ToList();
+        
+        StateHasChanged();
     }
 
     /// <inheritdoc />
@@ -83,20 +86,8 @@ public partial class LibraryEditor : ModalEditor
             Close();
         }
 
-        InitializeModel(result.Data);
-    }
-
-
-    /// <summary>
-    /// Opens the library editor to edit a specific library
-    /// </summary>
-    /// <param name="model">the library to edit</param>
-    /// <returns>true if the library was saved, otherwise false</returns>
-    public void InitializeModel(Library model)
-    {
-        if(model.Uid == CommonVariables.ManualLibraryUid)
-            Title = Translater.Instant("Labels.ManualLibrary");
-        Model = model;
+        Model = result.Data;
+        StateHasChanged();
     }
     
     /// <summary>

@@ -101,6 +101,11 @@ public class LibraryController : BaseController
             library.Enabled = true;
             library.Name = CommonVariables.ManualLibrary;
             library.Folders = false;
+            if (LicenseService.IsLicensed(LicenseFlags.ProcessingOrder) == false)
+            {
+                library.MaxRunners = 0;
+                library.ProcessingOrder = ProcessingOrder.AsFound;
+            }
         }
 
         var service = ServiceLoader.Load<LibraryService>();
