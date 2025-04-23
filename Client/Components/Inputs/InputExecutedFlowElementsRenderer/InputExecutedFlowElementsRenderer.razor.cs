@@ -49,9 +49,9 @@ public partial class InputExecutedFlowElementsRenderer : ExecuteFlowElementView,
             $"./Components/Inputs/InputExecutedFlowElementsRenderer/InputExecutedFlowElementsRenderer.razor.js?v={Globals.Version}");
         jsObjectReference = await js.InvokeAsync<IJSObjectReference>("createExecutedFlowElementsRenderer", dotNetObjRef, this.Uid);
         
-        int height = await jsObjectReference.InvokeAsync<int>("getVisibleHeight") - 200;
+        int height = await jsObjectReference.InvokeAsync<int>("getVisibleHeight") - 400;
         if (height < 200)
-            height = 880;
+            height = 780;
         //ready = true;
         Flow = BuildFlow(height);
         ffFlow = await ffFlowWrapper.Create(jsRuntime, Guid.NewGuid(), true);
