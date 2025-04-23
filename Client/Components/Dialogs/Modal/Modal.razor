@@ -1,12 +1,12 @@
 @namespace FileFlows.Client.Components.Dialogs
 
-@if (Visible)
+<Editor @ref="Editor"></Editor>
+@if (Visible && Editor != null)
 {
     <div class="background-overlay flow-modal-background-overlay"></div>
 
     <div class="flow-modal" style="@Styling">
         <div class="flow-modal-inner">
-            <Editor @ref="Editor"></Editor>
             <CascadingValue IsFixed="true" Value="Editor">
                 <div class="flow-modal-title">
                     <span>@Title</span>

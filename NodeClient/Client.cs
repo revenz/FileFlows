@@ -485,11 +485,12 @@ public class Client : IDisposable
         try
         {
             //_logger.ILog($"Trying to start runner for: {args.LibraryFile.Name}");
-            var result = await _runnerManager.TryStartRunner(this, args, Connection.Node!, _configurationService.CurrentConfig!);
+            var result = await _runnerManager.TryStartRunner(this, args, 
+                Connection.Node!, _configurationService.CurrentConfig!);
             //_logger.ILog($"Process file result: {result}");
             if (result == FileCheckResult.CanProcess)
                 TriggerStatusUpdate();
-            else if (_runnerManager.ActiveRunners.ContainsKey(args.LibraryFile.Uid))
+            else
                 _runnerManager.ActiveRunners.Remove(args.LibraryFile.Uid);
             return result;
         }

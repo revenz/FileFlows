@@ -118,7 +118,9 @@ public partial class ReprocessDialog : IModal
             new () { Label = lblReplace, Value = ReprocessModel.CustomVariablesMode.Replace },
         ];
         
-        FlowOptions = feService.Flow.Flows.OrderBy(x => x.Name.ToLowerInvariant())
+        FlowOptions = feService.Flow.Flows
+            .Where(x => x.Type == FlowType.Standard)
+            .OrderBy(x => x.Name.ToLowerInvariant())
             .Select(x => new ListOption { Label = x.Name, Value = x.Uid }).ToList();
         FlowOptions.Insert(0, new() { Label = lblSameFlow, Value = Guid.Empty });
         FlowUid = Guid.Empty;

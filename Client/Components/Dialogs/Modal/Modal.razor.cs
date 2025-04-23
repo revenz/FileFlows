@@ -38,8 +38,18 @@ public partial class Modal : ComponentBase
     /// </summary>
     public Blocker Blocker { get; private set; }
 
+    private Editor _Editor;
+    
     /// <summary>
     /// Gets or sets the editor
     /// </summary>
-    private Editor Editor { get; set; }
+    private Editor Editor
+    {
+        get => _Editor;
+        set
+        {
+            _Editor = value;
+            StateHasChanged();
+        }
+    }
 }

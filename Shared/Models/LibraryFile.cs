@@ -372,7 +372,7 @@ public class LibraryFileAdditional
     /// Gets or sets properties users can set on a file in the flow
     /// </summary>
     public Dictionary<string, string> Properties { get; set; } = new();
-
+    
     /// <summary>
     /// Gets or sets if this file has be marked for reprocessing
     /// </summary>
