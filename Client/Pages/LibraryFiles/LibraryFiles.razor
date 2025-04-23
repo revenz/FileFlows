@@ -10,8 +10,7 @@
 <LibraryFileTabs Selected="@SelectedStatus" OnStatusChanged="OnStatusChanged" />
 
 <FlowTable @ref="Table" Data="@Data" TItem="LibraryFileMinimal" Selection="SelectionMode.Multiple"
-       TableIdentifier=@TableIdentifier DoubleClick="@OnDoubleClick"
-       ShowPager=@true TotalItems=@TotalItems OnPageChange=@PageChange
+       TableIdentifier=@TableIdentifier ShowPager=@true TotalItems=@TotalItems OnPageChange=@PageChange
        OnFilter="OnFilter">
 <ToolBar>
     @if (App.Instance.IsMobile == false)

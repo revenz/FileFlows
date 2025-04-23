@@ -57,7 +57,6 @@ public partial class FileViewer : ModalEditor
     {
         var uid = GetModelUid();
         
-        
         var fileResult = await HttpHelper.Get<LibraryFile>("/api/library-file/" + uid);
         if (fileResult.Success == false || fileResult.Data == null)
         {
