@@ -213,7 +213,11 @@ public class StartupService : IStartupService
         );
 
         // setup the library watches
-        ServiceLoader.Load<LibraryService>().SetupWatches().Wait();
+        Task.Run(async () =>
+        {
+            await Task.Delay(TimeSpan.FromSeconds(10));
+            _ = ServiceLoader.Load<LibraryService>().SetupWatches();
+        });
     }
 
     /// <summary>

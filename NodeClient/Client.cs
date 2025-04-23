@@ -330,8 +330,6 @@ public class Client : IDisposable
                         continue;
                     }
                 
-                    _logger.ILog("Node connected ant not null, should be able to send update");
-                    
                     var info = new
                     {
                         Name = node.Name?.EmptyAsNull() ?? _hostname,
