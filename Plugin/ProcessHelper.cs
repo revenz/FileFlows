@@ -206,9 +206,12 @@ public class ProcessHelper : IProcessHelper
     /// </summary>
     public void Kill()
     {
+        Logger.WLog("Process Helper received the abort command");
         if (this.process != null)
         {
+            Logger.WLog("Killing actively running process");
             this.process.Kill();
+            Logger.WLog("Process killed");
             this.process = null;
         }
     }
@@ -288,13 +291,17 @@ public class ProcessHelper : IProcessHelper
                 result.Completed = true;
                 result.ExitCode = -1;
                 result.Output = error.Message;
+                this.process = null;
                 return result;
             }
 
             if (isStarted == false)
+            {
+                this.process = null;
                 return result;
+            }
 
-            
+
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             

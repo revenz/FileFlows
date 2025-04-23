@@ -28,7 +28,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     StringBuilder runLog = new StringBuilder();
     private int _exitCode;
     private bool _keepFiles;
-    private CancellationTokenSource? _cancellationTokenSource;
+    private readonly CancellationTokenSource _cancellationTokenSource = new ();
     private Task? _runnerTask;
     private bool _isRunning;
     /// <summary>
@@ -61,7 +61,6 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     /// </summary>
     public void Start(LibraryFile lf)
     {
-        _cancellationTokenSource = new CancellationTokenSource();
         _isRunning = true;
         _runnerTask = StartRunnerAsync(lf);
     }
@@ -218,10 +217,10 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             if (debugMode)
             {
 #if(DEBUG)
-                _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
-                libFile = rpcServer.GetProcessedFile();
-                libFile.Status = (FileStatus)_exitCode;
-                return libFile;
+                // _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
+                // libFile = rpcServer.GetProcessedFile();
+                // libFile.Status = (FileStatus)_exitCode;
+                // return libFile;
 #endif
             }
 
@@ -300,7 +299,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             lastOutputTime = DateTime.UtcNow;
             
             // Wait for the cancellation token to be triggered (abort request)
-            var abortCancellationTask = WaitForAbortAsync(ctx, rpcServer, process);
+            var abortCancellationTask = WaitForAbortAsync(rpcServer, process);
 
             // Continue the process while it's running or until cancellation happens
             var processExitTask = process.WaitForExitAsync();
@@ -370,11 +369,11 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     }
 
     // This method will be called when the cancellation token is triggered
-    private async Task WaitForAbortAsync(CancellationToken ctx, JsonRpcServer rpcServer, Process process)
+    private async Task WaitForAbortAsync(JsonRpcServer rpcServer, Process process)
     {
         while (!process.HasExited)
         {
-            await Task.Delay(5000, ctx).ConfigureAwait(false); // Check every 5 seconds
+            await Task.Delay(5000, _cancellationTokenSource.Token).ConfigureAwait(false); // Check every 5 seconds
 
             if (DateTime.UtcNow - lastOutputTime > noOutputTimeout)
             {
@@ -396,7 +395,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 return;
             }
 
-            if (ctx.IsCancellationRequested)
+            if (_cancellationTokenSource.IsCancellationRequested)
             {
                 runLog.AppendLine("Abort triggered.");
                 rpcServer.Abort();
@@ -483,7 +482,7 @@ Failed to create working directory, this is likely caused by the mapped '/temp' 
          _aborted = true;
          StopUpdateTimer();
          // Abort the run
-         _cancellationTokenSource?.Cancel();
+         await _cancellationTokenSource.CancelAsync();
          
          // Wait for the runner to finish if it's still running
          while (_isRunning)
@@ -531,7 +530,6 @@ Failed to create working directory, this is likely caused by the mapped '/temp' 
          if (_updateTask == null)
              return;
 
-         _cancellationTokenSource?.Cancel();
          try
          {
              await _updateTask;

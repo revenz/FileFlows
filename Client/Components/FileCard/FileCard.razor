@@ -34,25 +34,29 @@
     </span>
 
 
-    <div class="top-right">
-        @if (runner == null)
-        {
+    @if (runner == null)
+    {
+        <div class="top-right">
             <span class="time">
                 @DateString(Model.Date)
             </span>
-        }
-        else
+        </div>
+    }
+    else
+    {
+        @if (runner.Aborted)
         {
-            @if (runner.Aborted)
-            {
-                <span class="aborting">@lblAborting</span>
-            }
-            else if (Minimal == false)
-            {
-                <span class="time">@runner.CurrentPartName</span>
-            }
+            <div class="top-right aborting">
+                <span>@lblAborting</span>
+            </div>
         }
-    </div>
+        else if (Minimal == false)
+        {
+            <div class="top-right">
+                <span class="time">@runner.CurrentPartName</span>
+            </div>
+        }
+    }
 
     @if (runner == null && Model is { Status: FileStatus.Processed, FinalSize: > 0 })
     {

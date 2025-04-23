@@ -55,6 +55,7 @@ public class Runner
     /// </summary>
     private void Abort()
     {
+        nodeParameters?.Logger?.WLog("Aborting...");
         this.Canceled = true;
         CancellationToken.Cancel();
     }
