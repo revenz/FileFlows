@@ -11,7 +11,7 @@ namespace FileFlows.Server.Upgrade;
 public class Upgrader
 {
     // update this with the latest db version
-    private readonly Version LATEST_DB_VERSION = new Version(24, 09, 2, 3545);
+    private readonly Version LATEST_DB_VERSION = new Version(25, 04, 6, 5330);
 
     /// <summary>
     /// Gets an instance of the upgrade manager
@@ -211,6 +211,17 @@ public class Upgrader
             if(new Upgrade_24_09_2(Logger.Instance, appSettingsService, manager).Run().Failed(out string error))
             {
                 Logger.Instance.ELog("24.09.2 Upgrade failed: " + error);
+                return Result<bool>.Fail(error);
+            }
+        }
+        
+        if (currentVersion < new Version(25, 4, 6, 5330))
+        {
+            statusCallback("Running 25.04 upgrade");
+            Logger.Instance.ILog("Running 25.04 upgrade");
+            if(new Upgrade_25_04(Logger.Instance, appSettingsService, manager).Run().Failed(out string error))
+            {
+                Logger.Instance.ELog("25.04 Upgrade failed: " + error);
                 return Result<bool>.Fail(error);
             }
         }

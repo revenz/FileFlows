@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowRunner", "FlowRunner\Fl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptExecution", "ScriptExecution\ScriptExecution.csproj", "{09568E2E-EBE2-447D-9628-19C618AE7461}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{FDCE8821-3228-42C9-8639-A279E51E2EE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "..\FileFlowsAdditional\DataLayer\DataLayer.csproj", "{FDCE8821-3228-42C9-8639-A279E51E2EE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Managers", "Managers\Managers.csproj", "{508AFEAB-0FF3-45AD-89CE-D78B30A4F2D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Managers", "..\FileFlowsAdditional\Managers\Managers.csproj", "{508AFEAB-0FF3-45AD-89CE-D78B30A4F2D2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteServices", "RemoteServices\RemoteServices.csproj", "{0C0D563E-4D7C-4A94-B6B6-51D4D1B41D01}"
 EndProject
