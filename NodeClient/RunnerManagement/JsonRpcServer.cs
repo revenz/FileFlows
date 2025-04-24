@@ -34,6 +34,7 @@ public class JsonRpcServer : IDisposable
     private readonly BasicHandler _basicHandler;
     private readonly StatisticsHandler _statisticsHandler;
     private readonly CacheHandler _cacheHandler;
+    private StreamWriter? writer;
 
     private readonly string LogPrefix;
 
@@ -94,6 +95,7 @@ public class JsonRpcServer : IDisposable
 
                     using var reader = new StreamReader(server);
                     await using var writer = new StreamWriter(server);
+                    this.writer = writer;
                     writer.AutoFlush = true;
 
                     while (server.IsConnected && !cts.Token.IsCancellationRequested)
@@ -191,15 +193,8 @@ public class JsonRpcServer : IDisposable
     {
         var abortMessage = new { action = "Abort" };
         string jsonMessage = JsonSerializer.Serialize(abortMessage);
-
-        _ = Task.Run(async () =>
-        {
-            if (server?.IsConnected == true)
-            {
-                using var writer = new StreamWriter(server) { AutoFlush = true };
-                await SendMessageToClient(writer, jsonMessage);
-            }
-        });
+        if (server?.IsConnected == true && writer != null)
+            SendMessageToClient(writer, jsonMessage).GetAwaiter().GetResult();
     }
 
     /// <summary>

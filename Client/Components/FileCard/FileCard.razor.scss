@@ -193,7 +193,7 @@
   top: 3.5rem;
 }
 .aborting {
-  background: var(--danger);
+  background: var(--danger) !important;
 }
 .details {
   grid-column: 1 / 4;

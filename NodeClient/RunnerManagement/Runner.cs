@@ -40,6 +40,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     private bool AbortDueToNoOutput;
     readonly TimeSpan noOutputTimeout = TimeSpan.FromSeconds(30);
     DateTime lastOutputTime = DateTime.UtcNow;
+    private JsonRpcServer? rpcServer = null; 
 
     public FlowExecutorInfo Info { get; set; } = new()
     {
@@ -204,6 +205,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         });
 
         rpcServer.Start();
+        this.rpcServer = rpcServer; 
         
         try
         {

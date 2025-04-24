@@ -182,7 +182,7 @@
 }
 
 .aborting {
-  background: var(--danger);
+  background: var(--danger) !important;
 }
 
 .details {
