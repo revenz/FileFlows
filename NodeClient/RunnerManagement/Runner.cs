@@ -219,10 +219,10 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             if (debugMode)
             {
 #if(DEBUG)
-                // _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
-                // libFile = rpcServer.GetProcessedFile();
-                // libFile.Status = (FileStatus)_exitCode;
-                // return libFile;
+                _exitCode = (int)FlowRunner.Program.RunInternal(rpcServer.PipeName);
+                libFile = rpcServer.GetProcessedFile();
+                libFile.Status = (FileStatus)_exitCode;
+                return libFile;
 #endif
             }
 
@@ -301,7 +301,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             lastOutputTime = DateTime.UtcNow;
             
             // Wait for the cancellation token to be triggered (abort request)
-            var abortCancellationTask = WaitForAbortAsync(rpcServer, process);
+            var abortCancellationTask = WaitForAbortAsync(process);
 
             // Continue the process while it's running or until cancellation happens
             var processExitTask = process.WaitForExitAsync();
@@ -371,7 +371,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     }
 
     // This method will be called when the cancellation token is triggered
-    private async Task WaitForAbortAsync(JsonRpcServer rpcServer, Process process)
+    private async Task WaitForAbortAsync(Process process)
     {
         while (!process.HasExited)
         {
@@ -381,7 +381,6 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
             {
                 AbortDueToNoOutput = true;
                 runLog.AppendLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} [ERRR] -> Process terminated due to no output received in {noOutputTimeout}.");
-                rpcServer.Abort();
                 try
                 {
                     if (!process.HasExited)
@@ -399,8 +398,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
 
             if (_cancellationTokenSource.IsCancellationRequested)
             {
-                runLog.AppendLine("Abort triggered.");
-                rpcServer.Abort();
+                // requested canceling, we just return here, we will wait for a graceful shutdown in the caller method
                 return;
             }
         }
@@ -482,6 +480,7 @@ Failed to create working directory, this is likely caused by the mapped '/temp' 
      {
          Info.Aborted = true;
          _aborted = true;
+         rpcServer?.Abort();
          StopUpdateTimer();
          // Abort the run
          await _cancellationTokenSource.CancelAsync();

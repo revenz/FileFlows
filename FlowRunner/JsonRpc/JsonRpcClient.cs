@@ -112,7 +112,11 @@ public class JsonRpcClient : IDisposable
                         var rpcMessage = JsonSerializer.Deserialize<RpcMessage>(message);
                         if (rpcMessage?.Method == "Abort")
                         {
-                            Logger.Instance.ILog("Received Abort request from server.");
+#if(DEBUG)
+                            _ = Basic.LogMessage("Received Abort request from server.");
+#else
+                            Console.WriteLine("Received Abort request from server.");
+#endif
                             HandleAbort();
                         }
 
