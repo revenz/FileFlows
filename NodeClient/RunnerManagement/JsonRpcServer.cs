@@ -191,7 +191,7 @@ public class JsonRpcServer : IDisposable
     /// </summary>
     public void Abort()
     {
-        var abortMessage = new { action = "Abort" };
+        var abortMessage = new { Method = "Abort" };
         string jsonMessage = JsonSerializer.Serialize(abortMessage);
         if (server?.IsConnected == true && writer != null)
             SendMessageToClient(writer, jsonMessage).GetAwaiter().GetResult();
