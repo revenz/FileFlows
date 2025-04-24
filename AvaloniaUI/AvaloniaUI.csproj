@@ -19,13 +19,14 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.2.5" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.2.5" />
+        <PackageReference Include="Avalonia" Version="11.2.8" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.2.8" />
         <PackageReference Include="Avalonia.Diagnostics" Version="11.2.5" />
-        <PackageReference Include="Avalonia.Themes.Simple" Version="11.2.5" />
+        <PackageReference Include="Avalonia.Themes.Simple" Version="11.2.8" />
     </ItemGroup>
     <ItemGroup>
         <AvaloniaResource Include="App.xaml" />
+        <AvaloniaResource Include="Controls\CardOption.xaml" />
         <AvaloniaResource Include="MessageBox.xaml" />
         <AvaloniaResource Include="Resources\**\*" />
     </ItemGroup>
