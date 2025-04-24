@@ -147,11 +147,10 @@ public class Program
                     WindowsConsoleManager.Hide();
                 
                 Logger.Instance?.ILog("Launching GUI");
-                // Task.Run(async () =>
-                // {
-                    //await Manager.Register();
+                Task.Run(() =>
+                {
                     Manager.Start();
-                // });
+                });
                 try
                 {
                     var appBuilder = BuildAvaloniaApp();

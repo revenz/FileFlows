@@ -724,6 +724,9 @@ public class NodeParameters
                     if (FileName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase) == false 
                         && FileService.FileInfo(this.FileName).Success(out var fiOriginal) && fiOriginal != null)
                     {
+                        Variables["ORIGINAL_CREATE_UTC"] = fiOriginal.CreationTimeUtc;
+                        Variables["ORIGINAL_LAST_WRITE_UTC"] = fiOriginal.LastWriteTimeUtc;
+
                         UpdateVariables(new Dictionary<string, object>
                         {
                             { "file.Create", fiOriginal.CreationTime },

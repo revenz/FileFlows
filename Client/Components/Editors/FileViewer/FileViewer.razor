@@ -77,7 +77,7 @@
         @if (string.IsNullOrWhiteSpace(LogServer) == false)
         {
             <FlowTab Title="Pages.LibraryFile.Tabs.LogServer">
-                <InputLogView Label="Pages.LibraryFile.Fields.LogServer" Value="@LogServer"/>
+                <InputLogView Value="@LogServer"/>
             </FlowTab>
         }
         @if (Model.OriginalMetadata?.Any() == true)
