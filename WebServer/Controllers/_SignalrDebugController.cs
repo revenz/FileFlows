@@ -1,4 +1,4 @@
-//#if(DEBUG)
+#if(DEBUG)
 
 using System.Text;
 using FileFlows.Services.FileProcessing;
@@ -264,4 +264,4 @@ public class _SignalrDebugController : Controller
     
 }
 
-// #endif
+#endif
