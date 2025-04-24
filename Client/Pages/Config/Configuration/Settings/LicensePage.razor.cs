@@ -107,7 +107,7 @@ public partial class LicensePage : InputRegister
             
             await HttpHelper.Put<string>("/api/configuration/license", this.Model);
             
-            await Refresh();
+            NavigationManager.Refresh(true);
         }
         finally
         {
