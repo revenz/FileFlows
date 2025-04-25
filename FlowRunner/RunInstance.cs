@@ -143,6 +143,7 @@ public class RunInstance(RunnerProperties properties)
                 Name = properties.StartingFlow.Name,
                 Type = typeof(Flow)?.FullName ?? string.Empty
             };
+            LogInfo("Updating library file to reference new flow: " + properties.LibraryFile.Name);
             RpcClient.LibraryFileHandler.UpdateLibraryFile(properties.LibraryFile).Wait();
         }
 
@@ -155,11 +156,13 @@ public class RunInstance(RunnerProperties properties)
                         string.Empty : properties.LibraryFile.Name[..^(properties.LibraryFile.RelativePath.Length + 1)];
         Properties.IsDirectory = properties.StartingFlow.Parts.FirstOrDefault(x => x.Type == FlowElementType.Input)?.FlowElementUid
             ?.Contains("Folder") == true;
+        LogInfo("IsDirectory: " + properties.IsDirectory);
 
         if (Regex.IsMatch(workingFile, "^http(s)?://", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase))
         {
             // url
             Properties.IsRemote = true;
+            LogInfo("IsRemote: " + true);
             if (args.IsServer)
                 _fileService = new LocalFileService(args.Config.DontUseTempFilesWhenMovingOrCopying);
             else if (args.Config.AllowRemote)
@@ -175,6 +178,7 @@ public class RunInstance(RunnerProperties properties)
             FileSystemInfo file = Properties.IsDirectory ? new DirectoryInfo(workingFile) : new FileInfo(workingFile);
             bool fileExists = file.Exists; // set to variable so we can set this to false in debugging easily
 
+            LogInfo("FileExists: " + fileExists);
 #if(DEBUG)
             if (args.IsServer == false)
                 fileExists = false;
@@ -187,6 +191,7 @@ public class RunInstance(RunnerProperties properties)
             }
             else
             {
+                LogInfo("File doesnt exist locally");
                 if (args.IsServer)
                 {
                     // doesnt exist
@@ -194,6 +199,7 @@ public class RunInstance(RunnerProperties properties)
                     // RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
 
                     properties.LibraryFile.FailureReason = "Library file does not exist.";
+                    properties.Logger.WLog(properties.LibraryFile.FailureReason);
                     return (FileStatus.ProcessingFailed, false);
                 }
 
@@ -211,6 +217,7 @@ public class RunInstance(RunnerProperties properties)
                     //LogInfo("Library file does not exist, deleting from library files: " + file.FullName);
                     //RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
                     properties.LibraryFile.FailureReason = "Library file does not exist. Not running on server.";
+                    properties.Logger.WLog(properties.LibraryFile.FailureReason);
                     return (FileStatus.ProcessingFailed, false);
                 }
 
@@ -260,6 +267,7 @@ public class RunInstance(RunnerProperties properties)
             initialSize = properties.IsDirectory
                 ? FileHelper.GetDirectorySize(workingFile)
                 : _fileService.FileSize(workingFile).ValueOrDefault;
+            LogInfo("Initial Size:" + initialSize);;
         }
 
         FileService.Instance = _fileService;
@@ -274,6 +282,7 @@ public class RunInstance(RunnerProperties properties)
         properties.Config = args.Config;
         properties.ConfigDirectory = args.ConfigDirectory;
 
+        LogInfo("Making FlowExecutorInfo");
         var info = new FlowExecutorInfo
         {
             LibraryFile = properties.LibraryFile,
@@ -307,7 +316,9 @@ public class RunInstance(RunnerProperties properties)
         properties.Logger.ILog("Initial Total Parts: "  + info.TotalParts);
         
 
+        LogInfo("Creating runner");
         var runner = new Runner(this, properties.StartingFlow, node, args.WorkingDirectory);
+        LogInfo("Starting runner");
         return runner.Run(properties.Logger);
     }
 
