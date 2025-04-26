@@ -84,6 +84,7 @@ public class RunnerManager
             lf.ExecutedNodes = [];
             lf.Additional ??= new();
             lf.Additional.DisplayName = string.Empty;
+            lf.Additional.Reprocessing = false;
             lf.Node = new()
             {
                 Uid = node.Uid,
