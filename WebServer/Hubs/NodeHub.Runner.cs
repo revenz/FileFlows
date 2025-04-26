@@ -69,6 +69,7 @@ public partial class NodeHub
 
         file.Status = FileStatus.Processing;
         file.Node = node;
+        file.Additional ??= new();
         file.Additional.Reprocessing = false;
         
         if(libraryFile.Flow != null && file.Flow.Uid != Guid.Empty)
