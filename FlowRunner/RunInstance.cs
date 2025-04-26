@@ -60,7 +60,11 @@ public class RunInstance(RunnerProperties properties)
             LogInfo("Configuration File: " + cfgFile);
 
             string cfgJson;
-            if (Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1")
+            bool noEncrypt = Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1";
+            #if(DEBUG)
+            noEncrypt = true;
+            #endif
+            if (noEncrypt)
             {
                 LogInfo("No Encryption for Node configuration");
                 cfgJson = File.ReadAllText(cfgFile);

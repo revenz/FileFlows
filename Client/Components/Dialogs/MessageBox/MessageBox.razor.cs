@@ -28,8 +28,6 @@ public partial class MessageBox : IModal
     private string Message, Title;
     private string btnOkUid; 
 
-    private static MessageBox Instance { get; set; }
-
     /// <summary>
     /// Initializes the component
     /// </summary>

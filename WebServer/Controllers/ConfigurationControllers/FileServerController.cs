@@ -50,6 +50,6 @@ public class FileServerController : BaseController
         settings.FileServerFolderPermissions = model.FileServerFolderPermissions;
         settings.FileServerAllowedPaths = model.FileServerAllowedPathsString?.Split(["\r\n", "\r", "\n"], StringSplitOptions.RemoveEmptyEntries) ?? [];
 
-        await service.Save(settings, await GetAuditDetails());
+        await service.Save(settings, await GetAuditDetails(), dontUpdateRevision: true);
     }
 }

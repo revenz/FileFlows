@@ -52,9 +52,12 @@ public class ConfigurationService
                 return;
             }
 
-            var cfgJson = Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1"
-                ? File.ReadAllText(cfgFile)
-                : ConfigEncrypter.DecryptConfig(cfgFile);
+            bool noEncrypt = Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1";
+            #if(DEBUG)
+            noEncrypt = true;
+            #endif
+
+            var cfgJson = noEncrypt ? File.ReadAllText(cfgFile)  : ConfigEncrypter.DecryptConfig(cfgFile);
 
             CurrentConfig = JsonSerializer.Deserialize<ConfigurationRevision>(cfgJson);
             if(CurrentConfig == null)
@@ -257,7 +260,11 @@ public class ConfigurationService
             });
 
             string cfgFile = Path.Combine(dir, "config.json");
-            if (Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1")
+            bool noEncrypt = Environment.GetEnvironmentVariable("FF_NO_ENCRYPT") == "1";
+            #if(DEBUG)
+            noEncrypt = true;
+            #endif
+            if (noEncrypt)
             {
                 Logger.Instance?.DLog("Configuration set to no encryption, saving as plain text");
                 await File.WriteAllTextAsync(cfgFile, json);

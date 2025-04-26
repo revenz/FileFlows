@@ -55,6 +55,6 @@ public class SmtpController : BaseController
         settings.SmtpUser = model.SmtpUser ?? string.Empty;
         settings.SmtpFromAddress = model.SmtpFromAddress ?? string.Empty;
         
-        await service.Save(settings, await GetAuditDetails());
+        await service.Save(settings, await GetAuditDetails(), dontUpdateRevision: true);
     }
 }

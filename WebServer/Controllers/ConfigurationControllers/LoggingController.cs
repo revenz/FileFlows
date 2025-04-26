@@ -43,6 +43,6 @@ public class LoggingController : BaseController
         settings.LogFileRetention = model.LogFileRetention;
         settings.LogEveryRequest = model.LogEveryRequest;
         
-        await service.Save(settings, await GetAuditDetails());
+        await service.Save(settings, await GetAuditDetails(), dontUpdateRevision: true);
     }
 }

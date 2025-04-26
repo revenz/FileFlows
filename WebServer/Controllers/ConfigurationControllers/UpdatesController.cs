@@ -43,7 +43,7 @@ public class UpdatesController : BaseController
         settings.AutoUpdateNodes = model.AutoUpdateNodes;
         settings.AutoUpdatePlugins = model.AutoUpdatePlugins;
         
-        await service.Save(settings, await GetAuditDetails());
+        await service.Save(settings, await GetAuditDetails(), dontUpdateRevision: true);
     }
     
     /// <summary>
