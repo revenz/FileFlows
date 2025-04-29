@@ -7,3 +7,11 @@
     display:none;
   }
 }
+
+.report-buttons {
+  margin: -0.5rem 0.25rem 1rem;
+  text-align: right;
+  .btn {
+    min-width: 8rem;
+  }
+}

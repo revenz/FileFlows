@@ -1,0 +1,65 @@
+@layout ConfigLayout
+
+@namespace FileFlows.Client.Pages
+@using FileFlows.Shared.Models
+@inherits ListPage<Guid, PluginInfoModel>
+
+@page "/config/plugins"
+
+
+<FlowTable @ref="Table" Data="@Data" TItem="PluginInfoModel" Selection="SelectionMode.Multiple"
+    DoubleClick="@DoubleClick" TableIdentifier="Plugins"  DisableColumn="(item) => !item.Enabled">
+    <ToolBar>            
+        <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+        <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
+        <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
+        <FlowTableButtonSeparator Mobile="false" />                    
+        <FlowTableButton Clicked=Update SelectedOneOrMore="true" Icon="fas fa-cloud-download-alt" Label="Labels.Update" />
+        <FlowTableButton Mobile="false" Clicked=UsedBy SelectedOne="true" Icon="fas fa-info-circle" Label="Labels.UsedBy" />
+        @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
+        {  
+            <FlowTableButton Mobile="false" Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
+        }
+        <FlowTableButtonSeparator Mobile="false" />                    
+        <FlowTableHelpButton Mobile="false" HelpUrl="config/extensions/plugins" />
+    </ToolBar>
+
+    <Columns>
+        <FlowTableColumn TItem="PluginInfoModel" NoHeight="true">
+            <Header>
+                @Globals.lblName
+            </Header>
+            <Cell Context="item">
+                <div class="table-item">
+                    <TableItemIcon Icon="@item.Icon" DefaultIcon="fas fa-puzzle-piece" />
+                    <div class="center">
+                        @{
+                        string label = Translater.TranslateIfHasTranslation($"Plugins.{item.PackageName.Replace(".", "")}.Label", item.Name);
+                        }
+                        <span class="name"><span class="name-actual">@label</span></span>
+                        <div class="info">
+                            <IconValue Color="IconValueColor.Blue" OnClick="() => _ = About(item)" Icon="fas fa-sitemap" Value="@(item.NumberOfElements + " " + (item.NumberOfElements == 1 ? lblFlowElement : lblFlowElements))" />
+                            @if (item.HasSettings)
+                            {
+                                <IconValue Color="IconValueColor.Orange" OnClick="() => _ = Edit(item)" Icon="fas fa-cog" Value="@lblSettings" />
+                            }
+                            @if (item.UsedBy?.Any() == true)
+                            {
+                                <IconValue Color="IconValueColor.Green" OnClick="() => OpenUsedBy(item)" Icon="fas fa-folder" Value="@lblInUse" />
+                            }
+                            @if (item.UpdateAvailable)
+                            {
+                                <IconValue Color="IconValueColor.Pink" OnClick="() => _ = Update(item.Uid)" Icon="fas fa-cloud-download-alt" Value="@item.LatestVersion" />
+                            }
+                        </div>
+                    </div>
+                    <div class="right">
+                        <span class="top-right @(item.UpdateAvailable ? "warning" :"")">@item.Version</span>
+                        <FlowSwitch Value="@item.Enabled" ValueChanged="@(args => { item.Enabled= args; Enable(args, item); })"  />
+                    </div>
+                </div>
+                    
+            </Cell>
+        </FlowTableColumn>
+    </Columns>
+</FlowTable>

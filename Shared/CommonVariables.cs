@@ -14,11 +14,6 @@ public class CommonVariables
     /// The UID of the internal processing node
     /// </summary>
     public static readonly Guid InternalNodeUid = new ("bf47da28-051e-452e-ad21-c6a3f477fea9");
-    
-    /// <summary>
-    /// The name of the file display script
-    /// </summary>
-    public const string FILE_DISPLAY_NAME =  "FILE_DISPLAY_NAME"; 
 
     /// <summary>
     /// The name of the manual library
@@ -38,4 +33,8 @@ public class CommonVariables
     /// </summary>
     public static readonly Guid OperatorFileFlowsServerUid = new Guid("07ecd8bd-79a6-454d-8033-e64693fc2f7b");
     
+    /// <summary>
+    /// Dummy password to use in place of passwords
+    /// </summary>
+    public const string DUMMY_PASSWORD = "************";
 }

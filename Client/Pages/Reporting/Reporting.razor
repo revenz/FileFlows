@@ -1,23 +1,13 @@
 @page "/reporting"
-@using FileFlows.Shared.Models
 
 @namespace FileFlows.Client.Pages
 
+<FlowSkyBox TItem="bool" Items="SkyboxItems" OnSelected=@SetSelected NoCount="true" />
 
-<PageView ClassName="flex" Title="Reporting">
+<div style="flex-grow:1;@(ScheduledReportsSelected ? "display:none" : "")">
+    <Reports />
+</div>
 
-    <Head>
-    </Head>
-
-    <Body>
-        <FlowSkyBox TItem="bool" Items="SkyboxItems" OnSelected=@SetSelected NoCount="true" />
-        
-        <div style="flex-grow:1;@(ScheduledReportsSelected ? "display:none" : "")">
-            <Reports />
-        </div>
-
-        <div style="flex-grow:1;@(ScheduledReportsSelected ? "" : "display:none")">
-            <ScheduledReports />
-        </div>
-    </Body>
-</PageView>
+<div style="flex-grow:1;@(ScheduledReportsSelected ? "" : "display:none")">
+    <ScheduledReports />
+</div>

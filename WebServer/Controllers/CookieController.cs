@@ -26,10 +26,10 @@ public class CookieController : Controller
         {
             var token = HttpContext.Request.Cookies["AccessToken"];
             if (string.IsNullOrEmpty(token))
-                return Unauthorized();
+                return Redirect($"/icon/filetype/{pad}/{(folder ? "folder" : extension)}.svg");
             var user = await HttpContextExtensions.GetLoggedInUser(token, Request);
             if (user == null)
-                return Unauthorized();
+                return Redirect($"/icon/filetype/{pad}/{(folder ? "folder" : extension)}.svg");
         }
 
         var path = Path.Combine(DirectoryHelper.LibraryFilesLoggingDirectory, uid + ".webp");

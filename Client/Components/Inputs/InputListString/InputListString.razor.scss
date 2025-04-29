@@ -1,0 +1,34 @@
+.input-list-string-wrapper {
+    background:var(--input-background);
+    width:100%;
+    display:flex;
+    flex-wrap: wrap;    
+    max-width:40rem;
+    input {
+        background:transparent;
+        outline: unset !important;
+        display:inline;
+        flex-grow:1;
+        height:var(--input-height, 2.1875rem);
+    }
+}
+
+.chip {
+    border:solid 1px var(--accent);
+    display:inline;
+    height:calc(1.75rem + .1875rem);
+    padding-left:0.5rem;
+    padding-right:0.5rem;
+    padding-top:.1875rem;
+    border-radius:0.5rem;
+    margin:.125rem .25rem;
+    .remove {
+        width: 1.5rem;
+        display: inline-block;
+        padding-left: 0.5rem;
+        cursor:pointer;
+        &:hover {
+            color:var(--accent);
+        }
+    }
+}

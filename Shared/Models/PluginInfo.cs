@@ -81,6 +81,11 @@ public class PluginInfoModel : PluginInfo, IInUse
     /// Gets or sets the latest version of this plugin
     /// </summary>
     public string LatestVersion { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the number of elements
+    /// </summary>
+    public int NumberOfElements { get; set; }
 
     /// <summary>
     /// Gets if there is an update available for this plugin

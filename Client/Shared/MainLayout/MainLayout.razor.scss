@@ -7,6 +7,37 @@
 .main {
     flex: 1;
     background:var(--main-background);
+    display: grid;
+    grid-template-rows: 3.5rem 1fr;
+}
+
+.main-title-bar {
+    display: flex;
+    background:var(--main-background);    
+    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+    padding:1rem;
+    .title  {
+        font-size: 1.5rem;
+        .icon {
+            color:var(--accent);
+            margin-right: .75rem;
+        }
+    }
+}
+
+.content {
+    background: var(--base-darkest);
+    position: relative;
+    height: 100%;
+    overflow: hidden;    
+    &:not(.no-padding) {
+        padding: 1rem;
+    }
+    &:has( > .skybox) {
+        display: grid;
+        grid-template-rows: auto 1fr;
+    }
 }
 
 .sidebar {
@@ -19,7 +50,7 @@
 @media (min-width: 850px) {
     .page {
         flex-direction: row;
-    }
+    }    
 
     .sidebar {
         width: 250px;
@@ -32,10 +63,8 @@
 
     .main {
         position: relative;
-        max-width: calc(100% - 250px);
-    }
-    .collapsed .main {
-        max-width: calc(100% - 3.5rem);
+        overflow: hidden;
+        height: 100vh;
     }
 }
 .expand-collapse {
@@ -135,13 +164,80 @@
                     }
 
                     a {
-                        background-color: var(--accent) !important;
+                        background-color: var(--nav-menu-background);
+                        border: solid 1px var(--accent);
+                        border-left: none;
+                        font-weight:var(--bold, 600);
                     }
                 }
             }
 
             .version-info {
                 display: none !important;
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width:849.99px)
+{
+    .main {
+        overflow: hidden;
+        grid-row-start: 1;
+        position: absolute;
+        top:0;
+        bottom: 5.75rem;
+        left:0;
+        right:0;
+        display: grid;
+        grid-template-rows: 5rem 1fr;
+    }
+    ::deep {
+        .navbar {
+            position:absolute;
+            bottom:0;
+            left:0;
+            right:0;
+        }
+    }
+    .main-title-bar {
+        img {
+            height: 3rem;
+            margin:auto;
+        }
+    }
+    .content {
+        height: 100%;
+        max-height: 100%;
+        overflow: hidden;
+        ::deep .flow-widget {
+            height: 100%;
+            position: relative;
+            .widget-content {
+                overflow: auto;
+                top: 3.5rem;
+                left: 0.25rem;
+                right: 0.5rem;
+                bottom: 0.5rem;
+                position: absolute;
+            }
+        }
+        ::deep > .configuration-layout {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: calc(100vh - 5.5rem);
+            overflow: hidden;
+            display: unset;
+            .config-content {
+                overflow: hidden;
+                position: absolute;
+                top: 5rem;
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
             }
         }
     }

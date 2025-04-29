@@ -1,70 +1,12 @@
-.log-view {
-    display:flex;
-    flex-direction: row;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-}
-.side-search
-{
-    background: var(--base-lighter);
-    border-left: solid 1px var(--border-color);
-    padding:1rem;
-    width: 20rem;
-    min-width: 20rem;
-    .title {
-        font-size: 1.1rem;
-        padding-bottom: 1rem;
-    }
-    .icon {
-        color:var(--accent);
-    }
-    button {
-        margin:0 0 1rem;
-        width:100%;
-    }
-    select {
-        border:none;
-        background: var(--input-background);
-    }
-
-    .select-button {
-        display:flex;
-        flex-direction: row;
-        background: var(--input-background);
-        height: var(--input-height);
-        border:solid 1px transparent;
-        &:focus-within {
-            border-color:var(--accent);
-        }
-        select {
-            outline: none;
-            height: calc(var(--input-height) - 2px);
-        }
-        button {
-            width:3rem;
-            margin-left:0.5rem;
-            background: var(--base-lightest);
-            border: none;
-            height: calc(var(--input-height) - 2px);
-        }
-    }
-    
-    .include-higher {
-        margin-bottom:0 !important;
-    }
-}
 
 .log {
     overflow: auto;
     flex-grow: 1;
-    padding: 1rem 1rem 1rem 2rem;
     overflow-anchor: none;
     white-space: pre;
     font-family: monospace;
     font-size: 0.9rem;
+    margin: 1rem 0.5rem 1rem 0;
 
     ::deep {
         .log-date {

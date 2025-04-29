@@ -8,7 +8,7 @@ table {
   width: 100%;
 }
 
-td:last-child {
+.input-keyvalue-wrapper:not(.read-only) td:last-child {
   width: 2rem;
   text-align: center;
 }
@@ -18,7 +18,7 @@ input {
   display: inline;
   width: 100%;
   flex-grow: 1;
-  height: 2.1875rem;
+  height: var(--input-height, 2.1875rem);
   border-color: transparent !important;
   line-height: 1.5;
   font-size: 1rem;
@@ -36,7 +36,7 @@ select {
   max-width: 40rem;
   background-color: var(--input-background) !important;
   color: var(--color) !important;
-  height: 2.1875rem;
+  height: var(--input-height, 2.1875rem);
   line-height: 1.5;
   font-size: 1rem;
   border-color: transparent;

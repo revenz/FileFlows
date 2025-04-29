@@ -1,0 +1,51 @@
+@inherits LayoutComponentBase
+@layout MainLayout
+
+@namespace FileFlows.Client.Shared
+
+<div class="configuration-layout">
+    <div class="configuration-layout-menu">
+
+        <span class="active-item" @onclick="ToggleOpen">
+            <i class="fas fa-caret-down"></i>
+            <i class="@Active.Icon"></i>
+            <span class="title">@Active.Title</span>
+        </span>
+
+        <ul id="ul-nav-menu" class="nav flex-column @(Opened ? "opened" : "")">
+            @foreach (var group in MenuItems)
+            {
+                if (group.Items.Any(x => x != null) == false)
+                {
+                    continue;
+                }
+
+                <li class="nav-menu-group">
+                    @if (string.IsNullOrEmpty(group.Icon) == false)
+                    {
+                        <span class="icon @group.Icon" aria-hidden="true"></span>
+                    }
+                    <span class="text-label">@group.Name</span>
+                </li>
+                @foreach (var item in group.Items)
+                {
+                    <li class="nav-item @(item.Url == "" ? "dashboard" : item.Url.Replace("/", ""))">
+                        <a class="nav-link @(Active == item ? "active" : "")" href="@item.Url" @onclick:preventDefault @onclick:stopPropagation
+                           @onclick="() => Click(item)">
+                            <span class="icon"><span class="@item.Icon" aria-hidden="true"></span></span>
+                            <span class="text-label">@item.Title</span>
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+
+        <div class="version-info">
+            <a href="https://fileflows.com/docs/versions" rel="noreferrer" target="_blank">@Globals.Version</a>
+        </div>
+
+    </div>
+    <div class="config-content">
+        @Body
+    </div>
+</div>

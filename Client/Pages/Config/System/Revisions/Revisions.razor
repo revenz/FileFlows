@@ -1,0 +1,44 @@
+@layout ConfigLayout
+
+@namespace FileFlows.Client.Pages
+@using FileFlows.Shared.Models
+@using Humanizer
+@inherits ListPage<Guid, RevisionedObject>
+
+@page "/config/revisions"
+
+
+<FlowTable @ref="Table" Data="@Data" TItem="RevisionedObject" Selection="SelectionMode.Multiple" DoubleClick="@OnDoubleClick" TableIdentifier="Revisions">
+    <ToolBar>            
+        <FlowTableButton Clicked=Revisions SelectedOne="true" Icon="fas fa-history" Label="Labels.Revisions" />
+        <FlowTableButtonSeparator />                    
+        <FlowTableHelpButton  HelpUrl="config/system/revisions" />
+    </ToolBar>
+    
+    <Columns>
+        <FlowTableColumn TItem="RevisionedObject" Width="12rem" MobileWidth="12rem">
+            <Header>
+                Type
+            </Header>
+            <Cell Context="item">
+                <span>@item.RevisionType.Substring(item.RevisionType.LastIndexOf(".") + 1).Humanize(LetterCasing.Title)</span>
+            </Cell>
+        </FlowTableColumn>
+        <FlowTableColumn TItem="RevisionedObject">
+            <Header>
+                @Globals.lblName
+            </Header>
+            <Cell Context="item">
+                <span>@item.RevisionName</span>
+            </Cell>
+        </FlowTableColumn>
+        <FlowTableColumn TItem="RevisionedObject" Width="10rem" MobileWidth="0">
+            <Header>
+                Date
+            </Header>
+            <Cell Context="item">
+                @DateString(item.RevisionDate)
+            </Cell>
+        </FlowTableColumn>
+    </Columns>
+</FlowTable>

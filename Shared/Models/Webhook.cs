@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using FileFlows.Shared.Widgets;
 
 namespace FileFlows.Shared.Models;
 

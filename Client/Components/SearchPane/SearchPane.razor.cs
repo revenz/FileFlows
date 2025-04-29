@@ -44,29 +44,6 @@ partial class SearchPane:ComponentBase
         this.Visible = InitialVisibleState;
     }
     
-    /// <summary>
-    /// Toggles the search visibility
-    /// </summary>
-    public void ToggleSearch()
-    {
-        Visible = !Visible;
-        if (Visible == false)
-        {
-            MainLayout.Instance.HideSearch();
-            Closed.InvokeAsync();
-        }
-        else
-        {
-            MainLayout.Instance.ShowSearch();
-        }
-        this.StateHasChanged();
-    }
-
     Task Search() => Searched.InvokeAsync();
 
-    private void OnKeyDown(KeyboardEventArgs e)
-    {
-        if(e.Key == "Escape" && this.Visible)
-            ToggleSearch();
-    }
 }

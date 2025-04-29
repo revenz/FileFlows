@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Common;
@@ -6,7 +7,11 @@ namespace FileFlows.Client.Components.Common;
 public partial class FlowPager<TItem> where TItem : notnull
 {
     [CascadingParameter] private FlowTable<TItem> Table { get; set; }
-    
+
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
     /// <summary>
     /// Gets the total items in the datalist
     /// </summary>
@@ -21,9 +26,9 @@ public partial class FlowPager<TItem> where TItem : notnull
         get
         {
             if (TotalItems == 0) return 0;
-            if (TotalItems <= App.PageSize) return 1;
-            int pages = TotalItems / App.PageSize;
-            if (TotalItems % App.PageSize > 0)
+            if (TotalItems <= feService.PageSize) return 1;
+            int pages = TotalItems / feService.PageSize;
+            if (TotalItems % feService.PageSize > 0)
                 ++pages;
             return pages;
         }
@@ -34,16 +39,6 @@ public partial class FlowPager<TItem> where TItem : notnull
         Table.TriggerPageChange(index);
         return Task.CompletedTask;
     }
-
-    private async Task PageSizeChange(ChangeEventArgs e)
-    {
-        if (int.TryParse(e.Value?.ToString(), out int pageSize) == false)
-            return;
-        await App.Instance.SetPageSize(pageSize);
-        this.PageIndex = 0;
-        this.Table.TriggerPageSizeChange(App.PageSize);
-    }
-
     protected override void OnInitialized()
     {
         Table.PropertyChanged += TableOnPropertyChanged;

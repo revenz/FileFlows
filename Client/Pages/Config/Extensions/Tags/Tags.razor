@@ -1,0 +1,41 @@
+@layout ConfigLayout
+
+@namespace FileFlows.Client.Pages
+@using FileFlows.Shared.Models
+
+@inherits ListPage<Guid, Tag>
+
+@page "/config/tags"
+
+<FlowTable @ref="Table" Data="@Data" TItem="Tag" Selection="SelectionMode.Multiple" TableIdentifier="Tags"
+           DoubleClick="@OnDoubleClick">
+    <ToolBar>
+        <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+        <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
+        <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
+        <FlowTableButtonSeparator />
+        <FlowTableHelpButton HelpUrl="config/extensions/tags" />
+    </ToolBar>
+
+    <Columns>
+        <FlowTableColumn TItem="Tag" NoHeight="true">
+            <Header>
+                @Globals.lblName
+            </Header>
+            <Cell Context="item">
+                <div class="table-item">
+                    <TableItemIcon Icon="@item.Icon" DefaultIcon="fas fa-tag" />
+                    <div class="center">
+                        <span class="name">
+                            <span>@item.Name</span>
+                            @if (string.IsNullOrWhiteSpace(item.Description) == false)
+                            {
+                                <span class="description">@item.Description</span>
+                            }
+                        </span>
+                    </div>
+                </div>
+            </Cell>
+        </FlowTableColumn>
+    </Columns>
+</FlowTable>

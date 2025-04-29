@@ -2,6 +2,7 @@ using System.Collections;
 using System.Net;
 using Avalonia;
 using FileFlows.Charting;
+using FileFlows.NodeClient;
 using FileFlows.Server.Helpers;
 using FileFlows.Server.Services;
 using FileFlows.Services;
@@ -59,6 +60,10 @@ public class Application
     {
         try
         {
+            #if(DEBUG)
+            ShowMinimalGui = true;
+            #endif
+            
             bool noGui = ShowGui == false && ShowMinimalGui == false;
 
             if (string.IsNullOrWhiteSpace(EntryPoint) == false && OperatingSystem.IsMacOS())
@@ -85,11 +90,12 @@ public class Application
                     {
                         try
                         {
-                            var appBuilder = Gui.Avalon.App.BuildAvaloniaApp(true);
+                            var appBuilder = Gui.Avalon.App.BuildAvaloniaApp();
                             appBuilder.StartWithClassicDesktopLifetime(args);
                         }
                         catch (Exception)
                         {
+                            // Ignore
                         }
                     }
 
@@ -203,6 +209,10 @@ public class Application
         FileFlows.Services.ServiceLoader.AddSpecialCase<IPluginScanner>(new PluginScanner());
         FileFlows.Services.ServiceLoader.AddSpecialCase<ISystemEventsService>(new SystemEvents());
         FileFlows.Services.ServiceLoader.AddSpecialCase<IEmailService>(new EmailService());
+        var runnerManager = new RunnerManager();
+        FileFlows.Services.ServiceLoader.AddSpecialCase(runnerManager);
+        // needed here for the internal processing node
+        RemoteServices.ServiceLoader.AddSpecialCase(runnerManager);
     }
 
     /// <summary>

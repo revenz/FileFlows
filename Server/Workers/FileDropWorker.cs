@@ -1,6 +1,7 @@
 using FileFlows.ServerShared.Workers;
 using FileFlows.Services;
 using FileFlows.Services.FileDropServices;
+using FileFlows.Services.FileProcessing;
 using FileFlows.Shared.Models;
 
 namespace FileFlows.Server.Workers;
@@ -15,15 +16,15 @@ public class FileDropWorker : Worker
     /// </summary>
     public FileDropWorker() : base(ScheduleType.Hourly, 1, false)
     {
-        var service = ServiceLoader.Load<FlowRunnerService>();
-        service.OnFileFinished += ServiceOnOnFileFinished;
+        var service = ServiceLoader.Load<FileSorterService>();
+        service.OnFileFinished += OnFileFinished;
     }
 
     /// <summary>
     /// Called when a file finishes processing
     /// </summary>
     /// <param name="file">the file that finished processing</param>
-    private void ServiceOnOnFileFinished(LibraryFile file)
+    private void OnFileFinished(LibraryFile file)
     {
         if (file.Status != FileStatus.ProcessingFailed)
             return; // it didnt fail, nothing to do

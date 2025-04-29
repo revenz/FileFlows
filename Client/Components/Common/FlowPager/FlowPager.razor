@@ -2,15 +2,7 @@
 @typeparam TItem
 
 <div class="pager">
-    <div class="page-size">
-        <select class="page-size" @onchange=@PageSizeChange>
-            @foreach (int size in new[] { 100, 250, 500, 750, 1000, 1500, 2000, 2500, 3000, 5000 })
-            {
-                <option selected=@(App.PageSize == size)>@size</option>
-            }
-        </select>
-    </div>
-    @if (TotalItems > App.PageSize)
+    @if (TotalItems > feService.PageSize)
     {
         <ul>
             @{

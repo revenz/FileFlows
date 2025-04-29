@@ -4,11 +4,34 @@ using Microsoft.JSInterop;
 
 namespace FileFlows.Client.Components.Dialogs;
 
-public partial class ImportScript : VisibleEscapableComponent
+public partial class ImportScript : IModal
 {
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
+
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+    
+    /// <summary>
+    /// Closes the dialog
+    /// </summary>
+    public void Close()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
+    }
+
+    /// <summary>
+    /// Cancels the dialog
+    /// </summary>
+    public void Cancel()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
+    }
+    
     private string lblImport, lblCancel;
     private string Title;
-    TaskCompletionSource<List<string>> ShowTask;
     private List<ListOption> AvailableScript;
 
     private List<object> CheckedItems = new();
@@ -20,22 +43,21 @@ public partial class ImportScript : VisibleEscapableComponent
         this.lblImport = Translater.Instant("Labels.Import");
         this.lblCancel = Translater.Instant("Labels.Cancel");
         this.Title = Translater.Instant("Dialogs.ImportScript.Title");
-    }
 
-    public Task<List<string>> Show(List<string> availableScripts)
-    {
-        this.Visible = true;
-        this.CheckedItems.Clear();
-        this.AvailableScript = availableScripts?.Select(x => new ListOption()
+        if (Options is ImportScriptOptions isOptions == false || isOptions.AvailableScripts == null ||
+            isOptions.AvailableScripts.Count == 0)
+        {
+            Close();
+            return;
+        }
+
+        AvailableScript = isOptions.AvailableScripts.OrderBy(x => x.ToLowerInvariant()).Select(x => new ListOption()
         {
             Label = x,
             Value = x
         }).ToList();
-        this.StateHasChanged();
-
-        ShowTask = new TaskCompletionSource<List<string>>();
-        return ShowTask.Task;
     }
+
 
     private void OnChange(ChangeEventArgs args, ListOption opt)
     {
@@ -48,14 +70,18 @@ public partial class ImportScript : VisibleEscapableComponent
 
     private async void Accept()
     {
-        this.Visible = false;
-        ShowTask.TrySetResult(CheckedItems.Select(x => x.ToString()!).ToList());
+        TaskCompletionSource.TrySetResult(CheckedItems.Select(x => x.ToString()!).ToArray());
         await Task.CompletedTask;
     }
+}
 
-    public override void Cancel()
-    {
-        this.Visible = false;
-        ShowTask.TrySetResult(new List<string>());
-    }
+/// <summary>
+/// Options for the File Browser
+/// </summary>
+public class ImportScriptOptions : IModalOptions
+{
+    /// <summary>
+    /// Gets the available scripts
+    /// </summary>
+    public List<string> AvailableScripts { get; init; }
 }

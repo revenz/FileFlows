@@ -1,0 +1,35 @@
+@layout FileDropLayout
+
+@namespace FileFlows.Client.Pages.FileDrop
+@inherits InputRegister
+
+@page "/file-drop/tokens"
+
+@if (initDone)
+{
+    <p class="info">
+        To update user tokens in FileFlows you can make a <span class="important">POST</span> request to
+    </p>
+    <ul>
+        <li><span class="url">@(FileFlowsCallbackUrl)give-tokens/{tokens}</span></li>
+        <li><span class="url">@(FileFlowsCallbackUrl)set-tokens/{tokens}</span></li>
+    </ul>
+    <p class="info">
+        This request should be done on your sever side and not in the users browser.
+    </p>
+    <p class="info">
+        These URLs must be called with the <span class="important">Access Token</span> from <a href="/settings">Settings > Security</a> in the header field <span class="important">Authorize: {AccessToken}</span>.
+    </p>
+
+    <hr/>
+
+    <InputNumber TItem="Int32" @bind-Value="Model.NewUserTokens" Label="New User Tokens" Min="0" Max="1000" Help="The number of tokens to give to new users."/>
+    
+    <InputText @bind-Value="@Model.TokenPurchaseUrl" Label="Token Purchase URL"
+               Help="This is the URL that will be opened for users to purchase new tokens.  It will include the include the query parameter 'uuid' for the users unique identifier"/>
+
+    <InputSelect @bind-Value="BoundTokenPurchaseInPopup" Label="Open In" Options="openInOptions"/>
+    
+    <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />
+    
+}

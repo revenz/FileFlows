@@ -1,4 +1,5 @@
 using FileFlows.Client.Helpers;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -9,9 +10,9 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class CpuRamWidget : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the front end service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
     
     private int _Mode = 0;
     private string Color = "yellow";
@@ -57,11 +58,9 @@ public partial class CpuRamWidget : ComponentBase, IDisposable
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        ClientService.SystemInfoUpdated += OnSystemInfoUpdated;
+        feService.Dashboard.SystemInfoUpdated += OnSystemInfoUpdated;
         _Mode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 1);
-        var status = await ClientService.GetCurrentSystemInfo();
-        if(status != null)
-            OnSystemInfoUpdated(status);
+        OnSystemInfoUpdated(feService.Dashboard.CurrentSystemInfo);
     }
 
     /// <summary>
@@ -70,13 +69,19 @@ public partial class CpuRamWidget : ComponentBase, IDisposable
     /// <param name="info">the system info</param>
     private void OnSystemInfoUpdated(SystemInfo info)
     {
-        CpuValue = info.CpuUsage.Last();
-        RamValue = info.MemoryUsage.Last();
-        CpuValues = info.CpuUsage.Select(x => (double)x).ToArray();
-        MemoryValues = info.MemoryUsage.Select(x => (double)x).ToArray();
-        
-        CpuMax = info.CpuUsage.Length > 0 ? info.CpuUsage.Max() : 0;
-        RamMax = info.MemoryUsage.Length > 0 ? info.MemoryUsage.Max() : 0;
+        if (info.CpuUsage.Length > 0)
+        {
+            CpuValue = info.CpuUsage.Last();
+            CpuValues = info.CpuUsage.Select(x => (double)x).ToArray();
+            CpuMax = info.CpuUsage.Max();
+        }
+
+        if (info.MemoryUsage.Length > 0)
+        {
+            RamValue = info.MemoryUsage.Last();
+            MemoryValues = info.MemoryUsage.Select(x => (double)x).ToArray();
+            RamMax = info.MemoryUsage.Max();
+        }
 
         SetValues();
 
@@ -109,6 +114,6 @@ public partial class CpuRamWidget : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.SystemInfoUpdated -= OnSystemInfoUpdated;
+        feService.Dashboard.SystemInfoUpdated -= OnSystemInfoUpdated;
     }
 }

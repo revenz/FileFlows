@@ -1,5 +1,5 @@
 using FileFlows.WebServer;
-using PhotinoNET;
+using Photino.NET;
 
 namespace FileFlows.Server.Gui.Photino;
 
@@ -87,8 +87,13 @@ public class WebView
         folderPrefix = "../Client/";
 #endif
 
-        var iconFile = folderPrefix + "wwwroot/icon" + (PhotinoWindow.IsWindowsPlatform ? ".ico" : ".png");
-
+        // Get the absolute path to the wwwroot folder
+        string absoluteFolderPath = Path.GetFullPath(folderPrefix + "wwwroot/");
+        // Construct the full file path for the icon
+        var iconFile = Path.Combine(absoluteFolderPath, "icon" + (PhotinoWindow.IsWindowsPlatform ? ".ico" : ".png"));
+        
+        Logger.Instance.ILog("Icon file path: " + iconFile);
+        
         // Creating a new PhotinoWindow instance with the fluent API
         window = new PhotinoWindow()
             .SetTitle("FileFlows")

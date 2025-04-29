@@ -1,0 +1,101 @@
+@using FileFlows.Client.Helpers
+@using Humanizer
+@using Globals = FileFlows.Common.Globals
+@namespace FileFlows.Client.Components
+
+<div class="processing-node @(Node.Enabled == false ? "disabled" : "") @(ListPage ? "list-page-item" : "")" 
+     @key="Node.Uid" @ondblclick="OnDoubleClick" >
+    <span class="icon">
+        <TableItemIcon Icon="@Node.Icon" DefaultIcon="@GetDefaultIcon(Node)" />
+        <div class="architecture @(Node.Architecture is ArchitectureType.Arm32 or ArchitectureType.Arm64 ? "arm" : "")">@Node.Architecture</div>
+    </span>
+    
+    <div class="center">
+        <span class="name">
+            @(Node.Name == CommonVariables.InternalNodeName ? lblInternalProcessingNode : Node.Name)
+        </span>
+        @if (Node.OutOfSchedule)
+        {
+            <span class="hardware-info-item">
+                <span class="label">@lblSchedule</span>
+                <span class="value">@ScheduleHelper.HumanReadable(Node.ScheduleResumesAtUtc)</span>
+            </span>
+        }
+        @if (Node.Status == ProcessingNodeStatus.Offline && Node.LastSeen.Year > 2000)
+        {
+            <span class="hardware-info-item">
+                <span class="label">@lblLastSeen</span>
+                <span class="value">@FormatLastSeen(Node.LastSeen)</span>
+            </span>
+        }
+
+        @if (Node.HardwareInfo != null)
+        {
+            <div class="hardware-info">
+                <div class="hardware-info-item">
+                    <span class="label">@lblVersion</span>
+                    <span class="value">@Node.Version</span>
+                </div>
+                @if(string.IsNullOrWhiteSpace(Node.HardwareInfo.OperatingSystem) == false)
+                {
+                    <div class="hardware-info-item">
+                        <span class="label">@lblOperatingSystem</span>
+                        <span class="value">
+                            @Node.HardwareInfo.OperatingSystem @Node.HardwareInfo.OperatingSystemVersion
+                        </span>
+                    </div>
+                }
+                <div class="hardware-info-item">
+                    <span class="label">CPU</span>
+                    <span class="value">@Node.HardwareInfo.ProcessorVendor @Node.HardwareInfo.Processor</span>
+                </div>
+                @if (Node.HardwareInfo.Memory > 0)
+                {
+                    <div class="hardware-info-item">
+                        <span class="label">@lblMemory</span>
+                        <span class="value">@FileFlows.Shared.Formatters.FileSizeFormatter.Format(Node.HardwareInfo.Memory, 0, useBinary: true)</span>
+                    </div>
+                }
+                @foreach(var gpu in Node.HardwareInfo.Gpus ?? [])
+                {
+                    <div class="hardware-info-item">
+                        <span class="label">GPU</span>
+                        <span class="value">
+                            @gpu.Vendor @gpu.Model
+                            @(gpu.Memory > 0 ? FileFlows.Shared.Formatters.FileSizeFormatter.Format(gpu.Memory, 0, useBinary: true) : "")
+                            @(string.IsNullOrWhiteSpace(gpu.DriverVersion) == false ? $"({gpu.DriverVersion})" : "")
+                        </span>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @if (ListPage)
+    {
+        <div class="enable-switch">
+            <FlowSwitch Value="@Node.Enabled" ValueChanged="@EnableChanged" />
+        </div>
+    }
+
+    @if (string.IsNullOrWhiteSpace(Node.StatusMessage) == false)
+    {
+        <span class="top-right status-@(Node.Status.ToString().Kebaberize())">
+            @Translater.Instant($"Pages.Nodes.StatusMessages.{Node.Status}", new { message = Node.StatusMessage })
+        </span>
+    }
+    else
+    {
+        <span class="top-right status-@(Node.Status.ToString().Kebaberize())">
+            @Translater.Instant("Enums.ProcessingNodeStatus." + Node.Status)
+        </span>
+    }
+    @if (Node.Priority > 0)
+    {
+        <span class="priority" title="@lblPriority">@Node.Priority</span>
+    }
+    @if (Node.FlowRunners > 0)
+    {
+        <span class="runners" title="@lblRunners"><i class="fas fa-running"></i> @Node.FlowRunners</span>
+    }
+</div>

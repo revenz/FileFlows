@@ -1,3 +1,4 @@
+using FileFlows.Plugin;
 using FileFlows.Server.Cli;
 using FileFlows.Services;
 using FileFlows.Shared.Helpers;
@@ -27,6 +28,28 @@ public class Program
                 FixTranslations(Path.Combine(pluginDir, "i18n"));
             }
         }
+
+        // string[] ffargs =
+        // [
+        //     "-hide_banner",
+        //     "-i",
+        //     "/home/john/src/FileFlows/FileFlowsPlugins/VideoNodes/Tests/Resources/video.mkv",
+        //     "-strict",
+        //     "-2",
+        //     "-map",
+        //     "0:a:0",
+        //     "-af",
+        //     "loudnorm=I=-24:LRA=7:TP=-2.0:print_format=json",
+        //     "-f",
+        //     "null",
+        //     "-"
+        // ];
+        // var phResult = new ProcessHelper(null, CancellationToken.None, false).ExecuteShellCommand(new()
+        // {
+        //     Command = "/usr/local/bin/ffmpeg",
+        //     ArgumentList = ffargs,
+        // }).Result;
+        // Console.WriteLine(phResult.Output);
 #endif
         
         if (CommandLine.Process(args))

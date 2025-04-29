@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
 
@@ -21,6 +22,10 @@ public partial class AuditEntryViewer
     /// Gets or sets the blocker tho show
     /// </summary>
     [CascadingParameter] public Blocker Blocker { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
     
     TaskCompletionSource ShowTask;
     /// <summary>
@@ -97,7 +102,7 @@ public partial class AuditEntryViewer
     {
         if (entry.Changes?.Any() != true)
         {
-            Toast.ShowWarning("Labels.NoChangedDetected");
+            feService.Notifications.ShowWarning("Labels.NoChangedDetected");
             return Task.CompletedTask;
         }
         

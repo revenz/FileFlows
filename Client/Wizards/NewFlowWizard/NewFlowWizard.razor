@@ -8,7 +8,7 @@
     <CascadingValue IsFixed="true" Value="Editor">
         <FlowWizard @ref=Wizard Modal="true" Cancelable="true" OnCancel="@Cancel"
                     @bind-SelectedPageIndex="SelectedCategory" OnFinish="Select"
-                    NonWizard="true" FinishButtonLabel="Labels.Select"  >
+                    NonWizard="true" FinishButtonLabel="Labels.Select">
             
             <FlowWizardPage TLabel="Dialogs.NewFlowWizard.Pages.Basic">
                 <FlowRadioGroup TItem="Int32" @bind-Value="FlowBasic" LabelPrefix="Dialogs.NewFlowWizard.Flow.Basic">

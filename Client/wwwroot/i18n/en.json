@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Aborting",
     "About": "About",
     "Add": "Add",
     "AdminRequired": "Administrator required to complete installation.",
@@ -20,6 +21,8 @@
     "Close": "Close",
     "CommunityFlows": "Community Flows",
     "Confirm": "Confirm",
+    "ConfirmLogOutMessage": "Are you sure you want to log out?",
+    "ConfirmLogOutTitle": "Log Out",
     "CopiedToClipboard": "Copied ''{text}'' to clipboard.",
     "Copy": "Copy",
     "CopyToClipboard": "Copy to clipboard",
@@ -36,6 +39,7 @@
     "Disabled": "Disabled",
     "Disconnected": "Disconnected",
     "Discord": "Discord",
+    "DismissAll": "Dismiss All",
     "Download": "Download",
     "DownloadLog": "Download Log",
     "DownloadLogShort": "Log",
@@ -58,6 +62,7 @@
     "ForceProcessing": "Force Processing",
     "Forum": "Forum",
     "Help": "Help",
+    "Idle": "Idle",
     "Import": "Import",
     "Increase": "Increase",
     "Input": "Input",
@@ -66,11 +71,13 @@
     "InUse": "In Use",
     "LastRun": "Last Run",
     "LastScanned": "Last Scanned",
+    "LastSeen": "Last Seen",
     "License": "License",
     "Loading": "Loading",
     "Log": "Log",
     "Logout": "Logout",
     "LogPartialNotAvailable": "Unable to find partial log for node.",
+    "ManualLibrary": "Manual Library",
     "MappingIssue": "Mapping Issue",
     "Memory": "Memory",
     "MissingDependencies": "Missing Dependencies",
@@ -97,7 +104,7 @@
     "Output": "Output",
     "Paste": "Paste",
     "Pause": "Pause Processing",
-    "Paused": "Resume Processing",
+    "Paused": "Paused",
     "PausedWithTime": "Resume In",
     "Percent": "Percent",
     "Pixels": "Pixels",
@@ -144,6 +151,8 @@
     "SpaceIncrease": "{size} increase, {items} items",
     "SpaceSavings": "{size} saved, {items} items",
     "Status": "Status",
+    "Step1": "Step 1",
+    "Step2": "Step 2",
     "SubFlow": "Sub Flow",
     "SubFlows": "Sub Flows",
     "Success": "Success",
@@ -169,6 +178,7 @@
     "VersionNumber": "Version: {version}",
     "View": "View",
     "ViewLog": "View Log",
+    "ViewMore": "View More",
     "Warning": "Warning",
     "WeekShort": "Week",
     "When": "When",
@@ -243,9 +253,6 @@
       "ETA": "ETA",
       "Speed": "Speed",
       "UploadedAmount": "Uploaded"
-    },
-    "FlowTemplatePicker": {
-      "Title": "Select a template to start from"
     },
     "IconPicker": {
       "Title": "Pick Icon"
@@ -668,8 +675,6 @@
       "Labels": {
         "BatchDescription": "Batch files can only be run on Windows systems. They can read basic variables but cannot update or access FileFlows objects during execution.",
         "CSharpDescription": "C# scripts can interact with more parts of FileFlows and are the most powerful. Using the same language as FileFlows, they allow greater system interaction.",
-        "FileDisplayName": "File Display Name",
-        "FileDisplayNameDescription": "A specialized script that customizes how filenames are displayed in the FileFlows web console. This script does not modify the actual files, only how they appear in the interface.",
         "JavaScriptDescription": "JavaScript scripts are executed within the FileFlows runner, allowing you to read and write variables and access all helper functions within FileFlows.",
         "PowerShellDescription": "PowerShell scripts can only be run on Windows systems. They can read basic variables but cannot update or access FileFlows objects during execution.",
         "ShellDescription": "Shell scripts are run on Unix-based systems (Linux, MacOS, Docker). They can read basic variables but cannot update or access FileFlows objects during execution."
@@ -843,7 +848,13 @@
       "Minutes": "Minutes",
       "Weeks": "Weeks"
     },
+    "ProcessingLibraries": {
+      "All": "All",
+      "AllExcept": "All Except",
+      "Only": "Only"
+    },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "Configuration Outdated",
       "Disabled": "Disabled",
       "HigherPriorityNodeAvailable": "Higher Priority Node Available",
       "Idle": "Idle",
@@ -853,6 +864,7 @@
       "OutOfSchedule": "Out Of Schedule",
       "Processing": "Processing",
       "RestrictedByLibrary": "Restricted By Library",
+      "UpdatingConfiguration": "Updating Configuration",
       "VersionMismatch": "Version Mismatch"
     },
     "ProcessingOrder": {
@@ -903,9 +915,11 @@
       "Nodes": "Nodes",
       "PauseProcessing": "Pause Processing",
       "Plugins": "Plugins",
+      "Reports": "Reports",
       "Resources": "Resources",
       "Revisions": "Revisions",
       "Scripts": "Scripts",
+      "Tags": "Tags",
       "Tasks": "Tasks",
       "Variables": "Variables",
       "Webhooks": "Webhooks"
@@ -916,6 +930,7 @@
     "CannotDeleteInternalNode": "You cannot delete the internal processing node.",
     "DeleteFailed": "Failed to delete",
     "DuplicatesFound": "Duplicates found",
+    "LibraryScanAtCapacity": "Scan limit reached — no more items can be added right now. Wait for existing ones to finish or reduce unprocessed, disabled, or scheduled items.",
     "NameInUse": "Name is already in use",
     "NameRequired": "Name is required",
     "NoFlowSpecified": "No flow specified, you must select a flow to create a library",
@@ -949,6 +964,7 @@
   },
   "MenuGroups": {
     "Admin": "Admin",
+    "Config": "Config",
     "Configuration": "Configuration",
     "Extensions": "Extensions",
     "FileDrop": "FileDrop",
@@ -1059,6 +1075,7 @@
       },
       "Tabs": {
         "Dashboard": "Dashboard",
+        "Overview": "Overview",
         "Savings": "Savings",
         "Statistics": "Statistics"
       },
@@ -1067,13 +1084,13 @@
           "Peak": "{num} Peak"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Failed} other {# Failed}}",
-          "Finished": "{count, plural, zero {Finished} other {# Finished}}",
+          "Failed": "{count, plural, zero {Failed} other {{formatted} Failed}}",
+          "Finished": "{count, plural, zero {Finished} other {{formatted} Finished}}",
           "NoFailedFiles": "No Failed Files",
           "NoRecentlyFinishedFiles": "No Recently Finished Files",
           "NoUpcomingFiles": "No Upcoming Files",
           "Title": "Files",
-          "Upcoming": "{count, plural, zero {Upcoming} other {# Upcoming}}"
+          "Upcoming": "{count, plural, zero {Upcoming} other {{formatted} Upcoming}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Files Processed",
@@ -1373,6 +1390,15 @@
         "WaitTimeSeconds": "Wait Time",
         "WaitTimeSeconds-Help": "The number of seconds that have to passed since the last change was written to this folder for it to be scanned into the library.",
         "WaitTimeSeconds-Suffix": "seconds"
+      },
+      "Messages": {
+        "ScanFailed": "Library ''{name}'' scan failed"
+      },
+      "Tabs": {
+        "Advanced": "Advanced",
+        "Detection": "Detection",
+        "General": "General",
+        "Schedule": "Schedule"
       }
     },
     "LibraryFile": {
@@ -1399,6 +1425,7 @@
       "Tabs": {
         "CustomVariables": "Custom Variables",
         "FinalMetadata": "Output",
+        "LogServer": "Server Log",
         "OriginalMetadata": "Input"
       }
     },
@@ -1474,6 +1501,9 @@
         "Address": "Address",
         "Enabled": "Enabled",
         "FlowRunners": "Flow Runners"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "Installing {message}"
       }
     },
     "Notifications": {
@@ -1506,6 +1536,7 @@
         "AllLibraries": "All Libraries",
         "AllLibraries-Help": "Which libraries this node will process",
         "CopyMappings": "Copy Mappings",
+        "DisableSchedule": "Enable Schedule",
         "DontChangeOwner": "Change Owner",
         "DontChangeOwner-Help": "When checked the node will change the owner of any newly created files to the PGID and PUID defined in the environmental values.\nIf these environmental variables are not set the owner will be changed to ''users:nobody''.",
         "DontSetPermissions": "Set Permissions",
@@ -1532,9 +1563,6 @@
         "PreExecuteScript-Help": "A script that will run before any file is processed.  The result of this script must be 1 for it to pass anything else and the node will not process a file.",
         "Priority": "Priority",
         "Priority-Help": "The higher the number the higher the priority.  Nodes with a higher priority will be favoured and given files to process first, unless those nodes are out of schedule, disabled, at their maximum runners.",
-        "ProcessFileCheckInterval": "File Check Interval",
-        "ProcessFileCheckInterval-Help": "How often to check for a new file to processing in the processing nodes.\nSet to 0 to use the system value.",
-        "ProcessFileCheckInterval-Suffix": "seconds",
         "ProcessingDescription": "This allows you to configure what this Processing Node can process.\n\nFor example, you could limit this node to only process certain libraries or a maximum file size if this node is a lower powered node.",
         "ProcessingOrder": "Processing Order",
         "ProcessingOrder-Help": "Specifies the order in which files are processed by this Node. This setting overrides the library's default processing order. Set to 'Default' to use the library's processing order.",
@@ -1547,6 +1575,14 @@
         "VariablesDescription": "Variables let you configure advanced variables to set on a processing node.",
         "VariablesKey": "Name",
         "VariablesValue": "Value"
+      },
+      "Tabs": {
+        "Advanced": "Advanced",
+        "General": "General",
+        "Mappings": "Mappings",
+        "Processing": "Processing",
+        "Schedule": "Schedule",
+        "Variables": "Variables"
       }
     },
     "Report": {
@@ -1693,10 +1729,6 @@
         "DockerModsOnServer-Help": "DockerMods should run automatically upon server startup or when specifically enabled. Otherwise, they will only execute when a flow is initiated.",
         "DontUseTempFilesWhenMovingOrCopying": "Temp Files for Moving/Copying",
         "DontUseTempFilesWhenMovingOrCopying-Help": "Use .fftemp files to avoid premature detection during move/copy.",
-        "HideProcessingFinishedNotifications": "Processing Finished Notifications",
-        "HideProcessingFinishedNotifications-Help": "If a toast notification should be shown in the web console when a file finishes processing",
-        "HideProcessingStartedNotifications": "Processing Started Notifications",
-        "HideProcessingStartedNotifications-Help": "If a toast notification should be shown in the web console when a file begins processing",
         "KeepFailedFlowTempFiles": "Keep Failed Temp Files",
         "KeepFailedFlowTempFiles-Help": "Enabling this option will retain the temporary files used by a flow in case of failure, preventing them from being automatically deleted.\nUse with caution.",
         "Language": "Language",
@@ -1710,13 +1742,14 @@
         "LoggingPath-Help": "This is where log files will be created.",
         "LogQueueMessages": "Verbose Library Logging",
         "LogQueueMessages-Help": "This will increase logging of the library file detection process. It should only be enabled while debugging file detection issues and turned off afterward.",
+        "MaxPageSize": "Max Page Size",
+        "MaxPageSize-Help": "The maximum number of items to display in a list. This applies to processed file data sent to the UI during loading. This number should be equal to or greater than the Queue Capacity.",
         "PluginRepositoryUrls": "Plugin Repositories",
         "PluginRepositoryUrls-Help": "A line separated list of plugin repository URLs to use when searching for plugins.\nThe order is important, if multiple repositories contain the same plugin, the first repository will be used as it''s source.\nThe default repository will always be added to the end of this list.",
-        "ProcessFileCheckInterval": "File Check Interval",
-        "ProcessFileCheckInterval-Help": "How often to check for a new file to processing in the processing nodes.",
-        "ProcessFileCheckInterval-Suffix": "seconds",
-        "ShowFileAddedNotifications": "File Added Notifications",
-        "ShowFileAddedNotifications-Help": "If a toast notification should be shown in the web console when a file has been found and added to the queue.",
+        "QueueCapacity": "Queue Capacity",
+        "QueueCapacity-Help": "The maximum number of items that can be added to the queue. These include items that are out of schedule, on hold, or disabled. Increasing this number increases the data sent to the UI and may impact performance.",
+        "ScanWhenPaused": "Scan While Paused",
+        "ScanWhenPaused-Help": "When enabled, libraries will continue scanning even when the system is paused.",
         "Telemetry": "Telemetry",
         "Telemetry-Help": "Telemetry is useful to help know what devices we need to support, what Flow parts are the most used and where we should focus on the development.\nNo information about your files or identify information is sent.",
         "Database": {
@@ -1851,6 +1884,8 @@
       "Fields": {
         "CustomSchedule": "Custom Schedule",
         "CustomSchedule-Help": "This task will run once per 15 minute block at the start of that block",
+        "Enabled": "Enabled",
+        "Enabled-Help": "Determines whether this task is active and will run based on event triggers or a scheduled time.",
         "Schedule": "Schedule",
         "Schedule-Help": "When this script should execute",
         "Script": "Script",
@@ -2149,6 +2184,7 @@
     "DaysAgo": "{num} {num, plural, one {day} other {days}} ago",
     "HoursAgo": "{num} {num, plural, one {hour} other {hour}} ago",
     "MinutesAgo": "{num} {num, plural, one {minute} other {minutes}} ago",
+    "MomentsAgo": "Moments Ago",
     "Never": "Never",
     "SecondsAgo": "{num} {num, plural, one {second} other {seconds}} ago"
   },

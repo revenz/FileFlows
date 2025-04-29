@@ -1,107 +1,52 @@
 @using FileFlows.Client.Helpers
+@using Humanizer
 @namespace FileFlows.Client.Components.Widgets
 
 <ContainerWidget Title="@lblTitle" Scroll="true">
     <Head>
         <OptionButtons @ref=OptionButtons @bind-Value="FileMode">
-            <WidgetOption Label="@lblUpcoming" Value="1" Icon="far fa-clock" Color="yellow" />
-            <WidgetOption Label="@lblFinished" Value="0" Icon="far fa-check-circle" Color="green" />
-            <WidgetOption Label="@lblFailed" Value="2" Icon="far fa-times-circle" Color="red" />
+            <WidgetOption Label="@lblProcessing" Value="@((int)FileStatus.Processing)" Icon="fas fa-running" Color="blue" />
+            <WidgetOption Label="@lblUpcoming" Value="@((int)FileStatus.Unprocessed)" Icon="far fa-clock" Color="yellow" />
+            <WidgetOption Label="@lblFinished" Value="@((int)FileStatus.Processed)" Icon="far fa-check-circle" Color="green" />
+            <WidgetOption Label="@lblFailed" Value="@((int)FileStatus.ProcessingFailed)" Icon="far fa-times-circle" Color="red" />
         </OptionButtons>
     </Head>
     <Body>
-    
-        @if (FileMode == 1)
+    @if (SelectedStatus == FileStatus.Processing)
+    {
+        foreach (var file in Processing ?? [])
         {
-            @if (UpcomingFiles.Count == 0)
-            {
-                <div class="no-files">
-                    <i class="fas fa-box-open"></i>
-                    <span>@lblNoUpcomingFiles</span>
-                </div>
-            }
-            else
-            {
-                @foreach (var file in UpcomingFiles)
-                {
-                    <div class="file-table-row">
-                        <span class="icon">
-                            <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/>
-                        </span>
-                        <span class="path">
-                            <span @onclick="() => OpenFile(file)">@file.DisplayName</span>
-                        </span>
-                        <span class="library">
-                            <FlowIconValue Icon="library" Value="@file.LibraryName"/>
-                        </span>
-                    </div>
+            <FileCard Model="file" />
+        }
+    }
+    else if (SelectedStatus == FileStatus.Unprocessed && UpcomingFiles.Count == 0)
+    {
+        <div class="no-files">
+            <i class="fas fa-box-open"></i>
+            <span>@lblNoUpcomingFiles</span>
+        </div>
+    }
+    else
+    {
+        var (list, viewMore) = SelectedStatus switch
+        {
+            FileStatus.ProcessingFailed => (FailedFiles, TotalFailed > 50),
+            FileStatus.Unprocessed => (UpcomingFiles, TotalUpcoming > 50),
+            _ => (RecentlyFinished, TotalFinished > 50)
+        };
+        
+        foreach (var file in list ?? [])
+        {
+            <FileCard Model="file" />
+        }
 
-                }
-            }
-        }
-        else
+        if (viewMore)
         {
-            var list = (FileMode == 2 ? FailedFiles : RecentlyFinished) ?? [];
-            if (list.Count == 0)
-            {
-                var label = FileMode == 2 ? lblNoFailedFiles : lblNoRecentlyFinishedFiles;
-                <div class="no-files">
-                    <i class="fas fa-box-open"></i>
-                    <span>@label</span>
-                </div>
-            }
-            else
-            {
-                foreach (var file in list ?? [])
-                {
-                    <div class="file-table-row fm-@FileMode @(file.Message != null ? "has-message" : "no-message")">
-                        @if (FileMode == 0)
-                        {
-                            var percentage = Math.Min(100, (file.FinalSize / (double)file.OriginalSize) * 100);
-                            <div class="savings" style="width: @percentage%"></div>
-                        }
-                        <span class="icon">
-                            @if (FileMode == 0)
-                            {
-                                <img id="thumb-@file.Uid" class="icon thumbnail" src="@GetThumbUrl(file)" @onclick="() => OpenFile(file)" 
-                                     alt="@file.Name" />
-                            }
-                            else
-                            {
-                                <img class="icon" src="@GetExtensionImage(file)" @onclick="() => OpenFile(file)"/>
-                            }
-                        </span>
-                        <div class="center">
-                            <span class="path">
-                                <span @onclick="() => OpenFile(file)">@file.DisplayName</span>
-                            </span>
-                            <span class="time">
-                                <span @onclick="() => OpenFile(file)">@file.When</span>
-                            </span>
-                            @if (FileMode == 0)
-                            {
-                                <span class="size">
-                                    @FileSizeFormatter.FormatSize(file.FinalSize)
-                                </span>
-                                @if (file.Traits?.Any() == true)
-                                {
-                                    <div class="traits">
-                                        @foreach (var trait in file.Traits)
-                                        {
-                                            <span class="trait">@trait</span>
-                                        }
-                                    </div>
-                                }
-                            }
-                            @if (file.Message != null)
-                            {
-                                <div class="message" @onclick="() => OpenFile(file)"><span>@file.Message</span></div>
-                            }
-                        </div>
-                    </div>
-                }
-            }
+            <a href="/library-files?status=@SelectedStatus" class="view-more ripple">
+                <span>@lblViewMore</span>
+            </a>
         }
+    }
 
     </Body>
 </ContainerWidget>

@@ -2,63 +2,59 @@
 
 @namespace FileFlows.Client.Shared
 
-<div class="page @(App.Instance.NavMenuCollapsed && SearchVisible == false ? "collapsed": "")">
-    <div class="sidebar @(App.Instance.NavMenuCollapsed && SearchVisible == false ? "collapsed": "")">
-        <NavMenu @ref="Menu" />
-        
-        @if (SearchVisible == false)
-        {
-            <span class="expand-collapse" @onclick=@ToggleExpand>
-                @if (App.Instance.NavMenuCollapsed)
-                {
-                    <i class="fas fa-angle-right"></i>
-                }
-                else
-                {
-                    <i class="fas fa-angle-left"></i>
-                }
-            </span>
-        }
-    </div>
-
+<div class="page @_PageClass">
+    
+    <NavBar @ref="Menu"/>
+    
     <div class="main">
+        <div class="main-title-bar">
+            @if (App.Instance.IsMobile)
+            {
+                <img src="logo-color-full.svg" alt="FileFlows" />
+            }
+            else
+            {
+                <div class="title">
+                    @if (string.IsNullOrEmpty(_Icon) == false)
+                    {
+                        <i class="icon @_Icon"></i>
+                    }
+                    <span class="title-text">@_Title</span>
+                </div>
+            }
+            <PopupPanel/>
+        </div>
+        
         @if (Blocker != null && Menu != null && Editor != null)
         {
             <CascadingValue Value="Menu" IsFixed="true">
                 <CascadingValue Value="Blocker" IsFixed="true">
                     <CascadingValue Value="Editor" IsFixed="true">
-                        @Body
+                        <CascadingValue Value="this" IsFixed="true">
+                            <div class="content @(_NoPadding ? "no-padding" : "")">
+                                @Body
+                            </div>
+                        </CascadingValue>
                     </CascadingValue>
                 </CascadingValue>
             </CascadingValue>
         }
+        
 
         <Blocker @ref="Blocker"></Blocker>
+        <Editor @ref="Editor"></Editor>
     </div>
 </div>
 
 
-<Editor @ref="Editor"></Editor>
 
 @if (Blocker != null)
 {
     <CascadingValue Value="Blocker" IsFixed="true">
-        <RevisionExplorer />
-        <AuditHistory />
-        <AuditEntryViewer />
+        <RevisionExplorer/>
+        <AuditHistory/>
+        <AuditEntryViewer/>
     </CascadingValue>
 }
 
-<FileFlows.Client.Components.Dialogs.Confirm />
-<FileFlows.Client.Components.Dialogs.MessageBox />
-<FileFlows.Client.Components.Dialogs.Prompt />
-<FileFlows.Client.Components.Dialogs.SelectDialog />
-<FileFlows.Client.Components.Dialogs.PausePrompt />
-<FileFlows.Client.Components.Dialogs.ImportDialog />
-<FileFlows.Client.Components.Dialogs.UsedByDialog />
 <FileFlows.Client.Components.ModalRenderer />
-<FileFlows.Client.Components.Toast />
-
-@* <VersionUpdateChecker /> *@
-
-<Blocker @ref="DisconnectedBlocker"></Blocker>

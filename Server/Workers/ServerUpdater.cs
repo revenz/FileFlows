@@ -34,6 +34,16 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
         base.Execute();
     }
 
+    /// <inheritdoc />
+    protected override void BroadcastUprading(bool pending)
+    {
+        var broker = ServiceLoader.Load<SseEventBroker>();
+        if (pending)
+            broker.PendingUpdate = true;
+        _ = broker.BroadcastEvent(pending ? "UpdatePending" : "Upgrading", true);
+        Task.Delay(1000); // time to send it
+    }
+
     /// <summary>
     /// Pre-check to run before executing
     /// </summary>
@@ -109,9 +119,8 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
     /// <returns>if an update can run now</returns>
     protected override bool CanUpdate()
     {
-        var service = ServiceLoader.Load<FlowRunnerService>();
-        var workers = service.GetExecutors()?.Result;
-        return workers?.Any() != true;
+        var service = ServiceLoader.Load<NodeService>();
+        return service.GetRunners().Count == 0;
     }
 
     /// <summary>
@@ -119,6 +128,10 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
     /// </summary>
     protected override void PrepareApplicationShutdown()
     {
+        if(ServiceLoader.TryLoad<IBrokerService>(out var broker))
+            broker.BroadcastEvent("Upgrading", true);
+        
+        Thread.Sleep(1_000); // give the chance for the update event to be broadcast
         WorkerManager.StopWorkers();
     }
 

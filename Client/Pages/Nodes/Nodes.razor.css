@@ -1,78 +1,52 @@
-.table-item {
-  min-height: 7rem;
-  height: 7rem; }
-
-@media screen and (max-width: 650px) {
-  .info {
-    display: none !important; } }
-span.icon {
-  margin-right: 2rem;
-  margin-left: 1rem;
-  position: relative;
-  height: 6rem;
-  width: 5rem;
-  min-width: 5rem;
-  display: flex;
-  justify-content: center; }
-  span.icon ::deep img {
-    width: 4rem;
-    min-width: 4rem;
-    margin-right: 0; }
-  span.icon .architecture {
-    position: absolute;
-    bottom: 0.35rem;
-    font-size: 0.9rem;
-    border-radius: 0.5rem;
-    padding: 0 0.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    line-height: 1.25;
-    font-weight: var(--bold, 600);
-    color: white; }
-  span.icon .architecture {
-    background-color: var(--primary); }
-  span.icon .architecture.arm {
-    background-color: var(--pink); }
-
 .btn-download-node {
-  width: auto !important; }
+  width: auto !important;
+}
 
-.priority {
-  align-self: center;
-  text-align: center;
-  font-size: 1.35rem;
-  font-weight: var(--bold, 600);
-  padding-top: 1rem; }
-  .priority span {
-    --item-size:3.5rem;
-    border: solid 2px var(--accent);
-    border-radius: 3rem;
-    width: var(--item-size);
-    height: var(--item-size);
-    line-height: var(--item-size);
-    margin-top: 1rem;
-    display: inline-flex;
-    place-items: center;
-    justify-content: center; }
-
-@media screen and (max-width: 660px) {
-  .table-item {
-    min-height: 5.5rem;
-    height: 5.5rem; }
-
-  .flow-switch-wrapper {
+@media (max-width: 849.99px) {
+  .btn-download-node {
+    display: none !important;
+  }
+  ::deep .flowtable-toolbar, ::deep .flowtable-header {
+    display: none !important;
+  }
+  ::deep .flowtable-select {
+    display: none;
+  }
+  ::deep .flowtable-row {
+    left: 0;
+    margin: 1rem;
+    border-radius: 0.5rem;
+    border: solid 1px var(--border-color);
+    overflow: hidden;
+    width: calc(100% - 2rem);
+  }
+  ::deep .flowtable-body {
+    border: none;
+    height: calc(100vh - 13rem) !important;
+    background: var(--main-background);
+    overflow: auto;
+  }
+}
+@media (min-width: 850px) {
+  ::deep .flowtable-body .flowtable-row {
+    position: relative;
+    padding-left: 0;
+    border-left: solid 3px transparent;
+    left: -3px;
+  }
+  ::deep .flowtable-body .flowtable-row.selected {
+    border-left-color: var(--accent);
+  }
+  ::deep .flowtable-body .flowtable-row .flowtable-select {
     position: absolute;
-    top: 2.5rem; }
-
-  span.icon {
-    min-width: 3.5rem;
-    width: 3.5rem;
-    height: 5rem; }
-
-  .architecture {
-    font-size: 0.7rem; }
-
-  .priority {
-    display: none; } }
+    left: 1rem;
+  }
+  ::deep .flowtable-body .processing-node {
+    padding-left: 3.5rem;
+  }
+  ::deep .flowtable-body span.no-height {
+    padding: 0 !important;
+  }
+}
 
 /*# sourceMappingURL=Nodes.razor.css.map */

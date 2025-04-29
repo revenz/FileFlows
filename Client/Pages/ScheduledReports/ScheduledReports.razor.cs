@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Inputs;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -7,19 +8,13 @@ namespace FileFlows.Client.Pages;
 
 /// <summary>
 /// Page for scheduled reports
-/// </summa
-public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
+/// </summary>
+public partial class ScheduledReports : ListPage<Guid, ScheduledReport>, IDisposable
 {
     /// <summary>
     /// Gets or sets the report form editor component
     /// </summary>
     private Editor ReportFormEditor { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the client service
-    /// </summary>
-    [Inject]
-    private ClientService ClientService { get; set; }
 
     /// <inheritdoc />
     public override string ApiUrl => "/api/scheduled-report";
@@ -63,23 +58,63 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        Profile = feService.Profile.Profile;
+        base.OnInitialized(false);
         lblDaily = Translater.Instant($"Enums.{nameof(ReportSchedule)}.{nameof(ReportSchedule.Daily)}");
         lblWeekly = Translater.Instant($"Enums.{nameof(ReportSchedule)}.{nameof(ReportSchedule.Weekly)}");
         lblMonthly = Translater.Instant($"Enums.{nameof(ReportSchedule)}.{nameof(ReportSchedule.Monthly)}");
 
         lblLastSent = Translater.Instant("Pages.ScheduledReport.Labels.LastSent");
         lblNever = Translater.Instant("Pages.ScheduledReport.Labels.Never");
+        feService.Report.ScheduledReportsUpdated += ReportOnScheduledReportsUpdated;
+        Data = feService.Report.ScheduledReports;
+        ReportDefinitions = feService.Report.ReportDefinitions;
+        
+        Libraries = feService.Library.LibraryList.Select(x => new ListOption
+        {
+            Label = x.Value,
+            Value = x.Key
+        }).OrderBy(x => x.Label?.ToLowerInvariant())?.ToList() ?? [];
+
+        Nodes = feService.Node.NodeList.Select(x => new ListOption
+        {
+            Label = x.Value,
+            Value = x.Key
+        }).OrderBy(x => x.Label?.ToLowerInvariant())?.ToList() ?? [];
+
+        Flows = feService.Flow.FlowList.Select(x => new ListOption
+        {
+            Label = x.Value,
+            Value = x.Key
+        }).OrderBy(x => x.Label?.ToLowerInvariant())?.ToList() ?? [];
+
+        Tags = feService.Tag.Tags.Select(x => new ListOption()
+        {
+            Label = x.Name,
+            Value = x.Uid
+        }).OrderBy(x => x.Label?.ToLowerInvariant())?.ToList() ?? [];
+    }
+        
+    /// <summary>
+    /// Called when teh scheduled reports are updated
+    /// </summary>
+    /// <param name="obj">the updated scheduled reports</param>
+    private void ReportOnScheduledReportsUpdated(List<ScheduledReport> obj)
+    {
+        Data = feService.Report.ScheduledReports;
+        StateHasChanged();
     }
 
     /// <inheritdoc />
-    public override async Task PostLoad()
+    protected override void OnAfterRender(bool firstRender)
     {
-        var result = await HttpHelper.Get<List<ReportDefinition>>("/api/report/definitions");
-        if (result.Success == false || result.Data?.Any() != true)
-            NavigationManager.NavigateTo("/");
+        if (firstRender)
+        {
+            Table.SetData(Data);
+            StateHasChanged();
+        }
 
-        ReportDefinitions = result.Data;
+        base.OnAfterRender(firstRender);
     }
 
     /// <summary>
@@ -98,58 +133,16 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
     /// <inheritdoc />
     public override async Task<bool> Edit(ScheduledReport item)
     {
-        Blocker.Show();
-        bool blockerShow = true;
-        try
+        var (fields, model) = GetFieldsAndModel(item);
+        
+        await Editor.Open(new()
         {
-            if (Flows == null)
-            {
-                var librariesResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/library/basic-list");
-                Libraries = librariesResult?.Data?.Select(x => new ListOption
-                {
-                    Label = x.Value,
-                    Value = x.Key
-                }).OrderBy(x => x.Label?.ToLowerInvariant())?.ToList() ?? [];
+            TypeName = "Pages.ScheduledReport", Title = "Pages.ScheduledReport.Title", 
+            Fields = fields, Model = model,
+            SaveCallback = Save
+        });
 
-                var nodesResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/node/basic-list");
-                Nodes = nodesResult?.Data?.Select(x => new ListOption
-                {
-                    Label = x.Value,
-                    Value = x.Key
-                }).OrderBy(x => x.Label?.ToLowerInvariant())?.ToList() ?? [];
-
-                var flowsResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list");
-                Flows = flowsResult?.Data?.Select(x => new ListOption
-                {
-                    Label = x.Value,
-                    Value = x.Key
-                }).OrderBy(x => x.Label?.ToLowerInvariant())?.ToList() ?? [];
-
-                Tags = (await ClientService.GetTags() ?? []).Select(x => new ListOption()
-                {
-                    Label = x.Name,
-                    Value = x.Uid
-                }).OrderBy(x => x.Label?.ToLowerInvariant())?.ToList() ?? [];
-            }
-            Blocker.Hide();
-            blockerShow = false;
-
-            var (fields, model) = GetFieldsAndModel(item);
-            
-            await Editor.Open(new()
-            {
-                TypeName = "Pages.ScheduledReport", Title = "Pages.ScheduledReport.Title", 
-                Fields = fields, Model = model,
-                SaveCallback = Save
-            });
-
-            return false;
-        }
-        finally
-        {
-            if(blockerShow)
-                Blocker.Hide();
-        }
+        return false;
     }
     
     private (List<IFlowField> fields, object model) GetFieldsAndModel(ScheduledReport item)
@@ -425,7 +418,7 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
             var rd = ReportDefinitions.FirstOrDefault(x => x.Uid == report.Report.Uid);
             if (rd == null)
             {
-                Toast.ShowError("Report not found"); // shouldn't happen
+                feService.Notifications.ShowError("Report not found"); // shouldn't happen
                 return false;
             }
 
@@ -445,16 +438,9 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
             var saveResult = await HttpHelper.Post<ScheduledReport>($"{ApiUrl}", report);
             if (saveResult.Success == false)
             {
-                Toast.ShowEditorError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError(saveResult.Body?.EmptyAsNull() ?? Translater.Instant("ErrorMessages.SaveFailed"));
                 return false;
             }
-
-            int index = this.Data.FindIndex(x => x.Uid == saveResult.Data.Uid);
-            if (index < 0)
-                this.Data.Add(saveResult.Data);
-            else
-                this.Data[index] = saveResult.Data;
-            await this.Load(saveResult.Data.Uid);
 
             return true;
         }
@@ -560,5 +546,16 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>
         {
             model[property] = value;
         }
+    }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        if(ReportFormEditor != null)
+            ReportFormEditor.Dispose();
+        
+        feService.Report.ScheduledReportsUpdated -= ReportOnScheduledReportsUpdated;
     }
 }

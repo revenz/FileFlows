@@ -1,0 +1,33 @@
+@namespace FileFlows.Client.Components.Editors
+
+@using FileFlows.Plugin
+@inherits ModalEditor
+
+<ModalEditorWrapper Modal="@this" AdditionalButtons="AdditionalButtons">
+    
+    @{
+        var editorLanguage = Model.Language switch
+        {
+            ScriptLanguage.Batch => "bat",
+            _ => Model.Language.ToString().ToLowerInvariant()
+        };
+    }
+
+    @if (ReadOnly)
+    {
+        <InputCode ReadOnly="true" Value="@Model.Code" HideLabel="true" Language="@editorLanguage" />
+    }
+    else
+    {
+        <InputText @bind-Value="@Model.Name" Label="Label.Name" Validators="RequiredValidator" HideLabel="true"/>
+
+        @if (Model.Language is not ScriptLanguage.JavaScript)
+        {
+            <InputTextArea @bind-Value="@Model.Description" Label="Pages.Script.Fields.Description" HideLabel="true" Rows="3"  />
+            <InputKeyValueInt @bind-Value="@Model.Outputs" HideLabel="true" HideKeyValueLabels="true"  />
+        }
+
+        <InputCode @ref=CodeInput @bind-Value="@Model.Code" HideLabel="true" Validators="RequiredValidator" Language="@editorLanguage" />
+    }
+
+</ModalEditorWrapper>

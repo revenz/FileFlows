@@ -1,4 +1,6 @@
+using System.Text;
 using FileFlows.ServerModels;
+using FileFlows.Services.FileProcessing;
 
 namespace FileFlows.WebServer.Controllers;
 
@@ -32,19 +34,6 @@ public class LibraryController : BaseController
     [HttpGet]
     public async Task<IEnumerable<Library>> GetAll() 
         => (await ServiceLoader.Load<LibraryService>().GetAllAsync()).OrderBy(x => x.Name.ToLowerInvariant());
-
-
-    /// <summary>
-    /// Basic library list
-    /// </summary>
-    /// <returns>library list</returns>
-    [HttpGet("basic-list")]
-    [FileFlowsAuthorize(UserRole.Files | UserRole.Nodes | UserRole.Reports | UserRole.Flows)]
-    public async Task<Dictionary<Guid, string>> GetLibraryList()
-    {
-        var items = await new LibraryService().GetAllAsync();
-        return items.ToDictionary(x => x.Uid, x => x.Name);
-    }
 
     /// <summary>
     /// Get a library
@@ -112,6 +101,11 @@ public class LibraryController : BaseController
             library.Enabled = true;
             library.Name = CommonVariables.ManualLibrary;
             library.Folders = false;
+            if (LicenseService.IsLicensed(LicenseFlags.ProcessingOrder) == false)
+            {
+                library.MaxRunners = 0;
+                library.ProcessingOrder = ProcessingOrder.AsFound;
+            }
         }
 
         var service = ServiceLoader.Load<LibraryService>();
@@ -120,15 +114,19 @@ public class LibraryController : BaseController
         {
             // existing, check for name change
             var existing = await service.GetByUidAsync(library.Uid);
-            nameUpdated = existing != null && existing.Name != library.Name;
+            if (existing != null)
+            {
+                nameUpdated = existing.Name != library.Name;
+            }
         }
         
         bool newLib = library.Uid == Guid.Empty;
         var result  = await service.Update(library, await GetAuditDetails());
         if (result.Failed(out string error))
             return BadRequest(error);
-
+        
         library = result.Value;
+        
         
         _ = Task.Run(async () =>
         {
@@ -162,18 +160,30 @@ public class LibraryController : BaseController
     [HttpPut("state/{uid}")]
     public async Task<Library> SetState([FromRoute] Guid uid, [FromQuery] bool enable)
     {
-        var service = ServiceLoader.Load<LibraryService>();
-        var library = await service.GetByUidAsync(uid);
-        if (library == null)
-            throw new Exception("Library not found.");
-        
-        if (library.Enabled != enable)
+        LogTimer log = new();
+        try
         {
-            library.Enabled = enable;
-            library = await service.Update(library, await GetAuditDetails());
-            //RefreshCaches();
+            var service = ServiceLoader.Load<LibraryService>();
+            log.Log("Getting library");
+            var library = await service.GetByUidAsync(uid);
+            log.Log("Get Library complete");
+            if (library == null)
+                throw new Exception("Library not found.");
+
+            if (library.Enabled != enable)
+            {
+                library.Enabled = enable;
+                log.Log("Updating library");
+                library = await service.Update(library, await GetAuditDetails(), log);
+                log.Log("Updated library");
+            }
+
+            return library;
         }
-        return library;
+        finally
+        {
+            Logger.Instance.ILog("Library Set State Log:\n" + log);
+        }
     }
 
     /// <summary>
@@ -201,36 +211,17 @@ public class LibraryController : BaseController
     /// <param name="model">A reference model containing UIDs to rescan</param>
     /// <returns>an awaited task</returns>
     [HttpPut("rescan")]
-    public void Rescan([FromBody] ReferenceModel<Guid> model)
+    public async Task<IActionResult> Rescan([FromBody] ReferenceModel<Guid> model)
     {
+        var sorter = ServiceLoader.Load<FileSorterService>();
+        bool atCapacity = sorter.AtCapacity();
+        if(atCapacity)
+            return BadRequest("ErrorMessages.LibraryScanAtCapacity");
+        
         var service = ServiceLoader.Load<LibraryService>();
-        service.Rescan(model.Uids);
-        // foreach(var uid in model.Uids)
-        // {
-        //     var item = await service.GetByUidAsync(uid);
-        //     if (item == null)
-        //         continue;
-        //     item.LastScanned = DateTime.MinValue;
-        //     await service.Update(item, await GetAuditDetails());
-        // }
-        //
-        // _ = Task.Run(async () =>
-        // {
-        //     await Task.Delay(1);
-        //     RefreshCaches();
-        //     LibraryWorker.ScanNow();
-        // });
+        await service.Rescan(model.Uids);
+        return Ok();
     }
-
-    /// <summary>
-    /// Reprocess libraries.
-    /// All library files will have their status updated to unprocessed.
-    /// </summary>
-    /// <param name="model">A reference model containing UIDs to reprocessing</param>
-    /// <returns>an awaited task</returns>
-    [HttpPut("reprocess")]
-    public Task Reprocess([FromBody] ReferenceModel<Guid> model)
-        => ServiceLoader.Load<LibraryFileService>().ReprocessByLibraryUid(model.Uids);
 
     /// <summary>
     /// Reset libraries.
@@ -241,28 +232,18 @@ public class LibraryController : BaseController
     [HttpPut("reset")]
     public async Task Reset([FromBody] ReferenceModel<Guid> model)
     {
-        await ServiceLoader.Load<LibraryFileService>().DeleteByLibrary(model.Uids);
-        Rescan(model);
-        var service = ServiceLoader.Load<IClientService>();
-        await service.UpdateFileStatus();
+        await ServiceLoader.Load<LibraryFileService>().ResetLibraries(model.Uids);
+        _ = Rescan(model);
     }
-
-    /// <summary>
-    /// Cleans a value for a json key
-    /// </summary>
-    /// <param name="value">the text value</param>
-    /// <returns>the cleaned json key</returns>
-    private string CleanForJsonKey(string value)
-        => Regex.Replace(value, @"[\s/\\]", string.Empty);
 
     /// <summary>
     /// Rescans enabled libraries and waits for them to be scanned
     /// </summary>
     [HttpPost("rescan-enabled")]
-    public async Task RescanEnabled()
+    public async Task<IActionResult> RescanEnabled()
     {
         var service = ServiceLoader.Load<LibraryService>();
         var libs = (await service.GetAllAsync()).Where(x => x.Enabled).Select(x => x.Uid).ToArray();
-        Rescan(new ReferenceModel<Guid> { Uids = libs });
+        return await Rescan(new ReferenceModel<Guid> { Uids = libs });
     }
 }

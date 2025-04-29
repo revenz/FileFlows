@@ -47,19 +47,24 @@ public enum NotificationSeverity
     /// Informational notification.
     /// </summary>
     Information = 0,
+    
+    /// <summary>
+    /// Success notification
+    /// </summary>
+    Success = 1,
 
     /// <summary>
     /// Warning notification.
     /// </summary>
-    Warning = 1,
+    Warning = 2,
 
     /// <summary>
     /// Error notification.
     /// </summary>
-    Error = 2,
+    Error = 3,
 
     /// <summary>
     /// Critical notification.
     /// </summary>
-    Critical = 3
+    Critical = 4
 }

@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Bezig met afbreken",
     "About": "Over",
     "Add": "Toevoegen",
     "AdminRequired": "Administrator vereist om installatie te voltooien.",
@@ -20,6 +21,8 @@
     "Close": "Sluiten",
     "CommunityFlows": "Community Stromen",
     "Confirm": "Bevestigen",
+    "ConfirmLogOutMessage": "Weet u zeker dat u wilt uitloggen?",
+    "ConfirmLogOutTitle": "Uitloggen",
     "CopiedToClipboard": "Gekopieerd ''{text}'' naar het klembord.",
     "Copy": "Kopiëren",
     "CopyToClipboard": "Kopiëren naar klembord",
@@ -36,6 +39,7 @@
     "Disabled": "Uitgeschakeld",
     "Disconnected": "Verbonden",
     "Discord": "Discord",
+    "DismissAll": "Alles negeren",
     "Download": "Downloaden",
     "DownloadLog": "Download Log",
     "DownloadLogShort": "Log",
@@ -58,6 +62,7 @@
     "ForceProcessing": "Dwing Verwerking Af",
     "Forum": "Forum",
     "Help": "Help",
+    "Idle": "Inactief",
     "Import": "Importeren",
     "Increase": "Verhogen",
     "Input": "Invoer",
@@ -66,11 +71,13 @@
     "InUse": "In Gebruik",
     "LastRun": "Laatste Uitvoering",
     "LastScanned": "Laatste Gescand",
+    "LastSeen": "Laatste keer",
     "License": "Licentie",
     "Loading": "Laden",
     "Log": "Log",
     "Logout": "Uitloggen",
     "LogPartialNotAvailable": "Kon gedeeltelijke log voor knooppunt niet vinden.",
+    "ManualLibrary": "Handmatige Bibliotheek",
     "MappingIssue": "Mapping Probleem",
     "Memory": "Geheugen",
     "MissingDependencies": "Ontbrekende Afhankelijkheden",
@@ -97,7 +104,7 @@
     "Output": "Uitvoer",
     "Paste": "Plakken",
     "Pause": "Verwerking Pauseren",
-    "Paused": "Verwerking Hervatten",
+    "Paused": "Gepauzeerd",
     "PausedWithTime": "Hervatten In",
     "Percent": "Percentage",
     "Pixels": "Pixels",
@@ -144,6 +151,8 @@
     "SpaceIncrease": "{size} toename, {items} items",
     "SpaceSavings": "{size} bespaard, {items} items",
     "Status": "Status",
+    "Step1": "Stap 1",
+    "Step2": "Stap 2",
     "SubFlow": "Sub Stroom",
     "SubFlows": "Sub Stromen",
     "Success": "Succes",
@@ -169,6 +178,7 @@
     "VersionNumber": "Versie: {version}",
     "View": "Bekijk",
     "ViewLog": "Bekijk Log",
+    "ViewMore": "Meer bekijken",
     "Warning": "Waarschuwing",
     "WeekShort": "Wk",
     "When": "Wanneer",
@@ -243,9 +253,6 @@
       "ETA": "ETA",
       "Speed": "Snelheid",
       "UploadedAmount": "Geüpload"
-    },
-    "FlowTemplatePicker": {
-      "Title": "Selecteer een sjabloon om mee te beginnen"
     },
     "IconPicker": {
       "Title": "Kies pictogram"
@@ -668,8 +675,6 @@
       "Labels": {
         "BatchDescription": "Batchbestanden kunnen alleen worden uitgevoerd op Windows-systemen. Ze kunnen basisvariabelen lezen maar kunnen geen FileFlows-objecten bijwerken of openen tijdens uitvoering.",
         "CSharpDescription": "C#-scripts kunnen met meer delen van FileFlows interageren en zijn het krachtigst. Ze gebruiken dezelfde taal als FileFlows, waardoor een grotere interactie met het systeem mogelijk is.",
-        "FileDisplayName": "Bestandsweergavenaam",
-        "FileDisplayNameDescription": "Een gespecialiseerd script dat aanpast hoe bestandsnamen worden weergegeven in de FileFlows-webconsole. Dit script wijzigt de daadwerkelijke bestanden niet, alleen hoe ze in de interface worden weergegeven.",
         "JavaScriptDescription": "JavaScript-scripts worden uitgevoerd binnen de FileFlows-loper, waardoor je variabelen kunt lezen en schrijven en toegang hebt tot alle hulpfuncties binnen FileFlows.",
         "PowerShellDescription": "PowerShell-scripts kunnen alleen worden uitgevoerd op Windows-systemen. Ze kunnen basisvariabelen lezen maar kunnen geen FileFlows-objecten bijwerken of openen tijdens uitvoering.",
         "ShellDescription": "Shell-scripts worden uitgevoerd op Unix-gebaseerde systemen (Linux, MacOS, Docker). Ze kunnen basisvariabelen lezen maar kunnen geen FileFlows-objecten bijwerken of openen tijdens uitvoering."
@@ -843,7 +848,13 @@
       "Minutes": "Minuten",
       "Weeks": "Weeken"
     },
+    "ProcessingLibraries": {
+      "All": "Alle",
+      "AllExcept": "Alles behalve",
+      "Only": "Alleen"
+    },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "Configuratie verouderd",
       "Disabled": "Uitgeschakeld",
       "HigherPriorityNodeAvailable": "Knooppunt met hogere prioriteit beschikbaar",
       "Idle": "Inactief",
@@ -853,6 +864,7 @@
       "OutOfSchedule": "Buiten Schema",
       "Processing": "Bezig Met Verwerken",
       "RestrictedByLibrary": "Beperkt door bibliotheek",
+      "UpdatingConfiguration": "Configuratie Wordt Bijgewerkt",
       "VersionMismatch": "Versie Mismatch"
     },
     "ProcessingOrder": {
@@ -903,9 +915,11 @@
       "Nodes": "Knopen",
       "PauseProcessing": "Verwerking Pauzeren",
       "Plugins": "Plugins",
+      "Reports": "Rapporten",
       "Resources": "Hulpbronnen",
       "Revisions": "Herzieningen",
       "Scripts": "Scripts",
+      "Tags": "Tags",
       "Tasks": "Taken",
       "Variables": "Variabelen",
       "Webhooks": "Webhooks"
@@ -916,6 +930,7 @@
     "CannotDeleteInternalNode": "Je kunt de interne verwerkingsknoop niet verwijderen.",
     "DeleteFailed": "Verwijderen mislukt",
     "DuplicatesFound": "Duplicaten gevonden",
+    "LibraryScanAtCapacity": "Scanlimiet bereikt — er kunnen momenteel geen items meer worden toegevoegd. Wacht tot bestaande items zijn verwerkt of verminder het aantal onverwerkte, uitgeschakelde of geplande items.",
     "NameInUse": "Naam is al in gebruik",
     "NameRequired": "Naam is vereist",
     "NoFlowSpecified": "Geen flow opgegeven, je moet een flow selecteren om een bibliotheek te maken",
@@ -949,6 +964,7 @@
   },
   "MenuGroups": {
     "Admin": "Admin",
+    "Config": "Config",
     "Configuration": "Configuratie",
     "Extensions": "Extensies",
     "FileDrop": "FileDrop",
@@ -1059,6 +1075,7 @@
       },
       "Tabs": {
         "Dashboard": "Dashboard",
+        "Overview": "Overzicht",
         "Savings": "Besparingen",
         "Statistics": "Statistieken"
       },
@@ -1067,13 +1084,13 @@
           "Peak": "{num} Piek"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Mislukt} other {# Mislukt}}",
-          "Finished": "{count, plural, zero {Voltooid} other {# Voltooid}}",
+          "Failed": "{count, plural, zero {Mislukt} other {{formatted} Mislukt}}",
+          "Finished": "{count, plural, zero {Voltooid} other {{formatted} Voltooid}}",
           "NoFailedFiles": "Geen mislukte bestanden",
           "NoRecentlyFinishedFiles": "Geen recent voltooide bestanden",
           "NoUpcomingFiles": "Geen aankomende bestanden",
           "Title": "Bestanden",
-          "Upcoming": "{count, plural, zero {Aankomend} other {# Aankomend}}"
+          "Upcoming": "{count, plural, zero {Aankomend} other {{formatted} Aankomend}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Verwerkte bestanden",
@@ -1373,6 +1390,15 @@
         "WaitTimeSeconds": "Wachtijd",
         "WaitTimeSeconds-Help": "Het aantal seconden dat moet zijn verstreken sinds de laatste wijziging die in deze map is geschreven om deze in de bibliotheek te scannen.",
         "WaitTimeSeconds-Suffix": "seconden"
+      },
+      "Messages": {
+        "ScanFailed": "Scan van bibliotheek ''{name}'' mislukt"
+      },
+      "Tabs": {
+        "Advanced": "Geavanceerd",
+        "Detection": "Detectie",
+        "General": "Algemeen",
+        "Schedule": "Planning"
       }
     },
     "LibraryFile": {
@@ -1399,6 +1425,7 @@
       "Tabs": {
         "CustomVariables": "Aangepaste Variabelen",
         "FinalMetadata": "Uitvoer",
+        "LogServer": "Serverlogboek",
         "OriginalMetadata": "Invoer"
       }
     },
@@ -1474,6 +1501,9 @@
         "Address": "Adres",
         "Enabled": "Ingeschakeld",
         "FlowRunners": "Flow runners"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "{message} wordt geïnstalleerd"
       }
     },
     "Notifications": {
@@ -1506,6 +1536,7 @@
         "AllLibraries": "Alle Bibliotheken",
         "AllLibraries-Help": "Welke bibliotheken deze knooppunt zal verwerken",
         "CopyMappings": "Kopieer Mappingen",
+        "DisableSchedule": "Planning Inschakelen",
         "DontChangeOwner": "Verander Eigenaar",
         "DontChangeOwner-Help": "Wanneer aangevinkt, zal het knooppunt de eigenaar van nieuwe bestanden wijzigen naar de PGID en PUID die zijn gedefinieerd in de omgevingsvariabelen.\nAls deze omgevingsvariabelen niet zijn ingesteld, wordt de eigenaar gewijzigd in ''users:nobody''.",
         "DontSetPermissions": "Stel Machtigingen In",
@@ -1532,9 +1563,6 @@
         "PreExecuteScript-Help": "Een script dat zal worden uitgevoerd voordat een bestand wordt verwerkt. Het resultaat van dit script moet 1 zijn om door te gaan; anders zal het knooppunt geen bestand verwerken.",
         "Priority": "Prioriteit",
         "Priority-Help": "Hoe hoger het getal, hoe hoger de prioriteit. Knooppunten met een hogere prioriteit worden bevoordeeld en krijgen als eerste bestanden om te verwerken, tenzij die knooppunten buiten schema zijn, zijn uitgeschakeld of op hun maximale runners zitten.",
-        "ProcessFileCheckInterval": "Bestand Controle Interval",
-        "ProcessFileCheckInterval-Help": "Hoe vaak er gecontroleerd moet worden op een nieuw bestand om te verwerken in de verwerkingsknooppunten.\nStel in op 0 om de systeewaarde te gebruiken.",
-        "ProcessFileCheckInterval-Suffix": "seconden",
         "ProcessingDescription": "Dit stelt je in staat om te configureren wat dit Verwerkingsknooppunt kan verwerken.\n\nBijvoorbeeld, je kunt dit knooppunt beperken tot alleen bepaalde bibliotheken of een maximale bestandsgrootte als dit knooppunt een minder krachtige knooppunt is.",
         "ProcessingOrder": "Verwerkingsvolgorde",
         "ProcessingOrder-Help": "Geeft de volgorde aan waarin bestanden door deze Node worden verwerkt. Deze instelling overschrijft de standaardverwerkingsvolgorde van de bibliotheek. Stel in op 'Standaard' om de verwerkingsvolgorde van de bibliotheek te gebruiken.",
@@ -1547,6 +1575,14 @@
         "VariablesDescription": "Variabelen stellen je in staat om geavanceerde variabelen in te stellen op een verwerkingsknooppunt.",
         "VariablesKey": "Naam",
         "VariablesValue": "Waarde"
+      },
+      "Tabs": {
+        "Advanced": "Geavanceerd",
+        "General": "Algemeen",
+        "Mappings": "Koppelingen",
+        "Processing": "Verwerking",
+        "Schedule": "Schema",
+        "Variables": "Variabelen"
       }
     },
     "Report": {
@@ -1693,10 +1729,6 @@
         "DockerModsOnServer-Help": "DockerMods moeten automatisch draaien bij het opstarten van de server of wanneer specifiek ingeschakeld. Anders worden ze alleen uitgevoerd wanneer een workflow wordt geïnitieerd.",
         "DontUseTempFilesWhenMovingOrCopying": "Tijdelijke bestanden voor Verplaatsen/Kopiëren",
         "DontUseTempFilesWhenMovingOrCopying-Help": "Gebruik .fftemp-bestanden om vroege detectie bij verplaatsen/kopiëren te voorkomen.",
-        "HideProcessingFinishedNotifications": "Verwerken Voltooid Meldingen",
-        "HideProcessingFinishedNotifications-Help": "Als er een toastmelding moet worden weergegeven in de webconsole wanneer een bestand is voltooid met verwerken.",
-        "HideProcessingStartedNotifications": "Verwerken Gestart Meldingen",
-        "HideProcessingStartedNotifications-Help": "Als er een toastmelding moet worden weergegeven in de webconsole wanneer een bestand begint met verwerken.",
         "KeepFailedFlowTempFiles": "Behoud Mislukte Temp Bestanden",
         "KeepFailedFlowTempFiles-Help": "Door deze optie in te schakelen, worden de tijdelijke bestanden die door een flow worden gebruikt in geval van een mislukking behouden, zodat ze niet automatisch worden verwijderd.\nGebruik met voorzichtigheid.",
         "Language": "Taal",
@@ -1710,13 +1742,14 @@
         "LoggingPath-Help": "Hier worden logbestanden aangemaakt.",
         "LogQueueMessages": "Uitgebreide bibliotheeklogboeken",
         "LogQueueMessages-Help": "Dit verhoogt het logniveau van het detectieproces van bibliotheekbestanden. Dit moet alleen worden ingeschakeld bij het debuggen van detectieproblemen en daarna worden uitgeschakeld.",
+        "MaxPageSize": "Maximale Paginagrootte",
+        "MaxPageSize-Help": "Het maximale aantal items dat in een lijst kan worden weergegeven. Dit geldt voor de verwerkte bestandsgegevens die bij het laden naar de UI worden verzonden. Dit aantal moet gelijk aan of groter zijn dan de Wachtrijcapaciteit.",
         "PluginRepositoryUrls": "Plugin Repositories",
         "PluginRepositoryUrls-Help": "Een lijst met plugin-repository-URL's gescheiden door regels die moeten worden gebruikt bij het zoeken naar plugins.\nDe volgorde is belangrijk; als meerdere repositories dezelfde plugin bevatten, wordt de eerste repository gebruikt als bron.\nDe standaardrepository wordt altijd aan het einde van deze lijst toegevoegd.",
-        "ProcessFileCheckInterval": "Bestand Controle Interval",
-        "ProcessFileCheckInterval-Help": "Hoe vaak er moet worden gecontroleerd op een nieuw bestand om te verwerken in de verwerkingsnodes.",
-        "ProcessFileCheckInterval-Suffix": "seconden",
-        "ShowFileAddedNotifications": "Bestand Toegevoegd Meldingen",
-        "ShowFileAddedNotifications-Help": "Als er een toastmelding moet worden weergegeven in de webconsole wanneer een bestand is gevonden en aan de wachtrij is toegevoegd.",
+        "QueueCapacity": "Wachtrijcapaciteit",
+        "QueueCapacity-Help": "Het maximale aantal items dat aan de wachtrij kan worden toegevoegd. Dit omvat items die buiten het schema vallen, in de wacht staan of zijn uitgeschakeld. Het verhogen van dit aantal verhoogt de gegevens die naar de UI worden verzonden en kan de prestaties beïnvloeden.",
+        "ScanWhenPaused": "Scannen terwijl gepauzeerd",
+        "ScanWhenPaused-Help": "Als deze optie is ingeschakeld, blijven bibliotheken scannen, zelfs wanneer het systeem is gepauzeerd.",
         "Telemetry": "Telemetrie",
         "Telemetry-Help": "Telemetrie is nuttig om te weten welke apparaten we moeten ondersteunen, welke Flow-onderdelen het meest worden gebruikt en waar we ons op de ontwikkeling moeten richten.\nEr worden geen informatie over jouw bestanden of identificerende informatie verzonden.",
         "Database": {
@@ -1851,6 +1884,8 @@
       "Fields": {
         "CustomSchedule": "Aangepast Schema",
         "CustomSchedule-Help": "Deze taak wordt eenmaal per blok van 15 minuten uitgevoerd aan het begin van dat blok.",
+        "Enabled": "Ingeschakeld",
+        "Enabled-Help": "Bepaalt of deze taak actief is en wordt uitgevoerd op basis van gebeurtenistriggers of een geplande tijd.",
         "Schedule": "Schema",
         "Schedule-Help": "Wanneer dit script moet worden uitgevoerd",
         "Script": "Script",
@@ -2149,6 +2184,7 @@
     "DaysAgo": "{num} {num, plural, one {dag} other {dagen}} geleden",
     "HoursAgo": "{num} {num, plural, one {uur} other {uren}} geleden",
     "MinutesAgo": "{num} {num, plural, one {minuut} other {minuten}} geleden",
+    "MomentsAgo": "Een moment geleden",
     "Never": "Nooit",
     "SecondsAgo": "{num} {num, plural, one {seconde} other {seconden}} geleden"
   },

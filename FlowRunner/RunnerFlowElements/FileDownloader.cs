@@ -36,7 +36,7 @@ public class FileDownloader : Node
     {
         string dest = Path.Combine(args.TempPath, new FileInfo(args.LibraryFileName).Name);
         var downloader = new ServerShared.FileServices.FileDownloader(args.Logger, RemoteService.ServiceBaseUrl, 
-            runInstance.Uid, RemoteService.AccessToken, RemoteService.NodeUid);
+            runInstance.Properties.Uid, RemoteService.AccessToken, args.Node.Uid);
         downloader.OnProgress += (percent, eta, speed) =>
         {
             args.PartPercentageUpdate(percent);

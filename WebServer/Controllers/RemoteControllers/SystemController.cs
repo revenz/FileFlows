@@ -21,13 +21,6 @@ public class SystemController : Controller
     public string GetVersion() => Globals.Version;
 
     /// <summary>
-    /// Gets the file check interval in seconds
-    /// </summary>
-    [HttpGet("file-check-interval")]
-    public async Task<int> GetFileCheckInterval() =>
-        (await ServiceLoader.Load<ISettingsService>().Get()).ProcessFileCheckInterval;
-
-    /// <summary>
     /// Gets if the server is licensed
     /// </summary>
     [HttpGet("is-licensed")]

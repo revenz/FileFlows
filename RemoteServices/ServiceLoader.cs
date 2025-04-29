@@ -1,4 +1,4 @@
-using FileFlows.ServerShared.Interfaces;
+using System.Collections.Concurrent;
 
 namespace FileFlows.RemoteServices;
 
@@ -11,6 +11,20 @@ public static class ServiceLoader
     /// Gets the service provider for accessing registered services.
     /// </summary>
     public static CustomServiceProvider Provider { get; private set; }
+    
+    /// <summary>
+    /// Gets or sets a special case services
+    /// </summary>
+    private static ConcurrentDictionary<Type, object> SpecialServices = new();
+
+    /// <summary>
+    /// Adds a special case
+    /// </summary>
+    /// <param name="service">the service to add</param>
+    public static void AddSpecialCase<T>(T service) where T : class
+    {
+        SpecialServices[typeof(T)] = service;
+    }
 
     /// <summary>
     /// Configures and initializes the services.
@@ -19,17 +33,11 @@ public static class ServiceLoader
     {
         // Add to WebServer to if needed
         Provider = new CustomServiceProvider()
-            .AddSingleton<IFlowRunnerService>(() => new FlowRunnerService())
-            .AddSingleton<ILibraryFileService>(() => new LibraryFileService())
-            .AddSingleton<ILogService>(() => new LogService())
             .AddSingleton<INodeService>(() => new NodeService())
             .AddSingleton<ISettingsService>(() => new SettingsService())
-            .AddSingleton<IStatisticService>(() => new StatisticService())
-            .AddSingleton<IVariableService>(() => new VariableService())
-            .AddSingleton<INotificationService>(() => new NotificationService())
-            .AddSingleton<IDistributedCacheService>(() => new RemoteDistributedCacheService())
-            .AddSingleton<EmailService>(() => new EmailService())
-            .AddSingleton<HardwareInfoService>(() => new HardwareInfoService())
+            .AddSingleton<INotificationService>(() => new NotificationService()) // need for DockerMod installs
+            .AddSingleton(() => new HardwareInfoService())
+            .AddSingleton(() => new ConfigurationService())
             .BuildServiceProvider(); // Build the service provider
     }
     
@@ -40,6 +48,9 @@ public static class ServiceLoader
     /// <returns>The loaded service instance.</returns>
     public static T Load<T>() where T : class
     {
+        if(SpecialServices.TryGetValue(typeof(T), out var specialService))
+            return (T)specialService;
+        
         var service = Provider.GetService<T>(); // Get the required service instance
         if (service == null)
             throw new Exception($"Service '{typeof(T).Name}' not registered.");

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using BlazorContextMenu;
 using FileFlows.Client;
+using FileFlows.Client.Services.Frontend;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -14,9 +15,10 @@ builder.Services.AddSingleton<INavigationService, NavigationService>();
 builder.Services.AddSingleton<IClipboardService, ClipboardService>();
 builder.Services.AddSingleton<ProfileService>();
 builder.Services.AddSingleton<IModalService, ModalService>();
+builder.Services.AddSingleton<MessageService>();
 builder.Services.AddMemoryCache();
-builder.Services.AddSingleton<ClientService>();
 builder.Services.AddSingleton<IPausedService, PausedService>();
+builder.Services.AddTransient<ClickOutsideService>();
 builder.Services.AddBlazorContextMenu(options =>
 {
     options.ConfigureTemplate(template =>
@@ -29,5 +31,6 @@ builder.Services.AddBlazorContextMenu(options =>
 
 builder.Services.AddSingleton<FFLocalStorageService>();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddSingleton<FrontendService>();
 
 await builder.Build().RunAsync();

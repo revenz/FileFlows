@@ -29,11 +29,33 @@ public class Settings : FileFlowObject
     /// Gets or sets if telemetry should be disabled
     /// </summary>
     public bool DisableTelemetry { get; set; }
-    
+
     /// <summary>
-    /// Gets or sets the number of seconds to check for a new file to process
+    /// Gets or sets if library scanning should still occur when the system is paused
     /// </summary>
-    public int ProcessFileCheckInterval { get; set; }
+    public bool ScanWhenPaused { get; set; }
+
+    private int _QueueCapacity = 500;
+
+    /// <summary>
+    /// Gets or sets the queue capacity for unprocessed files
+    /// </summary>
+    public int QueueCapacity
+    {
+        get => _QueueCapacity; 
+        set => _QueueCapacity = value < 1 ? 500 : value > 10000 ? 10000 : value; 
+    }
+
+    private int _MaxPageSize = 500;
+
+    /// <summary>
+    /// Gets or sets the maximum page size for completed files
+    /// </summary>
+    public int MaxPageSize
+    {
+        get => _MaxPageSize; 
+        set => _MaxPageSize = value < 1 ? 500 : value > 10000 ? 10000 : value; 
+    }
 
     /// <summary>
     /// Gets or sets if temporary files from a failed flow should be kept
@@ -43,27 +65,12 @@ public class Settings : FileFlowObject
     /// <summary>
     /// Gets or sets if temporary files should not be used when moving/copying files
     /// </summary>
-    public bool DontUseTempFilesWhenMovingOrCopying { get; set; }
+    public bool UseTempFilesWhenMovingOrCopying { get; set; }
 
     /// <summary>
     /// Gets or sets if the Queue messages should be logged
     /// </summary>
     public bool LogQueueMessages { get; set; }
-    
-    /// <summary>
-    /// Gets or sets if the notifications for file added should be shown
-    /// </summary>
-    public bool ShowFileAddedNotifications { get; set; }
-    
-    /// <summary>
-    /// Gets or sets if the notifications for processing started added should not be shown
-    /// </summary>
-    public bool HideProcessingStartedNotifications { get; set; }
-    
-    /// <summary>
-    /// Gets or sets if the notifications for processing finished added should not be shown
-    /// </summary>
-    public bool HideProcessingFinishedNotifications { get; set; }
 
     /// <summary>
     /// Gets or sets the revision of the configuration
@@ -216,11 +223,6 @@ public class Settings : FileFlowObject
     /// Gets or sets if the EULA has been accepted
     /// </summary>
     public bool EulaAccepted { get; set; }
-
-    /// <summary>
-    /// Gets the delay between requesting a new file if a file can be processed instantly
-    /// </summary>
-    public int DelayBetweenNextFile { get; set; }
 }
 
 /// <summary>

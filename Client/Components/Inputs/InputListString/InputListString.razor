@@ -1,0 +1,15 @@
+@namespace FileFlows.Client.Components.Inputs
+@inherits Input<List<string>>
+
+<InputWrapper Input="@this">
+    <div class="input-list-string-wrapper">
+        @foreach (var str in Value ?? [])
+        {
+            <span class="chip">
+                @str
+                <span class="remove fas fa-times" @onclick="() => Remove(str)"></span>
+            </span>
+        }
+        <input id=@Uid type="text" @onkeyup="OnKeyDown" @bind-value="InputText" @bind-value:event="oninput" @onblur="OnBlur" />
+    </div>
+</InputWrapper>

@@ -1,6 +1,5 @@
+using FileFlows.NodeClient;
 using FileFlows.RemoteServices;
-using FileFlows.ServerShared;
-using FileFlows.ServerShared.Helpers;
 using FileFlows.ServerShared.Services;
 using FileFlows.ServerShared.Workers;
 
@@ -19,6 +18,11 @@ public class NodeUpdater:UpdaterWorker
     public NodeUpdater() : base("node-upgrade", ScheduleType.Daily, 3)
     {
         Instance = this;
+        EventManager.Subscribe("NodeVersionMismatch", (string version) =>
+        {
+            Trigger();
+        });
+
     }
 
     /// <summary>
@@ -31,12 +35,13 @@ public class NodeUpdater:UpdaterWorker
         Instance.Trigger();
     }
 
-    
+
     /// <summary>
     /// Gets if an update can currently run
     /// </summary>
     /// <returns>true if the update can run, otherwise false</returns>
-    protected override bool CanUpdate() => FlowWorker.HasActiveRunners == false;
+    protected override bool CanUpdate()
+        => ServiceLoader.Load<RunnerManager>().HasActiveRunners == false;
 
     /// <summary>
     /// Quits the application so the update can be applied
@@ -113,6 +118,8 @@ public class NodeUpdater:UpdaterWorker
         var service = ServiceLoader.Load<INodeService>();
         var serverVersion = service.GetNodeUpdateVersion().Result;
         Logger.DLog("Checking for auto update: " + serverVersion);
+        if (serverVersion.Major == 0)
+            return false; // means not licensed for auto updates
         return CurrentVersion != serverVersion;
     }
 }

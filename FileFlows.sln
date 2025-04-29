@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowRunner", "FlowRunner\Fl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptExecution", "ScriptExecution\ScriptExecution.csproj", "{09568E2E-EBE2-447D-9628-19C618AE7461}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{FDCE8821-3228-42C9-8639-A279E51E2EE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "..\FileFlowsAdditional\DataLayer\DataLayer.csproj", "{FDCE8821-3228-42C9-8639-A279E51E2EE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Managers", "Managers\Managers.csproj", "{508AFEAB-0FF3-45AD-89CE-D78B30A4F2D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Managers", "..\FileFlowsAdditional\Managers\Managers.csproj", "{508AFEAB-0FF3-45AD-89CE-D78B30A4F2D2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteServices", "RemoteServices\RemoteServices.csproj", "{0C0D563E-4D7C-4A94-B6B6-51D4D1B41D01}"
 EndProject
@@ -42,6 +42,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{A40DEBC8-0D62-4155-8D9C-BFBBC731FBC4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validators", "Validators\Validators.csproj", "{BB1F205D-6A09-46F4-B041-985990715D21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeClient", "NodeClient\NodeClient.csproj", "{7132E1F8-0D9C-4317-8D77-A6081194224F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaUI", "AvaloniaUI\AvaloniaUI.csproj", "{800A38FB-8DC8-4F8C-8A74-87796ABB6408}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseMigrator", "..\FileFlowsAdditional\DatabaseMigrator\DatabaseMigrator.csproj", "{2F48F4FB-66A9-4EEC-B3E0-3110B2C4310B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +135,18 @@ Global
 		{BB1F205D-6A09-46F4-B041-985990715D21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB1F205D-6A09-46F4-B041-985990715D21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB1F205D-6A09-46F4-B041-985990715D21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7132E1F8-0D9C-4317-8D77-A6081194224F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{800A38FB-8DC8-4F8C-8A74-87796ABB6408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{800A38FB-8DC8-4F8C-8A74-87796ABB6408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{800A38FB-8DC8-4F8C-8A74-87796ABB6408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{800A38FB-8DC8-4F8C-8A74-87796ABB6408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F48F4FB-66A9-4EEC-B3E0-3110B2C4310B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F48F4FB-66A9-4EEC-B3E0-3110B2C4310B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F48F4FB-66A9-4EEC-B3E0-3110B2C4310B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F48F4FB-66A9-4EEC-B3E0-3110B2C4310B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,68 +2,79 @@
 @inherits Input<List<KeyValuePair<string, string>>>
 
 <InputWrapper Input="@this">
-    <div class="input-keyvalue-wrapper" @onblur="OnBlur">
+    <div class="input-keyvalue-wrapper @(ReadOnly ? "read-only" : "")" @onblur="OnBlur">
         <table>
-            <thead>
+            @if (HideKeyValueLabels == false)
+            {
+                <thead>
                 <tr>
                     <th>@lblKey</th>
                     <th>@lblValue</th>
-                    <th></th>
+                    @if (ReadOnly == false)
+                    {
+                        <th></th>
+                    }
                 </tr>
-            </thead>
+                </thead>
+            }
             <tbody>
-                @foreach (var key in Data.Keys)
-                {
-                    var kv = Data[key];
-                    <tr class="@(kv.Key == DuplicateKey ? "invalid" : "")">
-                        <td>
-                            @if (HasOptions)
-                            {
-                                <select id="@Uid" value="@kv.Key" @onchange="((e) => UpdateKeyValue(e, kv))">
-                                    @foreach(var opt in Options)
-                                    {
-                                        <option value="@opt.Value">@opt.Label</option>
-                                    }
-                                </select>
-                            }
-                            else if(ShowVariables)
-                            {
-                                <VariableInput Variables=@Variables @bind-Value="@kv.Key" Blur="@OnBlur"  />
-                            }
-                            else
-                            {
-                                <input type="text" @bind-value="kv.Key" @onblur="OnBlur"/>
-                            }
-                        </td>
-                        <td>
-                            @if(ShowVariables)
-                            {
-                                <VariableInput Variables=@Variables @bind-Value="@kv.Value" Blur="@OnBlur" />
-                            }
-                            else
-                            {
-                                <input type="text" @bind-value="kv.Value" @onblur="OnBlur"/>
-                            }
-                        </td>
-                        <td>
-                            <i class="fas fa-trash" @onclick="() => Remove(key)"></i>
-                        </td>
-                    </tr>
-                }
-                <tr>
+            @foreach (var key in Data.Keys)
+            {
+                var kv = Data[key];
+                <tr class="@(kv.Key == DuplicateKey ? "invalid" : "")">
                     <td>
-                        @if (HasOptions)
+                        @if (HasOptions && ReadOnly == false)
                         {
-                            <select id="@Uid" value="@NewKey" @onchange="UpdateNewKey">
-                                @foreach(var opt in Options)
+                            <select id="@Uid" value="@kv.Key" @onchange="((e) => UpdateKeyValue(e, kv))">
+                                @foreach (var opt in Options)
                                 {
                                     <option value="@opt.Value">@opt.Label</option>
                                 }
                             </select>
                         }
-                        else if(ShowVariables)
+                        else if (ShowVariables && ReadOnly == false)
                         {
-                            <VariableInput Uid="@(Uid + "-new-key")" Variables=@Variables @bind-Value="@NewKey" />
+                            <VariableInput Variables=@Variables @bind-Value="@kv.Key" Blur="@OnBlur"/>
+                        }
+                        else
+                        {
+                            <input type="text" @bind-value="kv.Key" @onblur="OnBlur" readonly="@ReadOnly"/>
+                        }
+                    </td>
+                    <td>
+                        @if (ShowVariables && ReadOnly == false)
+                        {
+                            <VariableInput Variables=@Variables @bind-Value="@kv.Value" Blur="@OnBlur"/>
+                        }
+                        else
+                        {
+                            <input type="text" @bind-value="kv.Value" @onblur="OnBlur" readonly="@ReadOnly"/>
+                        }
+                    </td>
+                    @if (ReadOnly == false)
+                    {
+                        <td>
+                            <i class="fas fa-trash" @onclick="() => Remove(key)"></i>
+                        </td>
+                    }
+                </tr>
+            }
+            @if (ReadOnly == false)
+            {
+                <tr>
+                    <td>
+                        @if (HasOptions)
+                        {
+                            <select id="@Uid" value="@NewKey" @onchange="UpdateNewKey">
+                                @foreach (var opt in Options)
+                                {
+                                    <option value="@opt.Value">@opt.Label</option>
+                                }
+                            </select>
+                        }
+                        else if (ShowVariables)
+                        {
+                            <VariableInput Uid="@(Uid + "-new-key")" Variables=@Variables                                               @bind-Value="@NewKey"/>
                         }
                         else
                         {
@@ -71,19 +82,20 @@
                         }
                     </td>
                     <td>
-                        @if(ShowVariables)
+                        @if (ShowVariables)
                         {
-                             <VariableInput Uid="@(Uid + "-new-value")" Variables=@Variables @bind-Value="NewValue" Blur="@BlurAdd"  />
+                            <VariableInput Uid="@(Uid + "-new-value")" Variables=@Variables                                               @bind-Value="NewValue" Blur="@BlurAdd"/>
                         }
                         else
                         {
-                            <input type="text" @bind-value="NewValue" @onblur="BlurAdd" />
+                            <input type="text" @bind-value="NewValue" @onblur="BlurAdd"/>
                         }
                     </td>
-                    <td>                        
+                    <td>
                         <i class="fas fa-plus" @onclick="Add"></i>
                     </td>
                 </tr>
+            }
             </tbody>
         </table>
     </div>

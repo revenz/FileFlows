@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -29,9 +30,9 @@ public partial class NewLibraryWizard : IModal
     }
     
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
+    [Inject] private FrontendService feService { get; set; }
     
     /// <inheritdoc />
     [Parameter]
@@ -60,7 +61,7 @@ public partial class NewLibraryWizard : IModal
     /// <summary>
     /// Translation strings
     /// </summary>
-    private string lblTitle, lblLibraryType, lblLibraryTypeDescription, lblGeneral, lblGeneralDescription,
+    private string lblLibraryType, lblLibraryTypeDescription, lblGeneral, lblGeneralDescription,
         lblFileTypes, lblFileTypesDescription, lblFileExtensions, lblFileExtensionsDescription;
 
     /// <summary>
@@ -149,43 +150,37 @@ public partial class NewLibraryWizard : IModal
     }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        var flowResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list?folderFlows=false");
-        if (flowResult.Success)
-        {
-            Flows = flowResult.Data;
-            FlowOptions = flowResult.Data
-                .OrderBy(x => x.Value.ToLowerInvariant())
-                .Select(x => new ListOption()
-                {
-                    Value = x.Key,
-                    Label = x.Value
-                }).ToList();
-        }
-        var flowResultFolders = await HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list?folderFlows=true");
-        if (flowResultFolders.Success)
-        {
-            FlowsFolders = flowResultFolders.Data;
-            FlowOptionsFolders = flowResultFolders.Data
-                .OrderBy(x => x.Value.ToLowerInvariant())
-                .Select(x => new ListOption()
-                {
-                    Value = x.Key,
-                    Label = x.Value
-                }).ToList();
-        }
+        Flows = feService.Flow.Flows.Where(x => x.Type == FlowType.Standard &&  x.FolderFlow == false).ToDictionary(x => x.Uid, x => x.Name);
+        FlowOptions = Flows
+            .OrderBy(x => x.Value.ToLowerInvariant())
+            .Select(x => new ListOption()
+            {
+                Value = x.Key,
+                Label = x.Value
+            }).ToList();
+        FlowUid = FlowOptions.FirstOrDefault()?.Value as Guid? ?? Guid.Empty;
+        
+        FlowsFolders = feService.Flow.Flows.Where(x => x.Type == FlowType.Standard && x.FolderFlow).ToDictionary(x => x.Uid, x => x.Name);
+        FlowOptionsFolders = FlowsFolders
+            .OrderBy(x => x.Value.ToLowerInvariant())
+            .Select(x => new ListOption()
+            {
+                Value = x.Key,
+                Label = x.Value
+            }).ToList();
+        FlowUidFolder = FlowOptionsFolders.FirstOrDefault()?.Value as Guid? ?? Guid.Empty;
 
         if (FlowOptions.Count == 0)
         {
-            Toast.ShowWarning(Translater.Instant("Pages.Libraries.ErrorMessages.NoFlows"));
+            feService.Notifications.ShowWarning(Translater.Instant("Pages.Libraries.ErrorMessages.NoFlows"));
             Close();
             return;
         }
         
-        IsWindows = (await ProfileService.Get()).ServerOS == OperatingSystemType.Windows;
+        IsWindows = feService.Profile.Profile.ServerOS == OperatingSystemType.Windows;
         
-        lblTitle = Translater.Instant("Dialogs.NewLibraryWizard.Title");
         lblLibraryType = Translater.Instant("Dialogs.NewLibraryWizard.Labels.LibraryType");
         lblLibraryTypeDescription = Translater.Instant("Dialogs.NewLibraryWizard.Labels.LibraryTypeDescription");
         lblGeneral = Translater.Instant("Dialogs.NewLibraryWizard.Labels.General");
@@ -246,12 +241,12 @@ public partial class NewLibraryWizard : IModal
         
         if (string.IsNullOrWhiteSpace(LibraryName))
         {
-            Toast.ShowError("Dialogs.NewLibraryWizard.Messages.NameRequired");
+            feService.Notifications.ShowError("Dialogs.NewLibraryWizard.Messages.NameRequired");
             return;
         }
         if (string.IsNullOrWhiteSpace(LibraryPath))
         {
-            Toast.ShowError("Dialogs.NewLibraryWizard.Messages.PathRequired");
+            feService.Notifications.ShowError("Dialogs.NewLibraryWizard.Messages.PathRequired");
             return;
         }
 
@@ -260,7 +255,7 @@ public partial class NewLibraryWizard : IModal
 
         if (flowUid == Guid.Empty || !flowsDictionary.TryGetValue(flowUid, out var flowName))
         {
-            Toast.ShowError("Dialogs.NewLibraryWizard.Messages.FlowRequired");
+            feService.Notifications.ShowError("Dialogs.NewLibraryWizard.Messages.FlowRequired");
             return;
         }
 
@@ -296,7 +291,7 @@ public partial class NewLibraryWizard : IModal
                     case 0: // video
                         library.Extensions =
                         [
-                            "ts", "mp4", "mkv", "avi", "mpe", "mpeg", "mov", "mpv", "flv", "wmv", "webm", "avchd",
+                            "ts", "mp4", "mkv", "avi", "mpe", "mpeg", "mpg", "mov", "mpv", "flv", "wmv", "webm", "avchd",
                             "h264", "h265"
                         ];
                         break;
@@ -325,7 +320,7 @@ public partial class NewLibraryWizard : IModal
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
-                Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return;
             }
             

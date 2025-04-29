@@ -2,7 +2,7 @@
 
 @if (Visible && Area != ButtonArea.ContextMenu)
 {
-    <button class="flowtable-button" @onclick="@OnClick" disabled="@(Enabled == false)">
+    <button class="flowtable-button @(Mobile ? "" : "hidden-on-mobile")" @onclick="@OnClick" disabled="@(Enabled == false)">
         @if (HideLabel && string.IsNullOrWhiteSpace(Icon) == false)
         {
             <span class="icon @Icon" title="@Label"></span>

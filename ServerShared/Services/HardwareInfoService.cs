@@ -136,6 +136,22 @@ public class HardwareInfoService
                         }
                     }
                 }
+
+                // Intel GPU detection
+                var intelInfoResult = ExecuteCommand("lspci | grep -i Intel");
+                if (intelInfoResult.IsFailed == false)
+                {
+                    var info = intelInfoResult.Value.Trim();
+                    foreach (var line in info.Split(Environment.NewLine))
+                    {
+                        if (!string.IsNullOrWhiteSpace(line) && line.Contains("VGA"))
+                        {
+                            var gpu = ParseIntelGpu(line);
+                            if (gpu != null)
+                                gpus.Add(gpu);
+                        }
+                    }
+                }
             }
             catch
             {
@@ -220,6 +236,77 @@ public class HardwareInfoService
             Model = model,
             Memory = GetAmdMemory(line), // Call your existing method to get memory
             DriverVersion = GetAmdDriverVersion() // Call your existing method to get driver version
+        };
+    }
+
+    /// <summary>
+    /// Parses the GPU model information string for Intel GPUs.
+    /// </summary>
+    /// <param name="line">The model information string from the GPU.</param>
+    /// <returns>A tuple containing the vendor, model, memory (in bytes), and driver version of the GPU.</returns>
+    private GpuInfo ParseIntelGpu(string line)
+    {
+        // Example input:
+        // 55:00.0 VGA compatible controller: Intel Corporation DG2 [Arc A380] (rev 05)
+
+        string vendor = "Intel"; // Set vendor to Intel
+        string model = "Unknown";
+        long memory = 0; // Initialize memory in bytes (long type to handle larger values)
+
+        // Split the model info to isolate the relevant sections
+        var parts = line.Split(new[] { " VGA compatible controller: " }, StringSplitOptions.None);
+
+        if (parts.Length > 1)
+        {
+            // Extract model information
+            model = parts[1].Substring(parts[1].IndexOf("Intel") + 6).Trim(); // Extracts Intel model part
+            model = model.Substring(0, model.IndexOf(" (")).Trim(); // Remove the revision info
+
+            // Check if it's an Arc model (e.g., Arc A380, Arc A750, Arc B580)
+            var match = Regex.Match(model, @"\[(Arc [^]]+)\]");
+            if (match.Success)
+            {
+                model = match.Groups[1].Value; // Extract the Intel Arc model (e.g., "Arc A380")
+            }
+        }
+
+        // Check for memory size in the line (e.g., "Memory: 8 GB")
+        var memoryMatch = Regex.Match(line, @"Memory:\s*(\d+)\s*(GB|MB|KB)?");
+        if (memoryMatch.Success)
+        {
+            // Extract the number and unit
+            long memorySize = long.Parse(memoryMatch.Groups[1].Value);
+            string memoryUnit = memoryMatch.Groups[2].Value.ToUpper();
+
+            // Convert to bytes based on the unit
+            memory = memoryUnit switch
+            {
+                "GB" => memorySize * 1024 * 1024 * 1024, // GB to bytes
+                "MB" => memorySize * 1024 * 1024, // MB to bytes
+                "KB" => memorySize * 1024, // KB to bytes
+                _ => memorySize, // Default is bytes (no conversion needed)
+            };
+        }
+
+        // If memory is 0, set a default based on GPU model using a switch
+        if (memory == 0)
+        {
+            memory = model switch
+            {
+                "Arc A380" => 6L * 1024 * 1024 * 1024, // 6 GB in bytes
+                "Arc A750" => 8L * 1024 * 1024 * 1024, // 8 GB in bytes
+                "Arc A770" => 8L * 1024 * 1024 * 1024, // 8 GB in bytes
+                "Arc B570" => 10L * 1024 * 1024 * 1024, // 10 GB in bytes
+                "Arc B580" => 12L * 1024 * 1024 * 1024, // 12 GB in bytes
+                _ => 0 // Default for other models
+            };
+        }
+
+        return new GpuInfo()
+        {
+            Vendor = vendor,
+            Model = model,
+            Memory = memory, // Memory in bytes
         };
     }
 

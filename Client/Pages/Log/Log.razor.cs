@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components;
 using System.Timers;
 using System.Web;
+using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using Microsoft.JSInterop;
 
 namespace FileFlows.Client.Pages;
@@ -13,6 +15,11 @@ namespace FileFlows.Client.Pages;
 /// </summary>
 public partial class Log : ComponentBase
 {
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
+    
     /// <summary>
     /// Gets or sets the blocker
     /// </summary>
@@ -25,6 +32,10 @@ public partial class Log : ComponentBase
     /// Gets or sets the navigation manager
     /// </summary>
     [Inject] NavigationManager NavigationManager { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     /// <summary>
     /// Gets or sets the Local Storage instance
     /// </summary>
@@ -94,10 +105,11 @@ public partial class Log : ComponentBase
     /// Translation strings
     /// </summary>
     private string lblDownload, lblSearch, lblSearching, lblInfo, lblWarning, lblError, lblDebug, lblText, 
-        lblIncludeHigherSeverity, lblSource, lblFile, lblSeverity, lblNodes, lblNoMatchingData, lblTitle;
+        lblIncludeHigherSeverity, lblSource, lblFile, lblSeverity, lblNodes, lblNoMatchingData;
     
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.Log.Title"), "fas fa-file-alt", noPadding: true);
         ActiveSearchModel = new()
         {
             Message = SearchText,
@@ -118,7 +130,6 @@ public partial class Log : ComponentBase
         lblSeverity = Translater.Instant("Pages.Log.Fields.Severity");
         lblNodes = Translater.Instant("Pages.Log.Fields.Nodes");
         lblNoMatchingData = Translater.Instant("Pages.Log.Labels.NoMatchingData");
-        lblTitle = Translater.Instant("Pages.Log.Title");
 #if (DEBUG)
         this.DownloadUrl = "http://localhost:6868/api/fileflows-log/download";
 #else
@@ -265,7 +276,7 @@ public partial class Log : ComponentBase
                                                         HttpUtility.UrlEncode(ActiveSearchModel.ActiveFile.FileName));
             if (response.Success)
             {
-                if (sameFilter && ActiveSearchModel.ActiveFile.Active && response.Body.Length >= CurrentLogText.Length)
+                if (sameFilter && ActiveSearchModel.ActiveFile.Active && response.Body.Length > 0 && response.Body.Length >= CurrentLogText.Length)
                 {
                     if (response.Body.Length == CurrentLogText.Length)
                         return; // no more log, nothing extra to do 
@@ -371,7 +382,7 @@ public partial class Log : ComponentBase
         var result = await HttpHelper.Get<string>(DownloadUrl + "?source=" + HttpUtility.UrlEncode(SearchFile.FileName));
         if (result.Success == false)
         {
-            Toast.ShowError(Translater.Instant("Pages.Log.Labels.FailedToDownloadLog"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.Log.Labels.FailedToDownloadLog"));
             return;
         }
 

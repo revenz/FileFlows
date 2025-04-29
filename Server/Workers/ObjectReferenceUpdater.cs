@@ -90,13 +90,21 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
 
             foreach (var lib in libraries)
             {
-                lfService.UpdateLibraryName(lib.Uid, lib.Name).Wait();
+                if (lib == null)
+                    continue;
+                if(lfService != null)
+                    lfService.UpdateLibraryName(lib.Uid, lib.Name).Wait();
             }
 
             foreach (var flow in flows)
             {
-                libService.UpdateFlowName(flow.Uid, flow.Name).Wait();
-                lfService.UpdateFlowName(flow.Uid, flow.Name).Wait();
+                if (flow == null || flow.Name == null)
+                    continue;
+                
+                if(libService != null)
+                    libService.UpdateFlowName(flow.Uid, flow.Name).Wait();
+                if(lfService != null)
+                    lfService.UpdateFlowName(flow.Uid, flow.Name).Wait();
                 
             }
             Logger.Instance.ILog("Time Taken to complete for ObjectReference rename: "+ DateTime.UtcNow.Subtract(start));

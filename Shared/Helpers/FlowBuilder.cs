@@ -307,4 +307,9 @@ public class FlowElementUids
     /// Gets the UID for TV Show Lookup 
     /// </summary>
     public static string TVShowLookup => "MetaNodes.TheMovieDb.TVShowLookup";
+    
+    /// <summary>
+    /// Gets the UID for TV Episode Lookup 
+    /// </summary>
+    public static string TVEpisodeLookup => "MetaNodes.TheMovieDb.TVEpisodeLookup";
 }

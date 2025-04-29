@@ -1,0 +1,14 @@
+@layout ConfigLayout
+
+@page "/config/updates"
+@inherits InputRegister
+@namespace FileFlows.Client.Pages.Config.Configuration.Settings
+
+
+<InputButton Label="Pages.Settings.Fields.CheckForUpdateNow" Text="@lblCheckNow" OnClick=@CheckForUpdateNow/>
+
+<InputSwitch @bind-Value="@Model.AutoUpdate" Label="Pages.Settings.Fields.AutoUpdate"/>
+<InputSwitch @bind-Value="@Model.AutoUpdatePlugins" Label="Pages.Settings.Fields.AutoUpdatePlugins"/>
+<InputSwitch @bind-Value="@Model.AutoUpdateNodes" Label="Pages.Settings.Fields.AutoUpdateNodes"/>
+
+<FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />

@@ -1,0 +1,266 @@
+.navbar {
+  display:flex;
+  user-select: none;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: 100vh;
+  padding:0;
+  min-width: 6rem;
+  width:6rem;
+  border-right: solid 1px var(--border-color);
+  background: var(--base);
+}
+.navbar-brand {
+  margin:unset !important;
+  svg {
+    width: 3.5rem;
+    margin: 1rem auto 1rem;
+  }
+}
+.main-nav {
+  flex-grow:1;
+  width: 100%;
+}
+ul {
+  margin:0;
+  padding:0;
+  list-style: none;
+}
+.nav-item
+{
+  position: relative;
+  a {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 0.75rem;
+    color: var(--color) !important;
+    text-decoration: none !important;
+    overflow:hidden;
+    position: relative;
+
+    i {
+      font-size: 2rem;
+    }
+
+    span {
+      margin-top:0.75rem;
+      font-size: 0.75rem;
+    }
+    
+    .icon, .name {
+      opacity: 0.7;
+    }
+  }  
+
+  &:not(.active):hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.075);
+    border-right: solid 1px var(--accent);
+    .icon, .name {
+      opacity: 1;
+    }
+    a::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120%;
+      height: 120%;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      pointer-events: none;
+      animation: ripple 0.3s linear;
+    }
+  }
+}
+
+@media screen and (min-width: 850px) {
+  .main-nav {
+    ul {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+  }
+  .nav-separator {
+    flex-grow:1; 
+  }
+
+  .nav-item-bottom {
+    a i {
+      font-size: 1.5rem;
+      padding:0.5rem 0;
+    }
+    .name {
+      display:none;
+    }
+  }
+}
+
+.paused-indicator {
+  width: 100%;
+  text-align: center;
+  font-size: 3.25rem;    
+  margin: 0.75rem 0;
+  > span {
+    cursor:pointer;
+  }
+  .paused {
+    color: var(--accent);
+  }
+  .not-paused {
+    color: var(--color);
+    opacity:0.15;
+  }
+}
+
+.bubble {
+  font-weight: var(--bold, 600);
+  border-radius: 1rem;
+  position: absolute;
+  top: 1.75rem;
+  right: 1.25rem;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  border: solid 2px transparent;
+  text-align: center;
+  line-height: 1;
+  padding: 0.25rem 0.25rem 0;
+  pointer-events: none;
+
+  &.unprocessed {
+    background: #024560;
+    border-color: #0074a2;
+  }
+  &.processing {
+    background: var(--success);
+    border-color: #1f8236;
+  }
+  &.failed, &.error {
+    background: var(--red);
+    border-color: #f94c5c;
+  }
+  &.warning {
+    background: #514d1e;
+    border-color: #ffd279;
+  }
+  &.critical {
+    background: #5e30b1;
+    border-color: #7e41eb;
+  }
+}
+
+@media screen and (max-height: 900px) and (min-width: 850px)
+{
+  .main-nav .nav-item {
+    a {
+      padding:0.75rem 0.75rem 0.5rem;
+    }
+    i {
+      font-size:1.5rem;
+    }
+    .name {
+      margin-top:0.4rem;
+    }
+    .bubble {
+      top: 0.25rem;
+      font-size: 0.6rem;
+      min-width: 1.2rem;
+      height: 1.4rem;
+    }
+  }
+  .nav-item-bottom {
+    .name {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-height: 750px) and (min-width: 850px)
+{
+  .nav-item{
+    .name {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width:849.99px)
+{
+  .navbar-brand {
+    display: none;
+  }
+  .navbar {
+    height: unset;
+    flex-direction: row;
+    width: 100vw;
+    border: none;
+    border-top: solid 1px var(--border-color);
+    .nav-item {
+      &.active {
+        border-top:solid 1px var(--accent);
+        border-right: none;
+      }
+    }
+    ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      width: 100%;
+      grid-auto-flow: column;
+      overflow: hidden;
+    }
+    .name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .main-nav {
+      flex-grow:unset;
+      width: 100vw;
+    }
+    .nav-separator, .no-mobile, .paused-indicator{
+      display: none;
+    }
+    .bubble {
+      right: 30%;
+      top: 20%;
+    }
+  }
+}
+
+@media screen and (max-width: 600px)
+{
+  .nav-item.log {
+    display:none;
+  }
+}
+
+@media screen and (max-width: 500px)
+{
+  .nav-item.libraries {
+    display:none;
+  }
+}
+
+
+#nav-bar-blocker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(12, 12, 12, 0.82);
+  display: none;
+  &.visible {
+    display: unset;
+  }
+}

@@ -1,29 +1,17 @@
-$step:7;
-$offset:7;
-
-@mixin generate-base-colors($step: 7, $offset: 3) {
-    $base-colors: ();
-
-    @for $i from 0 through 5 {
-        $name: nth(('base-darkest', 'base-darker', 'base', 'base-lighter', 'base-lightest', 'base-lightest-2'), $i + 1);
-        $value: $offset + ($step * $i);
-        $r: $value;
-        $g: $value;
-        $b: $value;
-        
-        $base-colors: map-merge($base-colors, (
-                $name: rgb($r, $g, $b),
-                '#{$name}-rgb': (#{$r}, #{$g}, #{$b})
-        ));
-    }
-
-    @each $name, $color in $base-colors {
-        --#{$name}: #{$color};
-    }
-}
-
-body {
-    @include generate-base-colors($step, $offset);
+body {    
+    --base-darkest: rgb(14, 14, 14);
+    --base-darkest-rgb: 14, 14, 14;
+    --base-darker: rgb(19, 19, 19);
+    --base-darker-rgb: 19, 19, 19;
+    --base: rgb(21, 21, 21);
+    --base-rgb: 21, 21, 21;
+    --base-lighter: rgb(28, 28, 28);
+    --base-lighter-rgb: 28, 28, 28;
+    --base-lightest: rgb(35, 35, 35);
+    --base-lightest-rgb: 35, 35, 35;
+    --base-lightest-2: rgb(42, 42, 42);
+    --base-lightest-2-rgb: 42, 42, 42;
+    
     --input-height: 2.1875rem;
     
     
@@ -35,19 +23,21 @@ body {
     --color-darkest-rgb: 160, 160, 160;
     --accent: rgb(255, 0, 144);
     --accent-rgb: 255, 0, 144;
+    --menu-icon-color: #ff48af;
     --accent-2: #33b2df;
     --accent-2-rgb: 51, 178, 223;
     --table-link-color: var(--blue);
-    --border-color: rgba(var(--color-rgb), 0.1);
     --input-background: rgb(49, 49, 49);
     --input-background-rgb: 49, 49, 49;
     // --primary: #0366d6;
     --primary:#1b8ab3;
     --error: #ff4d76;
     --modified: rgba(var(--accent-rgb), 0.4);
-    --nav-menu-background: var(--base-darker);
-    --main-background:#161616;
-    --widget-background:#141414;
+    //--nav-menu-background: var(--base-darker);
+    --nav-menu-background: var(--widget-background);
+    --main-background:#060606;
+    --widget-background:#0d0d0d;
+    --border-color: #2b2b2b;
     --button-border-radius:0.25rem;
     --container-border-radius:0.5rem;
     --scroller-width:6px;

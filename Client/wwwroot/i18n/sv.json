@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Avbryter",
     "About": "Om",
     "Add": "Lägg till",
     "AdminRequired": "Administratör krävs för att slutföra installationen.",
@@ -20,6 +21,8 @@
     "Close": "Stäng",
     "CommunityFlows": "Gemenskapsflöden",
     "Confirm": "Bekräfta",
+    "ConfirmLogOutMessage": "Är du säker på att du vill logga ut?",
+    "ConfirmLogOutTitle": "Logga ut",
     "CopiedToClipboard": "Kopierade ''{text}'' till urklipp.",
     "Copy": "Kopiera",
     "CopyToClipboard": "Kopiera till urklipp",
@@ -36,6 +39,7 @@
     "Disabled": "Inaktiverad",
     "Disconnected": "Frånkopplad",
     "Discord": "Discord",
+    "DismissAll": "Avfärda alla",
     "Download": "Ladda ner",
     "DownloadLog": "Ladda ner logg",
     "DownloadLogShort": "Logg",
@@ -58,6 +62,7 @@
     "ForceProcessing": "Tvinga bearbetning",
     "Forum": "Forum",
     "Help": "Hjälp",
+    "Idle": "Overksam",
     "Import": "Importera",
     "Increase": "Öka",
     "Input": "Inmatning",
@@ -66,11 +71,13 @@
     "InUse": "I bruk",
     "LastRun": "Senaste körning",
     "LastScanned": "Senast skannad",
+    "LastSeen": "Senast sedd",
     "License": "Licens",
     "Loading": "Laddar",
     "Log": "Logg",
     "Logout": "Logga ut",
     "LogPartialNotAvailable": "Kunde inte hitta delad logg för nod.",
+    "ManualLibrary": "Manuellt Bibliotek",
     "MappingIssue": "Mappningsproblem",
     "Memory": "Minne",
     "MissingDependencies": "Saknade beroenden",
@@ -97,7 +104,7 @@
     "Output": "Utdata",
     "Paste": "Klistra in",
     "Pause": "Pausa bearbetning",
-    "Paused": "Återuppta bearbetning",
+    "Paused": "Pausad",
     "PausedWithTime": "Återuppta om",
     "Percent": "Procent",
     "Pixels": "Pixlar",
@@ -144,6 +151,8 @@
     "SpaceIncrease": "{size} ökning, {items} objekt",
     "SpaceSavings": "{size} sparat, {items} objekt",
     "Status": "Status",
+    "Step1": "Steg 1",
+    "Step2": "Steg 2",
     "SubFlow": "Delflöde",
     "SubFlows": "Delflöden",
     "Success": "Lyckades",
@@ -169,6 +178,7 @@
     "VersionNumber": "Version: {version}",
     "View": "Visa",
     "ViewLog": "Visa logg",
+    "ViewMore": "Visa mer",
     "Warning": "Varning",
     "WeekShort": "Vecka",
     "When": "När",
@@ -243,9 +253,6 @@
       "ETA": "ETA",
       "Speed": "Hastighet",
       "UploadedAmount": "Uppladdad"
-    },
-    "FlowTemplatePicker": {
-      "Title": "Välj en mall att utgå ifrån"
     },
     "IconPicker": {
       "Title": "Välj ikon"
@@ -668,8 +675,6 @@
       "Labels": {
         "BatchDescription": "Batchfiler kan endast köras på Windows-system. De kan läsa grundläggande variabler men kan inte uppdatera eller komma åt FileFlows-objekt under körning.",
         "CSharpDescription": "C#-skript kan interagera med fler delar av FileFlows och är de mest kraftfulla. Genom att använda samma språk som FileFlows, möjliggör de större systeminteraktion.",
-        "FileDisplayName": "Visningsnamn för fil",
-        "FileDisplayNameDescription": "Ett specialiserat skript som anpassar hur filnamn visas i FileFlows webbkonsol. Detta skript ändrar inte de faktiska filerna, bara hur de visas i gränssnittet.",
         "JavaScriptDescription": "JavaScript-skript körs inom FileFlows-köraren, vilket gör att du kan läsa och skriva variabler samt få tillgång till alla hjälpfunktioner inom FileFlows.",
         "PowerShellDescription": "PowerShell-skript kan endast köras på Windows-system. De kan läsa grundläggande variabler men kan inte uppdatera eller komma åt FileFlows-objekt under körning.",
         "ShellDescription": "Shell-skript körs på Unix-baserade system (Linux, MacOS, Docker). De kan läsa grundläggande variabler men kan inte uppdatera eller komma åt FileFlows-objekt under körning."
@@ -843,7 +848,13 @@
       "Minutes": "Minuter",
       "Weeks": "Veckor"
     },
+    "ProcessingLibraries": {
+      "All": "Alla",
+      "AllExcept": "Alla utom",
+      "Only": "Endast"
+    },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "Konfigurationen är föråldrad",
       "Disabled": "Inaktiverad",
       "HigherPriorityNodeAvailable": "Högre prioriterad nod tillgänglig",
       "Idle": "Vila",
@@ -853,6 +864,7 @@
       "OutOfSchedule": "Utanför schemat",
       "Processing": "Bearbetar",
       "RestrictedByLibrary": "Begränsad av bibliotek",
+      "UpdatingConfiguration": "Uppdaterar Konfiguration",
       "VersionMismatch": "Versionskonflikt"
     },
     "ProcessingOrder": {
@@ -903,9 +915,11 @@
       "Nodes": "Noder",
       "PauseProcessing": "Pausa bearbetning",
       "Plugins": "Plugins",
+      "Reports": "Rapporter",
       "Resources": "Resurser",
       "Revisions": "Revisioner",
       "Scripts": "Skript",
+      "Tags": "Taggar",
       "Tasks": "Uppgifter",
       "Variables": "Variabler",
       "Webhooks": "Webhooks"
@@ -916,6 +930,7 @@
     "CannotDeleteInternalNode": "Du kan inte ta bort den interna bearbetningsnoden.",
     "DeleteFailed": "Borttagning misslyckades",
     "DuplicatesFound": "Dubbletter hittades",
+    "LibraryScanAtCapacity": "Skanningsgräns nådd – inga fler objekt kan läggas till just nu. Vänta tills befintliga är klara eller minska antalet oprocessade, inaktiverade eller schemalagda objekt.",
     "NameInUse": "Namnet används redan",
     "NameRequired": "Namn krävs",
     "NoFlowSpecified": "Ingen flöde angiven, du måste välja ett flöde för att skapa ett bibliotek",
@@ -949,6 +964,7 @@
   },
   "MenuGroups": {
     "Admin": "Admin",
+    "Config": "Konfig",
     "Configuration": "Konfiguration",
     "Extensions": "Tillägg",
     "FileDrop": "FileDrop",
@@ -1059,6 +1075,7 @@
       },
       "Tabs": {
         "Dashboard": "Instrumentbräda",
+        "Overview": "Översikt",
         "Savings": "Besparingar",
         "Statistics": "Statistik"
       },
@@ -1067,13 +1084,13 @@
           "Peak": "{num} Topp"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Misslyckad} other {# Misslyckade}}",
-          "Finished": "{count, plural, zero {Färdig} other {# Färdiga}}",
+          "Failed": "{count, plural, zero {Misslyckad} other {{formatted} Misslyckade}}",
+          "Finished": "{count, plural, zero {Färdig} other {{formatted} Färdiga}}",
           "NoFailedFiles": "Inga misslyckade filer",
           "NoRecentlyFinishedFiles": "Inga nyligen avslutade filer",
           "NoUpcomingFiles": "Inga kommande filer",
           "Title": "Filer",
-          "Upcoming": "{count, plural, zero {Kommande} other {# Kommande}}"
+          "Upcoming": "{count, plural, zero {Kommande} other {{formatted} Kommande}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Bearbetade filer",
@@ -1373,6 +1390,15 @@
         "WaitTimeSeconds": "Väntetid",
         "WaitTimeSeconds-Help": "Antalet sekunder som måste ha passerat sedan den senaste ändringen skrevs till denna mapp för att den ska skannas in i biblioteket.",
         "WaitTimeSeconds-Suffix": "sekunder"
+      },
+      "Messages": {
+        "ScanFailed": "Skanning av biblioteket ''{name}'' misslyckades"
+      },
+      "Tabs": {
+        "Advanced": "Avancerat",
+        "Detection": "Detektering",
+        "General": "Allmänt",
+        "Schedule": "Schema"
       }
     },
     "LibraryFile": {
@@ -1399,6 +1425,7 @@
       "Tabs": {
         "CustomVariables": "Anpassade variabler",
         "FinalMetadata": "Utdata",
+        "LogServer": "Serverlogg",
         "OriginalMetadata": "Indata"
       }
     },
@@ -1474,6 +1501,9 @@
         "Address": "Adress",
         "Enabled": "Aktiverad",
         "FlowRunners": "Flödes Körare"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "Installerar {message}"
       }
     },
     "Notifications": {
@@ -1506,6 +1536,7 @@
         "AllLibraries": "Alla bibliotek",
         "AllLibraries-Help": "Vilka bibliotek denna nod kommer att bearbeta",
         "CopyMappings": "Kopiera mappningar",
+        "DisableSchedule": "Aktivera Schema",
         "DontChangeOwner": "Ändra ägare",
         "DontChangeOwner-Help": "När det är markerat kommer noden att ändra ägaren av alla nyligen skapade filer till PGID och PUID definierade i de miljövariabler.\nOm dessa miljövariabler inte är inställda kommer ägaren att ändras till ''users:nobody''.",
         "DontSetPermissions": "Ställ in behörigheter",
@@ -1532,9 +1563,6 @@
         "PreExecuteScript-Help": "Ett skript som kommer att köras innan någon fil bearbetas. Resultatet av detta skript måste vara 1 för att det ska passera, annars kommer noden inte att bearbeta en fil.",
         "Priority": "Prioritet",
         "Priority-Help": "Ju högre nummer, desto högre prioritet. Noder med högre prioritet kommer att föredras och få filer att bearbeta först, såvida inte dessa noder är ur schema, inaktiverade eller har maximala körningar.",
-        "ProcessFileCheckInterval": "Filkontrollintervall",
-        "ProcessFileCheckInterval-Help": "Hur ofta kontrollera om en ny fil ska bearbetas i behandlingsnoder.\nStäll in på 0 för att använda systemvärdet.",
-        "ProcessFileCheckInterval-Suffix": "sekunder",
         "ProcessingDescription": "Detta låter dig konfigurera vad denna behandlingsnod kan bearbeta.\n\nTill exempel, du kan begränsa denna nod till att bara bearbeta vissa bibliotek eller en maximal filstorlek om denna nod är en lågpresterande nod.",
         "ProcessingOrder": "处理顺序",
         "ProcessingOrder-Help": "指定此节点处理文件的顺序。此设置将覆盖库的默认处理顺序。设置为“默认”以使用库的处理顺序。",
@@ -1547,6 +1575,14 @@
         "VariablesDescription": "Variabler låter dig konfigurera avancerade variabler att ställa in på en behandlingsnod.",
         "VariablesKey": "Namn",
         "VariablesValue": "Värde"
+      },
+      "Tabs": {
+        "Advanced": "Avancerat",
+        "General": "Allmänt",
+        "Mappings": "Kartläggningar",
+        "Processing": "Bearbetning",
+        "Schedule": "Schema",
+        "Variables": "Variabler"
       }
     },
     "Report": {
@@ -1693,10 +1729,6 @@
         "DockerModsOnServer-Help": "DockerMods ska köras automatiskt vid serverstart eller när de specifikt aktiveras. Annars kommer de endast att köras när ett arbetsflöde initieras.",
         "DontUseTempFilesWhenMovingOrCopying": "Tempfiler för Flytt/Kopiering",
         "DontUseTempFilesWhenMovingOrCopying-Help": "Använd .fftemp-filer för att undvika tidig upptäckt vid flytt/kopiering.",
-        "HideProcessingFinishedNotifications": "Meddelanden om avslutad bearbetning",
-        "HideProcessingFinishedNotifications-Help": "Om en toast-notifikation ska visas i webbkonsolen när en fil har avslutat bearbetningen",
-        "HideProcessingStartedNotifications": "Meddelanden om påbörjad bearbetning",
-        "HideProcessingStartedNotifications-Help": "Om en toast-notifikation ska visas i webbkonsolen när en fil börjar bearbetas",
         "KeepFailedFlowTempFiles": "Behåll misslyckade temporära filer",
         "KeepFailedFlowTempFiles-Help": "Att aktivera detta alternativ kommer att behålla de temporära filer som används av ett flöde vid misslyckande, vilket förhindrar att de tas bort automatiskt.\nAnvänd med försiktighet.",
         "Language": "Språk",
@@ -1710,13 +1742,14 @@
         "LoggingPath-Help": "Detta är platsen där loggfiler kommer att skapas.",
         "LogQueueMessages": "Utförlig bibliotekloggning",
         "LogQueueMessages-Help": "Detta ökar loggningen av bibliotekets fildetekteringsprocess. Det bör endast aktiveras vid felsökning av fildetekteringsproblem och stängas av efteråt.",
+        "MaxPageSize": "Max Sidstorlek",
+        "MaxPageSize-Help": "Det maximala antalet objekt som visas i en lista. Detta gäller för de bearbetade fildata som skickas till UI vid inläsning. Detta antal bör vara lika med eller större än Kökapaciteten.",
         "PluginRepositoryUrls": "Plugin-repositorier",
         "PluginRepositoryUrls-Help": "En linje-separerad lista över plugin-repository-URL:er som ska användas vid sökning efter plugins.\nOrdningen är viktig; om flera repositorier innehåller samma plugin kommer det första repositoriet att användas som källa.\nDet standardrepoet kommer alltid att läggas till i slutet av denna lista.",
-        "ProcessFileCheckInterval": "Filkontrollintervall",
-        "ProcessFileCheckInterval-Help": "Hur ofta som en ny fil ska kontrolleras för bearbetning i bearbetningsnoderna.",
-        "ProcessFileCheckInterval-Suffix": "sekunder",
-        "ShowFileAddedNotifications": "Meddelanden om tillagd fil",
-        "ShowFileAddedNotifications-Help": "Om en toast-notifikation ska visas i webbkonsolen när en fil har hittats och lagts till i kön.",
+        "QueueCapacity": "Kökapacitet",
+        "QueueCapacity-Help": "Det maximala antalet objekt som kan läggas till i kön. Detta inkluderar objekt som är utanför schemat, pausade eller inaktiverade. Att öka detta antal ökar mängden data som skickas till UI och kan påverka prestandan.",
+        "ScanWhenPaused": "Skanna medan pausad",
+        "ScanWhenPaused-Help": "Om aktiverat fortsätter bibliotek att skanna även när systemet är pausat.",
         "Telemetry": "Telemetri",
         "Telemetry-Help": "Telemetri är användbart för att hjälpa till att veta vilka enheter vi behöver stödja, vilka Flow-delar som används mest och var vi bör fokusera utvecklingen.\nIngen information om dina filer eller identifieringsinformation skickas.",
         "Database": {
@@ -1851,6 +1884,8 @@
       "Fields": {
         "CustomSchedule": "Anpassad Schema",
         "CustomSchedule-Help": "Denna uppgift kommer att köras en gång per 15-minuters block i början av det blocket",
+        "Enabled": "Aktiverad",
+        "Enabled-Help": "Anger om denna uppgift är aktiv och kommer att köras baserat på händelsetriggare eller ett schemalagt klockslag.",
         "Schedule": "Schema",
         "Schedule-Help": "När detta skript ska köras",
         "Script": "Skript",
@@ -2149,6 +2184,7 @@
     "DaysAgo": "{num} {num, plural, one {dag} other {dagar}} sedan",
     "HoursAgo": "{num} {num, plural, one {timme} other {timmar}} sedan",
     "MinutesAgo": "{num} {num, plural, one {minut} other {minuter}} sedan",
+    "MomentsAgo": "För ett ögonblick sedan",
     "Never": "Aldrig",
     "SecondsAgo": "{num} {num, plural, one {sekund} other {sekunder}} sedan"
   },

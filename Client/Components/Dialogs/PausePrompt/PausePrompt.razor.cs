@@ -6,11 +6,10 @@ namespace FileFlows.Client.Components.Dialogs;
 /// <summary>
 /// A prompt for the user to select how long to pause execution for
 /// </summary>
-public partial class PausePrompt : VisibleEscapableComponent
+public partial class PausePrompt : IModal
 {
     private string lblOk, lblCancel;
     private string Message, Title;
-    TaskCompletionSource<int> ShowTask;
 
     private Dictionary<int, string> Durations = new()
     {
@@ -25,10 +24,13 @@ public partial class PausePrompt : VisibleEscapableComponent
         { 360, "6 hours" },
         { 720, "12 hours" },
     };
-
-
-    private static PausePrompt Instance { get; set; }
-
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+    
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
     private int Value { get; set; }
 
     private string Uid = System.Guid.NewGuid().ToString();
@@ -43,31 +45,23 @@ public partial class PausePrompt : VisibleEscapableComponent
         this.lblCancel = Translater.Instant("Labels.Cancel");
         this.Title = Translater.Instant("Dialogs.PauseDialog.Title");
         this.Message = Translater.Instant("Dialogs.PauseDialog.Message");
-        Instance = this;
+        Value = int.MaxValue;
     }
     
     /// <summary>
-    /// Shows the pause prompt
+    /// Closes the dialog
     /// </summary>
-    /// <returns>the selected duration in minutes to pause for</returns>
-
-    public static Task<int> Show()
+    public void Close()
     {
-        if (Instance == null)
-            return Task.FromResult<int>(0);
-
-        return Instance.ShowInstance();
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
     }
 
-    private Task<int> ShowInstance()
+    /// <summary>
+    /// Cancels the dialog
+    /// </summary>
+    public void Cancel()
     {
-        this.Value = int.MaxValue;
-        this.Visible = true;
-        this.Focus = true;
-        this.StateHasChanged();
-
-        Instance.ShowTask = new TaskCompletionSource<int>();
-        return Instance.ShowTask.Task;
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -80,16 +74,12 @@ public partial class PausePrompt : VisibleEscapableComponent
     }
 
 
+    /// <summary>
+    /// Accepts the pause
+    /// </summary>
     private async void Accept()
     {
-        this.Visible = false;
-        Instance.ShowTask.TrySetResult(Value);
+        TaskCompletionSource.TrySetResult(Value);
         await Task.CompletedTask;
-    }
-
-    public override void Cancel()
-    {
-        this.Visible = false;
-        Instance.ShowTask.TrySetResult(0);
     }
 }

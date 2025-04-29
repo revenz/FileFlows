@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Cancelando",
     "About": "Acerca de",
     "Add": "Añadir",
     "AdminRequired": "Se requiere administrador para completar la instalación.",
@@ -20,6 +21,8 @@
     "Close": "Cerrar",
     "CommunityFlows": "Flows Comunitarios",
     "Confirm": "Confirmar",
+    "ConfirmLogOutMessage": "¿Está seguro de que desea cerrar sesión?",
+    "ConfirmLogOutTitle": "Cerrar sesión",
     "CopiedToClipboard": "Copiado ''{text}'' al portapapeles.",
     "Copy": "Copiar",
     "CopyToClipboard": "Copiar al portapapeles",
@@ -36,6 +39,7 @@
     "Disabled": "Deshabilitado",
     "Disconnected": "Desconectado",
     "Discord": "Discord",
+    "DismissAll": "Descartar todo",
     "Download": "Descargar",
     "DownloadLog": "Descargar Registro",
     "DownloadLogShort": "Registro",
@@ -58,6 +62,7 @@
     "ForceProcessing": "Forzar Procesamiento",
     "Forum": "Foro",
     "Help": "Ayuda",
+    "Idle": "Inactivo",
     "Import": "Importar",
     "Increase": "Aumentar",
     "Input": "Entrada",
@@ -66,11 +71,13 @@
     "InUse": "En Uso",
     "LastRun": "Última Ejecución",
     "LastScanned": "Último Escaneo",
+    "LastSeen": "Última vez",
     "License": "Licencia",
     "Loading": "Cargando",
     "Log": "Registro",
     "Logout": "Cerrar Sesión",
     "LogPartialNotAvailable": "No se pudo encontrar registro parcial para el nodo.",
+    "ManualLibrary": "Biblioteca Manual",
     "MappingIssue": "Problema de Mapeo",
     "Memory": "Memoria",
     "MissingDependencies": "Dependencias Faltantes",
@@ -97,7 +104,7 @@
     "Output": "Salida",
     "Paste": "Pegar",
     "Pause": "Pausar Procesamiento",
-    "Paused": "Reanudar Procesamiento",
+    "Paused": "Pausado",
     "PausedWithTime": "Reanudar En",
     "Percent": "Porcentaje",
     "Pixels": "Píxeles",
@@ -144,6 +151,8 @@
     "SpaceIncrease": "{size} incremento, {items} elementos",
     "SpaceSavings": "{size} ahorrados, {items} elementos",
     "Status": "Estado",
+    "Step1": "Paso 1",
+    "Step2": "Paso 2",
     "SubFlow": "Sub Flow",
     "SubFlows": "Sub Flows",
     "Success": "Éxito",
@@ -169,6 +178,7 @@
     "VersionNumber": "Versión: {version}",
     "View": "Ver",
     "ViewLog": "Ver Registro",
+    "ViewMore": "Ver más",
     "Warning": "Advertencia",
     "WeekShort": "Sem",
     "When": "Cuándo",
@@ -243,9 +253,6 @@
       "ETA": "ETA",
       "Speed": "Velocidad",
       "UploadedAmount": "Subido"
-    },
-    "FlowTemplatePicker": {
-      "Title": "Selecciona una plantilla para empezar"
     },
     "IconPicker": {
       "Title": "Elegir icono"
@@ -668,8 +675,6 @@
       "Labels": {
         "BatchDescription": "Los archivos por lotes solo se pueden ejecutar en sistemas Windows. Pueden leer variables básicas pero no pueden actualizar ni acceder a objetos de FileFlows durante la ejecución.",
         "CSharpDescription": "Los scripts de C# pueden interactuar con más partes de FileFlows y son los más poderosos. Usando el mismo lenguaje que FileFlows, permiten una mayor interacción con el sistema.",
-        "FileDisplayName": "Nombre de archivo mostrado",
-        "FileDisplayNameDescription": "Un script especializado que personaliza cómo se muestran los nombres de archivo en la consola web de FileFlows. Este script no modifica los archivos reales, solo su apariencia en la interfaz.",
         "JavaScriptDescription": "Los scripts de JavaScript se ejecutan dentro del ejecutor de FileFlows, lo que te permite leer y escribir variables y acceder a todas las funciones auxiliares dentro de FileFlows.",
         "PowerShellDescription": "Los scripts de PowerShell solo se pueden ejecutar en sistemas Windows. Pueden leer variables básicas pero no pueden actualizar ni acceder a objetos de FileFlows durante la ejecución.",
         "ShellDescription": "Los scripts de Shell se ejecutan en sistemas basados en Unix (Linux, MacOS, Docker). Pueden leer variables básicas pero no pueden actualizar ni acceder a objetos de FileFlows durante la ejecución."
@@ -843,7 +848,13 @@
       "Minutes": "Minutos",
       "Weeks": "Semanas"
     },
+    "ProcessingLibraries": {
+      "All": "Todos",
+      "AllExcept": "Todos excepto",
+      "Only": "Solo"
+    },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "Configuración desactualizada",
       "Disabled": "Deshabilitado",
       "HigherPriorityNodeAvailable": "Nodo de mayor prioridad disponible",
       "Idle": "Inactivo",
@@ -853,6 +864,7 @@
       "OutOfSchedule": "Fuera de Horario",
       "Processing": "Procesando",
       "RestrictedByLibrary": "Restringido por la biblioteca",
+      "UpdatingConfiguration": "Actualizando Configuración",
       "VersionMismatch": "Incompatibilidad de Versión"
     },
     "ProcessingOrder": {
@@ -903,9 +915,11 @@
       "Nodes": "Nodos",
       "PauseProcessing": "Pausar Procesamiento",
       "Plugins": "Complementos",
+      "Reports": "Informes",
       "Resources": "Recursos",
       "Revisions": "Revisiones",
       "Scripts": "Scripts",
+      "Tags": "Etiquetas",
       "Tasks": "Tareas",
       "Variables": "Variables",
       "Webhooks": "Webhooks"
@@ -916,6 +930,7 @@
     "CannotDeleteInternalNode": "No puedes eliminar el nodo de procesamiento interno.",
     "DeleteFailed": "Error al eliminar",
     "DuplicatesFound": "Se encontraron duplicados",
+    "LibraryScanAtCapacity": "Límite de escaneo alcanzado: no se pueden agregar más elementos en este momento. Espere a que se procesen los existentes o reduzca los elementos no procesados, deshabilitados o programados.",
     "NameInUse": "El nombre ya está en uso",
     "NameRequired": "Se requiere un nombre",
     "NoFlowSpecified": "No se especificó un flow, debes seleccionar un flow para crear una biblioteca",
@@ -949,6 +964,7 @@
   },
   "MenuGroups": {
     "Admin": "Administrador",
+    "Config": "Config",
     "Configuration": "Configuración",
     "Extensions": "Extensiones",
     "FileDrop": "FileDrop",
@@ -1059,6 +1075,7 @@
       },
       "Tabs": {
         "Dashboard": "Panel",
+        "Overview": "Resumen",
         "Savings": "Ahorros",
         "Statistics": "Estadísticas"
       },
@@ -1067,13 +1084,13 @@
           "Peak": "{num} Pico"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Fallido} other {# Fallidos}}",
-          "Finished": "{count, plural, zero {Completado} other {# Completados}}",
+          "Failed": "{count, plural, zero {Fallido} other {{formatted} Fallidos}}",
+          "Finished": "{count, plural, zero {Completado} other {{formatted} Completados}}",
           "NoFailedFiles": "No hay archivos fallidos",
           "NoRecentlyFinishedFiles": "No hay archivos terminados recientemente",
           "NoUpcomingFiles": "No hay archivos próximos",
           "Title": "Archivos",
-          "Upcoming": "{count, plural, zero {Próximo} other {# Próximos}}"
+          "Upcoming": "{count, plural, zero {Próximo} other {{formatted} Próximos}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Archivos procesados",
@@ -1373,6 +1390,15 @@
         "WaitTimeSeconds": "Tiempo de Espera",
         "WaitTimeSeconds-Help": "El número de segundos que deben pasar desde la última vez que se escribió un cambio en esta carpeta para que se escanee en la biblioteca.",
         "WaitTimeSeconds-Suffix": "segundos"
+      },
+      "Messages": {
+        "ScanFailed": "Error al escanear la biblioteca ''{name}''"
+      },
+      "Tabs": {
+        "Advanced": "Avanzado",
+        "Detection": "Detección",
+        "General": "General",
+        "Schedule": "Horario"
       }
     },
     "LibraryFile": {
@@ -1399,6 +1425,7 @@
       "Tabs": {
         "CustomVariables": "Variables Personalizadas",
         "FinalMetadata": "Salida",
+        "LogServer": "Registro del Servidor",
         "OriginalMetadata": "Entrada"
       }
     },
@@ -1474,6 +1501,9 @@
         "Address": "Dirección",
         "Enabled": "Habilitado",
         "FlowRunners": "Ejecutores de Flow"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "Instalando {message}"
       }
     },
     "Notifications": {
@@ -1506,6 +1536,7 @@
         "AllLibraries": "Todas las Bibliotecas",
         "AllLibraries-Help": "Qué bibliotecas procesará este nodo",
         "CopyMappings": "Copiar Mapeos",
+        "DisableSchedule": "Habilitar Horario",
         "DontChangeOwner": "Cambiar Propietario",
         "DontChangeOwner-Help": "Cuando está marcado, el nodo cambiará el propietario de cualquier archivo recién creado a los valores PGID y PUID definidos en las variables ambientales.\nSi estas variables ambientales no están configuradas, el propietario se cambiará a ''users:nobody''.",
         "DontSetPermissions": "Establecer Permisos",
@@ -1532,9 +1563,6 @@
         "PreExecuteScript-Help": "Un script que se ejecutará antes de que se procese cualquier archivo. El resultado de este script debe ser 1 para que pase, cualquier otro valor y el nodo no procesará un archivo.",
         "Priority": "Prioridad",
         "Priority-Help": "Cuanto mayor sea el número, mayor será la prioridad. Los nodos con una prioridad más alta serán favorecidos y se les asignarán archivos para procesar primero, a menos que esos nodos estén fuera de horario, deshabilitados o en su máximo de ejecutores.",
-        "ProcessFileCheckInterval": "Intervalo de Verificación de Archivos",
-        "ProcessFileCheckInterval-Help": "Con qué frecuencia verificar un nuevo archivo para procesar en los nodos de procesamiento.\nEstablecer en 0 para usar el valor del sistema.",
-        "ProcessFileCheckInterval-Suffix": "segundos",
         "ProcessingDescription": "Esto te permite configurar qué puede procesar este Nodo de Procesamiento.\n\nPor ejemplo, podrías limitar este nodo para que solo procese ciertas bibliotecas o un tamaño máximo de archivo si este nodo es de menor potencia.",
         "ProcessingOrder": "Orden de Procesamiento",
         "ProcessingOrder-Help": "Especifica el orden en que los archivos serán procesados por este Nodo. Esta configuración anula el orden predeterminado de procesamiento de la biblioteca. Establezca 'Predeterminado' para usar el orden de procesamiento de la biblioteca.",
@@ -1547,6 +1575,14 @@
         "VariablesDescription": "Las variables te permiten configurar variables avanzadas para establecer en un nodo de procesamiento.",
         "VariablesKey": "Nombre",
         "VariablesValue": "Valor"
+      },
+      "Tabs": {
+        "Advanced": "Avanzado",
+        "General": "General",
+        "Mappings": "Mapeos",
+        "Processing": "Procesamiento",
+        "Schedule": "Horario",
+        "Variables": "Variables"
       }
     },
     "Report": {
@@ -1693,10 +1729,6 @@
         "DockerModsOnServer-Help": "DockerMods debe ejecutarse automáticamente al iniciar el servidor o cuando se habilite específicamente. De lo contrario, solo se ejecutarán cuando se inicie un flow de trabajo.",
         "DontUseTempFilesWhenMovingOrCopying": "Archivos Temp para Mover/Copiar",
         "DontUseTempFilesWhenMovingOrCopying-Help": "Usa archivos .fftemp para evitar detecciones prematuras al mover/copiar.",
-        "HideProcessingFinishedNotifications": "Notificaciones de procesamiento terminado",
-        "HideProcessingFinishedNotifications-Help": "Si se debe mostrar una notificación en el toast en la consola web cuando un archivo termina de procesarse",
-        "HideProcessingStartedNotifications": "Notificaciones de procesamiento iniciado",
-        "HideProcessingStartedNotifications-Help": "Si se debe mostrar una notificación en el toast en la consola web cuando un archivo comienza a procesarse",
         "KeepFailedFlowTempFiles": "Conservar archivos temporales fallidos",
         "KeepFailedFlowTempFiles-Help": "Activar esta opción conservará los archivos temporales utilizados por un flow en caso de fallo, evitando que se eliminen automáticamente.\nÚselo con precaución.",
         "Language": "Idioma",
@@ -1710,13 +1742,14 @@
         "LoggingPath-Help": "Aquí se crearán los archivos de registro.",
         "LogQueueMessages": "Registro detallado de la biblioteca",
         "LogQueueMessages-Help": "Esto aumentará el registro del proceso de detección de archivos de la biblioteca. Solo debe activarse al depurar problemas de detección de archivos y desactivarse después.",
+        "MaxPageSize": "Tamaño Máximo de Página",
+        "MaxPageSize-Help": "El número máximo de elementos que se pueden mostrar en una lista. Esto se aplica a los datos de archivos procesados enviados a la UI durante la carga. Este número debe ser igual o superior a la Capacidad de la Cola.",
         "PluginRepositoryUrls": "Repositorios de complementos",
         "PluginRepositoryUrls-Help": "Una lista separada por líneas de URLs de repositorios de complementos a utilizar al buscar complementos.\nEl orden es importante, si varios repositorios contienen el mismo complemento, se utilizará el primer repositorio como su fuente.\nEl repositorio predeterminado siempre se agregará al final de esta lista.",
-        "ProcessFileCheckInterval": "Intervalo de verificación de archivos",
-        "ProcessFileCheckInterval-Help": "Con qué frecuencia verificar un nuevo archivo para procesar en los nodos de procesamiento.",
-        "ProcessFileCheckInterval-Suffix": "segundos",
-        "ShowFileAddedNotifications": "Notificaciones de archivo agregado",
-        "ShowFileAddedNotifications-Help": "Si se debe mostrar una notificación en el toast en la consola web cuando se ha encontrado un archivo y se ha agregado a la cola.",
+        "QueueCapacity": "Capacidad de la Cola",
+        "QueueCapacity-Help": "El número máximo de elementos que se pueden agregar a la cola. Esto incluye elementos fuera de horario, en espera o deshabilitados. Aumentar este número incrementa los datos enviados a la UI y puede afectar el rendimiento.",
+        "ScanWhenPaused": "Escanear mientras está en pausa",
+        "ScanWhenPaused-Help": "Si está habilitado, las bibliotecas seguirán escaneando incluso cuando el sistema esté en pausa.",
         "Telemetry": "Telemetría",
         "Telemetry-Help": "La telemetría es útil para saber qué dispositivos necesitamos soportar, qué partes de Flow son las más utilizadas y en qué deberíamos centrarnos en el desarrollo.\nNo se envía información sobre sus archivos ni información identificativa.",
         "Database": {
@@ -1851,6 +1884,8 @@
       "Fields": {
         "CustomSchedule": "Horario Personalizado",
         "CustomSchedule-Help": "Esta tarea se ejecutará una vez por bloque de 15 minutos al inicio de ese bloque",
+        "Enabled": "Habilitado",
+        "Enabled-Help": "Determina si esta tarea está activa y se ejecutará según desencadenantes de eventos o un horario programado.",
         "Schedule": "Horario",
         "Schedule-Help": "Cuándo debe ejecutarse este script",
         "Script": "Script",
@@ -2149,6 +2184,7 @@
     "DaysAgo": "hace {num} {num, plural, one {día} other {días}}",
     "HoursAgo": "hace {num} {num, plural, one {hora} other {horas}}",
     "MinutesAgo": "hace {num} {num, plural, one {minuto} other {minutos}}",
+    "MomentsAgo": "Hace un momento",
     "Never": "Nunca",
     "SecondsAgo": "hace {num} {num, plural, one {segundo} other {segundos}}"
   },

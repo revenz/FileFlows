@@ -1,18 +1,22 @@
 @namespace FileFlows.Client.Components.Dialogs
-@inherits VisibleEscapableComponent
 
-<Modal Title="@Title" Visible="Visible">
+<Modal Title="@Title" Visible="true">
 
     <Body>
         <p>
             @Message
         </p>
-        <select @bind="Value" id="@Uid">
-            @foreach (var dur in Durations)
-            {
-                <option value=@dur.Key>@dur.Value</option>
-            }
-        </select>
+    <select @bind="Value" id="@Uid">
+        @{
+            bool first = true;
+        }
+        @foreach (var dur in Durations)
+        {
+            <option value=@dur.Key selected="@first">@dur.Value</option>
+            
+            first = false;
+        }
+    </select>
     </Body>
     <Footer>
         <button class="btn" @onclick=@Accept>@lblOk</button>

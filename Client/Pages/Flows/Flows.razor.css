@@ -1,9 +1,16 @@
 .in-use {
   text-align: center;
   width: calc(100% - 0.5rem);
-  display: block; }
+  display: block;
+}
 
 div.in-use {
-  padding-top: 0.6rem; }
+  padding-top: 0.6rem;
+}
+
+.icon {
+  position: relative;
+  top: 0.25rem;
+}
 
 /*# sourceMappingURL=Flows.razor.css.map */

@@ -1,0 +1,11 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper Modal="@this">
+    
+    <InputText @bind-Value="@Model.Name" Label="Label.Name"  Validators="RequiredValidator"/>
+    <InputTextArea @bind-Value="@Model.Description" Label="Pages.Tag.Fields.Description" Rows="5"/>
+    <InputIconPicker @bind-Value="@Model.Icon" Label="Pages.Tag.Fields.Icon"/>
+
+</ModalEditorWrapper>

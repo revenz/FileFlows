@@ -1,0 +1,19 @@
+@layout FileDropLayout
+
+@namespace FileFlows.Client.Pages.FileDrop
+@inherits InputRegister
+
+@page "/file-drop/home-page"
+
+@if (initDone)
+{
+    <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl">
+        <Description>
+            <p>Here you can customise the home page for logged in users and set the custom HTML to show to the user.</p>
+            <p>If this is left blank, then the user will not have a home page and the first alphabetical flow will be their defacto landing page.</p>
+        </Description>
+    </FlowFormPageButtons>
+
+    <InputCode Language="html" @bind-Value="Model"/>
+    
+}

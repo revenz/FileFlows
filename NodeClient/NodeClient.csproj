@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>FileFlows.NodeClient</AssemblyName>
+        <RootNamespace>FileFlows.NodeClient</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\FileFlows\ServerShared\ServerShared.csproj" />
+        <ProjectReference Include="..\ServerShared\ServerShared.csproj" />
+        <ProjectReference Include="..\Shared\Shared.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\FlowRunner\FlowRunner.csproj" />
+    </ItemGroup>
+</Project>

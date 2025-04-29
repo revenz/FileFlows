@@ -1,7 +1,7 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
-using FileFlows.Shared.Widgets;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Wizards;
@@ -11,6 +11,11 @@ namespace FileFlows.Client.Wizards;
 /// </summary>
 public partial class NewAudioToVideoWizard 
 {
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
+    
     private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
     
     /// <summary>
@@ -88,7 +93,7 @@ public partial class NewAudioToVideoWizard
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        if (Options is NewImageFlowWizardOptions options)
+        if (Options is NewAudioToVideoWizardOptions options)
             FileDropFlow = options.FileDropFlow;
         VideoCodecs =
         [
@@ -158,7 +163,7 @@ public partial class NewAudioToVideoWizard
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
-                Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return;
             }
             
@@ -179,7 +184,7 @@ public partial class NewAudioToVideoWizard
         await Editor.Validate();
         if (string.IsNullOrWhiteSpace(FlowName))
         {
-            Toast.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
+            feService.Notifications.ShowError("Dialogs.NewVideoFlowWizard.Messages.NameRequired");
             return false;
         }
 

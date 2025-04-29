@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -7,28 +8,38 @@ namespace FileFlows.Client.Components.Dialogs;
 /// <summary>
 /// Change password dialog
 /// </summary>
-public partial class ChangePassword: VisibleEscapableComponent
+public partial class ChangePassword : IModal
 {
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
+    
     /// <summary>
     /// Gets or sets the javascript runtime
     /// </summary>
     [Inject] public IJSRuntime jsRuntime { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the modal
+    /// </summary>
+    private Modal Modal { get; set; }
     
     private string lblTitle, lblSave, lblCancel, lblOldPassword, lblNewPassword, lblNewPasswordConfirm;
-    TaskCompletionSource ShowTask;
-
-    private string txtOldPasswordUid;
-    private string oldPassword, newPassword, newPasswordConfirm;
+    private readonly string txtOldPasswordUid = Guid.NewGuid().ToString();
+    private string oldPassword = string.Empty, newPassword = string.Empty, newPasswordConfirm = string.Empty;
 
     /// <summary>
     /// Saving the password
     /// </summary>
     private bool saving = false;
-    /// <summary>
-    /// if the input requires a focus event
-    /// </summary>
-    private bool focused = false;
-
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -39,30 +50,6 @@ public partial class ChangePassword: VisibleEscapableComponent
         lblNewPassword = Translater.Instant("Dialogs.ChangePassword.NewPassword"); 
         lblNewPasswordConfirm = Translater.Instant("Dialogs.ChangePassword.NewPasswordConfirm");
     }
-    
-    /// <summary>
-    /// Shows the password change dialog
-    /// </summary>
-    /// <returns>the task to await</returns>
-    public Task Show()
-    {
-        oldPassword = string.Empty;
-        newPassword = string.Empty;
-        newPasswordConfirm = string.Empty;
-        Task.Run(async () =>
-        {
-            // wait a short delay this is in case a "Close" from an escape key is in the middle
-            // of processing, and if we show this confirm too soon, it may automatically be closed
-            await Task.Delay(5);
-            txtOldPasswordUid = Guid.NewGuid().ToString();
-            focused = false;
-            Visible = true;
-            StateHasChanged();
-        });
-
-        ShowTask = new TaskCompletionSource();
-        return ShowTask.Task;
-    }
 
     /// <summary>
     /// After the component is rendered
@@ -70,11 +57,8 @@ public partial class ChangePassword: VisibleEscapableComponent
     /// <param name="firstRender">the first render</param>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Visible && focused == false)
-        {
-            focused = true;
+        if (firstRender)
             await jsRuntime.InvokeVoidAsync("eval", $"document.getElementById('{txtOldPasswordUid}').focus()");
-        }
     }
 
     /// <summary>
@@ -87,36 +71,51 @@ public partial class ChangePassword: VisibleEscapableComponent
 
         if (newPassword != newPasswordConfirm)
         {
-            Toast.ShowError("Dialogs.ChangePassword.PasswordMismatch");
+            feService.Notifications.ShowError("Dialogs.ChangePassword.PasswordMismatch");
             return;
         }
 
-        saving = true;
-        var result = await HttpHelper.Post("/authorize/change-password", new
+        Modal?.Blocker?.Show();
+        try
         {
-            oldPassword, newPassword
-        });
-        saving = false;
-        if (result.Success == false)
-        {
-            Toast.ShowError(result.Body);
+            saving = true;
+            var result = await HttpHelper.Post("/authorize/change-password", new
+            {
+                oldPassword, newPassword
+            });
+            saving = false;
+            if (result.Success == false)
+            {
+                feService.Notifications.ShowError(result.Body);
+            }
+            else
+            {
+                feService.Notifications.ShowSuccess("Dialogs.ChangePassword.Changed");
+                TaskCompletionSource.TrySetResult(true);
+            }
         }
-        else
+        finally
         {
-            Toast.ShowSuccess("Dialogs.ChangePassword.Changed");
-            Visible = false;
-            ShowTask.TrySetResult();
+            Modal?.Blocker.Hide();
+            StateHasChanged();
         }
-        StateHasChanged();
+    }
+
+
+    /// <summary>
+    /// Closes the dialog
+    /// </summary>
+    public void Close()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
     }
 
     /// <summary>
-    /// Cancels the password change
+    /// Cancels the dialog
     /// </summary>
-    public override void Cancel()
+    public void Cancel()
     {
-        this.Visible = false;
-        ShowTask.TrySetResult();
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
     }
     
     /// <summary>

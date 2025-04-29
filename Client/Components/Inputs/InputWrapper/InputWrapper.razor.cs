@@ -12,6 +12,12 @@ public partial class InputWrapper : ComponentBase
     /// Gets or sets the clipboard service
     /// </summary>
     [Inject] IClipboardService ClipboardService { get; set; }   
+    
+    /// <summary>
+    /// Gets or sets if this should flex grow to 100%
+    /// </summary>
+    [Parameter]
+    public bool FlexGrow { get; set; } = false;
 
     [Parameter] public RenderFragment ChildContent { get; set; }
     

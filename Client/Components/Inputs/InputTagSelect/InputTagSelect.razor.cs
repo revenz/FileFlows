@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Inputs;
@@ -8,13 +9,17 @@ namespace FileFlows.Client.Components.Inputs;
 public partial class InputTagSelect : Input<List<Guid>>
 {
     List<Tag> Tags { get; set; } = new List<Tag>();
-    [Inject] private ClientService ClientService { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await base.OnInitializedAsync();
-        Tags = await ClientService.GetTags();
+        base.OnInitializedAsync();
+        Tags = feService.Tag.Tags;
         Value ??= [];
     }
 

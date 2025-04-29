@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -8,9 +9,9 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class NodeSummaryComponent : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the front end service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
     /// <summary>
     /// The data
     /// </summary>
@@ -22,7 +23,7 @@ public partial class NodeSummaryComponent : ComponentBase, IDisposable
     private string lblSchedule, lblOperatingSystem, lblArchitecture, lblMemory, lblStatus, lblInternalProcessingNode, lblRunners, lblPriority;
     
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         lblSchedule = Translater.Instant("Labels.Schedule");
         lblOperatingSystem = Translater.Instant("Labels.OperatingSystem");
@@ -32,8 +33,8 @@ public partial class NodeSummaryComponent : ComponentBase, IDisposable
         lblRunners = Translater.Instant("Pages.Nodes.Labels.Runners");
         lblPriority = Translater.Instant("Pages.ProcessingNode.Fields.Priority");
         lblInternalProcessingNode = Translater.Instant("Labels.InternalProcessingNode");
-        Data = await ClientService.GetCurrentNodeStatusSummaries() ?? [];
-        ClientService.NodeStatusSummaryUpdated += OnNodeStatusSummaryUpdated;
+        Data = feService.Node.NodeStatusSummaries;
+        feService.Node.NodeStatusUpdated += OnNodeStatusSummaryUpdated;
     }
 
     /// <summary>
@@ -51,7 +52,7 @@ public partial class NodeSummaryComponent : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.NodeStatusSummaryUpdated -= OnNodeStatusSummaryUpdated;
+        feService.Node.NodeStatusUpdated-= OnNodeStatusSummaryUpdated;
     }
 
     /// <summary>
@@ -65,15 +66,15 @@ public partial class NodeSummaryComponent : ComponentBase, IDisposable
             return "svg:apple";
         if (item.OperatingSystem == OperatingSystemType.Docker)
             return "svg:docker";
-        if (item.HardwareInfo.OperatingSystem?.Contains("ubuntu", StringComparison.InvariantCultureIgnoreCase) == true)
+        if (item.HardwareInfo?.OperatingSystem?.Contains("ubuntu", StringComparison.InvariantCultureIgnoreCase) == true)
             return "svg:distros/ubuntu";
-        if (item.HardwareInfo.OperatingSystem?.Contains("fedora", StringComparison.InvariantCultureIgnoreCase) == true)
+        if (item.HardwareInfo?.OperatingSystem?.Contains("fedora", StringComparison.InvariantCultureIgnoreCase) == true)
             return "svg:distros/fedora";
-        if (item.HardwareInfo.OperatingSystem?.Contains("pop!", StringComparison.InvariantCultureIgnoreCase) == true)
+        if (item.HardwareInfo?.OperatingSystem?.Contains("pop!", StringComparison.InvariantCultureIgnoreCase) == true)
             return "svg:distros/popos";
-        if (item.HardwareInfo.OperatingSystem?.Contains("debian", StringComparison.InvariantCultureIgnoreCase) == true)
+        if (item.HardwareInfo?.OperatingSystem?.Contains("debian", StringComparison.InvariantCultureIgnoreCase) == true)
             return "svg:distros/debian";
-        if (item.HardwareInfo.OperatingSystem?.Contains("arch", StringComparison.InvariantCultureIgnoreCase) == true)
+        if (item.HardwareInfo?.OperatingSystem?.Contains("arch", StringComparison.InvariantCultureIgnoreCase) == true)
             return "svg:distros/arch";
         if (item.OperatingSystem == OperatingSystemType.Windows)
             return "svg:windows";

@@ -2,7 +2,9 @@ using System.Collections;
 using BlazorContextMenu;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ffPart = FileFlows.Shared.Models.FlowPart;
 using FFlow = FileFlows.Shared.Models.Flow;
@@ -16,10 +18,16 @@ public class FlowEditor : IDisposable
     private IJSRuntime jsRuntime => FlowPage.jsRuntime;
     private IBlazorContextMenuService ContextMenuService => FlowPage.ContextMenuService;
     
+    
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the message service
     /// </summary>
-    private ProfileService ProfileService { get; set; }
+    MessageService Message { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    private FrontendService feService { get; set; }
     /// <summary>
     /// The users profile
     /// </summary>
@@ -39,11 +47,12 @@ public class FlowEditor : IDisposable
     const string API_URL = "/api/flow";
     private DateTime LoadedAt;
 
-    public FlowEditor(Flow flowPage, FFlow flow, ProfileService profileService)
+    public FlowEditor(Flow flowPage, FFlow flow, FrontendService feService, MessageService message)
     {
         this.FlowPage = flowPage;
         this.Flow = flow;
-        this.ProfileService = profileService;
+        this.feService = feService;
+        Message = message;
     }
 
     /// <summary>
@@ -54,7 +63,7 @@ public class FlowEditor : IDisposable
         LoadedAt = DateTime.UtcNow;
         if (Flow.Uid == Guid.Empty)
             Flow.Uid = Guid.NewGuid();
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         ffFlow = await ffFlowWrapper.Create(jsRuntime, Flow.Uid, Flow.ReadOnly);
         ffFlow.OnAddElement = AddElement;
         ffFlow.OnOpenContextMenu = OpenContextMenu;
@@ -116,19 +125,20 @@ public class FlowEditor : IDisposable
             string title = Translater.Instant("Labels.ObsoleteConfirm.Title");
 
             msg += "\n\n" + confirmMessage;
-            var confirmed = await Confirm.Show(title, msg);
+            var confirmed = await Message.Confirm(title, msg);
             if (confirmed == false)
                 return null;
         }
 
-        if ((int)element.LicenseLevel > (int)Profile.LicenseLevel)
-        {
-            await MessageBox.Show(
-                Translater.Instant("Labels.Unlicensed"), 
-                Translater.Instant("Labels.UnlicensedFlowElement", new {level = element.LicenseLevel.ToString()})
-                );
-            return null;
-        }
+       if ((int)element.LicenseLevel > (int)Profile.LicenseLevel)
+       {
+           await Message.Message(
+               Translater.Instant("Labels.Unlicensed"),
+               Translater.Instant("Labels.UnlicensedFlowElement",
+                   new { level = element.LicenseLevel.ToString() })
+           );
+           return null;
+       }
 
         element.Name = name;
         return new { element, uid = Guid.NewGuid() };
@@ -167,18 +177,18 @@ public class FlowEditor : IDisposable
             var result = await HttpHelper.Put<FFlow>(API_URL, Flow);
             if (result.Success)
             {
-                if ((Profile.ConfigurationStatus & ConfigurationStatus.Flows) != ConfigurationStatus.Flows)
-                {
-                    // refresh the app configuration status
-                    await ProfileService.Refresh();
-                }
+                // if ((Profile.ConfigurationStatus & ConfigurationStatus.Flows) != ConfigurationStatus.Flows)
+                // {
+                //     // refresh the app configuration status
+                //     await ProfileService.Refresh();
+                // }
 
                 Flow = result.Data;
                 //IsDirty = false;
             }
             else
             {
-                Toast.ShowEditorError(
+                feService.Notifications.ShowError(
                     result.Success || string.IsNullOrEmpty(result.Body) ? Translater.Instant($"ErrorMessages.UnexpectedError") : Translater.TranslateIfNeeded(result.Body),
                     duration: 60_000
                 );

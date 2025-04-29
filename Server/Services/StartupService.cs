@@ -5,9 +5,9 @@ using FileFlows.Server.Workers;
 using FileFlows.ServerShared.Workers;
 using FileFlows.Services;
 using FileFlows.Services.FileDropServices;
+using FileFlows.Services.FileProcessing;
 using FileFlows.Shared.Models;
 using FileFlows.WebServer;
-using LibraryFileService = FileFlows.RemoteServices.LibraryFileService;
 
 namespace FileFlows.Server.Services;
 
@@ -164,7 +164,6 @@ public class StartupService : IStartupService
 
         FileFlows.RemoteServices.RemoteService.ServiceBaseUrl = Globals.ServerUrl;
         FileFlows.RemoteServices.RemoteService.AccessToken = settings.AccessToken;
-        FileFlows.RemoteServices.RemoteService.NodeUid = Application.RunningUid;
 
         WebServerApp.FullyStarted = true;
     }
@@ -186,13 +185,14 @@ public class StartupService : IStartupService
     private void StartupWorkers()
     {
         UpdateStatus("Starting Workers");
+        
         WorkerManager.StartWorkers(
             new StartupWorker(),
             new LicenseValidatorWorker(),
             new SystemMonitor(),
             //new LibraryWorker(),
             new LogFileCleaner(),
-            new FlowWorker(string.Empty, isServer: true),
+            //new FlowWorker(string.Empty, isServer: true),
             new ConfigCleaner(),
             new PluginUpdaterWorker(),
             new LibraryFileLogPruner(),
@@ -213,7 +213,11 @@ public class StartupService : IStartupService
         );
 
         // setup the library watches
-        ServiceLoader.Load<LibraryService>().SetupWatches().Wait();
+        Task.Run(async () =>
+        {
+            await Task.Delay(TimeSpan.FromSeconds(10));
+            _ = ServiceLoader.Load<LibraryService>().SetupWatches();
+        });
     }
 
     /// <summary>

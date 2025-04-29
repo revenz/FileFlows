@@ -1,5 +1,6 @@
 using BlazorDateRangePicker;
 using FileFlows.Client.Components;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Shared;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
@@ -12,10 +13,13 @@ namespace FileFlows.Client.Pages;
 /// </summary>
 public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
     [Inject] private INavigationService NavigationService { get; set; }
     public override string ApiUrl => "/api/library-file";
-    private string Title;
-    private string lblSearch, lblSearching;
+    private string lblSearch, lblSearching, lblClose;
     private string NameMinWidth = "20ch";
     private bool Searched = false;
     [Inject] private IJSRuntime jsRuntime { get; set; }
@@ -37,9 +41,11 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
     
     protected override void OnInitialized()
     {
+        Layout.SetInfo(Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-file", noPadding: true);
+        
         base.OnInitialized();
         this.lblSearch = Translater.Instant("Labels.Search");
-        this.Title = Translater.Instant("Pages.LibraryFiles.Title");
+        this.lblClose = Translater.Instant("Labels.Close");
         this.lblSearching = Translater.Instant("Labels.Searching");
         StatusOptions = new List<ListOption>()
         {
@@ -49,20 +55,11 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
             new() { Value = FileStatus.Processed, Label = Translater.Instant("Enums.FileStatus.Processed") },
             new() { Value = FileStatus.Processing, Label = Translater.Instant("Enums.FileStatus.Processing") },
             new() { Value = FileStatus.Unprocessed, Label = Translater.Instant("Enums.FileStatus.Unprocessed") },
-            new() { Value = FileStatus.FlowNotFound, Label = Translater.Instant("Enums.FileStatus.FlowNotFound") },
             new()
             {
                 Value = FileStatus.ProcessingFailed, Label = Translater.Instant("Enums.FileStatus.ProcessingFailed")
-            },
-            new() { Value = FileStatus.Duplicate, Label = Translater.Instant("Enums.FileStatus.Duplicate") },
-            new() { Value = FileStatus.MappingIssue, Label = Translater.Instant("Enums.FileStatus.MappingIssue") },
-            new() { Value = FileStatus.MissingLibrary, Label = Translater.Instant("Enums.FileStatus.MissingLibrary") },
-            new()
-            {
-                Value = FileStatus.ReprocessByFlow, Label = Translater.Instant("Enums.FileStatus.ReprocessByFlow")
-            },
+            }
         }.OrderBy(x => x.Label!.ToLowerInvariant())).ToList();
-        MainLayout.Instance.ShowSearch();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -73,7 +70,10 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
 
     public override async Task<bool> Edit(LibraryFile item)
     {
-        await Helpers.LibraryFileEditor.Open(Blocker, Editor, item.Uid, Profile);
+        await ModalService.ShowModal<FileViewer>(new ModalEditorOptions()
+        {
+            Uid = item.Uid
+        });
         return false;
     }
     async Task Search()
@@ -84,9 +84,8 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
         Blocker.Hide();
     }
 
-    async Task Closed()
+    async Task Close()
     {
-        MainLayout.Instance.HideSearch();
         await NavigationService.NavigateTo("/library-files");
     }
 

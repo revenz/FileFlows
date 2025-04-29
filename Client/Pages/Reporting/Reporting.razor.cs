@@ -1,5 +1,7 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -16,9 +18,9 @@ public partial class Reporting  : ComponentBase
     [Inject] public NavigationManager NavigationManager { get; set; }
 
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
 
     /// <summary>
     /// If scheduled reports is selected
@@ -29,12 +31,17 @@ public partial class Reporting  : ComponentBase
     /// The sky box items
     /// </summary>
     private List<FlowSkyBoxItem<bool>> SkyboxItems;
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        var profile = await ProfileService.Get();
+        Layout.SetInfo("Reporting", "fas fa-chart-bar");
+        var profile = feService.Profile.Profile;
         if (profile.LicensedFor(LicenseFlags.Reporting) == false)
         {
             NavigationManager.NavigateTo("/");

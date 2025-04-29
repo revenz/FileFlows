@@ -1,0 +1,233 @@
+.popup-panel-button {
+  position: fixed;
+  top: 0.6rem;
+  right: 1.25rem;
+  cursor: pointer;
+  z-index: 1000;
+}
+.popup-panel-button.opened {
+  background: var(--base-lighter) !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-color: var(--base-lighter) !important;
+  z-index: 1001;
+}
+.popup-panel-button i {
+  margin-right: 0.25rem;
+}
+
+.popup-panel {
+  position: fixed;
+  top: calc(3rem - 4px);
+  right: 0.5rem;
+  display: none;
+  background: var(--base-lighter);
+  border: solid 1px var(--border-color);
+  box-shadow: 0 0 0.8rem rgba(82, 82, 82, 0.52);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  max-width: 60rem;
+  min-width: 40rem;
+}
+.popup-panel.visible {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  z-index: 1000;
+}
+.popup-panel.visible .notifications, .popup-panel.visible .runners {
+  display: none;
+}
+.popup-panel.visible.has-notifications .notifications {
+  display: block;
+}
+.popup-panel.visible.is-processing .runners, .popup-panel.visible:not(.has-notifications) .runners {
+  display: block;
+}
+.popup-panel.visible.has-notifications.is-processing .popup-panel-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.popup-panel.visible.has-notifications.is-processing .popup-panel-main .notifications {
+  border-left: 1px solid var(--border-color);
+}
+.popup-panel .notification {
+  margin: 0.5rem 0.5rem 0 0.5rem;
+  background: var(--base-lightest);
+  border: solid 1px var(--border-color);
+  border-left: solid 0.3rem;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  align-content: center;
+  background: var(--base-darker);
+  border-radius: 0.5rem;
+  padding: 1rem 2rem 3rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+.popup-panel .notification .center {
+  word-wrap: break-word;
+  overflow: hidden;
+}
+.popup-panel .notification .title, .popup-panel .notification .message {
+  white-space: pre-wrap;
+  display: block;
+}
+.popup-panel .notification .time {
+  font-weight: var(--bold, 600);
+  margin-top: 0.5rem;
+  background: var(--base-lighter);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 0.5rem 1rem;
+  text-align: right;
+  font-size: 0.85rem;
+  border-top-left-radius: 0.5rem;
+}
+.popup-panel .notification.information {
+  border-left-color: var(--info);
+}
+.popup-panel .notification.information .icon {
+  color: var(--info);
+}
+.popup-panel .notification.error {
+  border-left-color: var(--error);
+}
+.popup-panel .notification.error .icon {
+  color: var(--error);
+}
+.popup-panel .notification.warning {
+  border-left-color: var(--warning);
+}
+.popup-panel .notification.warning .icon {
+  color: var(--warning);
+}
+.popup-panel .notification.success {
+  border-left-color: var(--success);
+}
+.popup-panel .notification.success .icon {
+  color: var(--success);
+}
+.popup-panel .notification .close {
+  position: absolute;
+  top: 1.15rem;
+  right: 1.15rem;
+  color: var(--color) !important;
+  opacity: 0.5;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.popup-panel .notification .close:hover {
+  opacity: 1;
+}
+
+.empty {
+  text-align: center;
+  padding: 2rem;
+}
+
+.runners, .notifications {
+  display: flex;
+  flex-direction: column;
+  max-height: min(36rem, 50vh);
+  overflow: auto;
+}
+
+.popup-panel-bottom {
+  border-top: 1px solid var(--border-color);
+  background: var(--base);
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 0.75rem;
+}
+.popup-panel-bottom .version {
+  flex-grow: 1;
+  text-align: left;
+}
+.popup-panel-bottom.no-user {
+  text-align: right;
+}
+.popup-panel-bottom .support a, .popup-panel-bottom .pause-resume {
+  border-radius: 2rem;
+}
+.popup-panel-bottom a {
+  color: var(--color) !important;
+  text-decoration: none;
+  background: var(--base-lightest);
+  padding: 0.75rem;
+  display: inline-flex;
+  overflow: hidden;
+  cursor: pointer;
+}
+.popup-panel-bottom .user a:not(.pause-resume) {
+  text-align: center;
+  border-radius: 1rem;
+  align-items: center;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  place-content: center;
+  flex-wrap: wrap;
+}
+.popup-panel-bottom .user a:not(.pause-resume) i {
+  margin-right: 0.5rem;
+}
+.popup-panel-bottom .user a:not(.pause-resume) + a {
+  margin-left: 0.25rem;
+}
+.popup-panel-bottom i {
+  font-size: 1.5rem;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.popup-panel-bottom .user-link {
+  user-select: none;
+  cursor: pointer;
+}
+.popup-panel-bottom .user-link:hover i {
+  opacity: 1;
+}
+
+.external-link + .user-link {
+  border-left: solid 1px var(--border-color);
+}
+
+.dismiss-all {
+  font-weight: var(--bold, 600);
+  text-align: center;
+  padding: 1rem 4rem;
+  display: block;
+  background: var(--base-darker);
+  border-radius: 3rem;
+  margin: 2rem auto;
+  color: var(--color) !important;
+  text-decoration: none !important;
+  width: fit-content;
+  opacity: 0.8;
+  height: fit-content;
+  min-height: fit-content;
+  cursor: pointer;
+}
+.dismiss-all:hover {
+  opacity: 1;
+}
+
+@media (max-width: 849.99px) {
+  .popup-panel-button {
+    top: 1.25rem !important;
+  }
+  .popup-panel {
+    top: calc(3.5rem - 2px) !important;
+    width: calc(100vw - 1rem);
+    max-width: calc(100vw - 1rem);
+    min-width: calc(100vw - 1rem);
+  }
+  .popup-panel .support {
+    display: none;
+  }
+  .popup-panel .user {
+    text-align: right;
+  }
+}
+
+/*# sourceMappingURL=PopupPanel.razor.css.map */

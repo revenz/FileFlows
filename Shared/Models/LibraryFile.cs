@@ -234,11 +234,11 @@ public class LibraryFile : FileFlowObject
         get
         {
             if (Status == FileStatus.Unprocessed)
-                return new TimeSpan();
+                return TimeSpan.Zero;
             if (Status == FileStatus.Processing)
                 return DateTime.UtcNow.Subtract(ProcessingStarted);
-            if (ProcessingEnded < new DateTime(2000, 1, 1))
-                return new TimeSpan();
+            if (ProcessingEnded.Year < 2000 || ProcessingStarted.Year < 2000)
+                return TimeSpan.Zero;
             return ProcessingEnded.Subtract(ProcessingStarted);
         }
     }
@@ -372,6 +372,11 @@ public class LibraryFileAdditional
     /// Gets or sets properties users can set on a file in the flow
     /// </summary>
     public Dictionary<string, string> Properties { get; set; } = new();
+    
+    /// <summary>
+    /// Gets or sets if this file has be marked for reprocessing
+    /// </summary>
+    public bool Reprocessing { get; set; }
 }
 
 /// <summary>
@@ -404,29 +409,9 @@ public enum FileStatus
     /// </summary>
     Processing = 2,
     /// <summary>
-    /// The file cannot be processed as the flow configured for the library can not be found
-    /// </summary>
-    FlowNotFound = 3,
-    /// <summary>
     /// THe file was processed, but exited with a failure
     /// </summary>
-    ProcessingFailed = 4,
-    /// <summary>
-    /// The file is a duplicate of an existing library file
-    /// </summary>
-    Duplicate = 5,
-    /// <summary>
-    /// The file could not be processed due to a mapping issue
-    /// </summary>
-    MappingIssue = 6,
-    /// <summary>
-    /// The library this file was created under no longer exists
-    /// </summary>
-    MissingLibrary = 7,
-    /// <summary>
-    /// Special case, the file has been marked for reprocessing, this can only happen once
-    /// </summary>
-    ReprocessByFlow = 99
+    ProcessingFailed = 4
 }
 
 /// <summary>

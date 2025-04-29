@@ -1,8 +1,7 @@
 @using FileFlows.Plugin
 @namespace FileFlows.Client.Components.Dialogs
-@inherits VisibleEscapableComponent
 
-<Modal Title="@Title" Visible="Visible" Styling="@(App.Instance.IsMobile ? "" : "width: min(60rem, 90vw);max-width: min(60rem, 90vw);")">
+<Modal Title="@Title" Visible="true" Styling="@(App.Instance.IsMobile ? "" : "width: min(60rem, 90vw);max-width: min(60rem, 90vw);")">
 
     <Body>
     <table class="table alt-rows selectable">
@@ -16,14 +15,8 @@
                       ("Batch (.bat)", ScriptLanguage.Batch, lblBatchDescription, "svg:dos", true, false),
                       ("PowerShell (.ps1)", ScriptLanguage.PowerShell, lblPowerShellDescription, "svg:powershell", true, false),
                       ("Shell (.sh)", ScriptLanguage.Shell, lblShellDescription, "svg:bash", false, true),
-                      (lblFileDisplayName, (ScriptLanguage)99, lblFileDisplayNameDescription, "fas fa-signature", false, false)
-                  })
+                    })
         {
-            if (lang.Item1 == lblFileDisplayName && showFileDisplayScript == false)
-            {
-                continue;
-            }
-
             var name = lang.Item1;
             var language = lang.Item2;
             var desc = lang.Item3;

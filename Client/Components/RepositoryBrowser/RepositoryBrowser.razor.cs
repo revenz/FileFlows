@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components.Inputs;
 using FileFlows.Plugin;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using Humanizer;
 
 namespace FileFlows.Client.Components;
@@ -16,6 +17,10 @@ public partial class RepositoryBrowser : ComponentBase
     /// Gets or sets the blocker
     /// </summary>
     [CascadingParameter] public Blocker Blocker { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
     /// <summary>
     /// Gets or sets the editor
     /// </summary>
@@ -100,7 +105,7 @@ public partial class RepositoryBrowser : ComponentBase
             var result = await HttpHelper.Get<List<RepositoryObject>>("/api/repository/by-type/" + this.Type);
             if (result.Success == false)
             {
-                Toast.ShowError(result.Body, duration: 15_000);
+                feService.Notifications.ShowError(result.Body, duration: 15_000);
                 // close this and show message
                 this.Close();
                 return;

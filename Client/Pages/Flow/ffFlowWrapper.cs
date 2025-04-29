@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using BlazorMonaco;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using NPoco;
 using ffElement = FileFlows.Shared.Models.FlowElement;
@@ -41,10 +42,12 @@ public class ffFlowWrapper
     {
         var instance = new ffFlowWrapper(jsRuntime);
         var dotNetObjRef = DotNetObjectReference.Create(instance);
-        instance.jsffFlow = await jsRuntime.InvokeAsync<IJSObjectReference>("createffFlow", dotNetObjRef, flowUid, readOnly);
+
+        instance.jsffFlow =
+            await jsRuntime.InvokeAsync<IJSObjectReference>("createffFlow", dotNetObjRef, flowUid, readOnly);
         return instance;
     }
-    
+
     public async Task ioInitConnections(Dictionary<string, List<xFlowConnection>> connections)
     {
         if(jsffFlow != null)

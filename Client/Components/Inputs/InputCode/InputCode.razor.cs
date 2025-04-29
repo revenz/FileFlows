@@ -13,6 +13,11 @@ public partial class InputCode : Input<string>, IDisposable
     private MonacoEditor CodeEditor { get; set; }
     
     /// <summary>
+    /// Gets or sets the message service
+    /// </summary>
+    [Inject] MessageService Message { get; set; }
+    
+    /// <summary>
     /// Gets or sets the language the editor is editing
     /// </summary>
     [Parameter] public string Language { get; set; }
@@ -44,8 +49,6 @@ public partial class InputCode : Input<string>, IDisposable
     {
         _ = Task.Run(async () =>
         {
-            // var shared = await HttpHelper.Get<Dictionary<string, string>>("/api/script/basic-list?type=Shared");
-            
             var jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>("import", $"./Components/Inputs/InputCode/InputCode.razor.js?v={Globals.Version}");
             jsInputCode = await jsObjectReference.InvokeAsync<IJSObjectReference>("createInputCode", new object[] { DotNetObjectReference.Create(this) });
             if (Language == "shell")
@@ -99,7 +102,7 @@ public partial class InputCode : Input<string>, IDisposable
         this.Updating = false;
         if (this.InitialValue?.Trim()?.EmptyAsNull() != this.Value?.Trim()?.EmptyAsNull())
         {
-            bool cancel = await Dialogs.Confirm.Show(Translater.Instant("Labels.Confirm"), Translater.Instant("Labels.CancelMessage"));
+            bool cancel = await Message.Confirm(Translater.Instant("Labels.Confirm"), Translater.Instant("Labels.CancelMessage"));
             if (cancel == false)
                 return false;
         }

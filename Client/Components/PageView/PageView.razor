@@ -1,10 +1,39 @@
 @namespace FileFlows.Client.Components
 
 @{
-    string? title = string.IsNullOrEmpty(Title) == false ? Title : Menu?.Active?.Title;
+    string? title = TabView ? null : string.IsNullOrEmpty(Title) == false ? Title : Menu?.Active?.Title;
 }
-<ViContainer Title="@title" Icon="@(Icon?.EmptyAsNull() ?? Menu?.Active?.Icon)" FullWidth=@FullWidth Flex="Flex" ClassName=@ClassName PageView="true">
+<ViContainer Title="@title" Icon="@(TabView ? null : Icon?.EmptyAsNull() ?? Menu?.Active?.Icon)" FullWidth=@FullWidth Flex="Flex" 
+             ClassName="@GetClassName()" PageView="true">
+    
     <HeadLeft>
+        
+        @if (TabView)
+        {
+            <div class="flow-tab-buttons @(TitleOnlyOnActive ? "title-only-on-active" : string.Empty)">
+                @foreach(var tab in Tabs)
+                {
+                    if (tab.Visible == false)
+                    {
+                        continue;
+                    }
+                    <button class="tab-button @(ActiveTab == tab ? "active" : "")" @onclick="() => SelectTab(tab)">
+                        @if (string.IsNullOrEmpty(tab.Icon) == false)
+                        {
+                            <i class="@tab.Icon" />
+                            @if (TitleOnlyOnActive == false || (ActiveTab == tab || TitleOnlyOnActive == false))
+                            {
+                                @tab.Title
+                            }
+                        }
+                        else
+                        {
+                            @tab.Title
+                        }
+                    </button>
+                }
+            </div> 
+        }
         @HeadLeft
     </HeadLeft>
 
@@ -13,6 +42,18 @@
     </Head>
 
     <Body>
-        @Body
+        @if (TabView)
+        {
+            <div class="flow-tabs-content">
+                <CascadingValue IsFixed=true Value=this>
+                    @Body
+                </CascadingValue>
+
+            </div>  
+        }
+        else
+        {
+            @Body
+        }
     </Body>
 </ViContainer>

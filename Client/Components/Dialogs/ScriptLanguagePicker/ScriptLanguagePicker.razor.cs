@@ -6,22 +6,24 @@ namespace FileFlows.Client.Components.Dialogs;
 /// <summary>
 /// Dialog for choosing a script language
 /// </summary>
-public partial class ScriptLanguagePicker : VisibleEscapableComponent
+public partial class ScriptLanguagePicker :  IModal
 {
-    private string lblNext, lblCancel, lblJavaScriptDescription, lblBatchDescription, lblCSharpDescription, 
-        lblPowerShellDescription, lblShellDescription, lblFileDisplayName, lblFileDisplayNameDescription;
-    private string Title;
-    TaskCompletionSource<Result<ScriptLanguage>> ShowTask;
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
+
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
     
+    private string lblNext, lblCancel, lblJavaScriptDescription, lblBatchDescription, lblCSharpDescription, 
+        lblPowerShellDescription, lblShellDescription;
+    private string Title;
+
     /// <summary>
     /// Gets or sets the language
     /// </summary>
-    private ScriptLanguage Language { get; set; }
-
-    /// <summary>
-    /// If the file display name script option should be shown
-    /// </summary>
-    private bool showFileDisplayScript = false;
+    private ScriptLanguage Language { get; set; } = ScriptLanguage.JavaScript;
     
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -33,34 +35,7 @@ public partial class ScriptLanguagePicker : VisibleEscapableComponent
         lblCSharpDescription = Translater.Instant("Dialogs.ScriptLanguage.Labels.CSharpDescription");
         lblPowerShellDescription = Translater.Instant("Dialogs.ScriptLanguage.Labels.PowerShellDescription");
         lblShellDescription = Translater.Instant("Dialogs.ScriptLanguage.Labels.ShellDescription");
-        lblFileDisplayName = Translater.Instant("Dialogs.ScriptLanguage.Labels.FileDisplayName");
-        lblFileDisplayNameDescription = Translater.Instant("Dialogs.ScriptLanguage.Labels.FileDisplayNameDescription");
         Title = Translater.Instant("Dialogs.ScriptLanguage.Title");
-    }
-    
-    /// <summary>
-    /// Shows the language picker
-    /// </summary>
-    /// <param name="showFileDisplayScript">if the file display name script option should be shown</param>
-    /// <returns>the task to await</returns>
-    public Task<Result<ScriptLanguage>> Show(bool showFileDisplayScript)
-    {
-        this.showFileDisplayScript = showFileDisplayScript;
-        this.Language = ScriptLanguage.JavaScript;
-        this.Visible = true;
-        this.StateHasChanged();
-
-        ShowTask = new TaskCompletionSource<Result<ScriptLanguage>>();
-        return ShowTask.Task;
-    }
-
-    /// <summary>
-    /// Cancels the dialog
-    /// </summary>
-    public override void Cancel()
-    {
-        this.Visible = false;
-        ShowTask.TrySetResult(Result<ScriptLanguage>.Fail("Canceled"));
     }
 
     /// <summary>
@@ -68,9 +43,25 @@ public partial class ScriptLanguagePicker : VisibleEscapableComponent
     /// </summary>
     private async void Next()
     {
-        this.Visible = false;
-        ShowTask.TrySetResult(Language);
+        TaskCompletionSource.TrySetResult(Language);
         await Task.CompletedTask;
+    }
+    
+    
+    /// <summary>
+    /// Closes the dialog
+    /// </summary>
+    public void Close()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Set result when closing
+    }
+
+    /// <summary>
+    /// Cancels the dialog
+    /// </summary>
+    public void Cancel()
+    {
+        TaskCompletionSource.TrySetCanceled(); // Indicate cancellation
     }
     
     private void SetLanguage(ScriptLanguage language, bool close = false)

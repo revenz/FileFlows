@@ -8,29 +8,29 @@ namespace FileFlows.Shared.Models;
 public class FlowExecutorInfo
 {
     /// <summary>
-    /// Gets or sets the UID of the runner, which is the library file UID
+    /// Gets or sets the library file being processed
     /// </summary>
-    public Guid Uid { get; set; }
+    public LibraryFile LibraryFile { get; set; }
     
     /// <summary>
-    /// Gets or sets the UID of the node execution this flow
+    /// Gets or sets the UID of the node execution thi
     /// </summary>
     public Guid NodeUid { get; set; }
     
     /// <summary>
-    /// Gets or sets the name of the Node executing this flow
+    /// Gets or sets the name of the Node executing this
     /// </summary>
     public string NodeName { get; set; }
-
+    
     /// <summary>
-    /// Gets or sets the library file being executed 
+    /// Gets or sets the UID of the flow
     /// </summary>
-    public LibraryFile LibraryFile { get; set; }
-
+    public Guid FlowUid { get; set; }
+    
     /// <summary>
-    /// Gets or sets the relative file being executed
+    /// Gets or sets the name of the flow
     /// </summary>
-    public string RelativeFile { get; set; }
+    public string FlowName { get; set; }
     
     /// <summary>
     /// Gets or sets if this is a remote file from the server
@@ -38,21 +38,10 @@ public class FlowExecutorInfo
     public bool IsRemote { get; set; }
     
     /// <summary>
-    /// Gets or sets an object reference of the library
-    /// that the library file belongs
-    /// </summary>
-    public ObjectReference Library { get; set; }
-    
-    /// <summary>
     /// Gets or sets the path of the library
     /// </summary>
     public string LibraryPath { get; set; }
     
-    // /// <summary>
-    // /// Gets or sets if a fingerprint should be taken of the final file
-    // /// </summary>
-    // public bool Fingerprint { get; set; }
-
     /// <summary>
     /// Gets or sets the size of the original file being processed
     /// </summary>
@@ -107,6 +96,16 @@ public class FlowExecutorInfo
     /// Gets or sets any additional info to pass to the runner
     /// </summary>
     public Dictionary<string, AdditionalInfo> AdditionalInfos { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if the file has a thumbnail
+    /// </summary>
+    public bool HasThumbnail { get; set; }
+
+    /// <summary>
+    /// Gets or sets if the file has been aborted
+    /// </summary>
+    public bool Aborted { get; set; }
 }
 
 
@@ -223,6 +222,11 @@ public class FlowExecutorInfoMinified
     /// Gets or sets if the file has a thumbnail
     /// </summary>
     public bool HasThumbnail { get; set; }
+
+    /// <summary>
+    /// Gets or sets if the file has been aborted
+    /// </summary>
+    public bool Aborted { get; set; }
 }
 
 /// <summary>

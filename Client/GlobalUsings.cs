@@ -11,3 +11,4 @@ global using FileFlows.Client.Services;
 global using FileFlows.Common;
 global using FileFlows.Helpers;
 global using FileFlows.Validators;
+global using FileFlows.Client.Models;

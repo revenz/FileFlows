@@ -42,7 +42,7 @@ li {
   }
 
   span {
-    font-weight: bold;
+    font-weight: var(--bold, 600);
   }
 
   p {

@@ -1,7 +1,7 @@
 using FileFlows.LibraryUtils;
 using FileFlows.ServerShared.Models;
-using FileFlows.Services.ServiceHelpers;
-using Humanizer;
+using FileFlows.Services.FileProcessing;
+using FileFlows.Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using LibraryFileService = FileFlows.Services.LibraryFileService;
 using LibraryService = FileFlows.Services.LibraryService;
@@ -16,13 +16,11 @@ namespace FileFlows.WebServer.Controllers;
 [FileFlowsAuthorize(UserRole.Files)]
 public class LibraryFileController : Controller 
 {
-
     /// <summary>
     /// Lists all the library files, only intended for the UI
     /// </summary>
     /// <param name="status">The status to list</param>
     /// <param name="page">The page to get</param>
-    /// <param name="pageSize">The number of items to fetch</param>
     /// <param name="filter">[Optional] filter text</param>
     /// <param name="node">[Optional] node to filter by</param>
     /// <param name="library">[Optional] library to filter by</param>
@@ -31,28 +29,27 @@ public class LibraryFileController : Controller
     /// <param name="tag">[Optional] tag to filter by</param>
     /// <returns>a slimmed down list of files with only needed information</returns>
     [HttpGet("list-all")]
-    public async Task<LibraryFileDatalistModel> ListAll([FromQuery] int status, [FromQuery] int page = 0, 
-        [FromQuery] int pageSize = 0, [FromQuery] string? filter = null, [FromQuery] Guid? node = null, 
+    public async Task<List<LibraryFileMinimal>> ListAll([FromQuery] int status, [FromQuery] int page = 0, 
+        [FromQuery] string? filter = null, [FromQuery] Guid? node = null, 
         [FromQuery] Guid? library = null, [FromQuery] Guid? flow = null, [FromQuery] FilesSortBy? sortBy = null,
         [FromQuery] Guid? tag = null)
     {
         var service = ServiceLoader.Load<LibraryFileService>();
-        var lfStatus = await service.GetStatus();
-        var libraries = await ServiceLoader.Load<LibraryService>().GetAllAsync();
         
         var allLibraries = (await ServiceLoader.Load<LibraryService>().GetAllAsync());
+        var nodeService = ServiceLoader.Load<NodeService>();
         
         var sysInfo = new LibraryFilterSystemInfo()
         {
             AllLibraries = allLibraries.ToDictionary(x => x.Uid, x => x),
-            Executors = FlowRunnerService.Executors.Values.ToList(),
+            Executors = nodeService.GetRunners(),
             LicensedForProcessingOrder = LicenseService.IsLicensed(LicenseFlags.ProcessingOrder)
         };
         var lfFilter = new LibraryFileFilter()
         {
             Status = (FileStatus)status,
-            Skip = page * pageSize,
-            Rows = pageSize,
+            Skip = page * 1000,
+            Rows = 1000,
             Filter = filter,
             NodeUid = node,
             LibraryUid = library,
@@ -70,30 +67,17 @@ public class LibraryFileController : Controller
             HttpContext?.Response?.Headers?.TryAdd("x-total-items", total.ToString());
         }
 
-        var nodeNames = (await ServiceLoader.Load<NodeService>().GetAllAsync()).ToDictionary(x => x.Uid, x => x.Name);
-        return new()
-        {
-            Status = lfStatus,
-            LibraryFiles = LibaryFileListModelHelper.ConvertToListModel(files, (FileStatus)status, libraries, nodeNames)
-        };
+        return files.Select(x => (LibraryFileMinimal)x).ToList();
     }
 
     /// <summary>
-    /// Basic node list
-    /// In this controller in case the users only has access to files page
+    /// Gets the files by their UIDs
     /// </summary>
-    /// <returns>node list</returns>
-    [HttpGet("node-list")]
-    public async Task<List<NodeInfo>> GetNodeList()
-    {
-        var nodes = await new NodeService().GetAllAsync();
-        return nodes.Select(x => new NodeInfo()
-        {
-            Uid = x.Uid,
-            Name = x.Name,
-            OperatingSystem = x.OperatingSystem
-        }).ToList();
-    }
+    /// <param name="model">the files to get</param>
+    /// <returns>the files</returns>
+    [HttpPost("get-files")]
+    public async Task<List<LibraryFile>> GetFiles([FromBody] ReferenceModel<Guid> model)
+        => await ServiceLoader.Load<LibraryFileService>().GetFiles(model.Uids ?? []);
 
     /// <summary>
     /// Gets all library files in the system
@@ -106,90 +90,6 @@ public class LibraryFileController : Controller
     public Task<List<LibraryFile>> GetAll([FromQuery] FileStatus? status, [FromQuery] int skip = 0, [FromQuery] int top = 0)
         => ServiceLoader.Load<LibraryFileService>().GetAll(status, skip: skip, rows: top);
 
-    /// <summary>
-    /// Get next 10 upcoming files to process
-    /// </summary>
-    /// <returns>a list of upcoming files to process</returns>
-    [HttpGet("upcoming")]
-    [FileFlowsAuthorize]
-    public async Task<IActionResult> Upcoming()
-    {
-        var data = await ServiceLoader.Load<LibraryFileService>().GetAll(FileStatus.Unprocessed, rows: 50);
-        var results = data.Select(x => new
-        {
-            x.Uid,
-            x.Name,
-            x.LibraryName,
-            DisplayName = ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x)
-        });
-        return Ok(results);
-    }
-
-    /// <summary>
-    /// Gets the last 10 successfully processed files
-    /// </summary>
-    /// <returns>the last successfully processed files</returns>
-    [HttpGet("recently-finished")]
-    [FileFlowsAuthorize]
-    public async Task<IActionResult> RecentlyFinished([FromQuery]bool? failedFiles = null)
-    {
-        var service = ServiceLoader.Load<LibraryFileService>();
-        var libraries = await ServiceLoader.Load<LibraryService>().GetAllAsync();
-        LibraryFile[] all;
-        var processed = await service.GetAll(FileStatus.Processed, rows: 50, allLibraries: libraries);
-        var failed = await service.GetAll(FileStatus.ProcessingFailed, rows: 50, allLibraries: libraries);
-        var mapping = await service.GetAll(FileStatus.MappingIssue, rows: 50, allLibraries: libraries);
-        var minDate = new DateTime(2020, 1, 1);
-        if (failedFiles == false)
-            all = processed.ToArray();
-        else if (failedFiles == true)
-            all = failed.Union(mapping).ToArray();
-        else
-        {
-            all = processed.Union(failed).Union(mapping)
-                .OrderByDescending(x => x.ProcessingEnded < minDate ? x.ProcessingStarted : x.ProcessingEnded)
-                .ToArray();
-            
-        }
-
-        if (all.Any() == false)
-            return Ok(new object[] { });
-        
-        all = all.OrderByDescending(x => x.ProcessingEnded < minDate ? x.ProcessingStarted : x.ProcessingEnded)
-            .ToArray();
-        
-        if (all.Length > 50)
-            all = all.Take(50).ToArray();
-        var data = all.Select(x =>
-        {
-            var date = x.ProcessingEnded.Year > 2000 ? x.ProcessingEnded : x.ProcessingStarted;
-            var when = date.ToLocalTime().Humanize(false, DateTime.UtcNow);
-            var displayName = x.Additional?.DisplayName;
-            if (string.IsNullOrWhiteSpace(displayName))
-            {
-                displayName =
-                    Regex.IsMatch(x.OutputPath, @"^[\w\d]{2,}:")
-                        ? x.OutputPath
-                        : // special case for uploaded files e.g. nc: for next cloud
-                        ServiceLoader.Load<FileDisplayNameService>().GetDisplayName(x);
-            }
-            return new
-            {
-                x.Uid,
-                DisplayName = displayName,
-                x.RelativePath,
-                x.ProcessingEnded,
-                When = when,
-                x.OriginalSize,
-                x.FinalSize,
-                x.IsDirectory,
-                Message = x.Status == FileStatus.ProcessingFailed ? x.FailureReason : null,
-                Status = (int)x.Status,
-                x.Additional?.Traits
-            };
-        });
-        return Ok(data);
-    }
 
     /// <summary>
     /// Gets the library status overview
@@ -210,8 +110,9 @@ public class LibraryFileController : Controller
     public async Task<LibraryFile?> Get(Guid uid)
     {
         // first see if the file is currently processing, if it is, return that in memory 
-        var file = await ServiceLoader.Load<FlowRunnerService>().TryGetFile(uid) ?? 
-                   await ServiceLoader.Load<LibraryFileService>().Get(uid);
+        var file = ServiceLoader.Load<FileSorterService>().GetFile(uid);
+        if (file == null)
+            file = await ServiceLoader.Load<LibraryFileService>().Get(uid);
         
         if(file != null && (file.Status == FileStatus.ProcessingFailed || file.Status == FileStatus.Processed))
         {
@@ -256,6 +157,23 @@ public class LibraryFileController : Controller
     }
 
     /// <summary>
+    /// Get the server log of a library file
+    /// </summary>
+    /// <param name="uid">The UID of the library file</param>
+    /// <returns>The log of the library file</returns>
+    [HttpGet("{uid}/server-log")]
+    public string GetServerLog([FromRoute] Guid uid)
+    {
+        try
+        {
+            return LibraryFileLogHelper.GetServerLog(uid);
+        }
+        catch (Exception ex)
+        {
+            return "Error opening log: " + ex.Message;
+        }
+    }
+    /// <summary>
     /// A reference model of library files to move to the top of the processing queue
     /// </summary>
     /// <param name="model">The reference model of items in order to move</param>
@@ -270,6 +188,31 @@ public class LibraryFileController : Controller
         await ServiceLoader.Load<LibraryFileService>().MoveToTop(list);
     }
 
+
+    /// <summary>
+    /// Aborts running files
+    /// </summary>
+    /// <param name="model">A reference model containing UIDs to abort</param>
+    /// <returns>an awaited task</returns>
+    [HttpDelete("abort")]
+    public async Task Abort([FromBody] ReferenceModel<Guid> model)
+    {
+        // await ServiceLoader.Load<LibraryFileService>().AbortFiles(model.Uids);
+        List<Guid> failed = new();
+        foreach (var uid in model.Uids)
+        {
+            if (await ServiceLoader.Load<INodeHubService>().AbortFile(uid) == false)
+            {
+                // wasn't able to cancel the file, likely the node isnt connected
+                failed.Add(uid);
+            }
+        }
+
+        if (failed.Count > 0)
+            await SetStatus(FileStatus.ProcessingFailed, new () { Uids = failed.ToArray() });
+    }
+    
+    
     /// <summary>
     /// Delete library files from the system
     /// </summary>
@@ -453,7 +396,7 @@ public class LibraryFileController : Controller
             {
                 if ((int)file.Status < 2)
                     return Ok(); // already in the queue or processing
-                await service.Reprocess(file.Uid);
+                await service.Reprocess(file);
                 return Ok();
             }
     

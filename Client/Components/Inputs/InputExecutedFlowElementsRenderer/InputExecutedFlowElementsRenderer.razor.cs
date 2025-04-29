@@ -1,5 +1,6 @@
 using System.Text.Json;
 using FileFlows.Client.Pages;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -15,14 +16,13 @@ public partial class InputExecutedFlowElementsRenderer : ExecuteFlowElementView,
     /// <summary>
     /// Gets or sets the model
     /// </summary>
-    [Parameter] public ExpandoObject Model { get; set; }
+    public List<ExecutedNode> ExecutedNodes { get; set; }
     
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] private ClientService ClientService { get; set; }
+    [Inject] private FrontendService feService { get; set; }
     
-    private List<ExecutedNode> ExecutedNodes = [];
     private List<FlowElement> FlowElements = [];
     private List<FlowPart> parts = [];
     private bool _needsRendering = false;
@@ -36,34 +36,22 @@ public partial class InputExecutedFlowElementsRenderer : ExecuteFlowElementView,
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        FlowElements = feService.Flow.FlowElements;
+        ExecutedNodes = Value.ToList();
+        
         _ = Initialize();
     }
 
     private async Task Initialize()
     {
-        var dict = Model as IDictionary<string, object>;
-        if (dict == null)
-            return;
-        dict.TryGetValue("Log", out var oLog);
-        _Log = oLog as string ?? string.Empty;
-        
-        dict.TryGetValue(nameof(LibraryFile.ExecutedNodes), out var oExecutedNodes);
-        if(oExecutedNodes == null)
-            return;
-        if(oExecutedNodes is JsonElement jsonElement)
-            ExecutedNodes = jsonElement.Deserialize<List<ExecutedNode>>();
-        else if(oExecutedNodes is List<ExecutedNode> list)
-            ExecutedNodes = list;
-        FlowElements = await ClientService.GetAllFlowElements();
-
         var dotNetObjRef = DotNetObjectReference.Create(this);
         var js = await jsRuntime.InvokeAsync<IJSObjectReference>("import",
             $"./Components/Inputs/InputExecutedFlowElementsRenderer/InputExecutedFlowElementsRenderer.razor.js?v={Globals.Version}");
         jsObjectReference = await js.InvokeAsync<IJSObjectReference>("createExecutedFlowElementsRenderer", dotNetObjRef, this.Uid);
         
-        int height = await jsObjectReference.InvokeAsync<int>("getVisibleHeight") - 200;
+        int height = await jsObjectReference.InvokeAsync<int>("getVisibleHeight") - 400;
         if (height < 200)
-            height = 880;
+            height = 780;
         //ready = true;
         Flow = BuildFlow(height);
         ffFlow = await ffFlowWrapper.Create(jsRuntime, Guid.NewGuid(), true);

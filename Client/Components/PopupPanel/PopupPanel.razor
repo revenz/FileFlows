@@ -1,0 +1,150 @@
+@using FileFlows.Client.Components.Widgets
+@using FileFlows.Client.Helpers
+@using Humanizer
+
+@namespace FileFlows.Client.Components
+
+<div class="btn popup-panel-button @(Visible ? "opened" : "")" @onclick="TogglePopup">
+    
+    @if (Upgrading)
+    {
+        <text>
+            <i class="fas fa-rocket" style="color:var(--green)"></i>
+            Upgrading
+        </text>
+    }
+    else if (UpgradePending)
+    {
+        <text>
+            <i class="fas fa-hourglass-half" style="color:var(--blue)"></i>
+            Upgrade Pending
+        </text>
+    }
+    else if (ConnectionLost)
+    {
+        <text>
+            <i class="fas fa-plug" style="color:var(--error)"></i>
+            @lblDisconnected
+        </text>
+    }
+    else if (NumberOfRunners > 0)
+    {
+        <text>
+            <i class="icon fas fa-running" style="color:var(--blue);"></i>
+            @NumberOfRunners Processing
+        </text>
+    }
+    else if (PausedService.IsPaused)
+    {
+        <text>
+            <i class="fas fa-pause" style="color:var(--orange)"></i>
+            @(PausedService.PausedIndefinitely ? lblPaused :  PausedService.PausedLabel)
+        </text>
+    }
+    else
+    {
+        <text>
+            <i class="fas fa-bed" style="color:var(--gray)"></i>
+            @lblIdle
+        </text>
+    }
+</div>
+
+@{
+    bool hasNotifications = Notifications.Count > 0;
+}
+
+<div class="popup-panel @(Visible ? "visible" : "") @(IsProcessing ? "is-processing" : "") 
+    @(hasNotifications ? "has-notifications" : "")" @onclick:stopPropagation>
+    <div class="popup-panel-main">
+        <div class="runners">
+            <RunnersComponent Minimal="true" />
+        </div>
+        <div class="notifications @(hasNotifications ? "" : "hidden")">
+        @foreach (var item in Notifications)
+        {
+            <div class="notification @item.Severity.ToString().Kebaberize()">
+                <span class="icon">
+                    @switch (item.Severity)
+                    {
+                        case NotificationSeverity.Critical:
+                            <i class="icon critical fas fa-exclamation-circle"></i>
+                            break;
+                        case NotificationSeverity.Error:
+                            <i class="icon error fas fa-times-circle"></i>
+                            break;
+                        case NotificationSeverity.Warning:
+                            <i class="icon warning fas fa-exclamation-triangle"></i>
+                            break;
+                        case NotificationSeverity.Information:
+                            <i class="icon info fas fa-info-circle"></i>
+                            break;
+                        case NotificationSeverity.Success:
+                            <i class="icon info fas fa-check-circle"></i>
+                            break;
+                    }
+                </span>
+                <div class="center">
+                    <span class="title">@item.Title</span>
+                    @if (string.IsNullOrWhiteSpace(item.Message) == false)
+                    {
+                        <span class="message">@item.Message</span>
+                    }
+                    <span class="time">@FormatHelper.HumanizeDate(item.Date)</span>
+                </div>
+                <span @onclick="() => Dismiss(item)" class="close"><i class="fas fa-times"></i></span>
+            </div>
+        }
+        @if (Notifications.Count > 3)
+        {
+            <a class="dismiss-all ripple" @onclick=DismissAll @onclick:stopPropagation @onclick:preventDefault>
+                <span>@lblDismissAll</span>
+            </a>
+        }
+        </div>
+    </div>
+    <div class="popup-panel-bottom">
+        <div class="support">
+            <a class="external-link" title="FileFlows.com" href="https://fileflows.com/docs" target="_blank" rel="noopener noreferrer nofollow">
+                <i class="fas fa-globe"></i>
+            </a>
+            <a class="external-link" title="Reddit" href="https://reddit.com/r/FileFlows" target="_blank" rel="noopener noreferrer nofollow">
+                <i class="fab fa-reddit-alien"></i>
+            </a>
+            <a class="external-link" title="Discord" href="https://fileflows.com/discord" target="_blank" rel="noopener noreferrer nofollow">
+                <i class="fab fa-discord"></i> 
+            </a>
+        </div>
+        
+        <div class="user">
+            @if (ShowChangePassword)
+            {
+                <a class="user-link" @onclick=ChangePassword>
+                    <i class="fas fa-key"></i> @lblChangePassword
+                </a>
+            }
+
+            @if (ShowLogout)
+            {
+                <a class="user-link" href="/logout" @onclick=LogOut @onclick:preventDefault @onclick:stopPropagation>
+                    <i class="fas fa-unlock"></i> @lblLogout
+                </a>
+            }
+            
+            @if (PausedService.IsPaused)
+            {
+                <a class="pause-resume" title="@lblResume" @onclick="ResumeProcessing">
+                    <i class="fas fa-play"></i>
+                </a>
+            }
+            else
+            {
+                <a class="pause-resume" title="@lblPause" @onclick="PauseProcessing">
+                    <i class="fas fa-pause"></i>
+                </a>
+            }
+        </div>
+
+        @* <div class="version">@Globals.Version</div> *@
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="FileFlows.AvaloniaUi.App">
+    <Application.Resources>
+        <!-- Define a Dynamic Font Size -->
+        <x:Double x:Key="BaseFontSize">14</x:Double>
+    </Application.Resources>
+    
+    <Application.Styles>
+        <SimpleTheme  />
+        
+        <!-- TextBlock Style to automatically adjust based on font size -->
+        <Style Selector="TextBlock">
+            <Setter Property="FontSize" Value="{DynamicResource BaseFontSize}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        
+        <Style Selector="ToggleSwitch:checked /template/ Border#SwitchKnobBounds">
+            <Setter Property="Background" Value="{DynamicResource SystemAccentColor}"></Setter>
+        </Style>
+
+        <!-- TextBox Style with auto height adjustments -->
+        <Style Selector="TextBox">
+            <Setter Property="FontSize" Value="{DynamicResource BaseFontSize}" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="MinHeight" Value="26" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColor}"/>
+        </Style>
+
+    </Application.Styles>
+
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Icon="avares://FileFlows.AvaloniaUI/Resources/icon.ico"
+                      ToolTipText="FileFlows" Clicked="TrayIcon_OnClicked">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Show Window" Click="ShowWindow" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Open Web Console" Click="Open" />
+                        <NativeMenuItem Header="Open Logging Directory" Click="Logs" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Exit Application" Click="Quit" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
+</Application>
+

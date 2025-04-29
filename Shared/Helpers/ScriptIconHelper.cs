@@ -19,8 +19,6 @@ public static class ScriptIconHelper
         string nameLower = name.ToLowerInvariant();
         if (nameLower.StartsWith("video"))
             return "/icons/video.svg";
-        if (name.Equals(CommonVariables.FILE_DISPLAY_NAME, StringComparison.InvariantCultureIgnoreCase))
-            return "fas fa-signature";
         if (nameLower.StartsWith("fileflows"))
             return "/favicon.svg";
         if (nameLower.StartsWith("image"))

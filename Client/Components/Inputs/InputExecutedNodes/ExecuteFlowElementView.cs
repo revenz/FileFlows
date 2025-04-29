@@ -1,3 +1,5 @@
+using FileFlows.Client.Components.Editors;
+using FileFlows.Client.Services.Frontend;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -6,6 +8,11 @@ namespace FileFlows.Client.Components.Inputs;
 
 public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
     protected string _Log;
     /// <summary>
     /// Gets or sets the log for this item
@@ -16,14 +23,14 @@ public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
         get => _Log; 
         set => _Log = value;
     }
-    protected string PartialLog;
-    protected ExecutedNode PartialLogNode;
     protected string lblClose, lblLogPartialNotAvailable, lblViewLog;
     
     protected bool Maximised { get; set; }
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
 
-    private bool InitializeResizer = false;
-    protected string ResizerUid;
 
     private List<string> _LogLines;
     private List<string> LogLines
@@ -32,7 +39,7 @@ public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
         {
             if (_LogLines == null)
             {
-                _LogLines = (Log ?? string.Empty).Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                _LogLines = (Log ?? string.Empty).Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries).ToList();
             }
 
             return _LogLines;
@@ -45,37 +52,14 @@ public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
         this.lblClose = Translater.Instant("Labels.Close");
         this.lblLogPartialNotAvailable = Translater.Instant("Labels.LogPartialNotAvailable");
         this.lblViewLog = Translater.Instant("Labels.ViewLog");
-        App.Instance.OnEscapePushed += InstanceOnOnEscapePushed;
     }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (InitializeResizer)
-            await jsRuntime.InvokeVoidAsync("ff.resizableEditor", ResizerUid);
-    }
-
-    private void InstanceOnOnEscapePushed(OnEscapeArgs args)
-    {
-        if (args.HasModal == false)
-        {
-            ClosePartialLog();
-            this.StateHasChanged();
-        }
-    }
-
-    protected void ClosePartialLog()
-    {
-        PartialLogNode = null;
-        PartialLog = null;
-    }
-
+    
     protected void OpenLog(ExecutedNode node)
     {
         int index = Value.ToList().IndexOf(node);
         if (index < 0)
         {
-            Toast.ShowWarning(lblLogPartialNotAvailable);
+            feService.Notifications.ShowWarning(lblLogPartialNotAvailable);
             return;
         }
 
@@ -87,7 +71,7 @@ public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
             x.IndexOf($"Executing Node {index}:", StringComparison.Ordinal) > 0);
         if (startIndex < 1)
         {
-            Toast.ShowWarning(lblLogPartialNotAvailable);
+            feService.Notifications.ShowWarning(lblLogPartialNotAvailable);
             return;
         }
 
@@ -107,24 +91,17 @@ public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
         {
             sublog = string.Join("\n", lines.ToArray()[startIndex..]);
         }
-
-        PartialLog = sublog;
-        PartialLogNode = node;
-        ResizerUid = Guid.NewGuid().ToString();
-        InitializeResizer = true;
-        StateHasChanged();
+        
+        _ =  ModalService.ShowModal<LogViewer>(new ModalEditorOptions()
+        {
+            Model = sublog
+        });
     }
     
     
     protected void OnMaximised(bool maximised)
     {
         this.Maximised = maximised;
-    }
-
-    public override void Dispose()
-    {
-        base.Dispose();
-        App.Instance.OnEscapePushed -= InstanceOnOnEscapePushed;
     }
     
     
@@ -139,12 +116,6 @@ public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
         
         if (string.IsNullOrEmpty(node.NodeName))
             return prefix + FormatNodeUid(node.NodeUid);
-        
-        // string nodeUid = Regex.Match(node.NodeUid.Substring(node.NodeUid.LastIndexOf(".", StringComparison.Ordinal) + 1), "[a-zA-Z0-9]+").Value.ToLower();
-        // string nodeName = Regex.Match(node.NodeName ?? string.Empty, "[a-zA-Z0-9]+").Value.ToLower();
-
-        //if (string.IsNullOrEmpty(node.NodeName) || nodeUid == nodeName)
-        //    return FormatNodeUid(node.NodeUid);
         
         return prefix + node.NodeName;
     }
@@ -169,7 +140,7 @@ public abstract class ExecuteFlowElementView : Input<IEnumerable<ExecutedNode>>
     protected string FormatNodeUid(string name)
     {
         //FlowElement.FormatName(name);
-        return name[(name.LastIndexOf(".") + 1)..].Humanize(LetterCasing.Title)
+        return name[(name.LastIndexOf('.') + 1)..].Humanize(LetterCasing.Title)
             .Replace("File Flows", "FileFlows")
             .Replace("MKV", "MKV")
             .Replace("Mp4", "MP4")

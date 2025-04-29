@@ -11,7 +11,7 @@ public class UpdateWorker : ServerWorker
     /// <summary>
     /// Create a new instance of the Update Worker
     /// </summary>
-    public UpdateWorker() : base(ScheduleType.Hourly, 1)
+    public UpdateWorker() : base(ScheduleType.Hourly, 6)
     {
         if (int.TryParse(Environment.GetEnvironmentVariable("AutoUpdateInterval") ?? string.Empty, out int minutes) &&
             minutes > 0)

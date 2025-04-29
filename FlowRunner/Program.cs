@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using System.Reflection;
+using FileFlows.FlowRunner.JsonRpc;
+using FileFlows.Shared.Models;
 
 namespace FileFlows.FlowRunner;
 
@@ -8,22 +10,40 @@ namespace FileFlows.FlowRunner;
 /// </summary>
 public class Program
 {
-    private static RunInstance instance; 
+    private static RunInstance instance;
     /// <summary>
     /// Main entry point for the flow runner
     /// </summary>
     /// <param name="args">the command line arguments</param>
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
-        
+
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
 
-        instance = new();
-        int exitCode = instance.Run(args);
-        instance.LogInfo("Exit Code: " + exitCode);
+        Console.WriteLine("FlowRunner Pipe: " + args[0]);
+        
+        // Set up the heartbeat timer
+        var heartbeatTimer = new Timer(HeartbeatCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(20));
+
+        // Run the flow
+        int exitCode = (int) await Run(args[0]);
+        Console.WriteLine("Exit Code: " + exitCode);
+
+        // Stop the heartbeat timer when done
+        await heartbeatTimer.DisposeAsync();
+        
         Environment.ExitCode = exitCode;
+    }
+
+    /// <summary>
+    /// Callback for heartbeat timer
+    /// </summary>
+    /// <param name="state">State object (nullable)</param>
+    private static void HeartbeatCallback(object? state)
+    {
+        Console.WriteLine("Heartbeat: " + DateTime.Now.ToString("HH:mm:ss"));
     }
     
     /// <summary>
@@ -63,14 +83,43 @@ public class Program
         return null;
     }
 
+    /// <summary>
+    /// Used for debugging to capture full log and test the full log update method
+    /// </summary>
+    /// <param name="pipeName">the pipeName</param>
+    /// <returns>the exit code </returns>
+    public static async Task<FileStatus> Run(string pipeName)
+    {
+        Console.WriteLine("Starting JSON RPC Client");
+        using JsonRpcClient jsonRpcClient = new ();
+        try
+        {
+            Console.WriteLine("Initializing JSON RPC Client");
+            if(await jsonRpcClient.Initialize(pipeName) == false)
+                throw new Exception("Failed to initialize RPC Client");
+            Console.WriteLine("Initialized JSON RPC Client");
+            instance = new RunInstance(new (jsonRpcClient));
+            Console.WriteLine("Got Run Instance");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error starting Run:{ex}");
+            Console.WriteLine(ex.ToString());
+            return FileStatus.ProcessingFailed;
+        }
+
+        Console.WriteLine($"Starting run");
+        return instance.Run();
+    }
+    
 #if(DEBUG)
     private static bool assemblyResolverDone = false;
     /// <summary>
     /// Used for debugging to capture full log and test the full log update method
     /// </summary>
-    /// <param name="args">the args</param>
-    /// <returns>the exit code and full log</returns>
-    public static (int ExitCode, string Log) RunWithLog(string[] args)
+    /// <param name="pipeName">the pipeName</param>
+    /// <returns>the exit code </returns>
+    public static FileStatus RunInternal(string pipeName)
     {
         if (assemblyResolverDone == false)
         {
@@ -85,9 +134,17 @@ public class Program
             };
         }
 
-        RunInstance instance = new();
-        int exitCode = instance.Run(args);
-        return (exitCode,instance.Logger.ToString());
+        try
+        {
+            var task = Run(pipeName);
+            task.Wait();
+            return task.Result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
     }
     #endif
     

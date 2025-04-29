@@ -1,0 +1,17 @@
+@layout FileDropLayout
+
+@namespace FileFlows.Client.Pages.FileDrop
+@inherits InputRegister
+
+@page "/file-drop/custom-css"
+
+@if (initDone)
+{
+    <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl">
+        <Description>
+            <p>Here you can add custom CSS that will be added to every page in FileDrop.</p>
+        </Description>
+    </FlowFormPageButtons>
+
+    <InputCode Language="css" @bind-Value="Model"/>
+}

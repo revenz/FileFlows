@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="FileFlows.AvaloniaUi.MessageBox"
+        Title="{Binding Title}"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        HorizontalAlignment="Stretch"
+        ShowInTaskbar="False"
+        Classes="messagebox"
+        Topmost="True"
+>
+        <StackPanel Classes="mbOuter">
+                <StackPanel Classes="mbContent">
+                        <TextBlock Name="Title" Classes="mbTitle" />
+                        <TextBlock Name="MessageText" TextWrapping="Wrap" MaxWidth="400"/>
+                </StackPanel>
+                <Grid Name="Buttons" Classes="modalButtons" ColumnDefinitions="*,*">
+                        <Button Name="ConfirmButton" Grid.Column="0"/>
+                        <Button Name="CancelButton" Grid.Column="1"/>
+                </Grid>
+        </StackPanel>
+</Window>

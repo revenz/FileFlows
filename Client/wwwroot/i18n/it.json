@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Interruzione",
     "About": "Informazioni",
     "Add": "Aggiungi",
     "AdminRequired": "Amministratore necessario per completare l'installazione.",
@@ -20,6 +21,8 @@
     "Close": "Chiudi",
     "CommunityFlows": "Flussi della Comunità",
     "Confirm": "Conferma",
+    "ConfirmLogOutMessage": "Sei sicuro di voler disconnetterti?",
+    "ConfirmLogOutTitle": "Disconnettersi",
     "CopiedToClipboard": "Copia ''{text}'' negli appunti.",
     "Copy": "Copia",
     "CopyToClipboard": "Copia negli appunti",
@@ -36,6 +39,7 @@
     "Disabled": "Disabilitato",
     "Disconnected": "Disconnesso",
     "Discord": "Discord",
+    "DismissAll": "Ignora tutto",
     "Download": "Scarica",
     "DownloadLog": "Scarica Log",
     "DownloadLogShort": "Log",
@@ -58,6 +62,7 @@
     "ForceProcessing": "Forza Elaborazione",
     "Forum": "Forum",
     "Help": "Aiuto",
+    "Idle": "Inattivo",
     "Import": "Importa",
     "Increase": "Aumenta",
     "Input": "Input",
@@ -66,11 +71,13 @@
     "InUse": "In Uso",
     "LastRun": "Ultima Esecuzione",
     "LastScanned": "Ultima Scansione",
+    "LastSeen": "Ultima visita",
     "License": "Licenza",
     "Loading": "Caricamento",
     "Log": "Log",
     "Logout": "Disconnetti",
     "LogPartialNotAvailable": "Impossibile trovare il log parziale per il nodo.",
+    "ManualLibrary": "Libreria Manuale",
     "MappingIssue": "Problema di Mappatura",
     "Memory": "Memoria",
     "MissingDependencies": "Dipendenze Mancanti",
@@ -97,7 +104,7 @@
     "Output": "Output",
     "Paste": "Incolla",
     "Pause": "Metti in Pausa Elaborazione",
-    "Paused": "Riprendi Elaborazione",
+    "Paused": "In pausa",
     "PausedWithTime": "Riprendi In",
     "Percent": "Percentuale",
     "Pixels": "Pixel",
@@ -144,6 +151,8 @@
     "SpaceIncrease": "{size} aumento, {items} prodotti",
     "SpaceSavings": "{size} salvati, {items} prodotti",
     "Status": "Stato",
+    "Step1": "Passo 1",
+    "Step2": "Passo 2",
     "SubFlow": "Sotto Flow",
     "SubFlows": "Sotto Flussi",
     "Success": "Successo",
@@ -169,6 +178,7 @@
     "VersionNumber": "Versione: {version}",
     "View": "Visualizza",
     "ViewLog": "Visualizza Log",
+    "ViewMore": "Vedi di più",
     "Warning": "Avvertimento",
     "WeekShort": "Sett",
     "When": "Quando",
@@ -243,9 +253,6 @@
       "ETA": "ETA",
       "Speed": "Velocità",
       "UploadedAmount": "Caricato"
-    },
-    "FlowTemplatePicker": {
-      "Title": "Seleziona un modello da cui partire"
     },
     "IconPicker": {
       "Title": "Seleziona icona"
@@ -668,8 +675,6 @@
       "Labels": {
         "BatchDescription": "I file batch possono essere eseguiti solo su sistemi Windows. Possono leggere variabili di base ma non possono aggiornare o accedere agli oggetti FileFlows durante l'esecuzione.",
         "CSharpDescription": "Gli script C# possono interagire con più parti di FileFlows e sono i più potenti. Utilizzando la stessa lingua di FileFlows, consentono una maggiore interazione con il sistema.",
-        "FileDisplayName": "Nome file visualizzato",
-        "FileDisplayNameDescription": "Uno script specializzato che personalizza il modo in cui i nomi dei file vengono visualizzati nella console web di FileFlows. Questo script non modifica i file reali, solo il loro aspetto nell'interfaccia.",
         "JavaScriptDescription": "Gli script JavaScript vengono eseguiti all'interno del runner di FileFlows, consentendo di leggere e scrivere variabili e accedere a tutte le funzioni di supporto all'interno di FileFlows.",
         "PowerShellDescription": "Gli script PowerShell possono essere eseguiti solo su sistemi Windows. Possono leggere variabili di base ma non possono aggiornare o accedere agli oggetti FileFlows durante l'esecuzione.",
         "ShellDescription": "Gli script Shell vengono eseguiti su sistemi Unix-based (Linux, MacOS, Docker). Possono leggere variabili di base ma non possono aggiornare o accedere agli oggetti FileFlows durante l'esecuzione."
@@ -843,7 +848,13 @@
       "Minutes": "Minuti",
       "Weeks": "Settimane"
     },
+    "ProcessingLibraries": {
+      "All": "Tutti",
+      "AllExcept": "Tutti tranne",
+      "Only": "Solo"
+    },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "Configurazione obsoleta",
       "Disabled": "Disabilitato",
       "HigherPriorityNodeAvailable": "Nodo con priorità superiore disponibile",
       "Idle": "Inattivo",
@@ -853,6 +864,7 @@
       "OutOfSchedule": "Fuori Programma",
       "Processing": "In Elaborazione",
       "RestrictedByLibrary": "Limitato dalla biblioteca",
+      "UpdatingConfiguration": "Aggiornamento Configurazione",
       "VersionMismatch": "Versione Incompatibile"
     },
     "ProcessingOrder": {
@@ -903,9 +915,11 @@
       "Nodes": "Nodi",
       "PauseProcessing": "Metti in Pausa Elaborazione",
       "Plugins": "Plugin",
+      "Reports": "Report",
       "Resources": "Risorse",
       "Revisions": "Revisioni",
       "Scripts": "Script",
+      "Tags": "Tag",
       "Tasks": "Attività",
       "Variables": "Variabili",
       "Webhooks": "Webhook"
@@ -916,6 +930,7 @@
     "CannotDeleteInternalNode": "Non puoi eliminare il nodo di elaborazione interno.",
     "DeleteFailed": "Eliminazione fallita",
     "DuplicatesFound": "Duplicati trovati",
+    "LibraryScanAtCapacity": "Limite di scansione raggiunto: al momento non è possibile aggiungere altri elementi. Attendere il completamento di quelli esistenti o ridurre gli elementi non elaborati, disabilitati o pianificati.",
     "NameInUse": "Il nome è già in uso",
     "NameRequired": "Il nome è obbligatorio",
     "NoFlowSpecified": "Nessun flow specificato, devi selezionare un flow per creare una libreria",
@@ -949,6 +964,7 @@
   },
   "MenuGroups": {
     "Admin": "Amministrazione",
+    "Config": "Config",
     "Configuration": "Configurazione",
     "Extensions": "Estensioni",
     "FileDrop": "FileDrop",
@@ -1059,6 +1075,7 @@
       },
       "Tabs": {
         "Dashboard": "Cruscotto",
+        "Overview": "Panoramica",
         "Savings": "Risparmi",
         "Statistics": "Statistiche"
       },
@@ -1067,13 +1084,13 @@
           "Peak": "{num} Picco"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Fallito} other {# Falliti}}",
-          "Finished": "{count, plural, zero {Completato} other {# Completati}}",
+          "Failed": "{count, plural, zero {Fallito} other {{formatted} Falliti}}",
+          "Finished": "{count, plural, zero {Completato} other {{formatted} Completati}}",
           "NoFailedFiles": "Nessun file non riuscito",
           "NoRecentlyFinishedFiles": "Nessun file recentemente completato",
           "NoUpcomingFiles": "Nessun file imminente",
           "Title": "File",
-          "Upcoming": "{count, plural, zero {In arrivo} other {# In arrivo}}"
+          "Upcoming": "{count, plural, zero {In arrivo} other {{formatted} In arrivo}}"
         },
         "FilesOverview": {
           "FilesProcessed": "File elaborati",
@@ -1373,6 +1390,15 @@
         "WaitTimeSeconds": "Tempo di Attesa",
         "WaitTimeSeconds-Help": "Il numero di secondi che devono passare dall'ultima modifica scritta in questa cartella affinché venga scansionata nella biblioteca.",
         "WaitTimeSeconds-Suffix": "secondi"
+      },
+      "Messages": {
+        "ScanFailed": "Scansione della libreria ''{name}'' non riuscita"
+      },
+      "Tabs": {
+        "Advanced": "Avanzate",
+        "Detection": "Rilevamento",
+        "General": "Generale",
+        "Schedule": "Pianificazione"
       }
     },
     "LibraryFile": {
@@ -1399,6 +1425,7 @@
       "Tabs": {
         "CustomVariables": "Variabili Personalizzate",
         "FinalMetadata": "Output",
+        "LogServer": "Registro del Server",
         "OriginalMetadata": "Input"
       }
     },
@@ -1474,6 +1501,9 @@
         "Address": "Indirizzo",
         "Enabled": "Abilitato",
         "FlowRunners": "Esecutori di flow"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "Installando {message}"
       }
     },
     "Notifications": {
@@ -1506,6 +1536,7 @@
         "AllLibraries": "Tutte le librerie",
         "AllLibraries-Help": "Quali librerie questo nodo elaborerà",
         "CopyMappings": "Copia Mappature",
+        "DisableSchedule": "Abilita Pianificazione",
         "DontChangeOwner": "Cambia Proprietario",
         "DontChangeOwner-Help": "Se selezionato, il nodo cambierà il proprietario di tutti i file creati di recente al PGID e PUID definiti nei valori ambientali.\nSe queste variabili ambientali non sono impostate, il proprietario sarà cambiato in ''users:nobody''.",
         "DontSetPermissions": "Imposta Permessi",
@@ -1532,9 +1563,6 @@
         "PreExecuteScript-Help": "Uno script che verrà eseguito prima di elaborare un file. Il risultato di questo script deve essere 1 affinché passi; in caso contrario, il nodo non elaborerà il file.",
         "Priority": "Priorità",
         "Priority-Help": "Maggiore è il numero, maggiore è la priorità. I nodi con una priorità più alta saranno privilegiati e riceveranno i file da elaborare per primi, a meno che quei nodi non siano fuori programma, disabilitati o al massimo degli esecutori.",
-        "ProcessFileCheckInterval": "Intervallo di controllo file",
-        "ProcessFileCheckInterval-Help": "Con quale frequenza controllare un nuovo file da elaborare nei nodi di elaborazione.\nImposta a 0 per utilizzare il valore di sistema.",
-        "ProcessFileCheckInterval-Suffix": "secondi",
         "ProcessingDescription": "Questo ti consente di configurare cosa può elaborare questo nodo di elaborazione.\n\nAd esempio, potresti limitare questo nodo a elaborare solo determinate librerie o una dimensione massima del file se questo nodo è un nodo a bassa potenza.",
         "ProcessingOrder": "Ordine di Elaborazione",
         "ProcessingOrder-Help": "Specifica l'ordine in cui i file vengono elaborati da questo Nodo. Questa impostazione sovrascrive l'ordine di elaborazione predefinito della libreria. Impostare su 'Predefinito' per utilizzare l'ordine di elaborazione della libreria.",
@@ -1547,6 +1575,14 @@
         "VariablesDescription": "Le variabili ti consentono di configurare variabili avanzate da impostare su un nodo di elaborazione.",
         "VariablesKey": "Nome",
         "VariablesValue": "Valore"
+      },
+      "Tabs": {
+        "Advanced": "Avanzate",
+        "General": "Generale",
+        "Mappings": "Mappature",
+        "Processing": "Elaborazione",
+        "Schedule": "Programma",
+        "Variables": "Variabili"
       }
     },
     "Report": {
@@ -1693,10 +1729,6 @@
         "DockerModsOnServer-Help": "I DockerMods devono essere eseguiti automaticamente all'avvio del server o quando specificamente abilitati. Altrimenti, verranno eseguiti solo quando viene avviato un flow di lavoro.",
         "DontUseTempFilesWhenMovingOrCopying": "File Temporanei per Spostare/Copiare",
         "DontUseTempFilesWhenMovingOrCopying-Help": "Usa file .fftemp per evitare rilevamenti prematuri durante lo spostamento/la copia.",
-        "HideProcessingFinishedNotifications": "Notifiche di Elaborazione Completata",
-        "HideProcessingFinishedNotifications-Help": "Se deve essere mostrata una notifica toast nella console web quando un file ha terminato l'elaborazione",
-        "HideProcessingStartedNotifications": "Notifiche di Elaborazione Iniziata",
-        "HideProcessingStartedNotifications-Help": "Se deve essere mostrata una notifica toast nella console web quando un file inizia a essere elaborato",
         "KeepFailedFlowTempFiles": "Mantieni File Temporanei Falliti",
         "KeepFailedFlowTempFiles-Help": "Abilitando questa opzione verranno mantenuti i file temporanei utilizzati da un flow in caso di fallimento, impedendo la loro eliminazione automatica.\nUsa con cautela.",
         "Language": "Lingua",
@@ -1710,13 +1742,14 @@
         "LoggingPath-Help": "Qui verranno creati i file di registro.",
         "LogQueueMessages": "Registrazione dettagliata della libreria",
         "LogQueueMessages-Help": "Ciò aumenterà la registrazione del processo di rilevamento dei file della libreria. Dovrebbe essere attivato solo durante il debug di problemi di rilevamento dei file e disattivato successivamente.",
+        "MaxPageSize": "Dimensione Massima della Pagina",
+        "MaxPageSize-Help": "Il numero massimo di elementi da visualizzare in un elenco. Questo si applica ai dati dei file elaborati inviati all'UI durante il caricamento. Questo numero dovrebbe essere uguale o superiore alla Capacità della Coda.",
         "PluginRepositoryUrls": "Repository di Plugin",
         "PluginRepositoryUrls-Help": "Un elenco separato da righe di URL dei repository di plugin da utilizzare quando si cerca plugin.\nL'ordine è importante; se più repository contengono lo stesso plugin, verrà utilizzato come sorgente il primo repository.\nIl repository predefinito sarà sempre aggiunto alla fine di questo elenco.",
-        "ProcessFileCheckInterval": "Intervallo di Controllo dei File",
-        "ProcessFileCheckInterval-Help": "Con quale frequenza controllare per un nuovo file da elaborare nei nodi di elaborazione.",
-        "ProcessFileCheckInterval-Suffix": "secondi",
-        "ShowFileAddedNotifications": "Notifiche di File Aggiunto",
-        "ShowFileAddedNotifications-Help": "Se deve essere mostrata una notifica toast nella console web quando è stato trovato un file e aggiunto alla coda.",
+        "QueueCapacity": "Capacità della Coda",
+        "QueueCapacity-Help": "Il numero massimo di elementi che possono essere aggiunti alla coda. Ciò include elementi fuori programma, in attesa o disabilitati. Aumentare questo numero aumenta i dati inviati all'UI e può influire sulle prestazioni.",
+        "ScanWhenPaused": "Scansiona mentre è in pausa",
+        "ScanWhenPaused-Help": "Se abilitato, le librerie continueranno a essere scansionate anche quando il sistema è in pausa.",
         "Telemetry": "Telemetria",
         "Telemetry-Help": "La telemetria è utile per sapere quali dispositivi dobbiamo supportare, quali parti del Flow sono le più utilizzate e dove dovremmo concentrarci nello sviluppo.\nNessuna informazione sui tuoi file o informazioni identificative viene inviata.",
         "Database": {
@@ -1851,6 +1884,8 @@
       "Fields": {
         "CustomSchedule": "Piano Personalizzato",
         "CustomSchedule-Help": "Questo compito verrà eseguito una volta per ogni blocco di 15 minuti all'inizio di quel blocco",
+        "Enabled": "Abilitato",
+        "Enabled-Help": "Determina se questa attività è attiva ed eseguita in base a trigger di eventi o a un programma pianificato.",
         "Schedule": "Piano",
         "Schedule-Help": "Quando questo script dovrebbe essere eseguito",
         "Script": "Script",
@@ -2149,6 +2184,7 @@
     "DaysAgo": "{num} {num, plural, one {giorno} other {giorni}} fa",
     "HoursAgo": "{num} {num, plural, one {ora} other {ore}} fa",
     "MinutesAgo": "{num} {num, plural, one {minuto} other {minuti}} fa",
+    "MomentsAgo": "Momenti fa",
     "Never": "Mai",
     "SecondsAgo": "{num} {num, plural, one {secondo} other {secondi}} fa"
   },

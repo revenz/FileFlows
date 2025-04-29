@@ -9,9 +9,17 @@ namespace FileFlows.Client.Components.Dialogs;
 /// <summary>
 /// Confirm dialog that prompts the user for confirmation 
 /// </summary>
-public partial class Confirm : VisibleEscapableComponent
+public partial class Confirm : IModal
 {
     [Inject] public IJSRuntime jsRuntime { get; set; }
+    
+    /// <inheritdoc />
+    [Parameter]
+    public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+
+    /// <inheritdoc />
+    [Parameter]
+    public IModalOptions Options { get; set; }
     
     private string lblYes, lblNo;
     private string Message, Title, SwitchMessage;
@@ -19,18 +27,13 @@ public partial class Confirm : VisibleEscapableComponent
     /// The default value of the button to focus when shown, true for yes, false for no
     /// </summary>
     private bool DefaultValue;
-    /// <summary>
-    /// The task the show method is awaiting
-    /// </summary>
-    TaskCompletionSource<bool> ShowTask;
-    TaskCompletionSource<(bool, bool)> ShowSwitchTask;
     private bool ShowSwitch;
     private bool SwitchState;
     private bool RequireSwitch;
 
-    private string btnYesUid, btnNoUid; 
+    private readonly string btnYesUid = Guid.NewGuid().ToString();
 
-    private static Confirm Instance { get; set; }
+    private readonly string btnNoUid = Guid.NewGuid().ToString(); 
     
     private bool focused = false;
 
@@ -38,115 +41,102 @@ public partial class Confirm : VisibleEscapableComponent
     {
         this.lblYes = Translater.Instant("Labels.Yes");
         this.lblNo = Translater.Instant("Labels.No");
-        Instance = this;
-    }
-
-    /// <summary>
-    /// Shows a confirm message
-    /// </summary>
-    /// <param name="title">the title of the confirm message</param>
-    /// <param name="message">the message of the confirm message</param>
-    /// <param name="defaultValue">the default value to have highlighted, true for confirm, false for reject</param>
-    /// <returns>the task to await for the confirm result</returns>
-    public static Task<bool> Show(string title, string message, bool defaultValue = true)
-    {
-        if (Instance == null)
-            return Task.FromResult(false);
-
-        return Instance.ShowInstance(title, message, defaultValue);
-    }
-    
-    /// <summary>
-    /// Shows a confirmation message
-    /// </summary>
-    /// <param name="title">the title of the confirmation message</param>
-    /// <param name="message">the message of the confirmation message</param>
-    /// <param name="switchMessage">message to show with an extra switch</param>
-    /// <param name="switchState">the switch state</param>
-    /// <param name="requireSwitch">if the switch is required to be checked for the YES button to become enabled</param>
-    /// <returns>the task to await for the confirm result</returns>
-    public static Task<(bool Confirmed, bool SwitchState)> Show(string title, string message, string switchMessage, bool switchState = false, bool requireSwitch = false)
-    {
-        if (Instance == null)
-            return Task.FromResult((false, false));
-
-        return Instance.ShowInstance(title, message, switchMessage, switchState, requireSwitch);
-    }
-
-    private Task<bool> ShowInstance(string title, string message, bool defaultValue)
-    {
-        Task.Run(async () =>
+        if (Options is ConfirmOptions options == false)
         {
-            // wait a short delay this is in case a "Close" from an escape key is in the middle
-            // of processing, and if we show this confirm too soon, it may automatically be closed
-            await Task.Delay(5);
-            this.btnYesUid = Guid.NewGuid().ToString();
-            this.btnNoUid = Guid.NewGuid().ToString();
-            this.DefaultValue = defaultValue;
-            this.focused = false;
-            this.Title = Translater.TranslateIfNeeded(title?.EmptyAsNull() ?? "Labels.Confirm");
-            this.Message = Translater.TranslateIfNeeded(message ?? "");
-            this.ShowSwitch = false;
-            this.Visible = true;
-            this.StateHasChanged();
-        });
-
-        Instance.ShowTask = new TaskCompletionSource<bool>();
-        return Instance.ShowTask.Task;
-    }
-    private Task<(bool, bool)> ShowInstance(string title, string message, string switchMessage, bool switchState, bool requireSwitch, bool defaultValue = true)
-    {
-        this.btnYesUid = Guid.NewGuid().ToString();
-        this.btnNoUid = Guid.NewGuid().ToString();
-        this.focused = false;
-        this.DefaultValue = defaultValue;
-        this.Title = Translater.TranslateIfNeeded(title?.EmptyAsNull() ?? "Labels.Confirm");
-        this.Message = Translater.TranslateIfNeeded(message ?? "");
-        this.SwitchMessage = Translater.TranslateIfNeeded(switchMessage ?? "");
-        this.ShowSwitch = true;
-        this.RequireSwitch = requireSwitch;
-        this.SwitchState = switchState;
-        this.Visible = true;
-        this.StateHasChanged();
-
-        Instance.ShowSwitchTask  = new TaskCompletionSource<(bool, bool)>();
-        return Instance.ShowSwitchTask.Task;
+            Close();
+            return;
+        }
+            
+        ShowSwitch = options.ShowSwitch;
+        Message = Translater.TranslateIfNeeded(options.Message ?? string.Empty);
+        SwitchMessage = Translater.TranslateIfNeeded(options.SwitchMessage ?? string.Empty);
+        Title = Translater.TranslateIfNeeded(options.Title?.EmptyAsNull() ?? "Labels.Confirm");;
+        DefaultValue = options.DefaultValue;
+        RequireSwitch = options.RequireSwitch;
+        SwitchState = options.SwitchState;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Visible && focused == false)
+        if (focused == false)
         {
             focused = true;
             await jsRuntime.InvokeVoidAsync("eval", $"document.getElementById('{(DefaultValue ? btnYesUid : btnNoUid )}').focus()");
         }
     }
 
-    private async void Yes()
+    private void Yes()
     {
-        this.Visible = false;
         if (ShowSwitch)
         {
-            Instance.ShowSwitchTask.TrySetResult((true, SwitchState));
-            await Task.CompletedTask;
+            TaskCompletionSource.TrySetResult((true, SwitchState));
         }
         else
         {
-            Instance.ShowTask.TrySetResult(true);
-            await Task.CompletedTask;
+            TaskCompletionSource.TrySetResult(true);
         }
     }
 
-    public override void Cancel()
+    /// <summary>
+    /// Closes the dialog
+    /// </summary>
+    public void Close()
+        => Cancel();
+
+    /// <summary>
+    /// Cancels the dialog
+    /// </summary>
+    public void Cancel()
     {
-        this.Visible = false;
         if (ShowSwitch)
         {
-            Instance.ShowSwitchTask.TrySetResult((false, SwitchState));
+            TaskCompletionSource.TrySetResult((false, SwitchState));
         }
         else
         {
-            Instance.ShowTask.TrySetResult(false);
+            TaskCompletionSource.TrySetResult(false);
         }
     }
+
+}
+
+/// <summary>
+/// The confirm options
+/// </summary>
+public class ConfirmOptions : IModalOptions
+{
+    /// <summary>
+    /// Gets or sets if a switch is shown
+    /// </summary>
+    public bool ShowSwitch { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the title
+    /// </summary>
+    public string Title { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the message
+    /// </summary>
+    public string Message { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the default value to have highlighted, true for confirm, false for reject<
+    /// </summary>
+    public bool DefaultValue { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the switch message
+    /// </summary>
+    public string SwitchMessage { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if the switch is required to be checked for the YES button to become enabled
+    /// </summary>
+    public bool RequireSwitch { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the switch state
+    /// </summary>
+    public bool SwitchState { get; set; }
 }

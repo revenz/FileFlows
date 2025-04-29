@@ -5,6 +5,7 @@ using Avalonia;
 using FileFlows.Node.Helpers;
 using FileFlows.Node.Ui;
 using FileFlows.Node.Utils;
+using FileFlows.NodeClient;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared;
 using FileFlows.ServerShared.Helpers;
@@ -65,6 +66,7 @@ public class Program
             var genericMethod = method?.MakeGenericMethod(type);
             return genericMethod?.Invoke(null, null)!;
         };
+        ServiceLoader.AddSpecialCase(new RunnerManager());
 
         DirectoryHelper.Init();
         
@@ -145,9 +147,8 @@ public class Program
                     WindowsConsoleManager.Hide();
                 
                 Logger.Instance?.ILog("Launching GUI");
-                Task.Run(async () =>
+                Task.Run(() =>
                 {
-                    await Manager.Register();
                     Manager.Start();
                 });
                 try
@@ -169,14 +170,14 @@ public class Program
                     return;
                 }
 
-                Shared.Logger.Instance?.ILog("Registering FileFlow Node");
-
-                var registerResult = Manager.Register().Result;
-                if (registerResult.Success == false)
-                {
-                    Logger.Instance?.WLog("Register failed: " + registerResult.Message);
-                    return;
-                }
+                // Shared.Logger.Instance?.ILog("Registering FileFlow Node");
+                //
+                // var registerResult = Manager.Register().Result;
+                // if (registerResult.Success == false)
+                // {
+                //     Logger.Instance?.WLog("Register failed: " + registerResult.Message);
+                //     return;
+                // }
 
 
                 Shared.Logger.Instance?.ILog("FileFlows node starting");
@@ -240,21 +241,44 @@ public class Program
     /// <param name="exitCode">the exit code</param>
     internal static void Quit(int exitCode = 0)
     {
-        MainWindow.Instance?.ForceQuit();
+        // MainWindow.Instance?.ForceQuit();
         Environment.Exit(exitCode);
     }
-
+    
+    /// <summary>
+    /// Deletes the old configurations, keeping the newest one
+    /// </summary>
     static void CleanOldConfigurations()
     {
         var configDir = new DirectoryInfo(DirectoryHelper.ConfigDirectory);
-        if (configDir.Exists == false)
+        if (!configDir.Exists)
             return;
-        Logger.Instance.ILog("Deleting old configurations");
-        foreach (var subdir in configDir.GetDirectories())
+
+        var subdirs = configDir.GetDirectories()
+            .Select(d => new { Dir = d, Number = ParseDirectoryNumber(d.Name) })
+            .Where(d => d.Number.HasValue) // Only keep directories with valid numeric names
+            .OrderByDescending(d => d.Number) // Sort by number (highest first)
+            .ToList();
+
+        if (subdirs.Count <= 1) // If there's only one or none, do nothing
+            return;
+
+        Logger.Instance.ILog("Deleting old configurations, keeping: " + subdirs.First().Dir.Name);
+
+        foreach (var dir in subdirs.Skip(1)) // Skip the highest-numbered one
         {
-            Logger.Instance.ILog("Deleting configuration: " + subdir.Name);
-            subdir.Delete(recursive: true);
+            Logger.Instance.ILog("Deleting configuration: " + dir.Dir.Name);
+            dir.Dir.Delete(recursive: true);
         }
     }
+
+    /// <summary>
+    /// Parses a directory name into an integer if possible.
+    /// </summary>
+    private static int? ParseDirectoryNumber(string name)
+    {
+        return int.TryParse(name, out int num) ? num : (int?)null;
+    }
+
     
 }

@@ -56,7 +56,7 @@ public class SystemController:BaseController
     /// <returns></returns>
     [HttpGet("info")]
     public SystemInfo GetSystemInfo()
-        => ServiceLoader.Load<DashboardService>().GetSystemInfo();
+        => ServiceLoader.Load<SystemOverviewService>().GetSystemInfo();
 
     /// <summary>
     /// Gets history CPU data of system information

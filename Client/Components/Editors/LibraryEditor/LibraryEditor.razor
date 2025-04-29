@@ -1,0 +1,102 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper Modal="@this">
+    
+    @if (Model.Uid == CommonVariables.ManualLibraryUid)
+    {
+        <InputText Value="@lblManualLibrary" Label="Labels.Name" ReadOnly="true" />
+        <InputSelect @bind-Value="BoundPriority" Options="PriorityOptions" Label="Pages.Library.Fields.Priority"/>
+        @if (LicensedFor(LicenseFlags.ProcessingOrder))
+        {  
+            <InputSelect @bind-Value="BoundProcessingOrder" Options="ProcessingOrderOptions" Label="Pages.Library.Fields.ProcessingOrder" />
+            <InputNumber TItem="Int32" @bind-Value="@Model.MaxRunners" Label="Pages.Library.Fields.MaxRunners" />
+        }
+    }
+    else
+    {
+        <FlowTabs>
+            <FlowTab Title="Pages.Library.Tabs.General">
+
+                <InputText @bind-Value="Model.Name" Label="Labels.Name" Validators="RequiredValidator"/>
+                <InputFile Directory="true" @bind-Value="Model.Path" Label="Pages.Library.Fields.Path" Validators="RequiredValidator"/>
+                <InputSelect @bind-Value="BoundFlow" Options="FlowOptions" Label="Pages.Library.Fields.Flow"/>
+                <InputSelect @bind-Value="BoundPriority" Options="PriorityOptions" Label="Pages.Library.Fields.Priority"/>
+
+                @if (LicensedFor(LicenseFlags.ProcessingOrder))
+                {  
+                    <InputSelect @bind-Value="BoundProcessingOrder" Options="ProcessingOrderOptions" Label="Pages.Library.Fields.ProcessingOrder" />
+                }
+                
+                <InputListString @bind-Value="Model.Extensions" Label="Pages.Library.Fields.Extensions" /> 
+                <InputPeriod @bind-Value="Model.ScanInterval" Label="Pages.Library.Fields.ScanInterval" ShowWeeks="false" Seconds="true" />
+                <InputNumber TItem="Int32" @bind-Value="@Model.HoldMinutes" Label="Pages.Library.Fields.HoldMinutes" />
+
+                <InputSwitch @bind-Value="@Model.Enabled" Label="Pages.Library.Fields.Enabled"/>
+
+            </FlowTab>
+            <FlowTab Title="Pages.Library.Tabs.Schedule">
+                <p class="tab-description">@lblScheduleDescription</p>
+
+                <InputSchedule @bind-Value="Model.Schedule" Label="Pages.Library.Fields.Schedule" HideLabel="true"/>
+
+
+                @if (LicensedFor(LicenseFlags.ProcessingOrder))
+                {
+                    <InputNumber TItem="Int32" @bind-Value="@Model.MaxRunners" Label="Pages.Library.Fields.MaxRunners" />
+                }
+            </FlowTab>
+            <FlowTab Title="Pages.Library.Tabs.Detection">
+                <p class="tab-description">@lblDetectionDescription</p>
+
+                <InputSelect @bind-Value="BoundDetectFileCreation" Options="MatchDateOptions" Label="Pages.Library.Fields.DetectFileCreation" />
+                <InputPeriod @bind-Value="Model.DetectFileCreationLower"  Label="Pages.Library.Fields.DetectFileCreationLower"
+                             Hidden="@(Model.DetectFileCreation is MatchRange.Any or MatchRange.After or MatchRange.Before)" />
+                <InputPeriod @bind-Value="Model.DetectFileCreationUpper"  Label="Pages.Library.Fields.DetectFileCreationUpper"
+                             Hidden="@(Model.DetectFileCreation is not MatchRange.Between and not MatchRange.NotBetween)" />
+                <InputDate @bind-Value="BoundDetectFileCreationDate"  Label="Pages.Library.Fields.DetectFileCreationDate"
+                             Hidden="@(Model.DetectFileCreation is not MatchRange.After and not MatchRange.Before)" />
+
+                <hr />
+
+                <InputSelect @bind-Value="BoundDetectFileLastWritten" Options="MatchDateOptions" Label="Pages.Library.Fields.DetectFileLastWritten" />
+                <InputPeriod @bind-Value="Model.DetectFileLastWrittenLower"  Label="Pages.Library.Fields.DetectFileLastWrittenLower"
+                             Hidden="@(Model.DetectFileLastWritten is MatchRange.Any or MatchRange.After or MatchRange.Before)" />
+                <InputPeriod @bind-Value="Model.DetectFileLastWrittenUpper"  Label="Pages.Library.Fields.DetectFileLastWrittenUpper"
+                             Hidden="@(Model.DetectFileLastWritten is not MatchRange.Between and not MatchRange.NotBetween)" />
+                <InputDate @bind-Value="BoundDetectFileLastWrittenDate"  Label="Pages.Library.Fields.DetectFileLastWrittenDate"
+                           Hidden="@(Model.DetectFileLastWritten is not MatchRange.After and not MatchRange.Before)" />
+
+                <hr />
+                
+                <InputSelect @bind-Value="BoundDetectFileSize" Options="MatchOptions" Label="Pages.Library.Fields.DetectFileSize" />
+                <InputFileSize @bind-Value="Model.DetectFileSizeLower"  Label="Pages.Library.Fields.DetectFileSizeLower"
+                             Hidden="@(Model.DetectFileSize is MatchRange.Any)" />
+                <InputFileSize @bind-Value="Model.DetectFileSizeUpper"  Label="Pages.Library.Fields.DetectFileSizeUpper"
+                               Hidden="@(Model.DetectFileSize is not MatchRange.Between and not MatchRange.NotBetween)" />
+
+            </FlowTab>
+            <FlowTab Title="Pages.Library.Tabs.Advanced" >
+                <InputArray @bind-Value="Model.Filters" Label="Pages.Library.Fields.Filters" />
+                <InputArray @bind-Value="Model.ExclusionFilters" Label="Pages.Library.Fields.ExclusionFilters" />
+                <InputNumber TItem="Int32" @bind-Value="Model.FileSizeDetectionInterval" Label="Pages.Library.Fields.FileSizeDetectionInterval"
+                             Min="0" Max="300" />
+                
+                <InputSwitch @bind-Value="@Model.ExcludeHidden" Label="Pages.Library.Fields.ExcludeHidden" />
+                <InputSwitch @bind-Value="@Model.Folders" Label="Pages.Library.Fields.Folders" />
+                <InputSwitch @bind-Value="@Model.SkipFileAccessTests" Label="Pages.Library.Fields.SkipFileAccessTests"
+                             Hidden="Model.Folders"/>
+                <InputSwitch @bind-Value="@Model.TopLevelOnly" Label="Pages.Library.Fields.TopLevelOnly"
+                             Hidden="Model.Folders"/>
+                <InputSwitch @bind-Value="@Model.DisableFileSystemEvents" Label="Pages.Library.Fields.DisableFileSystemEvents" Inverse="true" />
+
+                <InputNumber TItem="Int32" @bind-Value="Model.WaitTimeSeconds" Label="Pages.Library.Fields.WaitTimeSeconds"
+                             Hidden="@(Model.Folders == false)" />
+
+                <InputSwitch @bind-Value="@Model.DownloadsDirectory" Label="Pages.Library.Fields.DownloadsDirectory" />
+            </FlowTab>
+        </FlowTabs>
+    }
+
+</ModalEditorWrapper>

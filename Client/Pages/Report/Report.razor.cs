@@ -1,6 +1,8 @@
 using System.Text.Json;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Inputs;
+using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Plugin;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
@@ -24,9 +26,9 @@ public partial class Report : ComponentBase
     [Inject] public NavigationManager NavigationManager { get; set; }
     
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets or sets the blocker
@@ -36,6 +38,10 @@ public partial class Report : ComponentBase
     /// Gets or sets the JS Runtime
     /// </summary>
     [Inject] public IJSRuntime jsRuntime { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     
     /// <summary>
     /// Gets or sets the report instance
@@ -117,19 +123,18 @@ public partial class Report : ComponentBase
         jsReports = await jsObjectReference.InvokeAsync<IJSObjectReference>("createReporting",
             [DotNetObjectReference.Create(this)]);
 
-        var result = await HttpHelper.Get<ReportDefinition>($"/api/report/definition/{Uid}");
-        if (result.Success == false)
+        var rd = feService.Report.ReportDefinitions.FirstOrDefault(x => x.Uid == Uid);
+        if (rd == null)
         {
-            Toast.ShowError(Translater.TranslateIfNeeded(result.Body?.EmptyAsNull() ??
-                                                         "Pages.Report.Messages.FailedToFindReport"));
+            feService.Notifications.ShowError(Translater.Instant("Pages.Report.Messages.FailedToFindReport"));
             NavigationManager.NavigateTo("/reporting");
             return;
         }
-
-        var rd = result.Data;
+        
         ReportName = Translater.Instant($"Reports.{rd.Type}.Name");
         ReportDescription = Translater.Instant($"Reports.{rd.Type}.Description");;
         ReportIcon = rd.Icon;
+        Layout.SetInfo(ReportName, rd.Icon);
         HelpUrl = $"https://fileflows.com/docs/webconsole/admin/reporting/{rd.Type.Kebaberize()}";
 
         // clone the fields as they get wiped
@@ -141,17 +146,6 @@ public partial class Report : ComponentBase
         var model = Model as IDictionary<string, object>;
         try
         {
-            var flowsResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/flow/basic-list");
-            var flows = flowsResult.Success ? flowsResult.Data ?? new() : new();
-
-            var librariesResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/library/basic-list");
-            var libraries = librariesResult.Success ? librariesResult.Data ?? new() : new();
-
-            var nodesResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/node/basic-list");
-            var nodes = nodesResult.Success ? nodesResult.Data ?? new() : new();
-
-            var tags = (await ClientService.GetTags()).ToDictionary(x => x.Uid, x => x.Name);
-
             if (rd.DefaultReportPeriod != null)
             {
                 if (InputDateRange.DateRanges.TryGetValue(
@@ -171,10 +165,10 @@ public partial class Report : ComponentBase
                 Name = "Email"
             });
 
-            AddSelectField("Flow", flows, rd.FlowSelection, ref fields, model);
-            AddSelectField("Library", libraries, rd.LibrarySelection, ref fields, model);
-            AddSelectField("Node", nodes, rd.NodeSelection, ref fields, model);
-            AddSelectField("Tags", tags, rd.TagSelection, ref fields, model, anyLabel: "Labels.Any", defaultToAny: true);
+            AddSelectField("Flow", feService.Flow.FlowList, rd.FlowSelection, ref fields, model);
+            AddSelectField("Library",feService.Library.LibraryList, rd.LibrarySelection, ref fields, model);
+            AddSelectField("Node", feService.Node.NodeList, rd.NodeSelection, ref fields, model);
+            AddSelectField("Tags", feService.Tag.TagList, rd.TagSelection, ref fields, model, anyLabel: "Labels.Any", defaultToAny: true);
 
             if (rd.Direction)
             {
@@ -247,6 +241,11 @@ public partial class Report : ComponentBase
             {
                 Label = "Pages.Report.Buttons.Back",
                 Clicked = (_, _) => GoBack()
+            },
+            new ()
+            {
+                Label = "Labels.Help",
+                Clicked = (_, _) => OpenHelp()
             }
         ];
         Loaded = true;
@@ -324,13 +323,13 @@ public partial class Report : ComponentBase
             var result = await HttpHelper.Post<string>($"/api/report/generate/{Uid}", Model);
             if (result.Success == false)
             {
-                Toast.ShowError(result.Body?.EmptyAsNull() ?? "Pages.Report.Messages.FailedToGenerateReport");
+                feService.Notifications.ShowError(result.Body?.EmptyAsNull() ?? "Pages.Report.Messages.FailedToGenerateReport");
                 return;
             }
 
             if (emailing)
             {
-                Toast.ShowSuccess(Translater.Instant("Pages.Report.Messages.ReportEmailed",
+                feService.Notifications.ShowSuccess(Translater.Instant("Pages.Report.Messages.ReportEmailed",
                     new { email = oEmail.ToString() }));
                 GoBack();
                 return;

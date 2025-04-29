@@ -14,6 +14,14 @@ namespace FileFlows.WebServer.Controllers;
 public class DockerModController : BaseController
 {
     /// <summary>
+    /// Gets a DockerMod by its UID
+    /// </summary>
+    /// <returns>The DockerMod if found</returns>
+    [HttpGet("{uid}")]
+    public async Task<DockerMod?> Get([FromRoute] Guid uid)
+        => await ServiceLoader.Load<DockerModService>().GetByUid(uid);
+    
+    /// <summary>
     /// Gets all DockerMods in the system
     /// </summary>
     /// <returns>a list of all DockerMods</returns>
@@ -41,13 +49,13 @@ public class DockerModController : BaseController
     /// <param name="mod">The DockerMod to save</param>
     /// <returns>the saved DockerMod instance</returns>
     [HttpPost]
-    public async Task<DockerMod> Save([FromBody] DockerMod mod)
+    public async Task<IActionResult> Save([FromBody] DockerMod mod)
     {
         ++mod.Revision;
         var result = await ServiceLoader.Load<DockerModService>().Save(mod, await GetAuditDetails());
         if (result.Failed(out string error))
-            BadRequest(error);
-        return result.Value;
+            return BadRequest(error);
+        return Ok(result.Value);
     }
 
     /// <summary>

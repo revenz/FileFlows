@@ -1,0 +1,43 @@
+@layout ConfigLayout
+
+@namespace FileFlows.Client.Pages
+@using FileFlows.Shared.Models
+@inherits ListPage<Guid, Resource>
+
+@page "/config/resources"
+
+<FlowTable @ref="Table" Data="@Data" TItem="Resource" Selection="SelectionMode.Multiple"
+           DoubleClick="@OnDoubleClick" TableIdentifier="Tasks">
+    <ToolBar>            
+        <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+        <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
+        <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />
+        @if (Profile != null && Profile.LicensedFor(LicenseFlags.Auditing) && Profile.HasRole(UserRole.Admin))
+        {
+            <FlowTableButtonSeparator />     
+            <FlowTableButton Clicked=AuditLog SelectedOne="true" Icon="fas fa-clipboard-list" Label="Labels.Audit" />
+        }
+        <FlowTableButtonSeparator />              
+        <FlowTableHelpButton HelpUrl="config/system/resources" />
+    </ToolBar>
+
+    <Columns>
+        <FlowTableColumn TItem="Resource" NoHeight="true">
+            <Header>
+                @Globals.lblName
+            </Header>
+            <Cell Context="item">
+                <div class="table-item">
+                    <TableItemIcon Icon="@GetIcon(item)" DefaultIcon="fab fa-docker" />
+                    <div class="center">
+                        <span class="name"><span class="name-actual">@item.Name</span></span>
+                    </div>
+                    <div class="right">
+                        <span class="top-right">@item.MimeType</span>
+                    </div>
+                </div>
+
+            </Cell>
+        </FlowTableColumn>
+    </Columns>
+</FlowTable>

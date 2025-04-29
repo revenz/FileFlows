@@ -27,32 +27,8 @@ public class NodeController : BaseController
         if (node == null)
             return node;
 
-        if (string.IsNullOrEmpty(version) == false && node.Version != version)
-        {
-            node.Version = version;
-            node = await service.Update(node, await GetAuditDetails());
-        }
-        else
-        {
-            // this updates the "LastSeen"
-            await service.UpdateLastSeen(node.Uid);
-        }
-
         node.SignalrUrl = "flow";
         return node;
-    }
-
-    /// <summary>
-    /// Basic flow list
-    /// </summary>
-    /// <returns>flow list</returns>
-    [HttpGet("basic-list")]
-    public async Task<Dictionary<Guid, string>> GetNodeList()
-    {
-        var items = await new NodeService().GetAllAsync();
-        return items.Where(x => x.Enabled)
-            .OrderBy(x => (x.Name == CommonVariables.InternalNodeName ? "Internal Processing Node" : x.Name).ToLowerInvariant())
-            .ToDictionary(x => x.Uid, x => x.Name == CommonVariables.InternalNodeName ? "Internal Processing Node" : x.Name);
     }
     
     /// <summary>
@@ -69,33 +45,9 @@ public class NodeController : BaseController
         if (node == null)
             return node;
 
-        if (string.IsNullOrEmpty(version) == false && node.Version != version)
-        {
-            node.Version = version;
-            node = await service.Update(node, await GetAuditDetails());
-        }
-        else
-        {
-            // this updates the "LastSeen"
-            await service.UpdateLastSeen(node.Uid);
-        }
-
         node.SignalrUrl = "flow";
         return node;
     }
-
-    /// <summary>
-    /// Sets the status of a node
-    /// </summary>
-    /// <param name="uid">the UID of the node</param>
-    /// <param name="status">the status</param>
-    [HttpPost("{uid}/status/{status?}")]
-    public void SetStatus(Guid uid, [FromRoute] ProcessingNodeStatus? status)
-    {
-        var service = ServiceLoader.Load<NodeService>();
-        service.UpdateStatus(uid, status);
-    }
-
     /// <summary>
     /// Gets the version an node update available
     /// </summary>
@@ -147,18 +99,7 @@ public class NodeController : BaseController
 
         return GetNodeUpdater(windows);
     }
-    //
-    // /// <summary>
-    // /// Records the node system statistics to the server
-    // /// </summary>
-    // /// <param name="args">the node system statistics</param>
-    // [HttpPost("system-statistics")]
-    // public async Task RecordNodeSystemStatistics([FromBody] NodeSystemStatistics args)
-    // {
-    //     await ServiceLoader.Load<NodeService>()?.UpdateLastSeen(args.Uid);
-    //     SystemMonitor.Instance?.Record(args);
-    // }
-    //
+    
     /// <summary>
     /// Gets if nodes should auto update
     /// </summary>
@@ -220,12 +161,8 @@ public class NodeController : BaseController
         var existing = data.FirstOrDefault(x => x.Address.ToLowerInvariant() == address);
         if (existing != null)
         {
-            if(existing.Version != model.Version) // existing.TempPath != model.TempPath)
+            if(existing.Version != model.Version)
             {
-                //existing.FlowRunners = model.FlowRunners;
-                //existing.Enabled = model.Enabled;
-                //existing.TempPath = model.TempPath;
-                //existing.OperatingSystem = model.OperatingSystem;
                 existing.Architecture = model.Architecture;
                 existing.OperatingSystem = model.OperatingSystem;
                 existing.Version = model.Version;
@@ -256,8 +193,6 @@ public class NodeController : BaseController
         {
             Name = address,
             Address = address,
-            //Enabled = model.Enabled,
-            //FlowRunners = model.FlowRunners,
             Enabled = false,
             FlowRunners = 1,
             TempPath = model.TempPath,

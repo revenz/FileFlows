@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Wizards;
 using FileFlows.Client.Shared;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +10,7 @@ namespace FileFlows.Client.Pages;
 /// <summary>
 /// Libraries page
 /// </summary>
-public partial class Libraries : ListPage<Guid, Library>
+public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
 {
 
     /// <summary>
@@ -18,10 +19,6 @@ public partial class Libraries : ListPage<Guid, Library>
     [Inject] private IModalService ModalService { get; set; }
     /// <inheritdoc />
     public override string ApiUrl => "/api/library";
-    /// <summary>
-    /// The current item being edited
-    /// </summary>
-    private Library EditingItem = null;
     /// <summary>
     /// Translation strings
     /// </summary>
@@ -34,45 +31,44 @@ public partial class Libraries : ListPage<Guid, Library>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        Layout.SetInfo(Translater.Instant("Pages.Libraries.Title"), "fas fa-folder");
+        Profile = feService.Profile.Profile;
+        base.OnInitialized(false);
         lblLastScanned = Translater.Instant("Labels.LastScanned");
         lblFlow = Translater.Instant("Labels.Flow");
         lblSavings = Translater.Instant("Labels.Savings");
+        feService.Library.LibrariesUpdated += LibrariesUpdated;
+        Data = feService.Library.Libraries;
+        SortData();
+    }
+
+    /// <summary>
+    /// Libraries updated
+    /// </summary>
+    /// <param name="data">the updated data</param>
+    private void LibrariesUpdated(List<LibraryListModel> data)
+    {
+        Data = data;
+        SortData();
+        StateHasChanged();
     }
 
     /// <summary>
     /// Adds an item
     /// </summary>
     private async Task Add()
-    {
-        // show the AddFileDialog
-        Result<Library> result = await ModalService.ShowModal<NewLibraryWizard, Library>(new NewLibraryWizardOptions()
-        {
-        });
-        if(result.Success(out var library))
-            await ItemSaved(library);
-        // if (result.Success(out var uploadedFile))
-        // {
-        //     Files.Add(uploadedFile);
-        //     file = e.File;
-        // }
-        // else
-        // {
-        //     // remove the file from the InputFile
-        //     file = null;
-        // }
-        
-        // await Edit(new ()
-        // {  
-        //     Enabled = true, 
-        //     ScanInterval = 3 * 60 * 60, 
-        //     FileSizeDetectionInterval = 5,
-        //     // UseFingerprinting = false,
-        //     // UpdateMovedFiles = true,
-        //     Schedule = new string('1', 672)
-        // });
-    }
+        => await ModalService.ShowModal<NewLibraryWizard, Library>(new NewLibraryWizardOptions());
 
+    /// <inheridoc />
+    public override async Task<bool> Edit(LibraryListModel item)
+    {
+        await ModalService.ShowModal<LibraryEditor>(new ModalEditorOptions()
+        {
+            Uid = item.Uid
+        });
+        return false;
+    }
+    
     /// <summary>
     /// Duplicate the selected item
     /// </summary>
@@ -91,13 +87,12 @@ public partial class Libraries : ListPage<Guid, Library>
             var newItem = await HttpHelper.Post<Library>(url);
             if (newItem is { Success: true })
             {
-                await this.Refresh();
-                Toast.ShowSuccess(Translater.Instant("Pages.Library.Labels.Duplicated",
+                feService.Notifications.ShowSuccess(Translater.Instant("Pages.Library.Labels.Duplicated",
                     new { name = newItem.Data.Name }));
             }
             else
             {
-                Toast.ShowError(newItem.Body?.EmptyAsNull() ?? "Pages.Library.Labels.FailedToDuplicate");
+                feService.Notifications.ShowError(newItem.Body?.EmptyAsNull() ?? "Pages.Library.Labels.FailedToDuplicate");
             }
         }
         finally
@@ -105,31 +100,6 @@ public partial class Libraries : ListPage<Guid, Library>
             Blocker.Hide();
         }
     }
-    
-    /// <summary>
-    /// Gets the flows
-    /// </summary>
-    /// <returns>the list of flows</returns>
-    private Task<RequestResult<Dictionary<Guid, string>>> GetFlows()
-        => HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list?type=Standard");
-
-    private Dictionary<string, StorageSavedData> StorageSaved = new ();
-
-    /// <inheritdoc />
-    protected override async Task<RequestResult<List<Library>>> FetchData()
-    {
-        StorageSaved =
-            (await HttpHelper.Get<List<StorageSavedData>>("/api/statistics/storage-saved-raw"))
-            .Data?.ToDictionary(x => x.Library, x => x) ?? new ();
-        return await base.FetchData();
-    }
-
-    public override async Task<bool> Edit(Library library)
-    {
-        this.EditingItem = library;
-        return await OpenEditor(library);
-    }
-
     private void TemplateValueChanged(object sender, object value) 
     {
         if (value == null)
@@ -165,6 +135,18 @@ public partial class Libraries : ListPage<Guid, Library>
         }
     }
 
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Table.SetData(Data);
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
     async Task<bool> Save(ExpandoObject model)
     {
         Blocker.Show();
@@ -175,11 +157,9 @@ public partial class Libraries : ListPage<Guid, Library>
             var saveResult = await HttpHelper.Post<Library>($"{ApiUrl}", model);
             if (saveResult.Success == false)
             {
-                Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return false;
             }
-
-            await ItemSaved(saveResult.Data);
 
             return true;
         }
@@ -191,43 +171,23 @@ public partial class Libraries : ListPage<Guid, Library>
     }
 
 
-    /// <summary>
-    /// Called after an item is saved
-    /// </summary>
-    /// <param name="library">the saved library</param>
-    private async Task ItemSaved(Library library)
-    {
-        if ((Profile.ConfigurationStatus & ConfigurationStatus.Libraries) !=
-            ConfigurationStatus.Libraries)
-        {
-            // refresh the app configuration status
-            await ProfileService.Refresh();
-        }
-
-        int index = this.Data.FindIndex(x => x.Uid == library.Uid);
-        if (index < 0)
-            this.Data.Add(library);
-        else
-            this.Data[index] = library;
-
-        await this.Load(library.Uid);
-    }
-
-    private string TimeSpanToString(Library lib)
+    private string TimeSpanToString(LibraryListModel lib)
     {
         if (lib.Uid == CommonVariables.ManualLibraryUid)
             return string.Empty;
         if (lib.LastScanned.Year < 2001)
             return Translater.Instant("Times.Never");
 
-        if (lib.LastScannedAgo.TotalMinutes < 1)
-            return Translater.Instant("Times.SecondsAgo", new { num = (int)lib.LastScannedAgo.TotalSeconds });
-        if (lib.LastScannedAgo.TotalHours < 1 && lib.LastScannedAgo.TotalMinutes < 120)
-            return Translater.Instant("Times.MinutesAgo", new { num = (int)lib.LastScannedAgo.TotalMinutes });
-        if (lib.LastScannedAgo.TotalDays < 1)
-            return Translater.Instant("Times.HoursAgo", new { num = (int)Math.Round(lib.LastScannedAgo.TotalHours) });
+        var libLastScannedAgo = DateTime.UtcNow.Subtract(lib.LastScanned);
+
+        if (libLastScannedAgo.TotalMinutes < 1)
+            return Translater.Instant("Times.SecondsAgo", new { num = (int)libLastScannedAgo.TotalSeconds });
+        if (libLastScannedAgo.TotalHours < 1 && libLastScannedAgo.TotalMinutes < 120)
+            return Translater.Instant("Times.MinutesAgo", new { num = (int)libLastScannedAgo.TotalMinutes });
+        if (libLastScannedAgo.TotalDays < 1)
+            return Translater.Instant("Times.HoursAgo", new { num = (int)Math.Round(libLastScannedAgo.TotalHours) });
         else
-            return Translater.Instant("Times.DaysAgo", new { num = (int)lib.LastScannedAgo.TotalDays });
+            return Translater.Instant("Times.DaysAgo", new { num = (int)libLastScannedAgo.TotalDays });
     }
 
     private async Task Rescan()
@@ -244,37 +204,7 @@ public partial class Libraries : ListPage<Guid, Library>
         {
             var result = await HttpHelper.Put($"{ApiUrl}/rescan", new ReferenceModel<Guid> { Uids = uids });
             if (result.Success == false)
-                return;
-        }
-        finally
-        {
-            Blocker.Hide();
-            this.StateHasChanged();
-        }
-    }
-
-    /// <summary>
-    /// Reprocess all files in a library
-    /// </summary>
-    private async Task Reprocess()
-    {
-        var uids = Table.GetSelected()?.Where(x => x.Uid != CommonVariables.ManualLibraryUid)
-            ?.Select(x => x.Uid)?.ToArray() ?? new System.Guid[] { };
-        if (uids.Length == 0)
-            return; // nothing to rescan
-
-        if (await Confirm.Show("Pages.Libraries.Messages.Reprocess.Title",
-                "Pages.Libraries.Messages.Reprocess.Message", defaultValue: false) == false)
-            return;
-
-        Blocker.Show();
-        this.StateHasChanged();
-
-        try
-        {
-            var result = await HttpHelper.Put($"{ApiUrl}/reprocess", new ReferenceModel<Guid> { Uids = uids });
-            if (result.Success == false)
-                return;
+                feService.Notifications.ShowWarning(Translater.TranslateIfNeeded(result.Body));
         }
         finally
         {
@@ -292,7 +222,7 @@ public partial class Libraries : ListPage<Guid, Library>
         if (uids.Length == 0)
             return; // nothing to rescan
 
-        if (await Confirm.Show("Pages.Libraries.Messages.Reset.Title",
+        if (await Message.Confirm("Pages.Libraries.Messages.Reset.Title",
                 "Pages.Libraries.Messages.Reset.Message", defaultValue: false) == false)
             return;
 
@@ -318,7 +248,7 @@ public partial class Libraries : ListPage<Guid, Library>
             .Select(x => x.Uid)?.ToArray() ?? new System.Guid[] { };
         if (uids.Length == 0)
             return; // nothing to delete
-        var confirmResult = await Confirm.Show("Labels.Delete",
+        var confirmResult = await Message.Confirm("Labels.Delete",
             Translater.Instant("Pages.Libraries.Messages.DeleteConfirm", new { count = uids.Length })
         );
         if (confirmResult == false)
@@ -333,13 +263,11 @@ public partial class Libraries : ListPage<Guid, Library>
             if (deleteResult.Success == false)
             {
                 if(Translater.NeedsTranslating(deleteResult.Body))
-                    Toast.ShowError( Translater.Instant(deleteResult.Body));
+                    feService.Notifications.ShowError( Translater.Instant(deleteResult.Body));
                 else
-                    Toast.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
+                    feService.Notifications.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
                 return;
             }
-
-            this.Data = this.Data.Where(x => uids.Contains(x.Uid) == false).ToList();
 
             await PostDelete();
         }
@@ -355,7 +283,7 @@ public partial class Libraries : ListPage<Guid, Library>
     /// </summary>
     /// <param name="library">the library</param>
     /// <returns>the priority icon class</returns>
-    private string GetPriorityIcon(Library library)
+    private string GetPriorityIcon(LibraryListModel library)
     {
         switch (library.Priority)
         {
@@ -371,41 +299,36 @@ public partial class Libraries : ListPage<Guid, Library>
                 return "fas fa-folder";
         }
     }
-
-    /// <summary>
-    /// Gets the storage saved
-    /// </summary>
-    /// <param name="libraryName">the name of the library</param>
-    /// <param name="storageSavedData">the savings if found</param>
-    /// <returns>if the storage savings were in the dictionary</returns>
-    private bool GetStorageSaved(string libraryName, out StorageSavedData storageSavedData)
-        => StorageSaved.TryGetValue(libraryName, out storageSavedData);
     
     
     /// <summary>
     /// we only want to do the sort the first time, otherwise the list will jump around for the user
     /// </summary>
     private List<Guid> initialSortOrder;
-    
-    /// <inheritdoc />
-    public override Task PostLoad()
+
+    /// <summary>
+    /// Sorts the data
+    /// </summary>
+    private void SortData()
     {
         // Data.RemoveAll(x => x.Uid == CommonVariables.ManualLibraryUid);
-        HasCreatedLibraries = Data?.Any(x => x.Uid != CommonVariables.ManualLibraryUid) == true;
+        HasCreatedLibraries = Data.Any(x => x.Uid != CommonVariables.ManualLibraryUid) == true;
         
         if (initialSortOrder == null)
         {
-            Data = Data?.OrderByDescending(x => x.Enabled)?.ThenBy(x => x.Name)
-                ?.ToList();
-            initialSortOrder = Data?.Select(x => x.Uid)?.ToList();
+            Data = Data.OrderByDescending(x => x.Enabled)
+                .ThenByDescending(x => (int)x.Priority)
+                .ThenBy(x => x.Name)
+                .ToList();
+            initialSortOrder = Data.Select(x => x.Uid).ToList();
         }
         else
         {
-            Data = Data?.OrderBy(x => initialSortOrder.Contains(x.Uid) ? initialSortOrder.IndexOf(x.Uid) : 1000000)
+            Data = Data.OrderBy(x => initialSortOrder.Contains(x.Uid) ? initialSortOrder.IndexOf(x.Uid) : 1000000)
+                .ThenByDescending(x => (int)x.Priority)
                 .ThenBy(x => x.Name)
-                ?.ToList();
+                .ToList();
         }
-        return base.PostLoad();
     }
 
     /// <summary>
@@ -418,6 +341,14 @@ public partial class Libraries : ListPage<Guid, Library>
             return;
 
         NavigationManager.NavigateTo($"/flows/{flowUid}");
+    }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        feService.Library.LibrariesUpdated -= LibrariesUpdated;
     }
 }
 

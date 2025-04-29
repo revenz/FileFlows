@@ -1,0 +1,76 @@
+.db-grid {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+@media (max-width: 720px) {
+  .db-grid .grid {
+    display: flex !important;
+    flex-direction: column !important;
+    height: fit-content !important;
+    overflow: unset !important;
+  }
+  .db-grid .flow-widget {
+    margin-bottom: 1rem;
+  }
+}
+@media (min-width: 850px) {
+  .db-grid > .flow-tab-buttons button:first-child {
+    margin-left: 1rem;
+  }
+}
+.db-grid > div + div {
+  margin-top: 1rem;
+}
+.db-grid .grid-vertical {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-rows: auto 1fr;
+}
+.db-grid .flow-tabs-content {
+  padding: 0 1rem;
+}
+.db-grid .flow-tabs-content .flow-tab.active {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 1rem;
+}
+@media screen and (max-width: 850px) {
+  .db-grid .flow-tabs-content .flow-tab.active {
+    overflow: auto;
+  }
+}
+.db-grid .grid {
+  display: grid;
+  grid-gap: 0.5rem;
+}
+.db-grid .grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.db-grid .grid-60-40 {
+  grid-template-columns: 1fr minmax(36rem, 40%);
+}
+@media (max-width: 1040px) {
+  .db-grid .grid-60-40 {
+    grid-template-columns: 1fr minmax(28rem, 40%);
+  }
+}
+.db-grid .grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.db-grid .grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.db-grid .flex-grow {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+/*# sourceMappingURL=dashboard.css.map */

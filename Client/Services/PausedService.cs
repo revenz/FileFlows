@@ -1,23 +1,8 @@
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Components.Editors;
+using FileFlows.Client.Services.Frontend;
+
 namespace FileFlows.Client.Services;
-/// <summary>
-/// Represents the method that handles the PausedLabelChanged event.
-/// </summary>
-/// <param name="label">The argument passed to the event handler.</param>
-/// <returns>A task representing the asynchronous operation.</returns>
-public delegate void OnPausedLabelChangedEventHandler(string label);
-
-/// <summary>
-/// Represents the method that handles the OnPaused event.
-/// </summary>
-/// <returns>A task representing the asynchronous operation.</returns>
-public delegate Task OnPausedEventHandler();
-
-/// <summary>
-/// Represents the method that handles the OnResume event.
-/// </summary>
-/// <returns>A task representing the asynchronous operation.</returns>
-public delegate Task OnResumeEventHandler();
 
 /// <summary>
 /// Service that monitors the system's paused status.
@@ -32,6 +17,10 @@ public interface IPausedService
     /// Gets if the system is paused
     /// </summary>
     bool IsPaused { get; }
+    /// <summary>
+    /// Gets if the system is paused indefinitely
+    /// </summary>
+    bool PausedIndefinitely { get; }
     /// <summary>
     /// Toggles the paused system
     /// </summary>
@@ -49,17 +38,17 @@ public interface IPausedService
     /// <summary>
     /// Occurs when the paused label changes.
     /// </summary>
-    event OnPausedLabelChangedEventHandler OnPausedLabelChanged;
+    event Action<string>? OnPausedLabelChanged;
 
     /// <summary>
     /// Occurs when the system is paused.
     /// </summary>
-    event OnPausedEventHandler OnPaused;
+    event Action? OnPaused;
 
     /// <summary>
     /// Occurs when the system resumes from a paused state.
     /// </summary>
-    event OnResumeEventHandler OnResume;
+    event Action? OnResume;
 }
 
 /// <summary>
@@ -71,33 +60,48 @@ public class PausedService : IPausedService, IDisposable
     private TimeSpan TimeDiff;
     private string lblPause, lblPaused, lblPausedWithTime;
     
+    /// <summary>
+    /// The confirm service
+    /// </summary>
+    private readonly MessageService _message;
+    
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    private IModalService ModalService { get; set; }
+    
     /// <inheritdoc />
     public string PausedLabel { get; private set; }
+    
+    /// <summary>
+    /// Gets if the system is paused indefinitely
+    /// </summary>
+    public bool PausedIndefinitely { get; private set; }
 
     /// <inheritdoc />
     public bool IsPaused => SystemInfo?.IsPaused == true;
 
     private bool translated = false;
-    private ClientService clientService;
+    private FrontendService feService;
     /// <summary>
     /// Constructs an instance of the paused worker
     /// </summary>
-    public PausedService(ClientService clientService)
+    public PausedService(FrontendService feService, IModalService modalService, MessageService messageService)
     {
-        this.clientService = clientService;
+        this.feService = feService;
+        ModalService = modalService;
+        _message = messageService;
         var bkgTask = new BackgroundTask(TimeSpan.FromMilliseconds(1_000), () => _ = DoWork());
         bkgTask.Start();
-        SystemInfo = new SystemInfo()
-        {
-            IsPaused = clientService.IsPaused == true
-        };
-        clientService.SystemInfoUpdated += OnSystemInfoUpdated;
+        SystemInfo = feService.Dashboard.CurrentSystemInfo;
+        feService.Dashboard.SystemInfoUpdated += OnSystemInfoUpdated;
         
         // translated a little later on
         lblPause = "Pause Processing";
         lblPaused = "Resume Processing";
         lblPausedWithTime = "Pause for";
         PausedLabel = IsPaused ? lblPaused : lblPause;
+        PausedIndefinitely = IsPaused;
     }
 
     private void OnSystemInfoUpdated(SystemInfo info)
@@ -131,15 +135,18 @@ public class PausedService : IPausedService, IDisposable
         if (SystemInfo.IsPaused == false)
         {
             PausedLabel = lblPause;
+            PausedIndefinitely = false;
             return;
         }
 
         if (SystemInfo.PausedUntil > SystemInfo.CurrentTime.AddYears(1))
         {
             PausedLabel = lblPaused;
+            PausedIndefinitely = true;
             return;
         }
         
+        PausedIndefinitely = false;
         var pausedToLocal = SystemInfo.PausedUntil.Add(TimeDiff);
         var time = pausedToLocal.Subtract(DateTime.UtcNow);
         PausedLabel = lblPausedWithTime + " " + time.ToString(@"h\:mm\:ss");
@@ -154,10 +161,10 @@ public class PausedService : IPausedService, IDisposable
         int duration = 0;
         if (paused == false)
         {
-            duration = await PausePrompt.Show();
-            if (duration < 1)
+            var result = await ModalService.ShowModal<PausePrompt, int>(new ModalEditorOptions());
+            if (result.IsFailed)
                 return;
-
+            duration = result.Value;
         }
 
         await SetPausedState(duration);
@@ -166,11 +173,9 @@ public class PausedService : IPausedService, IDisposable
     /// <inheritdoc />
     public async Task Pause()
     {
-        int duration = await PausePrompt.Show();
-        if (duration < 1)
-            return;
-
-        await SetPausedState(duration);
+        var result = await ModalService.ShowModal<PausePrompt, int>(new ModalEditorOptions());
+        if (result.Success(out int duration))
+            await SetPausedState(duration);
     }
 
     /// <inheritdoc />
@@ -185,7 +190,7 @@ public class PausedService : IPausedService, IDisposable
     {
         if (duration == 0)
         {
-            if (await Confirm.Show("Dialogs.ResumeDialog.Title", "Dialogs.ResumeDialog.Message") == false)
+            if (await _message.Confirm("Dialogs.ResumeDialog.Title", "Dialogs.ResumeDialog.Message") == false)
                 return;
         }
         await HttpHelper.Post($"/api/system/pause?duration=" + duration);
@@ -205,15 +210,18 @@ public class PausedService : IPausedService, IDisposable
         }
     }
 
-    public event OnPausedLabelChangedEventHandler OnPausedLabelChanged;
-    public event OnPausedEventHandler OnPaused;
-    public event OnResumeEventHandler OnResume;
+    /// <inheritdoc />
+    public event Action<string>? OnPausedLabelChanged;
+    /// <inheritdoc />
+    public event Action? OnPaused;
+    /// <inheritdoc />
+    public event Action? OnResume;
 
     /// <summary>
     /// Disposes of the service
     /// </summary>
     public void Dispose()
     {
-        clientService.SystemInfoUpdated -= OnSystemInfoUpdated;
+        feService.Dashboard.SystemInfoUpdated -= OnSystemInfoUpdated;
     }
 }

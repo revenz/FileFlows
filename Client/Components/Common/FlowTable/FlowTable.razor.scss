@@ -4,6 +4,10 @@
     flex-grow: 1;
 }
 
+.flowtable-body .flowtable-select {
+    display:none;
+}
+
 .flowtable-toolbar {
     display: flex;
     flex-direction: row;
@@ -106,25 +110,16 @@
 }
 
 
-
 .flowtable-row {
-    border: solid 1px $borderColor;
     display: flex;
     flex-direction: row;
     user-select: none;
     position: relative;
     width: 100%;
+    border: solid 1px $borderColor;
     padding-left: 0.25rem;
     &:nth-child(odd) {
         background:rgb(255 255 255 / 3%);
-    }
-    &:not(.flowtable-header-row) {
-        border-top-color: transparent;
-        border-right-color: transparent;
-        border-left-color: transparent;
-        &:hover {
-            background: var(--base-lighter);
-        }
     }
 
     &.selected {
@@ -132,9 +127,10 @@
         padding-left:calc(0.25rem - 2px);
         background: var(--base);
     }
-    &.disabled ::deep .column {
-        > span, > div {
-            opacity: 0.5;
+    &:not(.flowtable-header-row) {
+        border-top-color: transparent;
+        &:hover {
+            background: var(--base-lighter);
         }
     }
 
@@ -160,6 +156,11 @@
             line-height: unset;
             margin-bottom: auto;
             padding: 0.25rem 0;
+        }
+    }
+    &.disabled ::deep .column {
+        > span, > div {
+            opacity: 0.5;
         }
     }
 }

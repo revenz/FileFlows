@@ -1,83 +1,10 @@
-@using FileFlows.Client.Helpers
 @namespace FileFlows.Client.Components.Widgets
 
 @if (Runners is { Count: > 0 })
 {
-    @foreach (var runner in Runners)
+    foreach (var runner in Runners)
     {
-    var overall = runner.TotalParts == 0 ? 100 : ((runner.CurrentPart / (double)runner.TotalParts)) * 100;
-    var current = runner.CurrentPartPercent;
-    var expandable = runner.FramesPerSecond > 0 || runner.Additional?.Any() == true;
-    var expanded = true; //RunnersState.ContainsKey(runner.Uid) && RunnersState[runner.Uid];
-
-    <div class="widget-runner table-item @(expandable && expanded ? "expanded" : "collapsed")" @key="runner.Uid" @onclick="() => ToggleExpand(runner)">
-        <div class="current-progress" style="width:@(current)%"></div>
-        <div class="overall-progress" style="width:@(overall)%"></div>
-        <div class="runner-content" @ondblclick="() => OpenRunner(runner)">
-            <div class="actions" @onclick:stopPropagation>
-                <i class="fas fa-times-circle" @onclick="() => Cancel(runner)"></i>
-            </div>
-            <span class="icon">
-                @if (runner.HasThumbnail)
-                {
-                    <img class="icon thumbnail" src="@IconHelper.GetThumbnail(runner.LibraryFileUid,
-                        runner.LibraryFileName, runner.IsDirectory)"/>
-                }
-                else
-                {
-                    <img class="icon no-thumbnail" src="@IconHelper.GetExtensionImage(runner.IsDirectory ? "folder" : runner.LibraryFileName?.ToLowerInvariant())"/>
-                }
-            </span>
-            <div class="center">
-                <span class="name path">
-                    @(runner.DisplayName?.EmptyAsNull() ?? runner.RelativeFile?.EmptyAsNull() ?? runner.LibraryFileName)
-                </span>
-                <div class="info">
-                    <div class="current-flow-element">
-                        <FlowIconValue Icon="fas fa-puzzle-piece" Color="dark" Value="@runner.CurrentPartName"></FlowIconValue>
-                    </div>
-                    
-                    <div class="others">
-                        <FlowIconValue Icon="node" Color="dark" Value="@runner.NodeName"></FlowIconValue>
-                        @if (string.IsNullOrWhiteSpace(runner.LibraryName))
-                        {
-                            <FlowIconValue Icon="library" Color="dark" Value="@runner.LibraryName"></FlowIconValue>
-                        }
-                    </div>
-
-                    @if (runner.Traits?.Any() == true)
-                    {
-                        <div class="traits">
-                            @foreach (var trait in runner.Traits)
-                            {
-                                <span class="trait">@trait</span>
-                            }
-                        </div>
-                    }
-                </div>
-            </div>
-
-            <div class="right savings">
-                <span class="top-right time">@runner.CurrentPartName</span>
-                <div class="steps">
-                    @FormatProcessingTime(runner.ProcessingTime)
-                </div>
-            </div>
-        </div>
-
-        <div class="details">
-            @if (runner.FramesPerSecond > 0)
-            {
-                <span class="label">FPS</span>
-                <span class="value">@runner.FramesPerSecond</span>
-            }
-            @foreach (var additional in GetSortedAdditional(runner))
-            {
-                <span class="label">@additional[0]</span>
-                <span class="value">@additional[1]</span>
-            }
-        </div>
-    </div>
+        <FileCard Model="runner" Minimal="true" />
     }
 }
 else

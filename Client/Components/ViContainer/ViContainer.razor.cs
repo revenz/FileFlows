@@ -80,6 +80,8 @@ public partial class ViContainer
     /// </summary>
     private bool IsMaximised { get; set; }
 
+    private Blocker Blocker;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -93,5 +95,24 @@ public partial class ViContainer
     {
         this.IsMaximised = !this.IsMaximised;
         OnMaximised.InvokeAsync(this.IsMaximised);
+    }
+
+    /// <summary>
+    /// Shows the blocker
+    /// </summary>
+    public void ShowBlocker(string message = null)
+    {
+        Blocker?.Show(message);
+        StateHasChanged();
+        
+    }
+    
+    /// <summary>
+    /// Hides the blocker
+    /// </summary>
+    public void HideBlocker()
+    {
+        Blocker?.Hide();
+        StateHasChanged();
     }
 }

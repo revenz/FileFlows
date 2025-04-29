@@ -1,5 +1,8 @@
 using System.IO;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Helpers;
+using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Services.Frontend.Handlers;
 using FileFlows.Shared.Formatters;
 using Microsoft.AspNetCore.Components;
 
@@ -11,10 +14,6 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class FilesWidget : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
-    /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
-    /// <summary>
     /// Gets or sets the blocker
     /// </summary>
     [CascadingParameter] public Blocker Blocker { get; set; }
@@ -22,25 +21,31 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// Gets or sets the editor
     /// </summary>
     [CascadingParameter] Editor Editor { get; set; }
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
 
-    private int _FileMode = 0;
-    private const int MODE_UPCOMING = 1;
-    private const int MODE_FINISHED = 0;
-    private const int MODE_FAILED = 2;
-
+    private FileStatus _FileMode = 0;
+    
     /// <summary>
     /// Gets or sets the file mode
     /// </summary>
     private int FileMode
     {
-        get => _FileMode;
+        get => (int)_FileMode;
         set
         {
-            _FileMode = value;
+            _FileMode = (FileStatus)value;
             if(initialized)
-                _ = LocalStorage.SetItemAsync(LocalStorageKey, value);
+                _ = LocalStorage.SetItemAsync(LocalStorageKey, value, TimeSpan.FromMinutes(1));
         }
     }
+
+    /// <summary>
+    /// the selected file status
+    /// </summary>
+    private FileStatus SelectedStatus => _FileMode;
     
 
     /// <summary>
@@ -55,108 +60,176 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// <summary>
     /// Translated strings
     /// </summary>
-    private string lblTitle, lblUpcoming, lblFinished, lblFailed, lblNoUpcomingFiles, lblNoFailedFiles, lblNoRecentlyFinishedFiles;
+    private string lblTitle, lblUpcoming, lblProcessing, lblFinished, lblFailed, lblNoUpcomingFiles, lblNoFailedFiles, 
+        lblNoRecentlyFinishedFiles, lblViewMore, lblInternalProcessingNode, lblManualLibrary;
 
     private OptionButtons OptionButtons;
     /// <summary>
     /// Gets or sets the profile service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets the profile
     /// </summary>
     protected Profile Profile { get; private set; }
+
     /// <summary>
     /// If this component needs rendering
     /// </summary>
     private bool _needsRendering = false;
 
-
-    private List<DashboardFile> UpcomingFiles, RecentlyFinished, FailedFiles;
-    private int TotalUpcoming, TotalFinished, TotalFailed;
+    private List<LibraryFileMinimal> UpcomingFiles = [], RecentlyFinished = [], FailedFiles = [];
+    private List<ProcessingLibraryFile> Processing = [];
+    private int TotalUpcoming, TotalFinished, TotalFailed, TotalProcessing;
     private bool initialized = false;
     
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         lblTitle = Translater.Instant("Pages.Dashboard.Widgets.Files.Title");
         lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = 0});
+        lblProcessing = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = 0});
         lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = 0});
         lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = 0 });
         lblNoUpcomingFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoUpcomingFiles");
         lblNoRecentlyFinishedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoRecentlyFinishedFiles");
         lblNoFailedFiles = Translater.Instant("Pages.Dashboard.Widgets.Files.NoFailedFiles");
-        _FileMode = Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 2);
-        await RefreshData();
-        ClientService.FileStatusUpdated += OnFileStatusUpdated;
+        lblViewMore = Translater.Instant("Labels.ViewMore");
+        lblInternalProcessingNode = Translater.Instant("Labels.InternalProcessingNode");
+        lblManualLibrary = Translater.Instant("Labels.ManualLibrary");
+        _FileMode = (FileStatus)Math.Clamp(await LocalStorage.GetItemAsync<int>(LocalStorageKey), 0, 4);
+        
+        InitializeData();
+        
+        feService.Files.UnprocessedUpdated += UnprocessedUpdated;
+        feService.Files.SuccessfulUpdated += OnRecentlyFinishedUpdated;
+        feService.Files.FailedFilesUpdated += OnFailedFilesUpdated;
+        OnProcessingUpdated(feService.Files.Processing);
+        feService.Files.ProcessingUpdated += OnProcessingUpdated;
+    }
+
+
+    /// <summary>
+    /// Raised when the executors are updated
+    /// </summary>
+    /// <param name="info">the executors</param>
+    private void OnProcessingUpdated(List<ProcessingLibraryFile> info)
+    {
+        TotalProcessing = info.Count;
+        lblProcessing = Translater.Instant("Pages.Dashboard.Widgets.System.Runners", new {count = TotalProcessing});
+        Processing = info;
+        OptionButtons?.TriggerStateHasChanged();
+        StateHasChanged();
+    }
+    
+    /// <summary>
+    /// Called when the failed files list has been updated
+    /// </summary>
+    /// <param name="lat">the updated list</param>
+    private void OnFailedFilesUpdated(FileHandler.ListAndCount<LibraryFileMinimal> lat)
+    {
+        FailedFiles = lat.Data.Count > 50 ? lat.Data.Take(50).ToList() : lat.Data;
+        TotalFailed = feService.Files.FailedFilesTotal;
+        lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed, formatted = TotalFailed.ToString("N0") });
+        StateHasChanged();
+        OptionButtons?.TriggerStateHasChanged();
     }
 
     /// <summary>
-    /// File status updated
+    /// Called when the recently finished files list has been updated
     /// </summary>
-    /// <param name="obj">the files updated</param>
-    private void OnFileStatusUpdated(List<LibraryStatus> obj)
+    /// <param name="lat">the updated list</param>
+    private void OnRecentlyFinishedUpdated(FileHandler.ListAndCount<LibraryFileMinimal> lat)
     {
-        _ = RefreshData();
+        RecentlyFinished = lat.Data.Count > 50 ? lat.Data.Take(50).ToList() : lat.Data;
+        TotalFinished = feService.Files.ProcessedTotal;
+        lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished, formatted = TotalFinished.ToString("N0")});
+        StateHasChanged();
+        OptionButtons?.TriggerStateHasChanged();
+    }
+
+    /// <summary>
+    /// Upcoming files have changed
+    /// </summary>
+    /// <param name="files">the updated files</param>
+    /// <param name="total">the total unprocessed files</param>
+    private void UnprocessedUpdated(List<LibraryFileMinimal> files, int total)
+    {
+        TotalUpcoming = total;
+        UpcomingFiles = files.Count > 50 ? files.Take(50).ToList() : files;
+        lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = TotalUpcoming, formatted = TotalUpcoming.ToString("N0")});
+        StateHasChanged();
+        OptionButtons?.TriggerStateHasChanged();
     }
 
     /// <summary>
     /// Refreshes the data
     /// </summary>
-    private async Task RefreshData()
+    private void InitializeData()
     {
-        UpcomingFiles = await LoadData<List<DashboardFile>>("/api/library-file/upcoming");
-        RecentlyFinished = await LoadData<List<DashboardFile>>("/api/library-file/recently-finished?failedFiles=false");
-        FailedFiles = await LoadData<List<DashboardFile>>("/api/library-file/recently-finished?failedFiles=true");
-        TotalUpcoming = UpcomingFiles.Count;
-        TotalFailed = FailedFiles.Count;
-        TotalFinished = RecentlyFinished.Count;
-        lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = TotalUpcoming});
-        lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished});
-        lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed });
+        UpcomingFiles = feService.Files.Unprocessed.Count > 50 ? feService.Files.Unprocessed.Take(50).ToList() : feService.Files.Unprocessed;
+        RecentlyFinished = feService.Files.Processed.Count> 50 ? feService.Files.Processed.Take(50).ToList() : feService.Files.Processed;
+        FailedFiles = feService.Files.FailedFiles.Count > 50
+            ? feService.Files.FailedFiles.Take(50).ToList()
+            : feService.Files.FailedFiles;
+        
+        TotalUpcoming = feService.Files.UnprocessedTotal;
+        TotalFailed = feService.Files.FailedFilesTotal;
+        TotalFinished = feService.Files.ProcessedTotal;
+        TotalProcessing = feService.Files.Processing.Count;
+        
+        lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = TotalUpcoming, formatted = TotalUpcoming.ToString("N0")});
+        lblFinished = Translater.Instant("Pages.Dashboard.Widgets.Files.Finished", new { count = TotalFinished, formatted = TotalFinished.ToString("N0")});
+        lblFailed = Translater.Instant("Pages.Dashboard.Widgets.Files.Failed", new { count = TotalFailed, formatted = TotalFailed.ToString("N0") });
 
+        
         if (initialized == false)
         {
-            switch (FileMode)
+            switch (SelectedStatus)
             {
-                case MODE_UPCOMING when TotalUpcoming == 0:
+                case FileStatus.Processing when TotalProcessing == 0:
+                case FileStatus.Unprocessed when TotalUpcoming == 0:
                 {
-                    if (TotalFailed > 0 && TotalFinished > 0)
+                    if (TotalProcessing > 0)
+                        FileMode = (int)FileStatus.Processing;
+                    else if (TotalUpcoming > 0)
+                        FileMode = (int)FileStatus.Unprocessed;
+                    else if (TotalFailed > 0 && TotalFinished > 0)
                     {
-                        var failed = FailedFiles.Max(x => x.ProcessingEnded);
-                        var success = RecentlyFinished.Max(x => x.ProcessingEnded);
-                        FileMode = failed > success ? MODE_FAILED : MODE_FINISHED;
+                        var failed = FailedFiles.Max(x => x.Date);
+                        var success = RecentlyFinished.Max(x => x.Date);
+                        FileMode = (int)(failed > success ? FileStatus.ProcessingFailed : FileStatus.Processed);
                     }
                     else if (TotalFinished > 0)
-                        FileMode = MODE_FINISHED;
+                        FileMode = (int)FileStatus.Processed;
                     else if (TotalFailed > 0)
-                        FileMode = MODE_FAILED;
+                        FileMode = (int)FileStatus.ProcessingFailed;
 
                     break;
                 }
-                case MODE_FAILED when TotalFailed == 0:
+                case FileStatus.ProcessingFailed when TotalFailed == 0:
+                case FileStatus.Processed when TotalFinished == 0:
                 {
+                    if (TotalProcessing > 0)
+                        FileMode = (int)FileStatus.Processing;
                     if (TotalUpcoming > 0)
-                        FileMode = MODE_UPCOMING;   
+                        FileMode = (int)FileStatus.Unprocessed;   
                     else if(TotalFinished > 0)
-                        FileMode = MODE_FINISHED;
-                    break;
-                }
-                case MODE_FINISHED when TotalFinished == 0:
-                {
-                    if (TotalUpcoming > 0)
-                        FileMode = MODE_UPCOMING;   
+                        FileMode = (int)FileStatus.Processed;
                     else if(TotalFailed > 0)
-                        FileMode = MODE_FAILED;
+                        FileMode = (int)FileStatus.ProcessingFailed;
                     break;
                 }
             }
+            
+            if (TotalProcessing > 0)
+                FileMode = (int)FileStatus.Processing; // always make it show processing if its processing
 
             initialized = true;
         }
         StateHasChanged();
-        await WaitForRender();
         OptionButtons?.TriggerStateHasChanged();
     }
 
@@ -179,47 +252,28 @@ public partial class FilesWidget : ComponentBase, IDisposable
         _needsRendering = false;
     }
 
-    
-    /// <summary>
-    /// Loads the data from the server
-    /// </summary>
-    /// <param name="url">the URL to call</param>
-    /// <typeparam name="T">the type of data</typeparam>
-    /// <returns>the returned ata</returns>
-    private async Task<T> LoadData<T>(string url)
-    {
-        var result = await HttpHelper.Get<T>(url);
-        if(result.Success == false || result.Data == null)
-            return default;
-        return result.Data;
-    }
-    
-    public record DashboardFile(Guid Uid, string Name, string DisplayName,
-        string RelativePath,
-        DateTime ProcessingEnded,
-        string LibraryName,
-        bool IsDirectory,
-        string? When,
-        long OriginalSize,
-        long FinalSize,
-        string Message,
-        FileStatus Status,
-        string[] Traits
-    );
-    
     /// <summary>
     /// Opens the file for viewing
     /// </summary>
     /// <param name="file">the file</param>
-    private void OpenFile(DashboardFile file)
-        => _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile);
+    private void OpenFile(LibraryFileMinimal file)
+    {
+        _ = ModalService.ShowModal<FileViewer>(new ModalEditorOptions()
+        {
+            Uid =  file.Uid
+        });
+    }
+        //=> _ = Helpers.LibraryFileEditor.Open(Blocker, Editor, file.Uid, Profile, feService);
     
     /// <summary>
     /// Disposes of the component
     /// </summary>
     public void Dispose()
     {
-        ClientService.FileStatusUpdated -= OnFileStatusUpdated;
+        feService.Files.UnprocessedUpdated -= UnprocessedUpdated;
+        feService.Files.SuccessfulUpdated -= OnRecentlyFinishedUpdated;
+        feService.Files.FailedFilesUpdated -= OnFailedFilesUpdated;
+        feService.Files.ProcessingUpdated -= OnProcessingUpdated;
     }
 
     /// <summary>
@@ -227,15 +281,30 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// </summary>
     /// <param name="file">the file</param>
     /// <returns>the thumbnail url</returns>
-    private string GetThumbUrl(DashboardFile file)
-        => IconHelper.GetThumbnail(file.Uid,
-            file.Name?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.DisplayName, file.IsDirectory);
+    private string GetThumbUrl(LibraryFileMinimal file)
+        => IconHelper.GetThumbnail(file.Uid, file.DisplayName, file.Extension == null);
     
     /// <summary>
     /// Gets the extension image
     /// </summary>
     /// <param name="file">the file</param>
     /// <returns>the extension image</returns>
-    private string GetExtensionImage(DashboardFile file)
-        => IconHelper.GetExtensionImage(file.Name?.EmptyAsNull() ?? file.RelativePath?.EmptyAsNull() ?? file.DisplayName);
+    private string GetExtensionImage(LibraryFileMinimal file)
+        => IconHelper.GetExtensionImage(file.DisplayName);
+    
+    
+    /// <summary>
+    /// Humanizes a date, eg 11 hours ago
+    /// </summary>
+    /// <param name="dateUtc">the date</param>
+    /// <returns>the humanized date</returns>
+    protected string DateString(DateTime? dateUtc)
+    {
+        if (dateUtc == null) return string.Empty;
+        if (dateUtc.Value.Year < 2020) return string.Empty; // fixes 0000-01-01 issue
+        // var localDate = new DateTime(date.Value.Year, date.Value.Month, date.Value.Day, date.Value.Hour,
+        //     date.Value.Minute, date.Value.Second);
+
+        return FormatHelper.HumanizeDate(dateUtc.Value);
+    }
 }

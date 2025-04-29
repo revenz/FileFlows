@@ -1,50 +1,46 @@
-using System.Text.RegularExpressions;
-using System.Timers;
 using FileFlows.Client.Components.Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
-using FileFlows.Plugin;
+using FileFlows.Client.Services.Frontend.Handlers;
+using FileHelper = FileFlows.Plugin.Helpers.FileHelper;
 
 namespace FileFlows.Client.Pages;
 
 /// <summary>
 /// Library Files Page
 /// </summary>
-public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDisposable
+public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposable
 {
     private string filter = string.Empty;
     private FileStatus? filterStatus;
     /// <inheritdoc />
     public override string ApiUrl => "/api/library-file";
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the navigation service
+    /// </summary>
     [Inject] private INavigationService NavigationService { get; set; }
+    /// <summary>
+    /// Gets or sets the local storage
+    /// </summary>
     [Inject] private FFLocalStorageService LocalStorage { get; set; }
     
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the navigation manager
     /// </summary>
-    [Inject] private ClientService ClientService { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
     
     /// <summary>
     /// Gets or sets the JavaScript runtime
     /// </summary>
     [Inject] private IJSRuntime jsRuntime { get; set; }
-
-    /// <summary>
-    /// Gets or sets the add file dialog
-    /// </summary>
-    private AddFileDialog AddDialog { get; set; }
     
-    /// <summary>
-    /// Gets or sets the reprocess dialog
-    /// </summary>
-    private ReprocessDialog ReprocessDialog { get; set; }
-
-    /// <summary>
-    /// The skybox to select the current file status
-    /// </summary>
-    private FlowSkyBox<FileStatus> Skybox;
 
     private FileFlows.Shared.Models.FileStatus SelectedStatus;
 
@@ -56,27 +52,14 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
     private Guid? SelectedNode, SelectedLibrary, SelectedFlow, SelectedTag;
     private FilesSortBy? SelectedSortBy;
 
-    private string lblMoveToTop = "";
-
-    private int Count;
-    private string lblSearch, lblDeleteSwitch, lblForcedProcessing, lblSortBy, lblNode, lblFlow, lblLibrary, lblTag;
+    private string lblSearch, lblDeleteSwitch, lblSortBy, lblNode, lblFlow, lblLibrary, lblTag;
 
     private string TableIdentifier => "LibraryFiles_" + this.SelectedStatus; 
 
-    SearchPane SearchPane { get; set; }
-    private readonly LibraryFileSearchModel SearchModel = new()
-    {
-        Path = string.Empty
-    };
-
-    private string Title;
-    private string lblLibraryFiles, lblFileFlowsServer;
     /// <summary>
     /// The total number of items across all pages
     /// </summary>
     private int TotalItems;
-    private List<FlowExecutorInfo> WorkerStatus = new ();
-    private Timer AutoRefreshTimer;
     private Dictionary<string, NodeInfo> Nodes = new();
     private Dictionary<Guid, string> Libraries = new();
     private Dictionary<Guid, string>  Flows = new();
@@ -84,17 +67,15 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
 
     protected override string DeleteMessage => "Labels.DeleteLibraryFiles";
     
-    private async Task SetSelected(FlowSkyBoxItem<FileStatus> status)
+    private void OnStatusChanged(FileStatus status)
     {
-        SelectedStatus = status.Value;
-        this.PageIndex = 0;
-        Title = lblLibraryFiles;// + ": " + status.Name;
-        await this.Refresh();
-        this.StateHasChanged();
+        SelectedStatus = status;
+        PageIndex = 0;
+        LoadServiceData();
     }
 
     /// <inheritdoc />
-    public override string FetchUrl => $"{ApiUrl}/list-all?status={(int)SelectedStatus}&page={PageIndex}&pageSize={App.PageSize}" +
+    public override string FetchUrl => $"{ApiUrl}/list-all?status={(int)SelectedStatus}&page={PageIndex}" +
                                        $"&filter={Uri.EscapeDataString(filterStatus == SelectedStatus ? filter ?? string.Empty : string.Empty)}" +
                                        (SelectedNode == null ? "" : $"&node={SelectedNode}") + 
                                        (SelectedFlow == null ? "" : $"&flow={SelectedFlow}") + 
@@ -107,21 +88,42 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
         await jsRuntime.InvokeVoidAsync("ff.scrollTableToTop");
     }
 
-    protected override async Task PostDelete()
+    /// <inheritdoc />
+    protected override void OnInitialized()
     {
-        await RefreshStatus();
+        Layout.SetInfo(Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-file", pageClass: "library-files");
+            
+        lblAdd = Translater.Instant("Labels.Add");
+        lblEdit = Translater.Instant("Labels.Edit");
+        lblDelete = Translater.Instant("Labels.Delete");
+        lblDeleting = Translater.Instant("Labels.Deleting");
+        lblRefresh = Translater.Instant("Labels.Refresh");
+        // do not call base here! we dont want to load the data via a call
+        // we load the initial data from the upcoming files
+        
+        SelectedStatus = FileStatus.Unprocessed;
+        
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+
+        var token = query.Get("status"); // Example: ?status=Processed
+
+        if (string.IsNullOrEmpty(token) == false)
+        {
+            // Use the token here...
+            _ = Enum.TryParse(token, out SelectedStatus);
+
+            // Now remove the query params
+            var newUri = uri.GetLeftPart(UriPartial.Path);
+            Navigation.NavigateTo(newUri, replace: true);
+        }
     }
 
-    protected async override Task OnInitializedAsync()
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
-        this.SelectedStatus = FileFlows.Shared.Models.FileStatus.Unprocessed;
-        lblForcedProcessing = Translater.Instant("Labels.ForceProcessing");
-        lblMoveToTop = Translater.Instant("Pages.LibraryFiles.Buttons.MoveToTop");
-        lblLibraryFiles = Translater.Instant("Pages.LibraryFiles.Title");
-        lblFileFlowsServer = Translater.Instant("Pages.Nodes.Labels.FileFlowsServer");
-        Title = lblLibraryFiles;// + ": " + Translater.Instant("Enums.FileStatus." + FileStatus.Unprocessed);
+        
         this.lblSearch = Translater.Instant("Labels.Search");
         this.lblDeleteSwitch = Translater.Instant("Labels.DeleteLibraryFilesPhysicallySwitch");
         lblSortBy = Translater.Instant("Labels.SortBy");
@@ -130,521 +132,226 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
         lblLibrary = Translater.Instant("Pages.Library.Title");
         lblTag = Translater.Instant("Labels.Tag");
 
+        Profile ??= feService.Profile.Profile;
+
         if (Profile.LicenseLevel != FileFlows.Common.LicenseLevel.Free)
         {
-            optionsTags = (await ClientService.GetTags()).Select(x => new DropDownOption()
+            optionsTags = feService.Tag.Tags.Select(x => new DropDownOption()
             {
                 Icon = x.Icon?.EmptyAsNull() ?? "fas fa-tag",
                 Value = x.Uid,
                 Label = x.Name
             }).ToList();
         }
-        
-        optionsSortBy = new ()
+
+        optionsSortBy = new()
         {
-            new () { Icon = "fas fa-sort-numeric-up", Label = Translater.Instant("Enums.FilesSortBy.Size"), Value = FilesSortBy.Size },
-            new () { Icon = "fas fa-sort-numeric-down-alt", Label = Translater.Instant("Enums.FilesSortBy.SizeDesc"), Value = FilesSortBy.SizeDesc },
-            new () { Icon = "fas fa-sort-amount-down-alt", Label = Translater.Instant("Enums.FilesSortBy.Savings"), Value = FilesSortBy.Savings },
-            new () { Icon = "fas fa-sort-amount-up", Label = Translater.Instant("Enums.FilesSortBy.SavingsDesc"), Value = FilesSortBy.SavingsDesc },
-            new () { Icon = "fas fa-hourglass-start", Label = Translater.Instant("Enums.FilesSortBy.Time"), Value = FilesSortBy.Time },
-            new () { Icon = "fas fa-hourglass-end", Label = Translater.Instant("Enums.FilesSortBy.TimeDesc"), Value = FilesSortBy.TimeDesc }
+            new()
+            {
+                Icon = "fas fa-sort-numeric-up", Label = Translater.Instant("Enums.FilesSortBy.Size"),
+                Value = FilesSortBy.Size
+            },
+            new()
+            {
+                Icon = "fas fa-sort-numeric-down-alt", Label = Translater.Instant("Enums.FilesSortBy.SizeDesc"),
+                Value = FilesSortBy.SizeDesc
+            },
+            new()
+            {
+                Icon = "fas fa-sort-amount-down-alt", Label = Translater.Instant("Enums.FilesSortBy.Savings"),
+                Value = FilesSortBy.Savings
+            },
+            new()
+            {
+                Icon = "fas fa-sort-amount-up", Label = Translater.Instant("Enums.FilesSortBy.SavingsDesc"),
+                Value = FilesSortBy.SavingsDesc
+            },
+            new()
+            {
+                Icon = "fas fa-hourglass-start", Label = Translater.Instant("Enums.FilesSortBy.Time"),
+                Value = FilesSortBy.Time
+            },
+            new()
+            {
+                Icon = "fas fa-hourglass-end", Label = Translater.Instant("Enums.FilesSortBy.TimeDesc"),
+                Value = FilesSortBy.TimeDesc
+            }
         };
 
-        var nodesResult = await HttpHelper.Get<List<NodeInfo>>("/api/library-file/node-list");
-        if (nodesResult.Success)
+        Nodes = feService.Node.NodeStatusSummaries.ToDictionary(x => x.Name.ToLowerInvariant(), x => new NodeInfo()
         {
-            Nodes = nodesResult.Data.DistinctBy(x => x.Name.ToLowerInvariant())
-                .ToDictionary(x => x.Name.ToLowerInvariant(), x => x);
-            optionsNodes = nodesResult.Data.OrderBy(x => x.Name.ToLowerInvariant()).Select(x => new DropDownOption()
+            Name = x.Name,
+            Uid = x.Uid,
+            OperatingSystem = x.OperatingSystem,
+        });
+        optionsNodes = Nodes.Values.OrderBy(x => x.Name.ToLowerInvariant()).Select(x => new DropDownOption()
+        {
+            Icon = x.OperatingSystem switch
             {
-                Icon = x.OperatingSystem switch
-                {
-                    OperatingSystemType.Docker => "/icons/docker.svg",
-                    OperatingSystemType.Linux => "/icons/linux.svg",
-                    OperatingSystemType.Mac => "/icons/apple.svg",
-                    OperatingSystemType.Windows => "/icons/windows.svg",
-                    _ => ""
-                },
-                Value = x.Uid,
-                Label = x.Name == "FileFlowsServer" ? "Internal Node" : x.Name
-            }).ToList();
-        }
+                OperatingSystemType.Docker => "/icons/docker.svg",
+                OperatingSystemType.Linux => "/icons/linux.svg",
+                OperatingSystemType.Mac => "/icons/apple.svg",
+                OperatingSystemType.Windows => "/icons/windows.svg",
+                _ => ""
+            },
+            Value = x.Uid,
+            Label = x.Name == "FileFlowsServer" ? "Internal Node" : x.Name
+        }).ToList();
+
+        Libraries = feService.Library.LibraryList;
+        optionsLibraries = Libraries.OrderBy(x => x.Value.ToLowerInvariant()).Select(x => new DropDownOption()
+        {
+            Icon = "fas fa-folder",
+            Value = x.Key,
+            Label = x.Value
+        }).ToList();
+
+        Flows = feService.Flow.FlowList;
+        optionsFlows = Flows.OrderBy(x => x.Value.ToLowerInvariant()).Select(x => new DropDownOption()
+        {
+            Icon = "fas fa-sitemap",
+            Value = x.Key,
+            Label = x.Value
+        }).ToList();
+
+        LoadServiceData();
         
-        var libraryResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/library/basic-list");
-        if (libraryResult.Success)
-        {
-            Libraries = libraryResult.Data;
-            optionsLibraries = libraryResult.Data.OrderBy(x => x.Value.ToLowerInvariant()).Select(x => new DropDownOption()
-            {
-                Icon = "fas fa-folder",
-                Value = x.Key,
-                Label = x.Value
-            }).ToList();
-        }
-        var flowResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/flow/basic-list");
-        if (flowResult.Success)
-        {
-            Flows = flowResult.Data;
-            optionsFlows = flowResult.Data.OrderBy(x => x.Value.ToLowerInvariant()).Select(x => new DropDownOption()
-            {
-                Icon = "fas fa-sitemap",
-                Value = x.Key,
-                Label = x.Value
-            }).ToList();
-        }
-
-        AutoRefreshTimer = new Timer();
-        AutoRefreshTimer.Elapsed += AutoRefreshTimerElapsed!;
-        AutoRefreshTimer.Interval = 10_000;
-        AutoRefreshTimer.AutoReset = false;
-        AutoRefreshTimer.Start();
+        feService.Files.UnprocessedUpdated += DataUpdatedWithTotal;
+        feService.Files.FailedFilesUpdated += DataUpdated2;
+        feService.Files.SuccessfulUpdated += DataUpdated2;
+        feService.Files.OutOfScheduleUpdated += DataUpdated;
+        feService.Files.DisabledUpdated += DataUpdated;
+        feService.Files.OnHoldUpdated += DataUpdated;
+        feService.Files.ProcessingUpdated += DataUpdated;
     }
 
-    /// <summary>
-    /// Auto refresh timer elapsed
-    /// </summary>
-    /// <param name="sender">the sender</param>
-    /// <param name="e">the event args</param>
-    void AutoRefreshTimerElapsed(object sender, ElapsedEventArgs e)
+    private void DataUpdated(List<ProcessingLibraryFile> obj)
     {
-        if(SelectedStatus == FileStatus.Processing)
-            _ = Refresh(false);
-    }
-        
-
-    /// <summary>
-    /// Refreshes the page
-    /// </summary>
-    /// <param name="showBlocker">if the blocker should be shown or not</param>
-    public override async Task Refresh(bool showBlocker = true)
-    {
-        AutoRefreshTimer?.Stop();
-        try
-        {
-            await base.Refresh(showBlocker);
-        }
-        finally
-        {
-            AutoRefreshTimer?.Start();
-        }
+        if (PageIndex > 0)
+            return;
+        LoadServiceData();
     }
 
-    /// <summary>
-    /// Disposes of the component
-    /// </summary>
-    public void Dispose()
+    private void DataUpdatedWithTotal(List<LibraryFileMinimal> obj, int total)
     {
-        if (AutoRefreshTimer != null)
-        {
-            AutoRefreshTimer.Stop();
-            AutoRefreshTimer.Elapsed -= AutoRefreshTimerElapsed!;
-            AutoRefreshTimer.Dispose();
-            AutoRefreshTimer = null;
-        }
-    }
-
-    private Task<RequestResult<List<LibraryStatus>>> GetStatus() => HttpHelper.Get<List<LibraryStatus>>(ApiUrl + "/status");
-
-    /// <summary>
-    /// Refreshes the top status bar
-    /// This is needed when deleting items, as the list will not be refreshed, just items removed from it
-    /// </summary>
-    /// <returns></returns>
-    private async Task RefreshStatus()
-    {
-        var result = await GetStatus();
-        if (result.Success)
-            RefreshStatus(result.Data.ToList());
+        if (PageIndex > 0)
+            return;
+        LoadServiceData();
     }
     
-    private void RefreshStatus(List<LibraryStatus> data)
+    private void DataUpdated2(FileHandler.ListAndCount<LibraryFileMinimal> obj)
     {
-       var order = new List<FileStatus> { FileStatus.Unprocessed, FileStatus.OutOfSchedule, FileStatus.Processing, FileStatus.Processed, FileStatus.FlowNotFound, FileStatus.ProcessingFailed };
-       foreach (var s in order)
-       {
-           if (data.Any(x => x.Status == s) == false && s != FileStatus.FlowNotFound)
-               data.Add(new LibraryStatus { Status = s });
-       }
+        if (PageIndex > 0)
+            return;
+        LoadServiceData();
+    }
 
-       foreach (var s in data)
-           s.Name = Translater.Instant("Enums.FileStatus." + s.Status.ToString());
+    private void DataUpdated(List<LibraryFileMinimal> obj)
+    {
+        if (PageIndex > 0)
+            return;
+        LoadServiceData();
+    }
 
-       var sbItems = new List<FlowSkyBoxItem<FileStatus>>();
-       foreach (var status in data.OrderBy(x =>
-                {
-                    int index = order.IndexOf(x.Status);
-                    return index >= 0 ? index : 100;
-                }))
-       {
-           string icon = status.Status switch
-           {
-               FileStatus.Unprocessed => "far fa-hourglass",
-               FileStatus.Disabled => "fas fa-toggle-off",
-               FileStatus.Processed => "far fa-check-circle",
-               FileStatus.Processing => "fas fa-file-medical-alt",
-               FileStatus.FlowNotFound => "fas fa-exclamation",
-               FileStatus.ProcessingFailed => "far fa-times-circle",
-               FileStatus.OutOfSchedule => "far fa-calendar-times",
-               FileStatus.Duplicate => "far fa-copy",
-               FileStatus.MappingIssue => "fas fa-map-marked-alt",
-               FileStatus.MissingLibrary => "fas fa-trash",
-               FileStatus.OnHold => "fas fa-hand-paper",
-               FileStatus.ReprocessByFlow => "fas fa-redo",
-               _ => ""
-           };
-           if (status.Status != FileStatus.Unprocessed && status.Status != FileStatus.Processing && status.Status != FileStatus.Processed && status.Count == 0)
-               continue;
-           sbItems.Add(new ()
-           {
-               Count = status.Count,
-               Icon = icon,
-               Name = status.Name,
-               Value = status.Status
-           });
+    /// <summary>
+    /// Checks if a filter is being used, and if so, the list will be forcible fetched
+    /// </summary>
+    /// <returns>true if using a filter</returns>
+    private bool HasFilter()
+        => SelectedFlow != null || SelectedNode != null || SelectedLibrary != null || SelectedTag != null || 
+           (SelectedStatus == FileStatus.Processed && SelectedSortBy != null) || PageIndex > 0;
+
+    public override async Task Load(Guid selectedUid, bool showBlocker = true)
+    {
+        if (HasFilter() == false)
+        {
+            LoadServiceData();
+            return;
         }
 
-        Skybox.SetItems(sbItems, SelectedStatus);
-        this.Count = sbItems.Where(x => x.Value == SelectedStatus).Select(x => x.Count).FirstOrDefault();
+        await base.Load(selectedUid, showBlocker);
+    }
+
+    void LoadServiceData()
+    {
+        this.Data = SelectedStatus == FileStatus.Unprocessed ? feService.Files.Unprocessed :
+            SelectedStatus == FileStatus.OnHold ? feService.Files.OnHold :
+            SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFiles :
+            SelectedStatus == FileStatus.Processed ? feService.Files.Processed :
+            SelectedStatus == FileStatus.OutOfSchedule ? feService.Files.OutOfSchedule :
+            SelectedStatus == FileStatus.Disabled ? feService.Files.Disabled :
+            SelectedStatus == FileStatus.Processing ? feService.Files.Processing.Cast<LibraryFileMinimal>().ToList() : [];
+            
+        TotalItems =
+            SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFilesTotal :
+            SelectedStatus == FileStatus.Processed ? feService.Files.ProcessedTotal :
+            this.Data.Count;
+            
+        // if (Table != null)
+        // {
+        //     SetTableData(this.Data);
+        //     var item = this.Data.FirstOrDefault(x => x.Uid.Equals(selectedUid));
+        //     if (item != null)
+        //     {
+        //         _ = Task.Run(async () =>
+        //         {
+        //             // need a delay here since setdata and the inner works of FlowTable will clear this without it
+        //             await Task.Delay(50);
+        //             Table.SelectItem(item);
+        //         });
+        //     }
+        // }
+
+        HasData = this.Data?.Any() == true;
+        this.Loaded = true;
         this.StateHasChanged();
     }
 
-    /// <summary>
-    /// Refreshes the worker status
-    /// </summary>
-    private async Task RefreshWorkerStatus()
-    {
-        this.WorkerStatus = await ClientService.GetExecutorInfo();
-        if(this.SelectedStatus == FileStatus.Processing)
-            this.StateHasChanged();
-    }
-
-    public override async Task<bool> Edit(LibaryFileListModel item)
-    {
-        await Helpers.LibraryFileEditor.Open(Blocker, Editor, item.Uid, Profile);
-        return false;
-    }
-
-    public async Task MoveToTop()
-    {
-        var selected = Table.GetSelected();
-        var uids = selected.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
-        if (uids.Length == 0)
-            return; // nothing to move
-
-        Blocker.Show();
-        try
-        {
-            await HttpHelper.Post(ApiUrl + "/move-to-top", new ReferenceModel<Guid> { Uids = uids });                
-        }
-        finally
-        {
-            Blocker.Hide();
-        }
-        await Refresh();
-    }
-    
-    public async Task Cancel()
-    {
-        var selected = Table.GetSelected().ToArray();
-        if (selected.Length == 0)
-            return; // nothing to cancel
-
-        if (await Confirm.Show("Labels.Cancel",
-            Translater.Instant("Labels.CancelItems", new { count = selected.Length })) == false)
-            return; // rejected the confirmation
-
-        Blocker.Show();
-        this.StateHasChanged();
-        try
-        {
-            foreach (var item in selected)
-                await HttpHelper.Delete($"/api/worker/by-file/{item.Uid}");
-
-        }
-        finally
-        {
-            Blocker.Hide();
-            this.StateHasChanged();
-        }
-        await Refresh();
-    }
-
-
-    public async Task ForceProcessing()
-    {
-        var selected = Table.GetSelected();
-        var uids = selected.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
-        if (uids.Length == 0)
-            return; // nothing to reprocess
-
-        Blocker.Show();
-        try
-        {
-            await HttpHelper.Post(ApiUrl + "/force-processing", new ReferenceModel<Guid> { Uids = uids });
-        }
-        finally
-        {
-            Blocker.Hide();
-        }
-        await Refresh();
-    }
-    
-    /// <summary>
-    /// Reprocess the selected files
-    /// </summary>
-    public async Task Reprocess()
-    {
-        var selected = Table.GetSelected().ToList();
-        var uids = selected.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
-        if (uids.Length == 0)
-            return; // nothing to reprocess
-
-        bool processOptions = SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold or FileStatus.Duplicate;
-
-        var nodes = Nodes.ToDictionary(x => x.Value.Uid, x => x.Value.Name);
-        var result = await ReprocessDialog.Show(Flows, nodes, selected, processOptions);
-        if(result)
-            await Refresh();
-    }
 
     /// <inheritdoc />
-    protected override async Task<RequestResult<List<LibaryFileListModel>>> FetchData()
+    protected override async Task<RequestResult<List<LibraryFileMinimal>>> FetchData()
     {
-        var request = await HttpHelper.Get<LibraryFileDatalistModel>(FetchUrl);
+        var request = await HttpHelper.Get<List<LibraryFileMinimal>>(FetchUrl);
 
         if (request.Success == false)
         {
-            return new RequestResult<List<LibaryFileListModel>>
+            return new RequestResult<List<LibraryFileMinimal>>
             {
                 Body = request.Body,
                 Success = request.Success
             };
         }
-
-        await RefreshWorkerStatus();
-        RefreshStatus(request.Data?.Status?.ToList() ?? new List<LibraryStatus>());
-
         if (request.Headers.ContainsKey("x-total-items") &&
             int.TryParse(request.Headers["x-total-items"], out int totalItems))
         {
             Logger.Instance.ILog("### Total items from header: " + totalItems);
             this.TotalItems = totalItems;
         }
-        else
-        {
-            var status = Skybox.SelectedItem;
-            this.TotalItems = status?.Count ?? 0;
-        }
         
-        var result = new RequestResult<List<LibaryFileListModel>>
+        var result = new RequestResult<List<LibraryFileMinimal>>
         {
             Body = request.Body,
             Success = request.Success,
-            Data = request.Data.LibraryFiles.ToList()
+            Data = request.Data
         };
         Logger.Instance.ILog("FetchData: " + result.Data.Count);
         return result;
     }
 
     /// <summary>
-    /// Changes to a specific page
-    /// </summary>
-    /// <param name="index">the page to change to</param>
-    private async Task PageChange(int index)
-    {
-        PageIndex = index;
-        await this.Refresh();
-    }
-
-    /// <summary>
-    /// Updates the number of items shown on a page
-    /// </summary>
-    /// <param name="size">the number of items</param>
-    private async Task PageSizeChange(int size)
-    {
-        this.PageIndex = 0;
-        await this.Refresh();
-    }
-
-    private async Task OnFilter(FilterEventArgs args)
-    {
-        if (this.filter?.EmptyAsNull() == args.Text?.EmptyAsNull())
-        {
-            this.filter = string.Empty;
-            this.filterStatus = null;
-            return;
-        }
-
-        int totalItems = Skybox.SelectedItem.Count;
-        if (totalItems <= args.PageSize)
-            return;
-        this.filterStatus = this.SelectedStatus;
-        // need to filter on the server side
-        args.Handled = true;
-        args.PageIndex = 0;
-        this.PageIndex = 0;
-        this.filter = args.Text;
-        await this.Refresh();
-        this.filter = args.Text; // ensures refresh didnt change the filter
-    }
-
-    /// <summary>
     /// Sets the table data, virtual so a filter can be set if needed
     /// </summary>
     /// <param name="data">the data to set</param>
-    protected override void SetTableData(List<LibaryFileListModel> data)
+    protected override void SetTableData(List<LibraryFileMinimal> data)
     {
         if(string.IsNullOrWhiteSpace(this.filter) || SelectedStatus  != filterStatus)
             Table.SetData(data);
         else
             Table.SetData(data, filter: this.filter); 
     }
-
-    private async Task Rescan()
-    {
-        this.Blocker.Show("Scanning Libraries");
-        try
-        {
-            await HttpHelper.Post("/api/library/rescan-enabled");
-            await Refresh();
-            Toast.ShowSuccess(Translater.Instant("Pages.LibraryFiles.Labels.ScanTriggered"));
-        }
-        finally
-        {
-            this.Blocker.Hide();   
-        }
-    }
-
-    private async Task Unhold()
-    {
-        var selected = Table.GetSelected();
-        var uids = selected.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
-        if (uids.Length == 0)
-            return; // nothing to unhold
-
-        Blocker.Show();
-        try
-        {
-            await HttpHelper.Post(ApiUrl + "/unhold", new ReferenceModel<Guid> { Uids = uids });
-        }
-        finally
-        {
-            Blocker.Hide();
-        }
-        await Refresh();
-    }
-    
-    private async Task ToggleForce()
-    {
-        var selected = Table.GetSelected();
-        var uids = selected.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
-        if (uids.Length == 0)
-            return; // nothing 
-
-        Blocker.Show();
-        try
-        {
-            await HttpHelper.Post(ApiUrl + "/toggle-force", new ReferenceModel<Guid> { Uids = uids });
-        }
-        finally
-        {
-            Blocker.Hide();
-        }
-        await Refresh();
-    }
     
     Task Search() => NavigationService.NavigateTo("/library-files/search");
-
-
-    async Task DeleteFile()
-    {
-        var uids = Table.GetSelected()?.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
-        if (uids.Length == 0)
-            return; // nothing to delete
-        var msg = Translater.Instant("Labels.DeleteLibraryFilesPhysicallyMessage", new { count = uids.Length });
-        if ((await Confirm.Show("Labels.Delete", msg, switchMessage: lblDeleteSwitch, switchState: false, requireSwitch:true)).Confirmed == false)
-            return; // rejected the confirm
-        
-        
-        Blocker.Show();
-        this.StateHasChanged();
-
-        try
-        {
-            var deleteResult = await HttpHelper.Delete("/api/library-file/delete-files", new ReferenceModel<Guid> { Uids = uids });
-            if (deleteResult.Success == false)
-            {
-                if(Translater.NeedsTranslating(deleteResult.Body))
-                    Toast.ShowError( Translater.Instant(deleteResult.Body));
-                else
-                    Toast.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
-                return;
-            }
-            
-            this.Data = this.Data.Where(x => uids.Contains(x.Uid) == false).ToList();
-
-            await PostDelete();
-        }
-        finally
-        {
-            Blocker.Hide();
-            this.StateHasChanged();
-        }
-    }
-
-    async Task DownloadFile()
-    {
-        var file = Table.GetSelected()?.FirstOrDefault();
-        if (file == null)
-            return; // nothing to delete
-        
-        string url = "/api/library-file/download/" + file.Uid;
-#if (DEBUG)
-        url = "http://localhost:6868" + url;
-#endif
-        
-        var apiResult = await HttpHelper.Get<string>($"{url}?test=true");
-        if (apiResult.Success == false)
-        {
-            Toast.ShowError(apiResult.Body?.EmptyAsNull() ?? apiResult.Data?.EmptyAsNull() ?? "Failed to download.");
-            return;
-        }
-        
-        string name = file.Name.Replace("\\", "/");
-        name = name[(name.LastIndexOf('/') + 1)..];
-        await jsRuntime.InvokeVoidAsync("ff.downloadFile", url, name);
-    }
-
-    async Task SetStatus(FileStatus status)
-    {
-        var uids = Table.GetSelected()?.Select(x => x.Uid)?.ToArray() ?? new Guid[] { };
-        if (uids.Length == 0)
-            return; // nothing to mark
-        
-        Blocker.Show();
-        this.StateHasChanged();
-
-        try
-        {
-            var apiResult = await HttpHelper.Post($"/api/library-file/set-status/{status}", new ReferenceModel<Guid> { Uids = uids });
-            if (apiResult.Success == false)
-            {
-                if(Translater.NeedsTranslating(apiResult.Body))
-                    Toast.ShowError( Translater.Instant(apiResult.Body));
-                else
-                    Toast.ShowError( Translater.Instant("ErrorMessages.SetFileStatus"));
-                return;
-            }
-            await Refresh();
-        }
-        finally
-        {
-            Blocker.Hide();
-            this.StateHasChanged();
-        }
-    }
-
-
+    
     /// <summary>
     /// Gets the icon to show for the node
     /// </summary>
@@ -666,101 +373,16 @@ public partial class LibraryFiles : ListPage<Guid, LibaryFileListModel>, IDispos
     }
 
     /// <summary>
-    /// Sets the selected node
+    /// Disposes of the component
     /// </summary>
-    /// <param name="node">the node</param>
-    private void SelectNode(object? node)
+    public void Dispose()
     {
-        if (node is string str)
-        {
-            var n = Nodes?.Values?.FirstOrDefault(x => x.Name?.ToLowerInvariant() == str.ToLowerInvariant());
-            if (n == null)
-                return;
-            SelectedNode = n.Uid;
-        }
-        else
-            SelectedNode = node as Guid?;
-        _ = Refresh();
-    }
-
-    /// <summary>
-    /// Sets the sort by
-    /// </summary>
-    /// <param name="sortBy">the sort by</param>
-    private void SelectSortBy(object? sortBy)
-    {
-        SelectedSortBy = sortBy as FilesSortBy?;
-        _ = Refresh();
-    }
-    /// <summary>
-    /// Sets the selected library
-    /// </summary>
-    /// <param name="library">the library</param>
-    private void SelectLibrary(object? library)
-    {
-        if (library is string str)
-        {
-            var l = Libraries?.FirstOrDefault(x => (x.Value?.ToLowerInvariant()).Equals(str, StringComparison.InvariantCultureIgnoreCase));
-            if (l == null)
-                return;
-            SelectedLibrary = l.Value.Key;
-        }
-        else
-            SelectedLibrary = library as Guid?;
-        _ = Refresh();
-    }
-
-    private void SelectTag(object? tag)
-    {
-        if (tag is string str)
-        {
-            var t = optionsTags?.FirstOrDefault(x => (x.Label?.ToLowerInvariant()).Equals(str, StringComparison.InvariantCultureIgnoreCase));
-            if (t == null)
-                return;
-            SelectedTag = t.Value as Guid?;
-        }
-        else
-            SelectedTag = tag as Guid?;
-        _ = Refresh();
-    }
-
-    /// <summary>
-    /// Sets the selected flow
-    /// </summary>
-    /// <param name="flow">the flow</param>
-    private void SelectFlow(object? flow)
-    {
-        if (flow is string str)
-        {
-            var f = Flows?.FirstOrDefault(x => x.Value?.ToLowerInvariant() == str.ToLowerInvariant());
-            if (f == null)
-                return;
-            SelectedFlow = f.Value.Key;
-        }
-        else
-            SelectedFlow = flow as Guid?;
-        _ = Refresh();
-    }
-
-    /// <summary>
-    /// THe manual add button was clicked
-    /// </summary>
-    private async Task Add()
-    {
-        var nodes = Nodes.ToDictionary(x => x.Value.Uid, x => x.Value.Name);
-        var result = await AddDialog.Show(Blocker, Flows, nodes);
-        // if (result.Files?.Any() != true)
-        //     return;
-        // Blocker.Show();
-        // try
-        // {
-        //     await HttpHelper.Post(ApiUrl + $"/manually-add", result);
-        // }
-        // finally
-        // {
-        //     Blocker.Hide();
-        // }
-        if(result)
-            await Refresh();
+        feService.Files.UnprocessedUpdated -= DataUpdatedWithTotal;
+        feService.Files.FailedFilesUpdated -= DataUpdated2;
+        feService.Files.SuccessfulUpdated -= DataUpdated2;
+        feService.Files.OutOfScheduleUpdated -= DataUpdated;
+        feService.Files.DisabledUpdated -= DataUpdated;
+        feService.Files.OnHoldUpdated -= DataUpdated;
+        feService.Files.ProcessingUpdated -= DataUpdated;
     }
 }

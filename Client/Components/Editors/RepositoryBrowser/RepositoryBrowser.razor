@@ -1,0 +1,46 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper Modal="@this">
+    <FlowTable @ref="Table" TItem="RepositoryObject" Data="Data" Selection="SelectionMode.Multiple" DoubleClick="@View"
+               TableIdentifier="PluginBrowser">
+        <ToolBar>
+            @if (Type != RepositoryType.Plugins)
+            {
+                <FlowTableButton Clicked=ViewAction SelectedOne="true" Icon="fas fa-info-circle" Label="Labels.View"/>
+            }
+            <FlowTableButton Clicked=Download SelectedOneOrMore="true" Icon="fas fa-cloud-download-alt" Label="Labels.Download"/>
+        </ToolBar>
+        <Columns>
+
+            <FlowTableColumn TItem="RepositoryObject" NoHeight="true">
+                <Header>
+                    @Globals.lblName
+                </Header>
+                <Cell Context="item">
+                    <div class="table-item">
+                        <TableItemIcon Icon="@item.Icon" DefaultIcon="fab fa-docker" />
+                        <div class="center">
+                            <span class="name"><span class="name-actual">@item.Name</span></span>
+                            <span>@item.Description</span>
+                        </div>
+                        <div class="right">
+                            @if (string.IsNullOrWhiteSpace(item.Author))
+                            {
+                                <span class="top-right">@item.Author</span>
+                            }
+                            else
+                            {
+                                <span class="top-right">@item.Revision</span>
+                            }
+                        </div>
+                    </div>
+
+                </Cell>
+            </FlowTableColumn>
+            
+        </Columns>
+    </FlowTable>
+
+</ModalEditorWrapper>

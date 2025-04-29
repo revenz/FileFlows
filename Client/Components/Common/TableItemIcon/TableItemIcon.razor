@@ -8,11 +8,11 @@
 {
     @if (icon.StartsWith("svg:"))
     {
-        <img src="/icons/@(icon[4..]).svg"/>
+        <img loading="lazy" src="/icons/@(icon[4..]).svg"/>
     }
     else if (icon.StartsWith("data:") || icon.EndsWith(".svg"))
     {
-        <img src="@icon"/>
+        <img loading="lazy"  src="@icon"/>
     }
     else
     {
@@ -34,11 +34,11 @@ else
 
         @if (icon.StartsWith("svg:"))
         {
-            <img src="/icons/@(icon[4..]).svg"/>
+            <img loading="lazy" src="/icons/@(icon[4..]).svg"/>
         }
         else if (icon.StartsWith("data:") || icon.EndsWith(".svg") || icon.StartsWith('/') || icon.StartsWith("http:") || icon.StartsWith("https:"))
         {
-            <img src="@icon"/>
+            <img loading="lazy" src="@icon"/>
         }
         else
         {

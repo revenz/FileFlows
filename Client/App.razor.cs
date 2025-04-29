@@ -1,6 +1,7 @@
 using System.Web;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -15,8 +16,7 @@ public partial class App : ComponentBase
     /// The instance of the application
     /// </summary>
     public static App Instance { get; private set; }
-    public delegate void DocumentClickDelegate();
-    public event DocumentClickDelegate OnDocumentClick;
+    public event Action? OnDocumentClick;
     public delegate void WindowBlurDelegate();
     public event WindowBlurDelegate OnWindowBlur;
 
@@ -24,12 +24,10 @@ public partial class App : ComponentBase
     [Inject] public IJSRuntime jsRuntime { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
     [Inject] private FFLocalStorageService LocalStorage { get; set; }
-    
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
-    public bool LanguageLoaded { get; set; } = false;
+    [Inject] private FrontendService feService { get; set; }
 
     public int DisplayWidth { get; private set; }
     public int DisplayHeight { get; private set; }
@@ -37,12 +35,11 @@ public partial class App : ComponentBase
     /// <summary>
     /// Gets if being viewed on a mobile device
     /// </summary>
-    public bool IsMobile => DisplayWidth is > 0 and <= 850;
+    public bool IsMobile => DisplayWidth is > 0 and < 850;
     /// <summary>
     /// Gets if being viewed on a small mobile device
     /// </summary>
     public bool IsSmallMobile => DisplayWidth is > 0 and <= 600;
-    public static int PageSize { get; set; }
 
     /// <summary>
     /// Delegate for the on escape event
@@ -79,56 +76,6 @@ public partial class App : ComponentBase
         }
     }
     
-    /// <summary>
-    /// Gets or sets if the nav menu is collapsed
-    /// </summary>
-    public bool NavMenuCollapsed { get; set; }
-
-    
-    /// <summary>
-    /// Gest the client service that can be used by helper methods like LibraryFileEditor
-    /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
-
-
-    /// <summary>
-    /// Loads the language files from the server
-    /// </summary>
-    /// <param name="language">Optional language to load</param>
-    public async Task LoadLanguage(string? language = null)
-    {
-        var langFile = await LoadLanguageFile($"/api/language?version={Globals.Version}&t={DateTime.Now.Ticks}&language={language}");;
-        Translater.Init(langFile);
-    }
-
-    /// <summary>
-    /// Reinitialize the app after a login
-    /// </summary>
-    public async Task Reinitialize()
-    {
-        var token = await LocalStorage.GetAccessToken();
-        if (string.IsNullOrWhiteSpace(token) == false)
-        {
-            HttpHelper.Client.DefaultRequestHeaders.Authorization
-                = new AuthenticationHeaderValue("Bearer", token);
-            
-        }
-
-        await LoadLanguage();
-        LanguageLoaded = true;
-        StateHasChanged();
-    }
-
-    private async Task<string> LoadLanguageFile(string url)
-    {
-        return (await HttpHelper.Get<string>(url)).Data ?? "";
-    }
-
-    public async Task SetPageSize(int pageSize)
-    {
-        PageSize = pageSize;
-        await LocalStorage.SetItemAsync(nameof(PageSize), pageSize);
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -136,9 +83,6 @@ public partial class App : ComponentBase
         ClientConsoleLogger.jsRuntime = jsRuntime;
         new ClientConsoleLogger();
         HttpHelper.Client = Client;
-        PageSize = await LocalStorage.GetItemAsync<int>(nameof(PageSize));
-        if (PageSize is < 100 or > 5000)
-            PageSize = 1000;
 
         var dimensions = await jsRuntime.InvokeAsync<Dimensions>("ff.deviceDimensions");
         DisplayWidth = dimensions.width;
@@ -147,23 +91,25 @@ public partial class App : ComponentBase
         _ = jsRuntime.InvokeVoidAsync("ff.onEscapeListener", new object[] { dotNetObjRef });
         _ = jsRuntime.InvokeVoidAsync("ff.attachEventListeners", new object[] { dotNetObjRef });
         _ = jsRuntime.InvokeVoidAsync("ff.setCSharp",  new object[] { dotNetObjRef });
-
-        await Reinitialize();
-        var profile = await ProfileService.Get();
         
-        if ((profile.ConfigurationStatus & ConfigurationStatus.InitialConfig) != ConfigurationStatus.InitialConfig || 
-            (profile.ConfigurationStatus & ConfigurationStatus.EulaAccepted) != ConfigurationStatus.EulaAccepted)
+        feService.OnInitialized += FrontendServiceOnOnInitialized;
+        var authToken = await LocalStorage.GetAccessToken();
+        if (string.IsNullOrWhiteSpace(authToken) == false)
         {
-            if (profile.IsAdmin == false)
-            {
-                await ProfileService.Logout("Labels.AdminRequired");
-                return;
-            }
-            if(NavigationManager.Uri.Contains("/initial-config") == false)
-                NavigationManager.NavigateTo("/initial-config");
+            HttpHelper.Client.DefaultRequestHeaders.Authorization
+                = new AuthenticationHeaderValue("Bearer", authToken);
+            
         }
+#if(DEBUG)
+        feService.StartListening("http://localhost:6868/api/sse", authToken);
+#else
+        feService.StartListening("/api/sse", authToken);
+#endif
+    }
 
-        this.StateHasChanged();
+    private void FrontendServiceOnOnInitialized()
+    {
+        StateHasChanged();
     }
 
     record Dimensions(int width, int height);
@@ -191,18 +137,6 @@ public partial class App : ComponentBase
     }
     
     
-    /// <summary>
-    /// Opens a url
-    /// </summary>
-    [JSInvokable]
-    public async Task<bool> OpenUrl(string url)
-    {
-        var profile = await ProfileService.Get();
-        if (profile.IsWebView == false)
-            return false;
-        await HttpHelper.Post("/api/system/open-url?url=" + HttpUtility.UrlEncode(url));
-        return true;
-    }
 
     /// <summary>
     /// Navigates to a route
@@ -214,15 +148,26 @@ public partial class App : ComponentBase
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Opens a url
+    /// </summary>
+    [JSInvokable]
+    public async Task<bool> OpenUrl(string url)
+    {
+        if(feService.Profile.Profile.IsWebView)
+            return false;
+        await HttpHelper.Post("/api/system/open-url?url=" + HttpUtility.UrlEncode(url));
+        return true;
+    }
+
     public async Task OpenHelp(string url)
     {
-        var profile = await ProfileService.Get();
-        if (profile.IsWebView == false)
+        if (feService.Profile.Profile.IsWebView == false)
             await jsRuntime.InvokeVoidAsync("ff.open", url, true);
-        else  
+        else
             await OpenUrl(url);
     }
-    
+
 }
 
 

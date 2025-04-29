@@ -101,8 +101,8 @@ public class SystemMonitor:Worker, ISystemMonitorService
         var nodes = _nodeService.GetAllAsync().Result;
 
         var settings = settingsService.Get().Result;
-        var service = ServiceLoader.Load<IClientService>();
-        service.UpdateSystemInfo(new()
+        var service = ServiceLoader.Load<SseEventBroker>();
+        _ = service.BroadcastEvent(nameof(SystemInfo), new SystemInfo()
         {
             CpuUsage = LatestCpuUsage,
             MemoryUsage = LatestMemoryUsage,
@@ -114,8 +114,10 @@ public class SystemMonitor:Worker, ISystemMonitorService
                 Name = x.Name,
                 Version = x.Version,
                 Enabled = x.Enabled,
-                OutOfSchedule = TimeHelper.InSchedule(x.Schedule) == false,
-                ScheduleResumesAtUtc = TimeHelper.UtcDateUntilInSchedule(x.Schedule)
+                OutOfSchedule = x.DisableSchedule == false && TimeHelper.InSchedule(x.Schedule) == false,
+                ScheduleResumesAtUtc = x.DisableSchedule == false
+                    ? DateTime.MinValue
+                    : TimeHelper.UtcDateUntilInSchedule(x.Schedule)
             }).ToList()
         });
     }

@@ -1,48 +1,40 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="FileFlows.Server.Gui.Avalon.MainWindow" 
-        Title="FileFlows" Width="400" 
-		MaxWidth="400" 
-		
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="FileFlows.Server.Gui.Avalon.MainWindow"
+        mc:Ignorable="d" d:DesignWidth="514" d:DesignHeight="393"
+        Width="513" SizeToContent="Height"
         CanResize="False"
-        Foreground="#ff0090"
-        Background="#111214"
-        FontSize="16"
-		Icon="avares://FileFlows.Server/Gui/icon.ico"
-	>
-	<Grid RowDefinitions="Auto,*">
-
-		<!-- Title bar -->
-		<Grid IsVisible="{Binding CustomTitle}" Height="30" ColumnDefinitions="Auto, *,Auto,Auto" IsHitTestVisible="True" Background="Transparent">
-			<Image      Grid.Column="0" VerticalAlignment="Center" Source="avares://FileFlows.Server/Gui/icon.ico" Width="40" Margin="0,4,0,0" ></Image>
-			<TextBlock  Grid.Column="1" VerticalAlignment="Center" FontSize="16" Text="FileFlows"></TextBlock>
-			
-			<Button Grid.Column="2" Margin="0" Content="🗕" Command="{Binding Hide}" Width="60"
-			        Foreground="#eee" Background="Transparent" BorderBrush="Transparent"
-			/>
-			<Button Grid.Column="3" Margin="0" Content="✕" Command="{Binding Quit}" Width="60"
-			        Foreground="#eee" Background="Transparent" BorderBrush="Transparent" />
-		</Grid>
-		<StackPanel Grid.Row="1" Margin="10">
-			<Image Source="avares://FileFlows.Server/Gui/icon.ico" Width="100" />
+        SystemDecorations="Full"
+        Icon="avares://FileFlows.AvaloniaUI/Resources/icon.ico"
+        Title="FileFlows">
+	<Grid RowDefinitions="Auto, Auto" Classes="MainWindow">
+		<StackPanel Grid.Row="0" Orientation="Vertical">
+			<StackPanel Orientation="Vertical" Margin="20">
+        
+				<Image Stretch="None"  Source="avares://FileFlows.AvaloniaUI/Resources/logo.png" />
+				<TextBlock Margin="0 4 0 2" Name="tbVersion" TextAlignment="Center" Text="{Binding Version}"/>
 
 
-			<TextBlock Margin="6" Text="{Binding Version}" TextAlignment="Center" />
-			<TextBlock Margin="6" Text="{Binding ServerUrl}" TextAlignment="Center" />
-			
-			
-			<ToggleSwitch IsChecked="{Binding StartMinimized}" 
-			              Margin="5 5 5 5" HorizontalAlignment="Center" 
-			              OffContent="Start Minimised" OnContent="Start Minimised"  />
-
-			<StackPanel Orientation="Horizontal" Margin="20 0" HorizontalAlignment="Center">
-
-				<Button Margin="6" Content="OPEN" Command="{Binding Launch}" Width="100"
-					Foreground="#ff0090" Background="#111214"				
-					BorderBrush="#ff0090"
-					/>
+				<TextBlock Margin="0 20 0 2" Name="tbServerUrl">Server</TextBlock>
+				
+				<TextBox Name="txtServerUrl" IsEnabled="{Binding !ReadOnly}" 
+				         Text="{Binding ServerUrl}" IsReadOnly="True" />
+                   
+				<ToggleSwitch Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" 
+				              IsVisible="{Binding ShowStartMinimized}" 
+				              IsChecked="{Binding StartMinimized}" 
+				              Margin="0 10 0 0" HorizontalAlignment="Center" 
+				              OffContent="Start Minimized" OnContent="Start Minimized"  
+				              IsEnabled="{Binding Enabled}" />			
 
 			</StackPanel>
+			<Panel>
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+					<Button IsEnabled="{Binding !ReadOnly}" Name="btnOpen" Click="BtnOpen_OnClick">Open</Button>
+				</StackPanel>
+			</Panel>
 		</StackPanel>
 	</Grid>
 </Window>

@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -19,13 +20,13 @@ public partial class InputLanguage : Input<string>
     /// <summary>
     /// Gets or sets the profile service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await base.OnInitializedAsync();
-        var profile = await ProfileService.Get();
+        base.OnInitialized();
+        var profile = feService.Profile.Profile;
         LanguageOptions = LanguageHelper.Languages.DistinctBy(x => x.Iso2).Select(x =>
         {
             var name = profile.UseFrench ? x.French :

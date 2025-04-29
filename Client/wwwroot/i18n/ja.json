@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "中止中",
     "About": "について",
     "Add": "追加",
     "AdminRequired": "インストールを完了するには管理者が必要です。",
@@ -20,6 +21,8 @@
     "Close": "閉じる",
     "CommunityFlows": "コミュニティフロー",
     "Confirm": "確認",
+    "ConfirmLogOutMessage": "本当にログアウトしますか？",
+    "ConfirmLogOutTitle": "ログアウト",
     "CopiedToClipboard": "''{text}''をクリップボードにコピーしました。",
     "Copy": "コピー",
     "CopyToClipboard": "クリップボードにコピー",
@@ -36,6 +39,7 @@
     "Disabled": "無効",
     "Disconnected": "切断されました",
     "Discord": "Discord",
+    "DismissAll": "すべて閉じる",
     "Download": "ダウンロード",
     "DownloadLog": "ログをダウンロード",
     "DownloadLogShort": "ログ",
@@ -58,6 +62,7 @@
     "ForceProcessing": "強制処理",
     "Forum": "フォーラム",
     "Help": "ヘルプ",
+    "Idle": "アイドル",
     "Import": "インポート",
     "Increase": "増加",
     "Input": "入力",
@@ -66,11 +71,13 @@
     "InUse": "使用中",
     "LastRun": "最後の実行",
     "LastScanned": "最後にスキャンされた",
+    "LastSeen": "最後に見た",
     "License": "ライセンス",
     "Loading": "読み込み中",
     "Log": "ログ",
     "Logout": "ログアウト",
     "LogPartialNotAvailable": "ノードの部分ログが見つかりません。",
+    "ManualLibrary": "手動ライブラリ",
     "MappingIssue": "マッピングの問題",
     "Memory": "メモリ",
     "MissingDependencies": "依存関係が不足しています",
@@ -97,7 +104,7 @@
     "Output": "出力",
     "Paste": "貼り付け",
     "Pause": "処理を一時停止",
-    "Paused": "処理を再開",
+    "Paused": "一時停止",
     "PausedWithTime": "に再開",
     "Percent": "パーセント",
     "Pixels": "ピクセル",
@@ -144,6 +151,8 @@
     "SpaceIncrease": "{size} 増加, {items} アイテム",
     "SpaceSavings": "{size} 節約, {items} アイテム",
     "Status": "ステータス",
+    "Step1": "ステップ 1",
+    "Step2": "ステップ 2",
     "SubFlow": "サブフロー",
     "SubFlows": "サブフロー",
     "Success": "成功",
@@ -169,6 +178,7 @@
     "VersionNumber": "バージョン: {version}",
     "View": "表示",
     "ViewLog": "ログを表示",
+    "ViewMore": "もっと見る",
     "Warning": "警告",
     "WeekShort": "週",
     "When": "いつ",
@@ -243,9 +253,6 @@
       "ETA": "推定残り時間",
       "Speed": "速度",
       "UploadedAmount": "アップロード済み"
-    },
-    "FlowTemplatePicker": {
-      "Title": "開始するテンプレートを選択"
     },
     "IconPicker": {
       "Title": "アイコンを選択"
@@ -668,8 +675,6 @@
       "Labels": {
         "BatchDescription": "バッチファイルはWindowsシステムでのみ実行できます。基本的な変数を読み取ることができますが、実行中にFileFlowsオブジェクトを更新したりアクセスすることはできません。",
         "CSharpDescription": "C#スクリプトはFileFlowsの多くの部分と相互作用でき、最も強力です。FileFlowsと同じ言語を使用することで、より大きなシステム相互作用が可能です。",
-        "FileDisplayName": "ファイル表示名",
-        "FileDisplayNameDescription": "FileFlows Webコンソールでファイル名の表示をカスタマイズする特別なスクリプトです。このスクリプトはファイル自体を変更せず、インターフェース上での表示のみを変更します。",
         "JavaScriptDescription": "JavaScriptスクリプトはFileFlowsランナー内で実行され、変数の読み取りと書き込み、FileFlows内のすべてのヘルパー関数にアクセスできます。",
         "PowerShellDescription": "PowerShellスクリプトはWindowsシステムでのみ実行できます。基本的な変数を読み取ることができますが、実行中にFileFlowsオブジェクトを更新したりアクセスすることはできません。",
         "ShellDescription": "シェルスクリプトはUnixベースのシステム（Linux、MacOS、Docker）で実行されます。基本的な変数を読み取ることができますが、実行中にFileFlowsオブジェクトを更新したりアクセスすることはできません。"
@@ -843,7 +848,13 @@
       "Minutes": "分",
       "Weeks": "週"
     },
+    "ProcessingLibraries": {
+      "All": "すべて",
+      "AllExcept": "すべて（以下を除く）",
+      "Only": "のみ"
+    },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "構成が古くなっています",
       "Disabled": "無効",
       "HigherPriorityNodeAvailable": "優先度の高いノードが利用可能です",
       "Idle": "アイドル",
@@ -853,6 +864,7 @@
       "OutOfSchedule": "スケジュール外",
       "Processing": "処理中",
       "RestrictedByLibrary": "ライブラリによって制限されています",
+      "UpdatingConfiguration": "構成を更新中",
       "VersionMismatch": "バージョン不一致"
     },
     "ProcessingOrder": {
@@ -903,9 +915,11 @@
       "Nodes": "ノード",
       "PauseProcessing": "処理を一時停止",
       "Plugins": "プラグイン",
+      "Reports": "レポート",
       "Resources": "リソース",
       "Revisions": "リビジョン",
       "Scripts": "スクリプト",
+      "Tags": "タグ",
       "Tasks": "タスク",
       "Variables": "変数",
       "Webhooks": "ウェブフック"
@@ -916,6 +930,7 @@
     "CannotDeleteInternalNode": "内部処理ノードを削除することはできません。",
     "DeleteFailed": "削除に失敗しました",
     "DuplicatesFound": "重複が見つかりました",
+    "LibraryScanAtCapacity": "スキャンの上限に達しました。これ以上アイテムを追加できません。既存のアイテムの処理が完了するのを待つか、未処理、無効、またはスケジュール済みのアイテムを減らしてください。",
     "NameInUse": "名前はすでに使用されています",
     "NameRequired": "名前は必須です",
     "NoFlowSpecified": "フローが指定されていません。ライブラリを作成するにはフローを選択する必要があります",
@@ -949,6 +964,7 @@
   },
   "MenuGroups": {
     "Admin": "管理者",
+    "Config": "設定",
     "Configuration": "設定",
     "Extensions": "拡張機能",
     "FileDrop": "FileDrop",
@@ -1059,6 +1075,7 @@
       },
       "Tabs": {
         "Dashboard": "ダッシュボード",
+        "Overview": "概要",
         "Savings": "節約",
         "Statistics": "統計"
       },
@@ -1067,13 +1084,13 @@
           "Peak": "{num} ピーク"
         },
         "Files": {
-          "Failed": "{count, plural, zero {失敗} other {# 失敗}}",
-          "Finished": "{count, plural, zero {完了} other {# 完了}}",
+          "Failed": "{count, plural, zero {失敗} other {{formatted} 失敗}}",
+          "Finished": "{count, plural, zero {完了} other {{formatted} 完了}}",
           "NoFailedFiles": "失敗したファイルはありません",
           "NoRecentlyFinishedFiles": "最近完了したファイルはありません",
           "NoUpcomingFiles": "今後のファイルはありません",
           "Title": "ファイル",
-          "Upcoming": "{count, plural, zero {今後} other {# 今後}}"
+          "Upcoming": "{count, plural, zero {今後} other {{formatted} 今後}}"
         },
         "FilesOverview": {
           "FilesProcessed": "処理済みファイル",
@@ -1373,6 +1390,15 @@
         "WaitTimeSeconds": "待機時間",
         "WaitTimeSeconds-Help": "このフォルダーに対して最後の変更が書き込まれてからスキャンされるまでに経過する必要がある秒数。",
         "WaitTimeSeconds-Suffix": "秒"
+      },
+      "Messages": {
+        "ScanFailed": "ライブラリ「{name}」のスキャンに失敗しました"
+      },
+      "Tabs": {
+        "Advanced": "詳細設定",
+        "Detection": "検出",
+        "General": "一般",
+        "Schedule": "スケジュール"
       }
     },
     "LibraryFile": {
@@ -1399,6 +1425,7 @@
       "Tabs": {
         "CustomVariables": "カスタム変数",
         "FinalMetadata": "出力",
+        "LogServer": "サーバーログ",
         "OriginalMetadata": "入力"
       }
     },
@@ -1474,6 +1501,9 @@
         "Address": "アドレス",
         "Enabled": "有効",
         "FlowRunners": "フローロンナー"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "{message} をインストール中"
       }
     },
     "Notifications": {
@@ -1506,6 +1536,7 @@
         "AllLibraries": "すべてのライブラリ",
         "AllLibraries-Help": "このノードが処理するライブラリ",
         "CopyMappings": "マッピングをコピー",
+        "DisableSchedule": "スケジュールを有効にする",
         "DontChangeOwner": "所有者を変更しない",
         "DontChangeOwner-Help": "チェックされている場合、ノードは新しく作成されたファイルの所有者を環境変数で定義されたPGIDとPUIDに変更します。\nこれらの環境変数が設定されていない場合、所有者は''users:nobody''に変更されます。",
         "DontSetPermissions": "権限を設定しない",
@@ -1532,9 +1563,6 @@
         "PreExecuteScript-Help": "ファイルが処理される前に実行されるスクリプト。このスクリプトの結果は1でなければならず、それ以外の場合はノードはファイルを処理しません。",
         "Priority": "優先度",
         "Priority-Help": "数字が高いほど優先度が高くなります。優先度の高いノードは、スケジュールが外れている、無効になっている、最大ランナーに達している場合を除いて、最初に処理するファイルを優先されます。",
-        "ProcessFileCheckInterval": "ファイルチェック間隔",
-        "ProcessFileCheckInterval-Help": "処理ノードで新しいファイルを処理するためにどのくらいの頻度でチェックするか。\n0に設定すると、システム値を使用します。",
-        "ProcessFileCheckInterval-Suffix": "秒",
         "ProcessingDescription": "これにより、この処理ノードが何を処理できるかを設定できます。\n\n例えば、このノードが低パワーノードである場合、特定のライブラリや最大ファイルサイズのみを処理するように制限できます。",
         "ProcessingOrder": "処理順序",
         "ProcessingOrder-Help": "このノードがファイルを処理する順序を指定します。この設定はライブラリのデフォルトの処理順序を上書きします。「デフォルト」に設定すると、ライブラリの処理順序を使用します。",
@@ -1547,6 +1575,14 @@
         "VariablesDescription": "変数を使用すると、処理ノードに設定する高度な変数を構成できます。",
         "VariablesKey": "名前",
         "VariablesValue": "値"
+      },
+      "Tabs": {
+        "Advanced": "詳細設定",
+        "General": "一般",
+        "Mappings": "マッピング",
+        "Processing": "処理",
+        "Schedule": "スケジュール",
+        "Variables": "変数"
       }
     },
     "Report": {
@@ -1693,10 +1729,6 @@
         "DockerModsOnServer-Help": "DockerModsは、サーバーの起動時または特に有効にされたときに自動的に実行される必要があります。それ以外の場合は、ワークフローが開始されたときにのみ実行されます。",
         "DontUseTempFilesWhenMovingOrCopying": "移動/コピー用一時ファイル",
         "DontUseTempFilesWhenMovingOrCopying-Help": ".fftemp ファイルを使用して、移動やコピー中の早期検出を回避します。",
-        "HideProcessingFinishedNotifications": "処理終了通知を隠す",
-        "HideProcessingFinishedNotifications-Help": "ファイルの処理が完了したときにWebコンソールにトースト通知を表示する必要があるかどうか。",
-        "HideProcessingStartedNotifications": "処理開始通知を隠す",
-        "HideProcessingStartedNotifications-Help": "ファイルの処理が開始されたときにWebコンソールにトースト通知を表示する必要があるかどうか。",
         "KeepFailedFlowTempFiles": "失敗した一時ファイルを保持",
         "KeepFailedFlowTempFiles-Help": "このオプションを有効にすると、失敗した場合にフローによって使用された一時ファイルが保持され、自動的に削除されなくなります。\n注意して使用してください。",
         "Language": "言語",
@@ -1710,13 +1742,14 @@
         "LoggingPath-Help": "ここにログファイルが作成されます。",
         "LogQueueMessages": "詳細なライブラリログ",
         "LogQueueMessages-Help": "これはライブラリのファイル検出プロセスのログを増やします。ファイル検出の問題をデバッグするときのみ有効にし、その後無効にしてください。",
+        "MaxPageSize": "最大ページサイズ",
+        "MaxPageSize-Help": "リストに表示できる最大項目数です。これは、ロード時にUIに送信される処理済みファイルデータに適用されます。この数値はキューの容量以上である必要があります。",
         "PluginRepositoryUrls": "プラグインリポジトリ",
         "PluginRepositoryUrls-Help": "プラグインを検索する際に使用するプラグインリポジトリのURLのリストです。\n順序が重要です。同じプラグインが複数のリポジトリに含まれている場合、最初のリポジトリがそのソースとして使用されます。\nデフォルトのリポジトリは常にこのリストの最後に追加されます。",
-        "ProcessFileCheckInterval": "ファイルチェック間隔",
-        "ProcessFileCheckInterval-Help": "処理ノードで新しいファイルを処理するためにチェックする頻度。",
-        "ProcessFileCheckInterval-Suffix": "秒",
-        "ShowFileAddedNotifications": "ファイル追加通知",
-        "ShowFileAddedNotifications-Help": "ファイルが見つかってキューに追加されたときにWebコンソールにトースト通知を表示する必要があるかどうか。",
+        "QueueCapacity": "キューの容量",
+        "QueueCapacity-Help": "キューに追加できる最大アイテム数です。スケジュール外、保留中、または無効化されたアイテムが含まれます。この数値を増やすと、UI に送信されるデータが増え、パフォーマンスに影響を与える可能性があります。",
+        "ScanWhenPaused": "一時停止中にスキャン",
+        "ScanWhenPaused-Help": "有効にすると、システムが一時停止していてもライブラリのスキャンが続行されます。",
         "Telemetry": "テレメトリ",
         "Telemetry-Help": "テレメトリは、サポートが必要なデバイス、最も使用されているフロー部分、開発に集中すべき場所を知るのに役立ちます。\nファイルや個人情報についての情報は送信されません。",
         "Database": {
@@ -1851,6 +1884,8 @@
       "Fields": {
         "CustomSchedule": "カスタムスケジュール",
         "CustomSchedule-Help": "このタスクは、15分ごとのブロックの開始時に1回実行されます",
+        "Enabled": "有効",
+        "Enabled-Help": "このタスクが有効かどうかを判断し、イベントトリガーまたはスケジュールに基づいて実行されます。",
         "Schedule": "スケジュール",
         "Schedule-Help": "このスクリプトが実行される時間",
         "Script": "スクリプト",
@@ -2149,6 +2184,7 @@
     "DaysAgo": "{num} {num, plural, one {日} other {日}} 前",
     "HoursAgo": "{num} {num, plural, one {時間} other {時間}} 前",
     "MinutesAgo": "{num} {num, plural, one {分} other {分}} 前",
+    "MomentsAgo": "しばらく前",
     "Never": "決して",
     "SecondsAgo": "{num} {num, plural, one {秒} other {秒}} 前"
   },

@@ -1,9 +1,13 @@
 ﻿using FileFlows.Server.Workers;
 using Microsoft.OpenApi.Models;
 using System.Runtime.InteropServices;
+using FileFlows.NodeClient;
+using FileFlows.Services.FileProcessing;
+using FileFlows.Services.Interfaces;
 using FileFlows.WebServer.Filters;
 using FileFlows.WebServer.Hubs;
 using FileFlows.WebServer.Middleware;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.SignalR;
 using HttpMethod = System.Net.Http.HttpMethod;
 using ServiceLoader = FileFlows.Services.ServiceLoader;
@@ -112,8 +116,20 @@ public class WebServerApp
 
         string serverUrl = $"{protocol}://0.0.0.0:{Port}/";
         Logger.Instance.ILog("Server URL: " + serverUrl);
+        Protocol = protocol;
+        ServerUrl = serverUrl;
         return serverUrl;
     }
+    
+    /// <summary>
+    /// Gets the server url
+    /// </summary>
+    public static string? ServerUrl { get; private set; }
+
+    /// <summary>
+    /// Gets the protocol the server is listening on
+    /// </summary>
+    public static string? Protocol { get; private set; }
 
     /// <summary>
     /// Starts the server
@@ -154,7 +170,9 @@ public class WebServerApp
         });
         builder.Services.AddSignalR(options =>
         {
-            options.MaximumReceiveMessageSize = 1048576; // Set to 1 MB (1048576 bytes)
+            options.AddFilter<MessageTrackingFilter>();
+            options.EnableDetailedErrors = true;
+            options.MaximumReceiveMessageSize = 10485760; // Set to 10 MB (10485760 bytes)
         });
         builder.Services.AddResponseCompression();
         builder.Services.AddControllers().AddJsonOptions(options =>
@@ -221,7 +239,7 @@ public class WebServerApp
             c.InjectStylesheet("/css/swagger.min.css");
         });
 
-        app.UseDefaultFiles();
+        // app.UseDefaultFiles();
 
         var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
         provider.Mappings[".br"] = "text/plain";
@@ -264,24 +282,32 @@ public class WebServerApp
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
+            
             app.MapControllerRoute(
                 name: "Spa",
                 pattern: "{*url}",
                 defaults: new { controller = "Home", action = "Index" }
             );
         //});
+        
+        app.UseExceptionHandler(errorApp =>
+        {
+            errorApp.Run(context =>
+            {
+                var eee = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+                if (eee != null)
+                    Logger.Instance.ELog($"ExceptionHandler: {eee}");
+                return Task.CompletedTask;
+            });
+        });
 
-        app.MapHub<FlowHub>("/flow");
-        app.MapHub<ClientServiceHub>("/client-service");
+        
+        app.MapHub<NodeHub>("/node");
 
         app.UseResponseCompression();
 
         // this will run the asp.net app and wait until it is killed
         Logger.Instance.ILog("Running FileFlows Server");
-
-        var _clientServiceHub = app.Services.GetRequiredService<IHubContext<ClientServiceHub>>();
-        ServiceLoader.AddSpecialCase<IClientService>(new ClientServiceManager(_clientServiceHub));
 
         app.MapBlazorHub(); // This is necessary for Blazor Server-Side
         
@@ -301,10 +327,39 @@ public class WebServerApp
 
             return;
         }
+
+
+        var _nodeHub = app.Services.GetRequiredService<IHubContext<NodeHub>>();
+        //var nodeManagerService = ServiceLoader.Load<NodeManagerService>();
+        ServiceLoader.AddSpecialCase<INodeHubService>(new NodeHubBridge(_nodeHub));
+
+        // just to start up the file queue service
+        InitializeServices();
+        
+        var client = new Client(new ()
+        {
+            ServerUrl =$"{(Protocol == "https" ? "wss" : "ws")}://localhost:{Port}",
+            Hostname = CommonVariables.InternalNodeName,
+            AccessToken = NodeHub.InternalAccessToken
+        }, Logger.Instance);
+        client.Start();
         
         task.Wait();
+        //client.StopAsync().Wait();
         Logger.Instance.ILog("Finished running FileFlows Server");
         WorkerManager.StopWorkers();
+    }
+
+    /// <summary>
+    /// Initialises some startup services
+    /// </summary>
+    private static void InitializeServices()
+    {
+        _ = ServiceLoader.Load<SystemOverviewService>();
+        _ = ServiceLoader.Load<SystemOverviewService>();
+        //_ = ServiceLoader.Load<FileUnprocessedService>();
+        //_ = ServiceLoader.Load<LibraryFileStatusOverviewService>();
+        ServiceLoader.Load<FileSorterService>().Initialize();
     }
 
     /// <summary>

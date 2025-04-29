@@ -13,6 +13,8 @@ using BlazorContextMenu;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Components.Inputs;
 using FileFlows.Client.Helpers;
+using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 using FileFlows.Client.Wizards;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -24,6 +26,11 @@ public partial class Flow : ComponentBase, IDisposable
     /// Editor for flow elements/parts
     /// </summary>
     public Editor Editor { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the message service
+    /// </summary>
+    [Inject] MessageService Message { get; set; }
     /// <summary>
     /// Editor for custom fields
     /// </summary>
@@ -44,6 +51,10 @@ public partial class Flow : ComponentBase, IDisposable
     private ffElement[] AvailablePlugins { get; set; }
     private ffElement[] AvailableScripts { get; set; }
     private ffElement[] AvailableSubFlows { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
 
     /// <summary>
     /// The flow element lists
@@ -67,10 +78,6 @@ public partial class Flow : ComponentBase, IDisposable
     /// Gets or sets the properties editor
     /// </summary>
     private FlowPropertiesEditor PropertiesEditor { get; set; }
-    /// <summary>
-    /// The flow template picker instance
-    /// </summary>
-    private FlowTemplatePicker TemplatePicker;
     /// <summary>
     /// The Add editor instance
     /// </summary>
@@ -127,9 +134,9 @@ public partial class Flow : ComponentBase, IDisposable
     private bool FieldsTabOpened { get; set; }
 
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets the profile
@@ -137,9 +144,10 @@ public partial class Flow : ComponentBase, IDisposable
     protected Profile Profile { get; private set; }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        Profile = await ProfileService.Get();
+        Layout.SetInfo(Translater.Instant("Pages.Flows.Title"), "fas fa-sitemap", noPadding: true);
+        Profile = feService.Profile.Profile; 
         lblSave = Translater.Instant("Labels.Save");
         lblClose = Translater.Instant("Labels.Close");
         lblSaving = Translater.Instant("Labels.Saving");
@@ -157,13 +165,13 @@ public partial class Flow : ComponentBase, IDisposable
         lblElements = Translater.Instant("Labels.Elements");
         lblScripts = Translater.Instant("Labels.Scripts");
         lblSubFlows = Translater.Instant("Labels.SubFlows");
-        lblUnsavedChanges =Translater.Instant("Labels.UnsavedChanges");
+        lblUnsavedChanges = Translater.Instant("Labels.UnsavedChanges");
 
         NavigationCheck = async () =>
         {
             if (OpenedFlows?.Any(x => x.IsDirty) == true)
             {
-                bool result = await Confirm.Show(lblUnsavedChanges, $"Pages.{nameof(Flow)}.Messages.Close");
+                bool result = await Message.Confirm(lblUnsavedChanges, $"Pages.{nameof(Flow)}.Messages.Close");
                 if (result == false)
                     return false;
             }
@@ -232,7 +240,7 @@ public partial class Flow : ComponentBase, IDisposable
         StateHasChanged();
         try
         {
-            await LoadFlowElements();
+            LoadFlowElements();
             
             if (Uid == Guid.Empty)
             {
@@ -295,7 +303,7 @@ public partial class Flow : ComponentBase, IDisposable
                 var modelResult = await GetModel(API_URL + "/" + uid);
                 if (modelResult.Success == false || modelResult.Data == null)
                 {
-                    Toast.ShowWarning("Pages.Flow.Messages.FailedToLoadFlow");
+                    feService.Notifications.ShowWarning("Pages.Flow.Messages.FailedToLoadFlow");
                     return;
                 }
 
@@ -303,7 +311,7 @@ public partial class Flow : ComponentBase, IDisposable
                              new FFlow { Parts = new List<ffPart>() };
             }
 
-            var fEditor = new FlowEditor(this, flow, ProfileService);
+            var fEditor = new FlowEditor(this, flow, feService, Message);
             await fEditor.Initialize();
             OpenedFlows.Add(fEditor);
             ActivateFlow(fEditor);
@@ -315,14 +323,9 @@ public partial class Flow : ComponentBase, IDisposable
         }
     }
 
-    private async Task LoadFlowElements()
+    private void LoadFlowElements()
     {
-        var elementsResult =
-            await GetElements(API_URL + "/elements"); //"?type=" + (int)_FlowType + "&flowUid=" + modelUid);
-        if (elementsResult.Success == false)
-            return;
-
-        Available = elementsResult.Data;
+        Available = feService.Flow.FlowElements.ToArray();
     }
 
     private async Task UpdateFlowElementLists()
@@ -615,23 +618,19 @@ public partial class Flow : ComponentBase, IDisposable
                         {
                             if (flowOptions == null)
                             {
-                                flowOptions = new List<ListOption>();
-                                var flowsResult = await HttpHelper.Get<Dictionary<Guid, string>>(
-                                    $"/api/flow/basic-list?type=" + (optp == "FLOW_LIST" ? "Standard" : "SubFlow"));
-                                if (flowsResult.Success)
-                                {
-                                    flowOptions = flowsResult.Data?.Where(x => x.Key != editor.Flow?.Uid)
-                                        ?.OrderBy(x => x.Value)?.Select(x => new ListOption
+                                var wanted = optp == "FLOW_LIST" ? FlowType.Standard : FlowType.SubFlow;
+                                flowOptions = feService.Flow.Flows
+                                    .Where(x => x.Uid != editor.Flow?.Uid && x.Type == wanted)
+                                    .OrderBy(x => x.Name.ToLowerInvariant())?.Select(x => new ListOption
+                                    {
+                                        Label = x.Name,
+                                        Value = new ObjectReference
                                         {
-                                            Label = x.Value,
-                                            Value = new ObjectReference
-                                            {
-                                                Name = x.Value,
-                                                Uid = x.Key,
-                                                Type = typeof(FFlow).FullName
-                                            }
-                                        })?.ToList() ?? new List<ListOption>();
-                                }
+                                            Name = x.Name,
+                                            Uid = x.Uid,
+                                            Type = typeof(FFlow).FullName
+                                        }
+                                    }).ToList();
                             }
 
                             field.Parameters["Options"] = flowOptions;
@@ -667,22 +666,17 @@ public partial class Flow : ComponentBase, IDisposable
                         {
                             if (nodeOptions == null)
                             {
-                                nodeOptions = new List<ListOption>();
-                                var nodesResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/node/basic-list?enabled=true");
-                                if (nodesResult.Success)
-                                {
-                                    nodeOptions = nodesResult.Data.OrderBy(x => x.Value.ToLowerInvariant()).Select(
-                                        x => new ListOption
+                                nodeOptions = feService.Node.NodeList.OrderBy(x => x.Value.ToLowerInvariant()).Select(
+                                    x => new ListOption
+                                    {
+                                        Label = x.Value == "FileFlowsServer" ? "Internal Processing Node" : x.Value,
+                                        Value = new ObjectReference
                                         {
-                                            Label = x.Value == "FileFlowsServer" ? "Internal Processing Node" : x.Value,
-                                            Value = new ObjectReference
-                                            {
-                                                Name = x.Value,
-                                                Uid = x.Key,
-                                                Type = typeof(FileFlows.Shared.Models.ProcessingNode).FullName
-                                            }
-                                        })?.ToList() ?? new List<ListOption>();
-                                }
+                                            Name = x.Value,
+                                            Uid = x.Key,
+                                            Type = typeof(FileFlows.Shared.Models.ProcessingNode).FullName
+                                        }
+                                    })?.ToList() ?? new List<ListOption>();
                             }
 
                             var list = nodeOptions.ToList();
@@ -702,14 +696,8 @@ public partial class Flow : ComponentBase, IDisposable
                         {
                             if (libraryOptions == null)
                             {
-                                libraryOptions = new List<ListOption>();
-                                var librariesResult = await HttpHelper.Get<Dictionary<Guid, string>>($"/api/library/basic-list");
-                                if (librariesResult.Success)
-                                {
-                                    // if (librariesResult.Data.ContainsKey(CommonVariables.ManualLibraryUid) == false)
-                                    //     librariesResult.Data[CommonVariables.ManualLibraryUid] =
-                                    //         CommonVariables.ManualLibrary;
-                                    libraryOptions = librariesResult.Data.OrderBy(x => x.Value.ToLowerInvariant()).Select(
+                                libraryOptions = feService.Library.LibraryList.OrderBy(x => x.Value.ToLowerInvariant())
+                                    .Select(
                                         x => new ListOption
                                         {
                                             Label = x.Value,
@@ -720,7 +708,6 @@ public partial class Flow : ComponentBase, IDisposable
                                                 Type = typeof(FileFlows.Shared.Models.ProcessingNode).FullName
                                             }
                                         })?.ToList() ?? new List<ListOption>();
-                                }
                             }
 
                             field.Parameters["Options"] = libraryOptions;
@@ -917,7 +904,7 @@ public partial class Flow : ComponentBase, IDisposable
                 return true;
             error = codeResult.Data;
         }
-        Toast.ShowEditorError(error?.EmptyAsNull() ?? codeResult.Body, duration: 20_000);
+        feService.Notifications.ShowError(error?.EmptyAsNull() ?? codeResult.Body, duration: 20_000);
         return false;
     }
 
@@ -1097,7 +1084,7 @@ public partial class Flow : ComponentBase, IDisposable
         AvailableScripts = null;
         //StateHasChanged();
 
-        await LoadFlowElements();
+        //await LoadFlowElements();
         await InitializeFlowElements();
         await UpdateFlowElementLists();
         StateHasChanged();
@@ -1116,7 +1103,7 @@ public partial class Flow : ComponentBase, IDisposable
         AvailableSubFlows = null;
         //StateHasChanged();
 
-        await LoadFlowElements();
+        //await LoadFlowElements();
         await InitializeFlowElements();
         await UpdateFlowElementLists();
         StateHasChanged();
@@ -1145,7 +1132,7 @@ public partial class Flow : ComponentBase, IDisposable
 
     private async Task CloseEditor(FlowEditor editor)
     {
-        if (editor.IsDirty && await Confirm.Show(lblClose, $"Pages.{nameof(Flow)}.Messages.Close") == false)
+        if (editor.IsDirty && await Message.Confirm(lblClose, $"Pages.{nameof(Flow)}.Messages.Close") == false)
             return;
         
         int index = Math.Max(0, OpenedFlows.IndexOf(editor) - 1);
@@ -1170,23 +1157,23 @@ public partial class Flow : ComponentBase, IDisposable
                     // update url to save flow
                     await jsRuntime.InvokeVoidAsync("ff.updateUrlWithNewUid", result.Data.Uid.ToString());
                 }
-                if ((Profile.ConfigurationStatus & ConfigurationStatus.Flows) != ConfigurationStatus.Flows)
-                {
-                    // refresh the app configuration status
-                    await ProfileService.Refresh();
-                }
+                // if ((Profile.ConfigurationStatus & ConfigurationStatus.Flows) != ConfigurationStatus.Flows)
+                // {
+                //     // refresh the app configuration status
+                //     await feService.Refresh();
+                // }
 
                 editor.UpdateModel(result.Data, clean: true);
 
                 if (model.Type == FlowType.SubFlow)
                 {
                     // need to refresh the sub flows as their options may have changed
-                    await LoadFlowElements();
+                   // await LoadFlowElements();
                 }
             }
             else
             {
-                Toast.ShowEditorError(
+                feService.Notifications.ShowError(
                     result.Success || string.IsNullOrEmpty(result.Body) ? Translater.Instant($"ErrorMessages.UnexpectedError") : Translater.TranslateIfNeeded(result.Body),
                     duration: 60_000
                 );
@@ -1197,25 +1184,6 @@ public partial class Flow : ComponentBase, IDisposable
             this.IsSaving = false;
             this.Blocker.Hide();
         }
-    }
-
-
-    private async Task AddNewFlow(FFlow flow, bool isDirty)
-    {
-        if (flow.Uid == Guid.Empty)
-            flow.Uid = Guid.NewGuid();
-        
-        FlowEditor editor = new FlowEditor(this, flow, ProfileService);
-        editor.IsDirty = isDirty;
-        await editor.Initialize();
-        bool first = OpenedFlows.Any() == false;
-        OpenedFlows.Add(editor);
-        ActivateFlow(editor);
-        if(this.Zoom != 100)
-            _ = editor.ffFlow.zoom(this.Zoom);
-        await editor.ffFlow.focusName();
-        if (first)
-             await WaitForRender();
     }
     
     /// <summary>
@@ -1233,50 +1201,6 @@ public partial class Flow : ComponentBase, IDisposable
             return;
         await OpenFlowInNewTab(result.Value.Uid, showBlocker: true);
         StateHasChanged();
-        
-        //
-        //
-        //
-        // var result  = await TemplatePicker.Show((FlowType)(-1));
-        // if(result == null || result.Result == FlowTemplatePickerResult.ResultCode.Cancel)
-        //     return; // twas canceled
-        // if (result.Result == FlowTemplatePickerResult.ResultCode.Open)
-        // {
-        //     if (result.Uid != null)
-        //     {
-        //         await OpenFlowInNewTab(result.Uid.Value, showBlocker: true);
-        //         StateHasChanged();
-        //     }
-        //
-        //     return;
-        // }
-        //
-        // var flowTemplateModel = result.Model;
-        // if (flowTemplateModel.Fields?.Any() != true)
-        // {
-        //     // nothing extra to fill in, go to the flow editor, typically this if basic flows
-        //     await AddNewFlow(flowTemplateModel.Flow, isDirty: true);
-        //     return;
-        // }
-        //
-        // var newFlow = await AddEditor.Show(flowTemplateModel);
-        // if (newFlow == null)
-        //     return; // was canceled
-        //
-        // if (newFlow.Uid != Guid.Empty)
-        // {
-        //     if ((Profile.ConfigurationStatus & ConfigurationStatus.Flows) != ConfigurationStatus.Flows)
-        //     {
-        //         // refresh the app configuration status
-        //         await ProfileService.Refresh();
-        //     }
-        //     await AddNewFlow(newFlow, isDirty: false);
-        // }
-        // else
-        // {
-        //     // edit it
-        //     await AddNewFlow(newFlow, isDirty: true);
-        // }
     }
 
 } 

@@ -1,0 +1,62 @@
+@layout ConfigLayout
+
+@namespace FileFlows.Client.Pages
+@using FileFlows.Shared.Models
+
+@inherits ListPage<Guid, AccessControlEntry>
+
+@page "/config/access-control"
+    
+<FlowSkyBox TItem="AccessControlType" @ref=Skybox OnSelected=@SetSelected />
+
+<FlowTable @ref="Table" Data="@(SelectedType == AccessControlType.Console ? DataConsole : DataRemote)" 
+           TItem="AccessControlEntry" Selection="SelectionMode.Multiple" DoubleClick="@OnDoubleClick" TableIdentifier="AccessControl">
+    <ToolBar>      
+        <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
+        <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
+        <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete" />      
+        <FlowTableButtonSeparator />                    
+        <FlowTableButton Clicked=MoveUp Icon="fas fa-arrow-up" Label="Pages.AccessControl.Buttons.MoveUp" SelectedOneOrMore="true" />
+        <FlowTableButton Clicked=MoveDown Icon="fas fa-arrow-down" Label="Pages.AccessControl.Buttons.MoveDown" SelectedOneOrMore="true" />
+        <FlowTableButtonSeparator />                    
+        <FlowTableHelpButton HelpUrl="config/security/access-control" />
+    </ToolBar>
+        
+    <Columns>
+        <FlowTableColumn TItem="AccessControlEntry">
+            <Header>
+                @Globals.lblName
+            </Header>
+            <Cell Context="item">
+                <span>@item.Name</span>
+            </Cell>
+        </FlowTableColumn>
+        <FlowTableColumn TItem="AccessControlEntry" Width="12rem">
+            <Header>
+                @lblStart
+            </Header>
+            <Cell Context="item">
+                <span>@item.Start</span>
+            </Cell>
+        </FlowTableColumn>
+        <FlowTableColumn TItem="AccessControlEntry" Width="12rem">
+            <Header>
+                @lblEnd
+            </Header>
+            <Cell Context="item">
+                <span>@item.End</span>
+            </Cell>
+        </FlowTableColumn>
+        <FlowTableColumn TItem="AccessControlEntry" Width="8rem" Align="FlowTableAlignment.Center">
+            <Header>
+                @lblAllow
+            </Header>
+            <Cell Context="item">
+                @if (item.Allow)
+                {
+                    <i class="fas fa-check"></i>
+                }
+            </Cell>
+        </FlowTableColumn>
+    </Columns>
+</FlowTable>

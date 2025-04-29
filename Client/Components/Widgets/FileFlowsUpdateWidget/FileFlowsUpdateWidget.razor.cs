@@ -1,4 +1,5 @@
 using FileFlows.Client.Components.Dialogs;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -12,6 +13,15 @@ public partial class FileFlowsUpdateWidget : ComponentBase
     /// Translations
     /// </summary>
     private string lblNew, lblFixed, lblUpdate;
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the message service
+    /// </summary>
+    [Inject] MessageService Message { get; set; }
     
     /// <summary>
     /// Gets or sets if this user can update FileFlows automatically
@@ -53,21 +63,21 @@ public partial class FileFlowsUpdateWidget : ComponentBase
         Blocker.Hide();
         if (available.Success == false)
         {
-            Toast.ShowError("Pages.Settings.Messages.Update.Failed");
+            feService.Notifications.ShowError("Pages.Settings.Messages.Update.Failed");
             return;
         }
 
         if (available.Data == false)
         {
-            Toast.ShowInfo("Pages.Settings.Messages.Update.NotAvailable");
+            feService.Notifications.ShowInfo("Pages.Settings.Messages.Update.NotAvailable");
             return;
         }
         
-        if (await Confirm.Show("Pages.Settings.Messages.Update.Title",
+        if (await Message.Confirm("Pages.Settings.Messages.Update.Title",
                 "Pages.Settings.Messages.Update.Message") == false)
             return;
         await HttpHelper.Post("/api/settings/upgrade-now");
-        Toast.ShowInfo("Pages.Settings.Messages.Update.Downloading");
+        feService.Notifications.ShowInfo("Pages.Settings.Messages.Update.Downloading");
         await OnUpdate.InvokeAsync();
     }
     

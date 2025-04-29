@@ -1,65 +1,43 @@
 ﻿using System.Globalization;
+using System.Text;
 using System.Text.Json;
-using System.Collections.Concurrent;
+using FileFlows.Plugin;
+using FileFlows.Shared;
+using Jint.Runtime;
 
 namespace FileFlows.ServerShared;
 
 /// <summary>
-/// A Logger that writes its output to file.
+/// A Logger that writes its output to file
 /// </summary>
 public class FileLogger : ILogWriter
 {
-    /// <summary>
-    /// The prefix used for the log file name.
-    /// </summary>
     private string LogPrefix;
-
-    /// <summary>
-    /// The path where the log files are stored.
-    /// </summary>
     private string LoggingPath;
 
-    /// <summary>
-    /// The date of the current log file.
-    /// </summary>
     private DateOnly LogDate = DateOnly.MinValue;
 
-    /// <summary>
-    /// Caches the log filename to avoid repeated calculations.
-    /// </summary>
-    private string cachedLogFile = string.Empty; 
+    private SemaphoreSlim mutex = new SemaphoreSlim(1);
+
+    private long CurrentLogSize = 0;
+    private DateOnly currentLogDate = DateOnly.MinValue;
+    private string? logFile;
+    private const long MaxLogSize = 10 * 1024 * 1024;
+    
+    private const int MaxRetries = 3;
+    private const int RetryDelayMs = 100; // delay before retrying
 
     /// <summary>
-    /// Semaphore used to ensure thread-safety when writing to the log file.
-    /// </summary>
-    private readonly SemaphoreSlim semaphore = new(1);
-
-    /// <summary>
-    /// A queue to hold log messages before writing them to the log file.
-    /// </summary>
-    private readonly ConcurrentQueue<string> logQueue = new();
-
-    /// <summary>
-    /// Token source used to manage cancellation of the log processing task.
-    /// </summary>
-    private readonly CancellationTokenSource cts = new();
-
-    /// <summary>
-    /// Event used to signal when there are new items in the log queue.
-    /// </summary>
-    private readonly ManualResetEventSlim logEvent = new(false);
-
-    /// <summary>
-    /// Gets an instance of the FileLogger.
+    /// Gets an instance of the FileLogger
     /// </summary>
     public static FileLogger Instance { get; private set; } = null!;
 
     /// <summary>
-    /// Creates a file logger.
+    /// Creates a file logger
     /// </summary>
-    /// <param name="loggingPath">The path where to save the log file to.</param>
-    /// <param name="logPrefix">The prefix to use for the log file name.</param>
-    /// <param name="register">Indicates if this logger should be registered.</param>
+    /// <param name="loggingPath">The path where to save the log file to</param>
+    /// <param name="logPrefix">The prefix to use for the log file name</param>
+    /// <param name="register">if this logger should be registered</param>
     public FileLogger(string loggingPath, string logPrefix, bool register = true)
     {
         this.LoggingPath = loggingPath;
@@ -69,144 +47,138 @@ public class FileLogger : ILogWriter
             Shared.Logger.Instance.RegisterWriter(this);
             Instance = this;
         }
-
-        Task.Run(ProcessLogQueue, cts.Token);
     }
-
+    
     /// <summary>
-    /// Logs a message.
+    /// Logs a message
     /// </summary>
-    /// <param name="type">The type of log message.</param>
-    /// <param name="args">The arguments for the log message.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    public Task Log(LogType type, params object[] args)
+    /// <param name="type">the type of log message</param>
+    /// <param name="args">the arguments for the log message</param>
+    public async Task Log(LogType type, params object[] args)
     {
-        string date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
-        string prefix = type switch
+        string message = LogHelper.FormatMessage(type, args);
+        await LogRaw([message]);
+    }
+    
+    /// <summary>
+    /// Logs a raw message
+    /// </summary>
+    /// <param name="message">the messages to log</param>
+    public async Task LogRaw(string[] message)
+    {
+        await mutex.WaitAsync();
+        try
         {
-            LogType.Info => $"{date} [INFO] -> ",
-            LogType.Error => $"{date} [ERRR] -> ",
-            LogType.Warning => $"{date} [WARN] -> ",
-            LogType.Debug => $"{date} [DBUG] -> ",
-            _ => string.Empty
-        };
+            string messages = string.Join("\n", message);
 
-        string text = string.Join(
-            ", ", args.Select(x =>
+            long size = Encoding.UTF8.GetByteCount(messages) + 1;
+
+            if (logFile == null || currentLogDate.DayOfYear != DateTime.Now.DayOfYear || CurrentLogSize + size > MaxLogSize)
             {
-                if (x == null)
-                    return "null";
-                if (x.GetType().IsPrimitive)
-                    return x.ToString();
-                if (x is string str)
-                    return str;
-                if (x is JsonElement je)
+                logFile = GetLogFilename();
+                currentLogDate = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                var fileInfo = new FileInfo(logFile);
+                if (fileInfo.Exists == false)
                 {
-                    return je.ValueKind switch
-                    {
-                        JsonValueKind.True => "true",
-                        JsonValueKind.False => "false",
-                        JsonValueKind.String => je.GetString(),
-                        JsonValueKind.Number => je.GetInt64().ToString(),
-                        _ => je.ToString()
-                    };
+                    CurrentLogSize = 0;
+                    fileInfo.Create();
                 }
+                else
+                {
+                    CurrentLogSize = fileInfo.Length;
+                }
+            }
 
-                return JsonSerializer.Serialize(x);
-            }));
+            await AppendToLogAsync(logFile, messages);
 
-        string message = prefix + text;
-        if (message.IndexOf((char)0) >= 0)
-        {
-            message = message.Replace(new string((char)0, 1), string.Empty);
+            CurrentLogSize += size;
         }
-
-        logQueue.Enqueue(message);
-
-        // Signal that there's a new item in the queue
-        logEvent.Set();
-
-        return Task.CompletedTask;
+        finally
+        {
+            mutex.Release();
+        }
     }
 
     /// <summary>
-    /// Processes the log queue.
+    /// Sets the entire log content with the one provided
     /// </summary>
-    private async Task ProcessLogQueue()
+    /// <param name="log">the log content</param>
+    public async Task SetLogContent(string log)
     {
-        while (!cts.Token.IsCancellationRequested)
+        await mutex.WaitAsync();
+        try
         {
-            // Wait for the signal that the queue is not empty
-            logEvent.Wait(cts.Token);  // This blocks until a log is enqueued
 
-            // Reset the event and try dequeueing a message
-            logEvent.Reset();
-
-            if (logQueue.TryDequeue(out string? message))
+            if (logFile == null || currentLogDate.DayOfYear != DateTime.Now.DayOfYear)
             {
-                string logFile = GetLogFilename();
-                try
-                {
-                    await semaphore.WaitAsync(cts.Token);
-                    if (File.Exists(logFile) == false)
-                    {
-                        await File.WriteAllTextAsync(logFile, message + Environment.NewLine);
-                    }
-                    else
-                    {
-                        using var fs = new FileStream(logFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
-                        using StreamWriter sr = new(fs);
-                        await sr.WriteLineAsync(message);
-                        await sr.FlushAsync();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-                finally
-                {
-                    semaphore.Release();
-                }
+                logFile = GetLogFilename();
+                currentLogDate = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            }
+
+            await File.WriteAllTextAsync(logFile, log);
+            
+            CurrentLogSize = Encoding.UTF8.GetByteCount(log) + 1;
+        }
+        finally
+        {
+            mutex.Release();
+        }
+    }
+
+    /// <summary>
+    /// Appends a message to the specified log file, retrying if the file is locked.
+    /// </summary>
+    /// <param name="logFile">The path to the log file.</param>
+    /// <param name="messages">The message to append to the log file.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public static async Task AppendToLogAsync(string logFile, string messages)
+    {
+        for (int attempt = 1; attempt <= MaxRetries; attempt++)
+        {
+            try
+            {
+                using var fs = new FileStream(logFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+                using StreamWriter sr = new StreamWriter(fs);
+                await sr.WriteLineAsync(messages);
+                await sr.FlushAsync();
+                return; // Success, exit method
+            }
+            catch (IOException) when (attempt < MaxRetries)
+            {
+                //Console.Error.WriteLine($"[WARN] Failed to log message (attempt {attempt}): {ex.Message}");
+                await Task.Delay(RetryDelayMs); // Wait and retry
             }
         }
     }
-
+    
     /// <summary>
-    /// Gets a tail of the log.
+    /// Gets a tail of the log
     /// </summary>
-    /// <param name="length">The number of lines to fetch.</param>
-    /// <param name="logLevel">The log level to filter by.</param>
-    /// <returns>A task that returns the tail of the log.</returns>
+    /// <param name="length">The number of lines to fetch</param>
+    /// <param name="logLevel">the log level</param>
+    /// <returns>a tail of the log</returns>
     public async Task<string> GetTail(int length = 50, LogType logLevel = LogType.Info)
     {
         if (length <= 0 || length > 1000)
             length = 1000;
 
-        await semaphore.WaitAsync();
+        await mutex.WaitAsync();
         try
         {
             return GetTailActual(length, logLevel);
         }
         finally
         {
-            semaphore.Release();
+            mutex.Release();
         }
     }
 
-    /// <summary>
-    /// Gets the actual log tail.
-    /// </summary>
-    /// <param name="length">The size of the tail.</param>
-    /// <param name="logLevel">The types of messages to get.</param>
-    /// <returns>The log tail.</returns>
     private string GetTailActual(int length, LogType logLevel)
     {
         string logFile = GetLogFilename();
         if (string.IsNullOrEmpty(logFile) || File.Exists(logFile) == false)
             return string.Empty;
-
-        StreamReader reader = new(logFile);
+        StreamReader reader = new StreamReader(logFile);
         reader.BaseStream.Seek(0, SeekOrigin.End);
         int count = 0;
         int max = length;
@@ -227,7 +199,7 @@ public class FileLogger : ILogWriter
         string str = reader.ReadToEnd();
         if (logLevel == LogType.Debug)
             return str;
-
+        
         string[] arr = str.Replace("\r", "").Split('\n');
         arr = arr.Where(x =>
         {
@@ -243,36 +215,18 @@ public class FileLogger : ILogWriter
         return string.Join("\n", arr);
     }
 
+    
     /// <summary>
-    /// Gets the name of the filename to log to.
+    /// Gets the name of the filename to log to
     /// </summary>
-    /// <returns>The name of the filename to log to.</returns>
+    /// <returns>the name of the filename to log to</returns>
     public string GetLogFilename()
     {
-        // Check if the date has changed or if the cached file is no longer valid
-        if (cachedLogFile == string.Empty || 
-            new FileInfo(cachedLogFile).Length >= 10_000_000 || 
-            DateTime.Now.Date != LogDate.ToDateTime(TimeOnly.MinValue).Date)
-        {
-            string currentLogFile = Path.Combine(LoggingPath, LogPrefix + "-" + DateTime.Now.ToString("MMMdd"));
-            // Update the cached log file and log date
-            cachedLogFile = GetNewLogFile(currentLogFile);
-            LogDate = DateOnly.FromDateTime(DateTime.Now);
-        }
-        return cachedLogFile;
-    }
-
-    /// <summary>
-    /// Gets a new log file name.
-    /// </summary>
-    /// <param name="baseFile">The base name for the log.</param>
-    /// <returns>The new log name.</returns>
-    private string GetNewLogFile(string baseFile)
-    {
+        string file = Path.Combine(LoggingPath, LogPrefix + "-" + DateTime.Now.ToString("MMMdd"));
         string latestAcceptableFile = string.Empty;
         for (int i = 99; i >= 0; i--)
         {
-            FileInfo fi = new(baseFile + "-" + i.ToString("D2") + ".log");
+            FileInfo fi = new(file + "-" + i.ToString("D2") + ".log");
             if (fi.Exists == false)
             {
                 latestAcceptableFile = fi.FullName;

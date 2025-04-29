@@ -1,3 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
+
 namespace FileFlows.WebServer.Controllers;
 
 /// <summary>
@@ -20,23 +24,39 @@ public class NodeController : BaseController
             .ThenBy(x => x.Name)
             .ToList();
         
-#if (DEBUG)
-        var internalNode = nodes.FirstOrDefault(x => x.Uid == CommonVariables.InternalNodeUid);
-        // set this to linux so we can test the full UI
-        if (internalNode != null)
-            internalNode.OperatingSystem = OperatingSystemType.Linux;
-#endif
-        var totalFiles = await service.GetTotalFiles();
-
-        foreach (var node in nodes)
-        {
-            if (totalFiles.TryGetValue(node.Uid, out int pValue))
-                node.ProcessedFiles = pValue;
-            node.Status = service.GetStatus(node);
-        }
-        
         return nodes.OrderBy(x => x.Name.ToLowerInvariant());
     }
+    
+    /// <summary>
+    /// Gets a node icon
+    /// </summary>
+    /// <param name="uid">the UID of the node</param>
+    /// <returns>the icon</returns>
+    [HttpGet("{uid}/icon")]
+    [AllowAnonymous]
+    public async Task<IActionResult> NodeIcon(Guid uid)
+    {
+        var node = await ServiceLoader.Load<NodeService>().GetByUidAsync(uid);
+        if (string.IsNullOrWhiteSpace(node?.Icon) || node.Icon.StartsWith("data:", StringComparison.InvariantCultureIgnoreCase) == false)
+            return NotFound();
+        try
+        {
+            // Remove the "data:" prefix and decode the base64 data
+            var base64Data = node.Icon.Substring(node.Icon.IndexOf(',', StringComparison.Ordinal) + 1);
+            var imageData = Convert.FromBase64String(base64Data);
+
+            // Determine the MIME type from the data URL (e.g., "data:image/png;base64,")
+            var mimeType = node.Icon[5..node.Icon.IndexOf(';', StringComparison.Ordinal)];
+        
+            // Return the image data as a file with the appropriate MIME type
+            return File(imageData, mimeType);
+        }
+        catch (FormatException)
+        {
+            return BadRequest("Invalid base64 image data.");
+        }
+    }
+    
     /// <summary>
     /// Gets a list of all processing nodes in the system
     /// </summary>
@@ -55,21 +75,6 @@ public class NodeController : BaseController
         return nodes;
     }
     
-    /// <summary>
-    /// Basic node list
-    /// </summary>
-    /// <param name="enabled">if the nodes should be enabled, otherwise all are returned</param>
-    /// <returns>node list</returns>
-    [HttpGet("basic-list")]
-    [FileFlowsAuthorize(UserRole.Nodes | UserRole.Admin | UserRole.Reports | UserRole.Flows)]
-    public async Task<Dictionary<Guid, string>> GetNodeList([FromQuery] bool? enabled = null)
-    {
-        var items = await new NodeService().GetAllAsync();
-        if (enabled == true)
-            items = items.Where(x => x.Enabled).ToList();
-        return items.ToDictionary(x => x.Uid, x => x.Name == CommonVariables.InternalNodeName ? "Internal Processing Node" : x.Name);
-    }
-
     /// <summary>
     /// Gets an overview of the nodes
     /// </summary>
@@ -127,7 +132,7 @@ public class NodeController : BaseController
             }).DistinctBy(x => x.Uid).ToList();
         }
         
-        var clientService = ServiceLoader.Load<IClientService>();
+        var nodeService = ServiceLoader.Load<NodeService>();
 
         if(node.Uid == CommonVariables.InternalNodeUid)
         {
@@ -136,6 +141,7 @@ public class NodeController : BaseController
             if(internalNode != null)
             {
                 internalNode.Schedule = node.Schedule;
+                internalNode.DisableSchedule = node.DisableSchedule;
                 internalNode.FlowRunners = node.FlowRunners;
                 internalNode.Enabled = node.Enabled;
                 internalNode.Priority = node.Priority;
@@ -148,14 +154,13 @@ public class NodeController : BaseController
                 internalNode.AllLibraries = node.AllLibraries;
                 internalNode.MaxFileSizeMb = node.MaxFileSizeMb;
                 internalNode.Variables = node.Variables ?? new();
-                internalNode.ProcessFileCheckInterval = node.ProcessFileCheckInterval;
                 internalNode.PreExecuteScript = node.PreExecuteScript;
                 internalNode.ProcessingOrder = node.ProcessingOrder;
                 
                 internalNode.Libraries = node.Libraries ?? [];
                 internalNode = await service.Update(internalNode, await GetAuditDetails());
                 await CheckLicensedNodes(internalNode.Uid, internalNode.Enabled);
-                _ = clientService?.UpdateNodeStatusSummaries();
+                _ = nodeService?.UpdateNodeStatusSummaries();
                 await RevisionIncrement();
                 return Ok(internalNode);
             }
@@ -170,7 +175,7 @@ public class NodeController : BaseController
             node = await service.Update(node, await GetAuditDetails());
             await CheckLicensedNodes(node.Uid, node.Enabled);
             await RevisionIncrement();
-            _ = clientService?.UpdateNodeStatusSummaries();
+            _ = nodeService?.UpdateNodeStatusSummaries();
             return Ok(node);
         }
         else
@@ -184,7 +189,7 @@ public class NodeController : BaseController
             Logger.Instance.ILog("Updated external processing node: " + node.Name);
             await CheckLicensedNodes(node.Uid, node.Enabled);
             await RevisionIncrement();
-            _ = clientService?.UpdateNodeStatusSummaries();
+            _ = nodeService.UpdateNodeStatusSummaries();
             return Ok(node);
         }
     }
@@ -208,9 +213,9 @@ public class NodeController : BaseController
             .FirstOrDefault(x => x.Address == CommonVariables.InternalNodeName)?.Uid ?? Guid.Empty;
         if (model.Uids.Contains(internalNode))
             throw new Exception("ErrorMessages.CannotDeleteInternalNode");
-        await ServiceLoader.Load<NodeService>().Delete(model.Uids, await GetAuditDetails());
-        var clientService = ServiceLoader.Load<IClientService>();
-        _ = clientService?.UpdateNodeStatusSummaries();
+        var nodeService = ServiceLoader.Load<NodeService>();
+        await nodeService.Delete(model.Uids, await GetAuditDetails());
+        _ = nodeService?.UpdateNodeStatusSummaries();
     }
 
     /// <summary>
@@ -232,41 +237,8 @@ public class NodeController : BaseController
             node = await service.Update(node, await GetAuditDetails());
         }
         await CheckLicensedNodes(uid, enable == true);
-        var clientService = ServiceLoader.Load<IClientService>();
-        _ = clientService?.UpdateNodeStatusSummaries();
+        _ = service.UpdateNodeStatusSummaries();
         return Ok(node);
-    }
-
-    /// <summary>
-    /// Get processing node by address
-    /// </summary>
-    /// <param name="address">The address</param>
-    /// <param name="version">The version of the node</param>
-    /// <returns>If found, the processing node</returns>
-    [HttpGet("by-address/{address}")]
-    public async Task<ProcessingNode?> GetByAddress([FromRoute] string address, [FromQuery] string version)
-    {
-        if (string.IsNullOrWhiteSpace(address))
-            throw new ArgumentNullException(nameof(address));
-
-        var service = ServiceLoader.Load<NodeService>();
-        var node = await service.GetByAddressAsync(address);
-        if (node == null)
-            return node;
-
-        if (string.IsNullOrEmpty(version) == false && node.Version != version)
-        {
-            node.Version = version;
-            node = await service.Update(node, await GetAuditDetails());
-        }
-        else
-        {
-            // this updates the "LastSeen"
-            await service.UpdateLastSeen(node.Uid);
-        }
-
-        node.SignalrUrl = "flow";
-        return node;
     }
 
     /// <summary>
@@ -280,7 +252,6 @@ public class NodeController : BaseController
         if(string.IsNullOrWhiteSpace(address))
             throw new ArgumentNullException(nameof(address));
 
-        var clientService = ServiceLoader.Load<IClientService>();
         address = address.Trim();
         var service = ServiceLoader.Load<NodeService>();
         var data = await service.GetAllAsync();
@@ -288,7 +259,7 @@ public class NodeController : BaseController
         if (existing != null)
         {
             existing.SignalrUrl = "flow";
-            _ = clientService?.UpdateNodeStatusSummaries();
+            _ = service.UpdateNodeStatusSummaries();
             return existing;
         }
 
@@ -312,7 +283,7 @@ public class NodeController : BaseController
         node = await service.Update(node, await GetAuditDetails());
         node.SignalrUrl = "flow";
         await CheckLicensedNodes(Guid.Empty, false);
-        _ = clientService?.UpdateNodeStatusSummaries();
+        _ = service.UpdateNodeStatusSummaries();
         return node;
     }
 

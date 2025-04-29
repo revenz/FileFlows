@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "正在中止",
     "About": "關於",
     "Add": "新增",
     "AdminRequired": "安裝完成需要管理員權限。",
@@ -20,6 +21,8 @@
     "Close": "關閉",
     "CommunityFlows": "社群流程",
     "Confirm": "確認",
+    "ConfirmLogOutMessage": "您確定要登出嗎？",
+    "ConfirmLogOutTitle": "登出",
     "CopiedToClipboard": "已將 ''{text}'' 複製到剪貼簿。",
     "Copy": "複製",
     "CopyToClipboard": "複製到剪貼簿",
@@ -36,6 +39,7 @@
     "Disabled": "已禁用",
     "Disconnected": "已斷開連接",
     "Discord": "Discord",
+    "DismissAll": "全部關閉",
     "Download": "下載",
     "DownloadLog": "下載日誌",
     "DownloadLogShort": "日誌",
@@ -58,6 +62,7 @@
     "ForceProcessing": "強制處理",
     "Forum": "論壇",
     "Help": "幫助",
+    "Idle": "閒置",
     "Import": "匯入",
     "Increase": "增加",
     "Input": "輸入",
@@ -66,11 +71,13 @@
     "InUse": "正在使用",
     "LastRun": "最後執行",
     "LastScanned": "最後掃描",
+    "LastSeen": "最後查看",
     "License": "許可證",
     "Loading": "載入中",
     "Log": "日誌",
     "Logout": "登出",
     "LogPartialNotAvailable": "找不到節點的部分日誌。",
+    "ManualLibrary": "手動資料庫",
     "MappingIssue": "映射問題",
     "Memory": "記憶體",
     "MissingDependencies": "缺少依賴項",
@@ -97,7 +104,7 @@
     "Output": "輸出",
     "Paste": "貼上",
     "Pause": "暫停處理",
-    "Paused": "恢復處理",
+    "Paused": "已暫停",
     "PausedWithTime": "在此期間恢復",
     "Percent": "百分比",
     "Pixels": "像素",
@@ -144,6 +151,8 @@
     "SpaceIncrease": "{size} 增加，{items} 項目",
     "SpaceSavings": "{size} 節省，{items} 項目",
     "Status": "狀態",
+    "Step1": "步驟 1",
+    "Step2": "步驟 2",
     "SubFlow": "子流程",
     "SubFlows": "子流程",
     "Success": "成功",
@@ -169,6 +178,7 @@
     "VersionNumber": "版本： {version}",
     "View": "查看",
     "ViewLog": "查看日誌",
+    "ViewMore": "查看更多",
     "Warning": "警告",
     "WeekShort": "週",
     "When": "當",
@@ -243,9 +253,6 @@
       "ETA": "預計到達時間",
       "Speed": "速度",
       "UploadedAmount": "已上傳"
-    },
-    "FlowTemplatePicker": {
-      "Title": "選擇一個模板作為起點"
     },
     "IconPicker": {
       "Title": "選擇圖標"
@@ -668,8 +675,6 @@
       "Labels": {
         "BatchDescription": "批次檔只能在 Windows 系統上運行。它們可以讀取基本變數，但在執行期間無法更新或訪問 FileFlows 對象。",
         "CSharpDescription": "C# 腳本可以與 FileFlows 的更多部分互動，並且功能最強大。使用與 FileFlows 相同的語言，它們允許更大的系統交互。",
-        "FileDisplayName": "檔案顯示名稱",
-        "FileDisplayNameDescription": "一個專門的腳本，定制檔案名稱在 FileFlows 網頁控制台中的顯示方式。此腳本不修改實際檔案，只修改它們在界面中的顯示方式。",
         "JavaScriptDescription": "JavaScript 腳本在 FileFlows 運行器內執行，允許您讀取和寫入變數並訪問 FileFlows 中的所有輔助功能。",
         "PowerShellDescription": "PowerShell 腳本只能在 Windows 系統上運行。它們可以讀取基本變數，但在執行期間無法更新或訪問 FileFlows 對象。",
         "ShellDescription": "Shell 腳本在基於 Unix 的系統（Linux、MacOS、Docker）上運行。它們可以讀取基本變數，但在執行期間無法更新或訪問 FileFlows 對象。"
@@ -843,7 +848,13 @@
       "Minutes": "分鐘",
       "Weeks": "週"
     },
+    "ProcessingLibraries": {
+      "All": "全部",
+      "AllExcept": "除了以下全部",
+      "Only": "僅"
+    },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "設定已過時",
       "Disabled": "已禁用",
       "HigherPriorityNodeAvailable": "可用的高優先級節點",
       "Idle": "空閒",
@@ -853,6 +864,7 @@
       "OutOfSchedule": "超出計劃",
       "Processing": "處理中",
       "RestrictedByLibrary": "受庫限制",
+      "UpdatingConfiguration": "正在更新設定",
       "VersionMismatch": "版本不匹配"
     },
     "ProcessingOrder": {
@@ -903,9 +915,11 @@
       "Nodes": "節點",
       "PauseProcessing": "暫停處理",
       "Plugins": "插件",
+      "Reports": "報告",
       "Resources": "文件",
       "Revisions": "版本",
       "Scripts": "腳本",
+      "Tags": "標籤",
       "Tasks": "任務",
       "Variables": "變數",
       "Webhooks": "網路鉤子"
@@ -916,6 +930,7 @@
     "CannotDeleteInternalNode": "您無法刪除內部處理節點。",
     "DeleteFailed": "刪除失敗",
     "DuplicatesFound": "找到重複項",
+    "LibraryScanAtCapacity": "掃描已達上限 — 無法再新增項目。請等待現有項目完成，或減少未處理、已停用或排程中的項目。",
     "NameInUse": "名稱已被使用",
     "NameRequired": "名稱為必填項",
     "NoFlowSpecified": "未指定流，必須選擇一個流來創建庫",
@@ -949,6 +964,7 @@
   },
   "MenuGroups": {
     "Admin": "管理",
+    "Config": "設定",
     "Configuration": "配置",
     "Extensions": "擴展",
     "FileDrop": "FileDrop",
@@ -1059,6 +1075,7 @@
       },
       "Tabs": {
         "Dashboard": "儀表板",
+        "Overview": "概覽",
         "Savings": "節省",
         "Statistics": "統計"
       },
@@ -1067,13 +1084,13 @@
           "Peak": "{num} 峰值"
         },
         "Files": {
-          "Failed": "{count, plural, zero {失敗} other {# 失敗}}",
-          "Finished": "{count, plural, zero {完成} other {# 完成}}",
+          "Failed": "{count, plural, zero {失敗} other {{formatted} 失敗}}",
+          "Finished": "{count, plural, zero {完成} other {{formatted} 完成}}",
           "NoFailedFiles": "沒有失敗的文件",
           "NoRecentlyFinishedFiles": "沒有最近完成的文件",
           "NoUpcomingFiles": "沒有即將到來的文件",
           "Title": "文件",
-          "Upcoming": "{count, plural, zero {即將到來} other {# 即將到來}}"
+          "Upcoming": "{count, plural, zero {即將到來} other {{formatted} 即將到來}}"
         },
         "FilesOverview": {
           "FilesProcessed": "已處理文件",
@@ -1373,6 +1390,15 @@
         "WaitTimeSeconds": "等待時間",
         "WaitTimeSeconds-Help": "自最後一次變更寫入此資料夾後需要等待的秒數，才能將其掃描進資料庫。",
         "WaitTimeSeconds-Suffix": "秒"
+      },
+      "Messages": {
+        "ScanFailed": "資料庫「{name}」掃描失敗"
+      },
+      "Tabs": {
+        "Advanced": "進階",
+        "Detection": "偵測",
+        "General": "一般",
+        "Schedule": "排程"
       }
     },
     "LibraryFile": {
@@ -1399,6 +1425,7 @@
       "Tabs": {
         "CustomVariables": "自訂變量",
         "FinalMetadata": "輸出",
+        "LogServer": "伺服器日誌",
         "OriginalMetadata": "輸入"
       }
     },
@@ -1474,6 +1501,9 @@
         "Address": "地址",
         "Enabled": "啟用",
         "FlowRunners": "流程執行者"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "正在安裝 {message}"
       }
     },
     "Notifications": {
@@ -1506,6 +1536,7 @@
         "AllLibraries": "所有資料庫",
         "AllLibraries-Help": "該節點將處理哪些資料庫",
         "CopyMappings": "複製映射",
+        "DisableSchedule": "啟用排程",
         "DontChangeOwner": "變更擁有者",
         "DontChangeOwner-Help": "選中時，節點將更改任何新創建檔案的擁有者為環境變量中定義的PGID和PUID。\n如果未設置這些環境變量，擁有者將被更改為“users:nobody”。",
         "DontSetPermissions": "設置權限",
@@ -1532,9 +1563,6 @@
         "PreExecuteScript-Help": "在處理任何檔案之前執行的腳本。此腳本的結果必須為1，否則節點將不會處理檔案。",
         "Priority": "優先級",
         "Priority-Help": "數字越高優先級越高。具有較高優先級的節點將被優先考慮並首先分配檔案處理，除非這些節點超出排程、已禁用或達到其最大執行者數量。",
-        "ProcessFileCheckInterval": "檔案檢查間隔",
-        "ProcessFileCheckInterval-Help": "多久檢查一次處理節點中的新檔案。\n設置為0以使用系統值。",
-        "ProcessFileCheckInterval-Suffix": "秒",
         "ProcessingDescription": "這允許您配置該處理節點可以處理的內容。\n\n例如，如果這是一個較低功率的節點，您可以將其限制為僅處理某些資料庫或最大檔案大小。",
         "ProcessingOrder": "處理順序",
         "ProcessingOrder-Help": "指定此節點處理文件的順序。此設置將覆蓋庫的默認處理順序。設置為“默認”以使用庫的處理順序。",
@@ -1547,6 +1575,14 @@
         "VariablesDescription": "變量允許您在處理節點上設置高級變量。",
         "VariablesKey": "名稱",
         "VariablesValue": "值"
+      },
+      "Tabs": {
+        "Advanced": "進階",
+        "General": "一般",
+        "Mappings": "映射",
+        "Processing": "處理",
+        "Schedule": "排程",
+        "Variables": "變數"
       }
     },
     "Report": {
@@ -1693,10 +1729,6 @@
         "DockerModsOnServer-Help": "DockerMods 應在伺服器啟動時自動運行或在特別啟用時運行。否則，它們將僅在啟動工作流時執行。",
         "DontUseTempFilesWhenMovingOrCopying": "用於移動/複製的臨時文件",
         "DontUseTempFilesWhenMovingOrCopying-Help": "使用 .fftemp 文件以避免移動/複製時被過早檢測到。",
-        "HideProcessingFinishedNotifications": "處理完成通知",
-        "HideProcessingFinishedNotifications-Help": "在文件處理完成時是否應在網頁控制台顯示 toast 通知",
-        "HideProcessingStartedNotifications": "處理開始通知",
-        "HideProcessingStartedNotifications-Help": "在文件開始處理時是否應在網頁控制台顯示 toast 通知",
         "KeepFailedFlowTempFiles": "保留失敗的臨時文件",
         "KeepFailedFlowTempFiles-Help": "啟用此選項將保留流在失敗時使用的臨時文件，防止它們自動刪除。\n使用時請小心。",
         "Language": "語言",
@@ -1710,13 +1742,14 @@
         "LoggingPath-Help": "日誌文件將在此創建。",
         "LogQueueMessages": "詳細的庫日誌記錄",
         "LogQueueMessages-Help": "這將增加庫文件檢測過程的日誌記錄。僅在調試文件檢測問題時啟用，並在之後關閉。",
+        "MaxPageSize": "最大頁面大小",
+        "MaxPageSize-Help": "列表中可顯示的最大項目數。這適用於在加載時發送到 UI 的已處理文件數據。此數值應等於或大於隊列容量。",
         "PluginRepositoryUrls": "插件庫",
         "PluginRepositoryUrls-Help": "用於查找插件的插件庫 URL 列表，以換行分隔。\n順序很重要，如果多個庫包含相同的插件，將使用第一個庫作為其來源。\n默認庫將始終添加到此列表的末尾。",
-        "ProcessFileCheckInterval": "文件檢查間隔",
-        "ProcessFileCheckInterval-Help": "在處理節點中檢查新文件的頻率。",
-        "ProcessFileCheckInterval-Suffix": "秒",
-        "ShowFileAddedNotifications": "文件添加通知",
-        "ShowFileAddedNotifications-Help": "如果在找到並添加文件到隊列時應在網頁控制台顯示 toast 通知。",
+        "QueueCapacity": "隊列容量",
+        "QueueCapacity-Help": "可以添加到隊列的最大項目數。這包括超出計劃、暫停或禁用的項目。增加此數值會增加發送到 UI 的數據，並可能影響性能。",
+        "ScanWhenPaused": "暫停時掃描",
+        "ScanWhenPaused-Help": "啟用後，即使系統暫停，庫仍會繼續掃描。",
         "Telemetry": "遙測",
         "Telemetry-Help": "遙測有助於了解我們需要支持哪些設備，哪些流程部分最常用，以及我們應該在哪裡專注開發。\n不會發送有關您的文件或身份的任何信息。",
         "Database": {
@@ -1851,6 +1884,8 @@
       "Fields": {
         "CustomSchedule": "自訂排程",
         "CustomSchedule-Help": "此任務將在每個 15 分鐘的區塊開始時運行一次",
+        "Enabled": "已啟用",
+        "Enabled-Help": "決定此任務是否啟用，並根據事件觸發或排定時間執行。",
         "Schedule": "排程",
         "Schedule-Help": "此腳本應該在何時執行",
         "Script": "腳本",
@@ -2149,6 +2184,7 @@
     "DaysAgo": "{num} {num, plural, one {天} other {天}} 前",
     "HoursAgo": "{num} {num, plural, one {小時} other {小時}} 前",
     "MinutesAgo": "{num} {num, plural, one {分鐘} other {分鐘}} 前",
+    "MomentsAgo": "剛才",
     "Never": "從未",
     "SecondsAgo": "{num} {num, plural, one {秒} other {秒}} 前"
   },

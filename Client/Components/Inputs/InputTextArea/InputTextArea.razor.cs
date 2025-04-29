@@ -21,6 +21,12 @@ public partial class InputTextArea : Input<string>
     /// </summary>
     [Parameter]
     public int Rows { get; set; } = 8;
+    
+    /// <summary>
+    /// Gets or sets if this should flex grow to 100%
+    /// </summary>
+    [Parameter]
+    public bool FlexGrow { get; set; } = false;
 
     /// <summary>
     /// Gets or sets the variables available

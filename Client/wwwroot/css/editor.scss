@@ -1,7 +1,7 @@
 .editor-wrapper {
 
   .editor {
-    position:fixed;
+    position:absolute;
     right:0;
     top:0;
     bottom:0;
@@ -9,8 +9,11 @@
     background:var(--base-darker);
     z-index:6;
     left:0;
+    
     &.maximised {
       width:100vw !important;
+      margin:0;
+      border:none;;
     }
   }
   .background-overlay {
@@ -32,8 +35,22 @@
     .editor {
       left: unset;
       width: 700px;
-      border-left: solid 1px var(--border-color);
+      margin: 1rem;
+      top:3.5rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      border: solid 1px var(--border-color);
+      &.PagesProcessingNode {
+        width:800px;
+      }
 
+      .top-row {
+        background:var(--main-background);
+      }
+      > .vi-container > .content {
+        background:var(--base-darkest);
+      }
+      
       &.large {
         width: 70vw;
       }

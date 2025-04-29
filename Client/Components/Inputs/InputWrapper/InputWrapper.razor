@@ -9,9 +9,10 @@
 
 }
 <div x-id="@(Input?.Field?.Name?.EmptyAsNull() ?? Input?.CustomXID)" class="row @(NoSpacing ? "mt-0" : "") @(invalid ? "error" : "") 
-@(Input?.Field?.FlexGrow == true ? "flex-grow" : "") 
+@(Input?.Field?.FlexGrow == true || FlexGrow ? "flex-grow" : "") 
 @(Input?.HideLabel == true ? "hide-label" : "") 
 @(Input?.Disabled == true ? "disabled" : "")
+@(Input?.Hidden == true ? "hidden" : "")
      @(Error ? "error-input" : "")
 @(Input?.Field?.ColSpan != null ? $"col-span-{Input.Field.ColSpan.Value}" : "")
 @(Input?.Field?.RowSpan != null ? $"row-span-{Input.Field.RowSpan.Value}" : "")
@@ -42,7 +43,7 @@
 </div>
 
 
-@if (invalid && Input?.Disabled != true)
+@if (invalid && Input?.Disabled != true && Input?.Hidden != true)
 {
     <div x-id="error-@Input?.Field?.Name" class="row mt-0 error">
         @if (Input?.HideLabel != true)
@@ -54,7 +55,7 @@
         </div>
     </div>
 }
-@if (string.IsNullOrEmpty(HelpHtml) == false)
+@if (Input?.Hidden != true && string.IsNullOrEmpty(HelpHtml) == false)
 {
     <div class="row mt-0 @(invalid ? "error" : "") @(Input?.Disabled == true ? "disabled" : "") @(Input?.HideLabel == true ? "hide-label": "")">
         @if (Input?.HideLabel != true)

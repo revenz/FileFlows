@@ -34,11 +34,6 @@ public class ProcessingNode: FileFlowObject
     public bool Enabled { get; set; }
     
     /// <summary>
-    /// Gets or sets the number of seconds to check for a new file to process
-    /// </summary>
-    public int ProcessFileCheckInterval { get; set; }
-    
-    /// <summary>
     /// Gets or sets the priority of the processing node
     /// Higher the value, the higher the priority 
     /// </summary>
@@ -88,6 +83,10 @@ public class ProcessingNode: FileFlowObject
     /// Gets or sets the schedule for this node
     /// </summary>
     public string Schedule { get; set; }
+    /// <summary>
+    /// Gets or sets if the schedule is disabled
+    /// </summary>
+    public bool DisableSchedule { get; set; }
     /// <summary>
     /// Gets or sets if the owner should not be changed
     /// </summary>
@@ -266,5 +265,13 @@ public enum ProcessingNodeStatus
     /// <summary>
     /// Restricted for processing by library
     /// </summary>
-    RestrictedByLibrary = 9
+    RestrictedByLibrary = 9,
+    /// <summary>
+    /// When the server and node configuration versions dont match
+    /// </summary>
+    ConfigurationMismatch = 10,
+    /// <summary>
+    /// When the configuration is being updated
+    /// </summary>
+    UpdatingConfiguration = 11
 }

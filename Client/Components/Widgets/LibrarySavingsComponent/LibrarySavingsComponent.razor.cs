@@ -1,4 +1,5 @@
 using FileFlows.Client.Helpers;
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Widgets;
@@ -6,9 +7,9 @@ namespace FileFlows.Client.Components.Widgets;
 public partial class LibrarySavingsComponent : ComponentBase, IDisposable
 {
     /// <summary>
-    /// Gets or sets the client service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] public ClientService ClientService { get; set; }
+    [Inject] public FrontendService feService { get; set; }
 
     private double TotalPercent = 0;
     private string TotalSavings = string.Empty;
@@ -46,30 +47,30 @@ public partial class LibrarySavingsComponent : ComponentBase, IDisposable
     }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         lblNoSavings = Translater.Instant("Pages.Dashboard.Widgets.LibrarySavings.NoSavings");
-        ClientService.FileOverviewUpdated += OnFileOverviewUpdated;
+        //feService.Dashboard.FileOverviewDataUpdated += OnFileOverviewUpdated;
 
-        TotalData = await ClientService.GetLibrarySavingsAllData();
-        MonthData = await ClientService.GetLibrarySavingsMonthData();
+        TotalData = feService.Dashboard.StorageSavedTotalData;
+        MonthData = feService.Dashboard.StorageSavedMonthData;
         SetValues();
     }
 
-    /// <summary>
-    /// Called when the file overview is updated
-    /// </summary>
-    /// <param name="data">the updated data</param>
-    private void OnFileOverviewUpdated(FileOverviewData data)
-    {
-        _ = InvokeAsync(async () =>
-        {
-            TotalData = await ClientService.GetLibrarySavingsAllData();
-            MonthData = await ClientService.GetLibrarySavingsMonthData();
-            SetValues();
-            StateHasChanged();
-        });
-    }
+    // /// <summary>
+    // /// Called when the file overview is updated
+    // /// </summary>
+    // /// <param name="data">the updated data</param>
+    // private void OnFileOverviewUpdated(FileOverviewData data)
+    // {
+    //     _ = InvokeAsync(async () =>
+    //     {
+    //         TotalData = await feService.GetLibrarySavingsAllData();
+    //         MonthData = await feService.GetLibrarySavingsMonthData();
+    //         SetValues();
+    //         StateHasChanged();
+    //     });
+    // }
 
     /// <summary>
     /// Sets the value based on the data
@@ -98,6 +99,6 @@ public partial class LibrarySavingsComponent : ComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        ClientService.FileOverviewUpdated -= OnFileOverviewUpdated;
+        //feService.Dashboard.FileOverviewDataUpdated -= OnFileOverviewUpdated;
     }
 }

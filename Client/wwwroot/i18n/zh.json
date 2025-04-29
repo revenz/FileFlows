@@ -1,6 +1,7 @@
 {
   "ProductName": "文件流",
   "Labels": {
+    "Aborting": "正在中止",
     "About": "关于",
     "Add": "添加",
     "AdminRequired": "需要管理员完成安装。",
@@ -20,6 +21,8 @@
     "Close": "关闭",
     "CommunityFlows": "社区流",
     "Confirm": "确认",
+    "ConfirmLogOutMessage": "您确定要退出登录吗？",
+    "ConfirmLogOutTitle": "退出登录",
     "CopiedToClipboard": "已将 ''{text}'' 复制到剪贴板。",
     "Copy": "复制",
     "CopyToClipboard": "复制到剪贴板",
@@ -36,6 +39,7 @@
     "Disabled": "已禁用",
     "Disconnected": "已断开连接",
     "Discord": "Discord",
+    "DismissAll": "全部关闭",
     "Download": "下载",
     "DownloadLog": "下载日志",
     "DownloadLogShort": "日志",
@@ -58,6 +62,7 @@
     "ForceProcessing": "强制处理",
     "Forum": "论坛",
     "Help": "帮助",
+    "Idle": "空闲",
     "Import": "导入",
     "Increase": "增加",
     "Input": "输入",
@@ -66,11 +71,13 @@
     "InUse": "正在使用",
     "LastRun": "上次运行",
     "LastScanned": "上次扫描",
+    "LastSeen": "最后查看",
     "License": "许可证",
     "Loading": "加载中",
     "Log": "日志",
     "Logout": "登出",
     "LogPartialNotAvailable": "无法找到节点的部分日志。",
+    "ManualLibrary": "手动库",
     "MappingIssue": "映射问题",
     "Memory": "内存",
     "MissingDependencies": "缺少依赖项",
@@ -97,7 +104,7 @@
     "Output": "输出",
     "Paste": "粘贴",
     "Pause": "暂停处理",
-    "Paused": "恢复处理",
+    "Paused": "已暂停",
     "PausedWithTime": "恢复时间",
     "Percent": "百分比",
     "Pixels": "像素",
@@ -144,6 +151,8 @@
     "SpaceIncrease": "{size} 增加，{items} 项目",
     "SpaceSavings": "{size} 节省，{items} 项目",
     "Status": "状态",
+    "Step1": "步骤 1",
+    "Step2": "步骤 2",
     "SubFlow": "子流",
     "SubFlows": "子流",
     "Success": "成功",
@@ -169,6 +178,7 @@
     "VersionNumber": "版本：{version}",
     "View": "查看",
     "ViewLog": "查看日志",
+    "ViewMore": "查看更多",
     "Warning": "警告",
     "WeekShort": "周",
     "When": "时间",
@@ -243,9 +253,6 @@
       "ETA": "预计到达时间",
       "Speed": "速度",
       "UploadedAmount": "已上传"
-    },
-    "FlowTemplatePicker": {
-      "Title": "选择一个模板开始"
     },
     "IconPicker": {
       "Title": "选择图标"
@@ -668,8 +675,6 @@
       "Labels": {
         "BatchDescription": "批处理文件只能在Windows系统上运行。它们可以读取基本变量，但在执行过程中无法更新或访问FileFlows对象。",
         "CSharpDescription": "C#脚本可以与FileFlows的更多部分交互，是最强大的。使用与FileFlows相同的语言，它们允许更大的系统交互。",
-        "FileDisplayName": "文件显示名称",
-        "FileDisplayNameDescription": "一个专门的脚本，用于自定义文件名在 FileFlows 网络控制台中的显示方式。此脚本不会修改实际文件，只会更改它们在界面中的显示。",
         "JavaScriptDescription": "JavaScript脚本在FileFlows运行器中执行，允许您读取和写入变量，并访问FileFlows中的所有辅助函数。",
         "PowerShellDescription": "PowerShell脚本只能在Windows系统上运行。它们可以读取基本变量，但在执行过程中无法更新或访问FileFlows对象。",
         "ShellDescription": "Shell脚本在基于Unix的系统（Linux、MacOS、Docker）上运行。它们可以读取基本变量，但在执行过程中无法更新或访问FileFlows对象。"
@@ -843,7 +848,13 @@
       "Minutes": "分钟",
       "Weeks": "周"
     },
+    "ProcessingLibraries": {
+      "All": "全部",
+      "AllExcept": "除了以下全部",
+      "Only": "仅"
+    },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "配置已过时",
       "Disabled": "已禁用",
       "HigherPriorityNodeAvailable": "有更高优先级的节点",
       "Idle": "空闲",
@@ -853,6 +864,7 @@
       "OutOfSchedule": "超出计划",
       "Processing": "处理中",
       "RestrictedByLibrary": "受限于库",
+      "UpdatingConfiguration": "正在更新配置",
       "VersionMismatch": "版本不匹配"
     },
     "ProcessingOrder": {
@@ -903,9 +915,11 @@
       "Nodes": "节点",
       "PauseProcessing": "暂停处理",
       "Plugins": "插件",
+      "Reports": "报告",
       "Resources": "资源",
       "Revisions": "修订",
       "Scripts": "脚本",
+      "Tags": "标签",
       "Tasks": "任务",
       "Variables": "变量",
       "Webhooks": "Webhooks"
@@ -916,6 +930,7 @@
     "CannotDeleteInternalNode": "您不能删除内部处理节点。",
     "DeleteFailed": "删除失败",
     "DuplicatesFound": "发现重复项",
+    "LibraryScanAtCapacity": "扫描已达上限 — 当前无法添加更多项目。请等待现有项目完成，或减少未处理、已禁用或计划中的项目。",
     "NameInUse": "名称已被使用",
     "NameRequired": "名称是必需的",
     "NoFlowSpecified": "未指定流，您必须选择一个流来创建库",
@@ -949,6 +964,7 @@
   },
   "MenuGroups": {
     "Admin": "管理员",
+    "Config": "配置",
     "Configuration": "配置",
     "Extensions": "扩展",
     "FileDrop": "FileDrop",
@@ -1059,6 +1075,7 @@
       },
       "Tabs": {
         "Dashboard": "仪表板",
+        "Overview": "概览",
         "Savings": "节省",
         "Statistics": "统计"
       },
@@ -1067,13 +1084,13 @@
           "Peak": "{num} 峰值"
         },
         "Files": {
-          "Failed": "{count, plural, zero {失败} other {# 失败}}",
-          "Finished": "{count, plural, zero {完成} other {# 完成}}",
+          "Failed": "{count, plural, zero {失败} other {{formatted} 失败}}",
+          "Finished": "{count, plural, zero {完成} other {{formatted} 完成}}",
           "NoFailedFiles": "没有失败的文件",
           "NoRecentlyFinishedFiles": "没有最近完成的文件",
           "NoUpcomingFiles": "没有即将到来的文件",
           "Title": "文件",
-          "Upcoming": "{count, plural, zero {即将} other {# 即将}}"
+          "Upcoming": "{count, plural, zero {即将} other {{formatted} 即将}}"
         },
         "FilesOverview": {
           "FilesProcessed": "已处理文件",
@@ -1373,6 +1390,15 @@
         "WaitTimeSeconds": "等待时间",
         "WaitTimeSeconds-Help": "在扫描该文件夹到库之前，必须经过的秒数，最后一次更改写入该文件夹。",
         "WaitTimeSeconds-Suffix": "秒"
+      },
+      "Messages": {
+        "ScanFailed": "库“{name}”扫描失败"
+      },
+      "Tabs": {
+        "Advanced": "高级",
+        "Detection": "检测",
+        "General": "常规",
+        "Schedule": "计划"
       }
     },
     "LibraryFile": {
@@ -1399,6 +1425,7 @@
       "Tabs": {
         "CustomVariables": "自定义变量",
         "FinalMetadata": "输出",
+        "LogServer": "服务器日志",
         "OriginalMetadata": "输入"
       }
     },
@@ -1474,6 +1501,9 @@
         "Address": "地址",
         "Enabled": "启用",
         "FlowRunners": "流程运行程序"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "正在安装 {message}"
       }
     },
     "Notifications": {
@@ -1506,6 +1536,7 @@
         "AllLibraries": "所有库",
         "AllLibraries-Help": "此节点将处理哪些库",
         "CopyMappings": "复制映射",
+        "DisableSchedule": "启用计划",
         "DontChangeOwner": "更改所有者",
         "DontChangeOwner-Help": "选中后，节点将将任何新创建文件的所有者更改为环境值中定义的PGID和PUID。\n如果未设置这些环境变量，所有者将更改为 ''users:nobody''。",
         "DontSetPermissions": "设置权限",
@@ -1532,9 +1563,6 @@
         "PreExecuteScript-Help": "在处理任何文件之前运行的脚本。此脚本的结果必须为1才能通过，否则节点将不会处理文件。",
         "Priority": "优先级",
         "Priority-Help": "数字越高，优先级越高。优先级较高的节点将优先处理文件，除非这些节点超出计划、禁用或达到其最大运行程序。",
-        "ProcessFileCheckInterval": "文件检查间隔",
-        "ProcessFileCheckInterval-Help": "处理节点中检查新文件的频率。\n设置为0以使用系统值。",
-        "ProcessFileCheckInterval-Suffix": "秒",
         "ProcessingDescription": "这允许您配置此处理节点可以处理的内容。\n\n例如，如果此节点是低功耗节点，您可以限制此节点仅处理某些库或最大文件大小。",
         "ProcessingOrder": "处理顺序",
         "ProcessingOrder-Help": "指定此节点处理文件的顺序。此设置将覆盖库的默认处理顺序。设置为“默认”以使用库的处理顺序。",
@@ -1547,6 +1575,14 @@
         "VariablesDescription": "变量让您配置要在处理节点上设置的高级变量。",
         "VariablesKey": "名称",
         "VariablesValue": "值"
+      },
+      "Tabs": {
+        "Advanced": "高级",
+        "General": "常规",
+        "Mappings": "映射",
+        "Processing": "处理",
+        "Schedule": "计划",
+        "Variables": "变量"
       }
     },
     "Report": {
@@ -1693,10 +1729,6 @@
         "DockerModsOnServer-Help": "DockerMods 应在服务器启动时或特定启用时自动运行。否则，它们只会在工作流启动时执行。",
         "DontUseTempFilesWhenMovingOrCopying": "用于移动/复制的临时文件",
         "DontUseTempFilesWhenMovingOrCopying-Help": "使用 .fftemp 文件以避免移动/复制时被过早检测到。",
-        "HideProcessingFinishedNotifications": "处理完成通知",
-        "HideProcessingFinishedNotifications-Help": "当文件处理完成时，是否应该在 Web 控制台中显示通知。",
-        "HideProcessingStartedNotifications": "处理开始通知",
-        "HideProcessingStartedNotifications-Help": "当文件开始处理时，是否应该在 Web 控制台中显示通知。",
         "KeepFailedFlowTempFiles": "保留失败的临时文件",
         "KeepFailedFlowTempFiles-Help": "启用此选项将保留流使用的临时文件，以防出现故障，防止它们被自动删除。\n请谨慎使用。",
         "Language": "语言",
@@ -1710,13 +1742,14 @@
         "LoggingPath-Help": "日志文件将在此处创建。",
         "LogQueueMessages": "详细的库日志记录",
         "LogQueueMessages-Help": "这将增加库文件检测过程的日志记录。仅在调试文件检测问题时启用，并在之后关闭。",
+        "MaxPageSize": "最大页面大小",
+        "MaxPageSize-Help": "列表中可显示的最大项目数。这适用于在加载时发送到 UI 的已处理文件数据。此数值应等于或大于队列容量。",
         "PluginRepositoryUrls": "插件仓库",
         "PluginRepositoryUrls-Help": "用于搜索插件的插件仓库 URL 的换行分隔列表。\n顺序很重要，如果多个仓库包含相同的插件，将使用第一个仓库作为其来源。\n默认仓库将始终添加到此列表的末尾。",
-        "ProcessFileCheckInterval": "文件检查间隔",
-        "ProcessFileCheckInterval-Help": "在处理节点中检查新文件的频率。",
-        "ProcessFileCheckInterval-Suffix": "秒",
-        "ShowFileAddedNotifications": "文件添加通知",
-        "ShowFileAddedNotifications-Help": "当找到文件并将其添加到队列时，是否应该在 Web 控制台中显示通知。",
+        "QueueCapacity": "队列容量",
+        "QueueCapacity-Help": "可以添加到队列的最大项目数。这包括超出计划、暂停或禁用的项目。增加此数值会增加发送到 UI 的数据，并可能影响性能。",
+        "ScanWhenPaused": "暂停时扫描",
+        "ScanWhenPaused-Help": "启用后，即使系统暂停，库仍会继续扫描。",
         "Telemetry": "遥测",
         "Telemetry-Help": "遥测有助于了解我们需要支持哪些设备，哪些 Flow 部件使用最频繁，以及我们应重点开发的领域。\n不会发送有关您的文件或身份信息的信息。",
         "Database": {
@@ -1851,6 +1884,8 @@
       "Fields": {
         "CustomSchedule": "自定义计划",
         "CustomSchedule-Help": "此任务将在每个 15 分钟块的开始运行一次",
+        "Enabled": "已启用",
+        "Enabled-Help": "确定此任务是否处于活动状态，并会根据事件触发或计划时间运行。",
         "Schedule": "计划",
         "Schedule-Help": "此脚本应在何时执行",
         "Script": "脚本",
@@ -2149,6 +2184,7 @@
     "DaysAgo": "{num} {num, plural, one {天} other {天}} 前",
     "HoursAgo": "{num} {num, plural, one {小时} other {小时}} 前",
     "MinutesAgo": "{num} {num, plural, one {分钟} other {分钟}} 前",
+    "MomentsAgo": "刚刚",
     "Never": "从不",
     "SecondsAgo": "{num} {num, plural, one {秒} other {秒}} 前"
   },

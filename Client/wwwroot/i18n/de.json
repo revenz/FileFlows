@@ -1,6 +1,7 @@
 {
   "ProductName": "FileFlows",
   "Labels": {
+    "Aborting": "Abbruch",
     "About": "Über",
     "Add": "Hinzufügen",
     "AdminRequired": "Administrator erforderlich",
@@ -20,6 +21,8 @@
     "Close": "Schließen",
     "CommunityFlows": "Community Flows",
     "Confirm": "Bestätige",
+    "ConfirmLogOutMessage": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+    "ConfirmLogOutTitle": "Abmelden",
     "CopiedToClipboard": "''{text}'' in Zwischenablage kopiert.",
     "Copy": "Kopieren",
     "CopyToClipboard": "In Zwischenablage kopieren",
@@ -36,6 +39,7 @@
     "Disabled": "Deaktiviert",
     "Disconnected": "Disconnected",
     "Discord": "Discord",
+    "DismissAll": "Alle verwerfen",
     "Download": "Download",
     "DownloadLog": "Log herunterladen",
     "DownloadLogShort": "Log herunterladen",
@@ -58,6 +62,7 @@
     "ForceProcessing": "Force Processing",
     "Forum": "Forum",
     "Help": "Hilfe",
+    "Idle": "Leerlauf",
     "Import": "Importieren",
     "Increase": "Erhöhen",
     "Input": "Eingabe",
@@ -66,11 +71,13 @@
     "InUse": "Benutzung",
     "LastRun": "Letzter Start",
     "LastScanned": "Last Scanned",
+    "LastSeen": "Zuletzt gesehen",
     "License": "Lizenz",
     "Loading": "Lädt",
     "Log": "Log",
     "Logout": "Abmelden",
     "LogPartialNotAvailable": "Für die Node ist teilweise kein Protokoll verfügbar!",
+    "ManualLibrary": "Manuelle Bibliothek",
     "MappingIssue": "Zuordnungsproblem",
     "Memory": "Speicher",
     "MissingDependencies": "Fehlende Abhängigkeiten",
@@ -97,7 +104,7 @@
     "Output": "Ausgabe",
     "Paste": "Einfügen",
     "Pause": "Verarbeitung pausieren",
-    "Paused": "Verarbeitung fortsetzen",
+    "Paused": "Pausiert",
     "PausedWithTime": "Fortsetzen in",
     "Percent": "Prozent",
     "Pixels": "Pixels",
@@ -144,6 +151,8 @@
     "SpaceIncrease": "{size} erhöht, {items} Elemente",
     "SpaceSavings": "{size} gespart, {items} Elemente",
     "Status": "Status",
+    "Step1": "Schritt 1",
+    "Step2": "Schritt 2",
     "SubFlow": "Sub Flow",
     "SubFlows": "Sub Flows",
     "Success": "Erfolgreich",
@@ -169,6 +178,7 @@
     "VersionNumber": "Version: {version}",
     "View": "View",
     "ViewLog": "Log betrachten",
+    "ViewMore": "Mehr anzeigen",
     "Warning": "Warnung",
     "WeekShort": "Woche",
     "When": "Wann",
@@ -243,9 +253,6 @@
       "ETA": "Voraussichtliche Ankunftszeit",
       "Speed": "Geschwindigkeit",
       "UploadedAmount": "Hochgeladen"
-    },
-    "FlowTemplatePicker": {
-      "Title": "Wählen Sie eine Vorlage aus, mit der Sie beginnen möchten"
     },
     "IconPicker": {
       "Title": "Symbol auswählen"
@@ -668,8 +675,6 @@
       "Labels": {
         "BatchDescription": "Batch-Dateien können nur auf Windows-Systemen ausgeführt werden. Sie können grundlegende Variablen lesen, aber keine FileFlows-Objekte während der Ausführung aktualisieren oder darauf zugreifen.",
         "CSharpDescription": "C#-Skripte können auf mehr Teile von FileFlows zugreifen und sind die mächtigsten. Sie verwenden dieselbe Sprache wie FileFlows und ermöglichen eine größere Systeminteraktion.",
-        "FileDisplayName": "Dateianzeige Name",
-        "FileDisplayNameDescription": "Ein spezialisiertes Skript, das anpasst, wie Dateinamen in der FileFlows-Webkonsole angezeigt werden. Dieses Skript ändert nicht die eigentlichen Dateien, sondern nur deren Darstellung in der Benutzeroberfläche.",
         "JavaScriptDescription": "JavaScript-Skripte werden im FileFlows-Runner ausgeführt, sodass Sie Variablen lesen und schreiben sowie auf alle Hilfsfunktionen innerhalb von FileFlows zugreifen können.",
         "PowerShellDescription": "PowerShell-Skripte können nur auf Windows-Systemen ausgeführt werden. Sie können grundlegende Variablen lesen, aber keine FileFlows-Objekte während der Ausführung aktualisieren oder darauf zugreifen.",
         "ShellDescription": "Shell-Skripte werden auf Unix-basierten Systemen (Linux, MacOS, Docker) ausgeführt. Sie können grundlegende Variablen lesen, aber keine FileFlows-Objekte während der Ausführung aktualisieren oder darauf zugreifen."
@@ -843,7 +848,13 @@
       "Minutes": "Minuten",
       "Weeks": "Wochen"
     },
+    "ProcessingLibraries": {
+      "All": "Alle",
+      "AllExcept": "Alle außer",
+      "Only": "Nur"
+    },
     "ProcessingNodeStatus": {
+      "ConfigurationMismatch": "Konfiguration veraltet",
       "Disabled": "Deaktiviert",
       "HigherPriorityNodeAvailable": "Knoten mit höherer Priorität verfügbar",
       "Idle": "Leerlauf",
@@ -853,6 +864,7 @@
       "OutOfSchedule": "Außerhalb des Zeitplans",
       "Processing": "Verarbeitung",
       "RestrictedByLibrary": "Eingeschränkt durch Bibliothek",
+      "UpdatingConfiguration": "Konfiguration wird aktualisiert",
       "VersionMismatch": "Versionskonflikt"
     },
     "ProcessingOrder": {
@@ -903,9 +915,11 @@
       "Nodes": "Nodes",
       "PauseProcessing": "Verarbeitung Pausieren",
       "Plugins": "Plugins",
+      "Reports": "Berichte",
       "Resources": "Ressourcen",
       "Revisions": "Überarbeitungen",
       "Scripts": "Scripts",
+      "Tags": "Tags",
       "Tasks": "Aufgaben",
       "Variables": "Variablen",
       "Webhooks": "Webhooks"
@@ -916,6 +930,7 @@
     "CannotDeleteInternalNode": "Sie können den internen Node nicht löschen!",
     "DeleteFailed": "Löschen fehlgeschlagen!",
     "DuplicatesFound": "Duplikate gefunden!",
+    "LibraryScanAtCapacity": "Scan-Limit erreicht – derzeit können keine weiteren Elemente hinzugefügt werden. Warten Sie, bis bestehende abgeschlossen sind, oder reduzieren Sie unbearbeitete, deaktivierte oder geplante Elemente.",
     "NameInUse": "Der Name ist bereits in Verwendung!",
     "NameRequired": "Name ist erforderlich!",
     "NoFlowSpecified": "Kein Flow angegeben, Sie müssen ein Flow auswählen, um eine Bibliothek zu erstellen",
@@ -949,6 +964,7 @@
   },
   "MenuGroups": {
     "Admin": "Admin",
+    "Config": "Konfig",
     "Configuration": "Konfiguration",
     "Extensions": "Erweiterungen",
     "FileDrop": "FileDrop",
@@ -1059,6 +1075,7 @@
       },
       "Tabs": {
         "Dashboard": "Dashboard",
+        "Overview": "Übersicht",
         "Savings": "Einsparungen",
         "Statistics": "Statistiken"
       },
@@ -1067,13 +1084,13 @@
           "Peak": "{num} Spitze"
         },
         "Files": {
-          "Failed": "{count, plural, zero {Fehlgeschlagen} other {# Fehlgeschlagen}}",
-          "Finished": "{count, plural, zero {Abgeschlossen} other {# Abgeschlossen}}",
+          "Failed": "{count, plural, zero {Fehlgeschlagen} other {{formatted} Fehlgeschlagen}}",
+          "Finished": "{count, plural, zero {Abgeschlossen} other {{formatted} Abgeschlossen}}",
           "NoFailedFiles": "Keine fehlgeschlagenen Dateien",
           "NoRecentlyFinishedFiles": "Keine kürzlich fertiggestellten Dateien",
           "NoUpcomingFiles": "Keine anstehenden Dateien",
           "Title": "Dateien",
-          "Upcoming": "{count, plural, zero {Bevorstehend} other {# Bevorstehend}}"
+          "Upcoming": "{count, plural, zero {Bevorstehend} other {{formatted} Bevorstehend}}"
         },
         "FilesOverview": {
           "FilesProcessed": "Dateien verarbeitet",
@@ -1373,6 +1390,15 @@
         "WaitTimeSeconds": "Wartezeit",
         "WaitTimeSeconds-Help": "Die Anzahl der Sekunden, die seit der letzten Änderung in diesem Ordner vergangen sein müssen, damit sie in die Bibliothek aufgenommen werden.",
         "WaitTimeSeconds-Suffix": "Sekunden"
+      },
+      "Messages": {
+        "ScanFailed": "Scan der Bibliothek ''{name}'' fehlgeschlagen"
+      },
+      "Tabs": {
+        "Advanced": "Erweitert",
+        "Detection": "Erkennung",
+        "General": "Allgemein",
+        "Schedule": "Zeitplan"
       }
     },
     "LibraryFile": {
@@ -1399,6 +1425,7 @@
       "Tabs": {
         "CustomVariables": "Benutzerdefinierte Variablen",
         "FinalMetadata": "Geänderte Datei",
+        "LogServer": "Serverprotokoll",
         "OriginalMetadata": "Original Datei"
       }
     },
@@ -1474,6 +1501,9 @@
         "Address": "Adresse",
         "Enabled": "Aktiviert",
         "FlowRunners": "Flow Runners"
+      },
+      "StatusMessages": {
+        "InstallingDockerMods": "Installiere {message}"
       }
     },
     "Notifications": {
@@ -1506,6 +1536,7 @@
         "AllLibraries": "Alle Bibliotheken",
         "AllLibraries-Help": "Welche Bibliotheken dieser Node verarbeiten wird.",
         "CopyMappings": "Mappings kopieren",
+        "DisableSchedule": "Zeitplan Aktivieren",
         "DontChangeOwner": "Besitzer wechseln",
         "DontChangeOwner-Help": "Wenn diese Option aktiviert ist, ändert der Knoten den Eigentümer aller neu erstellten Dateien in die PGID und PUID, die in den Umgebungsvariablen definiert sind. Wenn diese Umgebungsvariablen nicht gesetzt sind, wird der Eigentümer geändert in ''users:nobody''.",
         "DontSetPermissions": "Berechtigungen festlegen",
@@ -1532,9 +1563,6 @@
         "PreExecuteScript-Help": "Ein Skript, das ausgeführt wird, bevor eine Datei verarbeitet wird. Das Ergebnis dieses Skripts muss 1 sein, damit es irgendetwas anderes übergeben kann und der Knoten keine Datei verarbeitet.",
         "Priority": "Priorität",
         "Priority-Help": "Je höher die Zahl, desto höher die Priorität.  Knoten mit einer höheren Priorität werden bevorzugt und erhalten die Dateien zuerst, es sei denn, diese Knoten sind außerhalb des Zeitplans, deaktiviert oder haben ihre maximale Anzahl an Workern.",
-        "ProcessFileCheckInterval": "Intervall der Dateiprüfung",
-        "ProcessFileCheckInterval-Help": "Wie oft wird geprüft, ob eine neue Datei für die Verarbeitung in den Verarbeitungsknoten vorliegt.\nSetzen Sie den Wert auf 0, um den Systemwert zu verwenden.",
-        "ProcessFileCheckInterval-Suffix": "Sekunden",
         "ProcessingDescription": "Damit können Sie konfigurieren, was dieser Node verarbeiten kann. Beispielsweise können Sie diesen Node darauf beschränken, nur bestimmte Bibliotheken oder eine maximale Dateigröße zu verarbeiten, wenn es sich um einen Node mit geringerer Leistung handelt.",
         "ProcessingOrder": "Verarbeitungsreihenfolge",
         "ProcessingOrder-Help": "Legt die Reihenfolge fest, in der Dateien von diesem Knoten verarbeitet werden. Diese Einstellung überschreibt die Standardverarbeitungsreihenfolge der Bibliothek. Stellen Sie 'Standard' ein, um die Verarbeitungsreihenfolge der Bibliothek zu verwenden.",
@@ -1547,6 +1575,14 @@
         "VariablesDescription": "Mit Variablen können Sie erweiterte Variablen konfigurieren, die auf einem Node gesetzt werden sollen.",
         "VariablesKey": "Name",
         "VariablesValue": "Wert"
+      },
+      "Tabs": {
+        "Advanced": "Erweitert",
+        "General": "Allgemein",
+        "Mappings": "Zuordnungen",
+        "Processing": "Verarbeitung",
+        "Schedule": "Zeitplan",
+        "Variables": "Variablen"
       }
     },
     "Report": {
@@ -1693,10 +1729,6 @@
         "DockerModsOnServer-Help": "DockerMods sollten automatisch beim Serverstart oder bei spezifischer Aktivierung ausgeführt werden. Andernfalls werden sie nur ausgeführt, wenn ein Workflow initiiert wird.",
         "DontUseTempFilesWhenMovingOrCopying": "Temp-Dateien für Verschieben/Kopieren",
         "DontUseTempFilesWhenMovingOrCopying-Help": "Verwenden Sie .fftemp-Dateien, um vorzeitige Erkennung beim Verschieben/Kopieren zu vermeiden.",
-        "HideProcessingFinishedNotifications": "Bearbeitung von Beendigungsmitteilungen",
-        "HideProcessingFinishedNotifications-Help": "Wenn eine Benachrichtigung in der Web-Konsole angezeigt werden soll, wenn die Verarbeitung einer Datei abgeschlossen ist",
-        "HideProcessingStartedNotifications": "Bearbeitung begonnener Meldungen",
-        "HideProcessingStartedNotifications-Help": "Wenn eine Benachrichtigung in der Web-Konsole angezeigt werden soll, wenn die Verarbeitung einer Datei beginnt.",
         "KeepFailedFlowTempFiles": "Fehlgeschlagene Temp-Dateien behalten",
         "KeepFailedFlowTempFiles-Help": "Wenn Sie diese Option aktivieren, bleiben die von einem Fluss verwendeten temporären Dateien im Falle eines Fehlers erhalten und werden nicht automatisch gelöscht.",
         "Language": "Sprache",
@@ -1710,13 +1742,14 @@
         "LoggingPath-Help": "Hier werden die Protokolldateien erstellt.",
         "LogQueueMessages": "Ausführliche Bibliotheksprotokollierung",
         "LogQueueMessages-Help": "Dies erhöht die Protokollierung des Bibliotheksdateierkennungsprozesses. Es sollte nur aktiviert werden, wenn Probleme bei der Dateierkennung debuggt werden, und anschließend deaktiviert werden.",
+        "MaxPageSize": "Maximale Seitengröße",
+        "MaxPageSize-Help": "Die maximale Anzahl an Elementen, die in einer Liste angezeigt werden. Dies gilt für die verarbeiteten Dateidaten, die beim Laden an die UI gesendet werden. Diese Zahl sollte gleich oder größer als die Warteschlangenkapazität sein.",
         "PluginRepositoryUrls": "Plugin-Repositories",
         "PluginRepositoryUrls-Help": "Eine zeilengetrennte Liste von Plugin-Repository-URLs, die bei der Suche nach Plugins verwendet werden sollen.\nDie Reihenfolge ist wichtig: Wenn mehrere Repositories dasselbe Plugin enthalten, wird das erste Repository als Quelle verwendet.\nDas Standard-Repository wird immer am Ende dieser Liste hinzugefügt.",
-        "ProcessFileCheckInterval": "Intervall für die Dateiprüfung",
-        "ProcessFileCheckInterval-Help": "Wie oft wird geprüft, ob eine neue Datei zur Verarbeitung in den Verarbeitungsknoten vorliegt.",
-        "ProcessFileCheckInterval-Suffix": "Sekunden",
-        "ShowFileAddedNotifications": "Benachrichtigungen über hinzugefügte Dateien",
-        "ShowFileAddedNotifications-Help": "Ob eine Benachrichtigung in der Web-Konsole angezeigt werden soll, wenn eine Datei gefunden und der Warteschlange hinzugefügt wurde.",
+        "QueueCapacity": "Warteschlangen-Kapazität",
+        "QueueCapacity-Help": "Die maximale Anzahl an Elementen, die zur Warteschlange hinzugefügt werden können. Dazu gehören Elemente, die außerhalb des Zeitplans liegen, angehalten oder deaktiviert sind. Eine Erhöhung dieses Werts erhöht die an die UI gesendeten Daten und kann die Leistung beeinträchtigen.",
+        "ScanWhenPaused": "Scannen während pausiert",
+        "ScanWhenPaused-Help": "Wenn aktiviert, werden Bibliotheken weiterhin gescannt, selbst wenn das System pausiert ist.",
         "Telemetry": "Telemetrie",
         "Telemetry-Help": "Telemetrie ist nützlich, um herauszufinden, welche Geräte wir unterstützen müssen, welche Flow-Teile am meisten genutzt werden und worauf wir uns bei der Entwicklung konzentrieren sollten.",
         "Database": {
@@ -1851,6 +1884,8 @@
       "Fields": {
         "CustomSchedule": "Benutzerdefinierter Zeitplan",
         "CustomSchedule-Help": "Diese Aufgabe wird einmal pro 15-Minuten-Block zu Beginn dieses Blocks ausgeführt",
+        "Enabled": "Aktiviert",
+        "Enabled-Help": "Legt fest, ob diese Aufgabe aktiv ist und basierend auf Ereignistriggern oder einem Zeitplan ausgeführt wird.",
         "Schedule": "Zeitplan",
         "Schedule-Help": "Wann dieses Skript ausgeführt werden soll",
         "Script": "Script",
@@ -2149,6 +2184,7 @@
     "DaysAgo": "{num} {num, plural, one {day} other {days}} her",
     "HoursAgo": "{num} {num, plural, one {hour} other {hour}} her",
     "MinutesAgo": "{num} {num, plural, one {minute} other {minutes}} her",
+    "MomentsAgo": "Vor Momenten",
     "Never": "Nie",
     "SecondsAgo": "{num} {num, plural, one {second} other {seconds}} her"
   },

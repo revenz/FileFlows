@@ -46,3 +46,4 @@ docs/css/*.css
 
 *.scssc
 Builds/
+.DS_Store

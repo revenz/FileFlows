@@ -1,0 +1,156 @@
+.processing-node {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 0.75rem;
+  font-size: 0.8rem;
+  position: relative;
+  margin: 0.75rem;
+  border-radius: var(--container-border-radius);
+  overflow: hidden;
+  border: solid 1px var(--border-color);
+}
+.processing-node.disabled {
+  opacity: 0.5;
+}
+.processing-node span.icon {
+  position: relative;
+  align-self: center;
+  margin-right: 1rem;
+  width: 7rem;
+  text-align: center;
+}
+.processing-node span.icon ::deep img {
+  height: 4rem;
+  object-fit: contain;
+  padding: 0 1rem;
+  max-width: 5rem;
+}
+.processing-node span.icon ::deep i {
+  font-size: 2.5rem;
+  position: relative;
+  top: -0.5rem;
+}
+.processing-node span.icon .architecture {
+  position: absolute;
+  bottom: -0.2rem;
+  font-size: 0.9rem;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  line-height: 1.25;
+  font-weight: var(--bold, 600);
+  color: white;
+  background-color: var(--primary);
+}
+.processing-node .summary .name, .processing-node .center .name {
+  font-size: 1.2rem;
+  font-weight: var(--bold, 600);
+  padding-bottom: 0.25rem;
+  display: inline-block;
+}
+@media (min-width: 850px) {
+  .processing-node .summary .hardware-info-item, .processing-node .center .hardware-info-item {
+    display: flex;
+    flex-direction: row;
+    padding: 0.2rem 0;
+  }
+  .processing-node .summary .hardware-info-item .label, .processing-node .center .hardware-info-item .label {
+    font-weight: var(--bold, 600);
+    width: 10rem;
+    min-width: 10rem;
+  }
+  .processing-node .summary .hardware-info-item .value, .processing-node .center .hardware-info-item .value {
+    margin-left: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 849.99px) {
+  .processing-node {
+    padding-left: 0 !important;
+  }
+  .processing-node > .icon {
+    position: absolute !important;
+    top: 0.5rem;
+    left: 0.5rem;
+    margin-right: 0 !important;
+    width: 5rem !important;
+  }
+  .processing-node .name {
+    padding: 1.5rem 0 2.5rem 5.5rem !important;
+  }
+  .processing-node .hardware-info-item {
+    display: grid;
+    grid-template-columns: min(8.5rem, 35vw) auto;
+    grid-gap: 0.5rem;
+    padding: 0 0 1rem 4rem;
+  }
+  .processing-node .hardware-info-item .label {
+    font-weight: var(--bold, 600);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.priority, .runners {
+  position: absolute;
+  background: var(--border-color);
+  left: 0;
+  font-weight: var(--bold, 600);
+  padding: 0.25rem 0.75rem;
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+.priority i, .runners i {
+  font-size: 1rem;
+  margin-right: 0.25rem;
+}
+
+.priority {
+  top: 0;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.runners {
+  bottom: 0;
+  border-top-right-radius: 0.5rem;
+}
+
+.top-right {
+  font-size: 1rem;
+}
+.top-right.status-version-mismatch {
+  background-color: var(--warning);
+}
+.top-right.status-out-of-schedule {
+  background-color: var(--purple);
+}
+.top-right.status-maximum-runners-reached {
+  background-color: var(--green);
+}
+.top-right.status-installing-docker-mods {
+  background-color: var(--blue);
+}
+
+.list-page-item {
+  border: unset;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  border-radius: 0;
+}
+.list-page-item .center {
+  width: 100%;
+  min-height: 8rem;
+  align-content: center;
+}
+.list-page-item .hardware-info-item {
+  padding: 0 !important;
+}
+.list-page-item .enable-switch {
+  align-self: center;
+  padding-top: 2rem;
+  padding-right: 3rem;
+}
+
+/*# sourceMappingURL=ProcessingNodeElement.razor.css.map */

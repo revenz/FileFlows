@@ -23,4 +23,10 @@ public class NotificationService : RemoteService, INotificationService
             Logger.Instance?.ELog("Failed to record notification: " + ex.Message);
         }
     }
+
+    /// <inheritdoc />
+    public Task Record(string identifier, TimeSpan frequency, NotificationSeverity severity, string title, string? message = null)
+    {
+        return Task.CompletedTask;
+    }
 }

@@ -1,5 +1,6 @@
 .flow-wrapper {
   --flow-elements-width:25rem;
+  overflow: hidden;
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -20,6 +21,8 @@
   z-index: 4;
   background: var(--base-darker);
   padding: 0.75rem 0.5rem 0;
+  height: calc(100% - 0.75rem);
+  border-left: solid 1px var(--border-color);
 }
 .flow-elements.flow-elements-on-top {
   z-index: 6;
@@ -140,10 +143,6 @@
     max-width: 70%;
   }
 }
-.flow-container.has-collapsed-menu ::deep .info-box {
-  left: calc(3.5rem + 3px);
-}
-
 .ctx-mn-newtab {
   margin-left: 1rem;
   margin-right: 0;
@@ -159,7 +158,6 @@
   position: absolute;
   right: var(--flow-elements-width);
   bottom: 0;
-  height: 100vh;
   top: 0;
   overflow: hidden;
 }
@@ -310,9 +308,6 @@
   display: none;
 }
 
-::deep .flow-tabs.contain-tabs {
-  height: calc(100vh - 1rem);
-}
 ::deep .flow-parts {
   display: none;
   flex-grow: 1;
@@ -320,13 +315,14 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0.25rem;
   overflow: scroll;
 }
 ::deep .flow-parts.show {
   display: unset;
 }
 ::deep .flow-parts canvas {
+  background: var(--base-darker);
   position: absolute;
   top: 0;
   right: 0;
@@ -340,3 +336,5 @@
     display: none !important;
   }
 }
+
+/*# sourceMappingURL=Flow.razor.css.map */

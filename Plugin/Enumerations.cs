@@ -113,10 +113,6 @@ public enum FormInputType
     /// </summary>
     Table = 23,
     /// <summary>
-    /// Widget
-    /// </summary>
-    Widget = 24,
-    /// <summary>
     /// Metadata
     /// </summary>
     Metadata = 25,
@@ -219,7 +215,11 @@ public enum FormInputType
     /// <summary>
     /// Input for custom field options
     /// </summary>
-    CustomFieldOptions = 50
+    CustomFieldOptions = 50,
+    /// <summary>
+    /// Renders a flow icon value
+    /// </summary>
+    FlowIconValue = 51
 }
 
 

@@ -4,6 +4,8 @@ using FileFlows.Client.Components.Dialogs;
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Helpers;
+using FileFlows.Client.Services.Frontend;
+using FileFlows.Client.Shared;
 
 namespace FileFlows.Client.Pages;
 
@@ -18,6 +20,12 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     /// Gets or sets the navigation manager
     /// </summary>
     [Inject] public NavigationManager NavigationManager { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the message service
+    /// </summary>
+    [Inject] protected MessageService Message { get; set; }
+    
     /// <summary>
     /// Gets or sets the table instance
     /// </summary>
@@ -30,6 +38,10 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     /// Gets or sets the editor
     /// </summary>
     [CascadingParameter] public Editor Editor { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
     /// <summary>
     /// Translations
     /// </summary>
@@ -55,14 +67,14 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     protected bool HasData { get; set; }
 
     /// <summary>
-    /// Gets or sets the profile service
+    /// Gets or sets the frontend service
     /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
+    [Inject] protected FrontendService feService { get; set; }
     
     /// <summary>
     /// Gets the profile
     /// </summary>
-    protected Profile Profile { get; private set; }
+    protected Profile Profile { get; set; }
 
     private List<T> _Data = new ();
     
@@ -76,9 +88,9 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     }
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        Profile = await ProfileService.Get();
+        Profile = feService.Profile.Profile;
         if (Licensed() == false)
         {
             NavigationManager.NavigateTo("/");
@@ -232,7 +244,7 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     /// <typeparam name="V">The type of RequestResult</typeparam>
     public void ShowEditHttpError<V>(RequestResult<V> result, string defaultMessage = "ErrorMessage.NotFound")
     {
-        Toast.ShowError(
+        feService.Notifications.ShowError(
             result.Success || string.IsNullOrEmpty(result.Body) ? Translater.Instant(defaultMessage) : Translater.TranslateIfNeeded(result.Body),
             duration: 60_000
         );
@@ -285,7 +297,7 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
         var uids = Table.GetSelected()?.Select(x => x.Uid)?.ToArray() ?? new U[] { };
         if (uids.Length == 0)
             return; // nothing to delete
-        if (await Confirm.Show("Labels.Remove",
+        if (await Message.Confirm("Labels.Remove",
             Translater.Instant(DeleteMessage, new { count = uids.Length })) == false)
             return; // rejected the confirm
 
@@ -298,9 +310,9 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
             if (deleteResult.Success == false)
             {
                 if(Translater.NeedsTranslating(deleteResult.Body))
-                    Toast.ShowError( Translater.Instant(deleteResult.Body));
+                    feService.Notifications.ShowError( Translater.Instant(deleteResult.Body));
                 else
-                    Toast.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
+                    feService.Notifications.ShowError( Translater.Instant("ErrorMessages.DeleteFailed"));
                 return;
             }
 

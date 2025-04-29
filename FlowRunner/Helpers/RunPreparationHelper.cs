@@ -11,15 +11,16 @@ public class RunPreparationHelper
     /// <summary>
     /// Downloads the scripts being used
     /// </summary>
-    /// <param name="runInstance">the run instance running this</param>
-    internal static void DownloadScripts(RunInstance runInstance)
+    /// <param name="workingDirectory">the working directory</param>
+    /// <param name="configDirectory">the source configuration directory</param>
+    internal static void DownloadScripts(string workingDirectory, string configDirectory)
     {
-        if (Directory.Exists(runInstance.WorkingDirectory) == false)
-            Directory.CreateDirectory(runInstance.WorkingDirectory);
+        if (Directory.Exists(workingDirectory) == false)
+            Directory.CreateDirectory(workingDirectory);
         
         DirectoryHelper.CopyDirectory(
-            Path.Combine(runInstance.ConfigDirectory, "Scripts"),
-            Path.Combine(runInstance.WorkingDirectory, "Scripts"));
+            Path.Combine(configDirectory, "Scripts"),
+            Path.Combine(workingDirectory, "Scripts"));
     }
     
     /// <summary>
@@ -28,13 +29,13 @@ public class RunPreparationHelper
     /// <param name="runInstance">the run instance running this</param>
     internal static void DownloadPlugins(RunInstance runInstance)
     {
-        var dir = Path.Combine(runInstance.ConfigDirectory, "Plugins");
+        var dir = Path.Combine(runInstance.Properties.ConfigDirectory, "Plugins");
         if (Directory.Exists(dir) == false)
             return;
-        runInstance.Logger?.ILog("Downloading plugins to: " + dir);
+        runInstance.Properties.Logger?.ILog("Downloading plugins to: " + dir);
         foreach (var sub in new DirectoryInfo(dir).GetDirectories())
         {
-            string dest = Path.Combine(runInstance.WorkingDirectory, sub.Name);
+            string dest = Path.Combine(runInstance.Properties.WorkingDirectory, sub.Name);
             #if(DEBUG)
             try
             {

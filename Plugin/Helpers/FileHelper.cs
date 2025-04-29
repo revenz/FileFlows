@@ -649,4 +649,22 @@ public class FileHelper
             return false;
         }
     }
+
+    /// <summary>
+    /// Gets the size of a directory
+    /// </summary>
+    /// <param name="path">the path of the directory</param>
+    /// <returns>the size of the diretory</returns>
+    public long GetDirectorySize(string path)
+    {
+        try
+        {
+            DirectoryInfo dir = new DirectoryInfo(path);
+            return dir.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(x => x.Length);
+        }
+        catch (Exception)
+        {
+            return 0;
+        }
+    }
 }

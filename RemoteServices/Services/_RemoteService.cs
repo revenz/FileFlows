@@ -31,11 +31,6 @@ public abstract class RemoteService
     {
         get => ServerGlobals.AccessToken ?? string.Empty; 
         set => ServerGlobals.AccessToken = value;
-    } 
-
-    /// <summary>
-    /// Gets or sets the Node UID whose making these requests
-    /// </summary>
-    public static Guid NodeUid { get; set; }
+    }
 
 }

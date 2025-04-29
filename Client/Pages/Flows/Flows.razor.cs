@@ -8,7 +8,7 @@ using ffFlow = FileFlows.Shared.Models.Flow;
 
 namespace FileFlows.Client.Pages;
 
-public partial class Flows : ListPage<Guid, FlowListModel>
+public partial class Flows : ListPage<Guid, FlowListModel>, IDisposable
 {
     /// <summary>
     /// Gets or sets the JavaScript runtime
@@ -36,11 +36,39 @@ public partial class Flows : ListPage<Guid, FlowListModel>
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        Layout.SetInfo(Translater.Instant("Pages.Flows.Title"), "fas fa-sitemap");
+        
+        Profile = feService.Profile.Profile;
+        OnInitialized(false);
+        
         lblFailureFlowDescription = Translater.Instant("Pages.Flows.Messages.FailureFlowDescription");
         lblDefault = Translater.Instant("Labels.Default");
         lblReadOnly = Translater.Instant("Labels.ReadOnly");
         lblInUse = Translater.Instant("Labels.InUse");
+        
+        feService.Flow.FlowsUpdated += FlowOnFlowsUpdated;
+    }
+
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // so the skybox exists
+            UpdateData();
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+    private void FlowOnFlowsUpdated(List<FlowListModel> obj)
+        => UpdateData();
+
+    private void UpdateData()
+    {
+        Data = feService.Flow.Flows.OrderBy(x => x.Name.ToLowerInvariant()).ToList();
+        UpdateTypeData();
     }
 
     /// <inheritdoc />
@@ -53,7 +81,6 @@ public partial class Flows : ListPage<Guid, FlowListModel>
     /// </summary>
     private void Add()
     {
-        //NavigationManager.NavigateTo("flows/" + Guid.Empty);
         _ = ModalService.ShowModal<NewFlowWizard, Flow>(new NewFlowWizardOptions()
         {
             FileDropFlow = Profile.LicensedFor(LicenseFlags.FileDrop) && Skybox.SelectedItem.Value is FlowType.FileDrop 
@@ -83,7 +110,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
             var result = await HttpHelper.Get<string>(url);
             if (result.Success == false)
             {
-                Toast.ShowError(Translater.Instant("Pages.Flows.Messages.FailedToExport"));
+                feService.Notifications.ShowError(Translater.Instant("Pages.Flows.Messages.FailedToExport"));
                 return;
             }
 
@@ -94,7 +121,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
             var result = await HttpHelper.Get<byte[]>(url);
             if (result.Success == false)
             {
-                Toast.ShowError(Translater.Instant("Pages.Flows.Messages.FailedToExport"));
+                feService.Notifications.ShowError(Translater.Instant("Pages.Flows.Messages.FailedToExport"));
                 return;
             }
             await jsRuntime.InvokeVoidAsync("ff.saveByteArrayAsFile", "Flows.zip", result.Data);
@@ -103,8 +130,11 @@ public partial class Flows : ListPage<Guid, FlowListModel>
 
     private async Task Import()
     {
-        var idResult = await ImportDialog.Show();
-        string json = idResult.content;
+        var result = await ModalService.ShowModal<ImportDialog, ImportDialogResult>(new ImportDialogOptions());
+        
+        if (result.IsFailed)
+            return;
+        string json = result.Value.Content;
         if (string.IsNullOrEmpty(json))
             return;
 
@@ -114,8 +144,8 @@ public partial class Flows : ListPage<Guid, FlowListModel>
             var newFlow = await HttpHelper.Post<ffFlow>("/api/flow/import", json);
             if (newFlow != null && newFlow.Success)
             {
-                await this.Refresh();
-                Toast.ShowSuccess(Translater.Instant("Pages.Flows.Messages.FlowImported", new { name = newFlow.Data.Name }));
+                //await this.Refresh();
+                feService.Notifications.ShowSuccess(Translater.Instant("Pages.Flows.Messages.FlowImported", new { name = newFlow.Data.Name }));
             }
         }
         finally
@@ -144,13 +174,13 @@ public partial class Flows : ListPage<Guid, FlowListModel>
             var newItem = await HttpHelper.Get<Script>(url);
             if (newItem != null && newItem.Success)
             {
-                await this.Refresh();
-                Toast.ShowSuccess(Translater.Instant("Pages.Flows.Messages.Duplicated",
+                //await this.Refresh();
+                feService.Notifications.ShowSuccess(Translater.Instant("Pages.Flows.Messages.Duplicated",
                     new { name = newItem.Data.Name }));
             }
             else
             {
-                Toast.ShowError(newItem.Body?.EmptyAsNull() ?? "Failed to duplicate");
+                feService.Notifications.ShowError(newItem.Body?.EmptyAsNull() ?? "Failed to duplicate");
             }
         }
         finally
@@ -159,14 +189,6 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         }
     }
 
-    protected override Task PostDelete() => Refresh();
-
-    public override Task PostLoad()
-    {
-        UpdateTypeData();
-        return Task.CompletedTask;
-    }
-    
     private void UpdateTypeData()
     {
         this.DataFailure = this.Data.Where(x => x.Type == FlowType.Failure).ToList();
@@ -206,6 +228,10 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         }.Where(x => x != null).ToList(), this.SelectedType);
     }
 
+    /// <summary>
+    /// Sets the selected skybox item
+    /// </summary>
+    /// <param name="item">the skybox item</param>
     private void SetSelected(FlowSkyBoxItem<FlowType> item)
     {
         SelectedType = item.Value;
@@ -224,7 +250,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         try
         {
             await HttpHelper.Put($"/api/flow/set-default/{item.Uid}?default={(!item.Default)}");
-            await this.Refresh();
+            //await this.Refresh();
         }
         finally
         {
@@ -237,7 +263,7 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         var used = Table.GetSelected()?.Any(x => x.UsedBy?.Any() == true) == true;
         if (used)
         {
-            Toast.ShowError("Pages.Flows.Messages.DeleteUsed");
+            feService.Notifications.ShowError("Pages.Flows.Messages.DeleteUsed");
             return;
         }
         await base.Delete();
@@ -248,6 +274,14 @@ public partial class Flows : ListPage<Guid, FlowListModel>
         var item = Table.GetSelected()?.FirstOrDefault();
         if (item?.UsedBy?.Any() != true)
             return;
-        await UsedByDialog.Show(item.UsedBy);
+        await Message.UsedBy(item.UsedBy);
+    }
+
+    /// <summary>
+    /// Disposes of the component
+    /// </summary>
+    public void Dispose()
+    {
+        feService.Flow.FlowsUpdated -= FlowOnFlowsUpdated;
     }
 }

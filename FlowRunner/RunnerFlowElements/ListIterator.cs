@@ -187,7 +187,7 @@ public class ListIterator : Node
             return Result<Node>.Fail("Failed to load List Iterator model from: " + json);
 
 
-        var flow = runner.runInstance.Config.Flows.FirstOrDefault(x => x.Uid == orFlow.Uid);
+        var flow = runner.runInstance.Properties.Config.Flows.FirstOrDefault(x => x.Uid == orFlow.Uid);
         if (flow == null)
             return Result<Node>.Fail("Failed to locate Flow defined in the List Iterator flow element.");
         var listIterator = new ListIterator()
@@ -217,7 +217,7 @@ public class ListIterator : Node
         var newArgs = NewNodeParameters(args, item);
         
         int count = 0;
-        while (++count < Math.Min(Runner.runInstance.Config.MaxNodes, 250))
+        while (++count < Math.Min(Runner.runInstance.Properties.Config.MaxNodes, 250))
         {
             if (Runner.CancellationToken.IsCancellationRequested || Runner.Canceled)
                 return Result<int>.Fail("Flow was canceled");
@@ -249,7 +249,7 @@ public class ListIterator : Node
                 
                 newArgs.Logger?.ILog(new string('-', 70));
                 newArgs.Logger?.ILog(
-                    $"Iterative Flow Element {(Runner.Info.LibraryFile.ExecutedNodes.Count + 1)}.{itemCount}.{count}: {part.Label?.EmptyAsNull() ?? part.Name?.EmptyAsNull() ?? currentFlowElement.Name} [{currentFlowElement.GetType().FullName}]");
+                    $"Iterative Flow Element {(Runner.runInstance.LibraryFile.ExecutedNodes.Count + 1)}.{itemCount}.{count}: {part.Label?.EmptyAsNull() ?? part.Name?.EmptyAsNull() ?? currentFlowElement.Name} [{currentFlowElement.GetType().FullName}]");
                 newArgs.Logger?.ILog(new string('-', 70));
                 newArgs.Logger?.ILog("Working File: " + newArgs.WorkingFile);
                 loadFELogger.WriteToLog(newArgs.Logger);

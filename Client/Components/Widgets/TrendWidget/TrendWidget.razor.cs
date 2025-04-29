@@ -111,7 +111,7 @@ public partial class TrendWidget : ComponentBase, IAsyncDisposable
         {
             "green" => "#4CAF50",
             "yellow" => "#FFC107",
-            "purple" => "#9C27B0",
+            "purple" => "#FC54B3", // #9C27B0",
             _ => "#444CF7" // Default to blue
         };
 

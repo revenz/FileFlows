@@ -31,4 +31,25 @@ public partial class Modal : ComponentBase
     /// Gets or sets if this is visible or note
     /// </summary>
     [Parameter] public bool Visible { get; set; }
+    
+    
+    /// <summary>
+    /// Gets or sets the blocker
+    /// </summary>
+    public Blocker Blocker { get; private set; }
+
+    private Editor _Editor;
+    
+    /// <summary>
+    /// Gets or sets the editor
+    /// </summary>
+    private Editor Editor
+    {
+        get => _Editor;
+        set
+        {
+            _Editor = value;
+            StateHasChanged();
+        }
+    }
 }

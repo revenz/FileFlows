@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -10,7 +11,10 @@ namespace FileFlows.Client.Wizards;
 /// </summary>
 public partial class NewFlowWizard : IModal
 {
-    
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
     /// <summary>
     /// Gets or sets the navigation manager used
     /// </summary>
@@ -42,11 +46,6 @@ public partial class NewFlowWizard : IModal
             }
         }
     }
-    
-    /// <summary>
-    /// Gets or sets the profile service
-    /// </summary>
-    [Inject] private ProfileService ProfileService { get; set; }
     
     /// <inheritdoc />
     [Parameter]
@@ -83,10 +82,7 @@ public partial class NewFlowWizard : IModal
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        var profile = await ProfileService.Get(); 
-        var elementsResult = await HttpHelper.Get<FlowElement[]>("/api/flow/elements");
-        if (elementsResult.Success)
-            AvailableElements = elementsResult.Data.ToDictionary(x => x.Uid);
+        AvailableElements =  feService.Flow.FlowElements.ToDictionary(x => x.Uid);
 
         if (Options is NewFlowWizardOptions options)
         {
@@ -299,7 +295,7 @@ public partial class NewFlowWizard : IModal
         if (saveResult.Success == false)
         {
             Wizard.HideBlocker();
-            Toast.ShowEditorError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+            feService.Notifications.ShowError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
             return null;
         }
         

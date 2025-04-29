@@ -1,39 +1,30 @@
 @namespace FileFlows.Client.Pages
 @page "/report/{uid:guid}"
 
-<PageView ClassName="flex" Title="@ReportName" Icon="@ReportIcon">
-
-    <Head>
-        @if (ShowReportOutput)
-        {
+@if (Loaded)
+{
+    @if (ShowReportOutput)
+    {
+        <div class="report-buttons">
             <button class="btn" @onclick="GoBack">@lblBack</button>
             <button class="btn" @onclick="Close">@lblClose</button>
-        }
-        else if(string.IsNullOrWhiteSpace(HelpUrl) == false)
+        </div>
+    }
+    
+    <div class="@(ShowReportOutput ? "mode-output" : "mode-form")">
+        <div class="report-form">
+            @if (string.IsNullOrEmpty(ReportDescription) == false)
+            {
+                <p class="report-description">@ReportDescription</p>
+            }
+            <InlineEditor @ref="Editor" TypeName="Pages.Report" Model="Model"
+                          Fields="Fields" Buttons="Buttons" SubmitCallback="Generate" />
+        </div>
+        @if (ShowReportOutput)
         {
-            <button class="btn" @onclick="OpenHelp">@lblHelp</button>
-        }
-    </Head>
-
-    <Body>
-        @if (Loaded)
-        {
-            <div class="@(ShowReportOutput ? "mode-output" : "mode-form")">
-                <div class="report-form">
-                    @if (string.IsNullOrEmpty(ReportDescription) == false)
-                    {
-                        <p class="report-description">@ReportDescription</p>
-                    }
-                    <InlineEditor @ref="Editor" TypeName="Pages.Report" Model="Model"
-                                  Fields="Fields" Buttons="Buttons" SubmitCallback="Generate" />
-                </div>
-                @if (ShowReportOutput)
-                {
-                    <div class="report-output onscreen">
-                        @((MarkupString)Html)
-                    </div>
-                }
+            <div class="report-output onscreen">
+                @((MarkupString)Html)
             </div>
         }
-    </Body>
-</PageView>
+    </div>
+}

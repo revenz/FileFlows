@@ -2,6 +2,10 @@
   flex-grow: 1;
 }
 
+.flowtable-body .flowtable-select {
+  display: none;
+}
+
 .flowtable-toolbar {
   display: flex;
   flex-direction: row;
@@ -92,32 +96,27 @@
   }
 }
 .flowtable-row {
-  border: solid 1px var(--input-background);
   display: flex;
   flex-direction: row;
   user-select: none;
   position: relative;
   width: 100%;
+  border: solid 1px var(--input-background);
   padding-left: 0.25rem;
 }
 .flowtable-row:nth-child(odd) {
   background: rgba(255, 255, 255, 0.03);
-}
-.flowtable-row:not(.flowtable-header-row) {
-  border-top-color: transparent;
-  border-right-color: transparent;
-  border-left-color: transparent;
-}
-.flowtable-row:not(.flowtable-header-row):hover {
-  background: var(--base-lighter);
 }
 .flowtable-row.selected {
   border-left: solid 3px var(--accent);
   padding-left: calc(0.25rem - 2px);
   background: var(--base);
 }
-.flowtable-row.disabled ::deep .column > span, .flowtable-row.disabled ::deep .column > div {
-  opacity: 0.5;
+.flowtable-row:not(.flowtable-header-row) {
+  border-top-color: transparent;
+}
+.flowtable-row:not(.flowtable-header-row):hover {
+  background: var(--base-lighter);
 }
 .flowtable-row > span {
   text-overflow: ellipsis;
@@ -140,6 +139,9 @@
   line-height: unset;
   margin-bottom: auto;
   padding: 0.25rem 0;
+}
+.flowtable-row.disabled ::deep .column > span, .flowtable-row.disabled ::deep .column > div {
+  opacity: 0.5;
 }
 
 .flowtable-header-row {
@@ -278,3 +280,5 @@
 .column ::deep label {
   pointer-events: auto;
 }
+
+/*# sourceMappingURL=FlowTable.razor.css.map */

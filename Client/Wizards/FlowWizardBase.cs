@@ -60,11 +60,6 @@ public class FlowWizardBase : InputRegister, IModal
         }
     }
     
-    /// <summary>
-    /// Gets or sets the profile service
-    /// </summary>
-    [Inject] protected ProfileService ProfileService { get; set; }
-
     /// <inheritdoc />
     [Parameter]
     public TaskCompletionSource<object> TaskCompletionSource { get; set; }

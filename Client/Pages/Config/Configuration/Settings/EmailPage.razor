@@ -1,0 +1,17 @@
+@layout ConfigLayout
+
+@page "/config/email"
+@inherits InputRegister
+@namespace FileFlows.Client.Pages.Config.Configuration.Settings
+
+<p>@lblEmailDescription</p>
+<hr />
+<InputText @bind-Value="@Model.SmtpServer" Label="Pages.Settings.Fields.Smtp.Server"/>
+<InputNumber @bind-Value="@Model.SmtpPort" Label="Pages.Settings.Fields.Smtp.Port" Min="1" Max="65535"/>
+<InputSelect @bind-Value="@SmtpSecurity" Options=@SmtpSecurityTypes Label="Pages.Settings.Fields.Smtp.Security" AllowClear="false"/>
+<InputText @bind-Value="@Model.SmtpUser" Label="Pages.Settings.Fields.Smtp.User"/>
+<InputPassword @bind-Value="@Model.SmtpPassword" Label="Pages.Settings.Fields.Smtp.Password"/>
+<InputText @bind-Value="@Model.SmtpFrom" Label="Pages.Settings.Fields.Smtp.From"/>
+<InputText @bind-Value="@Model.SmtpFromAddress" Label="Pages.Settings.Fields.Smtp.FromAddress"/>
+
+<FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />

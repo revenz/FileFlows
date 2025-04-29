@@ -3,7 +3,6 @@
 @using FileFlows.Plugin
 @using FileFlows.Shared
 @using FileFlows.Client.Helpers
-@using FileFlows.Shared.Widgets
 @using Microsoft.Extensions.Logging
 @using System.Collections
 @using FileFlows.Plugin.Models
@@ -133,6 +132,17 @@
                              OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText ZeroAsEmpty="@zeroAsEmpty" />
             }
             break;
+        case FormInputType.FlowIconValue:
+        {
+            var value = GetParameter<string>(field, nameof(FlowIconValue.Value));
+            var icon = GetParameter<string>(field, nameof(FlowIconValue.Icon));
+            var ValueUid = GetParameter<Guid?>(field, nameof(FlowIconValue.ValueUid));
+            var color = GetParameter<string>(field, nameof(FlowIconValue.Color));
+            <InputChild Field=@field Label="@label">
+                <FlowIconValue Icon="@icon" Value="@value" ValueUid="@ValueUid" Color="@color" />
+            </InputChild>
+        } 
+            break;
         case FormInputType.IconPicker:
         {
             var value = GetValue<string>(field.Name);
@@ -244,13 +254,6 @@
                 bool inverse = GetParameter<bool>(field, nameof(InputSwitch.Inverse));
                 <InputSwitch Field=@field Label="@label" Value="@value" Inverse=@inverse ReadOnly=@readOnly Disabled="@readOnly" ValueChanged="@(x => UpdateValue(field, x))"
                              Validators=@field.Validators Placeholder="@field.Placeholder" HideLabel=@hideLabel OnSubmit=@OnSubmit OnClose=@OnClose Help=@field.HelpText />
-            }
-            break;
-        case FormInputType.Widget:
-            {
-                var value = GetValue<bool>(field.Name);
-                var pType = GetParameter<WidgetType>(field, nameof(InputWidget.Type));
-                <InputWidget Field=@field Label="@label"  HideLabel=@hideLabel Type=@pType Value=@value ValueChanged="@(x => UpdateValue(field, x))" Help=@field.HelpText />
             }
             break;
         case FormInputType.StringArray:

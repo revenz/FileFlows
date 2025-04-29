@@ -17,6 +17,10 @@ class Toast {
         Toast.showToast('success', title, message, timeout, svg);
     }
     static showToast(type, title, message, timeout, svg) {
+
+        if(document.querySelector('.popup-panel.visible'))
+            return;
+
         if (!Toast.toastContainer) {
             Toast.createToastContainer();
         }
@@ -115,4 +119,38 @@ class Toast {
         }
         return '';
     }
+
+    static closeAll() {
+        if (Toast.toastContainer) {
+            // Get all toasts and their associated timeouts
+            const toasts = Toast.toastContainer.querySelectorAll('.ff-toast');
+            toasts.forEach(toast => {
+                // Clear any active timeouts related to this toast (if they exist)
+                clearTimeout(toast.dismissTimeout);
+            });
+
+            // Immediately remove all toasts without animation
+            Toast.toastContainer.innerHTML = '';
+
+            // Remove the toast container if it's empty
+            document.body.removeChild(Toast.toastContainer);
+            Toast.toastContainer = null;
+        }
+    }
+}
+window.closeAllToasts = function()
+{
+    Toast.closeAll();
+}
+
+window.showToast = function(logType, title, message)
+{
+    if(logType === 'success')
+        Toast.success(title, message);
+    else if(logType === 'warn' || logType === 'warning')
+        Toast.warn(title, message);
+    else if(logType === 'error')
+        Toast.error(title, message);
+    else if(logType === 'debug' || logType === 'info' || logType === 'information')
+        Toast.info(title, message);
 }

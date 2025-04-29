@@ -37,7 +37,7 @@ public class Startup : Node
         // now we can initialize the file safely
         args.InitFile(args.WorkingFile);
 
-        LogHeader(args, runInstance.ConfigDirectory, runInstance.ProcessingNode);
+        LogHeader(args, runInstance.Properties.ConfigDirectory, runInstance.Properties.ProcessingNode);
         try
         {
             Helpers.RunPreparationHelper.DownloadPlugins(runInstance);
@@ -51,7 +51,7 @@ public class Startup : Node
 
         try
         {
-            Helpers.RunPreparationHelper.DownloadScripts(runInstance);
+            Helpers.RunPreparationHelper.DownloadScripts(runInstance.Properties.WorkingDirectory, runInstance.Properties.ConfigDirectory);
         }
         catch (Exception ex)
         {

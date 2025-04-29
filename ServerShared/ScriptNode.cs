@@ -111,11 +111,7 @@ public class ScriptNode:Node
             Logger = args.Logger!,
             Code = (Script.Code + "\n\n" + entryPoint).Replace("\t", "   ").Trim(),
             AdditionalArguments = new (),
-            NotificationCallback = (severity, title, message) =>
-            {
-                var service = ServerShared.Services.ServiceLoader.Load<INotificationService>();
-                _ = service.Record((NotificationSeverity)severity, title, message);
-            }
+            NotificationCallback = args.NotificationCallback
         };
 
         if (Script.Parameters?.Any() == true)

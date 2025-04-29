@@ -15,6 +15,11 @@ public partial class Editor : EditorBase, IDisposable
     /// </summary>
     [Inject] public IJSRuntime jsRuntime { get; private set; }
     
+    /// <summary>
+    /// Gets or sets the message service
+    /// </summary>
+    [Inject] MessageService Message { get; set; }
+    
     
     /// <summary>
     /// Gets or sets if this is the flow element editor, and if it is, renders slightly differently
@@ -344,7 +349,7 @@ public partial class Editor : EditorBase, IDisposable
                 Logger.Instance.ILog(CleanModelJson);
                 Logger.Instance.ILog("currentModelJson");
                 Logger.Instance.ILog(currentModelJson);
-                bool confirmResult = await Confirm.Show("Labels.Confirm", "Labels.CancelMessage");
+                bool confirmResult = await Message.Confirm("Labels.Confirm", "Labels.CancelMessage");
                 if(confirmResult == false)
                     return;
             }
