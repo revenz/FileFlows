@@ -56,6 +56,11 @@ public class Runner
     private void Abort()
     {
         nodeParameters?.Logger?.WLog("Aborting...");
+        if (nodeParameters.Process is ProcessHelper ph)
+        {
+            ph.Kill();
+        }
+
         this.Canceled = true;
         CancellationToken.Cancel();
     }

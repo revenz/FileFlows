@@ -320,7 +320,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
                 if (completedTask == taskDelay)
                 {
                     process.Kill(); // Kill process if not exiting gracefully after 20 seconds
-                    runLog.AppendLine("Process killed after 20 seconds due to failure to exit gracefully.");
+                    runLog.AppendLine("Process killed after 20 seconds due to failure to exit gracefully: " + process.StartInfo.FileName);
                 }
 
                 // Ensure the process exits
