@@ -398,6 +398,7 @@ public class NodeParameters
         IFileService fileService, CancellationToken cancellationToken = default)
     {
         Fake = string.IsNullOrEmpty(filename);
+        this.CancellationToken = cancellationToken;
         this.IsDirectory = isDirectory;
         this.OriginalIsDirectory = isDirectory;
         this.FileName = filename;
