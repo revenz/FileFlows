@@ -37,6 +37,7 @@ public class Upgrader
             return (false, new Version()); // database has not been initialized
 
         var version = versionResult.Value;
+        Logger.Instance.ILog("Current Version: " + Globals.Version);
         Logger.Instance.ILog("Current Database Version: " + version);
         Logger.Instance.ILog("Expected Database Version: " + LATEST_DB_VERSION);
         return (version < LATEST_DB_VERSION, version);
