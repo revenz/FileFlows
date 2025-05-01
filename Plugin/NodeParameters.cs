@@ -415,7 +415,8 @@ public class NodeParameters
             }
             catch (Exception)
             {
-            } // can fail in unit tests
+                // can fail in unit tests
+            }
         }
 
         this.RelativeFile = string.Empty;
