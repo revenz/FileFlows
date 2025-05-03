@@ -272,7 +272,8 @@ public class ConfigurationService
                 config.Flows,
                 config.FlowScripts,
                 config.SharedScripts,
-                config.SystemScripts
+                config.SystemScripts,
+                config.DockerMods
             });
 
             string cfgFile = Path.Combine(dir, "config.json");
