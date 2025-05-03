@@ -291,6 +291,10 @@ public class ConfigurationService
                 ConfigEncrypter.EncryptConfig(json, cfgFile);
             }
 
+
+            CurrentConfig = config;
+            CurrentConfigurationKeepFailedFlowFiles = config.KeepFailedFlowTempFiles;
+
             if (Globals.IsDocker)
             {
                 if (await WriteAndRunDockerMods(config.DockerMods ?? new(), node.Uid, node.Name) == false)
@@ -299,11 +303,7 @@ public class ConfigurationService
                     return false;
                 }
             }
-
-
-            CurrentConfig = config;
-            CurrentConfigurationKeepFailedFlowFiles = config.KeepFailedFlowTempFiles;
-
+            
             return true;
         }
         catch (Exception ex)
