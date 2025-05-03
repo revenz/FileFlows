@@ -2,6 +2,10 @@
   margin: 0 0 2rem 1rem;
 }
 
+.mode-output {
+  overflow: auto;
+  height: 100%;
+}
 .mode-output .report-form {
   display: none;
 }

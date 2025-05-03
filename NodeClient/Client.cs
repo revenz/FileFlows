@@ -60,6 +60,8 @@ public class Client : IDisposable
     private CancellationTokenSource _delayCts = new();
     private CancellationTokenSource _logSyncCts = new();
     private bool Disposed = false;
+    private bool firstConnection = true;
+    private bool _installingDockerMods;
 
 
     /// <summary>
@@ -99,7 +101,7 @@ public class Client : IDisposable
         });
     }
 
-    
+
     /// <summary>
     /// Connection established and node registered
     /// </summary>
@@ -111,11 +113,19 @@ public class Client : IDisposable
                 $"Server version '{Connection.ServerVersion}' does not match node version '{Globals.Version}'");
             EventManager.Broadcast("NodeVersionMismatch", Connection.ServerVersion);
         }
-        else if (Connection.Node!.Enabled && Connection.ServerConfigRevision != _configurationService.CurrentConfig?.Revision)
+        else if (Connection.Node!.Enabled &&
+                 Connection.ServerConfigRevision != _configurationService.CurrentConfig?.Revision)
         {
             Task.Run(() => UpdateConfiguration(Connection.ServerConfigRevision));
         }
+        else if (firstConnection && Globals.IsDocker)
+        {
+            _logger?.ILog("Installing DockerMods for first connection");
+            InstallDockerMods();
+        }
 
+
+        firstConnection = false;
         SendNodeStatusAsync();
 
         TriggerLogSync();
@@ -446,6 +456,33 @@ public class Client : IDisposable
     }
 
     /// <summary>
+    /// Installs the DockerMods
+    /// </summary>
+    private void InstallDockerMods()
+    {
+        if (Globals.IsDocker == false || Node == null)
+            return;
+        _logger.ILog("Client.InstallDockerMods");
+        _installingDockerMods = true;
+        _ = Task.Run(async () =>
+        {
+            _logger.ILog("Client.InstallDockerMods executing");
+            try
+            {
+                await _configurationService.InstallDockerMods(Node);
+                _logger.ILog("Client.InstallDockerMods done");
+            }
+            catch (Exception ex)
+            {
+                _logger.ILog($"Client.InstallDockerMods error: {ex}");
+            }
+
+            _installingDockerMods = false;
+        });
+
+    }
+
+    /// <summary>
     /// Triggers an immediate node status update.
     /// </summary>
     public void TriggerStatusUpdate()
@@ -481,6 +518,9 @@ public class Client : IDisposable
 
     private async Task<FileCheckResult> HandleClientProcessFile(RunFileArguments args)
     {
+        if (_installingDockerMods)
+            return FileCheckResult.CannotProcess;
+        
         //_logger.ILog("Handling process file request...");
         try
         {

@@ -300,6 +300,24 @@ public class ConfigurationService
             _updateConfigSemaphore.Release();
         }
     }
+
+    /// <summary>
+    /// Installs the DockerMods
+    /// </summary>
+    /// <param name="node">the processing node</param>
+    public async Task InstallDockerMods(ProcessingNode node)
+    {
+        if (Globals.IsDocker == false)
+            return;
+
+        if (CurrentConfig?.DockerMods?.Any() != true)
+            return;
+        
+        if (await WriteAndRunDockerMods(CurrentConfig.DockerMods, node.Uid, node.Name) == false)
+        {
+            Logger.Instance?.WLog("Failed to run DockerMods, configuration not saved");
+        }
+    }
     
     void DeleteDirectory(string dir)
     {
