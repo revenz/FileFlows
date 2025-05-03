@@ -326,12 +326,21 @@ public class ConfigurationService
         if (Globals.IsDocker == false)
             return;
 
+        Logger.Instance?.ILog("InstallDockerMods: Checking");
         if (CurrentConfig?.DockerMods?.Any() != true)
+        {
+            Logger.Instance?.ILog("InstallDockerMods: No DockerMods to run"););
             return;
-        
+        }
+
+        Logger.Instance?.ILog("InstallDockerMods: Writing and running DockerMods");
         if (await WriteAndRunDockerMods(CurrentConfig.DockerMods, node.Uid, node.Name) == false)
         {
             Logger.Instance?.WLog("Failed to run DockerMods, configuration not saved");
+        }
+        else
+        {
+            Logger.Instance?.ILog("InstallDockerMods: Finished running DockerMods");
         }
     }
     
