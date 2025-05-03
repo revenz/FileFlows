@@ -393,66 +393,68 @@ public class Client : IDisposable
     /// </summary>
     private async Task SyncLog()
     {
-        TimeSpan delay = TimeSpan.FromSeconds(5);
-        while (true)
-        {
-            try
-            {
-                if (Disposed)
-                    return;
-                
-                await Task.Delay(delay, _logSyncCts.Token);
-                
-                if (Disposed)
-                    return;
-
-                var node = Connection.Node;
-                if (node == null)
-                {
-                    delay = TimeSpan.FromSeconds(10);
-                    continue;
-                }
-
-                if (node.Uid == CommonVariables.InternalNodeUid)
-                    return; // we dont sync this log
-
-                if (Logger.Instance.TryGetLogger(out FileLogger logger) == false)
-                {
-                    delay = TimeSpan.FromMinutes(5);
-                    continue;
-                }
-
-
-                var file = logger.GetLogFilename();
-                if (File.Exists(file) == false)
-                {
-                    delay = TimeSpan.FromMinutes(5);
-                    continue;
-                }
-
-                var log = await File.ReadAllTextAsync(file);
-                if (string.IsNullOrWhiteSpace(log))
-                {
-                    delay = TimeSpan.FromMinutes(5);
-                    continue;
-                }
-
-                var compressed = Gzipper.CompressToBytes(log);
-
-                if (await Connection.AwaitConnection() == false)
-                {
-                    delay = TimeSpan.FromMinutes(5);
-                    continue;
-                }
-
-                await Connection.InvokeAsync("SyncLog", node.Uid, compressed);
-                delay = TimeSpan.FromMinutes(60);
-            }
-            catch (Exception)
-            {
-                // Ignore
-            }
-        }
+        await Task.CompletedTask;
+        return;
+        // TimeSpan delay = TimeSpan.FromSeconds(5);
+        // while (true)
+        // {
+        //     try
+        //     {
+        //         if (Disposed)
+        //             return;
+        //         
+        //         await Task.Delay(delay, _logSyncCts.Token);
+        //         
+        //         if (Disposed)
+        //             return;
+        //
+        //         var node = Connection.Node;
+        //         if (node == null)
+        //         {
+        //             delay = TimeSpan.FromSeconds(10);
+        //             continue;
+        //         }
+        //
+        //         if (node.Uid == CommonVariables.InternalNodeUid)
+        //             return; // we dont sync this log
+        //
+        //         if (Logger.Instance.TryGetLogger(out FileLogger logger) == false)
+        //         {
+        //             delay = TimeSpan.FromMinutes(5);
+        //             continue;
+        //         }
+        //
+        //
+        //         var file = logger.GetLogFilename();
+        //         if (File.Exists(file) == false)
+        //         {
+        //             delay = TimeSpan.FromMinutes(5);
+        //             continue;
+        //         }
+        //
+        //         var log = await File.ReadAllTextAsync(file);
+        //         if (string.IsNullOrWhiteSpace(log))
+        //         {
+        //             delay = TimeSpan.FromMinutes(5);
+        //             continue;
+        //         }
+        //
+        //         var compressed = Gzipper.CompressToBytes(log);
+        //
+        //         if (await Connection.AwaitConnection() == false)
+        //         {
+        //             delay = TimeSpan.FromMinutes(5);
+        //             continue;
+        //         }
+        //
+        //         await Connection.InvokeAsync("SyncLog", node.Uid, compressed);
+        //         delay = TimeSpan.FromMinutes(60);
+        //     }
+        //     catch (Exception)
+        //     {
+        //         // Ignore
+        //     }
+        // }
     }
 
     /// <summary>
