@@ -329,7 +329,7 @@ public class ConfigurationService
         Logger.Instance?.ILog("InstallDockerMods: Checking");
         if (CurrentConfig?.DockerMods?.Any() != true)
         {
-            Logger.Instance?.ILog("InstallDockerMods: No DockerMods to run"););
+            Logger.Instance?.ILog("InstallDockerMods: No DockerMods to run");
             return;
         }
 
