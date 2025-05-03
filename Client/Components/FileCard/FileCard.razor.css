@@ -102,6 +102,23 @@
   margin-top: 0.25rem;
 }
 
+@media (max-width: 500px) {
+  .traits {
+    display: none;
+  }
+  .file-card .top-right {
+    left: 0;
+    right: unset;
+    font-size: 0.8rem;
+    border-bottom-right-radius: 0.5rem;
+  }
+  .file-card .bottom-right {
+    left: 0;
+    right: unset;
+    font-size: 0.8rem;
+    border-top-right-radius: 0.5rem;
+  }
+}
 .savings {
   background: rgba(255, 255, 255, 0.05);
   position: absolute;

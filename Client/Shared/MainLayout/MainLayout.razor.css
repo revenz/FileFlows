@@ -18,6 +18,14 @@
   align-items: center;
   padding: 1rem;
 }
+@media (max-width: 500px) {
+  .main-title-bar {
+    text-align: left;
+  }
+  .main-title-bar img {
+    margin: auto 0.5rem !important;
+  }
+}
 .main-title-bar .title {
   font-size: 1.5rem;
 }
@@ -207,12 +215,14 @@
     display: unset;
   }
   .content ::deep > .configuration-layout .config-content {
-    overflow: hidden;
     position: absolute;
     top: 5rem;
     left: 1rem;
     right: 1rem;
     bottom: 1rem;
+  }
+  .content ::deep > .configuration-layout .config-content .row {
+    margin: 0 !important;
   }
 }
 

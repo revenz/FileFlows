@@ -219,7 +219,7 @@ ul {
     display: none;
   }
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .nav-item.libraries {
     display: none;
   }

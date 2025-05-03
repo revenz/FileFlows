@@ -63,7 +63,23 @@ public class ConfigurationService
             if(CurrentConfig == null)
                 Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Failed to deserialize configuration");
             else
-                Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Loaded configuration from disk: " + CurrentConfig.Revision);
+            {
+                Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Loaded configuration from disk: " +
+                                      CurrentConfig.Revision);
+                if (CurrentConfig.DockerMods?.Any() == true && Globals.IsDocker)
+                {
+                    Logger.Instance?.ILog("Installing DockerMods");
+                    var result = InstallDockerModsActual(CurrentConfig.DockerMods).GetAwaiter().GetResult();
+                    if (result.Failed(out var error))
+                    {
+                        Logger.Instance?.ELog("Failed to install DockerMods: " + error);
+                    }
+                    else
+                    {
+                        Logger.Instance?.ILog("Installed DockerMods");
+                    }
+                }
+            }
         }
         catch (Exception ex)
         {
@@ -440,6 +456,37 @@ public class ConfigurationService
         await nodeService.SetStatus(nodeUid, ProcessingNodeStatus.InstallingDockerMods);
         try
         {
+            var result = await InstallDockerModsActual(mods);
+            if (result.Failed(out var error))
+            {
+                if (error.StartsWith("mod:"))
+                {
+                    _ = ServiceLoader.Load<INotificationService>().Record(NotificationSeverity.Critical,
+                        $"Docker Mod '{error[4..]}' Failed on '{nodeName}'",
+                        error);
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+        finally
+        {
+            await nodeService.SetStatus(nodeUid, null);
+            EventManager.Broadcast("InstallingDockerMods", false);
+        }
+    }
+
+    /// <summary>
+    /// Actually installs the DockerMods
+    /// </summary>
+    /// <param name="mods">the DockerMods to install</param>
+    /// <returns>true if successful, otherwise a failure</returns>
+    private async Task<Result<bool>> InstallDockerModsActual(List<DockerMod> mods)
+    {
+        try
+        {
             var directory = DirectoryHelper.DockerModsDirectory;
             Logger.Instance.ILog("DockerMods Directory: " + directory);
             if (Directory.Exists(directory) == false)
@@ -463,20 +510,13 @@ public class ConfigurationService
                 var result = await DockerModHelper.Execute(mod);
                 EventManager.Broadcast("InstallingDockerMod", string.Empty);
                 if (result.Failed(out string error))
-                {
-                    _ = ServiceLoader.Load<INotificationService>().Record(NotificationSeverity.Critical,
-                        $"Docker Mod '{mod.Name}' Failed on '{nodeName}'",
-                        error);
-                    return false;
-                }
+                    return Result<bool>.Fail("mod:" + mod.Name);
             }
 
             return true;
-        }
-        finally
+        }catch(Exception ex)
         {
-            await nodeService.SetStatus(nodeUid, null);
-            EventManager.Broadcast("InstallingDockerMods", false);
+            return Result<bool>.Fail(ex.Message);
         }
     }
 }

@@ -138,7 +138,7 @@
   height: unset;
   line-height: unset;
   margin-bottom: auto;
-  padding: 0.25rem 0;
+  padding: 0;
 }
 .flowtable-row.disabled ::deep .column > span, .flowtable-row.disabled ::deep .column > div {
   opacity: 0.5;

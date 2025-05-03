@@ -83,3 +83,9 @@
     overflow: hidden;
   }
 }
+
+@media (max-width:500px) {
+  .dashboard-page .btn-option:not(.active) .label {
+    display:none;
+  }
+}

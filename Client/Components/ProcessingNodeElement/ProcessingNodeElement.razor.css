@@ -79,16 +79,17 @@
   .processing-node .name {
     padding: 1.5rem 0 2.5rem 5.5rem !important;
   }
-  .processing-node .hardware-info-item {
-    display: grid;
-    grid-template-columns: min(8.5rem, 35vw) auto;
-    grid-gap: 0.5rem;
-    padding: 0 0 1rem 4rem;
+  .processing-node .hardware-info, .processing-node .hardware-info-item {
+    display: none;
   }
-  .processing-node .hardware-info-item .label {
-    font-weight: var(--bold, 600);
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .processing-node .center {
+    min-height: unset !important;
+  }
+  .processing-node .runners {
+    right: 0;
+    left: unset;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0;
   }
 }
 .priority, .runners {

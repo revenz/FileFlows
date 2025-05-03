@@ -17,6 +17,12 @@
     border-bottom: 1px solid var(--border-color);
     align-items: center;
     padding:1rem;
+    @media (max-width: 500px) {
+        text-align: left;
+        img {
+            margin: auto 0.5rem !important;
+        }
+    }
     .title  {
         font-size: 1.5rem;
         .icon {
@@ -232,12 +238,15 @@
             overflow: hidden;
             display: unset;
             .config-content {
-                overflow: hidden;
                 position: absolute;
                 top: 5rem;
                 left: 1rem;
                 right: 1rem;
                 bottom: 1rem;
+                
+                .row {
+                    margin:0 !important;
+                }
             }
         }
     }

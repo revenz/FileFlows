@@ -55,7 +55,7 @@ public partial class Dashboard : ComponentBase, IDisposable
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        Layout.SetInfo(Translater.Instant("Pages.Dashboard.Title"), "fas fa-chart-pie");
+        Layout.SetInfo(Translater.Instant("Pages.Dashboard.Title"), "fas fa-chart-pie", pageClass: "dashboard-page");
         lblOverview = Translater.Instant("Pages.Dashboard.Tabs.Overview");
         lblSavings = Translater.Instant("Pages.Dashboard.Tabs.Savings");
         lblStatistics = Translater.Instant("Pages.Dashboard.Tabs.Statistics");
