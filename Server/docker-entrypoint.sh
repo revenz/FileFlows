@@ -127,6 +127,8 @@ fi
 
 # Run as root if PUID is not set
 if [[ -z "${PUID}" ]]; then
+    # Run DockerMods before starting 
+    dockermods
     if [[ "$mode" == "node" ]]; then
         printf "Launching node as root\n"
         cd /app/Node
@@ -134,8 +136,6 @@ if [[ -z "${PUID}" ]]; then
         dotnet FileFlows.Node.dll --docker true &
         dotnet_pid=$!
     else
-        # Run DockerMods before starting the server
-        dockermods
         printf "Launching server as root\n"
         cd /app/Server
         stopLogging
@@ -195,6 +195,8 @@ else
     chown -R "${PUID}:$pgid" /app
     passwd -d root
 
+    # Run DockerMods before starting
+    dockermods
     if [[ "$mode" == "node" ]]; then
         printf "Launching node as '$user'\n"
         cd /app/Node
@@ -202,8 +204,6 @@ else
         su -c "/dotnet/dotnet FileFlows.Node.dll --docker true" "$user" &
         dotnet_pid=$!
     else
-        # Run DockerMods before starting the server
-        dockermods
         printf "Launching server as '$user'\n"
         cd /app/Server
         stopLogging
