@@ -59,26 +59,31 @@ public class ConfigurationService
 
             var cfgJson = noEncrypt ? File.ReadAllText(cfgFile)  : ConfigEncrypter.DecryptConfig(cfgFile);
 
-            CurrentConfig = JsonSerializer.Deserialize<ConfigurationRevision>(cfgJson);
-            if(CurrentConfig == null)
+            var config  = JsonSerializer.Deserialize<ConfigurationRevision>(cfgJson);
+            if(config  == null)
                 Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Failed to deserialize configuration");
             else
             {
                 Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Loaded configuration from disk: " +
-                                      CurrentConfig.Revision);
-                if (CurrentConfig.DockerMods?.Any() == true && Globals.IsDocker)
+                                      config .Revision);
+                if (config.DockerMods?.Any() == true && Globals.IsDocker)
                 {
-                    Logger.Instance?.ILog("Installing DockerMods");
-                    var result = InstallDockerModsActual(CurrentConfig.DockerMods).GetAwaiter().GetResult();
+                    Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: Installing DockerMods");
+                    var result = InstallDockerModsActual(config .DockerMods).GetAwaiter().GetResult();
                     if (result.Failed(out var error))
                     {
-                        Logger.Instance?.ELog("Failed to install DockerMods: " + error);
+                        Logger.Instance?.ELog("ConfigurationService:LoadPreviousConfig: Failed to install DockerMods: " + error);
                     }
                     else
                     {
-                        Logger.Instance?.ILog("Installed DockerMods");
+                        Logger.Instance?.ILog("IConfigurationService:LoadPreviousConfig: Installed DockerMods");
                     }
                 }
+                else
+                {
+                    Logger.Instance?.ILog("ConfigurationService:LoadPreviousConfig: No DockerMods to run");   
+                }
+                CurrentConfig = config;
             }
         }
         catch (Exception ex)
@@ -493,7 +498,7 @@ public class ConfigurationService
     /// </summary>
     /// <param name="mods">the DockerMods to install</param>
     /// <returns>true if successful, otherwise a failure</returns>
-    private async Task<Result<bool>> InstallDockerModsActual(List<DockerMod> mods)
+    private static async Task<Result<bool>> InstallDockerModsActual(List<DockerMod> mods)
     {
         try
         {
