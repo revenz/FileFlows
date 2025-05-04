@@ -154,7 +154,7 @@ else
     # Check if the user exists
     if id "${PUID}" &>/dev/null; then
         printf "${PUID} user exists\n"
-        user="$(id -u -n)"
+        user="$(id -nu "${PUID}")"
     else
         if [ $(getent group $pgid) ]; then
             printf "group $pgid exists\n"
