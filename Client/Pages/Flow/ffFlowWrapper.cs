@@ -156,13 +156,13 @@ public class ffFlowWrapper
             // FF-347: sane limits to flow positions
             if (p.xPos < 10)
                 p.xPos = 50;
-            else if (p.xPos > 2400)
-                p.xPos = 2300;
-            
+            else if (p.xPos > 5900)
+                p.xPos = 5900;
+
             if (p.yPos < 10)
                 p.yPos = 50;
-            else if (p.yPos > 1780)
-                p.yPos = 1750;
+            else if (p.yPos > 3950)
+                p.yPos = 3950;
 
             if (p.Model is IDictionary<string, object> dict)
             {

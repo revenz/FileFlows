@@ -3,7 +3,7 @@ window.createffFlow = function(csharp, uid, readOnly) {
     let div = document.createElement('div');
     div.className = 'flow-parts';
     div.setAttribute('id', `flow-parts-${uid}`);
-    div.innerHTML = '<canvas width="8000" height="4000" tabindex="1" oncontextmenu="return false"></canvas>';
+    div.innerHTML = '<canvas width="6000" height="4000" tabindex="1" oncontextmenu="return false"></canvas>';
     waitForElement('.flows-tabs-contents', (ele) => {
         ele.appendChild(div);
     });
@@ -217,8 +217,8 @@ class ffFlow
         document.addEventListener('paste', this.PasteEventListener);
 
 
-        let width = document.body.clientWidth * 2;
-        let height = document.body.clientHeight * 2;
+        let width = 6000;//document.body.clientWidth * 2;
+        let height = 4000; //document.body.clientHeight * 2;
 
         this.canvas.height = height;
         this.canvas.width = width;
