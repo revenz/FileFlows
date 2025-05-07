@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e  # Exit immediately if a command exits with a non-zero status.
 
+# Delete existing log file if it exists
+[ -f /app/startup.log ] && rm /app/startup.log
+
 # Start logging to startup.log and also output to console
 exec > >(tee -a /app/startup.log) 2>&1
 
