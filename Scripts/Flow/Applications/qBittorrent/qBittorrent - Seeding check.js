@@ -4,7 +4,7 @@
  * This requires you don't have authentication on qBittorrent or different path mappings
  * @author lawrence
  * @uid 48c1518d-83fc-416d-972d-8caf7defe424
- * @revision 1
+ * @revision 2
  * @param {string} URI qBittorent root URI and port (e.g. http://qbitorrent:8080)
  * @output Item is seeding
  * @output Item not found or seeding
@@ -20,6 +20,7 @@ class QBittorrent {
     constructor(uri) {
         if (!URI) {
             Flow.Fail("qBittorrent: No URI specified");
+            return -1;
         }
 
         this.uri = uri;

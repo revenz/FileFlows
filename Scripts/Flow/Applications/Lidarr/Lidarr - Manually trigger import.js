@@ -3,7 +3,7 @@
  * @uid 8963756e-7bf1-4170-8446-29278db542d6
  * @description Manually tells Lidarr to rescan, run after last file in folder moved
  * @author Lawrence / DoughDoze
- * @revision 3
+ * @revision 4
  * @param {string} URI Lidarr root URI and port (e.g. http://lidarr:8686)
  * @param {string} ApiKey API Key
  * @output Command sent
@@ -21,7 +21,7 @@ function Script(URI, ApiKey) {
 class Lidarr {
   constructor(URI, ApiKey) {
     if (!URI || !ApiKey) {
-      Logger.ELog("No credentials specified");
+      Flow.Fail("No credentials specified"); 
       return -1;
     }
 
@@ -50,6 +50,7 @@ class Lidarr {
     } else {
       let error = response.Content.ReadAsStringAsync().Result;
       Logger.WLog("API error: " + error);
+      Flow.Fail("API error")
       return null;
     }
   }
