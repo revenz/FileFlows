@@ -21,8 +21,7 @@ function Script(URI, ApiKey) {
 class Lidarr {
   constructor(URI, ApiKey) {
     if (!URI || !ApiKey) {
-      Flow.Fail("No credentials specified"); 
-      return -1;
+      return Flow.Fail("No credentials specified"); 
     }
 
     this.URI = URI;
