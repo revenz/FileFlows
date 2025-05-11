@@ -176,6 +176,42 @@ else
         fi
     fi
 
+    # Setup permissions for intel from JellyFin
+    if [ -e /dev/dri ]; then
+        FILES=$(find /dev/dri -type c)
+
+        for i in ${FILES}; do
+            VIDEO_GID=$(stat -c '%g' "${i}")
+            VIDEO_UID=$(stat -c '%u' "${i}")
+            # check if user matches device
+            if id -u $user | grep -qw "${VIDEO_UID}"; then
+                printf "**** permissions for ${i} are good ****\n"
+            else
+                # check if group matches and that device has group rw
+                if id -G $user | grep -qw "${VIDEO_GID}" && [[ $(stat -c '%A' "${i}" | cut -b 5,6) == "rw" ]]; then
+                    printf "**** permissions for ${i} are good ****\n"
+                # check if device needs to be added to video group
+                elif ! id -G $user | grep -qw "${VIDEO_GID}"; then
+                    # check if video group needs to be created
+                    VIDEO_NAME=$(getent group "${VIDEO_GID}" | awk -F: '{print $1}')
+                    if [[ -z "${VIDEO_NAME}" ]]; then
+                        VIDEO_NAME="video$(head /dev/urandom | tr -dc 'a-z0-9' | head -c4)"
+                        groupadd "${VIDEO_NAME}"
+                        groupmod -g "${VIDEO_GID}" "${VIDEO_NAME}"
+                        printf "**** creating video group ${VIDEO_NAME} with id ${VIDEO_GID} ****\n"
+                    fi
+                    printf "**** adding ${i} to video group ${VIDEO_NAME} with id ${VIDEO_GID} ****\n"
+                    usermod -a -G "${VIDEO_NAME}" "${user}"
+                fi
+                # check if device has group rw
+                if [[ $(stat -c '%A' "${i}" | cut -b 5,6) != "rw" ]]; then
+                    printf "**** The device ${i} does not have group read/write permissions, attempting to fix inside the container. ****\n"
+                    chmod g+rw "${i}"
+                fi
+            fi
+        done
+    fi
+
     # Add user to additional groups if specified
     if [[ -n "${PGIDS}" ]]; then
         IFS=';' read -ra ADDITIONAL_GROUPS <<< "${PGIDS}"
