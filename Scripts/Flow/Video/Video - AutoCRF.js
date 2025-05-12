@@ -23,7 +23,7 @@ All parameters can also be overridden using Variables for example
     MaxBitRate = 12
     FallBackCodecs = hevc|h.264|mpeg4|custom
  * @author Lawrence Curtis
- * @revision 1
+ * @revision 2
  * @param {('hevc'|'av1')} TargetCodec Which codec you want as the output
  * @param {('intel'|'nvidia'|'none')} HardwareAcceleration Which hardware acceleration to use
  * @param {('hevc'|'h.264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
@@ -375,11 +375,7 @@ function search(bitratePercent, targetPercent) {
         "--min-crf",
         "5",
         "--max-crf",
-        "25",
-        "--samples",
-        "5",
-        "--sample-duration",
-        "5s",
+        "25"
     ];
 
     if (Flow.IsLinux) {
