@@ -31,7 +31,6 @@ function Script() {
         Logger.ILog("Video range is SDR");
         return 1;
     } else {
-        Flow.Fail("No dynamic range found")
-        return -1;
+        return Flow.Fail("No dynamic range found")
     }
 }

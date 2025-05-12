@@ -5,7 +5,7 @@
  * @author lawrence
  * @uid 48c1518d-83fc-416d-972d-8caf7defe424
  * @revision 2
- * @param {string} URI qBittorent root URI and port (e.g. http://qbitorrent:8080)
+ * @param {string} URI qBittorent root URI and port (e.g. http://qbittorrent:8080)
  * @output Item is seeding
  * @output Item not found or seeding
  */
@@ -18,9 +18,8 @@ function Script(URI) {
 
 class QBittorrent {
     constructor(uri) {
-        if (!URI) {
-            Flow.Fail("qBittorrent: No URI specified");
-            return -1;
+        if (!uri) {
+            return Flow.Fail("qBittorrent: No URI specified");
         }
 
         this.uri = uri;
@@ -51,10 +50,17 @@ class QBittorrent {
 
         queue.forEach((item) => {
             if (item.content_path.replace(/\W/gi, "").includes(path)) {
-                if (item.state.includes("upload")) seeding = true;
+                if (
+                    !(
+                        item.state.includes("upload") ||
+                        item.state.includes("pausedUP") ||
+                        item.state.includes("stoppedUP")
+                    )
+                )
+                    seeding = true;
 
                 Logger.ILog(
-                    `Identified item ${item.name} from ${item.content_path}`
+                    `Identified item ${item.name} from ${item.content_path} (${item.state})`
                 );
             }
         });

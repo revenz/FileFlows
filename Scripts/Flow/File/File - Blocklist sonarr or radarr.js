@@ -18,9 +18,8 @@ function Script(URI, ApiKey) {
 
 class Blocklist {
     constructor(uri, apikey) {
-        if (!URI || !ApiKey) {
-            Flow.Fail("No credentials specified");
-            return -1;
+        if (!uri || !apikey) {
+            return Flow.Fail("No credentials specified");
         }
 
         this.uri = uri;

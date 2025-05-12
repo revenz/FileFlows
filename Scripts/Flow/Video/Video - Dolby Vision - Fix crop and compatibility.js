@@ -17,8 +17,7 @@ function Script(RemoveHDRTenPlus) {
   const videoStreams = Variables.vi.VideoInfo.VideoStreams;
 
   if (!videoStreams?.length) {
-    Flow.Fail("No Video detected");
-    return -1;
+    return Flow.Fail("No Video detected");
   }
 
   Flow.AdditionalInfoRecorder("DoVi", "Initializing", 1);
@@ -62,10 +61,9 @@ function Script(RemoveHDRTenPlus) {
   if (!matches) return 2;
 
   if (!(videoStreams[0].Codec == "hevc")) {
-    Flow.Fail(
+    return Flow.Fail(
       "Video format MUST be HEVC, AV1 is not currently supported by dovi_tool"
     );
-    return -1;
   }
 
   Flow.AdditionalInfoRecorder("DoVi", "Extracting HEVC bit stream", 1);
@@ -116,8 +114,7 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to extract HEVC: " + process.output);
-    Flow.Fail("Failed to extract HEVC")
-    return -1;
+    return Flow.Fail("Failed to extract HEVC")
   }
 
   Flow.PartPercentageUpdate(0);
@@ -161,8 +158,7 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to dovi_tool extract: " + process.output);
-    Flow.Fail("Failed to dovi_tool extract")
-    return -1;
+    return Flow.Fail("Failed to dovi_tool extract")
   }
 
   // Remove temp files
@@ -212,8 +208,7 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to extract working video: " + process.exitCode);
-    Flow.Fail("Failed to extract working video");
-    return -1;
+    return Flow.Fail("Failed to extract working video");
   }
 
   Flow.PartPercentageUpdate(0);
@@ -261,8 +256,7 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to dovi_tool: " + process.exitCode);
-    Flow.Fail("Failed to dovi_tool")
-    return -1;
+    return Flow.Fail("Failed to dovi_tool")
   }
 
   System.IO.File.Delete(System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc"));
@@ -311,8 +305,7 @@ function Script(RemoveHDRTenPlus) {
 
   if (process.exitCode !== 0) {
     Logger.ELog("Failed to mux: " + process.exitCode);
-    Flow.Fail("Failed to mux");
-    return -1;
+    return Flow.Fail("Failed to mux");
   }
 
   System.IO.File.Delete(System.IO.Path.Combine(Flow.TempPath, "fixed.hevc"));

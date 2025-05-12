@@ -22,9 +22,8 @@ function Script(URI) {
 
 class QBittorrent {
   constructor(uri) {
-    if (!URI) {
-      Flow.Fail("qBittorrent: No URI specified");
-      return -1;
+    if (!uri) {
+      return Flow.Fail("qBittorrent: No URI specified");
     }
 
     this.uri = uri;
