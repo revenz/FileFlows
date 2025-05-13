@@ -190,7 +190,7 @@ public partial class TrendWidget : ComponentBase, IAsyncDisposable
 
 
     /// <summary>
-    /// Disposes of the coomponent
+    /// Disposes of the component
     /// </summary>
     public async ValueTask DisposeAsync()
     {

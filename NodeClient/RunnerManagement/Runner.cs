@@ -38,7 +38,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
     private bool _aborted = false;
     private Task _updateTask;
     private bool AbortDueToNoOutput;
-    readonly TimeSpan noOutputTimeout = TimeSpan.FromSeconds(30);
+    readonly TimeSpan noOutputTimeout = TimeSpan.FromSeconds(600);
     DateTime lastOutputTime = DateTime.UtcNow;
     private JsonRpcServer? rpcServer = null; 
 
