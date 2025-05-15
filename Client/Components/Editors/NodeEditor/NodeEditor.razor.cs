@@ -45,6 +45,7 @@ public partial class NodeEditor : ModalEditor
         lblProcessing = Translater.Instant("Pages.ProcessingNode.Fields.ProcessingDescription");
         lblVariables = Translater.Instant("Pages.ProcessingNode.Fields.VariablesDescription");
         ScriptOptions = feService.Script.Scripts.Where(x => x.Type == ScriptType.System)
+            .OrderBy(x => x.Name.ToLowerInvariant())
             .Select(x => new ListOption
             {
                 Value = x.Uid, Label = x.Name
