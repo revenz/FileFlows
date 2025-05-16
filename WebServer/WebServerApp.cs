@@ -356,7 +356,6 @@ public class WebServerApp
     private static void InitializeServices()
     {
         _ = ServiceLoader.Load<SystemOverviewService>();
-        _ = ServiceLoader.Load<SystemOverviewService>();
         //_ = ServiceLoader.Load<FileUnprocessedService>();
         //_ = ServiceLoader.Load<LibraryFileStatusOverviewService>();
         ServiceLoader.Load<FileSorterService>().Initialize();
