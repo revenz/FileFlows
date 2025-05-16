@@ -260,6 +260,14 @@ public class ConfigurationService
                 }
             }
 
+            if (config.NodeVariables.TryGetValue(node.Uid, out var nodeVariables))
+            {
+                foreach (var v in nodeVariables)
+                {
+                    variables[v.Key] = v.Value;
+                }
+            }
+
             string json = System.Text.Json.JsonSerializer.Serialize(new
             {
                 config.Revision,
