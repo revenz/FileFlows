@@ -382,8 +382,8 @@ All parameters can also be overridden using Variables for example
             "25",
             "--min-samples",
             "5",
-            "--sample-duration",
-            "5s",
+            //"--sample-duration",
+            //"5s",
         ];
     
         if (Variables.SVT) {
