@@ -39,7 +39,7 @@ public class FlowElement
         get {
             if (_DisplayName == null && Translater.InitDone)
             {
-                _DisplayName = FormatName(this.Name);
+                _DisplayName = this.Uid?.StartsWith("SubFlow:") == true ? this.Name : FormatName(this.Name);
             }
             return _DisplayName;
         }
