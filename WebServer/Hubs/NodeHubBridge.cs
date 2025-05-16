@@ -27,6 +27,7 @@ public class NodeHubBridge : INodeHubService
         //_nodeManager = nodeManager;
         _settingsService = (SettingsService) ServiceLoader.Load<ISettingsService>();
         _nodeService = ServiceLoader.Load<NodeService>();
+        _nodeService.OnNodeUpdated += OnNodeUpdated;
         var settings = _settingsService.Get().Result;
         KeepFailedFlowTempFiles = settings.KeepFailedFlowTempFiles;
         _settingsService.RevisionUpdated += (revision) =>
@@ -94,21 +95,24 @@ public class NodeHubBridge : INodeHubService
         }
     }
     
-    /// <inheritdoc/>
-    public async Task NodeUpdate(ProcessingNode node)
+
+    private void OnNodeUpdated(ProcessingNode obj)
     {
-        // var connectionId = _nodeManager.GetNodeConnection(node.Uid);
-        // if (connectionId == null)
-        //     return; // node isn't connected
-        // try
-        // {
-        //     await _hubContext.Clients.Client(connectionId)
-        //         .SendAsync("NodeUpdated", node);
-        // }
-        // catch (Exception)
-        // {
-        //     // Ignored
-        // }
+        var nodes = ServiceLoader.Load<NodeService>().GetOnlineNodes();
+        
+        var connectionId = nodes.FirstOrDefault(x => x.NodeUid == obj.Uid)?.ConnectionId;
+        
+        if (connectionId == null)
+            return; // node isn't connected
+        try
+        {
+            _ = _hubContext.Clients.Client(connectionId)
+                .SendAsync("NodeUpdated", obj);
+        }
+        catch (Exception)
+        {
+            // Ignored
+        }
     }
 
     /// <inheritdoc/>
