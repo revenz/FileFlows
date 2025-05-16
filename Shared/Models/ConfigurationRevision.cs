@@ -50,7 +50,7 @@ public class ConfigurationRevision
     /// <summary>
     /// Gets or sets the node specific variables
     /// </summary>
-    public Dictionary<Guid, Dictionary<string, string>> NodeVariables { get; set; }
+    public Dictionary<Guid, Dictionary<string, string>> NodeVariables { get; set; } = [];
 
     private Dictionary<Guid, string> _Tags = [];
 
