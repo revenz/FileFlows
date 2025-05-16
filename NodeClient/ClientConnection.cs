@@ -384,7 +384,7 @@ public class ClientConnection : IDisposable
             delayed = true;
         }
 
-        WLog("Failed to await connection");
+        WLog("Failed to await connection: " + _connection.State);
         return false;
 
     }
