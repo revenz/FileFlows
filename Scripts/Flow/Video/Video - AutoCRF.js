@@ -272,7 +272,7 @@ All parameters can also be overridden using Variables for example
         if (forceEncode) {
             // setup bitrate encode
             Variables.ManualParameters = attempt.command;
-            let t = targetBitRate / 1024 / 1024;
+            let t = targetBitRate / 1024.00 / 1024.00;
     
             let obs = [
                 "-b:v:{index}",
@@ -329,6 +329,12 @@ All parameters can also be overridden using Variables for example
     
         if (Variables.KeyInt) {
             returnValue.command = `${returnValue.command} -g ${Variables.KeyInt}`
+        } else {
+            returnValue.command = `${returnValue.command} -g ${Math.round(Variables.vi.VideoInfo.VideoStreams[0].FramesPerSecond) * 10}`
+        }
+    
+        if (TargetCodec.includes("qsv")) {
+            returnValue.command = `${returnValue.command} -look_ahead 1 -extbrc 1 -look_ahead_depth 40`
         }
     
         let videoPixelFormat = "yuv420p";
