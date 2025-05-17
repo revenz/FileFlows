@@ -10,9 +10,6 @@ ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
     DOTNET_CLI_TELEMETRY_OPTOUT=true
 
 RUN apt-get update && \
-    apt-get install -y software-properties-common && \
-    add-apt-repository universe && \
-    apt-get update && \
     apt-get install -y tzdata wget ca-certificates gnupg curl tar xz-utils libssl-dev apt-transport-https openssl locales libfontconfig1 libfreetype6 pciutils vainfo git
 
 # Install dotnet SDK
@@ -23,7 +20,7 @@ RUN wget https://dot.net/v1/dotnet-install.sh  && \
 
 # Install Docker
 RUN curl -fsSL https://get.docker.com | sh
-    
+
 ##########################################
 ### actual FileFlows stuff happens now ###
 ##########################################
