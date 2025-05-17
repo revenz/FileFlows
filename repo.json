@@ -164,7 +164,7 @@
       "Path": "Scripts/Flow/File/File - Blocklist sonarr or radarr.js",
       "Name": "File - Blocklist sonarr or radarr",
       "Description": "This script will search the active queue and blocklist and research.  For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr\n/",
-      "Revision": 4,
+      "Revision": 5,
       "Uid": "8eb58ddf-f355-4442-8101-d6fd81a1b927"
     },
     {
@@ -185,8 +185,8 @@
     {
       "Path": "Scripts/Flow/Video/Video - Dolby Vision - Fix crop and compatibility.js",
       "Name": "Video - Dolby Vision - Fix crop and compatibility",
-      "Description": "Converts to the most compatibile profile 8.1 and removing bad crop data.\nRun between encode and move/replace.\nOutput is always an MKV.\ndovi_tool only supports HEVC when AV1 support is added I will updated this script.\n/",
-      "Revision": 6,
+      "Description": "Converts to the most compatible profile 8.1 and removing bad crop data.\nRun between encode and move/replace.\nOutput is always an MKV.\ndovi_tool only supports HEVC when AV1 support is added I will updated this script.\n/",
+      "Revision": 7,
       "MinimumVersion": "24.09.2.3553",
       "Uid": "f5eebc75-e22d-4181-af02-5e7263e68acd"
     },
@@ -278,7 +278,7 @@
       "Path": "Scripts/Flow/Video/Video - Dynamic range.js",
       "Name": "Video - Dynamic range",
       "Description": "Detects the dynamic range of a video e.g. SDR/HDR/HDR\u002BDoVi/Dovi\n/",
-      "Revision": 3,
+      "Revision": 4,
       "Uid": "d6d1bde2-0a1c-46d1-a9b2-a46d12eeffb7"
     },
     {
@@ -391,7 +391,7 @@
       "Path": "Scripts/Flow/Applications/Lidarr/Lidarr - Manually trigger import.js",
       "Name": "Lidarr - Manually trigger import",
       "Description": "Manually tells Lidarr to rescan, run after last file in folder moved\n/",
-      "Revision": 3,
+      "Revision": 4,
       "Uid": "8963756e-7bf1-4170-8446-29278db542d6"
     },
     {
@@ -426,14 +426,14 @@
       "Path": "Scripts/Flow/Applications/qBittorrent/qBittorrent - Seeding check.js",
       "Name": "qBittorrent - Seeding check",
       "Description": "Checks if the current file is seeding in qBittorrent so you can \u0027reprocess\u0027 later\nThis requires you don\u0027t have authentication on qBittorrent or different path mappings\n/",
-      "Revision": 1,
+      "Revision": 2,
       "Uid": "48c1518d-83fc-416d-972d-8caf7defe424"
     },
     {
       "Path": "Scripts/Flow/Applications/qBittorrent/qBittorrent - Renamer.js",
       "Name": "qBittorrent - Renamer",
       "Description": "Renames the current file in qBittorrent, Run after move / delete original.\nThis requires you don\u0027t have authentication on qBittorrent or different path mappings\n/",
-      "Revision": 1,
+      "Revision": 2,
       "Uid": "4130f59f-3871-4c24-9a0d-15966da6eb7c"
     },
     {
