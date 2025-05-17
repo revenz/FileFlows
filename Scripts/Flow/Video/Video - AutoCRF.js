@@ -27,7 +27,7 @@ All parameters can also be overridden using Variables for example
  * @author Lawrence Curtis
  * @revision 2
  * @param {('hevc_qsv'|'hevc'|'av1_qsv'|'libsvtav1')} TargetCodec Which codec you want as the output
- * @param {('hevc'|'h.264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
+ * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
  * @param {bool} FixDolby5 Create a SDR fallback for Dolby Vision profile 5 (aka the green/purple one) [CPU decode]
  * @param {bool} UseTags Create tags (premium feature) such as "Copy", "CRF 17", "Fallback"
