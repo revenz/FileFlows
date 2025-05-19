@@ -52,6 +52,7 @@ public class NodeHubBridge : INodeHubService
     {
         try
         {
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
             return await _hubContext.Clients.Client(connectionId)
                 .InvokeAsync<FileCheckResult>("ClientProcessFile", new RunFileArguments()
                 {
@@ -60,7 +61,11 @@ public class NodeHubBridge : INodeHubService
                     KeepFailedFiles = KeepFailedFlowTempFiles,
                     CanRunPreExecuteCheck = LicensedForTasks,
                     MaxRunnersOnNode = maxNodeRunners
-                }, CancellationToken.None);
+                }, cts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            return Result<FileCheckResult>.Fail("Request timed out after 20 seconds.");
         }
         catch (Exception ex)
         {
@@ -71,9 +76,15 @@ public class NodeHubBridge : INodeHubService
     /// <inheritdoc/>
     public async Task UpdateConfig(string connectionId, int UpdateConfig)
     {
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
         try
         {
-            await _hubContext.Clients.Client(connectionId).SendAsync("ConfigUpdated", UpdateConfig);
+            await _hubContext.Clients.Client(connectionId)
+                .SendAsync("ConfigUpdated", UpdateConfig, cts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            // Timeout occurred, optionally log this if needed
         }
         catch (Exception)
         {
@@ -83,11 +94,16 @@ public class NodeHubBridge : INodeHubService
 
     private async Task SettingsServiceOnRevisionUpdated()
     {
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
         try
         {
             var cfg = await _settingsService.GetCurrentConfiguration();
             if(cfg != null)
-                await _hubContext.Clients.All.SendAsync("ConfigUpdated", cfg);
+                await _hubContext.Clients.All.SendAsync("ConfigUpdated", cfg, cts.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            // Timeout occurred, optionally log this if needed
         }
         catch (Exception)
         {
@@ -106,8 +122,9 @@ public class NodeHubBridge : INodeHubService
             return; // node isn't connected
         try
         {
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
             _ = _hubContext.Clients.Client(connectionId)
-                .SendAsync("NodeUpdated", obj);
+                .SendAsync("NodeUpdated", obj, cts.Token);
         }
         catch (Exception)
         {
