@@ -54,7 +54,7 @@ public class ScriptNode:Node
                 return ExecuteJavaScript(args);
             default:
                 args.Logger?.ILog($"Executing {Script.Language} Script");
-                return ExecuteScript(args);
+                return ExecuteScript(args).GetAwaiter().GetResult();
         }
     }
 
@@ -63,9 +63,9 @@ public class ScriptNode:Node
     /// </summary>
     /// <param name="args">the NodeParameters passed into this from the flow runner</param>
     /// <returns>the output node to call next</returns>
-    private int ExecuteScript(NodeParameters args)
+    private async Task<int> ExecuteScript(NodeParameters args)
     {
-        var result = args.ScriptExecutor.Execute(new()
+        var result = await args.ScriptExecutor.Execute(new()
         {
             Args = args,
             Logger = args.Logger!,
@@ -160,6 +160,6 @@ public class ScriptNode:Node
             }
         }
 
-        return args?.ScriptExecutor?.Execute(execArgs) ?? 0;
+        return args?.ScriptExecutor?.Execute(execArgs).GetAwaiter().GetResult() ?? 0;
     }
 }

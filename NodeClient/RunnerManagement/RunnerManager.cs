@@ -71,7 +71,7 @@ public class RunnerManager
             if (_activeRunners.Count >= maxRunners)
                 return FileCheckResult.AtMaximumRunners;
 
-            if (args.CanRunPreExecuteCheck && PreExecuteScriptTest(node, _activeRunners.Count, config) == false)
+            if (args.CanRunPreExecuteCheck && await PreExecuteScriptTest(node, _activeRunners.Count, config) == false)
                 return FileCheckResult.PreCheckFailed;
 
             var tempPath = GetTempPath(node);
@@ -187,7 +187,7 @@ public class RunnerManager
     /// <param name="currentRunners">the number of the current runners</param>
     /// <param name="config">the current configuration</param>
     /// <returns>if the pre-execute script passes</returns>
-    private bool PreExecuteScriptTest(ProcessingNode node, int currentRunners, ConfigurationRevision config)
+    private async Task<bool> PreExecuteScriptTest(ProcessingNode node, int currentRunners, ConfigurationRevision config)
     {
         if (node.PreExecuteScript == null || node.PreExecuteScript.Value == Guid.Empty)
             return true; // no script
@@ -198,7 +198,7 @@ public class RunnerManager
         if (script.Language != ScriptLanguage.JavaScript)
         {
             StringLogger logger = new();
-            var seResult = new ScriptExecutor().Execute(new()
+            var seResult = await new ScriptExecutor().Execute(new()
             {
                 Code = script.Code,
                 TempPath = Path.GetTempPath(),

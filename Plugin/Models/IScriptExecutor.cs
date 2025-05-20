@@ -10,7 +10,7 @@ public interface IScriptExecutor
     /// </summary>
     /// <param name="args">the arguments of the script</param>
     /// <returns>the output node</returns>
-    Result<int> Execute(ScriptExecutionArgs args);
+    Task<Result<int>> Execute(ScriptExecutionArgs args);
 }
 
 /// <summary>

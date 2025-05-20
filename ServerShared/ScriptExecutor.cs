@@ -46,14 +46,14 @@ public class ScriptExecutor : IScriptExecutor
     /// </summary>
     /// <param name="execArgs">the execution arguments</param>
     /// <returns>the output to be called next</returns>
-    public Result<int> Execute(ScriptExecutionArgs execArgs)
+    public async Task<Result<int>> Execute(ScriptExecutionArgs execArgs)
     {
         return execArgs.Language switch
         {
             ScriptLanguage.Batch => ExecuteBatch(execArgs),
             ScriptLanguage.PowerShell => ExecutePowerShell(execArgs),
             ScriptLanguage.Shell => ExecuteShell(execArgs),
-            ScriptLanguage.CSharp => ExecuteCSharp(execArgs),
+            ScriptLanguage.CSharp => await ExecuteCSharp(execArgs),
             _ => ExecuteJavaScript(execArgs)
         };
     }
@@ -294,7 +294,7 @@ public class ScriptExecutor : IScriptExecutor
     /// </summary>
     /// <param name="execArgs">the execution arguments</param>
     /// <returns>the output to be called next</returns>
-    private Result<int> ExecuteCSharp(ScriptExecutionArgs execArgs)
+    private async Task<Result<int>> ExecuteCSharp(ScriptExecutionArgs execArgs)
     {
         if (string.IsNullOrEmpty(execArgs?.Code))
             return Result<int>.Fail("No code"); // no code, flow cannot continue doesnt know what to do
@@ -322,13 +322,13 @@ public class ScriptExecutor : IScriptExecutor
         try
         {
             // Execute the script with the provided logger
-            var result = CSharpScript.RunAsync(execArgs.Code, scriptOptions, new Globals
+            var result = await CSharpScript.RunAsync(execArgs.Code, scriptOptions, new Globals
             {
                 Logger = execArgs.Logger,
                 Flow = execArgs.Args,
                 Variables = execArgs.Args?.Variables ?? new(),
                 NotificationDelegate = execArgs.NotificationCallback
-            }).Result;
+            });
             if (result.ReturnValue is int iOutput)
                 return iOutput;
             if (result.ReturnValue is bool bValue)

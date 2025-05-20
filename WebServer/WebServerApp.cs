@@ -361,6 +361,10 @@ public class WebServerApp
         await SettingsManager.Initialize();
         
         _ = ServiceLoader.Load<SystemOverviewService>();
+        await ServiceLoader.Load<NodeService>().Initialize();
+        await ServiceLoader.Load<PausedService>().Initialize();
+        await ServiceLoader.Load<StatisticService>().Initialize();
+        await ServiceLoader.Load<VariableService>().Initialize();
         //_ = ServiceLoader.Load<FileUnprocessedService>();
         //_ = ServiceLoader.Load<LibraryFileStatusOverviewService>();
         await ServiceLoader.Load<FileSorterService>().Initialize();
