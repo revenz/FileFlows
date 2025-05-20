@@ -135,7 +135,7 @@ public class PluginController : BaseController
             }
 
             // save the ffplugin file
-            bool success = pluginScanner.UpdatePlugin(ppi.Package, dlResult.Data);
+            bool success = await pluginScanner.UpdatePlugin(ppi.Package, dlResult.Data);
             if(success)
                 Logger.Instance.ILog("PluginUpdate: Successfully updated plugin: " + plugin.Name);
             else
