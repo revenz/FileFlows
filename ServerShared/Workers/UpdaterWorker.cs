@@ -110,7 +110,7 @@ public abstract class UpdaterWorker : Worker
 #if(DEBUG)
             return false; // disable during debugging
 #else
-            string updateScript = DownloadUpdate(skipEnabledCheck);
+            string updateScript = await DownloadUpdate(skipEnabledCheck);
             if (string.IsNullOrEmpty(updateScript))
                 return false;
 
