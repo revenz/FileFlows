@@ -96,7 +96,7 @@ public class StartupService : IStartupService
             }
         
             // do this so the settings object is loaded
-            var settings = ServiceLoader.Load<ISettingsService>().Get().Result;
+            var settings = await ServiceLoader.Load<ISettingsService>().Get();
             var appSettings = ServiceLoader.Load<AppSettingsService>().Settings;
 
             if (Globals.IsDocker && appSettings.DockerModsOnServer)
@@ -104,7 +104,7 @@ public class StartupService : IStartupService
 
             await ScanForPlugins();
 
-            ServiceLoader.Load<LanguageService>().Initialize().Wait();
+            await ServiceLoader.Load<LanguageService>().Initialize();
             ServiceLoader.Load<FileFlows.Services.LibraryFileService>().ResetProcessingStatus(CommonVariables.InternalNodeUid).Wait();
 
             DataLayerDelegates.Setup();
