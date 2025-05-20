@@ -35,7 +35,7 @@ public class StartupService : IStartupService
     /// <summary>
     /// Run the startup commands
     /// </summary>
-    public Result<bool> Run(string serverUrl)
+    public async Task<Result<bool>> Run(string serverUrl)
     {
         UpdateStatus("Starting...");
         try
@@ -75,7 +75,7 @@ public class StartupService : IStartupService
                 return Result<bool>.Fail(error);
             }
 
-            if (PrepareDatabase().Failed(out error))
+            if ((await PrepareDatabase()).Failed(out error))
             {
                 error = "Prepare Database Error: " + error;
                 UpdateStatus(error);
@@ -102,7 +102,7 @@ public class StartupService : IStartupService
             if (Globals.IsDocker && appSettings.DockerModsOnServer)
                 RunnerDockerMods();
 
-            ScanForPlugins();
+            await ScanForPlugins();
 
             ServiceLoader.Load<LanguageService>().Initialize().Wait();
             ServiceLoader.Load<FileFlows.Services.LibraryFileService>().ResetProcessingStatus(CommonVariables.InternalNodeUid).Wait();
@@ -114,7 +114,7 @@ public class StartupService : IStartupService
             // Start workers right at the end, so the ServerUrl is set in case the worker needs BaseServerUrl
             StartupWorkers();
 
-            StartFileDropServer();
+            await StartFileDropServer();
             
             WebServerApp.FullyStarted = true;
             return true;
@@ -131,7 +131,7 @@ public class StartupService : IStartupService
         }
     }
 
-    private void StartFileDropServer()
+    private async Task StartFileDropServer()
     {
 #if(!DEBUG)
         if (LicenseService.IsLicensed(LicenseFlags.FileDrop) == false)
@@ -139,8 +139,9 @@ public class StartupService : IStartupService
 #endif
         var service = new FileFlows.FileDropApp.FileDropWebService();
         ServiceLoader.AddSpecialCase<IFileDropWebServerService>(service);
-        
-        var settings = ServiceLoader.Load<FileDropSettingsService>().Get();
+        var fdService = ServiceLoader.Load<FileDropSettingsService>();
+        await fdService.Initalize();
+        var settings = fdService.Get();
         if (settings.Enabled)
         {
             Logger.Instance?.ILog("Starting FileDrop App...");
@@ -171,12 +172,12 @@ public class StartupService : IStartupService
     /// <summary>
     /// Scans for plugins
     /// </summary>
-    private void ScanForPlugins()
+    private async Task ScanForPlugins()
     {
         UpdateStatus("Scanning for Plugins");
         var service = ServiceLoader.Load<IPluginScanner>();
         // need to scan for plugins before initing the translater as that depends on the plugins directory
-        service.Scan();
+        await service.Scan();
     }
 
     /// <summary>
@@ -363,7 +364,7 @@ public class StartupService : IStartupService
     /// Prepares the database
     /// </summary>
     /// <returns>the result</returns>
-    Result<bool>PrepareDatabase()
+    async Task<Result<bool>> PrepareDatabase()
     {
         UpdateStatus("Initializing database...");
 
@@ -378,7 +379,7 @@ public class StartupService : IStartupService
                 return Result<bool>.Fail(error);
         }
         
-        if (service.PrepareDatabase().Failed(out error))
+        if ((await service.PrepareDatabase()).Failed(out error))
             return Result<bool>.Fail(error);
 
         return true;

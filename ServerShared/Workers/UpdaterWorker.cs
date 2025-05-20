@@ -52,7 +52,7 @@ public abstract class UpdaterWorker : Worker
         CurrentVersion = new Version(Globals.Version);
         this.UpgradeScriptPrefix = upgradeScriptPrefix;
         UpdaterName = this.GetType().Name;
-        RunCheck();
+        _ = RunCheck();
     }
 
     /// <inheritdoc />
@@ -66,7 +66,7 @@ public abstract class UpdaterWorker : Worker
     /// <inheritdoc />
     protected override void Execute()
     {
-        RunCheck();
+        _ = RunCheck();
     }
 
     /// <summary>
@@ -83,7 +83,7 @@ public abstract class UpdaterWorker : Worker
     /// Pre-check to run before executing
     /// </summary>
     /// <returns>if false, no update will be checked for</returns>
-    protected virtual bool PreCheck() => true;
+    protected virtual Task<bool> PreCheck() => Task.FromResult(true);
     
     
     /// <summary>
@@ -99,9 +99,9 @@ public abstract class UpdaterWorker : Worker
     /// </summary>
     /// <param name="skipEnabledCheck">if the enabled checks should be skipped</param>
     /// <returns>A update has been downloaded</returns>
-    public bool RunCheck(bool skipEnabledCheck = false)
+    public async Task<bool> RunCheck(bool skipEnabledCheck = false)
     {
-        if (PreCheck() == false)
+        if (await PreCheck() == false)
             return false;
 
         Logger.ILog($"{UpdaterName}: Checking for update");
@@ -241,37 +241,37 @@ public abstract class UpdaterWorker : Worker
     /// Downloads an update
     /// </summary>
     /// <returns>The update file</returns>
-    protected abstract string DownloadUpdateBinary();
+    protected abstract Task<string> DownloadUpdateBinary();
 
     /// <summary>
     /// Gets if auto updates are enabled
     /// </summary>
     /// <returns>if auto updates are enabled</returns>
-    protected abstract bool GetAutoUpdatesEnabled();
+    protected abstract Task<bool> GetAutoUpdatesEnabled();
 
     /// <summary>
     /// Gets if an update is available
     /// </summary>
     /// <returns>if an update is available</returns>
-    protected abstract bool GetUpdateAvailable();
+    protected abstract Task<bool> GetUpdateAvailable();
 
     /// <summary>
     /// Downloads the update
     /// </summary>
     /// <param name="skipEnabledCheck">if the enabled checks should be skipped</param>
     /// <returns>the download URL</returns>
-    private string DownloadUpdate(bool skipEnabledCheck)
+    private async Task<string> DownloadUpdate(bool skipEnabledCheck)
     {
         try
         {
-            if (GetUpdateAvailable() == false)
+            if (await GetUpdateAvailable() == false)
                 return string.Empty;
             
-            if ((skipEnabledCheck || GetAutoUpdatesEnabled()) == false)
+            if ((skipEnabledCheck || await GetAutoUpdatesEnabled()) == false)
                 return string.Empty;
 
             Logger.DLog($"{UpdaterName}: Checking for new update binary");
-            string update = DownloadUpdateBinary();
+            string update = await DownloadUpdateBinary();
             if (string.IsNullOrEmpty(update))
             {
                 Logger.DLog($"{UpdaterName}: No update available");

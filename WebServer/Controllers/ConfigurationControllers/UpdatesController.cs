@@ -76,7 +76,7 @@ public class UpdatesController : BaseController
         {
             await Task.Delay(1);
             var service = ServiceLoader.Load<IOnlineUpdateService>();
-            return service.RunCheck(skipEnabledCheck: true);
+            return await service.RunCheck(skipEnabledCheck: true);
         });
         await Task.CompletedTask;
     }

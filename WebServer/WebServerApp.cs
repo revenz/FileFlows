@@ -1,6 +1,7 @@
 ﻿using FileFlows.Server.Workers;
 using Microsoft.OpenApi.Models;
 using System.Runtime.InteropServices;
+using FileFlows.Managers;
 using FileFlows.NodeClient;
 using FileFlows.Services.FileProcessing;
 using FileFlows.Services.Interfaces;
@@ -135,7 +136,7 @@ public class WebServerApp
     /// Starts the server
     /// </summary>
     /// <param name="args">command line arguments</param>
-    public static void Start(string[] args)
+    public static async Task Start(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -319,7 +320,7 @@ public class WebServerApp
             OnStatusUpdate?.Invoke(WebServerState.Listening, "Web server listening", serverUrl);
         });
         
-        if (RunStartupCode(serverUrl).Failed(out string error))
+        if ((await RunStartupCode(serverUrl)).Failed(out string error))
         {
             Logger.Instance.ELog("Startup failed: " + error);
             if (Globals.UsingWebView)
@@ -330,11 +331,13 @@ public class WebServerApp
 
 
         var _nodeHub = app.Services.GetRequiredService<IHubContext<NodeHub>>();
+        var bridge = new NodeHubBridge(_nodeHub);
+        await bridge.Initialize();
         //var nodeManagerService = ServiceLoader.Load<NodeManagerService>();
-        ServiceLoader.AddSpecialCase<INodeHubService>(new NodeHubBridge(_nodeHub));
+        ServiceLoader.AddSpecialCase<INodeHubService>(bridge);
 
         // just to start up the file queue service
-        InitializeServices();
+        await InitializeServices();
         
         var client = new Client(new ()
         {
@@ -353,26 +356,28 @@ public class WebServerApp
     /// <summary>
     /// Initialises some startup services
     /// </summary>
-    private static void InitializeServices()
+    private static async Task InitializeServices()
     {
+        await SettingsManager.Initialize();
+        
         _ = ServiceLoader.Load<SystemOverviewService>();
         //_ = ServiceLoader.Load<FileUnprocessedService>();
         //_ = ServiceLoader.Load<LibraryFileStatusOverviewService>();
-        ServiceLoader.Load<FileSorterService>().Initialize();
+        await ServiceLoader.Load<FileSorterService>().Initialize();
     }
 
     /// <summary>
     /// Runs the startup code
     /// </summary>
     /// <returns>the result</returns>
-    private static Result<bool> RunStartupCode(string serverUrl)
+    private static async Task<Result<bool>> RunStartupCode(string serverUrl)
     {
         var service = ServiceLoader.Load<IStartupService>();
         service.OnStatusUpdate += (message, _, _) =>
         {
             Task.Run(() => OnStatusUpdate?.Invoke(WebServerState.Starting, message, string.Empty));
         };
-        return service.Run(serverUrl);
+        return await service.Run(serverUrl);
     }
 
 

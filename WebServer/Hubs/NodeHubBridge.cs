@@ -19,7 +19,6 @@ public class NodeHubBridge : INodeHubService
     private readonly SettingsService _settingsService;
     private bool KeepFailedFlowTempFiles;
     private bool LicensedForTasks;
-    
 
     public NodeHubBridge(IHubContext<NodeHub> hubContext)
     {
@@ -28,8 +27,6 @@ public class NodeHubBridge : INodeHubService
         _settingsService = (SettingsService) ServiceLoader.Load<ISettingsService>();
         _nodeService = ServiceLoader.Load<NodeService>();
         _nodeService.OnNodeUpdated += OnNodeUpdated;
-        var settings = _settingsService.Get().Result;
-        KeepFailedFlowTempFiles = settings.KeepFailedFlowTempFiles;
         _settingsService.RevisionUpdated += (revision) =>
         {
             _ = SettingsServiceOnRevisionUpdated();
@@ -44,7 +41,12 @@ public class NodeHubBridge : INodeHubService
         {
             LicensedForTasks = license?.IsLicensed(LicenseFlags.Tasks) == true;
         };
+    }
 
+    public async Task Initialize()
+    {
+        var settings = await _settingsService.Get();
+        KeepFailedFlowTempFiles = settings.KeepFailedFlowTempFiles;
     }
 
     /// <inheritdoc/>

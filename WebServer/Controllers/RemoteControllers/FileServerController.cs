@@ -12,7 +12,7 @@ namespace FileFlows.WebServer.Controllers.RemoteControllers;
 [Route("/remote/file-server")]
 [FileFlowsApiAuthorize]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class FileServerController : Controller
+public class FileServerController(SettingsService settingsService) : Controller
 {
     /// <summary>
     /// Buffer size used for reading files during file operations.
@@ -22,9 +22,9 @@ public class FileServerController : Controller
     /// <summary>
     /// The instance of the local file service
     /// </summary>
-    private readonly LocalFileService _localFileService;
+    private LocalFileService _localFileService;
 
-    private readonly StringLogger lfsLogger;
+    private StringLogger lfsLogger;
 
     /// <summary>
     /// The logger used for the file server
@@ -42,14 +42,14 @@ public class FileServerController : Controller
         Logger.RegisterWriter(new FileLogger(DirectoryHelper.LoggingDirectory, "FileServer", false));
     }
 
-    /// <summary>
-    /// Constructs the controller
-    /// </summary>
-    public FileServerController(SettingsService settingsService)
+    private async Task Initialize()
     {
+        if (_localFileService != null)
+            return; // already iniialized
         var settings = settingsService.Get().Result;
-        var allowedPaths = ServiceLoader.Load<LibraryService>().GetAllAsync().Result.Select(x => x.Path)
-            .Union(settings.FileServerAllowedPaths ?? new string[] { })
+        var allowedPaths = (await ServiceLoader.Load<LibraryService>().GetAllAsync())
+            .Select(x => x.Path)
+            .Union(settings.FileServerAllowedPaths ?? [])
             .Union([DirectoryHelper.ManualLibrary])
             .Where(x => string.IsNullOrWhiteSpace(x) == false)
             .Distinct()
@@ -78,54 +78,60 @@ public class FileServerController : Controller
 
         FileHelper.Permissions = _localFileService.PermissionsFile.Value;
         FileHelper.PermissionsFolders = _localFileService.PermissionsFolder.Value;
+        
     }
 
     /// <summary>
     /// Checks if the file server is enabled
     /// </summary>
     /// <returns></returns>
-    private bool ValidateRequest(out string message)
+    private async Task<Result<bool>> ValidateRequest()
     {
-        message = string.Empty;
 #if(DEBUG == true)
         if (HttpContext.Request.Headers.TryGetValue("x-executor", out var executorHeaderValue) == false)
         {
-            message = "No executor identifier given.";
+            var message = "No executor identifier given.";
             Logger.ELog(message);
-            return false;
+            return Result<bool>.Fail(message);
         }
 
         // Try parsing the header value to a GUID
         if (Guid.TryParse(executorHeaderValue, out Guid executorUid) == false)
         {
-            message = "Invalid executor identifier given.";
+            var message = "Invalid executor identifier given.";
             Logger.ELog(message);
-            return false;
+            return Result<bool>.Fail(message);
         }
 
         var sorter = ServiceLoader.Load<FileSorterService>();
         var file = sorter.GetFile(executorUid);
         if(file == null)
         {
-            message = "Unknown executor identifier given.";
+            var message = "Unknown executor identifier given.";
             Logger.ELog(message);
-            return false;
+            return Result<bool>.Fail(message);
         }
 #endif
+
+        var enabled = await GetIsFileServiceEnabled();
+        if(enabled == false)
+            return Result<bool>.Fail("File Service not enabled");
+
+        await Initialize();
         
-        return GetIsFileServiceEnabled();
+        return true;
     }
 
     /// <summary>
     /// Gets if the file service is enabled
     /// </summary>
     /// <returns>true if its enabled, otherwise false</returns>
-    private bool GetIsFileServiceEnabled()
+    private async Task<bool> GetIsFileServiceEnabled()
     {
         if (LicenseService.IsLicensed(LicenseFlags.FileServer) == false)
             return false;
-        
-        var settings = ServiceLoader.Load<ISettingsService>().Get().Result;
+
+        var settings = await ServiceLoader.Load<ISettingsService>().Get();
         return settings.FileServerDisabled == false;
     }
 
@@ -135,9 +141,9 @@ public class FileServerController : Controller
     /// <param name="request">Request parameters for listing files.</param>
     /// <returns>An IActionResult containing a list of files.</returns>
     [HttpPost("directory/files")]
-    public IActionResult DirectoryFiles([FromBody] DirectoryFilesRequest request)
+    public async Task<IActionResult> DirectoryFiles([FromBody] DirectoryFilesRequest request)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.GetFiles(request.Path, request.SearchPattern, request.Recursive);
         if (result.IsFailed)
@@ -151,9 +157,9 @@ public class FileServerController : Controller
     /// <param name="path">The directory path.</param>
     /// <returns>An IActionResult containing a list of directories.</returns>
     [HttpPost("list-directories")]
-    public IActionResult ListDirectories([FromBody] PathRequest path)
+    public async Task<IActionResult> ListDirectories([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.GetDirectories(path);
         if (result.IsFailed)
@@ -167,9 +173,9 @@ public class FileServerController : Controller
     /// <param name="path">The directory path to check.</param>
     /// <returns>An IActionResult indicating if the directory exists.</returns>
     [HttpPost("directory/exists")]
-    public IActionResult DirectoryExists([FromBody] PathRequest path)
+    public async Task<IActionResult> DirectoryExists([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.DirectoryExists(path);
         if (result.IsFailed)
@@ -183,9 +189,9 @@ public class FileServerController : Controller
     /// <param name="model">The model.</param>
     /// <returns>An IActionResult indicating if the directory is empty.</returns>
     [HttpPost("directory/empty")]
-    public IActionResult DirectoryEmpty([FromBody] DirectoryEmptyModel model)
+    public async Task<IActionResult> DirectoryEmpty([FromBody] DirectoryEmptyModel model)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.DirectoryEmpty(model.Path, model.IncludePatterns);
         if (result.IsFailed)
@@ -199,9 +205,9 @@ public class FileServerController : Controller
     /// <param name="path">The directory path.</param>
     /// <returns>the size of the directory</returns>
     [HttpPost("directory-size")]
-    public IActionResult DirectorySize([FromBody] PathRequest path)
+    public async Task<IActionResult> DirectorySize([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.DirectorySize(path);
         if (result.IsFailed)
@@ -215,9 +221,9 @@ public class FileServerController : Controller
     /// <param name="request">Request parameters for deleting a directory.</param>
     /// <returns>An IActionResult indicating the success of the delete operation.</returns>
     [HttpPost("directory/delete")]
-    public IActionResult DirectoryDelete([FromBody] DirectoryOperationRequest request)
+    public async Task<IActionResult> DirectoryDelete([FromBody] DirectoryOperationRequest request)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.DirectoryDelete(request.Path, request.Recursive);
         if (result.IsFailed)
@@ -235,9 +241,9 @@ public class FileServerController : Controller
     /// <param name="request">Request parameters for moving a directory.</param>
     /// <returns>An IActionResult indicating the success of the move operation.</returns>
     [HttpPost("directory/move")]
-    public IActionResult DirectoryMove([FromBody] DestinationRequest request)
+    public async Task<IActionResult> DirectoryMove([FromBody] DestinationRequest request)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.DirectoryMove(request.Path, request.Destination);
         if (result.IsFailed)
@@ -254,9 +260,9 @@ public class FileServerController : Controller
     /// <param name="path">The directory path to create.</param>
     /// <returns>An IActionResult indicating the success of directory creation.</returns>
     [HttpPost("directory/create")]
-    public IActionResult DirectoryCreate([FromBody] PathRequest path)
+    public async Task<IActionResult> DirectoryCreate([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.DirectoryCreate(path);
         if (result.IsFailed)
@@ -272,9 +278,9 @@ public class FileServerController : Controller
     /// <param name="path">The directory path.</param>
     /// <returns>An IActionResult containing the directory's creation time (UTC).</returns>
     [HttpPost("directory/creation-time-utc")]
-    public IActionResult GetDirectoryCreationTimeUtc([FromBody] PathRequest path)
+    public async Task<IActionResult> GetDirectoryCreationTimeUtc([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.DirectoryCreationTimeUtc(path);
         if (result.IsFailed)
@@ -288,9 +294,9 @@ public class FileServerController : Controller
     /// <param name="path">The directory path.</param>
     /// <returns>An IActionResult containing the directory's last write time (UTC).</returns>
     [HttpPost("directory/last-write-time-utc")]
-    public IActionResult GetDirectoryLastWriteTimeUtc([FromBody] PathRequest path)
+    public async Task<IActionResult> GetDirectoryLastWriteTimeUtc([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.DirectoryLastWriteTimeUtc(path);
         if (result.IsFailed)
@@ -305,9 +311,9 @@ public class FileServerController : Controller
     /// <param name="path">The file path.</param>
     /// <returns>An IActionResult indicating whether the file exists.</returns>
     [HttpPost("file/exists")]
-    public IActionResult FileExists([FromBody] PathRequest path)
+    public async Task<IActionResult> FileExists([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.FileExists(path);
         if (result.IsFailed)
@@ -322,9 +328,9 @@ public class FileServerController : Controller
     /// <param name="path">The file path.</param>
     /// <returns>An IActionResult indicating the success of the operation.</returns>
     [HttpPost("touch")]
-    public IActionResult TouchFile([FromBody] PathRequest path)
+    public async Task<IActionResult> TouchFile([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.Touch(path);
         if (result.IsFailed)
@@ -339,9 +345,9 @@ public class FileServerController : Controller
     /// <param name="path">The file path.</param>
     /// <returns>An IActionResult containing file information.</returns>
     [HttpPost("file/info")]
-    public IActionResult GetFileInfo([FromBody] PathRequest path)
+    public async Task<IActionResult> GetFileInfo([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.FileInfo(path);
         if (result.IsFailed)
@@ -355,9 +361,9 @@ public class FileServerController : Controller
     /// <param name="path">The file path.</param>
     /// <returns>An IActionResult indicating the success of file deletion.</returns>
     [HttpPost("file/delete")]
-    public IActionResult DeleteFile([FromBody] PathRequest path)
+    public async Task<IActionResult> DeleteFile([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.FileDelete(path);
         if (result.IsFailed)
@@ -376,9 +382,9 @@ public class FileServerController : Controller
     /// <param name="path">the path to check</param>
     /// <returns>if it can be written to</returns>
     [HttpPost("can-write-to")]
-    public IActionResult CanWriteTo([FromBody] PathRequest path)
+    public async Task<IActionResult> CanWriteTo([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         string _path = path.Path ?? string.Empty;
         Logger.ILog("Check can write to path: " + _path);
@@ -394,9 +400,9 @@ public class FileServerController : Controller
     /// <param name="path">The file path.</param>
     /// <returns>An IActionResult containing the file size.</returns>
     [HttpPost("file/size")]
-    public IActionResult GetFileSize([FromBody] PathRequest path)
+    public async Task<IActionResult> GetFileSize([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.FileSize(path);
         if (result.IsFailed)
@@ -410,9 +416,9 @@ public class FileServerController : Controller
     /// <param name="path">The file path.</param>
     /// <returns>An IActionResult containing the file's creation time (UTC).</returns>
     [HttpPost("file/creation-time-utc")]
-    public IActionResult GetFileCreationTimeUtc([FromBody] PathRequest path)
+    public async Task<IActionResult> GetFileCreationTimeUtc([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.FileCreationTimeUtc(path);
         if (result.IsFailed)
@@ -426,9 +432,9 @@ public class FileServerController : Controller
     /// <param name="path">The file path.</param>
     /// <returns>An IActionResult containing the file's last write time (UTC).</returns>
     [HttpPost("file/last-write-time-utc")]
-    public IActionResult GetFileLastWriteTimeUtc([FromBody] PathRequest path)
+    public async Task<IActionResult> GetFileLastWriteTimeUtc([FromBody] PathRequest path)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.FileLastWriteTimeUtc(path);
         if (result.IsFailed)
@@ -442,9 +448,9 @@ public class FileServerController : Controller
     /// <param name="request">The move file request.</param>
     /// <returns>An IActionResult indicating the success of the file move operation.</returns>
     [HttpPost("file/move")]
-    public IActionResult MoveFile([FromBody] FileTransferRequest request)
+    public async Task<IActionResult> MoveFile([FromBody] FileTransferRequest request)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.FileMove(request.Path, request.Destination, request.Overwrite);
         if (result.IsFailed)
@@ -463,9 +469,9 @@ public class FileServerController : Controller
     /// <param name="request">The copy file request.</param>
     /// <returns>An IActionResult indicating the success of the file copy operation.</returns>
     [HttpPost("file/copy")]
-    public IActionResult CopyFile([FromBody] FileTransferRequest request)
+    public async Task<IActionResult> CopyFile([FromBody] FileTransferRequest request)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.FileCopy(request.Path, request.Destination, request.Overwrite);
         if (result.IsFailed)
@@ -479,9 +485,9 @@ public class FileServerController : Controller
     }
 
     [HttpPost("file/append-text")]
-    public IActionResult AppendTextToFile([FromBody] TextDataModel request)
+    public async Task<IActionResult> AppendTextToFile([FromBody] TextDataModel request)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.FileAppendAllText(request.Path, request.Text);
         if (result.IsFailed)
@@ -491,9 +497,9 @@ public class FileServerController : Controller
     }
 
     [HttpPost("file/set-creation-time-utc")]
-    public IActionResult SetFileCreationTimeUtc([FromBody] DateDataModel request)
+    public async Task<IActionResult> SetFileCreationTimeUtc([FromBody] DateDataModel request)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.SetCreationTimeUtc(request.Path, request.Date);
         if (result.IsFailed)
@@ -503,9 +509,9 @@ public class FileServerController : Controller
     }
 
     [HttpPost("file/set-last-write-time-utc")]
-    public IActionResult SetFileLastWriteTimeUtc([FromBody] DateDataModel request)
+    public async Task<IActionResult> SetFileLastWriteTimeUtc([FromBody] DateDataModel request)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
         var result = _localFileService.SetLastWriteTimeUtc(request.Path, request.Date);
         if (result.IsFailed)
@@ -522,7 +528,7 @@ public class FileServerController : Controller
     // [HttpGet("{uid}/hash")]
     // public async Task<IActionResult> GetHash([FromRoute] Guid uid)
     // {
-    //     if (ValidateRequest(out string message) == false)
+    //     if ((await ValidateRequest()).Failed(out var message))
     //         return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
     //
     //     string filePath = await GetPath(uid);
@@ -552,12 +558,14 @@ public class FileServerController : Controller
     [HttpPost("download")]
     public async Task<IActionResult> FileDownload([FromBody] PathRequest path)
     {
-        if (GetIsFileServiceEnabled() == false)
+        if (await GetIsFileServiceEnabled() == false)
             return StatusCode(503, "File service is currently disabled.");
-
+        
         if (string.IsNullOrWhiteSpace(path) || System.IO.File.Exists(path) == false)
             return NotFound("Unable to find file: " + path); // Handle file not found scenario
 
+        await Initialize();
+        
         try
         {
             Logger.ILog("File Download Request: " + path.Path);
@@ -610,7 +618,7 @@ public class FileServerController : Controller
     [HttpPost]
     public async Task<IActionResult> Save([FromQuery] string path, [FromQuery] string hash)
     {
-        if (ValidateRequest(out string message) == false)
+        if ((await ValidateRequest()).Failed(out var message))
             return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
 
         Logger.ILog("FileServer: Save: " + path);
@@ -741,7 +749,7 @@ public class FileServerController : Controller
     // [HttpPost("delete")]
     // public async Task<IActionResult> DeleteRemote([FromBody] DeleteRemoteModel model)
     // {
-    //     if (ValidateRequest(out string message) == false)
+    //     if ((await ValidateRequest()).Failed(out var message))
     //         return StatusCode(503, message?.EmptyAsNull() ?? "File service is currently disabled.");
     //
     //     string path = model.Path;

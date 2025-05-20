@@ -48,7 +48,7 @@ public partial class NodeHub : Hub
 
         var remoteIp = httpContext?.Connection.RemoteIpAddress;
         
-        if (ValidateAccessToken(accessToken) == false)
+        if (await ValidateAccessToken(accessToken) == false)
         {
             _logger.WLog($"Unauthorized connection attempt from {remoteIp}");
             Context.Abort(); // Reject the connection
@@ -90,7 +90,7 @@ public partial class NodeHub : Hub
     /// <summary>
     /// Validates the access token.
     /// </summary>
-    private bool ValidateAccessToken(string accessToken)
+    private async Task<bool> ValidateAccessToken(string accessToken)
     {
         if (accessToken == InternalAccessToken)
             return true;
@@ -102,7 +102,7 @@ public partial class NodeHub : Hub
         if (appSettings.Security == SecurityMode.Off)
             return true; // If security is off, allow connection
 
-        var settings = _settingsService.Get().Result;
+        var settings = await _settingsService.Get();
         return settings.AccessToken?.Equals(accessToken, StringComparison.InvariantCultureIgnoreCase) == true;
     }
     

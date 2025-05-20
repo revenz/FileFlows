@@ -30,11 +30,11 @@ public class DownloadHelper
     /// If successful, the <see cref="Result{T}.Data"/> property will be <c>true</c>.
     /// If an error occurs, the <see cref="Result{T}.Error"/> property will contain the error message.
     /// </returns>
-    public static Result<bool> Download(string url, string destination, long maxFileSize = 10 * 1024 * 1024)
+    public static async Task<Result<bool>> Download(string url, string destination, long maxFileSize = 10 * 1024 * 1024)
     {
         try
         {
-            using var response = _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).Result;
+            using var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
             if (!response.IsSuccessStatusCode)
                 return Result<bool>.Fail($"Failed to download: {response.StatusCode}");
@@ -43,7 +43,7 @@ public class DownloadHelper
             if (contentLength > maxFileSize)
                 return Result<bool>.Fail("File exceeds maximum allowed size.");
 
-            using var stream = response.Content.ReadAsStreamAsync().Result;
+            using var stream = await response.Content.ReadAsStreamAsync();
             using var fileStream = new FileStream(destination, FileMode.Create, FileAccess.Write, FileShare.None);
 
             byte[] buffer = new byte[8192];

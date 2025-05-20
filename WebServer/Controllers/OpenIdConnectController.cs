@@ -11,19 +11,11 @@ namespace FileFlows.WebServer.Controllers;
 /// Controller for authenticating using OpenID Connect.
 /// </summary>
 [Route("oidc")]
-public class OpenIDController : Controller
+public class OpenIDController(SettingsService settingsService) : Controller
 {
-    private readonly Settings _settings;
+    //private readonly Settings _settings;
     private static HttpClient _httpClient = new();
 
-    /// <summary>
-    /// Constructs a new instance of the OpenIDController
-    /// </summary>
-    /// <param name="settingsService">the settings service</param>
-    public OpenIDController(SettingsService settingsService)
-    {
-        _settings = settingsService.Get().Result!;
-    }
 
     /// <summary>
     /// Action to initiate the authentication process.
@@ -36,13 +28,15 @@ public class OpenIDController : Controller
         if (User.Identity is { IsAuthenticated: true })
             return LocalRedirect(returnUrl);
 
-        var oidcConfig = await GetWellKnownConfig();
+        var settings = await settingsService.Get();
+
+        var oidcConfig = await GetWellKnownConfig(settings);
         if (oidcConfig == null)
             return ErrorPage();
 
         string idpAuthUrl = oidcConfig.AuthorizationEndpoint;
-        string clientId = _settings.OidcClientId; // Replace with your client ID
-        string redirectUri = GetRedirectUrl();
+        string clientId = settings.OidcClientId; // Replace with your client ID
+        string redirectUri = GetRedirectUrl(settings);
 
         string redirectUrl = $"{idpAuthUrl}?client_id={clientId}&redirect_uri={redirectUri}&response_type=code&prompt=login";
 
@@ -51,11 +45,12 @@ public class OpenIDController : Controller
         return Redirect(redirectUrl);
     }
 
-    private string GetRedirectUrl()
+    private string GetRedirectUrl(Settings settings)
     {
+        
         var redirectUri = Url.Action("Callback", "OpenID", null, Request.Scheme) ?? string.Empty; // Callback URL
-        if (string.IsNullOrWhiteSpace(_settings.OidcCallbackAddress) == false)
-            redirectUri = _settings.OidcCallbackAddress.TrimEnd('/') + redirectUri[redirectUri.IndexOf("/oidc", StringComparison.Ordinal)..];
+        if (string.IsNullOrWhiteSpace(settings.OidcCallbackAddress) == false)
+            redirectUri = settings.OidcCallbackAddress.TrimEnd('/') + redirectUri[redirectUri.IndexOf("/oidc", StringComparison.Ordinal)..];
         return redirectUri;
     }
 
@@ -66,7 +61,8 @@ public class OpenIDController : Controller
     [SwaggerIgnore]
     public async Task<IActionResult> Callback()
     {
-        var oidcConfig = await GetWellKnownConfig();
+        var settings = await settingsService.Get();
+        var oidcConfig = await GetWellKnownConfig(settings);
         if (oidcConfig == null)
             return ErrorPage("Failed to load OIDC well known config");
 
@@ -76,15 +72,15 @@ public class OpenIDController : Controller
             string? code = Request.Query["code"];
 
             // Perform token validation
-            var redirectUri = GetRedirectUrl();
+            var redirectUri = GetRedirectUrl(settings);
 
             var tokenRequestContent = new FormUrlEncodedContent(new KeyValuePair<string, string>[]
             {
                 new ("grant_type", "authorization_code"),
                 new ("code", code!),
                 new ("redirect_uri", redirectUri),
-                new ("client_id", _settings.OidcClientId),
-                new ("client_secret", _settings.OidcClientSecret)
+                new ("client_id", settings.OidcClientId),
+                new ("client_secret", settings.OidcClientSecret)
             });
 
             var tokenEndpoint = oidcConfig.TokenEndpoint;
@@ -120,7 +116,6 @@ public class OpenIDController : Controller
             if (user == null)
                 return ErrorPage("Unable to find user: " + lookupName);
 
-            var settings = await ServiceLoader.Load<ISettingsService>().Get();
             var jwt = AuthenticationHelper.CreateJwtToken(user, Request.GetActualIP(), settings?.TokenExpiryMinutes ?? 120);
 
             return AuthRedirectPage(jwt);
@@ -227,11 +222,11 @@ public class OpenIDController : Controller
     /// <summary>
     /// Retrieves the OpenID Connect configuration.
     /// </summary>
-    private async Task<OpenIDConnectConfiguration?> GetWellKnownConfig()
+    private async Task<OpenIDConnectConfiguration?> GetWellKnownConfig(Settings settings)
     {
         try
         {
-            string url = _settings.OidcAuthority; // Replace with your IdP's authentication URL
+            string url = settings.OidcAuthority; // Replace with your IdP's authentication URL
             if (!url.StartsWith("http"))
                 url = "https://" + url;
             url = url.TrimEnd('/');

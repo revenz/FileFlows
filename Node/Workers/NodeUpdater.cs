@@ -73,11 +73,11 @@ public class NodeUpdater:UpdaterWorker
     /// Downloads the binary update from the FileFlows server
     /// </summary>
     /// <returns>the downloaded binary filename</returns>
-    protected override string DownloadUpdateBinary()
+    protected override async Task<string> DownloadUpdateBinary()
     {   
         Logger.DLog("Checking for auto update");
         var service = ServiceLoader.Load<ISettingsService>();
-        var serverVersion = service.GetServerVersion().Result;
+        var serverVersion = await service.GetServerVersion();
         Logger.DLog("Checking for auto update: " + serverVersion);
         if (serverVersion == CurrentVersion)
             return string.Empty;
@@ -85,7 +85,7 @@ public class NodeUpdater:UpdaterWorker
         Logger.ILog($"New Node version {serverVersion} detected, starting download");
 
         var nodeService = ServiceLoader.Load<INodeService>();
-        var data = nodeService.GetNodeUpdater().Result;
+        var data = await nodeService.GetNodeUpdater();
         if (data?.Any() != true)
         {
             Logger.WLog("Failed to download Node updater.");
@@ -98,7 +98,7 @@ public class NodeUpdater:UpdaterWorker
         Directory.CreateDirectory(updateDir);
 
         string update = Path.Combine(updateDir, "update.zip");
-        File.WriteAllBytes(update, data);
+        await File.WriteAllBytesAsync(update, data);
         return update;
     }
 
@@ -106,17 +106,17 @@ public class NodeUpdater:UpdaterWorker
     /// Gets if automatic updates should be downloaded
     /// </summary>
     /// <returns>true if automatic updates are enabled</returns>
-    protected override bool GetAutoUpdatesEnabled()
+    protected override async Task<bool> GetAutoUpdatesEnabled()
     {
         var settingsService = ServiceLoader.Load<INodeService>();
-        return settingsService.AutoUpdateNodes().Result;
+        return await settingsService.AutoUpdateNodes();
     }
 
     /// <inheritdoc />
-    protected override bool GetUpdateAvailable()
+    protected override async Task<bool> GetUpdateAvailable()
     {
         var service = ServiceLoader.Load<INodeService>();
-        var serverVersion = service.GetNodeUpdateVersion().Result;
+        var serverVersion = await service.GetNodeUpdateVersion();
         Logger.DLog("Checking for auto update: " + serverVersion);
         if (serverVersion.Major == 0)
             return false; // means not licensed for auto updates

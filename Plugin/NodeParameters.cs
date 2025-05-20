@@ -543,7 +543,7 @@ public class NodeParameters
         {
             Logger?.ILog("URL specified for thumbnail image: " + actual);
             var newFile = Path.Combine(TempPath, Guid.NewGuid().ToString());
-            var result2 = DownloadHelper.Download(actual, newFile);
+            var result2 = DownloadHelper.Download(actual, newFile).GetAwaiter().GetResult();
             if (result2.Failed(out var error2))
             {
                 Logger.WLog(error2);
@@ -1124,7 +1124,7 @@ public class NodeParameters
     {
         if (Fake) return new ProcessResult {  ExitCode = 0, Completed = true };
         
-        var result = Process.ExecuteShellCommand(args).Result;
+        var result = Process.ExecuteShellCommand(args).GetAwaiter().GetResult();
         return result;
     }
 
