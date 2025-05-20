@@ -32,7 +32,7 @@ public class Function
                 ScriptType = ScriptType.Flow,
                 AdditionalArguments = args.Variables,
                 Code = Code
-            }).Result;
+            });
         }
         catch (Exception ex)
         {

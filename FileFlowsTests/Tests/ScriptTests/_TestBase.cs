@@ -28,7 +28,7 @@ public abstract class ScriptTest : TestBase
             ScriptType = ScriptType.Flow,
             Code = code,
             AdditionalArguments = parameters
-        }).Result;
+        });
         return new ExecuteResult()
         {
             ExitCode = result,

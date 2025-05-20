@@ -46,14 +46,14 @@ public class ScriptExecutor : IScriptExecutor
     /// </summary>
     /// <param name="execArgs">the execution arguments</param>
     /// <returns>the output to be called next</returns>
-    public async Task<Result<int>> Execute(ScriptExecutionArgs execArgs)
+    public Result<int> Execute(ScriptExecutionArgs execArgs)
     {
         return execArgs.Language switch
         {
             ScriptLanguage.Batch => ExecuteBatch(execArgs),
             ScriptLanguage.PowerShell => ExecutePowerShell(execArgs),
             ScriptLanguage.Shell => ExecuteShell(execArgs),
-            ScriptLanguage.CSharp => await ExecuteCSharp(execArgs),
+            ScriptLanguage.CSharp => ExecuteCSharp(execArgs).GetAwaiter().GetResult(),
             _ => ExecuteJavaScript(execArgs)
         };
     }
