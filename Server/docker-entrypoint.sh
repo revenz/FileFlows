@@ -176,6 +176,17 @@ else
         fi
     fi
     
+    # Add user to sudoers only if not already present
+    if ! grep -q "^$user" /etc/sudoers.d/$user 2>/dev/null; then
+        echo "Adding $user to sudoers"
+        usermod -aG sudo "$user"
+        echo "$user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$user
+        chmod 0440 /etc/sudoers.d/$user
+    else
+        echo "$user already has sudo privileges"
+    fi
+
+    
     # Setup permissions for intel
     if [ -e /dev/dri ]; then
         FILES=$(find /dev/dri -type c)
