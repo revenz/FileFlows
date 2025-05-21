@@ -96,7 +96,9 @@ public class StartupService : IStartupService
             }
         
             // do this so the settings object is loaded
-            var settings = await ServiceLoader.Load<ISettingsService>().Get();
+            var service = (SettingsService)ServiceLoader.Load<ISettingsService>();
+            await service.Initialize();
+            var settings = await service.Get();
             var appSettings = ServiceLoader.Load<AppSettingsService>().Settings;
 
             if (Globals.IsDocker && appSettings.DockerModsOnServer)

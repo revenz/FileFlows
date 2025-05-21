@@ -358,7 +358,7 @@ public class WebServerApp
     /// </summary>
     private static async Task InitializeServices()
     {
-        await SettingsManager.Initialize();
+        await ((SettingsService)ServiceLoader.Load<ISettingsService>()).Initialize();
         
         _ = ServiceLoader.Load<SystemOverviewService>();
         await ServiceLoader.Load<NodeService>().Initialize();
