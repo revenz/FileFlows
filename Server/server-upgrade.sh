@@ -39,7 +39,7 @@ if [ "$1" == "mac" ]; then
   
 else
   
-  if [ "$1" != "systemd" && "$1" != "docker" ]; then 
+  if [[ "$1" != "systemd" && "$1" != "docker" ]]; then 
     kill %1
   fi
   
@@ -65,7 +65,7 @@ else
   echo 'Removing Update folder' >> upgrade.log
   rm -rf Update
   
-  if [ "$1" != "systemd" && "$1" != "docker" ]; then 
+  if [[ "$1" != "systemd" && "$1" != "docker" ]]; then 
     chmod +x run-server.sh
     ./run-server.sh
   fi
