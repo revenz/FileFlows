@@ -167,7 +167,7 @@ else
         fi
 
         printf "user '$user' does not exist, creating\n"
-        useradd -u "${PUID}" -g $pgid $user
+        useradd -r -u "${PUID}" -g $pgid $user
         if id "${PUID}" &>/dev/null; then
             printf "created user '$user'\n"
         else
