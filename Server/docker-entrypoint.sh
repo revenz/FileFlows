@@ -126,6 +126,8 @@ else
         printf "bash server-upgrade.sh docker\n"
         bash server-upgrade.sh docker
     fi
+    
+    /dotnet/dotnet dev-certs https
 fi
 
 # Run as root if PUID is not set
@@ -247,6 +249,7 @@ else
 
     # Run DockerMods before starting
     dockermods
+    
     if [[ "$mode" == "node" ]]; then
         printf "Launching node as '$user'\n"
         cd /app/Node
