@@ -2,7 +2,8 @@
  * @name Video - Filesize bigger than calculated
  * @description Calculates a video's maximum filesize based on minutes and returns if it is bigger or not
  * @author esprit
- * @revision 1
+ * @revision 2
+ * @uid f3e173f1-e3a4-497c-9057-dc6debb3c8ac
  * @param {string} VideoFileSizeArray Comma-separated list of upper filesize limit for 4k, 1080p, 720p, SD in GB/hr e.g. 15.5,4,2,1
  * @output Video is Bigger than calculated
  * @output Video is Smaller than calculated
