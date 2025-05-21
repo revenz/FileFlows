@@ -126,8 +126,6 @@ else
         printf "bash server-upgrade.sh docker\n"
         bash server-upgrade.sh docker
     fi
-    
-    /dotnet/dotnet dev-certs https
 fi
 
 # Run as root if PUID is not set
@@ -260,6 +258,7 @@ else
         printf "Launching server as '$user'\n"
         cd /app/Server
         stopLogging
+        su -c "/dotnet/dotnet dev-certs https --trust" "$user"
         su -c "/dotnet/dotnet FileFlows.Server.dll --urls=http://*:5000 --docker" "$user" &
         dotnet_pid=$!
     fi

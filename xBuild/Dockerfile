@@ -29,8 +29,6 @@ COPY /deploy /app
 
 RUN chmod +x /app/docker-entrypoint.sh
 
-RUN /dotnet/dotnet dev-certs https
-
 # expose the ports we need
 EXPOSE 5000
 
