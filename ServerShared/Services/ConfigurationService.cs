@@ -507,7 +507,7 @@ public class ConfigurationService
             if (Directory.Exists(directory) == false)
                 Directory.CreateDirectory(directory);
 
-            DockerModHelper.UninstallUnknownMods(mods).Wait();
+            await DockerModHelper.UninstallUnknownMods(mods);
 
             if (mods?.Any() != true)
             {

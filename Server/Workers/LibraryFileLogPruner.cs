@@ -14,13 +14,20 @@ public class LibraryFileLogPruner:ServerWorker
     public LibraryFileLogPruner() : base(ScheduleType.Daily, 5)
     {
     }
-    
+
     /// <summary>
     /// Executes the log pruner, Run calls this 
     /// </summary>
     protected override void ExecuteActual(Settings settings)
     {
-        var libFiles = ServiceLoader.Load<LibraryFileService>().GetUids().Result.Select(x => x.ToString()).ToList();
+        _ = ExecuteAsync();
+    }
+    
+    private async Task ExecuteAsync()
+    {
+        var libFiles = (await ServiceLoader.Load<LibraryFileService>().GetUids())
+            .Select(x => x.ToString()).ToList();
+        
         var files = new DirectoryInfo(DirectoryHelper.LibraryFilesLoggingDirectory).GetFiles();
         foreach (var file in files)
         {
@@ -45,10 +52,11 @@ public class LibraryFileLogPruner:ServerWorker
             try
             {
                 file.Delete();
-                Shared.Logger.Instance?.DLog("Deleted old unknown log file: " + file);
+                Logger.Instance?.DLog("Deleted old unknown log file: " + file);
             }
             catch (Exception)
             {
+                // Ignored
             }
         }
     }

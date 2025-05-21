@@ -92,11 +92,17 @@ public class TelemetryReporter : ServerWorker
     /// <inheritdoc />
     protected override void ExecuteActual(Settings settings)
     {
+        _ = ExecuteAsync(settings);
+    }
+    
+    private async Task ExecuteAsync(Settings settings)
+    {
         try
+
         {
-// #if (DEBUG && false)
-//             return;
-// #else
+    // #if (DEBUG && false)
+    //             return;
+    // #else
             if (settings.DisableTelemetry == true && LicenseService.IsLicensed())
                 return; // they have turned it off, dont report anything
 
@@ -105,7 +111,9 @@ public class TelemetryReporter : ServerWorker
             data.Version = Globals.Version;
             data.Language = settings.Language?.EmptyAsNull() ?? "en";
             data.DatabaseProvider = ServiceLoader.Load<AppSettingsService>().Settings.DatabaseType.ToString();
-            var pNodes = ServiceLoader.Load<NodeService>().GetAllAsync().Result.Where(x => x.Enabled).ToList();
+            var pNodes = (await ServiceLoader.Load<NodeService>().GetAllAsync())
+                .Where(x => x.Enabled)
+                .ToList();
             data.ProcessingNodes = pNodes.Count;
             var hardwareInfo = ServiceLoader.Load<HardwareInfoService>().GetHardwareInfo();
             data.HardwareInfo = hardwareInfo;
@@ -121,7 +129,7 @@ public class TelemetryReporter : ServerWorker
             data.OS = GetHostOs();
 
             var lfService = ServiceLoader.Load<LibraryFileService>();
-            var libFileStatus = lfService.GetStatus().Result;
+            var libFileStatus = await lfService.GetStatus();
 
             int filesFailed = libFileStatus
                 .Where(x => x.Status == FileStatus.ProcessingFailed)
@@ -134,16 +142,16 @@ public class TelemetryReporter : ServerWorker
             
             data.FilesFailed = filesFailed;
             data.FilesProcessed = filesProcessed;
-            data.FileDropUsers = ServiceLoader.Load<FileDropUserService>().GetCount().Result;
-            var repo = ServiceLoader.Load<RepositoryService>().GetRepository().Result ?? new ();
+            data.FileDropUsers = await ServiceLoader.Load<FileDropUserService>().GetCount();
+            var repo = await ServiceLoader.Load<RepositoryService>().GetRepository() ?? new ();
             var repoScripts = repo.FlowScripts.Union(repo.SharedScripts).Union(repo.SystemScripts)
                 .Where(x => x.Uid != null)
                 .DistinctBy(x => x.Uid)
                 .ToDictionary(x => x.Uid!.Value, x => x);
             
-            var flows = ServiceLoader.Load<FlowService>().GetAllAsync().Result;
+            var flows = await ServiceLoader.Load<FlowService>().GetAllAsync();
             var dictNodes = new Dictionary<string, int>();
-            foreach (var fp in flows?.SelectMany(x => x.Parts)?.ToArray() ?? new FlowPart[] { })
+            foreach (var fp in flows?.SelectMany(x => x.Parts)?.ToArray() ?? [])
             {
                 if (fp == null)
                     continue;
@@ -168,7 +176,7 @@ public class TelemetryReporter : ServerWorker
                 Count = x.Value
             }).ToList();
 
-            var libraries = ServiceLoader.Load<LibraryService>().GetAllAsync().Result;
+            var libraries = await ServiceLoader.Load<LibraryService>().GetAllAsync();
             dictNodes.Clear();
             foreach (var lib in libraries?.Where(x => string.IsNullOrEmpty(x.Template) == false) ?? new List<Library>())
             {
@@ -176,7 +184,7 @@ public class TelemetryReporter : ServerWorker
                     dictNodes[lib.Template] += 1;
             }
 
-            data.StorageSaved = lfService.GetTotalStorageSaved().Result;
+            data.StorageSaved = await lfService.GetTotalStorageSaved();
 
             data.LibraryTemplates = dictNodes.Select(x => new TelemetryDataSet
             {
@@ -199,8 +207,7 @@ public class TelemetryReporter : ServerWorker
             }).ToList();
 
             string url = Globals.FileFlowsDotComUrl + "/api/telemetry";
-            _ = HttpHelper.Post(url, data).Result;
-
+            await HttpHelper.Post(url, data);
 //#endif
         }
         catch (Exception)

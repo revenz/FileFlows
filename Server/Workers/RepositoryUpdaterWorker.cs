@@ -25,11 +25,15 @@ public class RepositoryUpdaterWorker: ServerWorker
     /// <inheritdoc />
     protected override void ExecuteActual(Settings settings)
     {
-        var service = ServiceLoader.Load<RepositoryService>();
-        service.Init().Wait();
-        service.DownloadFunctionScripts().Wait();
+        Task.Run(async () =>
+        {
 
-        ServiceLoader.Load<ScriptService>().RescanFunctionTemplates();
+            var service = ServiceLoader.Load<RepositoryService>();
+            await service.Init();
+            await service.DownloadFunctionScripts();
+
+            ServiceLoader.Load<ScriptService>().RescanFunctionTemplates();
+        });
     }
 
     class RevisionCleaner

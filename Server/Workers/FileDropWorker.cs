@@ -45,7 +45,7 @@ public class FileDropWorker : Worker
     protected override void Execute()
     {
         CleanUpFileDropFiles();
-        GiveTokens().Wait();
+        _ = GiveTokens();
     }
 
     /// <summary>

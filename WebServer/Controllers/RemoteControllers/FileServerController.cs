@@ -46,7 +46,7 @@ public class FileServerController(SettingsService settingsService) : Controller
     {
         if (_localFileService != null)
             return; // already iniialized
-        var settings = settingsService.Get().Result;
+        var settings = await settingsService.Get();
         var allowedPaths = (await ServiceLoader.Load<LibraryService>().GetAllAsync())
             .Select(x => x.Path)
             .Union(settings.FileServerAllowedPaths ?? [])

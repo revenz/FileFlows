@@ -196,7 +196,7 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
         
         
         string url = $"{UpdateUrl}/download/{onlineVersion}?ts={DateTime.UtcNow.Ticks}";
-        HttpHelper.DownloadFile(url, file).Wait();
+        await HttpHelper.DownloadFile(url, file);
         if (File.Exists(file) == false)
         {
             Logger.WLog($"{UpdaterName}: Download failed");

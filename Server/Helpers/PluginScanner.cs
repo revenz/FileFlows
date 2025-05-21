@@ -224,7 +224,7 @@ public class PluginScanner : IPluginScanner
                     {
                         Logger.Instance.ILog("Updating plugin: " + pi.Name);
                         plugin.DateModified = DateTime.UtcNow;
-                        service.Update(plugin, auditDetails: AuditDetails.ForServer()).Wait();
+                        await service.Update(plugin, auditDetails: AuditDetails.ForServer());
                     }
                 }
                 else
@@ -237,7 +237,7 @@ public class PluginScanner : IPluginScanner
                     plugin.DateCreated = DateTime.UtcNow;
                     plugin.DateModified = DateTime.UtcNow;
                     plugin.Enabled = true;
-                    service.Update(plugin, auditDetails: AuditDetails.ForServer()).Wait();
+                    await service.Update(plugin, auditDetails: AuditDetails.ForServer());
                 }
             }
             catch (Exception ex)
@@ -253,7 +253,7 @@ public class PluginScanner : IPluginScanner
             {
                 Logger.Instance.DLog("Delete old plugin: " + plugin.Name);
                 // its an old style plugin, perm delete it
-                service.Delete(new[] { plugin.Uid }, AuditDetails.ForServer()).Wait();
+                await service.Delete(new[] { plugin.Uid }, AuditDetails.ForServer());
             }
             else
             {
@@ -261,7 +261,7 @@ public class PluginScanner : IPluginScanner
                 // mark as deleted.
                 plugin.Deleted = true;
                 plugin.DateModified = DateTime.UtcNow;
-                service.Update(plugin, auditDetails: AuditDetails.ForServer()).Wait();
+                await service.Update(plugin, auditDetails: AuditDetails.ForServer());
             }
         }
 

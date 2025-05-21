@@ -24,6 +24,6 @@ public class UpdateWorker : ServerWorker
     /// <inheritdoc />
     protected override void ExecuteActual(Settings settings)
     {
-        ServiceLoader.Load<UpdateService>().Trigger().Wait();
+        _ = ServiceLoader.Load<UpdateService>().Trigger();
     }
 }

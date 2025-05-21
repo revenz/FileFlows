@@ -22,16 +22,16 @@ public class StartupWorker:Worker
     /// </summary>
     protected override void Execute()
     {
-        UpdateInternalNode();
+        _ = UpdateInternalNode();
     }
     
     /// <summary>
     /// Update the internal node information
     /// </summary>
-    private void UpdateInternalNode()
+    private async Task UpdateInternalNode()
     {
         var service = ServiceLoader.Load<NodeService>();
-        var internalNode = service.GetByUidAsync(CommonVariables.InternalNodeUid).Result;
+        var internalNode = await service.GetByUidAsync(CommonVariables.InternalNodeUid);
         if (internalNode == null)
             return;
         internalNode.Architecture = RuntimeInformation.ProcessArchitecture == Architecture.Arm ? ArchitectureType.Arm32 :
@@ -48,6 +48,6 @@ public class StartupWorker:Worker
                                        Globals.IsMac ? OperatingSystemType.Mac :
                                        Globals.IsFreeBsd ? OperatingSystemType.FreeBsd :
                                        OperatingSystemType.Unknown;
-        service.Update(internalNode, auditDetails: AuditDetails.ForServer()).Wait();
+        await service.Update(internalNode, auditDetails: AuditDetails.ForServer());
     }
 }
