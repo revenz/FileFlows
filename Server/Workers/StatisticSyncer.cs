@@ -20,5 +20,6 @@ public class StatisticSyncer : Worker
     protected override void Execute()
     {
         _ = ServiceLoader.Load<StatisticService>().SyncStorageSaved();
+        _ = ServiceLoader.Load<DashboardFileOverviewService>().RefreshAsync();
     }
 }
