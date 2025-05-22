@@ -67,6 +67,8 @@ public class ExecuteFlow : Node
         LoadFlowVariables(args, Flow.Properties?.Variables);
 
         int COMPLETED_OUTPUT = RunnerCodes.Completed;
+        
+        args.Variables["FlowName"] = Flow.Name;
 
         if (Flow.Type == FlowType.Failure)
         {
