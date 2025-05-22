@@ -18,6 +18,9 @@ public partial class Nodes : ListPage<Guid, NodeStatusSummary>, IDisposable
     /// </summary>
     [Inject] private IModalService ModalService { get; set; }
     
+    /// <inheritdoc />
+    protected override string GetAuditTypeName() => typeof(ProcessingNode).FullName;
+    
     public override string ApiUrl => "/api/node";
     const string FileFlowsServer = "FileFlowsServer";
 

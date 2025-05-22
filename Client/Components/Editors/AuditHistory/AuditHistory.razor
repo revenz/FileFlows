@@ -1,0 +1,58 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper @ref="Wrapper" Modal="@this" Large="true">
+    <FlowTable @ref=Table TItem="AuditEntry" Selection="SelectionMode.None" Data=@Data 
+               TableIdentifier="AuditHistory" DoubleClick="View">
+        <Columns>
+            <FlowTableColumn TItem="AuditEntry" Width="14rem">
+                <Header>
+                    @lblDate
+                </Header>
+                <Cell Context="item">
+                    <span>@item.LogDate.ToLocalTime()</span>
+                </Cell>
+            </FlowTableColumn>
+            <FlowTableColumn TItem="AuditEntry" Width="12rem">
+                <Header>
+                    @lblAction
+                </Header>
+                <Cell Context="item">
+                    <span>@item.Action</span>
+                </Cell>
+            </FlowTableColumn>
+            <FlowTableColumn TItem="AuditEntry" Width="12rem">
+                <Header>
+                    @lblOperator
+                </Header>
+                <Cell Context="item">
+                    <span>@item.OperatorName</span>
+                </Cell>
+            </FlowTableColumn>
+            <FlowTableColumn TItem="AuditEntry" Width="12rem">
+                <Header>
+                    @lblIPAddress
+                </Header>
+                <Cell Context="item">
+                    <span>@item.IPAddress</span>
+                </Cell>
+            </FlowTableColumn>
+            <FlowTableColumn TItem="AuditEntry">
+                <Header>
+                    @lblSummary
+                </Header>
+                <Cell Context="item">
+                    @if (item.Changes?.Any() == true)
+                    {
+                        <a class="view-changes" @onclick="() => View(item)">@item.Summary</a>
+                    }
+                    else
+                    {
+                        <span>@item.Summary</span>
+                    }
+                </Cell>
+            </FlowTableColumn>
+        </Columns>
+    </FlowTable>
+</ModalEditorWrapper>

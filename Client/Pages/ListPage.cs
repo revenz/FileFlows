@@ -373,8 +373,12 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
         var selected = Table.GetSelected().FirstOrDefault();
         if (selected == null)
             return;
-        if(selected.Uid is Guid uid)
-            await AuditHistory.Instance.Show(uid, GetAuditTypeName());
+        if (selected.Uid is Guid uid)
+            await ModalService.ShowModal<AuditHistory>(new AuditHistoryOptions()
+            {
+                Uid = uid,
+                Type = GetAuditTypeName()
+            });
     }
 
     /// <summary>

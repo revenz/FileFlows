@@ -1,13 +1,13 @@
 using FileFlows.Client.Components.Common;
 using Humanizer;
-using Microsoft.AspNetCore.Components;
 
 namespace FileFlows.Client.Components.Editors;
 
+/// <summary>
+/// A component that displays a modal interface for exploring the revisions of a specific object.
+/// </summary>
 public partial class RevisionExplorer : ModalEditor
 { 
-    [CascadingParameter] public Blocker Blocker { get; set; }
-    
     private Guid ObjectUid;
     private List<RevisionedObject> Revisions = new ();
     public FlowTable<RevisionedObject> Table { get; set; }
@@ -15,6 +15,7 @@ public partial class RevisionExplorer : ModalEditor
     private ModalEditorWrapper? Wrapper;
 
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();

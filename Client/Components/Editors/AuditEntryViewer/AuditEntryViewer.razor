@@ -1,0 +1,34 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper @ref="Wrapper" Modal="@this">
+    <FlowTable TItem="EntryViewerData" Selection="SelectionMode.None" Data=@Data 
+               TableIdentifier="AuditEntry" HideToolbar="true">
+        <Columns>
+            <FlowTableColumn TItem="EntryViewerData" Width="14rem" NoHeight="true">
+                <Header>
+                    @lblField
+                </Header>
+                <Cell Context="item">
+                    <span>@item.Name</span>
+                </Cell>
+            </FlowTableColumn>
+            <FlowTableColumn TItem="EntryViewerData" NoHeight="true">
+                <Header>
+                    @lblValue
+                </Header>
+                <Cell Context="item">
+                    @if (item.Value is MarkupString mkString)
+                    {
+                        <span style="white-space: pre">@mkString</span>
+                    }
+                    else
+                    {
+                        <span style="white-space: pre">@item.Value.ToString()</span>
+                    }
+                </Cell>
+            </FlowTableColumn>
+        </Columns>
+    </FlowTable>
+</ModalEditorWrapper>
