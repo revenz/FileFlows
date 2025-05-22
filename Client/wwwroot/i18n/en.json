@@ -959,7 +959,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Greater Than*: Match if the date is older than the given period.\n*Less Than*: Match if the date is newer than the given period.\n*Between*: Matches if the date is within the specified range.\n*Before*: Match if the date is before the specified date.\n*After*: Match if the date is after the specified date."
+      "Help": "*Greater Than*: Match if the date is newer than the given date.\n*Less Than*: Match if the date is older than the given date.\n*Between*: Matches if the date is within the specified range.\n*Before*: Match if the date is before the specified date.\n*After*: Match if the date is after the specified date."
     }
   },
   "MenuGroups": {

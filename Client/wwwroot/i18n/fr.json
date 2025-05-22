@@ -959,7 +959,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Plus grand que*: Correspond si la date est plus ancienne que la période donnée.\n*Moins que*: Correspond si la date est plus récente que la période donnée.\n*Entre*: Correspond si la date est dans la plage spécifiée.\n*Avant*: Correspond si la date est avant la date spécifiée.\n*Après*: Correspond si la date est après la date spécifiée."
+      "Help": "*Supérieur à*: Correspond si la date est postérieure à la date donnée.\n*Inférieur à*: Correspond si la date est antérieure à la date donnée.\n*Entre*: Correspond si la date se situe dans la plage spécifiée.\n*Avant*: Correspond si la date est avant la date spécifiée.\n*Après*: Correspond si la date est après la date spécifiée."
     }
   },
   "MenuGroups": {

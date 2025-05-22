@@ -959,7 +959,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Maggiore di*: Corrisponde se la data è più vecchia del periodo dato.\n*Minore di*: Corrisponde se la data è più recente del periodo dato.\n*Tra*: Corrisponde se la data è compresa nell'intervallo specificato.\n*Prima*: Corrisponde se la data è precedente alla data specificata.\n*Dopo*: Corrisponde se la data è successiva alla data specificata."
+      "Help": "*Maggiore di*: Corrisponde se la data è successiva alla data indicata.\n*Minore di*: Corrisponde se la data è precedente alla data indicata.\n*Tra*: Corrisponde se la data è compresa nell'intervallo specificato.\n*Prima di*: Corrisponde se la data è precedente alla data specificata.\n*Dopo*: Corrisponde se la data è successiva alla data specificata."
     }
   },
   "MenuGroups": {

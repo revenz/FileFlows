@@ -959,7 +959,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Groter Dan*: Stem overeen als de datum ouder is dan de opgegeven periode.\n*Kleiner Dan*: Stem overeen als de datum nieuwer is dan de opgegeven periode.\n*Tussen*: Stem overeen als de datum binnen het opgegeven bereik ligt.\n*Voor*: Stem overeen als de datum vóór de opgegeven datum ligt.\n*Na*: Stem overeen als de datum na de opgegeven datum ligt."
+      "Help": "*Groter dan*: Komt overeen als de datum later is dan de opgegeven datum.\n*Kleiner dan*: Komt overeen als de datum eerder is dan de opgegeven datum.\n*Tussen*: Komt overeen als de datum binnen het opgegeven bereik valt.\n*Voor*: Komt overeen als de datum vóór de opgegeven datum ligt.\n*Na*: Komt overeen als de datum na de opgegeven datum ligt."
     }
   },
   "MenuGroups": {

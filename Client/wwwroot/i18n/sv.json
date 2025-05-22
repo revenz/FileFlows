@@ -959,7 +959,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Större än*: Matcha om datumet är äldre än den angivna perioden.\n*Mindre än*: Matcha om datumet är nyare än den angivna perioden.\n*Mellan*: Matchar om datumet ligger inom det angivna intervallet.\n*Innan*: Matcha om datumet är före det angivna datumet.\n*Efter*: Matcha om datumet är efter det angivna datumet."
+      "Help": "*Större än*: Matchar om datumet är senare än det angivna datumet.\n*Mindre än*: Matchar om datumet är tidigare än det angivna datumet.\n*Mellan*: Matchar om datumet ligger inom det angivna intervallet.\n*Före*: Matchar om datumet är före det angivna datumet.\n*Efter*: Matchar om datumet är efter det angivna datumet."
     }
   },
   "MenuGroups": {

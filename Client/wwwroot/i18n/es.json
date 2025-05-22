@@ -959,7 +959,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Mayor Que*: Coincide si la fecha es más antigua que el período dado.\n*Menor Que*: Coincide si la fecha es más reciente que el período dado.\n*Entre*: Coincide si la fecha está dentro del rango especificado.\n*Antes*: Coincide si la fecha es anterior a la fecha especificada.\n*Después*: Coincide si la fecha es posterior a la fecha especificada."
+      "Help": "*Mayor que*: Coincide si la fecha es posterior a la fecha dada.\n*Menor que*: Coincide si la fecha es anterior a la fecha dada.\n*Entre*: Coincide si la fecha está dentro del rango especificado.\n*Antes de*: Coincide si la fecha es anterior a la fecha dada.\n*Después de*: Coincide si la fecha es posterior a la fecha dada."
     }
   },
   "MenuGroups": {
