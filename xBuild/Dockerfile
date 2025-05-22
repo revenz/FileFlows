@@ -4,7 +4,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV PATH=/dotnet:/dotnet/tools:$PATH
 ENV DOTNET_ROOT=/dotnet
 
-# Add intel hardware encoding support
 ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
     NVIDIA_VISIBLE_DEVICES="all" \
     DOTNET_CLI_TELEMETRY_OPTOUT=true
