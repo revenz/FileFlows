@@ -365,6 +365,7 @@ public class WebServerApp
         await ServiceLoader.Load<PausedService>().Initialize();
         await ServiceLoader.Load<StatisticService>().Initialize();
         await ServiceLoader.Load<VariableService>().Initialize();
+        await ServiceLoader.Load<DashboardFileOverviewService>().Initialize();
         //_ = ServiceLoader.Load<FileUnprocessedService>();
         //_ = ServiceLoader.Load<LibraryFileStatusOverviewService>();
         await ServiceLoader.Load<FileSorterService>().Initialize();
