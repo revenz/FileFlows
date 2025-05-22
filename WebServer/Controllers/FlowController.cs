@@ -646,6 +646,7 @@ public class FlowController : BaseController
         bool windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
         bool dir = flowParts?.Any(x => x.FlowElementUid.EndsWith("InputDirectory")) == true;
+        variables.Add("FlowName", "My Flow");
 
         if (dir)
         {
