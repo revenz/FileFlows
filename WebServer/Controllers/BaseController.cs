@@ -21,7 +21,12 @@ public abstract class BaseController : Controller
         var ip = HttpContext.Request.GetActualIP();
         var user = await HttpContext.GetLoggedInUser();
         if (user == null)
+        {
+            Logger.Instance.ILog("GetAuditDetails: User was null");
             return null;
+        }
+        Logger.Instance.ILog("GetAuditDetails: User " + user.Name);
+
         return new AuditDetails()
         {
             IPAddress = ip,
