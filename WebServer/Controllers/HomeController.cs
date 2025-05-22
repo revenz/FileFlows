@@ -1,3 +1,4 @@
+using System.Reflection.Emit;
 using FileFlows.Managers.InitializationManagers;
 using FileFlows.Server;
 using FileFlows.Services;
@@ -21,9 +22,15 @@ public class HomeController : Controller
     {
         var settingsService = ServiceLoader.Load<ISettingsService>();
         var settings = await settingsService.Get();
-        if(settings.InitialConfigDone == false)
+        if (settings.InitialConfigDone == false)
+        {
+            Logger.Instance.ILog("Initial Config Not Done:\b " + JsonSerializer.Serialize(settings, new JsonSerializerOptions() 
+            {
+                WriteIndented = true
+            }));
             return Redirect("/initial-config");
-        
+        }
+
         return File("~/index.html", "text/html");
     }
 
