@@ -99,6 +99,7 @@ public class Program
                 throw new Exception("Failed to initialize RPC Client");
             Console.WriteLine("Initialized JSON RPC Client");
             instance = new RunInstance(new (jsonRpcClient));
+            
             Console.WriteLine("Got Run Instance");
         }
         catch (Exception ex)

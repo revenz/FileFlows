@@ -10,6 +10,7 @@ select {
   display: block;
   border: solid 1px var(--border-color);
   padding: 0.25rem;
+  min-width: min(32rem, 90vw);
 }
 select:focus {
   outline: solid 1px var(--accent);
@@ -17,6 +18,10 @@ select:focus {
 select option:focus, select option:active, select option:hover {
   background: var(--accent);
   color: var(--color);
+}
+
+.switch {
+  margin-top: 2rem;
 }
 
 /*# sourceMappingURL=PausePrompt.razor.css.map */

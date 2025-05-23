@@ -481,6 +481,13 @@ public class Runner
         logger.ILog("flowExecutor result: " + result);
         runInstance.LibraryFile.Additional ??= new();
         runInstance.LibraryFile.Additional.Version = Globals.Version;
+
+        List<ExecutedNode> executedFlowElements = new();
+        nodeParameters.Variables["ExecutedFlowElements"] = executedFlowElements;
+        runInstance.RpcClient.RunnerInfo.OnFlowElementExecution += (execution) =>
+        {
+            executedFlowElements.Add(execution);
+        };
         
         if(Canceled)
             return FileStatus.ProcessingFailed;

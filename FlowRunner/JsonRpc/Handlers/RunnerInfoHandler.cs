@@ -7,7 +7,7 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
 {
     private RunnerInfo runInfo = new();
     public bool HasThumbnail { get; set; }
-    
+
     /// <summary>
     /// Called when the current flow step changes, ie it moves to a different node to execute
     /// </summary>
@@ -18,7 +18,7 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
         ++runInfo.ExecutedSteps;
         if (dontCountTowardsTotal == false)
             ++runInfo.ExecutedStepsCountedTowardsTotal;
-        
+
         if (runInfo.ExecutedStepsCountedTowardsTotal > maxFlowParts)
             return Result<bool>.Fail("Exceeded maximum number of flow elements to process");
 
@@ -29,7 +29,7 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
             if (--runInfo.AdditionalInfos[kv].Steps < 1)
                 runInfo.AdditionalInfos.Remove(kv);
         }
-        
+
         runInfo.CurrentPartName = partName;
         runInfo.CurrentPart = runInfo.ExecutedSteps;
         runInfo.CurrentPartPercent = 0;
@@ -98,7 +98,7 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
         {
             if (value is TimeSpan ts)
                 value = Plugin.Helpers.TimeHelper.ToHumanReadableString(ts);
-            
+
             runInfo.AdditionalInfos[name] = new()
             {
                 Value = value,
@@ -116,8 +116,8 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
     /// <param name="additional">the number of parts to add </param>
     public void IncreaseTotalParts(int additional)
         => runInfo.TotalParts += additional;
-    
-    
+
+
     /// <summary>
     /// Records the execution of a flow node
     /// </summary>
@@ -127,22 +127,35 @@ public class RunnerInfoHandler(JsonRpcClient client, int maxFlowParts)
     /// <param name="duration">how long it took to execution</param>
     /// <param name="part">the flow node part</param>
     /// <param name="flowDepth">the depth of the executed flow</param>
-    public async Task RecordNodeExecution(string nodeName, string nodeUid, int output, TimeSpan duration, FlowPart part, int flowDepth)
+    public async Task RecordNodeExecution(string nodeName, string nodeUid, int output, TimeSpan duration, FlowPart part,
+        int flowDepth)
     {
         client.LibraryFile.ExecutedNodes ??= new List<ExecutedNode>();
-        client.LibraryFile.ExecutedNodes.Add(new ExecutedNode
+        var executed = new ExecutedNode
         {
             NodeName = nodeName,
             NodeUid = part.Type == FlowElementType.Script ? "ScriptNode" : nodeUid,
             FlowPartUid = part.Uid,
-            
+
             Output = output,
             ProcessingTime = duration,
             Depth = flowDepth,
-        });
-        
+        };
+        client.LibraryFile.ExecutedNodes.Add(executed);
+
         await client.LibraryFileHandler.UpdateLibraryFile(client.LibraryFile);
 
         await UpdateRunnerInfo();
+
+        OnFlowElementExecution?.Invoke(executed);
     }
+
+    /// <summary>
+    /// Event triggered upon the execution of a flow element.
+    /// </summary>
+    /// <remarks>
+    /// This event provides details of the executed flow element through an <see cref="ExecutedNode"/> instance.
+    /// Subscribing to this event allows tracking and handling flow element executions as they occur.
+    /// </remarks>
+    public event Action<ExecutedNode>? OnFlowElementExecution;
 }
