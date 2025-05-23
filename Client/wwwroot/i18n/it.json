@@ -640,7 +640,7 @@
     },
     "PauseDialog": {
       "AbortFiles": "Annullare tutti i file attualmente in elaborazione?",
-      "Message": "Seleziona la durata della pausa per l'elaborazione:,
+      "Message": "Seleziona la durata della pausa per l'elaborazione:",
       "Title": "Metti in Pausa l'Elaborazione"
     },
     "ReprocessDialog": {
