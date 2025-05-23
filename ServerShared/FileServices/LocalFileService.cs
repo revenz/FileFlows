@@ -588,12 +588,11 @@ public class LocalFileService(bool dontUseTemporaryFilesForMoveCopy) : IFileServ
 
             if (dontUseTemporaryFilesForMoveCopy)
             {
-                if (DoCopy(fileInfo.FullName, destination, overwrite, move: true) == false)
+                if (DoCopy(fileInfo.FullName, destination, overwrite, move: false) == false)
                     return Result<bool>.Fail("Failed to copy file to final file");
             }
             else
             {
-
                 var tempDest = destination + ".fftemp";
                 if (DoCopy(fileInfo.FullName, tempDest, true) == false)
                     return Result<bool>.Fail("Failed to copy file to temp file");
