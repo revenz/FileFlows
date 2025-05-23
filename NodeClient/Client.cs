@@ -86,6 +86,7 @@ public class Client : IDisposable
 
         Connection.FileCheckHandler = HandleClientProcessFile;
         Connection.AbortFileHandler = AbortFile;
+        Connection.AbortAllHandler = AbortAll;
         Connection.ConfigurationUpdated += (revision) => _ = UpdateConfiguration(revision);
         Connection.Connected += ConnectionOnConnected;
         
@@ -311,6 +312,12 @@ public class Client : IDisposable
     private async Task<bool> AbortFile(Guid uid)
         => await _runnerManager.AbortRunner(uid);
 
+    /// <summary>
+    /// Aborts all files
+    /// </summary>
+    private async Task AbortAll()
+        => await _runnerManager.AbortAll();
+    
     /// <summary>
     /// Sends a update to the server about this node
     /// </summary>

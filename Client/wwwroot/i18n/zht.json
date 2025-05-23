@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "選擇暫停處理的時間。\n注意：當前流程將繼續執行，但在此期間不會執行其他流程。",
+      "AbortFiles": "是否中止所有正在處理的檔案？",
+      "Message": "選擇暫停處理的時間。",
       "Title": "暫停處理"
     },
     "ReprocessDialog": {

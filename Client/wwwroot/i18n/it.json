@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Seleziona la durata della pausa per l'elaborazione.\nNota: I flussi attuali continueranno ad essere eseguiti, ma nessun altro flow verrà eseguito fino a quando non sarà scaduto questo tempo.",
+      "AbortFiles": "Annullare tutti i file attualmente in elaborazione?",
+      "Message": "Seleziona la durata della pausa per l'elaborazione:,
       "Title": "Metti in Pausa l'Elaborazione"
     },
     "ReprocessDialog": {

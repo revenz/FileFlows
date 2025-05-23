@@ -1,3 +1,4 @@
+using FileFlows.Client.Services.Frontend;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -8,7 +9,7 @@ namespace FileFlows.Client.Components.Dialogs;
 /// </summary>
 public partial class PausePrompt : IModal
 {
-    private string lblOk, lblCancel;
+    private string lblOk, lblCancel, lblAbortFiles;
     private string Message, Title;
 
     private Dictionary<int, string> Durations = new()
@@ -31,11 +32,20 @@ public partial class PausePrompt : IModal
     /// <inheritdoc />
     [Parameter]
     public IModalOptions Options { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the frontend service
+    /// </summary>
+    [Inject] private FrontendService feService { get; set; }
+    
+    
     private int Value { get; set; }
 
     private string Uid = System.Guid.NewGuid().ToString();
 
     private bool Focus;
+    private bool AbortFiles;
+    private bool ProcessingFiles;
 
     [Inject] private IJSRuntime jsRuntime { get; set; }
 
@@ -45,6 +55,8 @@ public partial class PausePrompt : IModal
         this.lblCancel = Translater.Instant("Labels.Cancel");
         this.Title = Translater.Instant("Dialogs.PauseDialog.Title");
         this.Message = Translater.Instant("Dialogs.PauseDialog.Message");
+        this.lblAbortFiles = Translater.Instant("Dialogs.PauseDialog.AbortFiles");
+        ProcessingFiles = feService.Files.Processing.Count > 0;
         Value = int.MaxValue;
     }
     
@@ -79,7 +91,9 @@ public partial class PausePrompt : IModal
     /// </summary>
     private async void Accept()
     {
-        TaskCompletionSource.TrySetResult(Value);
+        TaskCompletionSource.TrySetResult(new PauseResult(Value, ProcessingFiles && AbortFiles));
         await Task.CompletedTask;
     }
 }
+
+public record PauseResult(int Duration, bool Abort);

@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Välj hur länge behandlingen ska pausas.\nObs: De aktuella flödena kommer att fortsätta köras, men inga andra flöden kommer att köras tills tiden är slut.",
+      "AbortFiles": "Avbryt alla filer som bearbetas just nu?",
+      "Message": "Välj hur länge behandlingen ska pausas:",
       "Title": "Pausa behandling"
     },
     "ReprocessDialog": {

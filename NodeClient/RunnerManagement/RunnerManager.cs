@@ -314,6 +314,20 @@ public class RunnerManager
     }
 
     /// <summary>
+    /// Aborts all runners
+    /// </summary>
+    public async Task AbortAll()
+    {
+        Logger.ILog("Aborting all runners");
+        foreach(var runner in _activeRunners.Values)
+        {
+            runner.Info.Aborted = true;
+            RunnerUpdated?.Invoke();
+            await runner.Abort();
+        }
+    }
+
+    /// <summary>
     /// Update the runner info
     /// </summary>
     /// <param name="info">the runner info</param>

@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Sélectionnez la durée de la pause dans le traitement.\nRemarque : Les flows actuels continueront à s'exécuter, mais aucun autre flow ne sera exécuté jusqu'à ce que ce temps soit écoulé.",
+      "AbortFiles": "Annuler tous les fichiers en cours de traitement ?",
+      "Message": "Sélectionnez la durée de la pause dans le traitement:",
       "Title": "Pause du Traitement"
     },
     "ReprocessDialog": {

@@ -13,10 +13,18 @@
         @foreach (var dur in Durations)
         {
             <option value=@dur.Key selected="@first">@dur.Value</option>
-            
+                
             first = false;
         }
     </select>
+    
+    @if (ProcessingFiles)
+    {
+        <label class="switch">
+            <FlowSwitch @bind-Value="AbortFiles" />
+            <span>@lblAbortFiles</span>
+        </label>
+    }
     </Body>
     <Footer>
         <button class="btn" @onclick=@Accept>@lblOk</button>

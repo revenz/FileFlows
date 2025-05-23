@@ -159,41 +159,44 @@ public class PausedService : IPausedService, IDisposable
     {
         bool paused = SystemInfo.IsPaused;
         int duration = 0;
+        bool abort = false;
         if (paused == false)
         {
-            var result = await ModalService.ShowModal<PausePrompt, int>(new ModalEditorOptions());
+            var result = await ModalService.ShowModal<PausePrompt, PauseResult>(new ModalEditorOptions());
             if (result.IsFailed)
                 return;
-            duration = result.Value;
+            duration = result.Value.Duration;
+            abort = result.Value.Abort;
         }
 
-        await SetPausedState(duration);
+        await SetPausedState(duration, abort);
     }
 
     /// <inheritdoc />
     public async Task Pause()
     {
-        var result = await ModalService.ShowModal<PausePrompt, int>(new ModalEditorOptions());
-        if (result.Success(out int duration))
-            await SetPausedState(duration);
+        var result = await ModalService.ShowModal<PausePrompt, PauseResult>(new ModalEditorOptions());
+        if (result.Success(out var value))
+            await SetPausedState(value.Duration, value.Abort);
     }
 
     /// <inheritdoc />
     public Task Resume()
-        => SetPausedState(0);
+        => SetPausedState(0, false);
 
     /// <summary>
     /// Pauses the system for the given amount of seconds
     /// </summary>
     /// <param name="duration">the duration in seconds</param>
-    private async Task SetPausedState(int duration)
+    /// <param name="abort">if the files curently processing should be aborted</param>
+    private async Task SetPausedState(int duration, bool abort)
     {
         if (duration == 0)
         {
             if (await _message.Confirm("Dialogs.ResumeDialog.Title", "Dialogs.ResumeDialog.Message") == false)
                 return;
         }
-        await HttpHelper.Post($"/api/system/pause?duration=" + duration);
+        await HttpHelper.Post($"/api/system/pause?duration={duration}&abort={abort}");
         var systemInfoResult = await GetSystemInfo();
         if (systemInfoResult.Success)
         {

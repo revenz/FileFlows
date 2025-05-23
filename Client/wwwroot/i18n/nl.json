@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Selecteer de hoeveelheid tijd om de verwerking te pauzeren.\nOpmerking: De huidige stromen blijven uitvoeren, maar er zullen geen andere stromen worden uitgevoerd totdat deze tijd verstreken is.",
+      "AbortFiles": "Alle bestanden die momenteel worden verwerkt afbreken?",
+      "Message": "Selecteer de hoeveelheid tijd om de verwerking te pauzeren:",
       "Title": "Pauzeer Verwerking"
     },
     "ReprocessDialog": {

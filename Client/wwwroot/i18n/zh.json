@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "选择暂停处理的时间。\n注意：当前流将继续执行，但在此时间结束之前不会执行其他流。",
+      "AbortFiles": "要中止所有正在处理的文件吗？",
+      "Message": "选择暂停处理的时间。",
       "Title": "暂停处理"
     },
     "ReprocessDialog": {

@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Wählen Sie die Zeitspanne aus, für die die Verarbeitung unterbrochen werden soll.\nHinweis: Die aktuellen Flows werden weiterhin ausgeführt, aber keine weiteren Flows werden ausgeführt, bis die Zeit abgelaufen ist.",
+      "AbortFiles": "Alle aktuell verarbeiteten Dateien abbrechen?",
+      "Message": "Wählen Sie die Zeitspanne aus, für die die Verarbeitung unterbrochen werden soll:",
       "Title": "Verarbeitung unterbrechen"
     },
     "ReprocessDialog": {

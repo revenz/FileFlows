@@ -175,4 +175,27 @@ public class NodeHubBridge : INodeHubService
 
         return false;
     }
+
+    /// <inheritdoc/>
+    public async Task AbortAll()
+    {
+        var nodes = ServiceLoader.Load<NodeService>().GetOnlineNodes();
+        foreach (var node in nodes)
+        {
+            try
+            {
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                _ = _hubContext.Clients.All
+                    .SendAsync("AbortAll", cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // Ignore
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.ELog($"Error invoking AbortFile: {ex.Message}");
+            }
+        }
+    }
 }

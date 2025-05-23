@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Selecione o tempo de pausa para o processamento.\nNota: Os flows atuais continuarão a ser executados, mas nenhum outro flow será executado até que esse tempo se esgote.",
+      "AbortFiles": "Abortar todos os arquivos que estão sendo processados atualmente?",
+      "Message": "Selecione o tempo de pausa para o processamento:",
       "Title": "Pausar Processamento"
     },
     "ReprocessDialog": {
