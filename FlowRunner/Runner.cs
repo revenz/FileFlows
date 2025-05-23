@@ -469,6 +469,13 @@ public class Runner
         nodeParameters.AdditionalInfoRecorder = (name, value, steps, expiry) =>
             runInstance.Properties.RpcClient.RunnerInfo.RecordAdditionalInfo(name, value, steps, expiry).Wait();
 
+        List<ExecutedNode> executedFlowElements = new();
+        nodeParameters.Variables["ExecutedFlowElements"] = executedFlowElements;
+        runInstance.RpcClient.RunnerInfo.OnFlowElementExecution += (execution) =>
+        {
+            executedFlowElements.Add(execution);
+        };
+        
         var flow = new FlowHelper(runInstance).GetStartupFlow(runInstance.Properties.IsRemote, Flow, runInstance.LibraryFile.Name);
 
         var flowExecutor = new ExecuteFlow()
@@ -481,13 +488,6 @@ public class Runner
         logger.ILog("flowExecutor result: " + result);
         runInstance.LibraryFile.Additional ??= new();
         runInstance.LibraryFile.Additional.Version = Globals.Version;
-
-        List<ExecutedNode> executedFlowElements = new();
-        nodeParameters.Variables["ExecutedFlowElements"] = executedFlowElements;
-        runInstance.RpcClient.RunnerInfo.OnFlowElementExecution += (execution) =>
-        {
-            executedFlowElements.Add(execution);
-        };
         
         if(Canceled)
             return FileStatus.ProcessingFailed;
