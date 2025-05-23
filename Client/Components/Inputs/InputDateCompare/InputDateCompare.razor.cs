@@ -71,7 +71,7 @@ public partial class InputDateCompare : Input<DateCompareModel>
         set
         {
             Value.Comparison = value;
-            ValueUpdated();
+            ValueChanged.InvokeAsync(Value);
         }
     }
     /// <summary>
@@ -83,7 +83,7 @@ public partial class InputDateCompare : Input<DateCompareModel>
         set
         {
             Value.Value1 = value;
-            ValueUpdated();
+            ValueChanged.InvokeAsync(Value);
         }
     }
     /// <summary>
@@ -95,7 +95,7 @@ public partial class InputDateCompare : Input<DateCompareModel>
         set
         {
             Value.Value2 = value;
-            ValueUpdated();
+            ValueChanged.InvokeAsync(Value);
         }
     }
 
@@ -108,7 +108,7 @@ public partial class InputDateCompare : Input<DateCompareModel>
         set
         {
             Value.DateValue = value.ToUniversalTime();
-            ValueUpdated();
+            ValueChanged.InvokeAsync(Value);
         }
     }
 }

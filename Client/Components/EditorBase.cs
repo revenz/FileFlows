@@ -60,10 +60,7 @@ public abstract class EditorBase : InputRegister
         if (Model == null)
             return;
         var dict = (IDictionary<string, object>)Model!;
-        if (dict.ContainsKey(field.Name))
-            dict[field.Name] = value;
-        else
-            dict.Add(field.Name, value);
+        dict[field.Name] = value;
     }
 
     /// <summary>
