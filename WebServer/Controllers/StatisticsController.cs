@@ -20,7 +20,7 @@ public class StatisticsController : Controller
     /// <param name="value">the value of the statistic</param>
     [HttpPost("record-running-total")]
     public Task RecordRunningTotals([FromQuery] string name, [FromQuery] string value)
-        => new StatisticService().RecordRunningTotal(name, value);
+        => ServiceLoader.Load<StatisticService>().RecordRunningTotal(name, value);
     
     /// <summary>
     /// Records a average 
@@ -29,7 +29,7 @@ public class StatisticsController : Controller
     /// <param name="value">the value of the statistic</param>
     [HttpPost("record-average")]
     public Task RecordAverage([FromQuery] string name, [FromQuery] int value)
-        => new StatisticService().RecordAverage(name, value);
+        => ServiceLoader.Load<StatisticService>().RecordAverage(name, value);
 
     /// <summary>
     /// Gets statistics by name
@@ -37,7 +37,7 @@ public class StatisticsController : Controller
     /// <returns>the matching statistics</returns>
     [HttpGet("running-totals/{name}")]
     public Dictionary<string, long> GetRunningTotals([FromRoute] string name)
-        => new StatisticService().GetRunningTotals(name);
+        => ServiceLoader.Load<StatisticService>().GetRunningTotals(name);
 
 
     /// <summary>
@@ -46,7 +46,7 @@ public class StatisticsController : Controller
     /// <returns>the matching statistics</returns>
     [HttpGet("average/{name}")]
     public Dictionary<int, int> GetAverage([FromRoute] string name)
-        => new StatisticService().GetAverage(name);
+        => ServiceLoader.Load<StatisticService>().GetAverage(name);
 
     /// <summary>
     /// Gets storage saved
@@ -54,7 +54,7 @@ public class StatisticsController : Controller
     /// <returns>the storage saved</returns>
     [HttpGet("storage-saved-raw")]
     public object GetStorageSavedRaw([FromQuery] int days)
-        => new StatisticService().GetStorageSaved(days == 31 ? Globals.STAT_STORAGE_SAVED_MONTH : Globals.STAT_STORAGE_SAVED);
+        => ServiceLoader.Load<StatisticService>().GetStorageSaved(days == 31 ? Globals.STAT_STORAGE_SAVED_MONTH : Globals.STAT_STORAGE_SAVED);
     
     /// <summary>
     /// Gets storage saved
@@ -63,7 +63,7 @@ public class StatisticsController : Controller
     [HttpGet("storage-saved")]
     public object GetStorageSaved()
     {
-        var data = new StatisticService().GetStorageSaved();
+        var data = ServiceLoader.Load<StatisticService>().GetStorageSaved();
         data = data.OrderByDescending(x => x.OriginalSize - x.FinalSize).ToList();
         const int MAX = 5;
         if (data.Count > MAX)
@@ -122,7 +122,7 @@ public class StatisticsController : Controller
     {
         try
         {
-            await new StatisticService().Clear(name);
+            await ServiceLoader.Load<StatisticService>().Clear(name);
             return Ok();
         }
         catch (Exception ex)
