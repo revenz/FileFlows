@@ -242,15 +242,18 @@ ul {
   .nav-item.log {
     display:none;
   }
-}
-
-@media screen and (max-width: 400px)
-{
-  .nav-item.libraries {
-    display:none;
+  .nav-item {
+    a {
+      padding: 0.5rem 0 0.25rem !important;
+    }
+    i {
+      font-size:1.5rem !important
+    }
+    span {
+      margin-top:0.25rem !important;
+    }
   }
 }
-
 
 #nav-bar-blocker {
   position: absolute;

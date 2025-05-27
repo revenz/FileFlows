@@ -247,3 +247,8 @@ $zindex: 1000;
     }
   }
 }
+@media (max-width: 600px) {
+  .popup-panel-button{
+    top: 0.75rem !important;
+  }
+}

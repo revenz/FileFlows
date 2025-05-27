@@ -44,10 +44,14 @@
   background-color: var(--primary);
 }
 .processing-node .summary .name, .processing-node .center .name {
-  font-size: 1.2rem;
-  font-weight: var(--bold, 600);
   padding-bottom: 0.25rem;
   display: inline-block;
+}
+@media (min-width: 850px) {
+  .processing-node .summary .name, .processing-node .center .name {
+    font-size: 1.2rem;
+    font-weight: var(--bold, 600);
+  }
 }
 @media (min-width: 850px) {
   .processing-node .summary .hardware-info-item, .processing-node .center .hardware-info-item {
@@ -71,13 +75,9 @@
   }
   .processing-node > .icon {
     position: absolute !important;
-    top: 0.5rem;
     left: 0.5rem;
     margin-right: 0 !important;
     width: 5rem !important;
-  }
-  .processing-node .name {
-    padding: 1.5rem 0 2.5rem 5.5rem !important;
   }
   .processing-node .hardware-info, .processing-node .hardware-info-item {
     display: none;
@@ -90,6 +90,19 @@
     left: unset;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0;
+  }
+}
+@media screen and (min-width: 600px) and (max-width: 849.99px) {
+  .processing-node .name {
+    padding: 1.5rem 0 2.5rem 5.5rem !important;
+  }
+  .processing-node > .icon {
+    top: 0.5rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  .processing-node .name {
+    padding: 0 0 0 5.5rem !important;
   }
 }
 .priority, .runners {
@@ -116,9 +129,23 @@
   bottom: 0;
   border-top-right-radius: 0.5rem;
 }
+@media (max-width: 600px) {
+  .runners {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem !important;
+    line-height: 1rem;
+  }
+}
 
 .top-right {
   font-size: 1rem;
+}
+@media (max-width: 600px) {
+  .top-right {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem !important;
+    line-height: 1rem;
+  }
 }
 .top-right.status-version-mismatch {
   background-color: var(--warning);

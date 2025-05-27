@@ -18,8 +18,9 @@
   align-items: center;
   padding: 1rem;
 }
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .main-title-bar {
+    padding: 0.75rem;
     text-align: left;
   }
   .main-title-bar img {
@@ -42,6 +43,11 @@
 }
 .content:not(.no-padding) {
   padding: 1rem;
+}
+@media (max-width: 600px) {
+  .content:not(.no-padding) {
+    padding: 0.25rem;
+  }
 }
 .content:has(> .skybox) {
   display: grid;
@@ -167,27 +173,30 @@
   }
 }
 @media screen and (max-width: 849.99px) {
+  .page {
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
   .main {
+    grid-row: 1;
     overflow: hidden;
-    grid-row-start: 1;
-    position: absolute;
-    top: 0;
-    bottom: 5.75rem;
-    left: 0;
-    right: 0;
     display: grid;
     grid-template-rows: 5rem 1fr;
   }
   ::deep .navbar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    grid-row: 2;
   }
   .main-title-bar img {
     height: 3rem;
     margin: auto;
   }
+}
+@media screen and (max-width: 849.99px) and (max-width: 600px) {
+  .main-title-bar img {
+    height: 2rem;
+  }
+}
+@media screen and (max-width: 849.99px) {
   .content {
     height: 100%;
     max-height: 100%;
@@ -223,6 +232,17 @@
   }
   .content ::deep > .configuration-layout .config-content .row {
     margin: 0 !important;
+  }
+}
+@media screen and (max-width: 600px) {
+  .main {
+    grid-template-rows: auto 1fr;
+  }
+  .content ::deep .flow-widget .widget-content {
+    top: 2.5rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }
 
