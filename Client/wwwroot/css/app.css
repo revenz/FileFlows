@@ -257,8 +257,11 @@ a.btn {
   }
 }
 @media screen and (max-width: 578px) {
+  .modal-render {
+    z-index: 1000 !important;
+  }
   .flow-modal {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
