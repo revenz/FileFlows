@@ -24,6 +24,8 @@ All parameters can also be overridden using Variables for example
     FallBackCodecs = hevc|h.264|mpeg4|custom
     SVT = lookahead=64:film-grain=8
     KeyInt = 240
+
+For further help or feature requests find me in the discord
  * @author lawrence
  * @revision 3
  * @param {('hevc_qsv'|'hevc'|'av1_qsv'|'libsvtav1'|'h264_qsv'|'h264')} TargetCodec Which codec you want as the output
