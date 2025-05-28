@@ -67,7 +67,7 @@ public class LibraryFileLogPruner:ServerWorker
             try
             {
                 file.Delete();
-                Logger.Instance?.DLog("Deleted log file: " + file);
+                Logger.Instance?.DLog("Deleted library file log: " + file);
             }
             catch (Exception)
             {
@@ -85,7 +85,7 @@ public class LibraryFileLogPruner:ServerWorker
                 if (subdir.EnumerateFileSystemInfos().Any() == false)
                 {
                     subdir.Delete();
-                    Logger.Instance.ILog("Deleted empty library log folder: " + subdir.FullName);
+                    Logger.Instance.ILog("Deleted empty library file log folder: " + subdir.FullName);
                 }
             }
             catch (Exception ex)
