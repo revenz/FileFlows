@@ -5,12 +5,11 @@ Run between encode and move/replace.
 Output is always an MKV.
 dovi_tool only supports HEVC when AV1 support is added I will updated this script.
  * @author lawrence / iBuSH
- * @revision 7
+ * @revision 8
  * @uid f5eebc75-e22d-4181-af02-5e7263e68acd
  * @param {bool} RemoveHDRTenPlus Remove HDR10+, this fixes the black screen issues on FireStick
  * @output Fixed
  * @output No fix required
- * @minimumVersion 24.09.2.3553
  */
 function Script(RemoveHDRTenPlus) {
   const duration = Variables.vi.Duration;
@@ -70,20 +69,7 @@ function Script(RemoveHDRTenPlus) {
 
   var executeArgs = new ExecuteArgs();
 
-  if (Variables.file.Orig.Extension == '.mkv') {
-    executeArgs.command = mkvextract;
-    executeArgs.argumentList = [
-      "tracks",
-      original,
-      '0:' + System.IO.Path.Combine(Flow.TempPath, "original.hevc")
-    ];
-    executeArgs.add_Output((line) => {
-        let matches = line.match(/ ([0-9]+)%/i);
-        if (matches) {
-          Flow.PartPercentageUpdate(matches[1]);
-        }
-      });
-  } else {
+  if (Variables.file.Orig.Extension !== '.mkv') {
     executeArgs.command = ffmpeg;
     executeArgs.argumentList = [
       "-v",
@@ -101,20 +87,20 @@ function Script(RemoveHDRTenPlus) {
             ffPercent(duration, matches[1]);
         }
     });
-  }
 
-  executeArgs.add_Error((line) => {
-    let matches = line.match(/time=([\.:0-9]+)/i);
-    if (matches) {
-      ffPercent(duration, matches[1]);
+    executeArgs.add_Error((line) => {
+      let matches = line.match(/time=([\.:0-9]+)/i);
+      if (matches) {
+        ffPercent(duration, matches[1]);
+      }
+    });
+
+    process = Flow.Execute(executeArgs);
+
+    if (process.exitCode !== 0) {
+      Logger.ELog("Failed to extract HEVC: " + process.output);
+      return Flow.Fail("Failed to extract HEVC")
     }
-  });
-
-  process = Flow.Execute(executeArgs);
-
-  if (process.exitCode !== 0) {
-    Logger.ELog("Failed to extract HEVC: " + process.output);
-    return Flow.Fail("Failed to extract HEVC")
   }
 
   Flow.PartPercentageUpdate(0);
@@ -124,13 +110,15 @@ function Script(RemoveHDRTenPlus) {
   var executeArgs = new ExecuteArgs();
   executeArgs.command = dovi_tool;
   executeArgs.argumentList = [
-    "--crop",
-    "--mode",
-    "2",
-    "extract-rpu",
-    "-o",
-    System.IO.Path.Combine(Flow.TempPath, "original.rpu"),
-    System.IO.Path.Combine(Flow.TempPath, "original.hevc")
+      "--crop",
+      "--mode",
+      "2",
+      "extract-rpu",
+      "-o",
+      System.IO.Path.Combine(Flow.TempPath, "original.rpu"),
+      Variables.file.Orig.Extension == ".mkv"
+          ? original
+          : System.IO.Path.Combine(Flow.TempPath, "original.hevc"),
   ];
 
   if (RemoveHDRTenPlus) {
