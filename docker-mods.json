@@ -90,9 +90,9 @@
   },
   {
     "Name": "AutoCRF",
-    "Description": "This DockerMod installs ab-av1 and a FFmpeg wrapper script, it requires both FFmpeg7 and FFmpeg7-BtbN installed (you may have to uninstall FFmpeg6 first)",
+    "Description": "This DockerMod installs ab-av1 and a FFmpeg wrapper script, it requires both FFmpeg7 and FFmpeg-BtbN installed (you may have to uninstall FFmpeg6 first)",
     "Author": "lawrence",
-    "Revision": 2,
+    "Revision": 3,
     "Icon": "fas fa-compress-alt",
     "FileName": "AutoCRF.sh",
     "Default": false
