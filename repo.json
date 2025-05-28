@@ -248,8 +248,8 @@
     {
       "Path": "Scripts/Flow/Video/Video - Filesize bigger than calculated.js",
       "Name": "Video - Filesize bigger than calculated",
-      "Description": "Determines a maximum filesize by the given GB/h comma-separated list for 4k, 1080p, 720p, SD (e.g. 15.5,4,2,1) and returns if the input file is bigger or not.\n It calculates the filesize using the actual runtime of the input file and compares it against the actual file size\n/",
-      "Revision": 1,
+      "Description": "Calculates a video\u0027s maximum filesize based on minutes and returns if it is bigger or not\n/",
+      "Revision": 2,
       "Uid": "f3e173f1-e3a4-497c-9057-dc6debb3c8ac"
     },
     {
