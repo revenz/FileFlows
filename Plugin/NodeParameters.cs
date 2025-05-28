@@ -972,6 +972,12 @@ public class NodeParameters
         Logger?.ILog("MoveFile: " + WorkingFile);
         Logger?.ILog("Destination: " + destination);
 
+        if (WorkingFile == destination)
+        {
+            Logger?.ILog("Same file, nothing to move.");
+            return true;
+        }
+
         // Ignore it before the move
         LibraryIgnorePath(MapPath(destination));
 
