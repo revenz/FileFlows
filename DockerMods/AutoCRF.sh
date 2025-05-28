@@ -1,8 +1,8 @@
 # ----------------------------------------------------------------------------------------------------
 # Name: AutoCRF
 # Author: lawrence
-# Description: This DockerMod installs ab-av1 and a FFmpeg wrapper script, it requires both FFmpeg7 and FFmpeg7-BtbN installed (you may have to uninstall FFmpeg6 first)
-# Revision: 2
+# Description: This DockerMod installs ab-av1 and a FFmpeg wrapper script, it requires both FFmpeg7 and FFmpeg-BtbN installed (you may have to uninstall FFmpeg6 first)
+# Revision: 3
 # Icon: fas fa-compress-alt
 # ----------------------------------------------------------------------------------------------------
 
@@ -51,18 +51,23 @@ rm ${DESTINATION_FOLDER}/ab-av1.tar.zst
 cat > ${DESTINATION_FOLDER}/ffmpeg <<EOF
 #!/bin/bash
 
-echo "\$*" | grep libvmaf= > /dev/null
-RET=\$?
-
-if [ "\$RET" == "0" ]
-then
+if [[ "\$@" =~ libvmaf|libsvtav1|libaom-av1 ]]; then
+    if [ -e /opt/ffmpeg-uranite-static/bin/ffmpeg ]; then
+        /opt/ffmpeg-uranite-static/bin/ffmpeg "\$@"
+    else
         /opt/ffmpeg-static/bin/ffmpeg "\$@"
+    fi
 else
+    if [ -e /usr/local/bin/ffmpeg ]; then
         /usr/local/bin/ffmpeg "\$@"
+    else
+        ffmpeg "\$@"
+    fi
 fi
 
 exit \$?
 EOF
+
 chmod +x ${DESTINATION_FOLDER}/ffmpeg
 
 echo "Installation complete."
