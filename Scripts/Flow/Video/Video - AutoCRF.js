@@ -24,7 +24,7 @@ All parameters can also be overridden using Variables for example
     FallBackCodecs = hevc|h.264|mpeg4|custom
     SVT = lookahead=64:film-grain=8
     KeyInt = 240
- * @author Lawrence Curtis
+ * @author lawrence
  * @revision 2
  * @param {('hevc_qsv'|'hevc'|'av1_qsv'|'libsvtav1')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
