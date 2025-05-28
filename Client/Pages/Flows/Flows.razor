@@ -62,7 +62,14 @@ DataStandard)" TItem="FlowListModel" Selection="SelectionMode.Multiple"
                     </span>
                     <div class="center">
                         <span class="name">
+                        @if (item.Type == FlowType.FileDrop && item.Name.StartsWith("FileDrop: "))
+                        {
+                            <span class="name-actual">@item.Name[10..]</span>
+                        }
+                        else
+                        {
                             <span class="name-actual">@item.Name</span>
+                        }
                         @if (string.IsNullOrWhiteSpace(item.Description) == false)
                         {
                             <span class="description"><span>@item.Description</span></span>

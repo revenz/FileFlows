@@ -311,6 +311,9 @@ public partial class Flow : ComponentBase, IDisposable
                              new FFlow { Parts = new List<ffPart>() };
             }
 
+            if (flow.Type == FlowType.FileDrop && flow.Name.StartsWith("FileDrop: "))
+                flow.Name = flow.Name[10..];
+
             var fEditor = new FlowEditor(this, flow, feService, Message);
             await fEditor.Initialize();
             OpenedFlows.Add(fEditor);
@@ -1162,6 +1165,9 @@ public partial class Flow : ComponentBase, IDisposable
                 //     // refresh the app configuration status
                 //     await feService.Refresh();
                 // }
+
+                if (result.Data.Type == FlowType.FileDrop && result.Data.Name.StartsWith("FileDrop: "))
+                    result.Data.Name = result.Data.Name[10..];
 
                 editor.UpdateModel(result.Data, clean: true);
 

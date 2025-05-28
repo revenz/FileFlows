@@ -505,6 +505,11 @@ public class FlowController : BaseController
         if (string.IsNullOrWhiteSpace(model.Name))
             throw new Exception("ErrorMessages.NameRequired");
 
+        if (model.Type == FlowType.FileDrop)
+        {
+            if(model.Name.StartsWith("FileDrop: ") == false)
+                model.Name = "FileDrop: " + model.Name;
+        }
         
         var service = ServiceLoader.Load<FlowService>();
         model.Name = model.Name.Trim();
