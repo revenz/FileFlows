@@ -4,7 +4,7 @@
  * @description Finds the correct CRF using VMAF score based on a
 maximum BitRate and your selected codec types
  * @help Put me between 'FFMPEG Builder: Executor' and 'FFMPEG Builder: Executor'
-Required DockerMods: AutoVMAF, FFmpeg7, FFmpeg7-BtbN
+Required DockerMods: AutoCRF, FFmpeg7, FFmpeg-BtbN
 
 This Flow Element two outputs:
 1: Connect to 'FFmpeg Builder Video Manual' with the 'Parameters' set to...
@@ -16,7 +16,7 @@ In the event of it not finding a suitable CRF and the codec isn't in FallBackCod
 
 Recommended defaults:
     FallBackCodecs: hevc, h.264
-    MaxBitRate: 11.5 MBps for SDR and 23.5 MBps Dolby Vison
+    MaxBitRate: 11.5 MBps for SDR and 23.5 MBps Dolby Vision
 
 All parameters can also be overridden using Variables for example
     TargetCodec = hevc_nvenc
@@ -25,8 +25,8 @@ All parameters can also be overridden using Variables for example
     SVT = lookahead=64:film-grain=8
     KeyInt = 240
  * @author lawrence
- * @revision 2
- * @param {('hevc_qsv'|'hevc'|'av1_qsv'|'libsvtav1')} TargetCodec Which codec you want as the output
+ * @revision 3
+ * @param {('hevc_qsv'|'hevc'|'av1_qsv'|'libsvtav1'|'h264_qsv'|'h264')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
  * @param {bool} FixDolby5 Create a SDR fallback for Dolby Vision profile 5 (aka the green/purple one) [CPU decode]
@@ -45,7 +45,10 @@ All parameters can also be overridden using Variables for example
             return -1;
         }
         if (!ToolPath("ffmpeg", "/opt/ffmpeg-static/bin")) {
-            return -1;
+            // check for urination
+            if (!ToolPath("ffmpeg", "/opt/ffmpeg-uranite-static/bin")) {
+                return -1;
+            }
         }
         if (!ToolPath("ffmpeg", "/usr/local/bin")) {
             return -1;
@@ -87,7 +90,7 @@ All parameters can also be overridden using Variables for example
             );
             return -1;
         }
-        if (MaxBitRate > 50) {
+        if (MaxBitRate > 110) {
             Flow.Fail("AutoCRF: MaxBitRate should be set in MBps e.g. 12");
             return -1;
         }
@@ -518,7 +521,7 @@ All parameters can also be overridden using Variables for example
                     `AutoCRF: If you're absolutely sure you installed the DockerMods please restart the node`
                 );
                 Flow.Fail(
-                    `AutoCRF: Missing required DockerMods: AutoCRF, FFmpeg7, FFmpeg7-BtbN`
+                    `AutoCRF: Missing required DockerMods: AutoCRF, FFmpeg7, FFmpeg-BtbN`
                 );
                 return null;
             }
