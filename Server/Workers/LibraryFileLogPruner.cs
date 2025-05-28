@@ -74,24 +74,5 @@ public class LibraryFileLogPruner:ServerWorker
                 // Ignored
             }
         }
-
-        foreach (var subdir in dirInfo.GetDirectories())
-        {
-            try
-            {
-                if(subdir.LastWriteTimeUtc > DateTime.UtcNow.AddHours(-3))
-                    continue;
-                // Check if the directory is empty (no files or subdirectories)
-                if (subdir.EnumerateFileSystemInfos().Any() == false)
-                {
-                    subdir.Delete();
-                    Logger.Instance.ILog("Deleted empty library file log folder: " + subdir.FullName);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.WLog($"Failed to delete directory '{subdir.FullName}': {ex.Message}");
-            }
-        }
     }
 }
