@@ -132,7 +132,7 @@ public partial class NavBar
                 }
                 
                 if (NavigationManager.Uri.Contains("config/"))
-                    Active = MenuItems.FirstOrDefault(x => x.Url.Contains("config/"));
+                    Active = BottomNavBarItems.FirstOrDefault(x => x.Url.Contains("config/"));
                 
                 Active ??= MenuItems.First();
             }
