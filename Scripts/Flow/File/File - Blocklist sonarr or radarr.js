@@ -1,5 +1,5 @@
 /**
- * @author Lawrence Curtis
+ * @author lawrence
  * @uid 8eb58ddf-f355-4442-8101-d6fd81a1b927
  * @description This script will search the active queue and blocklist and research.  For use alongside this strategy https://fileflows.com/docs/guides/sonarr-radarr
  * @revision 5

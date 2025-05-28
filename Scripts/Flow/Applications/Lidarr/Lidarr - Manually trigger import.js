@@ -2,7 +2,7 @@
  * @name Lidarr - Manually trigger import
  * @uid 8963756e-7bf1-4170-8446-29278db542d6
  * @description Manually tells Lidarr to rescan, run after last file in folder moved
- * @author Lawrence / DoughDoze
+ * @author lawrence / DoughDoze
  * @revision 4
  * @param {string} URI Lidarr root URI and port (e.g. http://lidarr:8686)
  * @param {string} ApiKey API Key
