@@ -1,37 +1,46 @@
 ﻿@inherits LayoutComponentBase
 
 @namespace FileFlows.Client.Shared
-
+@{
+    bool noPadding = _NoPadding || _TitleBarHidden;
+}
 <div class="page @_PageClass">
     
     <NavBar @ref="Menu"/>
     
-    <div class="main">
-        <div class="main-title-bar">
-            @if (App.Instance.IsMobile)
-            {
-                <img src="logo-color-full.svg" alt="FileFlows" />
-            }
-            else
-            {
-                <div class="title">
-                    @if (string.IsNullOrEmpty(_Icon) == false)
-                    {
-                        <i class="icon @_Icon"></i>
-                    }
-                    <span class="title-text">@_Title</span>
-                </div>
-            }
+    <div class="main @(_TitleBarHidden ? "title-bar-hidden" : "")">
+        @if (_TitleBarHidden)
+        {
             <PopupPanel/>
-        </div>
-        
+        }
+        else
+        {
+            <div class="main-title-bar">
+                @if (App.Instance.IsMobile)
+                {
+                    <img src="logo-color-full.svg" alt="FileFlows"/>
+                }
+                else
+                {
+                    <div class="title">
+                        @if (string.IsNullOrEmpty(_Icon) == false)
+                        {
+                            <i class="icon @_Icon"></i>
+                        }
+                        <span class="title-text">@_Title</span>
+                    </div>
+                }
+                <PopupPanel/>
+            </div>
+        }
+
         @if (Blocker != null && Menu != null && Editor != null)
         {
             <CascadingValue Value="Menu" IsFixed="true">
                 <CascadingValue Value="Blocker" IsFixed="true">
                     <CascadingValue Value="Editor" IsFixed="true">
                         <CascadingValue Value="this" IsFixed="true">
-                            <div class="content @(_NoPadding ? "no-padding" : "")">
+                            <div class="content @(noPadding ? "no-padding" : "")">
                                 @Body
                             </div>
                         </CascadingValue>
@@ -39,7 +48,7 @@
                 </CascadingValue>
             </CascadingValue>
         }
-        
+
 
         <Blocker @ref="Blocker"></Blocker>
         <Editor @ref="Editor"></Editor>

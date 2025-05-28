@@ -6,7 +6,7 @@ namespace FileFlows.Client.Shared;
 /// <summary>
 /// Configuration layout
 /// </summary>
-public abstract partial class ConfigurationLayout : LayoutComponentBase
+public abstract partial class ConfigurationLayout : LayoutComponentBase, IDisposable
 {
     /// <summary>
     /// The menu items
@@ -17,6 +17,10 @@ public abstract partial class ConfigurationLayout : LayoutComponentBase
     /// Gets or sets if they are opened
     /// </summary>
     private bool Opened { get; set; }
+    /// <summary>
+    /// Gets or sets the Layout
+    /// </summary>
+    [CascadingParameter] public MainLayout Layout { get; set; }
 
     public NavMenuItem Active { get; private set; }
     /// <summary>
@@ -42,6 +46,8 @@ public abstract partial class ConfigurationLayout : LayoutComponentBase
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        if (App.Instance.IsMobile)
+            Layout.HideTitleBar();
         lblVersion = Translater.Instant("Labels.Version");
         var profile = feService.Profile.Profile;
         MenuItems = GetMenu(profile);
@@ -90,6 +96,14 @@ public abstract partial class ConfigurationLayout : LayoutComponentBase
     private void ToggleOpen()
     {
         Opened = !Opened;
+    }
+
+    /// <summary>
+    /// Disposes the component
+    /// </summary>
+    public void Dispose()
+    {
+        Layout.HideTitleBar(false);
     }
 }
 

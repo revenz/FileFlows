@@ -3,11 +3,6 @@
   height: 100%;
 
   @media (min-width: 850px) {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
     display:grid;
     grid-template-columns: 17rem 1fr;
     grid-gap: 0;
@@ -175,6 +170,15 @@
   }
 }
 
+@media screen and (max-width: 600px){
+  .active-item {
+    padding:0.65rem 1rem !important;
+  }
+  #ul-nav-menu {
+    top: 3.61rem !important;
+  }
+}
+
 @media screen and (max-width: 849.99px){
   .version-info {
     display: none;
@@ -199,7 +203,6 @@
   .configuration-layout {
     grid-template-rows: 1fr auto;
     display: grid;
-    height: calc(100vh - 7rem);
   }
   .config-content {
     overflow: auto;

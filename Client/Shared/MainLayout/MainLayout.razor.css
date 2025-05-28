@@ -214,35 +214,36 @@
     bottom: 0.5rem;
     position: absolute;
   }
-  .content ::deep > .configuration-layout {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: calc(100vh - 5.5rem);
-    overflow: hidden;
-    display: unset;
-  }
-  .content ::deep > .configuration-layout .config-content {
+  ::deep > .configuration-layout .config-content {
     position: absolute;
     top: 5rem;
     left: 1rem;
     right: 1rem;
     bottom: 1rem;
   }
-  .content ::deep > .configuration-layout .config-content .row {
+  ::deep > .configuration-layout .config-content .row {
     margin: 0 !important;
   }
 }
-@media screen and (max-width: 600px) {
-  .main {
-    grid-template-rows: auto 1fr;
+@media screen and (max-width: 849.999px) {
+  .main.title-bar-hidden {
+    display: flex;
   }
   .content ::deep .flow-widget .widget-content {
     top: 2.5rem;
     left: 0;
     right: 0;
     bottom: 0;
+  }
+}
+@media screen and (min-width: 600.001px) and (max-width: 849.999px) {
+  .main:not(.title-bar-hidden) {
+    grid-template-rows: 5rem 1fr;
+  }
+}
+@media screen and (max-width: 600px) {
+  .main:not(.title-bar-hidden) {
+    grid-template-rows: 3.5rem 1fr;
   }
 }
 
