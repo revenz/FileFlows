@@ -168,14 +168,6 @@
       "Uid": "8eb58ddf-f355-4442-8101-d6fd81a1b927"
     },
     {
-      "Path": "Scripts/Flow/Video/Video - Devedse - InstallFfmpegBtbN.js",
-      "Name": "Video - Devedse - InstallFfmpegBtbN",
-      "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nChecks for the latest release of FFmpeg, compares with the stored version,\nand updates if the latest version is newer.\n/",
-      "Revision": 6,
-      "MinimumVersion": "1.0.0.0",
-      "Uid": "8c0bbcf8-90c0-44a3-8195-5a6814864063"
-    },
-    {
       "Path": "Scripts/Flow/Video/Video - Audio bitrate per channel.js",
       "Name": "Video - Audio bitrate per channel",
       "Description": "Sets the bitrate for audio streams based off the number of channels - in place of \u0022Quality\u0022 options found on some audio codecs\n/",
@@ -203,13 +195,6 @@
       "Description": "Determines a video\u0027s resolution and outputs accordingly\n/",
       "Revision": 4,
       "Uid": "d5962d9f-6200-4441-a0af-1c47f5ac8101"
-    },
-    {
-      "Path": "Scripts/Flow/Video/Video - Devedse - InstallAbAv1.js",
-      "Name": "Video - Devedse - InstallAbAv1",
-      "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nChecks for the latest release of ab-av1, compares with the stored version,\nand updates if the latest version is newer.\n/",
-      "Revision": 7,
-      "Uid": "e9d2cce8-938c-4849-b9c1-22157d95211f"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Export All Subtitles.js",
@@ -296,13 +281,6 @@
       "Uid": "b4ed740e-b851-4336-b412-a63ddc64ca0b"
     },
     {
-      "Path": "Scripts/Flow/Video/Video - Devedse - RunAbAv1.js",
-      "Name": "Video - Devedse - RunAbAv1",
-      "Description": "Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nPrerequisites:\nVideo - Devedse - InstallFfmpegBtbN.js\nVideo - Devedse - InstallAbAv1.js\nExecutes the ab-av1 command.\n/",
-      "Revision": 8,
-      "Uid": "4b2d95ff-0b20-4be2-b945-e6efd8099feb"
-    },
-    {
       "Path": "Scripts/Flow/Video/Video - Has 2.0 Audio.js",
       "Name": "Video - Has 2.0 Audio",
       "Description": "Determines if a video has a 2.0 (stereo) channel track\n/",
@@ -322,6 +300,13 @@
       "Description": "If a video\u0027s resolution is greater than 720p, this script will update the FFMPEG Builder video track with a filter to downscale the video to 720p when the FFMPEG Builder Executor runs.\n/",
       "Revision": 4,
       "Uid": "9191f554-ecd5-4ef4-b83b-054f2878b09f"
+    },
+    {
+      "Path": "Scripts/Flow/Video/Video - Run ab-av1.js",
+      "Name": "Video - Run ab-av1",
+      "Description": "Run ab-av1 to find the best CRF of a video for a given VMAF. This is saved to Variables.AbAv1CRFValue if found.\nImportant: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nIf CRF is found, it is saved to Variables.AbAv1CRFValue.\nExecutes the ab-av1 command.\n/",
+      "Revision": 1,
+      "Uid": "e31fbd4d-dc96-4ae6-9122-a9f30c102b1d"
     },
     {
       "Path": "Scripts/Flow/Video/Video - Has Audio.js",
