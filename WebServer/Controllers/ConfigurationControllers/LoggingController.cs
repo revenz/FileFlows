@@ -23,6 +23,7 @@ public class LoggingController : BaseController
         model.LogQueueMessages = settings.LogQueueMessages;
         model.LogFileRetention = settings.LogFileRetention;
         model.LogEveryRequest = settings.LogEveryRequest;
+        model.LibraryFileLogFileRetention = settings.LibraryFileLogFileRetention;
         return model;
     }
     
@@ -42,6 +43,7 @@ public class LoggingController : BaseController
         settings.LogQueueMessages = model.LogQueueMessages;
         settings.LogFileRetention = model.LogFileRetention;
         settings.LogEveryRequest = model.LogEveryRequest;
+        settings.LibraryFileLogFileRetention = model.LibraryFileLogFileRetention;
         
         await service.Save(settings, await GetAuditDetails(), dontUpdateRevision: true);
     }

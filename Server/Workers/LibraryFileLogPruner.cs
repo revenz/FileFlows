@@ -13,6 +13,14 @@ public class LibraryFileLogPruner:ServerWorker
     /// </summary>
     public LibraryFileLogPruner() : base(ScheduleType.Daily, 5)
     {
+        try
+        {
+            _ = ExecuteAsync();
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
     }
 
     /// <summary>
@@ -23,12 +31,18 @@ public class LibraryFileLogPruner:ServerWorker
         _ = ExecuteAsync();
     }
     
+    /// <summary>
+    /// Executes the pruner asynchronously
+    /// </summary>
     private async Task ExecuteAsync()
     {
         var libFiles = (await ServiceLoader.Load<LibraryFileService>().GetUids())
             .Select(x => x.ToString()).ToList();
-        
-        var files = new DirectoryInfo(DirectoryHelper.LibraryFilesLoggingDirectory).GetFiles();
+
+        var maxDays = (await ServiceLoader.Load<ISettingsService>().Get()).LibraryFileLogFileRetention;
+
+        var dirInfo = new DirectoryInfo(DirectoryHelper.LibraryFilesLoggingDirectory);
+        var files = dirInfo.GetFiles();
         foreach (var file in files)
         {
             // first check if the file is somewhat new, if it is, dont delete just yet
@@ -46,17 +60,37 @@ public class LibraryFileLogPruner:ServerWorker
                 shortName = shortName.Replace(".log", "");
             
             bool exists = libFiles.Contains(shortName);
+            bool isOld = maxDays > 0 && file.LastWriteTimeUtc < DateTime.UtcNow.AddDays(-maxDays);
 
-            if (exists)
+            if (exists && isOld == false)
                 continue;
             try
             {
                 file.Delete();
-                Logger.Instance?.DLog("Deleted old unknown log file: " + file);
+                Logger.Instance?.DLog("Deleted log file: " + file);
             }
             catch (Exception)
             {
                 // Ignored
+            }
+        }
+
+        foreach (var subdir in dirInfo.GetDirectories())
+        {
+            try
+            {
+                if(subdir.LastWriteTimeUtc > DateTime.UtcNow.AddHours(-3))
+                    continue;
+                // Check if the directory is empty (no files or subdirectories)
+                if (subdir.EnumerateFileSystemInfos().Any() == false)
+                {
+                    subdir.Delete();
+                    Logger.Instance.ILog("Deleted empty library log folder: " + subdir.FullName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.WLog($"Failed to delete directory '{subdir.FullName}': {ex.Message}");
             }
         }
     }
