@@ -238,16 +238,28 @@ For further help or feature requests find me in the discord
             Logger.ILog(`Will fallback to bitrate encoding`);
             forceEncode = true;
         }
+
+        let returnValue = {
+            data: [
+                // { crf: 12, score: 12.34, size: 90 }
+            ],
+            error: false,
+            winner: null,
+            command: `${TargetCodec} -preset ${preset}`,
+            message: "",
+        };
     
         Logger.ILog(
             `Targeting ${firstTryPercentage}% size, ${firstTryScore}% VMAF`
         );
-        let attempt = search(firstTryPercentage, firstTryScore, videoBitRate, preset);
+        let attempt = search(returnValue, firstTryPercentage, firstTryScore, videoBitRate, preset);
         if (!attempt.winner) {
             Logger.ILog(
                 `First attempt failed retrying with ${secondTryPercentage}% size, ${secondTryScore}% VMAF`
             );
-            attempt = search(secondTryPercentage, secondTryScore, videoBitRate, preset);
+            returnValue.data = []
+            returnValue.command = `${TargetCodec} -preset ${preset}`
+            attempt = search(returnValue, secondTryPercentage, secondTryScore, videoBitRate, preset);
         }
     
         if (attempt.winner) {
@@ -314,19 +326,9 @@ For further help or feature requests find me in the discord
         }
     }
     
-    function search(bitratePercent, targetPercent, videoBitRate, preset) {
+    function search(returnValue, bitratePercent, targetPercent, videoBitRate, preset) {
         let abAv1 = ToolPath("ab-av1", "/opt/autocrf");
         let path = abAv1.replace(/[^\/]+$/, "");
-    
-        let returnValue = {
-            data: [
-                // { crf: 12, score: 12.34, size: 90 }
-            ],
-            error: false,
-            winner: null,
-            command: `${TargetCodec} -preset ${preset}`,
-            message: "",
-        };
     
         if (Variables.SVT) {
             returnValue.command = `${returnValue.command} -svtav1-params ${Variables.SVT}`
