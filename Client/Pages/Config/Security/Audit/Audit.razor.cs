@@ -1,6 +1,7 @@
 using System.Threading;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Services.Frontend;
 using FileFlows.Client.Shared;
 using FileFlows.ServerShared.Models;
@@ -14,6 +15,11 @@ namespace FileFlows.Client.Pages;
 /// </summary>
 public partial class Audit : ComponentBase
 {
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
     private SemaphoreSlim fetching = new(1);
     /// <summary>
     /// Gets or sets the table instance
@@ -161,7 +167,10 @@ public partial class Audit : ComponentBase
     {
         if (entry?.Changes?.Any() != true)
             return;
-        await AuditEntryViewer.Instance.Show(entry);
+        await ModalService.ShowModal<AuditEntryViewer>(new AuditEntryViewerOptions()
+        {
+            Entry = entry
+        });
     }
 
     /// <summary>

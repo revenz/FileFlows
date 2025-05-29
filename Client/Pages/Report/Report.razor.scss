@@ -3,6 +3,8 @@
 }
 
 .mode-output {
+  overflow: auto;
+  height: 100%;
   .report-form {
     display:none;
   }

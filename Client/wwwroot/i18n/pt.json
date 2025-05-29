@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Selecione o tempo de pausa para o processamento.\nNota: Os flows atuais continuarão a ser executados, mas nenhum outro flow será executado até que esse tempo se esgote.",
+      "AbortFiles": "Abortar todos os arquivos que estão sendo processados atualmente?",
+      "Message": "Selecione o tempo de pausa para o processamento:",
       "Title": "Pausar Processamento"
     },
     "ReprocessDialog": {
@@ -959,7 +960,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Maior Que*: Coincide se a data for mais antiga que o período dado.\n*Menor Que*: Coincide se a data for mais recente que o período dado.\n*Entre*: Coincide se a data estiver dentro do intervalo especificado.\n*Antes*: Coincide se a data for anterior à data especificada.\n*Depois*: Coincide se a data for posterior à data especificada."
+      "Help": "*Maior que*: Corresponde se a data for posterior à data fornecida.\n*Menor que*: Corresponde se a data for anterior à data fornecida.\n*Entre*: Corresponde se a data estiver dentro do intervalo especificado.\n*Antes*: Corresponde se a data for anterior à data especificada.\n*Depois*: Corresponde se a data for posterior à data especificada."
     }
   },
   "MenuGroups": {
@@ -1733,6 +1734,9 @@
         "KeepFailedFlowTempFiles-Help": "Ativar esta opção reterá os arquivos temporários usados por um flow em caso de falha, evitando que sejam excluídos automaticamente.\nUse com cautela.",
         "Language": "Idioma",
         "Language-Help": "A língua que será usada no sistema.\nNota: Estas traduções são geradas por IA e podem conter erros. Por favor, relate quaisquer erros à equipe de suporte.",
+        "LibraryFileLogFileRetention": "Retenção de logs de arquivos da biblioteca",
+        "LibraryFileLogFileRetention-Help": "Por quanto tempo os logs de arquivos da biblioteca devem ser mantidos antes de serem excluídos. Se 0 for inserido, os logs nunca serão excluídos.",
+        "LibraryFileLogFileRetention-Suffix": "Dias",
         "LogEveryRequest": "Registrar Cada Solicitação",
         "LogEveryRequest-Help": "Se cada solicitação ao servidor deve ser registrada.",
         "LogFileRetention": "Retenção de Arquivos de Log",

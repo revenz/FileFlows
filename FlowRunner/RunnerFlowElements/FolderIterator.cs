@@ -97,7 +97,7 @@ public class FolderIterator : Node
             args.Logger?.ILog("Starting new file: " + file);
             args.RecordAdditionalInfo("File", Plugin.Helpers.FileHelper.GetShortFileName(file), 1, null);
             
-            var result = RunFlow(args, file, ++current);
+            var result = RunFlow(args, file, ++current, total);
 
             // clear the info that was set
             args.RecordAdditionalInfo("Element", null, 0, null);
@@ -236,14 +236,18 @@ public class FolderIterator : Node
     /// </summary>
     /// <param name="args">the current NodeParameters</param>
     /// <param name="file">the file to run it against</param>
+    /// <param name="fileCount">the current file count</param>
+    /// <param name="total">the total number of files</param>
     /// <returns>the output from the flow</returns>
-    private Result<int> RunFlow(NodeParameters args, string file, int fileCount)
+    private Result<int> RunFlow(NodeParameters args, string file, int fileCount, int total)
     {
         var part = Flow.Parts.FirstOrDefault(x => x.Inputs == 0);
         if (part == null)
             return Result<int>.Fail("Failed to find Input node");
         
         var newArgs = NewNodeParameters(args, file);
+        newArgs.Variables["IterationIndex"] = fileCount;
+        newArgs.Variables["IterationTotal"] = total;
         
         int count = 0;
         while (++count < Math.Min(Runner.runInstance.Properties.Config.MaxNodes, 250))

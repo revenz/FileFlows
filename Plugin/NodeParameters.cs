@@ -398,6 +398,7 @@ public class NodeParameters
         IFileService fileService, CancellationToken cancellationToken = default)
     {
         Fake = string.IsNullOrEmpty(filename);
+        this.CancellationToken = cancellationToken;
         this.IsDirectory = isDirectory;
         this.OriginalIsDirectory = isDirectory;
         this.FileName = filename;
@@ -414,7 +415,8 @@ public class NodeParameters
             }
             catch (Exception)
             {
-            } // can fail in unit tests
+                // can fail in unit tests
+            }
         }
 
         this.RelativeFile = string.Empty;
@@ -540,8 +542,9 @@ public class NodeParameters
             actual.StartsWith("https:", StringComparison.InvariantCultureIgnoreCase))
         {
             Logger?.ILog("URL specified for thumbnail image: " + actual);
-            var newFile = Path.Combine(TempPath, Guid.NewGuid().ToString());
-            var result2 = DownloadHelper.Download(actual, newFile);
+            var extension = GetExtensionFromUrl(actual);
+            var newFile = Path.Combine(TempPath, Guid.NewGuid() + extension);
+            var result2 = DownloadHelper.Download(actual, newFile).GetAwaiter().GetResult();
             if (result2.Failed(out var error2))
             {
                 Logger.WLog(error2);
@@ -592,6 +595,29 @@ public class NodeParameters
         catch(Exception ex)
         {
             Logger?.ILog("Failed creating thumbnail: " + ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Gets the file extension from a given URL.
+    /// </summary>
+    /// <param name="url">The URL from which to extract the file extension.</param>
+    /// <returns>The file extension as a lowercase, or an empty string if the URL is invalid or no extension is found.</returns>
+    private string GetExtensionFromUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return string.Empty;
+
+        try
+        {
+            var uri = new Uri(url);
+            var path = uri.AbsolutePath;
+            var extension = Path.GetExtension(path);
+            return string.IsNullOrEmpty(extension) ? null : extension.ToLowerInvariant();
+        }
+        catch
+        {
+            return string.Empty;
         }
     }
 
@@ -946,6 +972,12 @@ public class NodeParameters
         Logger?.ILog("MoveFile: " + WorkingFile);
         Logger?.ILog("Destination: " + destination);
 
+        if (WorkingFile == destination)
+        {
+            Logger?.ILog("Same file, nothing to move.");
+            return true;
+        }
+
         // Ignore it before the move
         LibraryIgnorePath(MapPath(destination));
 
@@ -1122,7 +1154,7 @@ public class NodeParameters
     {
         if (Fake) return new ProcessResult {  ExitCode = 0, Completed = true };
         
-        var result = Process.ExecuteShellCommand(args).Result;
+        var result = Process.ExecuteShellCommand(args).GetAwaiter().GetResult();
         return result;
     }
 

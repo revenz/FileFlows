@@ -56,6 +56,11 @@ public class Runner
     private void Abort()
     {
         nodeParameters?.Logger?.WLog("Aborting...");
+        // if (nodeParameters.Process is ProcessHelper ph)
+        // {
+        //     ph.Kill();
+        // }
+
         this.Canceled = true;
         CancellationToken.Cancel();
     }
@@ -464,6 +469,13 @@ public class Runner
         nodeParameters.AdditionalInfoRecorder = (name, value, steps, expiry) =>
             runInstance.Properties.RpcClient.RunnerInfo.RecordAdditionalInfo(name, value, steps, expiry).Wait();
 
+        List<ExecutedNode> executedFlowElements = new();
+        nodeParameters.Variables["ExecutedFlowElements"] = executedFlowElements;
+        runInstance.RpcClient.RunnerInfo.OnFlowElementExecution += (execution) =>
+        {
+            executedFlowElements.Add(execution);
+        };
+        
         var flow = new FlowHelper(runInstance).GetStartupFlow(runInstance.Properties.IsRemote, Flow, runInstance.LibraryFile.Name);
 
         var flowExecutor = new ExecuteFlow()

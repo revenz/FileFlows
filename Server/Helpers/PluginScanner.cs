@@ -20,7 +20,7 @@ public class PluginScanner : IPluginScanner
     /// <summary>
     /// Scans the disk for plugins
     /// </summary>
-    public void Scan()
+    public async Task Scan()
     {
         Logger.Instance.DLog("Scanning for plugins");
         var pluginDir = GetPluginDirectory();
@@ -30,7 +30,7 @@ public class PluginScanner : IPluginScanner
             EnsureDefaultsExist(pluginDir);
 
         var service = ServiceLoader.Load<PluginService>();
-        var dbPluginInfos = service.GetAllAsync().Result.OrderBy(x => x.Name).ToList();
+        var dbPluginInfos = (await service.GetAllAsync()).OrderBy(x => x.Name).ToList();
 
         List<string> installed = new List<string>();
         var options = new JsonSerializerOptions
@@ -69,7 +69,7 @@ public class PluginScanner : IPluginScanner
                 }
 
                 using var sr = new StreamReader(entry.Open());
-                string json = sr.ReadToEnd();
+                string json = await sr.ReadToEndAsync();
 
                 if (string.IsNullOrEmpty(json))
                 {
@@ -84,7 +84,7 @@ public class PluginScanner : IPluginScanner
                     using var srLang = new StreamReader(langEntry.Open());
                     if (langFiles.ContainsKey("en") == false)
                         langFiles["en"] = new();
-                    langFiles["en"].Add(srLang.ReadToEnd());
+                    langFiles["en"].Add(await srLang.ReadToEndAsync());
                 }
                 else
                 {
@@ -224,7 +224,7 @@ public class PluginScanner : IPluginScanner
                     {
                         Logger.Instance.ILog("Updating plugin: " + pi.Name);
                         plugin.DateModified = DateTime.UtcNow;
-                        service.Update(plugin, auditDetails: AuditDetails.ForServer()).Wait();
+                        await service.Update(plugin, auditDetails: AuditDetails.ForServer());
                     }
                 }
                 else
@@ -237,7 +237,7 @@ public class PluginScanner : IPluginScanner
                     plugin.DateCreated = DateTime.UtcNow;
                     plugin.DateModified = DateTime.UtcNow;
                     plugin.Enabled = true;
-                    service.Update(plugin, auditDetails: AuditDetails.ForServer()).Wait();
+                    await service.Update(plugin, auditDetails: AuditDetails.ForServer());
                 }
             }
             catch (Exception ex)
@@ -253,7 +253,7 @@ public class PluginScanner : IPluginScanner
             {
                 Logger.Instance.DLog("Delete old plugin: " + plugin.Name);
                 // its an old style plugin, perm delete it
-                service.Delete(new[] { plugin.Uid }, AuditDetails.ForServer()).Wait();
+                await service.Delete(new[] { plugin.Uid }, AuditDetails.ForServer());
             }
             else
             {
@@ -261,7 +261,7 @@ public class PluginScanner : IPluginScanner
                 // mark as deleted.
                 plugin.Deleted = true;
                 plugin.DateModified = DateTime.UtcNow;
-                service.Update(plugin, auditDetails: AuditDetails.ForServer()).Wait();
+                await service.Update(plugin, auditDetails: AuditDetails.ForServer());
             }
         }
 
@@ -406,7 +406,7 @@ public class PluginScanner : IPluginScanner
     /// <param name="packageName">the plugin package name</param>
     /// <param name="data">the binary data of the plugin (ffplugin byte[] data)</param>
     /// <returns>true if successful</returns>
-    public bool UpdatePlugin(string packageName, byte[] data)
+    public async Task<bool> UpdatePlugin(string packageName, byte[] data)
     {
         if (string.IsNullOrEmpty(packageName))
             throw new InvalidDataException("PackageName is required");
@@ -417,11 +417,11 @@ public class PluginScanner : IPluginScanner
                 dest += ".ffplugin";
 
             // save the plugin
-            File.WriteAllBytes(dest, data);
+            await File.WriteAllBytesAsync(dest, data);
             Logger.Instance.ILog("PluginScanner: Saving plugin : " + dest);
 
             // rescan for plugins
-            Scan();
+            await Scan();
 
             return true;
         }

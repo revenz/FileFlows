@@ -46,7 +46,7 @@ public class SettingsController : BaseController
         try
         {
             var onlineService = ServiceLoader.Load<IOnlineUpdateService>();
-            var result = onlineService.GetLatestOnlineVersion();
+            var result = await onlineService.GetLatestOnlineVersion();
             if (result.updateAvailable == false)
                 return string.Empty;
             return result.onlineVersion.ToString();
@@ -236,7 +236,7 @@ public class SettingsController : BaseController
 
         if (langChanged)
         {
-            ServiceLoader.Load<IPluginScanner>().Scan();
+            await ServiceLoader.Load<IPluginScanner>().Scan();
             await ServiceLoader.Load<LanguageService>().Initialize();
 
         }
@@ -358,7 +358,7 @@ public class SettingsController : BaseController
         {
             await Task.Delay(1);
             var service = ServiceLoader.Load<IOnlineUpdateService>();
-            return service.RunCheck(skipEnabledCheck: true);
+            return await service.RunCheck(skipEnabledCheck: true);
         });
         await Task.CompletedTask;
     }

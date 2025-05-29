@@ -60,6 +60,8 @@ public class Client : IDisposable
     private CancellationTokenSource _delayCts = new();
     private CancellationTokenSource _logSyncCts = new();
     private bool Disposed = false;
+    private bool firstConnection = true;
+    private bool _installingDockerMods;
 
 
     /// <summary>
@@ -84,6 +86,7 @@ public class Client : IDisposable
 
         Connection.FileCheckHandler = HandleClientProcessFile;
         Connection.AbortFileHandler = AbortFile;
+        Connection.AbortAllHandler = AbortAll;
         Connection.ConfigurationUpdated += (revision) => _ = UpdateConfiguration(revision);
         Connection.Connected += ConnectionOnConnected;
         
@@ -99,7 +102,7 @@ public class Client : IDisposable
         });
     }
 
-    
+
     /// <summary>
     /// Connection established and node registered
     /// </summary>
@@ -111,11 +114,19 @@ public class Client : IDisposable
                 $"Server version '{Connection.ServerVersion}' does not match node version '{Globals.Version}'");
             EventManager.Broadcast("NodeVersionMismatch", Connection.ServerVersion);
         }
-        else if (Connection.Node!.Enabled && Connection.ServerConfigRevision != _configurationService.CurrentConfig?.Revision)
+        else if (Connection.Node!.Enabled &&
+                 Connection.ServerConfigRevision != _configurationService.CurrentConfig?.Revision)
         {
             Task.Run(() => UpdateConfiguration(Connection.ServerConfigRevision));
         }
+        else if (firstConnection && Globals.IsDocker)
+        {
+            _logger?.ILog("Installing DockerMods for first connection");
+            InstallDockerMods();
+        }
 
+
+        firstConnection = false;
         SendNodeStatusAsync();
 
         TriggerLogSync();
@@ -302,6 +313,12 @@ public class Client : IDisposable
         => await _runnerManager.AbortRunner(uid);
 
     /// <summary>
+    /// Aborts all files
+    /// </summary>
+    private async Task AbortAll()
+        => await _runnerManager.AbortAll();
+    
+    /// <summary>
     /// Sends a update to the server about this node
     /// </summary>
     private void SendNodeStatusAsync()
@@ -383,66 +400,95 @@ public class Client : IDisposable
     /// </summary>
     private async Task SyncLog()
     {
-        TimeSpan delay = TimeSpan.FromSeconds(5);
-        while (true)
+        await Task.CompletedTask;
+        return;
+        // TimeSpan delay = TimeSpan.FromSeconds(5);
+        // while (true)
+        // {
+        //     try
+        //     {
+        //         if (Disposed)
+        //             return;
+        //         
+        //         await Task.Delay(delay, _logSyncCts.Token);
+        //         
+        //         if (Disposed)
+        //             return;
+        //
+        //         var node = Connection.Node;
+        //         if (node == null)
+        //         {
+        //             delay = TimeSpan.FromSeconds(10);
+        //             continue;
+        //         }
+        //
+        //         if (node.Uid == CommonVariables.InternalNodeUid)
+        //             return; // we dont sync this log
+        //
+        //         if (Logger.Instance.TryGetLogger(out FileLogger logger) == false)
+        //         {
+        //             delay = TimeSpan.FromMinutes(5);
+        //             continue;
+        //         }
+        //
+        //
+        //         var file = logger.GetLogFilename();
+        //         if (File.Exists(file) == false)
+        //         {
+        //             delay = TimeSpan.FromMinutes(5);
+        //             continue;
+        //         }
+        //
+        //         var log = await File.ReadAllTextAsync(file);
+        //         if (string.IsNullOrWhiteSpace(log))
+        //         {
+        //             delay = TimeSpan.FromMinutes(5);
+        //             continue;
+        //         }
+        //
+        //         var compressed = Gzipper.CompressToBytes(log);
+        //
+        //         if (await Connection.AwaitConnection() == false)
+        //         {
+        //             delay = TimeSpan.FromMinutes(5);
+        //             continue;
+        //         }
+        //
+        //         await Connection.InvokeAsync("SyncLog", node.Uid, compressed);
+        //         delay = TimeSpan.FromMinutes(60);
+        //     }
+        //     catch (Exception)
+        //     {
+        //         // Ignore
+        //     }
+        // }
+    }
+
+    /// <summary>
+    /// Installs the DockerMods
+    /// </summary>
+    private void InstallDockerMods()
+    {
+        if (Globals.IsDocker == false || Node == null)
+            return;
+        _logger.ILog("Client.InstallDockerMods");
+        _installingDockerMods = true;
+        _ = Task.Run(async () =>
         {
+            _logger.ILog("Client.InstallDockerMods executing");
             try
             {
-                if (Disposed)
-                    return;
-                
-                await Task.Delay(delay, _logSyncCts.Token);
-                
-                if (Disposed)
-                    return;
-
-                var node = Connection.Node;
-                if (node == null)
-                {
-                    delay = TimeSpan.FromSeconds(10);
-                    continue;
-                }
-
-                if (node.Uid == CommonVariables.InternalNodeUid)
-                    return; // we dont sync this log
-
-                if (Logger.Instance.TryGetLogger(out FileLogger logger) == false)
-                {
-                    delay = TimeSpan.FromMinutes(5);
-                    continue;
-                }
-
-
-                var file = logger.GetLogFilename();
-                if (File.Exists(file) == false)
-                {
-                    delay = TimeSpan.FromMinutes(5);
-                    continue;
-                }
-
-                var log = await File.ReadAllTextAsync(file);
-                if (string.IsNullOrWhiteSpace(log))
-                {
-                    delay = TimeSpan.FromMinutes(5);
-                    continue;
-                }
-
-                var compressed = Gzipper.CompressToBytes(log);
-
-                if (await Connection.AwaitConnection() == false)
-                {
-                    delay = TimeSpan.FromMinutes(5);
-                    continue;
-                }
-
-                await Connection.InvokeAsync("SyncLog", node.Uid, compressed);
-                delay = TimeSpan.FromMinutes(60);
+                await _configurationService.InstallDockerMods(Node);
+                _logger.ILog("Client.InstallDockerMods done");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Ignore
+                _logger.ILog($"Client.InstallDockerMods error: {ex}");
             }
-        }
+
+            _installingDockerMods = false;
+        });
+
     }
 
     /// <summary>
@@ -481,6 +527,9 @@ public class Client : IDisposable
 
     private async Task<FileCheckResult> HandleClientProcessFile(RunFileArguments args)
     {
+        if (_installingDockerMods)
+            return FileCheckResult.CannotProcess;
+        
         //_logger.ILog("Handling process file request...");
         try
         {

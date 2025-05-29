@@ -18,15 +18,24 @@ public class ScheduledReportWorker:ServerWorker
     {
         Trigger();
     }
-    
+
     /// <inheritdoc />
     protected override void ExecuteActual(Settings settings)
     {
         if (LicenseService.IsLicensed(LicenseFlags.Reporting) == false)
             return; // not licensed
-        
+
+        _ = ExecuteAsync();
+    }
+
+    /// <summary>
+    /// Executes scheduled reports asynchronously.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task ExecuteAsync()
+    {
         var service = ServiceLoader.Load<ScheduledReportService>();
-        var reports = service.GetAll().Result.Where(x => x.Enabled).ToList();
+        var reports = (await service.GetAll()).Where(x => x.Enabled).ToList();
         if (reports.Count == 0)
             return;
             
@@ -112,7 +121,7 @@ public class ScheduledReportWorker:ServerWorker
 
             try
             {
-                var result = manager.Generate(report.Report.Uid, true, model).Result;
+                var result = await manager.Generate(report.Report.Uid, true, model);
                 if (result.Failed(out var rError))
                 {
                     _ = ServiceLoader.Load<INotificationService>()
@@ -137,7 +146,7 @@ public class ScheduledReportWorker:ServerWorker
             }
 
             report.LastSentUtc = DateTime.UtcNow;
-            service.Update(report, null).Wait();
+            await service.Update(report, null);
         }
     }
 }

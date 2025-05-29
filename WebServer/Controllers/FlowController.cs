@@ -505,6 +505,11 @@ public class FlowController : BaseController
         if (string.IsNullOrWhiteSpace(model.Name))
             throw new Exception("ErrorMessages.NameRequired");
 
+        if (model.Type == FlowType.FileDrop)
+        {
+            if(model.Name.StartsWith("FileDrop: ") == false)
+                model.Name = "FileDrop: " + model.Name;
+        }
         
         var service = ServiceLoader.Load<FlowService>();
         model.Name = model.Name.Trim();
@@ -646,6 +651,7 @@ public class FlowController : BaseController
         bool windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
         bool dir = flowParts?.Any(x => x.FlowElementUid.EndsWith("InputDirectory")) == true;
+        variables.Add("FlowName", "My Flow");
 
         if (dir)
         {

@@ -19,5 +19,5 @@ class LicenseValidatorWorker : ServerWorker
 
     /// <inheritdoc />
     protected override void ExecuteActual(Settings settings) 
-        => FileFlows.Services.ServiceLoader.Load<LicenseService>().Update().Wait();
+        => _ = FileFlows.Services.ServiceLoader.Load<LicenseService>().Update();
 }

@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Välj hur länge behandlingen ska pausas.\nObs: De aktuella flödena kommer att fortsätta köras, men inga andra flöden kommer att köras tills tiden är slut.",
+      "AbortFiles": "Avbryt alla filer som bearbetas just nu?",
+      "Message": "Välj hur länge behandlingen ska pausas:",
       "Title": "Pausa behandling"
     },
     "ReprocessDialog": {
@@ -959,7 +960,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Större än*: Matcha om datumet är äldre än den angivna perioden.\n*Mindre än*: Matcha om datumet är nyare än den angivna perioden.\n*Mellan*: Matchar om datumet ligger inom det angivna intervallet.\n*Innan*: Matcha om datumet är före det angivna datumet.\n*Efter*: Matcha om datumet är efter det angivna datumet."
+      "Help": "*Större än*: Matchar om datumet är senare än det angivna datumet.\n*Mindre än*: Matchar om datumet är tidigare än det angivna datumet.\n*Mellan*: Matchar om datumet ligger inom det angivna intervallet.\n*Före*: Matchar om datumet är före det angivna datumet.\n*Efter*: Matchar om datumet är efter det angivna datumet."
     }
   },
   "MenuGroups": {
@@ -1733,6 +1734,9 @@
         "KeepFailedFlowTempFiles-Help": "Att aktivera detta alternativ kommer att behålla de temporära filer som används av ett flöde vid misslyckande, vilket förhindrar att de tas bort automatiskt.\nAnvänd med försiktighet.",
         "Language": "Språk",
         "Language-Help": "Språket som kommer att användas i systemet.\nObs: Dessa översättningar genereras av AI och kan innehålla fel. Rapportera eventuella fel till supportteamet.",
+        "LibraryFileLogFileRetention": "Biblioteksfil-loggretention",
+        "LibraryFileLogFileRetention-Help": "Hur länge biblioteksfilens loggar ska sparas innan de raderas. Om 0 anges raderas loggarna aldrig.",
+        "LibraryFileLogFileRetention-Suffix": "Dagar",
         "LogEveryRequest": "Logga varje begäran",
         "LogEveryRequest-Help": "Om varje begäran till servern ska loggas.",
         "LogFileRetention": "Loggfiler retention",

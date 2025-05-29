@@ -35,7 +35,7 @@ public class StartupService : IStartupService
     /// <summary>
     /// Run the startup commands
     /// </summary>
-    public Result<bool> Run(string serverUrl)
+    public async Task<Result<bool>> Run(string serverUrl)
     {
         UpdateStatus("Starting...");
         try
@@ -46,7 +46,7 @@ public class StartupService : IStartupService
 
             string error;
 
-            CheckLicense();
+            await CheckLicense();
 
             CleanDefaultTempDirectory();
 
@@ -61,7 +61,7 @@ public class StartupService : IStartupService
             
             if (DatabaseExists()) // only upgrade if it does exist
             {
-                if (Upgrade().Failed(out error))
+                if ((await Upgrade()).Failed(out error))
                 {
                     error = "Database Upgrade Error: " + error;
                     UpdateStatus(error);
@@ -75,14 +75,14 @@ public class StartupService : IStartupService
                 return Result<bool>.Fail(error);
             }
 
-            if (PrepareDatabase().Failed(out error))
+            if ((await PrepareDatabase()).Failed(out error))
             {
                 error = "Prepare Database Error: " + error;
                 UpdateStatus(error);
                 return Result<bool>.Fail(error);
             }
 
-            if (SetVersion().Failed(out error))
+            if ((await SetVersion()).Failed(out error))
             {
                 error = "Set Version Error: " + error;
                 UpdateStatus(error);
@@ -96,16 +96,18 @@ public class StartupService : IStartupService
             }
         
             // do this so the settings object is loaded
-            var settings = ServiceLoader.Load<ISettingsService>().Get().Result;
+            var service = (SettingsService)ServiceLoader.Load<ISettingsService>();
+            await service.Initialize();
+            var settings = await service.Get();
             var appSettings = ServiceLoader.Load<AppSettingsService>().Settings;
 
             if (Globals.IsDocker && appSettings.DockerModsOnServer)
-                RunnerDockerMods();
+                await RunnerDockerMods();
 
-            ScanForPlugins();
+            await ScanForPlugins();
 
-            ServiceLoader.Load<LanguageService>().Initialize().Wait();
-            ServiceLoader.Load<FileFlows.Services.LibraryFileService>().ResetProcessingStatus(CommonVariables.InternalNodeUid).Wait();
+            await ServiceLoader.Load<LanguageService>().Initialize();
+            await ServiceLoader.Load<LibraryFileService>().ResetProcessingStatus(CommonVariables.InternalNodeUid);
 
             DataLayerDelegates.Setup();
             
@@ -114,7 +116,7 @@ public class StartupService : IStartupService
             // Start workers right at the end, so the ServerUrl is set in case the worker needs BaseServerUrl
             StartupWorkers();
 
-            StartFileDropServer();
+            await StartFileDropServer();
             
             WebServerApp.FullyStarted = true;
             return true;
@@ -131,7 +133,7 @@ public class StartupService : IStartupService
         }
     }
 
-    private void StartFileDropServer()
+    private async Task StartFileDropServer()
     {
 #if(!DEBUG)
         if (LicenseService.IsLicensed(LicenseFlags.FileDrop) == false)
@@ -139,8 +141,9 @@ public class StartupService : IStartupService
 #endif
         var service = new FileFlows.FileDropApp.FileDropWebService();
         ServiceLoader.AddSpecialCase<IFileDropWebServerService>(service);
-        
-        var settings = ServiceLoader.Load<FileDropSettingsService>().Get();
+        var fdService = ServiceLoader.Load<FileDropSettingsService>();
+        await fdService.Initalize();
+        var settings = fdService.Get();
         if (settings.Enabled)
         {
             Logger.Instance?.ILog("Starting FileDrop App...");
@@ -171,12 +174,12 @@ public class StartupService : IStartupService
     /// <summary>
     /// Scans for plugins
     /// </summary>
-    private void ScanForPlugins()
+    private async Task ScanForPlugins()
     {
         UpdateStatus("Scanning for Plugins");
         var service = ServiceLoader.Load<IPluginScanner>();
         // need to scan for plugins before initing the translater as that depends on the plugins directory
-        service.Scan();
+        await service.Scan();
     }
 
     /// <summary>
@@ -223,17 +226,18 @@ public class StartupService : IStartupService
     /// <summary>
     /// Looks for a DockerMods output file and if found, logs its contents
     /// </summary>
-    private void RunnerDockerMods()
+    private async Task RunnerDockerMods()
     {
         UpdateStatus("Running DockerMods");
-        var mods = ServiceLoader.Load<DockerModService>().GetAll().Result.Where(x => x.Enabled).ToList();
+        var mods = (await ServiceLoader.Load<DockerModService>().GetAll())
+            .Where(x => x.Enabled).ToList();
         foreach (var mod in mods)
         {
             UpdateStatus("Running DockerMods", mod.Name);
-            DockerModHelper.Execute(mod, outputCallback: (output) =>
+            await DockerModHelper.Execute(mod, outputCallback: (output) =>
             {
                 UpdateStatus("Running DockerMods", mod.Name, output);
-            }).Wait();
+            });
         }
 
         // var output = Path.Combine(DirectoryHelper.DockerModsDirectory, "output.log");
@@ -305,10 +309,10 @@ public class StartupService : IStartupService
     /// <summary>
     /// Checks the license key
     /// </summary>
-    void CheckLicense()
+    async Task CheckLicense()
     {
         var service = ServiceLoader.Load<LicenseService>();
-        service.Update().Wait();
+        await service.Update();
     }
     
     /// <summary>
@@ -328,11 +332,11 @@ public class StartupService : IStartupService
     /// Runs an upgrade
     /// </summary>
     /// <returns>the upgrade result</returns>
-    Result<bool> Upgrade()
+    async Task<Result<bool>> Upgrade()
     {
         string error;
         var upgrader = new Upgrade.Upgrader();
-        var upgradeRequired = upgrader.UpgradeRequired(appSettingsService.Settings);
+        var upgradeRequired = await upgrader.UpgradeRequired(appSettingsService.Settings);
         if (upgradeRequired.Failed(out error))
             return Result<bool>.Fail(error);
 
@@ -345,7 +349,7 @@ public class StartupService : IStartupService
                 (details) => { UpdateStatus("Backing up old database...", details); });
 
             UpdateStatus("Upgrading Please Wait...");
-            var upgradeResult = upgrader.Run(upgradeRequired.Value.Current, appSettingsService,
+            var upgradeResult = await upgrader.Run(upgradeRequired.Value.Current, appSettingsService,
                 (details) => { UpdateStatus("Upgrading Please Wait...", details); });
             if (upgradeResult.Failed(out error))
                 return Result<bool>.Fail(error);
@@ -363,7 +367,7 @@ public class StartupService : IStartupService
     /// Prepares the database
     /// </summary>
     /// <returns>the result</returns>
-    Result<bool>PrepareDatabase()
+    async Task<Result<bool>> PrepareDatabase()
     {
         UpdateStatus("Initializing database...");
 
@@ -378,7 +382,7 @@ public class StartupService : IStartupService
                 return Result<bool>.Fail(error);
         }
         
-        if (service.PrepareDatabase().Failed(out error))
+        if ((await service.PrepareDatabase()).Failed(out error))
             return Result<bool>.Fail(error);
 
         return true;
@@ -389,12 +393,12 @@ public class StartupService : IStartupService
     /// Sets the version in the database
     /// </summary>
     /// <returns>true if successful</returns>
-    private Result<bool> SetVersion()
+    private async Task<Result<bool>> SetVersion()
     {
         try
         {
             var service = ServiceLoader.Load<DatabaseService>();
-            service.SetVersion().Wait();
+            await service.SetVersion();
             return true;
         }
         catch (Exception ex)

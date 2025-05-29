@@ -62,6 +62,11 @@ public class ClientConnection : IDisposable
     /// Gets or set sthe abort file handler
     /// </summary>
     public Func<Guid, Task<bool>>? AbortFileHandler { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the abort all handler
+    /// </summary>
+    public Func<Task>? AbortAllHandler { get; set; } 
     /// <summary>
     /// Event raised when the configuration is updated
     /// </summary>
@@ -114,6 +119,12 @@ public class ClientConnection : IDisposable
             if(AbortFileHandler != null)
                 return await AbortFileHandler.Invoke(uid);
             return false;
+        });
+        
+        _connection.On("AbortAll", async () =>
+        {
+            if(AbortAllHandler != null)
+                await AbortAllHandler.Invoke();
         });
 
         _connection.On<ProcessingNode>("NodeUpdated", node => Node = node);
@@ -384,7 +395,7 @@ public class ClientConnection : IDisposable
             delayed = true;
         }
 
-        WLog("Failed to await connection");
+        WLog("Failed to await connection: " + _connection.State);
         return false;
 
     }

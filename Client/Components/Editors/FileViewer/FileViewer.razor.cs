@@ -90,7 +90,7 @@ public partial class FileViewer : ModalEditor
         if (taskLog.Result.Success)
         {
             Log = taskLog.Result.Data;
-            if (Model.Status != FileStatus.Processing)
+            if (Model.Status != FileStatus.Processing && string.IsNullOrWhiteSpace(Log) == false)
             {
                 buttons.Add(new()
                 {

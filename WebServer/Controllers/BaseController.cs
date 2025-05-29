@@ -22,6 +22,7 @@ public abstract class BaseController : Controller
         var user = await HttpContext.GetLoggedInUser();
         if (user == null)
             return null;
+
         return new AuditDetails()
         {
             IPAddress = ip,

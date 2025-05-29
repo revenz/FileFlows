@@ -16,7 +16,7 @@ public class Program
     // internal static CacheStore GeneralCache = new ();
 
     [STAThread] // need for Photino.net on windows
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
 #if(DEBUG)
         FixTranslations(Path.Combine("..", "Client", "wwwroot", "i18n"));
@@ -57,7 +57,7 @@ public class Program
 
         Application app = new Application();
         ServerShared.Services.SharedServiceLoader.Loader = type => ServiceLoader.Provider.GetRequiredService(type);
-        app.Run(args);
+        await app.Run(args);
     }
 
 

@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Seleziona la durata della pausa per l'elaborazione.\nNota: I flussi attuali continueranno ad essere eseguiti, ma nessun altro flow verrà eseguito fino a quando non sarà scaduto questo tempo.",
+      "AbortFiles": "Annullare tutti i file attualmente in elaborazione?",
+      "Message": "Seleziona la durata della pausa per l'elaborazione:",
       "Title": "Metti in Pausa l'Elaborazione"
     },
     "ReprocessDialog": {
@@ -959,7 +960,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Maggiore di*: Corrisponde se la data è più vecchia del periodo dato.\n*Minore di*: Corrisponde se la data è più recente del periodo dato.\n*Tra*: Corrisponde se la data è compresa nell'intervallo specificato.\n*Prima*: Corrisponde se la data è precedente alla data specificata.\n*Dopo*: Corrisponde se la data è successiva alla data specificata."
+      "Help": "*Maggiore di*: Corrisponde se la data è successiva alla data indicata.\n*Minore di*: Corrisponde se la data è precedente alla data indicata.\n*Tra*: Corrisponde se la data è compresa nell'intervallo specificato.\n*Prima di*: Corrisponde se la data è precedente alla data specificata.\n*Dopo*: Corrisponde se la data è successiva alla data specificata."
     }
   },
   "MenuGroups": {
@@ -1733,6 +1734,9 @@
         "KeepFailedFlowTempFiles-Help": "Abilitando questa opzione verranno mantenuti i file temporanei utilizzati da un flow in caso di fallimento, impedendo la loro eliminazione automatica.\nUsa con cautela.",
         "Language": "Lingua",
         "Language-Help": "La lingua che verrà utilizzata nel sistema.\nNota: Queste traduzioni sono generate dall'IA e possono contenere errori. Si prega di segnalare eventuali errori al team di supporto.",
+        "LibraryFileLogFileRetention": "Conservazione dei log dei file della libreria",
+        "LibraryFileLogFileRetention-Help": "Per quanto tempo devono essere conservati i log dei file della libreria prima di essere eliminati. Se viene inserito 0, i log non verranno mai eliminati.",
+        "LibraryFileLogFileRetention-Suffix": "Giorni",
         "LogEveryRequest": "Registra Ogni Richiesta",
         "LogEveryRequest-Help": "Se ogni richiesta al server deve essere registrata.",
         "LogFileRetention": "Conservazione dei File di Registro",

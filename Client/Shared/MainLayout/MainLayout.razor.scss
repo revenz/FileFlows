@@ -17,6 +17,13 @@
     border-bottom: 1px solid var(--border-color);
     align-items: center;
     padding:1rem;
+    @media (max-width: 600px) {
+        padding:0.75rem;
+        text-align: left;
+        img {
+            margin: auto 0.5rem !important;
+        }
+    }
     .title  {
         font-size: 1.5rem;
         .icon {
@@ -33,6 +40,9 @@
     overflow: hidden;    
     &:not(.no-padding) {
         padding: 1rem;
+        @media (max-width: 600px) {
+            padding:0.25rem;
+        }
     }
     &:has( > .skybox) {
         display: grid;
@@ -182,29 +192,28 @@
 
 @media screen and (max-width:849.99px)
 {
+    .page {
+        display: grid;
+        grid-template-rows: 1fr auto;
+    }
     .main {
+        grid-row: 1;
         overflow: hidden;
-        grid-row-start: 1;
-        position: absolute;
-        top:0;
-        bottom: 5.75rem;
-        left:0;
-        right:0;
         display: grid;
         grid-template-rows: 5rem 1fr;
     }
     ::deep {
         .navbar {
-            position:absolute;
-            bottom:0;
-            left:0;
-            right:0;
+            grid-row: 2;
         }
     }
     .main-title-bar {
         img {
             height: 3rem;
             margin:auto;
+            @media (max-width: 600px) {
+                height: 2rem;
+            }
         }
     }
     .content {
@@ -223,22 +232,46 @@
                 position: absolute;
             }
         }
-        ::deep > .configuration-layout {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: calc(100vh - 5.5rem);
-            overflow: hidden;
-            display: unset;
-            .config-content {
-                overflow: hidden;
-                position: absolute;
-                top: 5rem;
-                left: 1rem;
-                right: 1rem;
-                bottom: 1rem;
+    }
+    ::deep > .configuration-layout {
+        .config-content {
+            position: absolute;
+            top: 5rem;
+            left: 1rem;
+            right: 1rem;
+            bottom: 1rem;
+
+            .row {
+                margin:0 !important;
+            }
+            
+        }
+    }
+}
+
+
+@media screen and (max-width:849.999px) {
+    .main.title-bar-hidden {
+        display: flex;
+    }
+    .content {
+        ::deep .flow-widget {
+            .widget-content {        
+                top: 2.5rem;
+                left: 0;
+                right: 0;
+                bottom: 0;
             }
         }
+    }
+}
+@media screen and (min-width:600.001px) and (max-width:849.999px) {
+    .main:not(.title-bar-hidden) {
+        grid-template-rows: 5rem 1fr;
+    }
+}
+@media screen and (max-width:600px) {
+    .main:not(.title-bar-hidden) {
+        grid-template-rows: 3.5rem 1fr;
     }
 }

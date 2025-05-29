@@ -402,6 +402,11 @@ public class LocalFileService(bool dontUseTemporaryFilesForMoveCopy) : IFileServ
             Logger?.ILog("LocalFileService.FileMove: Path: " + path);
             Logger?.ILog("LocalFileService.FileMove: Destination: " + destination);
             Logger?.ILog("LocalFileService.FileMove: Overwrite: " + overwrite);
+            if (path == destination)
+            {
+                Logger?.ILog("Source is destination, nothing to do");
+                return true; // source is dest, nothing to do
+            }
 
             var fileInfo = new FileInfo(path);
             if (fileInfo.Exists == false)
@@ -544,6 +549,12 @@ public class LocalFileService(bool dontUseTemporaryFilesForMoveCopy) : IFileServ
     /// <inheritdoc />
     public Result<bool> FileCopy(string path, string destination, bool overwrite = true)
     {
+        if (path == destination)
+        {
+            Logger?.ILog("Source is destination, nothing to do");
+            return true; // source is dest, nothing to do
+        }
+        
         if (IsProtectedPath(ref path))
             return Result<bool>.Fail("Cannot access protected path: " + path);
         if (IsProtectedPath(ref destination))
@@ -577,12 +588,11 @@ public class LocalFileService(bool dontUseTemporaryFilesForMoveCopy) : IFileServ
 
             if (dontUseTemporaryFilesForMoveCopy)
             {
-                if (DoCopy(fileInfo.FullName, destination, overwrite, move: true) == false)
+                if (DoCopy(fileInfo.FullName, destination, overwrite, move: false) == false)
                     return Result<bool>.Fail("Failed to copy file to final file");
             }
             else
             {
-
                 var tempDest = destination + ".fftemp";
                 if (DoCopy(fileInfo.FullName, tempDest, true) == false)
                     return Result<bool>.Fail("Failed to copy file to temp file");

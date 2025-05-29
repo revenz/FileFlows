@@ -3,6 +3,7 @@ using FileFlows.Client.Components;
 using FileFlows.Client.Components.Dialogs;
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Helpers;
 using FileFlows.Client.Services.Frontend;
 using FileFlows.Client.Shared;
@@ -20,6 +21,12 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
     /// Gets or sets the navigation manager
     /// </summary>
     [Inject] public NavigationManager NavigationManager { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+
     
     /// <summary>
     /// Gets or sets the message service
@@ -347,12 +354,14 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
             guid = sGuid;
         else
             return;
-        
-        bool changed = await RevisionExplorer.Instance.Show(guid, "Revisions");
-        if (changed)
-            await Load(selected.Uid);
+
+        await ModalService.ShowModal<RevisionExplorer>(new ModalEditorOptions()
+        {
+            Uid = guid
+        });
+        // await Load(selected.Uid);
     }
-    
+
     /// <summary>
     /// Shows the audit log
     /// </summary>
@@ -364,8 +373,12 @@ public abstract class ListPage<U, T> : ComponentBase where T : IUniqueObject<U>
         var selected = Table.GetSelected().FirstOrDefault();
         if (selected == null)
             return;
-        if(selected.Uid is Guid uid)
-            await AuditHistory.Instance.Show(uid, GetAuditTypeName());
+        if (selected.Uid is Guid uid)
+            await ModalService.ShowModal<AuditHistory>(new AuditHistoryOptions()
+            {
+                Uid = uid,
+                Type = GetAuditTypeName()
+            });
     }
 
     /// <summary>

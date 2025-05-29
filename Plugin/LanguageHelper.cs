@@ -685,7 +685,7 @@ public class LanguageHelper
             bool anyMatches = iso1Matches || iso2Matches || engMatches;
             if (anyMatches == false)
             {
-                args.Logger.ILog("Language does not match: " + value);
+                args.Logger.ILog($"Language does not match: '{value}' vs '{comparison}'");
                 return false;
             }
 

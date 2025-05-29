@@ -145,6 +145,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>
         try
         {
             await HttpHelper.Post(ApiUrl + "/unhold", new ReferenceModel<Guid> { Uids = uids });
+            await Task.Delay(500);
         }
         finally
         {

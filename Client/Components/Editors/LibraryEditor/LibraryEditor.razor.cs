@@ -34,6 +34,7 @@ public partial class LibraryEditor : ModalEditor
         lblDetectionDescription = Translater.Instant("Pages.Library.Fields.DetectionDescription");
         
         FlowOptions = feService.Flow.Flows
+            .OrderBy(x => x.Name.ToLowerInvariant())
             .Select(x => new ListOption
             {
                 Value = new ObjectReference { Name = x.Name, Uid = x.Uid, 

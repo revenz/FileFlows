@@ -73,4 +73,14 @@
   overflow: hidden;
 }
 
+@media (max-width: 500px) {
+  .dashboard-page .btn-option:not(.active) i {
+    margin-right: 0 !important;
+    width: fit-content;
+  }
+  .dashboard-page .btn-option:not(.active) .label {
+    display: none;
+  }
+}
+
 /*# sourceMappingURL=dashboard.css.map */

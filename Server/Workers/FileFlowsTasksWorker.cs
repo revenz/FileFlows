@@ -51,9 +51,9 @@ public class FileFlowsTasksWorker: ServerWorker, ITaskService
     /// Gets the variables in a dictionary
     /// </summary>
     /// <returns>a dictionary of variables</returns>
-    public static Dictionary<string, object> GetVariables()
+    public static async Task<Dictionary<string, object>> GetVariables()
     {
-        var list = ServiceLoader.Load<VariableService>().GetAllAsync().Result ?? new ();
+        var list = await ServiceLoader.Load<VariableService>().GetAllAsync() ?? new ();
         var dict = new Dictionary<string, object>();
         foreach (var var in list)
         {
@@ -61,7 +61,7 @@ public class FileFlowsTasksWorker: ServerWorker, ITaskService
         }
         
         dict.TryAdd("FileFlows.Url", Globals.ServerUrl);
-        dict["FileFlows.AccessToken"] = ServiceLoader.Load<ISettingsService>().Get()?.Result?.AccessToken;
+        dict["FileFlows.AccessToken"] = (await ServiceLoader.Load<ISettingsService>().Get())?.AccessToken;
         return dict;
     }
 
@@ -72,9 +72,13 @@ public class FileFlowsTasksWorker: ServerWorker, ITaskService
     {
         if (LicenseService.IsLicensed(LicenseFlags.Tasks) == false)
             return;
-        
+        _ = ExecuteAsync();
+    }
+    
+    private async Task ExecuteAsync()
+    {
         int quarter = TimeHelper.GetCurrentQuarter();
-        var tasks = ServiceLoader.Load<TaskService>().GetAllAsync().Result;
+        var tasks = await ServiceLoader.Load<TaskService>().GetAllAsync();
         // 0, 1, 2, 3, 4
         foreach (var task in tasks)
         {
@@ -124,7 +128,7 @@ public class FileFlowsTasksWorker: ServerWorker, ITaskService
         Logger.ILog("Executing task: " + task.Name);
         DateTime dtStart = DateTime.UtcNow;
 
-        var variables = GetVariables();
+        var variables = await GetVariables();
         if (additionalVariables?.Any() == true)
         {
             foreach (var variable in additionalVariables)
@@ -170,11 +174,13 @@ public class FileFlowsTasksWorker: ServerWorker, ITaskService
     /// </summary>
     /// <param name="type">the type of task</param>
     /// <param name="variables">the variables to pass into the task</param>
-    private void TriggerTaskType(TaskType type, Dictionary<string, object> variables)
+    private async Task TriggerTaskType(TaskType type, Dictionary<string, object> variables)
     {
         if (LicenseService.IsLicensed(LicenseFlags.Tasks) == false)
             return;
-        var tasks = ServiceLoader.Load<TaskService>().GetAllAsync().Result.Where(x => x.Type == type && x.Enabled).ToArray();
+        var tasks = (await ServiceLoader.Load<TaskService>().GetAllAsync())
+            .Where(x => x.Type == type && x.Enabled)
+            .ToArray();
         foreach (var task in tasks)
         {
             _ = RunTask(task, variables);
@@ -185,7 +191,7 @@ public class FileFlowsTasksWorker: ServerWorker, ITaskService
     {
         if (LicenseService.IsLicensed(LicenseFlags.Tasks) == false)
             return;
-        TriggerTaskType(type, new Dictionary<string, object>
+        _ = TriggerTaskType(type, new Dictionary<string, object>
         {
             { nameof(args.Version), args.Version },
             { nameof(args.CurrentVersion), args.CurrentVersion },
@@ -194,6 +200,7 @@ public class FileFlowsTasksWorker: ServerWorker, ITaskService
 
     private void SystemEventsOnOnServerUpdateAvailable(UpdateEventArgs args)
         => UpdateEventTriggered(TaskType.FileFlowsServerUpdateAvailable, args);
+    
     private void SystemEventsOnOnServerUpdating(UpdateEventArgs args)
         => UpdateEventTriggered(TaskType.FileFlowsServerUpdating, args);
 
@@ -201,7 +208,7 @@ public class FileFlowsTasksWorker: ServerWorker, ITaskService
     {
         if (LicenseService.IsLicensed(LicenseFlags.Tasks) == false)
             return;
-        TriggerTaskType(type, new Dictionary<string, object>
+        _ = TriggerTaskType(type, new Dictionary<string, object>
         {
             { "FileName", args.File.Name },
             { "LibraryFile", args.File },

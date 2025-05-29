@@ -228,145 +228,141 @@ public class ProcessHelper : IProcessHelper
         var result = new ProcessResult();
         this.Args = args;
 
-        using (var process = new Process())
+        using var process = new Process();
+        this.process = process;
+
+        process.StartInfo.FileName = args.Command;
+        if (args.ArgumentList?.Any() == true)
         {
-            this.process = process;
-
-            process.StartInfo.FileName = args.Command;
-            if (args.ArgumentList?.Any() == true)
+            args.Arguments = string.Empty;
+            foreach (var arg in args.ArgumentList)
             {
-                args.Arguments = string.Empty;
-                foreach (var arg in args.ArgumentList)
-                {
-                    process.StartInfo.ArgumentList.Add(arg);
-                    args.Arguments += arg.Contains(' ') ? $"\"{arg}\" " : $"{arg} ";
-                }
-                args.Arguments = args.Arguments.Trim();
-            }
-            else if (!string.IsNullOrEmpty(args.Arguments))
-            {
-                process.StartInfo.Arguments = args.Arguments;
+                process.StartInfo.ArgumentList.Add(arg);
+                args.Arguments += arg.Contains(' ') ? $"\"{arg}\" " : $"{arg} ";
             }
 
+            args.Arguments = args.Arguments.Trim();
+        }
+        else if (!string.IsNullOrEmpty(args.Arguments))
+        {
+            process.StartInfo.Arguments = args.Arguments;
+        }
+
+        if (!string.IsNullOrEmpty(args.WorkingDirectory))
+            process.StartInfo.WorkingDirectory = args.WorkingDirectory;
+
+        process.StartInfo.UseShellExecute = false;
+        process.StartInfo.RedirectStandardInput = true;
+        process.StartInfo.RedirectStandardOutput = true;
+        process.StartInfo.RedirectStandardError = true;
+        process.StartInfo.CreateNoWindow = true;
+        process.EnableRaisingEvents = true;
+
+        if (!args.Silent)
+        {
+            Logger?.ILog(new string('-', 70));
+            Logger?.ILog($"Executing: {args.Command} {args.Arguments}");
             if (!string.IsNullOrEmpty(args.WorkingDirectory))
-                process.StartInfo.WorkingDirectory = args.WorkingDirectory;
-            
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardInput = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.CreateNoWindow = true;
-            process.EnableRaisingEvents = true;
+                Logger?.ILog($"Working Directory: {args.WorkingDirectory}");
+            Logger?.ILog(new string('-', 70));
+        }
 
-            if (!args.Silent)
+        var tcs = new TaskCompletionSource<int>();
+
+        process.Exited += (s, e) => { tcs.TrySetResult(process.ExitCode); };
+
+        outputBuilder = new();
+        standardOutputBuilder = new();
+        errorBuilder = new();
+
+        process.OutputDataReceived += OnOutputDataReceived;
+        process.ErrorDataReceived += OnErrorDataReceived;
+
+        bool isStarted;
+        try
+        {
+            isStarted = process.Start();
+        }
+        catch (Exception error)
+        {
+            result.Completed = true;
+            result.ExitCode = -1;
+            result.Output = error.Message;
+            this.process = null;
+            return result;
+        }
+
+        if (isStarted == false)
+        {
+            this.process = null;
+            return result;
+        }
+
+
+        process.BeginOutputReadLine();
+        process.BeginErrorReadLine();
+
+        CancellationTokenSource? timeoutCts = null;
+        CancellationTokenSource linkedCts;
+
+        if (args.Timeout > 0)
+        {
+            timeoutCts = new CancellationTokenSource(args.Timeout * 1000);
+            linkedCts = CancellationTokenSource.CreateLinkedTokenSource(_cancellationToken, timeoutCts.Token);
+        }
+        else
+        {
+            linkedCts = CancellationTokenSource.CreateLinkedTokenSource(_cancellationToken);
+        }
+
+
+        try
+        {
+            var cancellationTask = Task.Delay(Timeout.Infinite, linkedCts.Token);
+
+            var completedTask = await Task.WhenAny(tcs.Task, cancellationTask);
+            if (completedTask == tcs.Task)
             {
-                Logger?.ILog(new string('-', 70));
-                Logger?.ILog($"Executing: {args.Command} {args.Arguments}");
-                if (!string.IsNullOrEmpty(args.WorkingDirectory))
-                    Logger?.ILog($"Working Directory: {args.WorkingDirectory}");
-                Logger?.ILog(new string('-', 70));
-            }
+                // ⬇️ Ensure all output has finished being read
+                await process.WaitForExitAsync();
+                process.CancelOutputRead();
+                process.CancelErrorRead();
 
-            var tcs = new TaskCompletionSource<int>();
-
-            process.Exited += (s, e) =>
-            {
-                tcs.TrySetResult(process.ExitCode);
-            };
-
-            outputBuilder = new();
-            standardOutputBuilder = new ();
-            errorBuilder = new ();
-            
-            process.OutputDataReceived += OnOutputDataReceived;
-            process.ErrorDataReceived += OnErrorDataReceived;
-
-            bool isStarted;
-            try
-            {
-                isStarted = process.Start();
-            }
-            catch (Exception error)
-            {
                 result.Completed = true;
-                result.ExitCode = -1;
-                result.Output = error.Message;
-                this.process = null;
-                return result;
-            }
-
-            if (isStarted == false)
-            {
-                this.process = null;
-                return result;
-            }
-
-
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            
-            CancellationTokenSource? timeoutCts = null;
-            CancellationTokenSource linkedCts;
-            
-            if (args.Timeout > 0)
-            {
-                timeoutCts = new CancellationTokenSource(args.Timeout * 1000);
-                linkedCts = CancellationTokenSource.CreateLinkedTokenSource(_cancellationToken, timeoutCts.Token);
+                result.ExitCode = process.ExitCode;
+                result.StandardError = errorBuilder.ToString();
+                result.StandardOutput = standardOutputBuilder.ToString();
+                result.Output = outputBuilder.ToString();
+                if (string.IsNullOrEmpty(result.Output))
+                    result.Output = result.StandardError;
             }
             else
             {
-                linkedCts = CancellationTokenSource.CreateLinkedTokenSource(_cancellationToken);
-            }
-
-
-            try
-            {
-                var cancellationTask = Task.Delay(Timeout.Infinite, linkedCts.Token);
-
-                var completedTask = await Task.WhenAny(tcs.Task, cancellationTask);
-                if (completedTask == tcs.Task)
+                result.Completed = false;
+                try
                 {
-                    // ⬇️ Ensure all output has finished being read
-                    await process.WaitForExitAsync();
-                    process.CancelOutputRead();
-                    process.CancelErrorRead();
-
-                    result.Completed = true;
-                    result.ExitCode = process.ExitCode;
-                    result.StandardError = errorBuilder.ToString();
-                    result.StandardOutput = standardOutputBuilder.ToString();
-                    result.Output = outputBuilder.ToString();
-                    if (string.IsNullOrEmpty(result.Output))
-                        result.Output = result.StandardError;
+                    if (!process.HasExited)
+                    {
+                        process.Kill(entireProcessTree: true); // Kill the process and any children
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    result.Completed = false;
-                    try
-                    {
-                        if (!process.HasExited)
-                        {
-                            process.Kill(entireProcessTree: true); // Kill the process and any children
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.WLog("Error killing process: " + ex.Message);
-                    }
-
-                    result.StandardError = errorBuilder.ToString();
-                    result.StandardOutput = standardOutputBuilder.ToString();
-                    result.Output = result.StandardOutput?.EmptyAsNull() ?? result.StandardError;
+                    Logger.WLog("Error killing process: " + ex.Message);
                 }
-            }
-            finally
-            {
-                timeoutCts?.Dispose();
-                linkedCts?.Dispose();
-            }
 
+                result.StandardError = errorBuilder.ToString();
+                result.StandardOutput = standardOutputBuilder.ToString();
+                result.Output = result.StandardOutput?.EmptyAsNull() ?? result.StandardError;
+            }
         }
-        process = null;
+        finally
+        {
+            timeoutCts?.Dispose();
+            linkedCts?.Dispose();
+        }
+
+        this.process = null;
         return result;
     }
 

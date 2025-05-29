@@ -13,12 +13,19 @@ public class StatisticSyncer : Worker
     /// </summary>
     public StatisticSyncer() : base(ScheduleType.Daily, 4)
     {
-        Trigger();
+        _ = SyncStorageSaved();
     }
     
     /// <inheritdoc />
     protected override void Execute()
     {
-        _ = ServiceLoader.Load<StatisticService>().SyncStorageSaved();
+        _ = SyncStorageSaved();
+        _ = RefreshDashboard();
     }
+    
+    private async Task SyncStorageSaved()
+        => await ServiceLoader.Load<StatisticService>().SyncStorageSaved();
+    
+    private async Task RefreshDashboard()
+        => await ServiceLoader.Load<DashboardFileOverviewService>().RefreshAsync();
 }

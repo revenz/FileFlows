@@ -19,7 +19,7 @@ public partial class ModalEditorWrapper : ComponentBase
     /// </summary>
     [Inject]
     protected NavigationManager NavigationManager { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the modal editor
     /// </summary>
@@ -156,4 +156,17 @@ public partial class ModalEditorWrapper : ComponentBase
             return;
         await Modal.Save();
     }
+
+    /// <summary>
+    /// Displays the blocker with an optional message.
+    /// </summary>
+    /// <param name="message">The message to display on the blocker. If null, no message will be shown.</param>
+    public void ShowBlocker(string? message = null)
+        => Container?.ShowBlocker(message);
+
+    /// <summary>
+    /// Hides the blocker overlay if it is currently visible
+    /// </summary>
+    public void HideBlocker()
+        => Container?.HideBlocker();
 }

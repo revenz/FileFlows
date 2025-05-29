@@ -27,10 +27,15 @@ public class PluginUpdaterWorker : ServerWorker
         if (settings?.AutoUpdatePlugins != true)
             return;
 
+        _ = ExecuteAsync();
+    }
+
+    private async Task ExecuteAsync()
+    {
         Logger.Instance?.ILog("Plugin Updater started");
         var service = ServiceLoader.Load<PluginService>();
-        var plugins = service.GetAllAsync().Result;
-        var latestPackagesResult = ServiceLoader.Load<PluginService>().GetPluginPackagesActual().Result;
+        var plugins = await service.GetAllAsync();
+        var latestPackagesResult = await ServiceLoader.Load<PluginService>().GetPluginPackagesActual();
         var latestPackages = latestPackagesResult.IsFailed ? new () 
             : latestPackagesResult.Value;
 
@@ -50,16 +55,16 @@ public class PluginUpdaterWorker : ServerWorker
                     continue;
                 }
 
-                var dlResult = pluginDownloader.Download(Version.Parse(package.Version), 
+                var dlResult = await pluginDownloader.Download(Version.Parse(package.Version), 
                     package.Package, PluginService.GetXCode()
-                    ).Result;
+                    );
 
                 if (dlResult.Success == false)
                 {
                     Logger.Instance.WLog($"Failed to download package '{plugin.PackageName}' update");
                     continue;
                 }
-                pluginScanner.UpdatePlugin(package.Package, dlResult.Data);
+                await pluginScanner.UpdatePlugin(package.Package, dlResult.Data);
             }
             catch(Exception ex)
             {

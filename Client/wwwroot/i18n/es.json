@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Selecciona la cantidad de tiempo para pausar el procesamiento.\nNota: Los flows actuales continuarán ejecutándose, pero no se ejecutarán otros flows hasta que se cumpla este tiempo.",
+      "AbortFiles": "¿Abortar todos los archivos que se están procesando actualmente?",
+      "Message": "Selecciona la cantidad de tiempo para pausar el procesamiento:",
       "Title": "Pausar Procesamiento"
     },
     "ReprocessDialog": {
@@ -959,7 +960,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Mayor Que*: Coincide si la fecha es más antigua que el período dado.\n*Menor Que*: Coincide si la fecha es más reciente que el período dado.\n*Entre*: Coincide si la fecha está dentro del rango especificado.\n*Antes*: Coincide si la fecha es anterior a la fecha especificada.\n*Después*: Coincide si la fecha es posterior a la fecha especificada."
+      "Help": "*Mayor que*: Coincide si la fecha es posterior a la fecha dada.\n*Menor que*: Coincide si la fecha es anterior a la fecha dada.\n*Entre*: Coincide si la fecha está dentro del rango especificado.\n*Antes de*: Coincide si la fecha es anterior a la fecha dada.\n*Después de*: Coincide si la fecha es posterior a la fecha dada."
     }
   },
   "MenuGroups": {
@@ -1733,6 +1734,9 @@
         "KeepFailedFlowTempFiles-Help": "Activar esta opción conservará los archivos temporales utilizados por un flow en caso de fallo, evitando que se eliminen automáticamente.\nÚselo con precaución.",
         "Language": "Idioma",
         "Language-Help": "El idioma que se utilizará en el sistema.\nNota: Estas traducciones son generadas por IA y pueden contener errores. Por favor, reporte cualquier error al equipo de soporte.",
+        "LibraryFileLogFileRetention": "Retención de registros de archivos de biblioteca",
+        "LibraryFileLogFileRetention-Help": "Cuánto tiempo deben conservarse los registros de archivos de biblioteca antes de ser eliminados. Si se ingresa 0, los registros nunca se eliminarán.",
+        "LibraryFileLogFileRetention-Suffix": "Días",
         "LogEveryRequest": "Registrar cada solicitud",
         "LogEveryRequest-Help": "Si se debe registrar cada solicitud al servidor.",
         "LogFileRetention": "Retención de archivos de registro",

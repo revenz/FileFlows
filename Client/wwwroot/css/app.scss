@@ -19,6 +19,7 @@
 @use 'dashboard';
 @use 'skybox';
 
+
 $mobile_width: 850px;
 
 @font-face {
@@ -29,6 +30,7 @@ $mobile_width: 850px;
 html {
     overflow: hidden;
 }
+
 
 body {
     --bold:600;

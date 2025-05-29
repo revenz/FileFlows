@@ -229,5 +229,10 @@
     text-align: right;
   }
 }
+@media (max-width: 600px) {
+  .popup-panel-button {
+    top: 0.75rem !important;
+  }
+}
 
 /*# sourceMappingURL=PopupPanel.razor.css.map */

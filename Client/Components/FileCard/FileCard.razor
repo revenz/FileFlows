@@ -6,7 +6,7 @@
     var runner = Model as ProcessingLibraryFile;
 }
 
-<div @key="Model.Uid" class="file-table-row file-card fm-@Model.Status.ToString().Kebaberize() @(InTable ? "in-table" : "")
+<div @key="Model.Uid" class="file-table-row file-card fm-@((runner != null ? FileStatus.Processing : Model.Status).ToString().Kebaberize()) @(InTable ? "in-table" : "")
                 @(Model.FailureReason != null ? "has-message" : "no-message")>"
      @ondblclick="OpenFile">
     @if (runner != null)
@@ -30,6 +30,7 @@
             </div>
         }
 
+        
         <img @key="Model.Uid" class="@GetIconClass()" src="@GetIconSource()" />
     </span>
 

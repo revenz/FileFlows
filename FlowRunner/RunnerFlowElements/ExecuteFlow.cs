@@ -67,6 +67,8 @@ public class ExecuteFlow : Node
         LoadFlowVariables(args, Flow.Properties?.Variables);
 
         int COMPLETED_OUTPUT = RunnerCodes.Completed;
+        
+        args.Variables["FlowName"] = Flow.Name;
 
         if (Flow.Type == FlowType.Failure)
         {
@@ -184,9 +186,15 @@ public class ExecuteFlow : Node
                     args.FailureReason = null;
                 }
 
+                int output;
                 if (currentFlowElement.PreExecute(args) == false)
-                    throw new Exception("PreExecute failed");
-                int output = currentFlowElement.Execute(args);
+                {
+                    output = args.Fail($"'{currentFlowElement.Name}' PreExecute failed");
+                }
+                else
+                {
+                    output = currentFlowElement.Execute(args);
+                }
                 if (output is RunnerCodes.TerminalExit or RunnerCodes.RunCanceled)
                     return output; // just finish this, the flow element that caused the terminal exit already was recorded
                 

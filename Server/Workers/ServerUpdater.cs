@@ -24,15 +24,7 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
         Instance = this;
         ServiceLoader.AddSpecialCase<IOnlineUpdateService>(this);
     }
-
-    /// <inheritdoc />
-    protected override void Execute()
-    {
-        var settings = ServiceLoader.Load<ISettingsService>().Get().Result;
-        if (settings.EulaAccepted == false)
-            return; // cannot execute if EULA not accepted
-        base.Execute();
-    }
+    
 
     /// <inheritdoc />
     protected override void BroadcastUprading(bool pending)
@@ -48,7 +40,14 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
     /// Pre-check to run before executing
     /// </summary>
     /// <returns>if false, no update will be checked for</returns>
-    protected override bool PreCheck() => LicenseService.IsLicensed(LicenseFlags.AutoUpdates);
+    protected override async Task<bool> PreCheck()
+    {
+        var settings = await ServiceLoader.Load<ISettingsService>().Get();
+        if (settings.EulaAccepted == false)
+            return false; // cannot execute if EULA not accepted
+        
+        return LicenseService.IsLicensed(LicenseFlags.AutoUpdates);
+    }
 
     /// <inheritdoc />
     protected override void PreUpgradeArgumentsAdd(ProcessStartInfo startInfo)
@@ -107,9 +106,9 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
     /// Gets if auto updates are enabled
     /// </summary>
     /// <returns>if auto updates are enabled</returns>
-    protected override bool GetAutoUpdatesEnabled()
+    protected override async Task<bool> GetAutoUpdatesEnabled()
     {
-        var settings = ServiceLoader.Load<ISettingsService>().Get().Result;
+        var settings = await ServiceLoader.Load<ISettingsService>().Get();
         return settings?.AutoUpdate == true;
     }
 
@@ -152,9 +151,9 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
     /// Gets if an update is available
     /// </summary>
     /// <returns>true if an update is available</returns>
-    protected override bool GetUpdateAvailable()
+    protected override async Task<bool> GetUpdateAvailable()
     {
-        var result = GetLatestOnlineVersion();
+        var result = await GetLatestOnlineVersion();
         if (result.updateAvailable)
         {
             if (NotifiedUpdateVersion != result.onlineVersion)
@@ -171,9 +170,9 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
     /// Downloads the binary update
     /// </summary>
     /// <returns>the location of the saved binary file</returns>
-    protected override string DownloadUpdateBinary()
+    protected override async Task<string> DownloadUpdateBinary()
     {
-        var result = GetLatestOnlineVersion();
+        var result = await GetLatestOnlineVersion();
         if (result.updateAvailable == false)
             return string.Empty;
         
@@ -197,7 +196,7 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
         
         
         string url = $"{UpdateUrl}/download/{onlineVersion}?ts={DateTime.UtcNow.Ticks}";
-        HttpHelper.DownloadFile(url, file).Wait();
+        await HttpHelper.DownloadFile(url, file);
         if (File.Exists(file) == false)
         {
             Logger.WLog($"{UpdaterName}: Download failed");
@@ -214,7 +213,7 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
     /// Gets the latest version available online
     /// </summary>
     /// <returns>The latest version available online</returns>
-    public (bool updateAvailable, Version onlineVersion) GetLatestOnlineVersion()
+    public async Task<(bool updateAvailable, Version onlineVersion)> GetLatestOnlineVersion()
     {
         try
         {
@@ -227,7 +226,7 @@ public class ServerUpdater : UpdaterWorker, IOnlineUpdateService
                 url += "linux";
             else if (OperatingSystem.IsMacOS())
                 url += "macos";
-            var result = HttpHelper.Get<string>(url, noLog: true).Result;
+            var result = await HttpHelper.Get<string>(url, noLog: true);
             if (result.Success == false)
             {
                 Logger.ILog($"{nameof(ServerUpdater)}: Failed to retrieve online version");

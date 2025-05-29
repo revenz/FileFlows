@@ -1,0 +1,30 @@
+@namespace FileFlows.Client.Components.Editors
+
+@inherits ModalEditor
+
+<ModalEditorWrapper @ref="Wrapper" Modal="@this">
+    <FlowTable @ref=Table TItem="RevisionedObject" Selection="SelectionMode.Single" Data=@Revisions TableIdentifier="RevisionExplorer">
+        <ToolBar>
+            <FlowTableButton Clicked=Restore SelectedOne="true" Icon="fas fa-check" Label="Labels.Restore" />
+        </ToolBar>
+
+        <Columns>
+            <FlowTableColumn TItem="RevisionedObject" Width="14rem">
+                <Header>
+                    Date
+                </Header>
+                <Cell Context="item">
+                    <span>@item.RevisionDate.ToString("h:mm:ss tt, d MMMM yyyy")</span>
+                </Cell>
+            </FlowTableColumn>
+            <FlowTableColumn TItem="RevisionedObject">
+                <Header>
+                    Name
+                </Header>
+                <Cell Context="item">
+                    <span>@item.RevisionName</span>
+                </Cell>
+            </FlowTableColumn>
+        </Columns>
+    </FlowTable>
+</ModalEditorWrapper>

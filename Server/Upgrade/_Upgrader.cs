@@ -26,17 +26,18 @@ public class Upgrader
     /// </summary>
     /// <param name="settings">the application settings</param>
     /// <returns>true if an upgrade is required, otherwise false</returns>
-    internal Result<(bool Required, Version Current)> UpgradeRequired(AppSettings settings)
+    internal async Task<Result<(bool Required, Version Current)>> UpgradeRequired(AppSettings settings)
     {
         var manager = GetUpgradeManager(settings);
         
-        var versionResult = manager.GetCurrentVersion().Result;
+        var versionResult = await manager.GetCurrentVersion();
         if (versionResult.Failed(out string error))
             return Result<(bool Required, Version Current)>.Fail(error);
         if (versionResult.Value == null)
             return (false, new Version()); // database has not been initialized
 
         var version = versionResult.Value;
+        Logger.Instance.ILog("Current Version: " + Globals.Version);
         Logger.Instance.ILog("Current Database Version: " + version);
         Logger.Instance.ILog("Expected Database Version: " + LATEST_DB_VERSION);
         return (version < LATEST_DB_VERSION, version);
@@ -106,7 +107,7 @@ public class Upgrader
     /// <param name="currentVersion">the current version in the database</param>
     /// <param name="appSettingsService">the application settings service</param>
     /// <param name="statusCallback">Callback to update the status</param>
-    internal Result<bool> Run(Version currentVersion, AppSettingsService appSettingsService, Action<string> statusCallback)
+    internal async Task<Result<bool>> Run(Version currentVersion, AppSettingsService appSettingsService, Action<string> statusCallback)
     {
         Logger.Instance.ILog("Current version: " + currentVersion);
         // check if current version is even set, and only then do we run the upgrades
@@ -228,7 +229,7 @@ public class Upgrader
         
         // save the settings
         Logger.Instance.ILog("Saving version to database");
-        var result = manager.SaveCurrentVersion().Result;
+        var result = await manager.SaveCurrentVersion();
         if (result.IsFailed)
             return result;
 

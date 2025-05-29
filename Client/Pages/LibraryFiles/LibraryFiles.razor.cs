@@ -227,28 +227,28 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
 
     private void DataUpdated(List<ProcessingLibraryFile> obj)
     {
-        if (PageIndex > 0)
+        if (PageIndex > 0 || HasFilter())
             return;
         LoadServiceData();
     }
 
     private void DataUpdatedWithTotal(List<LibraryFileMinimal> obj, int total)
     {
-        if (PageIndex > 0)
+        if (PageIndex > 0 || HasFilter())
             return;
         LoadServiceData();
     }
     
     private void DataUpdated2(FileHandler.ListAndCount<LibraryFileMinimal> obj)
     {
-        if (PageIndex > 0)
+        if (PageIndex > 0 || HasFilter())
             return;
         LoadServiceData();
     }
 
     private void DataUpdated(List<LibraryFileMinimal> obj)
     {
-        if (PageIndex > 0)
+        if (PageIndex > 0 || HasFilter())
             return;
         LoadServiceData();
     }
@@ -287,20 +287,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
             SelectedStatus == FileStatus.Processed ? feService.Files.ProcessedTotal :
             this.Data.Count;
             
-        // if (Table != null)
-        // {
-        //     SetTableData(this.Data);
-        //     var item = this.Data.FirstOrDefault(x => x.Uid.Equals(selectedUid));
-        //     if (item != null)
-        //     {
-        //         _ = Task.Run(async () =>
-        //         {
-        //             // need a delay here since setdata and the inner works of FlowTable will clear this without it
-        //             await Task.Delay(50);
-        //             Table.SelectItem(item);
-        //         });
-        //     }
-        // }
 
         HasData = this.Data?.Any() == true;
         this.Loaded = true;
@@ -349,28 +335,13 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         else
             Table.SetData(data, filter: this.filter); 
     }
-    
+
+    /// <summary>
+    /// Navigates to the library files search page.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation of navigating to the search page.</returns>
     Task Search() => NavigationService.NavigateTo("/library-files/search");
     
-    /// <summary>
-    /// Gets the icon to show for the node
-    /// </summary>
-    /// <param name="node">the node</param>
-    /// <returns>the node icon</returns>
-    private string GetNodeIcon(string node)
-    {
-        if(Nodes.TryGetValue(node.ToLowerInvariant(), out var n) == false)
-            return "fas fa-desktop";
-        if (n.OperatingSystem == OperatingSystemType.Docker)
-            return "fab fa-docker";
-        if (n.OperatingSystem == OperatingSystemType.Windows)
-            return "fab fa-windows";
-        if (n.OperatingSystem == OperatingSystemType.Mac)
-            return "fab fa-apple";
-        if (n.OperatingSystem == OperatingSystemType.Linux)
-            return "fab fa-linux";
-        return "fas fa-desktop";
-    }
 
     /// <summary>
     /// Disposes of the component

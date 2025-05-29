@@ -11,4 +11,6 @@
     <InputNumber @bind-Value="@Model.LogFileRetention" Label="Pages.Settings.Fields.LogFileRetention" Min=1 Max=100 />
 }
 
+<InputNumber @bind-Value="@Model.LibraryFileLogFileRetention" Label="Pages.Settings.Fields.LibraryFileLogFileRetention" Min=0 Max=10000 />
+
 <FlowFormPageButtons IsSaving="@IsSaving" OnSave="@Save" HelpUrl="@HelpUrl" />

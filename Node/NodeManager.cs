@@ -68,7 +68,7 @@ public class NodeManager
     /// </summary>
     public void Start()
     {
-        StartWorkers();
+        _ = StartWorkers();
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public class NodeManager
     /// <summary>
     /// Starts the node workers
     /// </summary>
-    private void StartWorkers()
+    private async Task StartWorkers()
     {
         Shared.Logger.Instance?.ILog("Starting workers");
 
@@ -90,7 +90,7 @@ public class NodeManager
         
         var updater = new NodeUpdater();
         
-        if (updater.RunCheck())
+        if (await updater.RunCheck())
             return;
 
         

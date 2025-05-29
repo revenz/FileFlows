@@ -20,7 +20,7 @@ public class InfoController : Controller
     [HttpGet("shrinkage-groups")]
     public List<StorageSavedData> GetShrinkageGroups()
     {
-        var groups = new StatisticService().GetStorageSaved();
+        var groups = ServiceLoader.Load<StatisticService>().GetStorageSaved();
         return groups;
     }
     

@@ -17,14 +17,17 @@ public abstract class ServerWorker (Worker.ScheduleType schedule, int interval, 
     /// <inheritdoc />
     protected override void Execute()
     {
-        var settings = ServiceLoader.Load<ISettingsService>().Get().Result;
-        if (settings.EulaAccepted == false)
+        Task.Run(async () =>
         {
-            Logger.Instance.ILog("EULA Not accepted cannot execute worker: " + GetType().Name);
-            return; // cannot proceed unless they have accepted the EULA
-        }
+            var settings = await ServiceLoader.Load<ISettingsService>().Get();
+            if (settings.EulaAccepted == false)
+            {
+                Logger.Instance.ILog("EULA Not accepted cannot execute worker: " + GetType().Name);
+                return; // cannot proceed unless they have accepted the EULA
+            }
 
-        ExecuteActual(settings);
+            ExecuteActual(settings);
+        });
     }
 
     /// <summary>

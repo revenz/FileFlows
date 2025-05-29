@@ -28,6 +28,7 @@ public partial class MainLayout : LayoutComponentBase
     
     private string _Title, _Icon, _PageClass;
     private bool _NoPadding;
+    private bool _TitleBarHidden;
     
     /// <summary>
     /// Gets or sets the navigation manager
@@ -89,5 +90,14 @@ public partial class MainLayout : LayoutComponentBase
     private void OnRedirect(string location)
     {
         NavigationManager.NavigateTo(location, true);
+    }
+
+    /// <summary>
+    /// Hides the titlebar
+    /// </summary>
+    public void HideTitleBar(bool hidden = true)
+    {
+        _TitleBarHidden = hidden;
+        StateHasChanged();
     }
 }

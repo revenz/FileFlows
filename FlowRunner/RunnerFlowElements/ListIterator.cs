@@ -69,7 +69,7 @@ public class ListIterator : Node
             args.Logger?.ILog("Starting new item: " + item);
             args.RecordAdditionalInfo("Item", item, 1, null);
             
-            var result = RunFlow(args, item, ++current);
+            var result = RunFlow(args, item, ++current, total);
 
             // clear the info that was set
             args.RecordAdditionalInfo("Element", null, 0, null);
@@ -207,14 +207,17 @@ public class ListIterator : Node
     /// <param name="args">the current NodeParameters</param>
     /// <param name="item">the item to run it against</param>
     /// <param name="itemCount">the total number of items</param>
+    /// <param name="total">the total number of items</param>
     /// <returns>the output from the flow</returns>
-    private Result<int> RunFlow(NodeParameters args, string item, int itemCount)
+    private Result<int> RunFlow(NodeParameters args, string item, int itemCount, int total)
     {
         var part = Flow.Parts.FirstOrDefault(x => x.Inputs == 0);
         if (part == null)
             return Result<int>.Fail("Failed to find Input node");
         
         var newArgs = NewNodeParameters(args, item);
+        newArgs.Variables["IterationIndex"] = itemCount;
+        newArgs.Variables["IterationTotal"] = total;
         
         int count = 0;
         while (++count < Math.Min(Runner.runInstance.Properties.Config.MaxNodes, 250))

@@ -13,15 +13,36 @@ public class LibraryFileLogPruner:ServerWorker
     /// </summary>
     public LibraryFileLogPruner() : base(ScheduleType.Daily, 5)
     {
+        try
+        {
+            _ = ExecuteAsync();
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
     }
-    
+
     /// <summary>
     /// Executes the log pruner, Run calls this 
     /// </summary>
     protected override void ExecuteActual(Settings settings)
     {
-        var libFiles = ServiceLoader.Load<LibraryFileService>().GetUids().Result.Select(x => x.ToString()).ToList();
-        var files = new DirectoryInfo(DirectoryHelper.LibraryFilesLoggingDirectory).GetFiles();
+        _ = ExecuteAsync();
+    }
+    
+    /// <summary>
+    /// Executes the pruner asynchronously
+    /// </summary>
+    private async Task ExecuteAsync()
+    {
+        var libFiles = (await ServiceLoader.Load<LibraryFileService>().GetUids())
+            .Select(x => x.ToString()).ToList();
+
+        var maxDays = (await ServiceLoader.Load<ISettingsService>().Get()).LibraryFileLogFileRetention;
+
+        var dirInfo = new DirectoryInfo(DirectoryHelper.LibraryFilesLoggingDirectory);
+        var files = dirInfo.GetFiles();
         foreach (var file in files)
         {
             // first check if the file is somewhat new, if it is, dont delete just yet
@@ -39,16 +60,18 @@ public class LibraryFileLogPruner:ServerWorker
                 shortName = shortName.Replace(".log", "");
             
             bool exists = libFiles.Contains(shortName);
+            bool isOld = maxDays > 0 && file.LastWriteTimeUtc < DateTime.UtcNow.AddDays(-maxDays);
 
-            if (exists)
+            if (exists && isOld == false)
                 continue;
             try
             {
                 file.Delete();
-                Shared.Logger.Instance?.DLog("Deleted old unknown log file: " + file);
+                Logger.Instance?.DLog("Deleted library file log: " + file);
             }
             catch (Exception)
             {
+                // Ignored
             }
         }
     }

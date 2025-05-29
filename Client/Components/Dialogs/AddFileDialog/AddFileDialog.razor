@@ -38,7 +38,7 @@
                 }
                 else if(Mode == 1)
                 {
-                    <textarea @bind="TextList"></textarea>
+                    <textarea @bind-value="TextList" @bind-value:event="oninput"></textarea>
                 }
                 else
                 {

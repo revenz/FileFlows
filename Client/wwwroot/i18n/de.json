@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Wählen Sie die Zeitspanne aus, für die die Verarbeitung unterbrochen werden soll.\nHinweis: Die aktuellen Flows werden weiterhin ausgeführt, aber keine weiteren Flows werden ausgeführt, bis die Zeit abgelaufen ist.",
+      "AbortFiles": "Alle aktuell verarbeiteten Dateien abbrechen?",
+      "Message": "Wählen Sie die Zeitspanne aus, für die die Verarbeitung unterbrochen werden soll:",
       "Title": "Verarbeitung unterbrechen"
     },
     "ReprocessDialog": {
@@ -959,7 +960,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Größer als*: Übereinstimmung, wenn das Datum älter als der angegebene Zeitraum ist.\n*Kleiner als*: Übereinstimmung, wenn das Datum neuer als der angegebene Zeitraum ist.\n*Zwischen*: Übereinstimmung, wenn das Datum im angegebenen Bereich liegt.\n*Vor*: Übereinstimmung, wenn das Datum vor dem angegebenen Datum liegt.\n*Nach*: Übereinstimmung, wenn das Datum nach dem angegebenen Datum liegt."
+      "Help": "*Größer als*: Übereinstimmung, wenn das Datum nach dem angegebenen Datum liegt.\n*Kleiner als*: Übereinstimmung, wenn das Datum vor dem angegebenen Datum liegt.\n*Zwischen*: Übereinstimmung, wenn das Datum im angegebenen Bereich liegt.\n*Vor*: Übereinstimmung, wenn das Datum vor dem angegebenen Datum liegt.\n*Nach*: Übereinstimmung, wenn das Datum nach dem angegebenen Datum liegt."
     }
   },
   "MenuGroups": {
@@ -1733,6 +1734,9 @@
         "KeepFailedFlowTempFiles-Help": "Wenn Sie diese Option aktivieren, bleiben die von einem Fluss verwendeten temporären Dateien im Falle eines Fehlers erhalten und werden nicht automatisch gelöscht.",
         "Language": "Sprache",
         "Language-Help": "Die Sprache, die im System verwendet wird.\nHinweis: Diese Übersetzungen werden von einer KI generiert und können Fehler enthalten. Bitte melden Sie Fehler an das Support-Team.",
+        "LibraryFileLogFileRetention": "Bibliotheksdatei-Protokollaufbewahrung",
+        "LibraryFileLogFileRetention-Help": "Wie lange Bibliotheksdatei-Protokolle aufbewahrt werden sollen, bevor sie gelöscht werden. Wenn 0 eingegeben wird, werden die Protokolle niemals gelöscht.",
+        "LibraryFileLogFileRetention-Suffix": "Tage",
         "LogEveryRequest": "Jede Anfrage protokollieren",
         "LogEveryRequest-Help": "Wenn jede Anfrage an den Server protokolliert werden soll.",
         "LogFileRetention": "Aufbewahrung von Log-Dateien",

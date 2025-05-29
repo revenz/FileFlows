@@ -24,7 +24,7 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
     /// <inheritdoc />
     protected override void ExecuteActual(Settings settings)
     {
-        Run();
+        _ = RunAsync();
     }
 
     /// <inheritdoc />
@@ -36,15 +36,6 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
     /// </summary>
     internal async Task RunAsync()
     {
-        await Task.Delay(1);
-        Run();
-    }
-    
-    /// <summary>
-    /// Runs the updater
-    /// </summary>
-    internal void Run()
-    {
         if (IsRunning)
             return;
         IsRunning = true;
@@ -54,46 +45,20 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
             var lfService = ServiceLoader.Load<LibraryFileService>();
             var libService = ServiceLoader.Load<LibraryService>();
             //var libFiles = lfService.GetAll(null).Result;
-            var libraries = libService.GetAllAsync().Result;
-            var flows = ServiceLoader.Load<FlowService>().GetAllAsync().Result;
+            var libraries = await libService.GetAllAsync();
+            var flows = await ServiceLoader.Load<FlowService>().GetAllAsync();
 
-            var dictLibraries = libraries.ToDictionary(x => x.Uid, x => x.Name);
-            var dictFlows = flows.ToDictionary(x => x.Uid, x => x.Name);
+            // var dictLibraries = libraries.ToDictionary(x => x.Uid, x => x.Name);
+            // var dictFlows = flows.ToDictionary(x => x.Uid, x => x.Name);
             
             Logger.Instance.ILog("Time Taken to prepare for ObjectReference rename: "+ DateTime.UtcNow.Subtract(start));
             
-
-            // foreach (var lf in libFiles)
-            // {
-            //     bool changed = false;
-            //     if (dictLibraries.ContainsKey(lf.Library.Uid) && lf.Library.Name != dictLibraries[lf.Library.Uid])
-            //     {
-            //         string oldName = lf.Library.Name;
-            //         string newName = dictLibraries[lf.Library.Uid];
-            //         lf.LibraryName = newName;
-            //         Logger.Instance.ILog($"Updating Library name reference '{oldName}' to '{lf.Library.Name}' in file: {lf.Name}");
-            //         changed = true;
-            //     }
-            //
-            //     if (lf.Flow != null && lf.Flow.Uid != Guid.Empty && dictFlows.ContainsKey(lf.Flow.Uid) &&
-            //         lf.Flow.Name != dictFlows[lf.Flow.Uid])
-            //     {
-            //         string oldname = lf.Flow.Name;
-            //         lf.Flow.Name = dictFlows[lf.Flow.Uid];
-            //         Logger.Instance.ILog($"Updating Flow name reference '{oldname}' to '{lf.Flow.Name}' in file: {lf.Name}");
-            //         changed = true;
-            //     }
-            //
-            //     if (changed)
-            //         lfService.Update(lf).Wait();
-            // }
-
             foreach (var lib in libraries)
             {
                 if (lib == null)
                     continue;
                 if(lfService != null)
-                    lfService.UpdateLibraryName(lib.Uid, lib.Name).Wait();
+                    await lfService.UpdateLibraryName(lib.Uid, lib.Name);
             }
 
             foreach (var flow in flows)
@@ -102,9 +67,9 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
                     continue;
                 
                 if(libService != null)
-                    libService.UpdateFlowName(flow.Uid, flow.Name).Wait();
+                    await libService.UpdateFlowName(flow.Uid, flow.Name);
                 if(lfService != null)
-                    lfService.UpdateFlowName(flow.Uid, flow.Name).Wait();
+                    await lfService.UpdateFlowName(flow.Uid, flow.Name);
                 
             }
             Logger.Instance.ILog("Time Taken to complete for ObjectReference rename: "+ DateTime.UtcNow.Subtract(start));

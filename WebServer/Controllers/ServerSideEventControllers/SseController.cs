@@ -171,8 +171,9 @@ public class SseController : Controller
             $"Completed GetLanguageJson (LanguageService) at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
 
         stopwatch.Restart();
-        var storageSavedMonth = new StatisticService().GetStorageSaved(Globals.STAT_STORAGE_SAVED_MONTH);
-        var storageSavedTotal = new StatisticService().GetStorageSaved(Globals.STAT_STORAGE_SAVED);
+        var statsService = ServiceLoader.Load<StatisticService>();
+        var storageSavedMonth = statsService.GetStorageSaved(Globals.STAT_STORAGE_SAVED_MONTH);
+        var storageSavedTotal = statsService.GetStorageSaved(Globals.STAT_STORAGE_SAVED);
         logSummary.AppendLine(
             $"Completed GetStorageSaved (StatisticService) at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
 

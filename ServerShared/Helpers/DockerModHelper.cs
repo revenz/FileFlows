@@ -16,7 +16,18 @@ public static class DockerModHelper
     private static Dictionary<Guid, int> ExecutedDockerMods = new();
 
     private static FairSemaphore _semaphore = new(1);
-    
+
+    /// <summary>
+    /// Determines whether sudo should be used based on environment variables.
+    /// </summary>
+    /// <returns>true if both PUID and PGID environment variables are set and not empty; otherwise, false</returns>
+    private static bool ShouldUseSudo()
+    {
+        var puid = Environment.GetEnvironmentVariable("PUID");
+        var pgid = Environment.GetEnvironmentVariable("PGID");
+        return !string.IsNullOrWhiteSpace(puid) && !string.IsNullOrWhiteSpace(pgid);
+    }
+
     /// <summary>
     /// Executes a DockerMod, if does file does not exist on disk, this will write it
     /// </summary>
@@ -58,24 +69,32 @@ public static class DockerModHelper
                 value == mod.Revision)
                 return true; // already executed
 
+            var useSudo = ShouldUseSudo();
             // Run dpkg to configure any pending package installations
             //await Process.Start("dpkg", "--configure -a").WaitForExitAsync();
             await Process.Start(new ProcessStartInfo
             {
                 //FileName = "/bin/bash",
-                FileName = "/bin/su",
-                ArgumentList = { "c", "dpkg --configure -a" },
+                FileName = useSudo ? "sudo" : "/bin/su",
+                ArgumentList =
+                {
+                    useSudo ? "-E" : "-c",
+                    useSudo ? "dpkg --configure -a" : "dpkg --configure -a"
+                },
                 UseShellExecute = false
             })!.WaitForExitAsync();
 
             Logger.Instance.ILog($"Installing DockerMod: {file}");
             
-            
             // Initialize the process with configuration
             var processStartInfo = new ProcessStartInfo
             {
-                FileName = "/bin/su",
-                ArgumentList = { "-c", $"\"{file}\"" },
+                FileName = useSudo ? "sudo" : "/bin/su",
+                ArgumentList =
+                {
+                    useSudo ? "-E" : "-c",
+                    useSudo ? file : $"\"{file}\""
+                },
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
@@ -178,6 +197,8 @@ public static class DockerModHelper
         var unknownMods = modFiles
             .Where(file => modNames.Contains(file.Name) == false).ToList();
 
+        var useSudo = ShouldUseSudo();
+        
         foreach (var unknown in unknownMods)
         {
             string name = Path.GetFileNameWithoutExtension(unknown.Name);
@@ -193,8 +214,12 @@ public static class DockerModHelper
                 // Initialize the process start info
                 var processStartInfo = new ProcessStartInfo
                 {
-                    FileName = "/bin/su",
-                    ArgumentList = { "-c", $"\"{unknown.FullName}\" --uninstall" },
+                    FileName = useSudo ? "sudo" : "/bin/su",
+                    ArgumentList =
+                    {
+                        useSudo ? "-E" : "-c",
+                        useSudo ? $"{unknown.FullName} --uninstall" : $"\"{unknown.FullName}\" --uninstall"
+                    },
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,

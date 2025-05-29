@@ -252,6 +252,9 @@ public class JsonRpcClient : IDisposable
         OnAbort?.Invoke();
     }
 
+    /// <summary>
+    /// Action used to abort a file
+    /// </summary>
     public Action OnAbort { get; set; }
 
     /// <summary>

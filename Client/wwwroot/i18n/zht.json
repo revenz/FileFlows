@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "選擇暫停處理的時間。\n注意：當前流程將繼續執行，但在此期間不會執行其他流程。",
+      "AbortFiles": "是否中止所有正在處理的檔案？",
+      "Message": "選擇暫停處理的時間。",
       "Title": "暫停處理"
     },
     "ReprocessDialog": {
@@ -959,7 +960,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*大於*: 如果日期早於指定時間，則匹配。\n*小於*: 如果日期晚於指定時間，則匹配。\n*介於*: 如果日期在指定範圍內，則匹配。\n*之前*: 如果日期在指定日期之前，則匹配。\n*之後*: 如果日期在指定日期之後，則匹配。"
+      "Help": "*大於*: 如果日期晚於指定日期則符合。\n*小於*: 如果日期早於指定日期則符合。\n*介於*: 如果日期在指定範圍內則符合。\n*之前*: 如果日期在指定日期之前則符合。\n*之後*: 如果日期在指定日期之後則符合。"
     }
   },
   "MenuGroups": {
@@ -1733,6 +1734,9 @@
         "KeepFailedFlowTempFiles-Help": "啟用此選項將保留流在失敗時使用的臨時文件，防止它們自動刪除。\n使用時請小心。",
         "Language": "語言",
         "Language-Help": "系統將使用的語言。\n注意：這些翻譯是由 AI 生成的，可能包含錯誤。請向支持團隊報告任何錯誤。",
+        "LibraryFileLogFileRetention": "資料庫檔案日誌保留時間",
+        "LibraryFileLogFileRetention-Help": "資料庫檔案日誌在刪除之前應保留多久。如果輸入 0，這些日誌將永遠不會被刪除。",
+        "LibraryFileLogFileRetention-Suffix": "天",
         "LogEveryRequest": "記錄每個請求",
         "LogEveryRequest-Help": "是否應記錄對伺服器的每個請求。",
         "LogFileRetention": "日誌文件保留",

@@ -639,7 +639,8 @@
       }
     },
     "PauseDialog": {
-      "Message": "Selecteer de hoeveelheid tijd om de verwerking te pauzeren.\nOpmerking: De huidige stromen blijven uitvoeren, maar er zullen geen andere stromen worden uitgevoerd totdat deze tijd verstreken is.",
+      "AbortFiles": "Alle bestanden die momenteel worden verwerkt afbreken?",
+      "Message": "Selecteer de hoeveelheid tijd om de verwerking te pauzeren:",
       "Title": "Pauzeer Verwerking"
     },
     "ReprocessDialog": {
@@ -959,7 +960,7 @@
   },
   "Inputs": {
     "InputDateCompare": {
-      "Help": "*Groter Dan*: Stem overeen als de datum ouder is dan de opgegeven periode.\n*Kleiner Dan*: Stem overeen als de datum nieuwer is dan de opgegeven periode.\n*Tussen*: Stem overeen als de datum binnen het opgegeven bereik ligt.\n*Voor*: Stem overeen als de datum vóór de opgegeven datum ligt.\n*Na*: Stem overeen als de datum na de opgegeven datum ligt."
+      "Help": "*Groter dan*: Komt overeen als de datum later is dan de opgegeven datum.\n*Kleiner dan*: Komt overeen als de datum eerder is dan de opgegeven datum.\n*Tussen*: Komt overeen als de datum binnen het opgegeven bereik valt.\n*Voor*: Komt overeen als de datum vóór de opgegeven datum ligt.\n*Na*: Komt overeen als de datum na de opgegeven datum ligt."
     }
   },
   "MenuGroups": {
@@ -1733,6 +1734,9 @@
         "KeepFailedFlowTempFiles-Help": "Door deze optie in te schakelen, worden de tijdelijke bestanden die door een flow worden gebruikt in geval van een mislukking behouden, zodat ze niet automatisch worden verwijderd.\nGebruik met voorzichtigheid.",
         "Language": "Taal",
         "Language-Help": "De taal die in het systeem wordt gebruikt.\nOpmerking: Deze vertalingen worden gegenereerd door AI en kunnen fouten bevatten. Gelieve eventuele fouten te melden aan het ondersteuningsteam.",
+        "LibraryFileLogFileRetention": "Logbestandbewaring van bibliotheekbestand",
+        "LibraryFileLogFileRetention-Help": "Hoe lang logbestanden van bibliotheekbestanden bewaard moeten blijven voordat ze worden verwijderd. Als 0 wordt ingevoerd, worden de logbestanden nooit verwijderd.",
+        "LibraryFileLogFileRetention-Suffix": "Dagen",
         "LogEveryRequest": "Log Elke Aanroep",
         "LogEveryRequest-Help": "Of elke aanvraag naar de server moet worden gelogd.",
         "LogFileRetention": "Logbestand Bewaartermijn",

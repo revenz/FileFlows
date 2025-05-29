@@ -66,10 +66,11 @@ public static class IconHelper
     public static string GetThumbnail(Guid libraryFileUid, string libraryFileName, bool IsDirectory)
     {
         var extension = GetExtension(libraryFileName);
+        int pad = App.Instance.IsMobile ? 10 : 50;
 #if(DEBUG)
-        return $"http://localhost:6868/api/thumbnail/{libraryFileUid}?extension={extension}&pad=50&folder={IsDirectory}";
+        return $"http://localhost:6868/api/thumbnail/{libraryFileUid}?extension={extension}&folder={IsDirectory}&pad={pad}";
 #else
-        return $"/api/thumbnail/{libraryFileUid}?extension={extension}&pad=50&folder={IsDirectory}";
+        return $"/api/thumbnail/{libraryFileUid}?extension={extension}&folder={IsDirectory}&pad={pad}";
 #endif
     }
 }

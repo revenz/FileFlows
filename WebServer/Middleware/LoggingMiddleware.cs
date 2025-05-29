@@ -10,21 +10,26 @@ public class LoggingMiddleware
     /// </summary>
     private readonly RequestDelegate _next;
 
+    private bool _logEveryRequest = false, initDone = false;
+    
+
     private SettingsService _settingsService;
-    /// <summary>
-    /// Settings service
-    /// </summary>
-    private SettingsService SettingsService
+
+    private async Task Initialize()
     {
-        get
-        {
-            if (_settingsService == null)
-                _settingsService = (SettingsService)ServiceLoader.Load<ISettingsService>();
-            return _settingsService;
-        }
+        _settingsService = (SettingsService)ServiceLoader.Load<ISettingsService>();
+        _settingsService.OnSettingsUpdated += SettingsServiceOnOnSettingsUpdated;
+        _logEveryRequest = (await _settingsService.Get()).LogEveryRequest;
+        initDone = true;
+        
     }
-    
-    
+
+    private void SettingsServiceOnOnSettingsUpdated(Settings obj)
+    {
+        _logEveryRequest = obj.LogEveryRequest;
+    }
+
+
     /// <summary>
     /// Gets the logger for the request logger
     /// </summary>
@@ -55,7 +60,9 @@ public class LoggingMiddleware
             try
             {
                 if (WebServerApp.FullyStarted && context.Request != null)
-                {   
+                {
+                    if (initDone == false)
+                        await Initialize();
                     LogType logType = LogType.Info;
                     int statusCode = context.Response?.StatusCode ?? 0;
                     
@@ -68,7 +75,7 @@ public class LoggingMiddleware
                     else if (statusCode >= 500)
                         logType = LogType.Error;
                     
-                    if (logType != LogType.Info || SettingsService.Get().Result.LogEveryRequest)
+                    if (logType != LogType.Info || _logEveryRequest)
                     {
                         _ = RequestLogger.Log(logType,
                             $"[{VerbPad(context.Request.Method, 7)}] [{context.Response?.StatusCode}]: {context.Request?.Path.Value}");

@@ -141,11 +141,11 @@ public partial class Report : ComponentBase
         var fields = new List<IFlowField>();
         Blocker.Show();
         this.StateHasChanged();
-
-        Model = new ExpandoObject();
-        var model = Model as IDictionary<string, object>;
         try
         {
+
+            Model = new ExpandoObject();
+            var model = Model as IDictionary<string, object>;
             if (rd.DefaultReportPeriod != null)
             {
                 if (InputDateRange.DateRanges.TryGetValue(

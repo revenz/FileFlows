@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using FileFlows.Server.Workers;
 using FileFlows.ServerShared.Models.StatisticModels;
+using FileFlows.Services.Interfaces;
 using FileHelper = FileFlows.ServerShared.Helpers.FileHelper;
 using LibraryFileService = FileFlows.Services.LibraryFileService;
 using StatisticService = FileFlows.Services.StatisticService;
@@ -40,12 +41,19 @@ public class SystemController:BaseController
     /// Pauses the system
     /// </summary>
     /// <param name="duration">duration in minutes to pause for, any number less than 1 will resume</param>
+    /// <param name="abort">if the files currently processing should be aborted</param>
     [HttpPost("pause")]
     [FileFlowsAuthorize(UserRole.PauseProcessing)]
-    public async Task Pause([FromQuery] int duration)
+    public async Task Pause([FromQuery] int duration, [FromQuery] bool abort)
     {
         var service = ServiceLoader.Load<PausedService>();
         await service.Pause(duration, await GetAuditDetails());
+        
+        if (duration > 0 && abort)
+        {
+            // abort all curently processing files
+            await ServiceLoader.Load<INodeHubService>().AbortAll();
+        }
     }
 
 

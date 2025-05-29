@@ -27,7 +27,10 @@ public partial class Libraries : ListPage<Guid, LibraryListModel>, IDisposable
     /// If the system has libraries created
     /// </summary>
     private bool HasCreatedLibraries = false;
-    
+
+    /// <inheritdoc />
+    protected override string GetAuditTypeName() => typeof(Library).FullName;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {

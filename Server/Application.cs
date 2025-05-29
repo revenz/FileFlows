@@ -56,7 +56,7 @@ public class Application
     /// Runst the application
     /// </summary>
     /// <param name="args">the command line arguments</param>
-    public void Run(string[] args)
+    public async Task Run(string[] args)
     {
         try
         {
@@ -123,7 +123,7 @@ public class Application
             if (Docker || noGui)
             {
                 Console.WriteLine("Starting FileFlows Server...");
-                WebServerApp.Start(args);
+                await WebServerApp.Start(args);
             }
             else if (ShowGui)
             {
@@ -141,7 +141,7 @@ public class Application
                     try
                     {
                         Logger.Instance.ILog("Starting FileFlows Server...");
-                        WebServerApp.Start(args);
+                        await WebServerApp.Start(args);
                     }
                     catch (Exception ex)
                     {
@@ -155,12 +155,12 @@ public class Application
             {
                 // do this first, to populate the Port so the Minimal UI shows the correct url
                 string serverUrl = WebServerApp.GetServerUrl(args);
-                _ = Task.Run(() =>
+                _ = Task.Run(async () =>
                 {
                     try
                     {
                         Logger.Instance.ILog("Starting FileFlows Server...");
-                        WebServerApp.Start(args);
+                        await WebServerApp.Start(args);
                     }
                     catch (Exception ex)
                     {
@@ -194,6 +194,7 @@ public class Application
             }
             catch (Exception)
             {
+                // Ignored
             }
 
             Console.WriteLine("Error: " + ex.Message + Environment.NewLine + ex.StackTrace);
@@ -232,6 +233,7 @@ public class Application
             }
             catch (Exception)
             {
+                // Ignored
             }
         }
         Logger.Instance.ILog(new string('=', 100));
@@ -260,8 +262,8 @@ public class Application
     /// </summary>
     private void InitializeLoggers()
     {
-        new FileLogger(DirectoryHelper.LoggingDirectory, "FileFlows");
-        new ConsoleLogger();
+        _ = new FileLogger(DirectoryHelper.LoggingDirectory, "FileFlows");
+        _ = new ConsoleLogger();
         ChartHelper.Logger = Logger.Instance;
     }
 }

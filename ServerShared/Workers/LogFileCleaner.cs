@@ -49,8 +49,12 @@ public class LogFileCleaner : Worker
                 }
             }
         }
-
-        var settings = ServiceLoader.Load<ISettingsService>().Get().Result;
+        _ = CleanAsync(dir);
+    }
+    
+    private async Task CleanAsync(string dir)
+    {
+        var settings = await ServiceLoader.Load<ISettingsService>().Get();
         if (settings == null)
             return; // not yet ready
         var minDate = DateTime.Now.AddDays(-(settings.LogFileRetention < 1 ? 5 : settings.LogFileRetention));
