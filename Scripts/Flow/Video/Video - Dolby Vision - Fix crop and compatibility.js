@@ -106,6 +106,10 @@ function Script(RemoveHDRTenPlus) {
   Flow.PartPercentageUpdate(0);
   Flow.AdditionalInfoRecorder("DoVi", "Extracting RPU", 1);
 
+  if (Flow.IsLinux) {
+    original = `"${original}"`;
+  }
+
   // Creating RPU 8.1 file
   var executeArgs = new ExecuteArgs();
   executeArgs.command = dovi_tool;
