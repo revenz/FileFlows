@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
 }
-@media (min-width: 850px) {
+@media (min-width: 850.001px) {
   .configuration-layout {
     display: grid;
     grid-template-columns: 17rem 1fr;
@@ -48,6 +48,15 @@
   .configuration-layout .config-content:has(> .skybox) {
     display: grid;
     grid-template-rows: auto 1fr;
+  }
+}
+@media (max-width: 850px) {
+  .configuration-layout .config-content:has(> .skybox) {
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+  .configuration-layout .config-content:has(> .skybox) .skybox-item {
+    text-align: center;
   }
 }
 .configuration-layout .nav-menu-container {

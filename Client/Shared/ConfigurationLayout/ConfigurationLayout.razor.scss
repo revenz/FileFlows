@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
 
-  @media (min-width: 850px) {
+  @media (min-width: 850.001px) {
     display:grid;
     grid-template-columns: 17rem 1fr;
     grid-gap: 0;
@@ -51,7 +51,17 @@
       }
     }
   }
-
+  @media(max-width: 850px) {
+    .config-content {
+      &:has( > .skybox) {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        .skybox-item {
+          text-align: center;
+        }
+      }
+    }
+  }
   .nav-menu-container {
     flex: 1;
     user-select: none;

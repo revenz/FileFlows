@@ -243,6 +243,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
 
         if (Skybox == null)
             return;
+
         this.Skybox.SetItems(new List<FlowSkyBoxItem<ScriptType>>()
         {
             new ()
@@ -259,7 +260,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
                 Count = this.DataSystem.Count,
                 Value = ScriptType.System
             } : null,
-            new ()
+            App.Instance.IsMobile ? null : new ()
             {
                 Name = "Shared Scripts",
                 Icon = "fas fa-handshake",

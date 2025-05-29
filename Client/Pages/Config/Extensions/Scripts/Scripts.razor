@@ -12,11 +12,11 @@
 <FlowTable @ref="Table" Data="@(SelectedType == ScriptType.Flow ? DataFlow : SelectedType == ScriptType.Shared ? DataShared : DataSystem)" TItem="Script" Selection="SelectionMode.Multiple"
            DoubleClick="@OnDoubleClick" TableIdentifier="@TableIdentifier">
     <ToolBar>
-        <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add"/>
-        <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit"/>
-        <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete"/>
         @if (App.Instance.IsMobile == false)
         {
+            <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add"/>
+            <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit"/>
+            <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete"/>
             <FlowTableButtonSeparator Visible="@(SelectedType != ScriptType.Shared)" />
             <FlowTableButton Visible="@(SelectedType != ScriptType.Shared)"  Clicked=Update SelectedOneOrMore="true" Icon="fas fa-cloud-download-alt" Label="Labels.Update"/>
             <FlowTableButton Area="ButtonArea.ContextMenu" Visible="@(SelectedType != ScriptType.Shared)"  Clicked=UpdateScripts  Icon="fas fa-cloud-download-alt" Label="@lblUpdateScripts"/>
@@ -27,6 +27,12 @@
             <FlowTableButton Area="ButtonArea.ContextMenu" Clicked=Duplicate SelectedOne="true" Icon="fas fa-clone" Label="Labels.Duplicate"/>
             <FlowTableButtonSeparator Visible="@(SelectedType != ScriptType.Shared)" />
             <FlowTableButton Visible="@(SelectedType != ScriptType.Shared)"  Clicked=UsedBy SelectedOne="true" Icon="fas fa-info-circle" Label="Labels.UsedBy"/>
+        }
+        else
+        {
+            <FlowTableButton Clicked=Update SelectedOneOrMore="true" Icon="fas fa-cloud-download-alt" Label="Labels.Update"/>
+            <FlowTableButton Clicked=UpdateScripts  Icon="fas fa-cloud-download-alt" Label="@lblUpdateScripts"/>
+            <FlowTableButton Clicked=UsedBy SelectedOne="true" Icon="fas fa-info-circle" Label="Labels.UsedBy"/>
         }
         <FlowTableButtonSeparator/>
         <FlowTableHelpButton HelpUrl="config/extensions/scripts"/>
