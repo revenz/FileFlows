@@ -27,8 +27,8 @@ All parameters can also be overridden using Variables for example
 
 For further help or feature requests find me in the discord
  * @author lawrence
- * @revision 3
- * @param {('hevc_qsv'|'hevc'|'av1_qsv'|'libsvtav1'|'h264_qsv'|'h264')} TargetCodec Which codec you want as the output
+ * @revision 4
+ * @param {('hevc_qsv'|'hevc_nvenc'|'hevc'|'av1_qsv'|'libsvtav1'|'av1_nvenc'|'h264_qsv'|'h264'|'h264_nvenc')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
  * @param {bool} FixDolby5 Create a SDR fallback for Dolby Vision profile 5 (aka the green/purple one) [CPU decode]
@@ -361,7 +361,7 @@ For further help or feature requests find me in the discord
     
         let fileName = Flow.FileService.GetLocalPath(Variables.file.FullName).Value
     
-        if (Flow.IsLinux) {
+        if (!Flow.IsWindows) {
             fileName = `"${fileName}"`;
         }
     
@@ -376,7 +376,7 @@ For further help or feature requests find me in the discord
             "-e",
             TargetCodec,
             "--temp-dir",
-            Flow.TempPath,
+            !Flow.IsWindows ? `"${Flow.TempPath}"` : Flow.TempPath,
             "--min-vmaf",
             targetPercent,
             "--max-encoded-percent",
@@ -406,14 +406,14 @@ For further help or feature requests find me in the discord
         }
     
     
-        if (Flow.IsLinux) {
+        if (!Flow.IsWindows) {
             executeArgs.command = "bash";
             let args = executeArgs.argumentList.join(" ");
             let cache = Flow.TempPath.replace(/[^\/]+$/, "");
     
             executeArgs.argumentList = [
                 "-c",
-                `XDG_CACHE_HOME=${cache} PATH=${path}:\$PATH ${abAv1} ${args}`,
+                `XDG_CACHE_HOME='${cache}' PATH=${path}:\$PATH ${abAv1} ${args}`,
                 "/dev/null",
             ];
         }
