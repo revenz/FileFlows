@@ -18,8 +18,8 @@ Executes the ab-av1 command.
  * @param {int} MinSamples Minimum number of samples per video
  * @param {bool} Thorough Keep searching until a crf is found no more than min_vmaf+0.05 or all possibilities have been attempted.
  * @param {string} AdditionalOptions (Advanced) Additional ab-av1 options to pass.
- * @output The command succeeded
- * @output Variables.AbAv1CRFValue: The detected CRF value
+ * @output No suitable CRF was found
+ * @output Suitable CRF was found, saved to Variables.AbAv1CRFValue
  */
 function Script(Preset,Encoder,EncOptions,PixFormat,MinVmaf,MaxEncodedPercent,MinCRF,MaxCRF,MinSamples,Thorough,AdditionalOptions)
 {
