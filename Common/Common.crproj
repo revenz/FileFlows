@@ -1,0 +1,9 @@
+<rules>
+  <!-- Default rule applies to everything -->
+  <rule pattern="true" preset="normal">
+    <protection id="rename" />
+    <protection id="ctrl flow" />
+    <protection id="resources" />
+    <protection id="constants" />
+  </rule>
+</rules>

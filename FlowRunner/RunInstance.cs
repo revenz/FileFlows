@@ -203,7 +203,7 @@ public class RunInstance(RunnerProperties properties)
                     // RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
 
                     properties.LibraryFile.FailureReason = "Library file does not exist.";
-                    properties.Logger.WLog(properties.LibraryFile.FailureReason);
+                    properties.Logger.WLog(properties.LibraryFile.FailureReason + ": " + workingFile);
                     return (FileStatus.ProcessingFailed, false);
                 }
 
@@ -211,7 +211,7 @@ public class RunInstance(RunnerProperties properties)
                 if (existsResult.Failed(out var error))
                 {
                     properties.LibraryFile.FailureReason = "Library file does not exist.";
-                    properties.Logger.WLog(error);
+                    properties.Logger.WLog(error + ": " + workingFile);
                     return (FileStatus.ProcessingFailed, false);
                 }
 
@@ -221,7 +221,7 @@ public class RunInstance(RunnerProperties properties)
                     //LogInfo("Library file does not exist, deleting from library files: " + file.FullName);
                     //RpcClient.LibraryFileHandler.DeleteLibraryFile(properties.LibraryFile.Uid).Wait();
                     properties.LibraryFile.FailureReason = "Library file does not exist. Not running on server.";
-                    properties.Logger.WLog(properties.LibraryFile.FailureReason);
+                    properties.Logger.WLog(properties.LibraryFile.FailureReason +": " + workingFile);
                     return (FileStatus.ProcessingFailed, false);
                 }
 

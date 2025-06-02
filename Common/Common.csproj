@@ -10,4 +10,8 @@
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Content Include="Common.crproj" />
+    </ItemGroup>
+
 </Project>
