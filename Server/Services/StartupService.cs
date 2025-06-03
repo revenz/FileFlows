@@ -420,7 +420,7 @@ public class StartupService : IStartupService
             int month = int.Parse(versionParts[1]);
             var date = new DateTime(year, month, 1);
 
-            if (date < DateTime.UtcNow.AddMonths(-4))
+            if (date < DateTime.UtcNow.AddMonths(-5))
                 return Result<bool>.Fail("Version is out of date, please upgrade to continue.");
             
             return true;
