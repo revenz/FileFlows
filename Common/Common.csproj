@@ -10,9 +10,4 @@
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <Obfuscate>true</Obfuscate>
-        <ConfuserReplaceOutput>true</ConfuserReplaceOutput>        
-    </PropertyGroup>
-
 </Project>

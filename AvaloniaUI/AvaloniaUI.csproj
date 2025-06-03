@@ -23,10 +23,6 @@
         <PackageReference Include="Avalonia.Desktop" Version="11.3.0" />
         <PackageReference Include="Avalonia.Diagnostics" Version="11.3.0" />
         <PackageReference Include="Avalonia.Themes.Simple" Version="11.3.0" />
-        <PackageReference Include="Confuser.MSBuild" Version="1.6.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <AvaloniaResource Include="App.xaml" />
