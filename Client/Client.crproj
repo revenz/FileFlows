@@ -1,14 +1,12 @@
-<rules>
-  <!-- Default rule applies to everything -->
-  <rule pattern="true" preset="normal">
+<!-- Default rule applies to everything -->
+<rule pattern="true" preset="normal">
     <protection id="rename" />
     <protection id="ctrl flow" />
     <protection id="resources" />
     <protection id="constants" />
-  </rule>
+</rule>
 
-  <!-- Skip renaming for shared model classes -->
-  <rule pattern="FileFlows.Shared.Models.*" preset="none">
+<!-- Skip renaming for shared model classes -->
+<rule pattern="FileFlows.Shared.Models.*" preset="none">
     <protection id="rename" action="remove" />
-  </rule>
-</rules>
+</rule>
