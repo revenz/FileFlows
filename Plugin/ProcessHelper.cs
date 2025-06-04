@@ -276,11 +276,15 @@ public class ProcessHelper : IProcessHelper
                 };
 
                 if (affinityMask > 0)
+                {
+                    Logger.ILog($"Using Infinity '{affinityMask}' for process");
                     process.ProcessorAffinity = (IntPtr)affinityMask;
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // log or ignore as needed
+                Logger.WLog($"Failed getting infinity: {ex}");
             }
         }
 
