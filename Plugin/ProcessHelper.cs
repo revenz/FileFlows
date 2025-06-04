@@ -118,6 +118,11 @@ public class ExecuteArgs
     public event OutputRecievedEvent ErrorOutput;
 
     /// <summary>
+    /// Optional extra variables to pass into the process
+    /// </summary>
+    public Dictionary<string, object> Variables { get; set; } = [];
+
+    /// <summary>
     /// Called when there is standard output received and invokes the StandardOutput event
     /// </summary>
     /// <param name="output">the output string received</param>\
@@ -257,6 +262,27 @@ public class ProcessHelper : IProcessHelper
         process.StartInfo.RedirectStandardError = true;
         process.StartInfo.CreateNoWindow = true;
         process.EnableRaisingEvents = true;
+
+        if (OperatingSystem.IsWindows() && args.Variables != null && args.Variables.TryGetValue("Infinity", out var oInfinity))
+        {
+            try
+            {
+                long affinityMask = oInfinity switch
+                {
+                    int i => i,
+                    long l => l,
+                    string s when long.TryParse(s, out var parsed) => parsed,
+                    _ => -1
+                };
+
+                if (affinityMask > 0)
+                    process.ProcessorAffinity = (IntPtr)affinityMask;
+            }
+            catch (Exception)
+            {
+                // log or ignore as needed
+            }
+        }
 
         if (!args.Silent)
         {
@@ -449,4 +475,5 @@ public class ProcessHelper : IProcessHelper
             .Replace("[" + '', string.Empty)
             .Replace(''.ToString(), string.Empty);
     }
+
 }
