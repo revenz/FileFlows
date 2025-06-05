@@ -27,7 +27,7 @@ All parameters can also be overridden using Variables for example
 
 For further help or feature requests find me in the discord
  * @author lawrence
- * @revision 4
+ * @revision 5
  * @param {('hevc_qsv'|'hevc_nvenc'|'hevc'|'av1_qsv'|'libsvtav1'|'av1_nvenc'|'h264_qsv'|'h264'|'h264_nvenc')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
@@ -348,7 +348,7 @@ For further help or feature requests find me in the discord
     
         if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit) {
             videoPixelFormat = "yuv420p10le";
-            returnValue.command = `${returnValue.command} -pix_fmt:v:0 p010le`;
+            returnValue.command = `${returnValue.command} -pix_fmt:v:0 p010le -profile:v:0 main10`;
         }
     
         let targetBitRate = (bitratePercent / 100) * videoBitRate;
