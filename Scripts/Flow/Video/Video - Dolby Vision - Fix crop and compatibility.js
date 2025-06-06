@@ -5,7 +5,7 @@ Run between encode and move/replace.
 Output is always an MKV.
 dovi_tool only supports HEVC when AV1 support is added I will updated this script.
  * @author lawrence / iBuSH
- * @revision 9
+ * @revision 10
  * @uid f5eebc75-e22d-4181-af02-5e7263e68acd
  * @param {bool} RemoveHDRTenPlus Remove HDR10+, this fixes the black screen issues on FireStick
  * @output Fixed
@@ -55,7 +55,7 @@ function Script(RemoveHDRTenPlus) {
   }
 
   let regexp = /((Dolby Vision|DOVI) configuration|dv(c|v)C)/i;
-  let matches = process.standardOutput.match(regexp);
+  let matches = process.output.match(regexp);
 
   if (!matches) return 2;
 
