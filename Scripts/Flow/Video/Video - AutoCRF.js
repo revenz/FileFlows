@@ -27,7 +27,7 @@ All parameters can also be overridden using Variables for example
 
 For further help or feature requests find me in the discord
  * @author lawrence
- * @revision 5
+ * @revision 6
  * @param {('hevc_qsv'|'hevc_nvenc'|'hevc'|'av1_qsv'|'libsvtav1'|'av1_nvenc'|'h264_qsv'|'h264'|'h264_nvenc')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
@@ -192,6 +192,10 @@ For further help or feature requests find me in the discord
             video.filter.Add(
                 "tonemapx=tonemap=bt2390:transfer=smpte2084:matrix=bt2020:primaries=bt2020"
             );
+            if (TargetCodec.includes("qsv")) {
+                Logger.WLog("QSV does not support dolby vision 5 decode properly so we are disabling it");
+                Variables.NoQSV = true;
+            }
         }
     
         // If the bitrate is more than we want then we don't care what the codec is
