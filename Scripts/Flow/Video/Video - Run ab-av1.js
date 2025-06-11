@@ -6,7 +6,7 @@ If CRF is found, it is saved to Variables.AbAv1CRFValue.
 Executes the ab-av1 command.
  * @author CanofSocks
  * @uid e31fbd4d-dc96-4ae6-9122-a9f30c102b1d
- * @revision 1
+ * @revision 2
  * @param {string} Preset The preset to use
  * @param {string} Encoder The target encoder
  * @param {string} EncOptions A '|' separated list of additional options to pass to ab-av1. The first '=' symbol will be used to infer that this is an option with a value. Passed to ffmpeg like "x265-params=lossless=1" -> ['-x265-params', 'lossless=1'] 
@@ -38,41 +38,41 @@ function Script(Preset,Encoder,EncOptions,PixFormat,MinVmaf,MaxEncodedPercent,Mi
     var fi = FileInfo(Flow.WorkingFile);
 
     let abav1Command = ` crf-search --temp-dir ${Variables.temp} -i "${fi.FullName}"`
-    if(PixFormat){
+    if(PixFormat != null){
         abav1Command += ` --pix-format ${PixFormat}`
     }
-    if(MinVmaf){
+    if(MinVmaf != null){
         abav1Command += ` --min-vmaf ${MinVmaf}`
     }
-    if(Preset){
+    if(Preset != null){
         abav1Command += ` --preset ${Preset}`
     }
-    if(MaxEncodedPercent){
+    if(MaxEncodedPercent != null ){
         abav1Command += ` --max-encoded-percent ${MaxEncodedPercent}`
     }
-    if(MinSamples){
+    if(MinSamples != null){
         abav1Command += ` --min-samples ${MinSamples}`
     }
-    if(String(Encoder).trim().length > 0){
+    if(Encoder != null){
         abav1Command += ` --encoder ${Encoder}`
     }
-    if(String(MinCRF).trim().length > 0){
+    if(MinCRF != null){
         abav1Command += ` --min-crf ${MinCRF}`
     }
-    if(String(MaxCRF).trim().length > 0){
+    if(MaxCRF != null){
         abav1Command += ` --max-crf ${MaxCRF}`
     }
-    if (String(Thorough) == true) {
+    if (Thorough != null) {
         abav1Command += ' --thorough'
     }
-    if (String(EncOptions).trim().length > 0){
-        let encoptions = String(EncOptions).trim().split("|");
+    if (EncOptions != null){
+        let encoptions = `${EncOptions}`.split("|");
         for (let i = 0; i < encoptions.length; i++) {
             abav1Command += ` --enc ${encoptions[i]}`
         }
     }
 
-    if(String(AdditionalOptions).trim().length > 0){
+    if(AdditionalOptions != null){
         abav1Command += ` ${AdditionalOptions}`
     }
 
