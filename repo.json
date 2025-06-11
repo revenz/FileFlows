@@ -318,7 +318,7 @@
       "Path": "Scripts/Flow/Video/Video - Dolby Vision - Fix crop and compatibility.js",
       "Name": "Video - Dolby Vision - Fix crop and compatibility",
       "Description": "Converts to the most compatible profile 8.1 and removing bad crop data.\nRun between encode and move/replace.\nOutput is always an MKV.\ndovi_tool only supports HEVC when AV1 support is added I will updated this script.\n/",
-      "Revision": 10,
+      "Revision": 11,
       "Uid": "f5eebc75-e22d-4181-af02-5e7263e68acd"
     },
     {
