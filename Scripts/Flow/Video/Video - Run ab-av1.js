@@ -53,26 +53,26 @@ function Script(Preset,Encoder,EncOptions,PixFormat,MinVmaf,MaxEncodedPercent,Mi
     if(MinSamples){
         abav1Command += ` --min-samples ${MinSamples}`
     }
-    if(String(Encoder).trim().length > 0){
+    if(Encoder){
         abav1Command += ` --encoder ${Encoder}`
     }
-    if(String(MinCRF).trim().length > 0){
+    if(MinCRF){
         abav1Command += ` --min-crf ${MinCRF}`
     }
-    if(String(MaxCRF).trim().length > 0){
+    if(MaxCRF){
         abav1Command += ` --max-crf ${MaxCRF}`
     }
-    if (String(Thorough) == true) {
+    if (Thorough) {
         abav1Command += ' --thorough'
     }
-    if (String(EncOptions).trim().length > 0){
-        let encoptions = String(EncOptions).trim().split("|");
+    if (EncOptions){
+        let encoptions = `${EncOptions}`.split("|");
         for (let i = 0; i < encoptions.length; i++) {
             abav1Command += ` --enc ${encoptions[i]}`
         }
     }
 
-    if(String(AdditionalOptions).trim().length > 0){
+    if(AdditionalOptions){
         abav1Command += ` ${AdditionalOptions}`
     }
 
