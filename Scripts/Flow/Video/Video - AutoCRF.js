@@ -3,7 +3,7 @@
  * @uid d08608d8-3b50-4784-ad68-fd4ed102577c
  * @description Finds the correct CRF using VMAF score based on a
 maximum BitRate and your selected codec types
- * @help Put me between 'FFMPEG Builder: Executor' and 'FFMPEG Builder: Executor'
+ * @help Put me between 'FFMPEG Builder: Start' and 'FFMPEG Builder: Executor'
 Required DockerMods: AutoCRF, FFmpeg7, FFmpeg-BtbN
 
 This Flow Element two outputs:
@@ -27,7 +27,7 @@ All parameters can also be overridden using Variables for example
 
 For further help or feature requests find me in the discord
  * @author lawrence
- * @revision 6
+ * @revision 7
  * @param {('hevc_qsv'|'hevc_nvenc'|'hevc'|'av1_qsv'|'libsvtav1'|'av1_nvenc'|'h264_qsv'|'h264'|'h264_nvenc')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
