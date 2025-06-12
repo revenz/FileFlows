@@ -3,7 +3,7 @@
  * @uid d08608d8-3b50-4784-ad68-fd4ed102577c
  * @description Finds the correct CRF using VMAF score based on a
 maximum BitRate and your selected codec types
- * @help Put me between 'FFMPEG Builder: Executor' and 'FFMPEG Builder: Executor'
+ * @help Put me between 'FFMPEG Builder: Start' and 'FFMPEG Builder: Executor'
 Required DockerMods: AutoCRF, FFmpeg7, FFmpeg-BtbN
 
 This Flow Element two outputs:
