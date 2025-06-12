@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 AS base
+FROM ubuntu:25.04 AS base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV PATH=/dotnet:/dotnet/tools:$PATH
