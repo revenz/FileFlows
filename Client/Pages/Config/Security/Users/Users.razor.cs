@@ -25,7 +25,7 @@ public partial class Users: ListPage<Guid, User>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Layout.SetInfo(Translater.Instant("Pages.Users.Title"), "fas fa-users");
+        Layout.SetInfo(Translater.Instant("Pages.Users.Title"), "fas fa-users", noPadding: true);
         lblLastLoggedIn = Translater.Instant("Pages.Users.Labels.LastLoggedIn");
         lblAddress = Translater.Instant("Pages.Users.Labels.Address");
         lblNever = Translater.Instant("Pages.Users.Labels.Never");

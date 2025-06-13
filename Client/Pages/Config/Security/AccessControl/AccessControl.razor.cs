@@ -33,7 +33,7 @@ public partial class AccessControl: ListPage<Guid, AccessControlEntry>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        Layout.SetInfo(Translater.Instant("Pages.AccessControl.Title"), "fas fa-shield-alt");
+        Layout.SetInfo(Translater.Instant("Pages.AccessControl.Title"), "fas fa-shield-alt", noPadding: true);
         base.OnInitialized();
         lblStart = Translater.Instant("Pages.AccessControl.Columns.Start");
         lblEnd = Translater.Instant("Pages.AccessControl.Columns.End");

@@ -91,7 +91,7 @@ public partial class SecurityPage : InputRegister
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
-        Layout.SetInfo(Translater.Instant("Pages.Settings.Fields.Security.Title"), "fas fa-shield-alt");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Fields.Security.Title"), "fas fa-shield-alt", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         mdSecurityDescription = RenderMarkdown("Pages.Settings.Fields.Security.Description");
         

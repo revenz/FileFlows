@@ -28,7 +28,7 @@ public partial class Resources : ListPage<Guid, Resource>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Layout.SetInfo(Translater.Instant("Pages.Resources.Title"), "fas fa-box-open");
+        Layout.SetInfo(Translater.Instant("Pages.Resources.Title"), "fas fa-box-open", noPadding: true);
     }
 
     /// <summary>

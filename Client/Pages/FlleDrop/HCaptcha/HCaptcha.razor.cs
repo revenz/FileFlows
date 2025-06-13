@@ -55,7 +55,7 @@ public partial class HCaptcha
             return;
         }
 
-        Layout.SetInfo("hCaptcha", "fas fa-key");
+        Layout.SetInfo("hCaptcha", "fas fa-key", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

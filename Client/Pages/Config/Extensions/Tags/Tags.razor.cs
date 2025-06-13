@@ -26,7 +26,7 @@ public partial class Tags : ListPage<Guid, Tag>, IDisposable
     protected override void OnInitialized()
     {
         Profile = feService.Profile.Profile;
-        Layout.SetInfo(Translater.Instant("Pages.Tags.Title"), "fas fa-tags");
+        Layout.SetInfo(Translater.Instant("Pages.Tags.Title"), "fas fa-tags", noPadding: true);
         base.OnInitialized(false);
         feService.Tag.TagsUpdated += TagOnTagsUpdated;
         Data = feService.Tag.Tags;

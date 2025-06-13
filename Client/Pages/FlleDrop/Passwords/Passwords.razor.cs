@@ -54,7 +54,7 @@ public partial class Passwords
             return;
         }
 
-        Layout.SetInfo("Passwords", "fas fa-shield-alt");
+        Layout.SetInfo("Passwords", "fas fa-shield-alt", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

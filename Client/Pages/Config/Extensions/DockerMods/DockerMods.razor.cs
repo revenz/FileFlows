@@ -38,7 +38,7 @@ public partial class DockerMods : ListPage<Guid, DockerMod>, IDisposable
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        Layout.SetInfo(Translater.Instant("Pages.DockerMod.Plural"), "fab fa-docker");
+        Layout.SetInfo(Translater.Instant("Pages.DockerMod.Plural"), "fab fa-docker", noPadding: true);
         Profile = feService.Profile.Profile;
         base.OnInitialized(false);
         lblUpdateAvailable = Translater.Instant("Pages.DockerMod.Labels.UpdateAvailable");

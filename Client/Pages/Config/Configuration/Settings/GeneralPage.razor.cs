@@ -87,7 +87,7 @@ public partial class GeneralPage : InputRegister
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
-        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.General"), "fas fa-cogs");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.General"), "fas fa-cogs", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         lblTestingDatabase = Translater.Instant("Pages.Settings.Messages.Database.TestingDatabase");
         

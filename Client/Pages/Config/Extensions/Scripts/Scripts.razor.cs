@@ -41,7 +41,7 @@ public partial class Scripts : ListPage<Guid, Script>, IDisposable
     protected override void OnInitialized()
     {
         Profile = feService.Profile.Profile;
-        Layout.SetInfo(Translater.Instant("Pages.Scripts.Title"), "fas fa-scroll");
+        Layout.SetInfo(Translater.Instant("Pages.Scripts.Title"), "fas fa-scroll", noPadding: true);
         base.OnInitialized(false);
         lblUpdateScripts = Translater.Instant("Pages.Scripts.Buttons.UpdateAllScripts");
         lblUpdatingScripts = Translater.Instant("Pages.Scripts.Labels.UpdatingScripts");

@@ -56,7 +56,7 @@ public partial class LoggingPage : InputRegister
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
-        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Logging"), "fas fa-file-alt");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Logging"), "fas fa-file-alt", noPadding: true);
         IsLicensed = Profile.LicenseLevel != LicenseLevel.Free;
         lblSaving = Translater.Instant("Labels.Saving");
         

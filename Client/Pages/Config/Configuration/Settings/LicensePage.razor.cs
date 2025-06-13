@@ -56,7 +56,7 @@ public partial class LicensePage : InputRegister
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
-        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.License"), "fas fa-money-check");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.License"), "fas fa-money-check", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         
         Blocker.Show();

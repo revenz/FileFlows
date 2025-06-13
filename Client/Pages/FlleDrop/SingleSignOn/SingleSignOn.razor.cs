@@ -55,7 +55,7 @@ public partial class SingleSignOn
             return;
         }
 
-        Layout.SetInfo("Single Sign On", "fas fa-cloud");
+        Layout.SetInfo("Single Sign On", "fas fa-cloud", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

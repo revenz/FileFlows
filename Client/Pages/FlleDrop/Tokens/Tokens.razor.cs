@@ -66,7 +66,7 @@ public partial class Tokens
 
         FileFlowsCallbackUrl = NavigationManager.BaseUri + "api/file-drop/user/{uuid}/";
 
-        Layout.SetInfo("Tokens", "fas fa-coins");
+        Layout.SetInfo("Tokens", "fas fa-coins", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

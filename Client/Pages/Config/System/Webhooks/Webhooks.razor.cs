@@ -39,7 +39,7 @@ public partial class Webhooks : ListPage<Guid, Webhook>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Layout.SetInfo(Translater.Instant("Pages.Webhooks.Title"), "fas fa-handshake");
+        Layout.SetInfo(Translater.Instant("Pages.Webhooks.Title"), "fas fa-handshake", noPadding: true);
         lblRoute = Translater.Instant("Pages.Webhooks.Columns.Route");
         lblMethod = Translater.Instant("Pages.Webhooks.Columns.Method");
         BaseRoute = NavigationManager.BaseUri.TrimEnd('/') + "/";
