@@ -36,7 +36,7 @@ function Script(URI, ApiKey) {
         // Ensure series is refreshed
         let refreshData = sonarr.sendCommand('RefreshSeries', refreshBody);
         // Wait for the completion of the refresh
-        let refreshCompleted = sonarr.waitForCompletion(refreshData.id, sonarr);
+        let refreshCompleted = sonarr.waitForCompletion(refreshData.id);
         if (!refreshCompleted) {
             Logger.WLog('refresh failed');
             return -1;
