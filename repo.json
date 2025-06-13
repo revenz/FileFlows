@@ -445,7 +445,7 @@
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Refresh.js",
       "Name": "Sonarr - Refresh",
       "Description": "This script will refresh the file through Sonarr for processing libraries in place\n/",
-      "Revision": 1,
+      "Revision": 2,
       "Uid": "01d7fc57-2613-4e14-92bc-29b2ba259f86"
     },
     {
