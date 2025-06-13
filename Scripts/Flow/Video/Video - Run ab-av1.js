@@ -6,7 +6,7 @@ If CRF is found, it is saved to Variables.AbAv1CRFValue.
 Executes the ab-av1 command.
  * @author CanofSocks
  * @uid e31fbd4d-dc96-4ae6-9122-a9f30c102b1d
- * @revision 2
+ * @revision 4
  * @param {string} Preset The preset to use
  * @param {string} Encoder The target encoder
  * @param {string} EncOptions A '|' separated list of additional options to pass to ab-av1. The first '=' symbol will be used to infer that this is an option with a value. Passed to ffmpeg like "x265-params=lossless=1" -> ['-x265-params', 'lossless=1'] 
@@ -38,41 +38,41 @@ function Script(Preset,Encoder,EncOptions,PixFormat,MinVmaf,MaxEncodedPercent,Mi
     var fi = FileInfo(Flow.WorkingFile);
 
     let abav1Command = ` crf-search --temp-dir ${Variables.temp} -i "${fi.FullName}"`
-    if(PixFormat != null){
+    if(PixFormat){
         abav1Command += ` --pix-format ${PixFormat}`
     }
-    if(MinVmaf != null){
+    if(MinVmaf){
         abav1Command += ` --min-vmaf ${MinVmaf}`
     }
-    if(Preset != null){
+    if(Preset){
         abav1Command += ` --preset ${Preset}`
     }
-    if(MaxEncodedPercent != null ){
+    if(MaxEncodedPercent){
         abav1Command += ` --max-encoded-percent ${MaxEncodedPercent}`
     }
-    if(MinSamples != null){
+    if(MinSamples){
         abav1Command += ` --min-samples ${MinSamples}`
     }
-    if(Encoder != null){
+    if(Encoder){
         abav1Command += ` --encoder ${Encoder}`
     }
-    if(MinCRF != null){
+    if(MinCRF){
         abav1Command += ` --min-crf ${MinCRF}`
     }
-    if(MaxCRF != null){
+    if(MaxCRF){
         abav1Command += ` --max-crf ${MaxCRF}`
     }
-    if (Thorough != null) {
+    if (Thorough) {
         abav1Command += ' --thorough'
     }
-    if (EncOptions != null){
+    if (EncOptions){
         let encoptions = `${EncOptions}`.split("|");
         for (let i = 0; i < encoptions.length; i++) {
             abav1Command += ` --enc ${encoptions[i]}`
         }
     }
 
-    if(AdditionalOptions != null){
+    if(AdditionalOptions){
         abav1Command += ` ${AdditionalOptions}`
     }
 
