@@ -78,7 +78,9 @@ function Script(Preset,Encoder,EncOptions,PixFormat,MinVmaf,MaxEncodedPercent,Mi
 
     let returnValue = search(abav1Command);
 
-    Logger.ILog(`${returnValue.message}`)
+    if(returnValue.message){
+        Logger.ILog(`${returnValue.message}`)
+    }
 
     if (returnValue.error == true){
         Logger.ELog(`${returnValue.message}`)
