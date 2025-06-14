@@ -151,9 +151,9 @@ function search(abav1Command){
             ))
         ) {
             returnValue.data.push({
-                crf: matches[2].trim(),
-                score: matches[3].trim(),
-                size: matches[4].trim(),
+                crf: matches[2] ? matches[2].trim() : null,
+                score: matches[3] ? matches[3].trim() : null,
+                size: matches[4] ? matches[4].trim() : null,
             });
         }
         if ((matches = line.match(/crf ([0-9]+) successful/i))) {
