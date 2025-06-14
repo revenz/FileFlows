@@ -6,7 +6,7 @@ If CRF is found, it is saved to Variables.AbAv1CRFValue.
 Executes the ab-av1 command.
  * @author CanofSocks
  * @uid e31fbd4d-dc96-4ae6-9122-a9f30c102b1d
- * @revision 5
+ * @revision 6
  * @param {string} Preset The preset to use
  * @param {string} Encoder The target encoder
  * @param {string} EncOptions A '|' separated list of additional options to pass to ab-av1. The first '=' symbol will be used to infer that this is an option with a value. Passed to ffmpeg like "x265-params=lossless=1" -> ['-x265-params', 'lossless=1'] 
