@@ -5,7 +5,7 @@ Run between encode and move/replace.
 Output is always an MKV.
 dovi_tool only supports HEVC when AV1 support is added I will updated this script.
  * @author lawrence / iBuSH
- * @revision 11
+ * @revision 12
  * @uid f5eebc75-e22d-4181-af02-5e7263e68acd
  * @param {bool} RemoveHDRTenPlus Remove HDR10+, this fixes the black screen issues on FireStick
  * @output Fixed
@@ -17,6 +17,11 @@ function Script(RemoveHDRTenPlus) {
 
   if (!videoStreams?.length) {
     return Flow.Fail("No Video detected");
+  }
+
+  let oldVideoInfo = PluginMethod("VideoNodes", "GetVideoInfo", [Variables.file.Orig.FullName]);
+  if (oldVideoInfo && !oldVideoInfo.VideoStreams[0].DolbyVision) {
+    return 2;
   }
 
   Flow.AdditionalInfoRecorder("DoVi", "Initializing", 1);
@@ -41,28 +46,16 @@ function Script(RemoveHDRTenPlus) {
   let original = result.Value;
 
   let process;
-  let ui_language = Flow.IsWindows ? 'en' : 'en_US';
-
-  if (Variables.file.Orig.Extension == '.mkv') {
-    process = Flow.Execute({
-      command: mkvinfo,
-      argumentList: ['--ui-language', ui_language, original],
-    });
-  } else {
-    process = Flow.Execute({
-      command: ffmpeg,
-      argumentList: ["-i", original],
-    });
-  }
-
-  let regexp = /((Dolby Vision|DOVI) configuration|dv(c|v)C)/i;
-  let matches = process.output.match(regexp);
-
-  if (!matches) return 2;
 
   if (!(videoStreams[0].Codec == "hevc")) {
     return Flow.Fail(
       "Video format MUST be HEVC, AV1 is not currently supported by dovi_tool"
+    );
+  }
+
+  if (Variables.file.Extension !== '.mkv') {
+    return Flow.Fail(
+      "Video extension must be mkv, please add the 'Remux to MKV' Flow Element"
     );
   }
 
@@ -89,13 +82,6 @@ function Script(RemoveHDRTenPlus) {
         }
     });
 
-    executeArgs.add_Error((line) => {
-      let matches = line.match(/time=([\.:0-9]+)/i);
-      if (matches) {
-        ffPercent(duration, matches[1]);
-      }
-    });
-
     process = Flow.Execute(executeArgs);
 
     if (process.exitCode !== 0) {
@@ -108,7 +94,7 @@ function Script(RemoveHDRTenPlus) {
   Flow.AdditionalInfoRecorder("DoVi", "Extracting RPU", 1);
 
   if (Flow.IsLinux) {
-    original = `"${original}"`;
+    original = `\"${original}\"`;
   }
 
   // Creating RPU 8.1 file
@@ -161,41 +147,19 @@ function Script(RemoveHDRTenPlus) {
   Flow.AdditionalInfoRecorder("DoVi", "Extracting converted video", 1);
 
   var executeArgs = new ExecuteArgs();
-
-  if (Variables.file.Extension == '.mkv') {
-    executeArgs.command = mkvextract;
-    executeArgs.argumentList = [
+  executeArgs.command = mkvextract;
+  executeArgs.argumentList = [
       "tracks",
       working,
-      '0:' + System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc")
-    ];
+      "0:" + System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc"),
+  ];
 
-    executeArgs.add_Output((line) => {
-        let matches = line.match(/ ([0-9]+)%/i);
-        if (matches) {
+  executeArgs.add_Output((line) => {
+      let matches = line.match(/ ([0-9]+)%/i);
+      if (matches) {
           Flow.PartPercentageUpdate(matches[1]);
-        }
-      });
-  } else {
-    executeArgs.command = ffmpeg;
-    executeArgs.argumentList = [
-      "-v",
-      "quiet",
-      "-stats",
-      "-i",
-      working,
-      "-c:v",
-      "copy",
-      System.IO.Path.Combine(Flow.TempPath, "converted_video.hevc")
-      
-    ];
-    executeArgs.add_Error((line) => {
-        let matches = line.match(/time=([\.:0-9]+)/i);
-        if (matches) {
-            ffPercent(duration, matches[1]);
-        }
-    });
-  }
+      }
+  });
 
   Flow.Execute(executeArgs);
 
@@ -258,11 +222,11 @@ function Script(RemoveHDRTenPlus) {
   // Check framerate of video
   process = Flow.Execute({
     command: mkvinfo,
-    argumentList: ['--ui-language', ui_language, working],
+    argumentList: ['--ui-language', Flow.IsWindows ? 'en' : 'en_US', working],
   });
 
-  regexp = /([\.0-9]+) frames\/fields/i;
-  matches = process.standardOutput.match(regexp);
+  let regexp = /([\.0-9]+) frames\/fields/i;
+  let matches = process.standardOutput.match(regexp);
   var executeArgs = new ExecuteArgs();
 
   executeArgs.command = mkvmerge;
