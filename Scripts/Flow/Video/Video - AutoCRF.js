@@ -27,7 +27,7 @@ All parameters can also be overridden using Variables for example
 
 For further help or feature requests find me in the discord
  * @author lawrence
- * @revision 7
+ * @revision 9
  * @param {('hevc_qsv'|'hevc_nvenc'|'hevc'|'av1_qsv'|'libsvtav1'|'av1_nvenc'|'h264_qsv'|'h264'|'h264_nvenc')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
@@ -43,7 +43,8 @@ For further help or feature requests find me in the discord
         if (!ToolPath("ab-av1", "/opt/autocrf")) {
             return -1;
         }
-        if (!ToolPath("ffmpeg", "/opt/autocrf")) {
+        let ffmpeg = ToolPath("ffmpeg", "/opt/autocrf")
+        if (!ffmpeg) {
             return -1;
         }
         if (!ToolPath("ffmpeg", "/opt/ffmpeg-static/bin")) {
@@ -189,9 +190,29 @@ For further help or feature requests find me in the discord
         if (video.Stream.DolbyVision && !video.Stream.HDR && FixDolby5) {
             Logger.ILog("Video is DoVi without a fallback, so were creating one");
             forceEncode = true;
-            video.filter.Add(
-                "tonemapx=tonemap=bt2390:transfer=smpte2084:matrix=bt2020:primaries=bt2020"
-            );
+            Logger.ILog("Testing for openCL");
+            let process = Flow.Execute({
+                command: ffmpeg,
+                argumentList: [
+                    '-hwaccel', 'opencl', '-f', 'lavfi', '-i', 'testsrc=size=640x480:rate=25', '-t', '1', '-c:v', 'libx264', '-f', 'null', '-'
+                ]
+            })
+            if (process.exitCode == 0) {
+                [
+                    "-init_hw_device",
+                    "opencl=ocl",
+                    "-filter_hw_device",
+                    "ocl"
+                ].forEach((ob) => {
+                    Variables.FfmpegBuilderModel.CustomParameters.Add(ob);
+                });
+                video.filter.Add("format=p010le,hwupload=derive_device=opencl,tonemap_opencl=tonemap=bt2390:transfer=smpte2084:matrix=bt2020:primaries=bt2020:format=p010le,hwdownload,format=p010le")
+            } else {
+                Logger.WLog("Could not find openCL, you may want the oneVPL DockerMod")
+                video.filter.Add(
+                    "tonemapx=tonemap=bt2390:transfer=smpte2084:matrix=bt2020:primaries=bt2020"
+                );
+            }
             if (TargetCodec.includes("qsv")) {
                 Logger.WLog("QSV does not support dolby vision 5 decode properly so we are disabling it");
                 Variables.NoQSV = true;
@@ -267,11 +288,21 @@ For further help or feature requests find me in the discord
         }
     
         if (attempt.winner) {
-            if (TargetCodec.includes('av1')) {
-                Variables.ManualParameters = `${attempt.command} -crf:v ${attempt.winner.crf}`;
-            } else {
-                Variables.ManualParameters = `${attempt.command} -global_quality:v ${attempt.winner.crf}`;
+            let crf_arg = "-crf";
+            if (TargetCodec.includes("_vaapi")) {
+                crf_arg = "-q";
             }
+            if (TargetCodec.includes("_vulkan")) {
+                crf_arg = "-qp";
+            }
+            if (TargetCodec.includes("_nvenc")) {
+                crf_arg = "-cq";
+            }
+            if (TargetCodec.includes("_qsv")) {
+                crf_arg = "-global_quality";
+            }
+            
+            Variables.ManualParameters = `${attempt.command} ${crf_arg}:v ${attempt.winner.crf}`;
             Logger.ILog(
                 `Attempt successful with ${attempt.winner.size}% size, ${attempt.winner.score}% VMAF`
             );
