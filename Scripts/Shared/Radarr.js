@@ -234,7 +234,7 @@ export class Radarr
         while (new Date().getTime() - startTime <= timeout) {
             let response = this.fetchJson(endpoint, '');
             if (response.status === 'completed') {
-                Logger.ILog('Scan completed!');
+                Logger.ILog('Command completed!');
                 return true;
             } else if (response.status === 'failed') {
                 Logger.WLog(`Command ${commandId} failed`)
@@ -243,7 +243,7 @@ export class Radarr
             Logger.ILog(`Checking status: ${response.status}`);
             Sleep(100); // Delay before next check
         }
-        Logger.WLog('Timeout: Scan did not complete within 30 seconds.');
+        Logger.WLog(`Timeout: Command ${commandId} did not complete within ${timeout / 1000} seconds.`);
         return false;
     }
 }
