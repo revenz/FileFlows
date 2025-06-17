@@ -27,7 +27,7 @@ All parameters can also be overridden using Variables for example
 
 For further help or feature requests find me in the discord
  * @author lawrence
- * @revision 9
+ * @revision 10
  * @param {('hevc_qsv'|'hevc_nvenc'|'hevc'|'av1_qsv'|'libsvtav1'|'av1_nvenc'|'h264_qsv'|'h264'|'h264_nvenc')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
@@ -479,7 +479,7 @@ For further help or feature requests find me in the discord
             }
             if (
                 (matches = line.match(
-                    /(crf ([0-9]+) )?VMAF ([0-9.]+) predicted.*\(([0-9.]+)%/i
+                    /(crf ([0-9.]+) )VMAF ([0-9.]+) predicted.*\(([0-9.]+)%/i
                 ))
             ) {
                 returnValue.data.push({
@@ -488,7 +488,7 @@ For further help or feature requests find me in the discord
                     size: matches[4].trim(),
                 });
             }
-            if ((matches = line.match(/crf ([0-9]+) successful/i))) {
+            if ((matches = line.match(/crf ([0-9.]+) successful/i))) {
                 for (const line of returnValue.data) {
                     if (line.crf == matches[1]) {
                         returnValue.winner = line;
