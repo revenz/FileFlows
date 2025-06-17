@@ -533,18 +533,18 @@ For further help or feature requests find me in the discord
         Logger.ILog("| CRF | Score | Size |");
         Logger.ILog("----------------------");
         for (const line of output.data) {
-            let crf = line.crf.toString().padStart(3);
+            let crf = line.crf.toString().substring(0, 4).padStart(4);
             let score = line.score.toString().padStart(5);
             let size = line.size.toString().padStart(3);
-            Logger.ILog(`| ${crf} | ${score} | ${size}% |`);
+            Logger.ILog(`|${crf} | ${score} | ${size}% |`);
         }
     
         if (output.winner) {
-            let crf = output.winner.crf.toString().padStart(3);
+            let crf = output.winner.crf.toString().substring(0, 4).padStart(4);
             let score = output.winner.score.toString().padStart(5);
             let size = output.winner.size.toString().padStart(3);
             Logger.ILog("----------------------");
-            Logger.ILog(`| ${crf} | ${score} | ${size}% |`);
+            Logger.ILog(`|${crf} | ${score} | ${size}% |`);
         }
         Logger.ILog(" ");
     }
