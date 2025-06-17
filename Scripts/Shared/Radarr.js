@@ -243,7 +243,7 @@ export class Radarr
             Logger.ILog(`Checking status: ${response.status}`);
             Sleep(100); // Delay before next check
         }
-        Logger.WLog('Timeout: Scan did not complete within 30 seconds.');
+        Logger.WLog(`Timeout: Command ${commandId} did not complete within ${timeout / 1000} seconds.`);
         return false;
     }
 }
