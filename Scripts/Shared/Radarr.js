@@ -234,7 +234,7 @@ export class Radarr
         while (new Date().getTime() - startTime <= timeout) {
             let response = this.fetchJson(endpoint, '');
             if (response.status === 'completed') {
-                Logger.ILog('Scan completed!');
+                Logger.ILog('Command completed!');
                 return true;
             } else if (response.status === 'failed') {
                 Logger.WLog(`Command ${commandId} failed`)
