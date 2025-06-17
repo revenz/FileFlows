@@ -5,7 +5,7 @@ import { Radarr } from 'Shared/Radarr';
  * @uid 0e522a46-ed76-4b40-bd1f-b3baac64264c
  * @description Trigger Radarr to manually import the media, run after last file in folder moved.
  * @author iBuSH
- * @revision 4
+ * @revision 5
  * @param {string} URL Radarr root URL and port (e.g. http://radarr:7878).
  * @param {string} ApiKey Radarr API Key.
  * @param {string} ImportPath The output path for import triggering (default Working File).
