@@ -36,11 +36,11 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
 
     protected override void OnInitialized()
     {
-        Unprocessed = new(FileStatus.Unprocessed, "fas fa-hourglass", feService.Files.Unprocessed.Count);
+        Unprocessed = new(FileStatus.Unprocessed, "fas fa-hourglass", feService.Files.UnprocessedTotal);
         Processing = new (FileStatus.Processing, "fas fa-file-medical-alt",feService.Files.Processing.Count);
-        OnHold = new(FileStatus.OnHold, "fas fa-hand-paper", feService.Files.OnHold.Count);
-        Disabled = new(FileStatus.Disabled, "fas fa-toggle-off", feService.Files.Disabled.Count);
-        OutOfSchedule = new(FileStatus.OutOfSchedule, "fas fa-clock", feService.Files.OutOfSchedule.Count);
+        OnHold = new(FileStatus.OnHold, "fas fa-hand-paper", feService.Files.OnHoldTotal);
+        Disabled = new(FileStatus.Disabled, "fas fa-toggle-off", feService.Files.DisabledTotal);
+        OutOfSchedule = new(FileStatus.OutOfSchedule, "fas fa-clock", feService.Files.OutOfScheduleTotal);
         ProcessingFailed = new(FileStatus.ProcessingFailed, "far far fa-times-circle", feService.Files.FailedFilesTotal);
         Processed = new(FileStatus.Processed, "far fa-check-circle", feService.Files.ProcessedTotal);
         
