@@ -38,7 +38,15 @@ public class LibraryFileController : Controller
         
         var allLibraries = (await ServiceLoader.Load<LibraryService>().GetAllAsync());
         var nodeService = ServiceLoader.Load<NodeService>();
-        
+
+        int pageSize = 500;
+        if (status > 0)
+        {
+            var settings = await ServiceLoader.Load<SettingsService>().Get();
+            if (settings.MaxPageSize > 0)
+                pageSize = settings.MaxPageSize;
+        }
+
         var sysInfo = new LibraryFilterSystemInfo()
         {
             AllLibraries = allLibraries.ToDictionary(x => x.Uid, x => x),
@@ -48,8 +56,8 @@ public class LibraryFileController : Controller
         var lfFilter = new LibraryFileFilter()
         {
             Status = (FileStatus)status,
-            Skip = page * 1000,
-            Rows = 1000,
+            Skip = page * pageSize,
+            Rows = pageSize,
             Filter = filter,
             NodeUid = node,
             LibraryUid = library,

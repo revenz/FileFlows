@@ -178,23 +178,30 @@ public class SseController : Controller
             $"Completed GetStorageSaved (StatisticService) at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
 
         stopwatch.Restart();
-
+        int pageSize = settings.MaxPageSize > 0 ? settings.MaxPageSize : 500;
         var fileSorter = ServiceLoader.Load<FileSorterService>();
             
         var successful = fileSorter.GetData(FileStatus.Processed);
         var successfulTotal = fileSorter.GetTotal(FileStatus.Processed);
         if (mobile ||(userRole & UserRole.Files) != UserRole.Files && successful.Count > 50)
             successful = successful.Take(50).ToList();
+        else if(successfulTotal > pageSize)
+            successful = successful.Take(pageSize).ToList();
         
         var failed = fileSorter.GetData(FileStatus.ProcessingFailed);
         var failedTotal = fileSorter.GetTotal(FileStatus.ProcessingFailed);
         if (mobile || (userRole & UserRole.Files) != UserRole.Files && failed.Count > 50)
             failed = failed.Take(50).ToList();
+        else if(failedTotal > pageSize)
+            failed = failed.Take(pageSize).ToList();
+
 
         var upcoming = fileSorter.GetData(FileStatus.Unprocessed);
         int upcomingTotal = upcoming.Count;
         if (mobile ||(userRole & UserRole.Files) != UserRole.Files && upcoming.Count > 50)
             upcoming = upcoming.Take(50).ToList();
+        else if(upcomingTotal > pageSize)
+            upcoming = upcoming.Take(pageSize).ToList();
         
         logSummary.AppendLine(
             $"Completed SystemOverviewService calls at {DateTime.UtcNow}, Elapsed: {stopwatch.ElapsedMilliseconds} ms");
@@ -211,7 +218,7 @@ public class SseController : Controller
         var result = new InitialClientData
         {
             Profile = profile,
-            PageSize = settings.MaxPageSize,
+            PageSize = pageSize,
             LanguageJson = lang,
             CurrentSystemInfo = ServiceLoader.Load<SystemOverviewService>().GetSystemInfo(),
             CurrentFileOverData = ServiceLoader.Load<DashboardFileOverviewService>().GetData(),
