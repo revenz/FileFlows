@@ -263,13 +263,13 @@ export class Sonarr
     /**
      * Sleeps, waiting for a command to complete
      * @param {int} commandId ID of command being run
-     * @param {int} timeOut time for waiting for cammand to complete before timeour, in milliseconds (30000 milliseconds is 30 seconds).
-     * @returns bool whether the coommand ran successfully
+     * @param {int} timeOut time for waiting for command to complete before timeout, in milliseconds (30000 milliseconds is 30 seconds).
+     * @returns bool whether the command ran successfully
      */
     waitForCompletion(commandId, timeOut=30000) 
     {
         const startTime = new Date().getTime();
-        const timeout = isNaN(timeOut) || timeout < 1000 ? 30000 : timeOut;
+        const timeout = isNaN(timeOut) || timeOut < 1000 ? 30000 : timeOut;
         const endpoint = `command/${commandId}`;
 
         while (new Date().getTime() - startTime <= timeout) {
@@ -296,13 +296,13 @@ export class Sonarr
     fetchRenamedFiles(seriesId) {
         let endpoint = 'rename';
         let queryParams = `seriesId=${seriesId}`;
-        let response = this.fetchJson(endpoint, queryParams);
-        return response;
+        return this.fetchJson(endpoint, queryParams);
     }
 
     /**
      * Toggles 'monitored' for episodes
      * @param {list} episodeIds IDs of episodes to toggle
+     * @param {boolean} monitored Set as monitored true or false
      * @returns Response if ran successfully otherwise null
      */
     toggleMonitored(episodeIds, monitored=true) {
