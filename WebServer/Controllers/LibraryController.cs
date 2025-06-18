@@ -214,9 +214,9 @@ public class LibraryController : BaseController
     public async Task<IActionResult> Rescan([FromBody] ReferenceModel<Guid> model)
     {
         var sorter = ServiceLoader.Load<FileSorterService>();
-        bool atCapacity = sorter.AtCapacity();
-        if(atCapacity)
-            return BadRequest("ErrorMessages.LibraryScanAtCapacity");
+        // bool atCapacity = sorter.AtCapacity();
+        // if(atCapacity)
+        //     return BadRequest("ErrorMessages.LibraryScanAtCapacity");
         
         var service = ServiceLoader.Load<LibraryService>();
         await service.Rescan(model.Uids);
