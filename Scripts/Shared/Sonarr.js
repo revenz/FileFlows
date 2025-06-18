@@ -2,7 +2,7 @@
  * @name Sonarr
  * @uid 0f5836c0-d20b-4740-9824-f81b5200ec3d
  * @description Class that interacts with Sonarr
- * @revision 10
+ * @revision 11
  * @minimumVersion 1.0.0.0
  */
 export class Sonarr
@@ -269,7 +269,7 @@ export class Sonarr
     waitForCompletion(commandId, timeOut=30000) 
     {
         const startTime = new Date().getTime();
-        const timeout = timeOut;
+        const timeout = isNaN(timeOut) || timeout < 1000 ? 30000 : timeOut;
         const endpoint = `command/${commandId}`;
 
         while (new Date().getTime() - startTime <= timeout) {
