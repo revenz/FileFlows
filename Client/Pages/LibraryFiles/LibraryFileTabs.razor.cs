@@ -63,11 +63,10 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
     /// Called when the unprocessing data is updated
     /// </summary>
     /// <param name="data">the data</param>
-    /// <param name="total">the total unprocessed</param>
-    private void OnUnprocessedUpdated(List<LibraryFileMinimal> data, int total)
+    private void OnUnprocessedUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
-        if (Unprocessed.Count == total) return;
-        Unprocessed.Count = total;
+        if (Unprocessed.Count == data.Total) return;
+        Unprocessed.Count = data.Total;
         StateHasChanged();
     }
 
@@ -103,26 +102,15 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
         Processed.Count = data.Total;
         StateHasChanged();
     }
-    /// <summary>
-    /// 
-    /// Called when the processing data is updated
-    /// </summary>
-    /// <param name="data">the data</param>
-    private void FilesOnUnprocessedUpdated(List<LibraryFileMinimal> data)
-    {
-        if (Unprocessed.Count == data.Count) return;
-        Unprocessed.Count = data.Count;
-        StateHasChanged();
-    }
 
     /// <summary>
     /// Called when the processing data is updated
     /// </summary>
     /// <param name="data">the data</param>
-    private void OnOnHoldUpdated(List<LibraryFileMinimal> data)
+    private void OnOnHoldUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
-        if (OnHold.Count == data.Count) return;
-        OnHold.Count = data.Count;
+        if (OnHold.Count == data.Total) return;
+        OnHold.Count = data.Total;
         StateHasChanged();
     }
     
@@ -130,10 +118,10 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
     /// Called when the processing data is updated
     /// </summary>
     /// <param name="data">the data</param>
-    private void OnOutOfScheduleUpdated(List<LibraryFileMinimal> data)
+    private void OnOutOfScheduleUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
-        if (OutOfSchedule.Count == data.Count) return;
-        OutOfSchedule.Count = data.Count;
+        if (OutOfSchedule.Count == data.Total) return;
+        OutOfSchedule.Count = data.Total;
         StateHasChanged();
     }
     
@@ -141,10 +129,10 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
     /// Called when the processing data is updated
     /// </summary>
     /// <param name="data">the data</param>
-    private void OnDisabledUpdated(List<LibraryFileMinimal> data)
+    private void OnDisabledUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
-        if (Disabled.Count == data.Count) return;
-        Disabled.Count = data.Count;
+        if (Disabled.Count == data.Total) return;
+        Disabled.Count = data.Total;
         StateHasChanged();
     }
 

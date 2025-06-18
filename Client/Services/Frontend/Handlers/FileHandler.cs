@@ -56,24 +56,39 @@ public class FileHandler(FrontendService feService)
     public List<LibraryFileMinimal> Disabled { get; private set; }
     
     /// <summary>
+    /// Gets the total number of disabled files
+    /// </summary>
+    public int DisabledTotal { get; private set; }
+    
+    /// <summary>
+    /// Gets the total number of on hold files
+    /// </summary>
+    public int OnHoldTotal { get; private set; }
+    
+    /// <summary>
+    /// Gets the total number of out of schedule files
+    /// </summary>
+    public int OutOfScheduleTotal { get; private set; }
+    
+    /// <summary>
     /// Event raised when the unprocessed list is updated
     /// </summary>
-    public event Action<List<LibraryFileMinimal>, int> UnprocessedUpdated; 
+    public event Action<ListAndCount<LibraryFileMinimal>> UnprocessedUpdated; 
     
     /// <summary>
     /// Event raised when the on hold queue is updated
     /// </summary>
-    public event Action<List<LibraryFileMinimal>> OnHoldUpdated; 
+    public event Action<ListAndCount<LibraryFileMinimal>> OnHoldUpdated; 
     
     /// <summary>
     /// Event raised when the on out of schedule queue is updated
     /// </summary>
-    public event Action<List<LibraryFileMinimal>> OutOfScheduleUpdated; 
+    public event Action<ListAndCount<LibraryFileMinimal>> OutOfScheduleUpdated; 
     
     /// <summary>
     /// Event raised when the disabled files are updated
     /// </summary>
-    public event Action<List<LibraryFileMinimal>> DisabledUpdated; 
+    public event Action<ListAndCount<LibraryFileMinimal>> DisabledUpdated; 
     
     /// <summary>
     /// Called when recently finished files have been updated
@@ -103,15 +118,18 @@ public class FileHandler(FrontendService feService)
         TopSavingsAll = data.TopSavingsAll;
         TopSavings31Days = data.TopSavings31Days;
         OnHold = data.OnHold;
+        OnHoldTotal = data.OnHoldTotal;
         OutOfSchedule = data.OutOfScheduleFiles;
+        OutOfScheduleTotal = data.OutOfScheduleFilesTotal;
         Disabled = data.DisabledFiles;
+        DisabledTotal = data.DisabledFilesTotal;
         Processing = data.Processing;
         
         feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("Unprocessed", (ed) =>
         {
             Unprocessed = ed.Data;
             UnprocessedTotal = ed.Total;
-            UnprocessedUpdated?.Invoke(ed.Data, UnprocessedTotal);
+            UnprocessedUpdated?.Invoke(ed);
         });
         feService.Registry.Register<ListAndCount<ProcessingLibraryFile>>("Processing", (ed) =>
         {
@@ -121,17 +139,20 @@ public class FileHandler(FrontendService feService)
         feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("OnHold", (files) =>
         {
             OnHold = files.Data;
-            OnHoldUpdated?.Invoke(OnHold);
+            OnHoldTotal = files.Total;
+            OnHoldUpdated?.Invoke(files);
         });
         feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("OutOfSchedule", (files) =>
         {
             OutOfSchedule = files.Data;
-            OutOfScheduleUpdated?.Invoke(OutOfSchedule);
+            OutOfScheduleTotal = files.Total;
+            OutOfScheduleUpdated?.Invoke(files);
         });
         feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("Disabled", (files) =>
         {
             Disabled = files.Data;
-            DisabledUpdated?.Invoke(Disabled);
+            DisabledTotal = files.Total;
+            DisabledUpdated?.Invoke(files);
         });
         feService.Registry.Register<ListAndCount<LibraryFileMinimal>>("Processed", (lat) =>
         {

@@ -260,12 +260,20 @@ public class SseController : Controller
 
         if ((userRole & UserRole.Files) == UserRole.Files)
         {
-            result.OnHold = fileSorter.GetData(FileStatus.OnHold).Select(x => (LibraryFileMinimal)x)
+            var onHold = fileSorter.GetData(FileStatus.OnHold).Select(x => (LibraryFileMinimal)x)
                 .ToList();
-            result.DisabledFiles = fileSorter.GetData(FileStatus.Disabled).Select(x => (LibraryFileMinimal)x)
+            result.OnHold = onHold.Take(pageSize).ToList();
+            result.OnHoldTotal = onHold.Count;
+            
+            var disabled = fileSorter.GetData(FileStatus.Disabled).Select(x => (LibraryFileMinimal)x)
                 .ToList();
-            result.OutOfScheduleFiles = fileSorter.GetData(FileStatus.OutOfSchedule).Select(x => (LibraryFileMinimal)x)
+            result.DisabledFiles = disabled.Take(pageSize).ToList();
+            result.DisabledFilesTotal = disabled.Count;
+            
+            var outOfSchedule =  fileSorter.GetData(FileStatus.OutOfSchedule).Select(x => (LibraryFileMinimal)x)
                 .ToList();
+            result.OutOfScheduleFiles = outOfSchedule.Take(pageSize).ToList();
+            result.OutOfScheduleFilesTotal = outOfSchedule.Count;
         }
 
         // Log summary to Logger.Instance

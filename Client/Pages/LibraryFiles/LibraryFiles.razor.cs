@@ -217,11 +217,11 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         LoadServiceData();
         
         feService.Files.UnprocessedUpdated += DataUpdatedWithTotal;
-        feService.Files.FailedFilesUpdated += DataUpdated2;
-        feService.Files.SuccessfulUpdated += DataUpdated2;
-        feService.Files.OutOfScheduleUpdated += DataUpdated;
-        feService.Files.DisabledUpdated += DataUpdated;
-        feService.Files.OnHoldUpdated += DataUpdated;
+        feService.Files.FailedFilesUpdated += DataUpdatedWithTotal;
+        feService.Files.SuccessfulUpdated += DataUpdatedWithTotal;
+        feService.Files.OutOfScheduleUpdated += DataUpdatedWithTotal;
+        feService.Files.DisabledUpdated += DataUpdatedWithTotal;
+        feService.Files.OnHoldUpdated += DataUpdatedWithTotal;
         feService.Files.ProcessingUpdated += DataUpdated;
     }
 
@@ -232,14 +232,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         LoadServiceData();
     }
 
-    private void DataUpdatedWithTotal(List<LibraryFileMinimal> obj, int total)
-    {
-        if (PageIndex > 0 || HasFilter())
-            return;
-        LoadServiceData();
-    }
-    
-    private void DataUpdated2(FileHandler.ListAndCount<LibraryFileMinimal> obj)
+    private void DataUpdatedWithTotal(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
         if (PageIndex > 0 || HasFilter())
             return;
@@ -349,11 +342,11 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     public void Dispose()
     {
         feService.Files.UnprocessedUpdated -= DataUpdatedWithTotal;
-        feService.Files.FailedFilesUpdated -= DataUpdated2;
-        feService.Files.SuccessfulUpdated -= DataUpdated2;
-        feService.Files.OutOfScheduleUpdated -= DataUpdated;
-        feService.Files.DisabledUpdated -= DataUpdated;
-        feService.Files.OnHoldUpdated -= DataUpdated;
+        feService.Files.FailedFilesUpdated -= DataUpdatedWithTotal;
+        feService.Files.SuccessfulUpdated -= DataUpdatedWithTotal;
+        feService.Files.OutOfScheduleUpdated -= DataUpdatedWithTotal;
+        feService.Files.DisabledUpdated -= DataUpdatedWithTotal;
+        feService.Files.OnHoldUpdated -= DataUpdatedWithTotal;
         feService.Files.ProcessingUpdated -= DataUpdated;
     }
 }
