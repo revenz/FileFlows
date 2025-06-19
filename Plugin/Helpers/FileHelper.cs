@@ -538,6 +538,7 @@ public class FileHelper
 
         return false;
     }
+    
     /// <summary>
     /// Combines multiple path strings, detecting the path separator from the first directory.
     /// </summary>
@@ -555,7 +556,7 @@ public class FileHelper
             paths.AddRange(additionalPaths);
 
         char separator = '/';
-        foreach (var sep in new char[] { '/', '\\' })
+        foreach (var sep in new[] { '/', '\\' })
         {
             if (path1.Contains(sep))
             {
@@ -564,14 +565,14 @@ public class FileHelper
             }
         }
 
-        string? combinedPath = paths[0]?.TrimEnd(separator);
+        string? combinedPath = paths[0]?.TrimEnd('/', '\\');
 
         for (int i = 1; i < paths.Count; i++)
         {
             if (string.IsNullOrEmpty(paths[i]))
                 continue;
 
-            combinedPath += $"{separator}{paths[i].TrimStart(separator)}";
+            combinedPath += $"{separator}{paths[i].TrimStart('/', '\\')}";
         }
 
         return combinedPath;
