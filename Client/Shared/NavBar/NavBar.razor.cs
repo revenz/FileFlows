@@ -99,9 +99,9 @@ public partial class NavBar
         PausedService.OnPaused += OnPaused;
         PausedService.OnResume += OnResume;
 
-        TotalUnprocessed = feService.Files.Unprocessed.Count;
+        TotalUnprocessed = feService.Files.UnprocessedTotal;
         TotalProcessing = feService.Files.Processing.Count;
-        TotalFailed = feService.Files.FailedFiles.Count;
+        TotalFailed = feService.Files.FailedFilesTotal;
         
         LoadMenu();
 
