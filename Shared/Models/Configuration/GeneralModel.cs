@@ -21,11 +21,6 @@ public class GeneralModel
     public bool ScanWhenPaused { get; set; }
 
     /// <summary>
-    /// Gets or sets the queue capacity for unprocessed files
-    /// </summary>
-    public int QueueCapacity { get; set; }
-
-    /// <summary>
     /// Gets or sets the maximum page size for completed files
     /// </summary>
     public int MaxPageSize { get; set; }

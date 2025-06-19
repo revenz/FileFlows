@@ -1750,8 +1750,6 @@
         "MaxPageSize-Help": "El número máximo de elementos que se pueden mostrar en una lista. Esto se aplica a los datos de archivos procesados enviados a la UI durante la carga. Este número debe ser igual o superior a la Capacidad de la Cola.",
         "PluginRepositoryUrls": "Repositorios de complementos",
         "PluginRepositoryUrls-Help": "Una lista separada por líneas de URLs de repositorios de complementos a utilizar al buscar complementos.\nEl orden es importante, si varios repositorios contienen el mismo complemento, se utilizará el primer repositorio como su fuente.\nEl repositorio predeterminado siempre se agregará al final de esta lista.",
-        "QueueCapacity": "Capacidad de la Cola",
-        "QueueCapacity-Help": "El número máximo de elementos que se pueden agregar a la cola. Esto incluye elementos fuera de horario, en espera o deshabilitados. Aumentar este número incrementa los datos enviados a la UI y puede afectar el rendimiento.",
         "ScanWhenPaused": "Escanear mientras está en pausa",
         "ScanWhenPaused-Help": "Si está habilitado, las bibliotecas seguirán escaneando incluso cuando el sistema esté en pausa.",
         "Telemetry": "Telemetría",

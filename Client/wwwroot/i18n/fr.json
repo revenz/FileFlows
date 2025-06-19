@@ -1750,8 +1750,6 @@
         "MaxPageSize-Help": "Le nombre maximal d'éléments à afficher dans une liste. Cela s'applique aux données des fichiers traités envoyées à l'UI lors du chargement. Ce nombre doit être égal ou supérieur à la Capacité de la File d'Attente.",
         "PluginRepositoryUrls": "Dépôts de plugins",
         "PluginRepositoryUrls-Help": "Une liste séparée par des lignes des URL des dépôts de plugins à utiliser lors de la recherche de plugins.\nL'ordre est important, si plusieurs dépôts contiennent le même plugin, le premier dépôt sera utilisé comme source.\nLe dépôt par défaut sera toujours ajouté à la fin de cette liste.",
-        "QueueCapacity": "Capacité de la File d'Attente",
-        "QueueCapacity-Help": "Le nombre maximum d'éléments pouvant être ajoutés à la file d'attente. Cela inclut les éléments hors programme, en attente ou désactivés. Augmenter cette valeur augmente les données envoyées à l'UI et peut affecter les performances.",
         "ScanWhenPaused": "Analyser en pause",
         "ScanWhenPaused-Help": "Si activé, les bibliothèques continueront à analyser même lorsque le système est en pause.",
         "Telemetry": "Télémétrie",

@@ -1750,8 +1750,6 @@
         "MaxPageSize-Help": "Il numero massimo di elementi da visualizzare in un elenco. Questo si applica ai dati dei file elaborati inviati all'UI durante il caricamento. Questo numero dovrebbe essere uguale o superiore alla Capacità della Coda.",
         "PluginRepositoryUrls": "Repository di Plugin",
         "PluginRepositoryUrls-Help": "Un elenco separato da righe di URL dei repository di plugin da utilizzare quando si cerca plugin.\nL'ordine è importante; se più repository contengono lo stesso plugin, verrà utilizzato come sorgente il primo repository.\nIl repository predefinito sarà sempre aggiunto alla fine di questo elenco.",
-        "QueueCapacity": "Capacità della Coda",
-        "QueueCapacity-Help": "Il numero massimo di elementi che possono essere aggiunti alla coda. Ciò include elementi fuori programma, in attesa o disabilitati. Aumentare questo numero aumenta i dati inviati all'UI e può influire sulle prestazioni.",
         "ScanWhenPaused": "Scansiona mentre è in pausa",
         "ScanWhenPaused-Help": "Se abilitato, le librerie continueranno a essere scansionate anche quando il sistema è in pausa.",
         "Telemetry": "Telemetria",

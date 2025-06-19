@@ -1750,8 +1750,6 @@
         "MaxPageSize-Help": "The maximum number of items to display in a list. This applies to processed file data sent to the UI during loading. This number should be equal to or greater than the Queue Capacity.",
         "PluginRepositoryUrls": "Plugin Repositories",
         "PluginRepositoryUrls-Help": "A line separated list of plugin repository URLs to use when searching for plugins.\nThe order is important, if multiple repositories contain the same plugin, the first repository will be used as it''s source.\nThe default repository will always be added to the end of this list.",
-        "QueueCapacity": "Queue Capacity",
-        "QueueCapacity-Help": "The maximum number of items that can be added to the queue. These include items that are out of schedule, on hold, or disabled. Increasing this number increases the data sent to the UI and may impact performance.",
         "ScanWhenPaused": "Scan While Paused",
         "ScanWhenPaused-Help": "When enabled, libraries will continue scanning even when the system is paused.",
         "Telemetry": "Telemetry",

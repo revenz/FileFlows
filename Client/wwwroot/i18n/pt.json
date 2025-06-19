@@ -1750,8 +1750,6 @@
         "MaxPageSize-Help": "O número máximo de itens a serem exibidos em uma lista. Isso se aplica aos dados dos arquivos processados enviados para a UI durante o carregamento. Esse número deve ser igual ou maior que a Capacidade da Fila.",
         "PluginRepositoryUrls": "Repositórios de Plugins",
         "PluginRepositoryUrls-Help": "Uma lista separada por linhas de URLs de repositórios de plugins a serem usadas ao procurar plugins.\nA ordem é importante; se vários repositórios contiverem o mesmo plugin, o primeiro repositório será usado como sua fonte.\nO repositório padrão sempre será adicionado ao final desta lista.",
-        "QueueCapacity": "Capacidade da Fila",
-        "QueueCapacity-Help": "O número máximo de itens que podem ser adicionados à fila. Isso inclui itens fora do agendamento, em espera ou desativados. Aumentar esse número aumenta os dados enviados para a UI e pode afetar o desempenho.",
         "ScanWhenPaused": "Escanear enquanto pausado",
         "ScanWhenPaused-Help": "Se ativado, as bibliotecas continuarão a ser escaneadas mesmo quando o sistema estiver pausado.",
         "Telemetry": "Telemetria",

@@ -22,7 +22,6 @@ public class GeneralController : BaseController
         GeneralModel model = new();
         model.Language = settings.Language;
         model.ScanWhenPaused = settings.ScanWhenPaused;
-        model.QueueCapacity = settings.QueueCapacity;
         model.MaxPageSize = settings.MaxPageSize;
         model.KeepFailedFlowTempFiles = settings.KeepFailedFlowTempFiles;
         model.UseTempFilesWhenMovingOrCopying = settings.UseTempFilesWhenMovingOrCopying;
@@ -46,7 +45,6 @@ public class GeneralController : BaseController
         var settings = await service.Get() ?? new ();
         settings.Language = model.Language;
         settings.ScanWhenPaused = model.ScanWhenPaused;
-        settings.QueueCapacity = model.QueueCapacity;
         settings.MaxPageSize = model.MaxPageSize;
         settings.KeepFailedFlowTempFiles = model.KeepFailedFlowTempFiles;
         settings.UseTempFilesWhenMovingOrCopying = model.UseTempFilesWhenMovingOrCopying;
