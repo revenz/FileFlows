@@ -375,7 +375,7 @@ class ffFlowPart
 
         let divOutputs = div.querySelector('.outputs');
 
-        if (part.outputs > 0) {
+        //if (part.outputs > 0) {
             if (!divOutputs) {
                 divOutputs = document.createElement('div');
                 div.appendChild(divOutputs);
@@ -400,9 +400,9 @@ class ffFlowPart
                 this.attachOutputNodeEvents(divOutput);
                 divOutputs.appendChild(divOutput);
             }
-        } else if (divOutputs) {
-            divOutputs.remove();
-        }
+        // } else if (divOutputs) {
+        //     divOutputs.remove();
+        // }
 
         // delete any connections
         for (let i = part.outputs + 1; i < 100; i++) {
