@@ -132,7 +132,7 @@ function parseSeriesName(searchPattern, sonarr) {
         const item = sonarr.fetchJson(endpoint, queryParams);
 
         if (item?.series?.title) {
-            Logger.ILog(`Found Movie: ${item.series.title}`);
+            Logger.ILog(`Found Series: ${item.series.title}`);
             return item.series;
         }
         Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
