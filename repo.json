@@ -27,7 +27,7 @@
       "Path": "Scripts/Shared/Radarr.js",
       "Name": "Radarr",
       "Description": "Class that interacts with Radarr\n/",
-      "Revision": 8,
+      "Revision": 9,
       "MinimumVersion": "1.0.0.0",
       "Uid": "88e66e7d-f835-4620-9616-9beaa4ee42dc"
     },
@@ -35,7 +35,7 @@
       "Path": "Scripts/Shared/Sonarr.js",
       "Name": "Sonarr",
       "Description": "Class that interacts with Sonarr\n/",
-      "Revision": 11,
+      "Revision": 12,
       "MinimumVersion": "1.0.0.0",
       "Uid": "0f5836c0-d20b-4740-9824-f81b5200ec3d"
     },
@@ -276,7 +276,7 @@
       "Path": "Scripts/Flow/Video/Video - Run ab-av1.js",
       "Name": "Video - Run ab-av1",
       "Description": "Run ab-av1 to find the best CRF of a video for a given VMAF. This is saved to Variables.AbAv1CRFValue if found.\nImportant: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nIf CRF is found, it is saved to Variables.AbAv1CRFValue.\nExecutes the ab-av1 command.\n/",
-      "Revision": 5,
+      "Revision": 6,
       "Uid": "e31fbd4d-dc96-4ae6-9122-a9f30c102b1d"
     },
     {
@@ -382,7 +382,7 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Movie Lookup.js",
       "Name": "Radarr - Movie Lookup",
       "Description": "This script looks up a Movie from Radarr and retrieves its metadata\n/",
-      "Revision": 5,
+      "Revision": 6,
       "Uid": "1153e3fb-e7bb-4162-87ad-5c15cd9c081f"
     },
     {
@@ -438,7 +438,7 @@
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - TV Show Lookup.js",
       "Name": "Sonarr - TV Show Lookup",
       "Description": "This script looks up a TV Show from Sonarr and retrieves its metadata\n/",
-      "Revision": 5,
+      "Revision": 6,
       "Uid": "9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8"
     },
     {
