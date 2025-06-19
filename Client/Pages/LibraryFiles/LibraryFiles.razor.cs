@@ -267,18 +267,27 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
 
     void LoadServiceData()
     {
-        this.Data = SelectedStatus == FileStatus.Unprocessed ? feService.Files.Unprocessed :
-            SelectedStatus == FileStatus.OnHold ? feService.Files.OnHold :
-            SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFiles :
-            SelectedStatus == FileStatus.Processed ? feService.Files.Processed :
-            SelectedStatus == FileStatus.OutOfSchedule ? feService.Files.OutOfSchedule :
-            SelectedStatus == FileStatus.Disabled ? feService.Files.Disabled :
-            SelectedStatus == FileStatus.Processing ? feService.Files.Processing.Cast<LibraryFileMinimal>().ToList() : [];
-            
-        TotalItems =
-            SelectedStatus == FileStatus.ProcessingFailed ? feService.Files.FailedFilesTotal :
-            SelectedStatus == FileStatus.Processed ? feService.Files.ProcessedTotal :
-            this.Data.Count;
+        Data = SelectedStatus switch
+        {
+            FileStatus.Unprocessed => feService.Files.Unprocessed,
+            FileStatus.OnHold => feService.Files.OnHold,
+            FileStatus.ProcessingFailed => feService.Files.FailedFiles,
+            FileStatus.Processed => feService.Files.Processed,
+            FileStatus.OutOfSchedule => feService.Files.OutOfSchedule,
+            FileStatus.Disabled => feService.Files.Disabled,
+            FileStatus.Processing => feService.Files.Processing.Cast<LibraryFileMinimal>().ToList(),
+            _ => []
+        };
+        TotalItems = SelectedStatus switch
+        {
+            FileStatus.Unprocessed => feService.Files.UnprocessedTotal,
+            FileStatus.OnHold => feService.Files.OnHoldTotal,
+            FileStatus.ProcessingFailed => feService.Files.FailedFilesTotal,
+            FileStatus.Processed => feService.Files.ProcessedTotal,
+            FileStatus.OutOfSchedule => feService.Files.OutOfScheduleTotal,
+            FileStatus.Disabled => feService.Files.DisabledTotal,
+            _ => Data.Count
+        };
             
 
         HasData = this.Data?.Any() == true;
