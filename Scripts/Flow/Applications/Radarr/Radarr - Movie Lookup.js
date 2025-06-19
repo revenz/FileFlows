@@ -5,7 +5,7 @@ import { Radarr } from 'Shared/Radarr';
  * @description This script looks up a Movie from Radarr and retrieves its metadata
  * @author iBuSH
  * @uid 1153e3fb-e7bb-4162-87ad-5c15cd9c081f
- * @revision 5
+ * @revision 6
  * @param {string} URL Radarr root URL and port (e.g., http://radarr:1234)
  * @param {string} ApiKey API Key for Radarr
  * @param {bool} UseFolderName Whether to use the folder name instead of the file name for search
@@ -20,12 +20,14 @@ function Script(URL, ApiKey, UseFolderName) {
     const searchPattern = UseFolderName ? getMovieFolderName(folderPath) : Variables.file.Orig.FileNameNoExtension;
 
     Logger.ILog(`Radarr URL: ${URL}`);
-    Logger.ILog(`Lookup name: ${searchPattern}`);
+    Logger.ILog(`Lookup Movie name: ${searchPattern}`);
 
     // Search for the movie in Radarr by path, queue, or download history
     let movie = searchMovieByPath(searchPattern, radarr) ||
                 searchInQueue(searchPattern, radarr) ||
-                searchInDownloadHistory(searchPattern, radarr);
+                searchInDownloadHistory(searchPattern, radarr) ||
+                searchInGrabHistory(searchPattern, radarr) ||
+                parseMovieName(searchPattern, radarr);
 
     if (!movie) {
         Logger.ILog(`No result found for: ${searchPattern}`);
@@ -88,11 +90,48 @@ function getMovieFolderName(folderPath) {
  * @returns {Object|null} Movie object if found, or null if not found
  */
 function searchMovieByPath(searchPattern, radarr) {
+    Logger.ILog(`Searching by Movie path`);
+
     try {
         const movie = radarr.getMovieByPath(searchPattern);
         return movie || null;
     } catch (error) {
         Logger.ELog(`Error searching movie by path: ${error.message}`);
+        return null;
+    }
+}
+
+/**
+ * @description Parse the movie name using Radarr parsing based on the search pattern.
+ * @param {string} searchPattern - The search string (file or folder name)
+ * @param {Object} radarr - Radarr API instance
+ * @returns {Object|null} Parsed movie object, or null if none.
+ */
+function parseMovieName(searchPattern, radarr) {
+    let endpoint = 'parse'
+    let sp = null;
+
+    Logger.ILog(`Trying to Parse Movie name using Radarr Parsing`);
+
+    if (!searchPattern) {
+        Logger.WLog('No pattern passed in to find movie');
+        return null;
+    } else {
+        sp = searchPattern.toLowerCase();
+    }
+
+    try {
+        const queryParams   = buildQueryParams({ title: sp });
+        const item = radarr.fetchJson(endpoint, queryParams);
+
+        if (item?.movie?.title) {
+            Logger.ILog(`Found Movie: ${item.movie.title}`);
+            return item.movie;
+        }
+        Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
+        return null;
+    } catch (error) {
+        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${error.message}`);
         return null;
     }
 }
@@ -104,6 +143,8 @@ function searchMovieByPath(searchPattern, radarr) {
  * @returns {Object|null} Movie object if found, or null if not found
  */
 function searchInQueue(searchPattern, radarr) {
+    Logger.ILog(`Searching in Queue`);
+
     return searchRadarrAPI('queue', searchPattern, radarr, (item, sp) => {
         return item.outputPath?.toLowerCase().includes(sp);
     });
@@ -116,9 +157,25 @@ function searchInQueue(searchPattern, radarr) {
  * @returns {Object|null} Movie object if found, or null if not found
  */
 function searchInDownloadHistory(searchPattern, radarr) {
+    Logger.ILog(`Searching in Download History`);
+
     return searchRadarrAPI('history', searchPattern, radarr, (item, sp) => {
         return item.data?.droppedPath?.toLowerCase().includes(sp);
-    }, { eventType: 3 });
+    }, { eventType: 3 });   // 3 == downloaded
+}
+
+/**
+ * @description Searches the Radarr grabbed history for a movie based on the search pattern
+ * @param {string} searchPattern - The search string (file or folder name)
+ * @param {Object} radarr - Radarr API instance
+ * @returns {Object|null} Movie object if found, or null if not found
+ */
+function searchInGrabHistory(searchPattern, radarr) {
+    Logger.ILog(`Searching in Grab History`);
+
+    return searchRadarrAPI('history', searchPattern, radarr, (item, sp) => {
+        return item.sourceTitle?.toLowerCase().includes(sp);
+    }, { eventType: 1 });   // 1 == grabbed
 }
 
 /**
@@ -150,7 +207,7 @@ function searchRadarrAPI(endpoint, searchPattern, radarr, matchFunction, extraPa
             const items = json.records;
 
             if (items.length === 0) {
-                Logger.WLog(`Reached the end of ${endpoint} with no match.`);
+                Logger.WLog(`Reached the end of ${endpoint} endpoint with no match.`);
                 break;
             }
 
@@ -161,14 +218,14 @@ function searchRadarrAPI(endpoint, searchPattern, radarr, matchFunction, extraPa
             }
 
             if (endpoint === 'queue') {
-                Logger.WLog(`Reached the end of ${endpoint} with no match.`);
+                Logger.WLog(`Reached the end of ${endpoint} endpoint with no match.`);
                 break;
             }
 
             page++;
         }
     } catch (error) {
-        Logger.ELog(`Error fetching Radarr ${endpoint}: ${error.message}`);
+        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${error.message}`);
         return null;
     }
 }

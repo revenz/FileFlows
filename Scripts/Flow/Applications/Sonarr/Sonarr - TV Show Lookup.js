@@ -5,7 +5,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * @description This script looks up a TV Show from Sonarr and retrieves its metadata
  * @author iBuSH
  * @uid 9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8
- * @revision 5
+ * @revision 6
  * @param {string} URL Sonarr root URL and port (e.g., http://sonarr:1234)
  * @param {string} ApiKey API Key for Sonarr
  * @param {bool} UseFolderName Whether to use the folder name instead of the file name for the search pattern.<br>If the folder starts with "Season", "Staffel", "Saison", or "Specials", the parent folder will be used.
@@ -25,7 +25,9 @@ function Script(URL, ApiKey, UseFolderName) {
     // Search for the series in Sonarr by path, queue, or download history
     let series = searchSeriesByPath(searchPattern, sonarr) ||
                  searchInQueue(searchPattern, sonarr) ||
-                 searchInDownloadHistory(searchPattern, sonarr);
+                 searchInDownloadHistory(searchPattern, sonarr) ||
+                 searchInGrabHistory(searchPattern, sonarr) ||
+                 parseSeriesName(searchPattern, sonarr);
 
     if (!series) {
         Logger.ILog(`No result found for: ${searchPattern}`);
@@ -95,11 +97,48 @@ function getSeriesFolderName(folderPath) {
  * @returns {Object|null} Series object if found, or null if not found
  */
 function searchSeriesByPath(searchPattern, sonarr) {
+    Logger.ILog(`Searching by Series path`);
+
     try {
         const series = sonarr.getShowByPath(searchPattern);
         return series || null;
     } catch (error) {
         Logger.ELog(`Error searching series by path: ${error.message}`);
+        return null;
+    }
+}
+
+/**
+ * @description Parse the series name using Sonarr parsing based on the search pattern.
+ * @param {string} searchPattern - The search string (file or folder name)
+ * @param {Object} sonarr - Sonarr API instance
+ * @returns {Object|null} Parsed Series object, or null if none.
+ */
+function parseSeriesName(searchPattern, sonarr) {
+    let endpoint = 'parse'
+    let sp = null;
+
+    Logger.ILog(`Trying to Parse Series name using Sonarr Parsing`);;
+
+    if (!searchPattern) {
+        Logger.WLog('No pattern passed in to find series');
+        return null;
+    } else {
+        sp = searchPattern.toLowerCase();
+    }
+
+    try {
+        const queryParams   = buildQueryParams({ title: sp });
+        const item = sonarr.fetchJson(endpoint, queryParams);
+
+        if (item?.series?.title) {
+            Logger.ILog(`Found TV Show: ${item.series.title}`);
+            return item.series;
+        }
+        Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
+        return null;
+    } catch (error) {
+        Logger.ELog(`Error fetching Sonarr ${endpoint} endpoint: ${error.message}`);
         return null;
     }
 }
@@ -111,6 +150,8 @@ function searchSeriesByPath(searchPattern, sonarr) {
  * @returns {Object|null} Series object if found, or null if not found
  */
 function searchInQueue(searchPattern, sonarr) {
+    Logger.ILog(`Searching in Queue`);
+
     return searchSonarrAPI('queue', searchPattern, sonarr, (item, sp) => {
         return item.outputPath?.toLowerCase().includes(sp);
     });
@@ -123,9 +164,25 @@ function searchInQueue(searchPattern, sonarr) {
  * @returns {Object|null} Series object if found, or null if not found
  */
 function searchInDownloadHistory(searchPattern, sonarr) {
+    Logger.ILog(`Searching in Download History`);
+
     return searchSonarrAPI('history', searchPattern, sonarr, (item, sp) => {
         return item.data?.droppedPath?.toLowerCase().includes(sp);
-    }, { eventType: 3 });
+    }, { eventType: 3 });   // 3 == downloaded
+}
+
+/**
+ * @description Searches the Sonarr grabbed history for a series based on the search pattern
+ * @param {string} searchPattern - The search string (file or folder name)
+ * @param {Object} sonarr - Sonarr API instance
+ * @returns {Object|null} Series object if found, or null if not found
+ */
+function searchInGrabHistory(searchPattern, sonarr) {
+    Logger.ILog(`Searching in Grab History`);
+
+    return searchSonarrAPI('history', searchPattern, sonarr, (item, sp) => {
+        return item.sourceTitle?.toLowerCase().includes(sp);
+    }, { eventType: 1 });   // 1 == grabbed
 }
 
 /**
@@ -157,7 +214,7 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
             const items = json.records;
 
             if (items.length === 0) {
-                Logger.WLog(`Reached the end of ${endpoint} with no match.`);
+                Logger.WLog(`Reached the end of ${endpoint} endpoint with no match.`);
                 break;
             }
 
@@ -168,14 +225,14 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
             }
 
             if (endpoint === 'queue') {
-                Logger.WLog(`Reached the end of ${endpoint} with no match.`);
+                Logger.WLog(`Reached the end of ${endpoint} endpoint with no match.`);
                 break;
             }
 
             page++;
         }
     } catch (error) {
-        Logger.ELog(`Error fetching Sonarr ${endpoint}: ${error.message}`);
+        Logger.ELog(`Error fetching Sonarr ${endpoint} endpoint: ${error.message}`);
         return null;
     }
 }
