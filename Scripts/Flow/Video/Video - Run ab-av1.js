@@ -6,7 +6,7 @@ If CRF is found, it is saved to Variables.AbAv1CRFValue.
 Executes the ab-av1 command.
  * @author CanofSocks
  * @uid e31fbd4d-dc96-4ae6-9122-a9f30c102b1d
- * @revision 6
+ * @revision 7
  * @param {string} Preset The preset to use
  * @param {string} Encoder The target encoder
  * @param {string} EncOptions A '|' separated list of additional options to pass to ab-av1. The first '=' symbol will be used to infer that this is an option with a value. Passed to ffmpeg like "x265-params=lossless=1" -> ['-x265-params', 'lossless=1'] 
@@ -147,16 +147,16 @@ function search(abav1Command){
         }
         if (
             (matches = line.match(
-                /(crf ([0-9]+) )?VMAF ([0-9.]+) predicted.*\(([0-9.]+)%/i
+                /crf ([0-9]+(?:\.[0-9]+)?) VMAF ([0-9.]+) predicted.*\(([0-9.]+)%/i
             ))
         ) {
             returnValue.data.push({
-                crf: matches[2] ? matches[2].trim() : null,
-                score: matches[3] ? matches[3].trim() : null,
-                size: matches[4] ? matches[4].trim() : null,
+                crf: matches[1] ? matches[1].trim() : '',
+                score: matches[2] ? matches[2].trim() : '',
+                size: matches[3] ? matches[3].trim() : '',
             });
         }
-        if ((matches = line.match(/crf ([0-9]+) successful/i))) {
+        if ((matches = line.match(/crf ([0-9]+(?:\.[0-9]+)?) successful/i))) {
             for (const line of returnValue.data) {
                 if (line.crf == matches[1]) {
                     returnValue.winner = line;
@@ -210,20 +210,20 @@ function ToolPath(tool, path) {
 
 function table(output) {
     Logger.ILog(" ");
-    Logger.ILog("| CRF | Score | Size |");
-    Logger.ILog("----------------------");
+    Logger.ILog("|  CRF  | Score | Size |");
+    Logger.ILog("------------------------");
     for (const line of output.data) {
-        let crf = line.crf.toString().padStart(3);
+        let crf = line.crf.toString().padStart(5);
         let score = line.score.toString().padStart(5);
         let size = line.size.toString().padStart(3);
         Logger.ILog(`| ${crf} | ${score} | ${size}% |`);
     }
 
     if (output.winner) {
-        let crf = output.winner.crf.toString().padStart(3);
+        let crf = output.winner.crf.toString().padStart(5);
         let score = output.winner.score.toString().padStart(5);
         let size = output.winner.size.toString().padStart(3);
-        Logger.ILog("----------------------");
+        Logger.ILog("------------------------");
         Logger.ILog(`| ${crf} | ${score} | ${size}% |`);
     }
     Logger.ILog(" ");
