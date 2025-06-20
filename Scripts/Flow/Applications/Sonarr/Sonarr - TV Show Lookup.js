@@ -3,10 +3,12 @@ import { Sonarr } from 'Shared/Sonarr';
 /**
  * @name Sonarr - TV Show Lookup
  * @description This script looks up a TV Show from Sonarr and retrieves its metadata
+ * @help Performs a search on Sonarr for a TV Show.
+ * Stores the Metadata inside the variable 'TVShowInfo'.
  * @author iBuSH
  * @uid 9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8
- * @revision 6
- * @param {string} URL Sonarr root URL and port (e.g., http://sonarr:1234)
+ * @revision 7
+ * @param {string} URL Sonarr root URL and port (e.g., http://sonarr:8989)
  * @param {string} ApiKey API Key for Sonarr
  * @param {bool} UseFolderName Whether to use the folder name instead of the file name for the search pattern.<br>If the folder starts with "Season", "Staffel", "Saison", or "Specials", the parent folder will be used.
  * @output TV Show found
@@ -23,8 +25,7 @@ function Script(URL, ApiKey, UseFolderName) {
     Logger.ILog(`Lookup TV Show: ${searchPattern}`);
 
     // Search for the series in Sonarr by path, queue, or download history
-    let series = searchSeriesByPath(searchPattern, sonarr) ||
-                 searchInQueue(searchPattern, sonarr) ||
+    let series = searchInQueue(searchPattern, sonarr) ||
                  searchInDownloadHistory(searchPattern, sonarr) ||
                  searchInGrabHistory(searchPattern, sonarr) ||
                  parseSeriesName(searchPattern, sonarr);
@@ -69,6 +70,14 @@ function updateSeriesMetadata(series) {
         Genres: series.genres
     };
 
+    Variables["Sonarr.seriesId"] = series.id ?? null;
+    Variables["Sonarr.episodeIds"] = series.EpisodesInfo && series.EpisodesInfo.length ? series.EpisodesInfo.map(ep => ep.id) : [];
+    Logger.ILog(`Detected seriesId: ${series.id}`);
+    Logger.ILog(
+        Variables["Sonarr.episodeIds"].length
+        ? `Detected episodeIds: [ ${Variables["Sonarr.episodeIds"].join(', ')} ]`
+        : 'No episode IDs captured for this file.'
+        );
     Variables.TVShowInfo = series;
     Variables.OriginalLanguage = lang;
     Logger.ILog(`Detected Original Language: ${lang}`);
@@ -88,24 +97,6 @@ function getSeriesFolderName(folderPath) {
     }
 
     return System.IO.Path.GetFileName(folderPath);
-}
-
-/**
- * @description Searches for a series by file or folder path in Sonarr
- * @param {string} searchPattern - The search string to use (from the folder or file name)
- * @param {Object} sonarr - Sonarr API instance
- * @returns {Object|null} Series object if found, or null if not found
- */
-function searchSeriesByPath(searchPattern, sonarr) {
-    Logger.ILog(`Searching by Series path`);
-
-    try {
-        const series = sonarr.getShowByPath(searchPattern);
-        return series || null;
-    } catch (error) {
-        Logger.ELog(`Error searching series by path: ${error.message}`);
-        return null;
-    }
 }
 
 /**
@@ -133,6 +124,10 @@ function parseSeriesName(searchPattern, sonarr) {
 
         if (item?.series?.title) {
             Logger.ILog(`Found TV Show: ${item.series.title}`);
+            if (item.episodes) {
+                item.series.EpisodesInfo = item.episodes;
+            }
+
             return item.series;
         }
         Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
@@ -198,7 +193,13 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
     let page = 1;
     const pageSize = 1000;
     const includeSeries = 'true';
+    const includeEpisode = 'true';
     let sp = null;
+
+    let seriesObj = null;           // will hold first series we encounter
+    const episodes = [];            // collect all matching episodes here
+    let matchedPath = null;         // to ensure we join only the same file
+    let stop = false;               // flag to break out early
 
     if (!searchPattern) {
         Logger.WLog('No pattern passed in to find TV Show');
@@ -208,8 +209,8 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
     }
 
     try {
-        while (true) {
-            const queryParams = buildQueryParams({ page, pageSize, includeSeries, ...extraParams });
+        while (!stop) {
+            const queryParams = buildQueryParams({ page, pageSize, includeSeries, includeEpisode, ...extraParams });
             const json = sonarr.fetchJson(endpoint, queryParams);
             const items = json.records;
 
@@ -218,11 +219,23 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
                 break;
             }
 
-            const matchingItem = items.find(item => matchFunction(item, sp));
-            if (matchingItem) {
-                Logger.ILog(`Found TV Show: ${matchingItem.series.title}`);
-                return matchingItem.series;
-            }
+            for (const item of items) {
+                if (matchFunction(item, sp)) {
+                    // first hit sets series & filePath we unify on
+                    if (!seriesObj) {
+                        seriesObj   = item.series;
+                        matchedPath = item.outputPath || item.data?.droppedPath || '';
+                    }
+                    // ensure it belongs to the same physical file
+                    const path = item.outputPath || item.data?.droppedPath || '';
+                    if (item.series.id === seriesObj.id && path === matchedPath) {
+                        if (item.episode) episodes.push(item.episode);
+                    } else {
+                        stop = true;
+                        break;
+                    }
+                }
+            };
 
             if (endpoint === 'queue') {
                 Logger.WLog(`Reached the end of ${endpoint} endpoint with no match.`);
@@ -235,6 +248,19 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
         Logger.ELog(`Error fetching Sonarr ${endpoint} endpoint: ${error.message}`);
         return null;
     }
+
+    if (!seriesObj) return null;
+
+    const seenIds = new Set();
+    const uniqEpisodes = episodes.filter(ep => {
+        if (seenIds.has(ep.id)) return false;
+        seenIds.add(ep.id);
+        return true;
+    });
+
+    seriesObj.EpisodesInfo = uniqEpisodes.length ? uniqEpisodes : undefined;
+    Logger.ILog(`Found TV Show: ${seriesObj.title} (episodes gathered: ${episodes.length})`);
+    return seriesObj;
 }
 
 /**
