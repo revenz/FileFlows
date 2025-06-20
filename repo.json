@@ -276,7 +276,7 @@
       "Path": "Scripts/Flow/Video/Video - Run ab-av1.js",
       "Name": "Video - Run ab-av1",
       "Description": "Run ab-av1 to find the best CRF of a video for a given VMAF. This is saved to Variables.AbAv1CRFValue if found.\nImportant: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.\nIf CRF is found, it is saved to Variables.AbAv1CRFValue.\nExecutes the ab-av1 command.\n/",
-      "Revision": 6,
+      "Revision": 7,
       "Uid": "e31fbd4d-dc96-4ae6-9122-a9f30c102b1d"
     },
     {
