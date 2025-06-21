@@ -368,11 +368,11 @@ public class LibraryFileController : Controller
         var file = await ServiceLoader.Load<LibraryFileService>().Get(uid);
         if (file == null)
             return NotFound("File not found.");
-        string filePath = file.Name;
-        if (System.IO.File.Exists(filePath) == false)
+        string filePath = file.OutputPath;
+        if (string.IsNullOrWhiteSpace(filePath) || System.IO.File.Exists(filePath) == false)
         {
-            filePath = file.OutputPath;
-            if (string.IsNullOrEmpty(filePath) || System.IO.File.Exists(filePath) == false)
+            filePath = file.Name;
+            if (System.IO.File.Exists(filePath) == false)
                 return NotFound("File not found.");
         }
 
