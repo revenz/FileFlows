@@ -123,6 +123,11 @@ public class ExecuteArgs
     public Dictionary<string, object> Variables { get; set; } = [];
 
     /// <summary>
+    /// Gets environmental variables to set on the process
+    /// </summary>
+    public Dictionary<string, string> EnvironmentalVariables { get; init; } = new ();
+
+    /// <summary>
     /// Called when there is standard output received and invokes the StandardOutput event
     /// </summary>
     /// <param name="output">the output string received</param>\
@@ -255,6 +260,12 @@ public class ProcessHelper : IProcessHelper
 
         if (!string.IsNullOrEmpty(args.WorkingDirectory))
             process.StartInfo.WorkingDirectory = args.WorkingDirectory;
+
+        if (args.EnvironmentalVariables != null && args.EnvironmentalVariables.Count > 0)
+        {
+            foreach (var ev in args.EnvironmentalVariables)
+                process.StartInfo.EnvironmentVariables[ev.Key] = ev.Value;
+        }
 
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardInput = true;
