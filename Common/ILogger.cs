@@ -41,13 +41,12 @@ public interface ILogger
     /// Builds and prints a list of objects as a table to the log, with column headers and aligned formatting.
     /// </summary>
     /// <typeparam name="T">The type of the objects in the collection.</typeparam>
-    /// <param name="logger">The logger to output the table to.</param>
     /// <param name="items">The list of objects to display in the table.</param>
     /// <param name="title">Optional title printed above the table.</param>
     /// <param name="propertyNames">
     /// Optional list of property names to display in the table. If not provided, all public properties are shown in declared order.
     /// </param>
-    void Table<T>(ILogger logger, IEnumerable<T> items, string? title = null, string[]? propertyNames = null)
+    void Table<T>(IEnumerable<T> items, string? title = null, string[]? propertyNames = null)
     {
         var sb = new StringBuilder();
         sb.AppendLine();
@@ -61,7 +60,7 @@ public interface ILogger
         if (props.Count == 0)
         {
             sb.AppendLine("No properties to display.");
-            logger.ILog(sb.ToString());
+            ILog(sb.ToString());
             return;
         }
 
@@ -102,7 +101,7 @@ public interface ILogger
         }
 
         sb.AppendLine();
-        logger.ILog(sb.ToString());
+        ILog(sb.ToString());
     }
 
 
