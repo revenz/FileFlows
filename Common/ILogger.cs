@@ -104,6 +104,54 @@ public interface ILogger
         ILog(sb.ToString());
     }
 
+    /// <summary>
+    /// Logs a section to the log file that contains a header
+    /// </summary>
+    /// <param name="header">the head section</param>
+    /// <param name="content">the content</param>
+    /// <param name="logType">the type of log message</param>
+    void Section(string header, string content, LogType logType = LogType.Info)
+    {
+        if (string.IsNullOrWhiteSpace(content))
+            return;
+
+        const int totalWidth = 120;
+
+        // Construct padded header
+        string paddedHeader = $" {header} ";
+        int headerLength = paddedHeader.Length;
+
+        if (headerLength >= totalWidth)
+            paddedHeader = paddedHeader[..totalWidth];
+
+        int dashCount = totalWidth - paddedHeader.Length;
+        int dashLeft = dashCount / 2;
+        int dashRight = dashCount / 2;
+
+        // Add 1 to right side if the dash count is odd
+        if (dashCount % 2 != 0)
+            dashRight += 1;
+
+        string topLine = new string('-', dashLeft) + paddedHeader + new string('-', dashRight);
+        string bottomLine = new string('-', totalWidth);
+
+        string complete = $"\n{topLine}\n{content}\n{bottomLine}";
+        switch (logType)
+        {
+            case LogType.Warning:
+                WLog(complete);
+                break;
+            case LogType.Error:
+                ELog(complete);
+                break;
+            case LogType.Debug:
+                DLog(complete);
+                break;
+            default:
+                ILog(complete);
+                break;
+        }
+    }
 
     /// <summary>
     /// Gets the last number of log lines
