@@ -23,12 +23,13 @@ function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode, TimeOut) {
     TimeOut = TimeOut ? Math.min(TimeOut, 600) * 1000 : 60000;  // ms
     ImportPath = UseUnmappedPath ? Flow.UnMapPath(ImportPath) : ImportPath;
     const importMode = MoveMode ? 'move' : 'copy';
-
+    
     const sonarr = new Sonarr(URL, ApiKey);
 
     /*── seriesId / episodeId detection ──────────────────────────────────*/
-    const seriesId = Variables['Sonarr.seriesId'] ?? Variables.TVShowInfo?.id ?? null;
-    const episodeIds = Variables['Sonarr.episodeIds'] ?? Variables.TVShowInfo?.EpisodesInfo ?? null;
+    const searchPattern = Variables.file.Orig.FileNameNoExtension;
+    const seriesId = Variables['Sonarr.seriesId'] ?? Variables.TVShowInfo?.id ?? parseSeries(searchPattern, sonarr).id ?? null;
+    const episodeIds = Variables['Sonarr.episodeIds'] ?? Variables.TVShowInfo?.EpisodesInfo ?? parseSeries(searchPattern, sonarr).episodeIds ?? null;
 
     Logger.ILog(`Sonarr URL: ${URL}`);
     Logger.ILog(`Triggering Path: ${ImportPath}`);
@@ -211,6 +212,44 @@ function waitForCommand(sonarr, cmdId, timeoutMs) {
     }
     Logger.WLog('Import timed out or failed.');
     return -1;
+}
+
+/**
+ * @description Parse the series name using Sonarr parsing based on the search pattern.
+ * @param {string} searchPattern - The search string (file or folder name)
+ * @param {Object} sonarr - Sonarr API instance
+ * @returns {Object|null} Parsed Series object, or null if none.
+ */
+function parseSeries(searchPattern, sonarr) {
+    let endpoint = 'parse'
+    let sp = null;
+
+    Logger.ILog(`Trying to Parse Series name using Sonarr Parsing`);;
+
+    if (!searchPattern) {
+        Logger.WLog('No pattern passed in to find series');
+        return null;
+    } else {
+        sp = searchPattern.toLowerCase();
+    }
+
+    try {
+        const queryParams = buildQueryParams({ title: sp });
+        const item = sonarr.fetchJson(endpoint, queryParams);
+
+        if (item?.series?.title) {
+            if (item.episodes) {
+                item.series.episodeIds = item.episodes.map(ep => ep.id);
+            }
+
+            return item.series;
+        }
+        Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
+        return null;
+    } catch (error) {
+        Logger.ELog(`Error fetching Sonarr ${endpoint} endpoint: ${error.message}`);
+        return null;
+    }
 }
 
 /**

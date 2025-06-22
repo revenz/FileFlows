@@ -27,7 +27,8 @@ function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode, TimeOut) {
     const radarr = new Radarr(URL, ApiKey);
 
     /*── movieId detection ──────────────────────────────────*/
-    const movieId = Variables['Radarr.movieId'] ?? Variables.MovieInfo.id ?? null;
+    const searchPattern = Variables.file.Orig.FileNameNoExtension;
+    const movieId = Variables['Radarr.movieId'] ?? Variables.MovieInfo.id ?? parseMovie(searchPattern, radarr) ?? null;
 
     Logger.ILog(`Radarr URL: ${URL}`);
     Logger.ILog(`Triggering Path: ${ImportPath}`);
@@ -95,7 +96,7 @@ function manualImportWorkflow(radarr, importPath, mode, movieId, timeout) {
 function getManualImportCandidates(radarr, importPath) {
     try {
         const query = buildQueryParams({ folder: importPath });
-        const resp  = radarr.fetchJson('manualimport', query) || [];
+        const resp = radarr.fetchJson('manualimport', query) || [];
         Logger.ILog(`ManualImport returned ${resp.length} candidate(s).`);
         return resp;
     } catch (e) {
@@ -201,6 +202,41 @@ function waitForCommand(radarr, cmdId, timeoutMs) {
     }
     Logger.WLog('Import timed out or failed.');
     return -1;
+}
+
+/**
+ * @description Parse the movie name using Radarr parsing based on the search pattern.
+ * @param {string} searchPattern - The search string (file or folder name)
+ * @param {Object} radarr - Radarr API instance
+ * @returns {Object|null} Parsed movie object, or null if none.
+ */
+function parseMovie(searchPattern, radarr) {
+    let endpoint = 'parse'
+    let sp = null;
+
+    Logger.ILog(`Trying to Parse Movie name using Radarr Parsing`);
+
+    if (!searchPattern) {
+        Logger.WLog('No pattern passed in to find movie');
+        return null;
+    } else {
+        sp = searchPattern.toLowerCase();
+    }
+
+    try {
+        const queryParams = buildQueryParams({ title: sp });
+        const item = radarr.fetchJson(endpoint, queryParams);
+
+        if (item?.movie?.title) {
+            Logger.ILog(`Found Movie: ${item.movie.title}`);
+            return item.movie.id;
+        }
+        Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
+        return null;
+    } catch (error) {
+        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${error.message}`);
+        return null;
+    }
 }
 
 /**
