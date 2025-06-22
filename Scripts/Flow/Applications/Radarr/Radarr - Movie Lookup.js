@@ -26,9 +26,9 @@ function Script(URL, ApiKey, UseFolderName) {
 
     // Search for the movie in Radarr by path, queue, or download history
     let movie = searchInQueue(searchPattern, radarr) ||
-                parseMovieName(searchPattern, radarr) ||
                 searchInGrabHistory(searchPattern, radarr) ||
-                searchInDownloadHistory(searchPattern, radarr);
+                searchInDownloadHistory(searchPattern, radarr) ||
+                parseMovie(searchPattern, radarr);
 
     if (!movie) {
         Logger.ILog(`No result found for: ${searchPattern}`);
@@ -51,16 +51,6 @@ function updateMovieMetadata(movie) {
     Variables["movie.Year"] = movie.year;
     Logger.ILog(`Detected Movie Year: ${movie.year}`);
 
-    // Extract the url of the poster image
-    const poster = movie.images?.find(image => image.coverType === 'poster');
-    if (poster && poster.remoteUrl) {
-        Variables["movie.PosterUrl"] = poster.remoteUrl;
-        Logger.ILog(`Detected Poster URL: ${poster.remoteUrl}`);
-        Flow.SetThumbnail(poster.remoteUrl); // Set the FileFlows Thumbnail
-    } else {
-        Logger.WLog("No poster image found.");
-    }
-
     Variables.VideoMetadata = {
         Title: movie.title,
         Description: movie.overview,
@@ -72,9 +62,20 @@ function updateMovieMetadata(movie) {
 
     Variables["Radarr.movieId"] = movie.id ?? null;
     Logger.ILog(`Detected movieId: ${movie.id}`);
+    
     Variables.MovieInfo = movie;
     Variables.OriginalLanguage = lang;
     Logger.ILog(`Detected Original Language: ${lang}`);
+
+    // Extract the url of the poster image
+    const poster = movie.images?.find(image => image.coverType === 'poster');
+    if (poster && poster.remoteUrl) {
+        Variables["movie.PosterUrl"] = poster.remoteUrl;
+        Logger.ILog(`Detected Poster URL: ${poster.remoteUrl}`);
+        Flow.SetThumbnail(poster.remoteUrl); // Set the FileFlows Thumbnail
+    } else {
+        Logger.WLog("No poster image found.");
+    }
 }
 
 /**
@@ -90,9 +91,10 @@ function getMovieFolderName(folderPath) {
  * @description Parse the movie name using Radarr parsing based on the search pattern.
  * @param {string} searchPattern - The search string (file or folder name)
  * @param {Object} radarr - Radarr API instance
+ * @param {bool} fullOutput - Get full output or only the movie data
  * @returns {Object|null} Parsed movie object, or null if none.
  */
-function parseMovieName(searchPattern, radarr) {
+function parseMovie(searchPattern, radarr, fullOutput=false) {
     let endpoint = 'parse'
     let sp = null;
 
@@ -106,12 +108,13 @@ function parseMovieName(searchPattern, radarr) {
     }
 
     try {
-        const queryParams   = buildQueryParams({ title: sp });
+        const queryParams = buildQueryParams({ title: sp });
         const item = radarr.fetchJson(endpoint, queryParams);
 
         if (item?.movie?.title) {
             Logger.ILog(`Found Movie: ${item.movie.title}`);
-            return item.movie;
+            
+            return fullOutput ? item : item.movie;
         }
         Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
         return null;

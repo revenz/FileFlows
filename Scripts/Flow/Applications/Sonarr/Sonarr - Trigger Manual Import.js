@@ -28,8 +28,8 @@ function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode, TimeOut) {
 
     /*── seriesId / episodeId detection ──────────────────────────────────*/
     const searchPattern = Variables.file.Orig.FileNameNoExtension;
-    const seriesId = Variables['Sonarr.seriesId'] ?? Variables.TVShowInfo?.id ?? parseSeries(searchPattern, sonarr).id ?? null;
-    const episodeIds = Variables['Sonarr.episodeIds'] ?? Variables.TVShowInfo?.EpisodesInfo ?? parseSeries(searchPattern, sonarr).episodeIds ?? null;
+    const seriesId = Variables['Sonarr.seriesId'] ?? Variables.TVShowInfo?.id ?? null;
+    const episodeIds = Variables['Sonarr.episodeIds'] ?? Variables.TVShowInfo?.EpisodesInfo ?? null;
 
     Logger.ILog(`Sonarr URL: ${URL}`);
     Logger.ILog(`Triggering Path: ${ImportPath}`);
@@ -38,7 +38,16 @@ function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode, TimeOut) {
     if (seriesId && episodeIds)
         Logger.ILog(`seriesId=${seriesId}, episodeIds=[${episodeIds.join(', ')}] → ManualImport`);
     else
-        Logger.ILog('No seriesId/episodeIds → downloadedEpisodesScan');
+        Logger.ILog('No seriesId/episodeIds, Trying parsing from File/Folder name');
+        let parsedSeries = parseSeries(searchPattern, sonarr)
+        seriesId = parsedSeries?.id ?? null
+        episodeIds = parsedSeries?.episodeIds ?? null
+        Logger.ILog(
+            seriesId && episodeIds
+                ? `seriesId=${seriesId}, episodeIds=[${episodeIds.join(', ')}] → ManualImport`
+                : 'No seriesId/episodeIds → downloadedEpisodesScan'
+        );
+
 
     /*─ Execute first workflow, then fail-over if needed ─*/
     let result;
