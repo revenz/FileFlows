@@ -26,9 +26,9 @@ function Script(URL, ApiKey, UseFolderName) {
 
     // Search for the movie in Radarr by path, queue, or download history
     let movie = searchInQueue(searchPattern, radarr) ||
-                searchInDownloadHistory(searchPattern, radarr) ||
+                parseMovieName(searchPattern, radarr) ||
                 searchInGrabHistory(searchPattern, radarr) ||
-                parseMovieName(searchPattern, radarr);
+                searchInDownloadHistory(searchPattern, radarr);
 
     if (!movie) {
         Logger.ILog(`No result found for: ${searchPattern}`);

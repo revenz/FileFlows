@@ -26,9 +26,10 @@ function Script(URL, ApiKey, UseFolderName) {
 
     // Search for the series in Sonarr by path, queue, or download history
     let series = searchInQueue(searchPattern, sonarr) ||
-                 searchInDownloadHistory(searchPattern, sonarr) ||
+                 parseSeriesName(searchPattern, sonarr) ||
                  searchInGrabHistory(searchPattern, sonarr) ||
-                 parseSeriesName(searchPattern, sonarr);
+                 searchInDownloadHistory(searchPattern, sonarr);
+                 
 
     if (!series) {
         Logger.ILog(`No result found for: ${searchPattern}`);
@@ -72,12 +73,11 @@ function updateSeriesMetadata(series) {
 
     Variables["Sonarr.seriesId"] = series.id ?? null;
     Variables["Sonarr.episodeIds"] = series.EpisodesInfo && series.EpisodesInfo.length ? series.EpisodesInfo.map(ep => ep.id) : [];
-    Logger.ILog(`Detected seriesId: ${series.id}`);
     Logger.ILog(
-        Variables["Sonarr.episodeIds"].length
-        ? `Detected episodeIds: [ ${Variables["Sonarr.episodeIds"].join(', ')} ]`
-        : 'No episode IDs captured for this file.'
-        );
+        series.EpisodesInfo.length
+            ? `Found TV Show: ${series.title} (id=${series.id}) - episodes gathered: ${series.EpisodesInfo.length} [ ${series.EpisodesInfo.map(e => e.id).join(', ')} ]`
+            : `Found TV Show: ${series.title} (id=${series.id}) (no episode info)`
+    );
     Variables.TVShowInfo = series;
     Variables.OriginalLanguage = lang;
     Logger.ILog(`Detected Original Language: ${lang}`);
@@ -123,7 +123,6 @@ function parseSeriesName(searchPattern, sonarr) {
         const item = sonarr.fetchJson(endpoint, queryParams);
 
         if (item?.series?.title) {
-            Logger.ILog(`Found TV Show: ${item.series.title}`);
             if (item.episodes) {
                 item.series.EpisodesInfo = item.episodes;
             }
@@ -197,8 +196,9 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
     let sp = null;
 
     let seriesObj = null;           // will hold first series we encounter
-    const episodes = [];            // collect all matching episodes here
     let matchedPath = null;         // to ensure we join only the same file
+    const episodes = [];            // collect all matching episodes here
+    const seenIds   = new Set();    // track episode IDs to avoid duplicates
     let stop = false;               // flag to break out early
 
     if (!searchPattern) {
@@ -214,22 +214,32 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
             const json = sonarr.fetchJson(endpoint, queryParams);
             const items = json.records;
 
-            if (items.length === 0) {
+            if (items.length === 0 && !seriesObj) {
                 Logger.WLog(`Reached the end of ${endpoint} endpoint with no match.`);
+                break;
+            }
+
+            if (items.length === 0) {
+                Logger.WLog(`Reached the end of ${endpoint} endpoint.`);
                 break;
             }
 
             for (const item of items) {
                 if (matchFunction(item, sp)) {
-                    // first hit sets series & filePath we unify on
+                    const path = item.outputPath || item.data?.droppedPath
+
+                    /* first hit → establish series & path lock */
                     if (!seriesObj) {
                         seriesObj   = item.series;
-                        matchedPath = item.outputPath || item.data?.droppedPath || '';
+                        matchedPath = path;
                     }
+
                     // ensure it belongs to the same physical file
-                    const path = item.outputPath || item.data?.droppedPath || '';
                     if (item.series.id === seriesObj.id && path === matchedPath) {
-                        if (item.episode) episodes.push(item.episode);
+                        if (item.episode && !seenIds.has(item.episode.id)) {
+                            seenIds.add(item.episode.id);
+                            episodes.push(item.episode);
+                        }
                     } else {
                         stop = true;
                         break;
@@ -251,15 +261,8 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
 
     if (!seriesObj) return null;
 
-    const seenIds = new Set();
-    const uniqEpisodes = episodes.filter(ep => {
-        if (seenIds.has(ep.id)) return false;
-        seenIds.add(ep.id);
-        return true;
-    });
+    if (episodes.length) seriesObj.EpisodesInfo = episodes;
 
-    seriesObj.EpisodesInfo = uniqEpisodes.length ? uniqEpisodes : undefined;
-    Logger.ILog(`Found TV Show: ${seriesObj.title} (episodes gathered: ${episodes.length})`);
     return seriesObj;
 }
 
