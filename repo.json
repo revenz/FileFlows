@@ -381,8 +381,8 @@
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Movie Lookup.js",
       "Name": "Radarr - Movie Lookup",
-      "Description": "This script looks up a Movie from Radarr and retrieves its metadata\n/",
-      "Revision": 6,
+      "Description": "This script looks up a Movie from Radarr and retrieves its metadata\nStores the Metadata inside the variable \u0027MovieInfo\u0027.\n/",
+      "Revision": 7,
       "Uid": "1153e3fb-e7bb-4162-87ad-5c15cd9c081f"
     },
     {
@@ -409,8 +409,8 @@
     {
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Trigger Manual Import.js",
       "Name": "Radarr - Trigger Manual Import",
-      "Description": "Trigger Radarr to manually import the media, run after last file in folder moved.\n/",
-      "Revision": 5,
+      "Description": "Trigger Radarr to manually import the media.\nRun last after file move.\n/",
+      "Revision": 6,
       "Uid": "0e522a46-ed76-4b40-bd1f-b3baac64264c"
     },
     {
@@ -430,15 +430,15 @@
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Trigger Manual Import.js",
       "Name": "Sonarr - Trigger Manual Import",
-      "Description": "Trigger Sonarr to manually import the media, run after last file in folder moved.\n/",
-      "Revision": 5,
+      "Description": "Trigger Sonarr to manually import the media.\nRun last after file move.\n/",
+      "Revision": 6,
       "Uid": "8fe63a47-4a97-4b08-99f4-368d29279ad2"
     },
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - TV Show Lookup.js",
       "Name": "Sonarr - TV Show Lookup",
-      "Description": "This script looks up a TV Show from Sonarr and retrieves its metadata\n/",
-      "Revision": 6,
+      "Description": "This script looks up a TV Show from Sonarr and retrieves its metadata\nStores the Metadata inside the variable \u0027TVShowInfo\u0027.\n/",
+      "Revision": 7,
       "Uid": "9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8"
     },
     {
