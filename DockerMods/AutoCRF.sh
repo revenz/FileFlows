@@ -2,7 +2,7 @@
 # Name: AutoCRF
 # Author: lawrence
 # Description: This DockerMod installs ab-av1 and a FFmpeg wrapper script, it requires both FFmpeg7 and FFmpeg-BtbN installed (you may have to uninstall FFmpeg6 first)
-# Revision: 3
+# Revision: 4
 # Icon: fas fa-compress-alt
 # ----------------------------------------------------------------------------------------------------
 
@@ -60,8 +60,6 @@ if [[ "\$@" =~ libvmaf|libsvtav1|libaom-av1 ]]; then
 else
     if [ -e /usr/local/bin/ffmpeg ]; then
         /usr/local/bin/ffmpeg "\$@"
-    else
-        ffmpeg "\$@"
     fi
 fi
 
