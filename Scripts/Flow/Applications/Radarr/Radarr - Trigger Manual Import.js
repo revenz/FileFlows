@@ -28,7 +28,7 @@ function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode, TimeOut) {
 
     /*── movieId detection ──────────────────────────────────*/
     const searchPattern = Variables.file.Orig.FileNameNoExtension;
-    const movieId = Variables['Radarr.movieId'] ?? Variables.MovieInfo.id ?? parseMovie(searchPattern, radarr) ?? null;
+    let movieId = Variables['Radarr.movieId'] ?? Variables.MovieInfo.id ?? parseMovie(searchPattern, radarr) ?? null;
 
     Logger.ILog(`Radarr URL: ${URL}`);
     Logger.ILog(`Triggering Path: ${ImportPath}`);
