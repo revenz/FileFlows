@@ -22,7 +22,7 @@ public struct ProcessResult
     /// </summary>
     public int? ExitCode;
     /// <summary>
-    /// The output of the process
+    /// The complete output, standard and error outputs of the process as the messages were received
     /// </summary>
     public string Output;
 
@@ -371,11 +371,6 @@ public class ProcessHelper : IProcessHelper
 
                 result.Completed = true;
                 result.ExitCode = process.ExitCode;
-                result.StandardError = errorBuilder.ToString();
-                result.StandardOutput = standardOutputBuilder.ToString();
-                result.Output = outputBuilder.ToString();
-                if (string.IsNullOrEmpty(result.Output))
-                    result.Output = result.StandardError;
             }
             else
             {
@@ -391,11 +386,10 @@ public class ProcessHelper : IProcessHelper
                 {
                     Logger.WLog("Error killing process: " + ex.Message);
                 }
-
-                result.StandardError = errorBuilder.ToString();
-                result.StandardOutput = standardOutputBuilder.ToString();
-                result.Output = result.StandardOutput?.EmptyAsNull() ?? result.StandardError;
             }
+            result.StandardError = errorBuilder.ToString();
+            result.StandardOutput = standardOutputBuilder.ToString();
+            result.Output = outputBuilder.ToString().EmptyAsNull() ?? result.StandardError;
         }
         finally
         {
