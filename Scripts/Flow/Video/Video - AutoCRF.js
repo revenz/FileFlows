@@ -7,36 +7,40 @@ maximum BitRate and your selected codec types
 Required DockerMods: AutoCRF, FFmpeg7, FFmpeg-BtbN
 
 This Flow Element two outputs:
-1: Connect to 'FFmpeg Builder Video Manual' with the 'Parameters' set to...
-   {ManualParameters}
+1: The video will be encoded, you no longer need {ManualParameters}
 2: The video is in an acceptable codec and bitrate and should *not* be encoded
+
+You do not need to hook up any of the FFmpeg Builder flow elements!
 
 This script will always try and convert the video to the target codec by trying to calculate a CRF for a smaller file.
 In the event of it not finding a suitable CRF and the codec isn't in FallBackCodecs it will do BitRate encoding automatically
+Should you wish to test custom parameters (e.g. -x265-params or -qsv_device) you can do so by using the flow element before this script
 
 Recommended defaults:
     FallBackCodecs: hevc, h.264
     MaxBitRate: 11.5 MBps for SDR and 23.5 MBps Dolby Vision
 
 All parameters can also be overridden using Variables for example
-    TargetCodec = hevc_nvenc
-    MaxBitRate = 12
-    FallBackCodecs = hevc|h.264|mpeg4|custom
-    SVT = lookahead=64:film-grain=8
-    KeyInt = 240
+    AutoCRF.TargetCodec = hevc_nvenc
+    AutoCRF.MaxBitRate = 12
+    AutoCRF.FallBackCodecs = hevc|h.264|mpeg4|custom
+    AutoCRF.SVT = lookahead=64:film-grain=8
+    AutoCRF.KeyInt = 240
+    AutoCRF.Threads = 4
+    AutoCRF.Preset = veryslow
 
 For further help or feature requests find me in the discord
  * @author lawrence
- * @revision 11
- * @param {('hevc_qsv'|'hevc_nvenc'|'hevc'|'av1_qsv'|'libsvtav1'|'av1_nvenc'|'h264_qsv'|'h264'|'h264_nvenc')} TargetCodec Which codec you want as the output
+ * @revision 12
+ * @param {('hevc_qsv'|'hevc_nvenc'|'hevc'|'av1_qsv'|'libsvtav1'|'av1_nvenc'|'h264_qsv'|'h264'|'h264_nvenc'|'hevc_vaapi')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
  * @param {bool} FixDolby5 Create a SDR fallback for Dolby Vision profile 5 (aka the green/purple one) [CPU decode]
  * @param {bool} UseTags Create tags (premium feature) such as "Copy", "CRF 17", "Fallback"
  * @param {bool} ErrorOnFail Error on CRF detection fail rather than fallback
  * @param {bool} TestMode This doesn't calculate you a score, instead just tells you if it would need too
- * @output CRF found - recommend video manual
- * @output The command succeeded
+ * @output Video will be encoded
+ * @output Video will not be encoded
  */
     function Script() {
         // Checking dependencies
@@ -56,21 +60,41 @@ For further help or feature requests find me in the discord
         if (!ToolPath("ffmpeg", "/usr/local/bin")) {
             return -1;
         }
-    
-        if (Variables.FixDolby5) {
-            FixDolby5 = Variables.FixDolby5;
+
+        if (
+            Variables.Preset ||
+            Variables.TargetCodec ||
+            Variables.KeyInt ||
+            Variables.FixDolby5 ||
+            Variables.UseTags ||
+            Variables.ErrorOnFail ||
+            Variables.SVT
+            //     Variables.FallBackCodecs ||
+            //     Variables.MaxBitRate ||
+            //     Variables.FirstTryPercentage ||
+            //     Variables.SecondTryPercentage ||
+            //     Variables.FirstTryScore ||
+            //     Variables.SecondTryScore ||
+        ) {
+            return Flow.Fail(
+                "Please prefix your variables, (e.g. AutoCRF.TargetCodec) and remove FFmpeg Builder Video Manual"
+            );
+        }
+        
+        if (Variables['AutoCRF.FixDolby5']) {
+            FixDolby5 = Variables['AutoCRF.FixDolby5'];
         }
     
-        if (Variables.UseTags) {
-            UseTags = Variables.UseTags;
+        if (Variables['AutoCRF.UseTags']) {
+            UseTags = Variables['AutoCRF.UseTags'];
         }
     
-        if (Variables.ErrorOnFail) {
-            ErrorOnFail = Variables.ErrorOnFail;
+        if (Variables['AutoCRF.ErrorOnFail']) {
+            ErrorOnFail = Variables['AutoCRF.ErrorOnFail'];
         }
     
-        if (Variables.TargetCodec) {
-            TargetCodec = Variables.TargetCodec;
+        if (Variables['AutoCRF.TargetCodec']) {
+            TargetCodec = Variables['AutoCRF.TargetCodec'];
         }
     
         if (!TargetCodec) {
@@ -81,11 +105,17 @@ For further help or feature requests find me in the discord
         if (Variables.FallBackCodecs) {
             FallBackCodecs = Variables.FallBackCodecs.split("|");
         }
+        if (Variables['AutoCRF.FallBackCodecs']) {
+            FallBackCodecs = Variables['AutoCRF.FallBackCodecs'].split("|");
+        }
         FallBackCodecs = FallBackCodecs.map((name) => name.toLowerCase());
     
         // MaxBitRate
         if (Variables.MaxBitRate) {
             MaxBitRate = Variables.MaxBitRate;
+        }
+        if (Variables['AutoCRF.MaxBitRate']) {
+            MaxBitRate = Variables['AutoCRF.MaxBitRate'];
         }
         if (!MaxBitRate) {
             Flow.Fail(
@@ -181,8 +211,29 @@ For further help or feature requests find me in the discord
             secondTryScore = Variables.SecondTryScore;
         }
     
-        if (Variables.Preset) {
-            preset = Variables.Preset;
+
+        if (Variables['AutoCRF.FirstTryPercentage']) {
+            firstTryPercentage = Variables['AutoCRF.FirstTryPercentage'];
+        }
+    
+        if (Variables['AutoCRF.SecondTryPercentage']) {
+            secondTryPercentage = Variables['AutoCRF.SecondTryPercentage'];
+        }
+    
+        if (Variables['AutoCRF.FirstTryScore']) {
+            firstTryScore = Variables['AutoCRF.FirstTryScore'];
+        }
+    
+        if (Variables['AutoCRF.SecondTryScore']) {
+            secondTryScore = Variables['AutoCRF.SecondTryScore'];
+        }
+    
+        if (Variables['AutoCRF.Preset']) {
+            preset = Variables['AutoCRF.Preset'];
+        }
+
+        if (Variables.FfmpegBuilderModel.ForceEncode) {
+            forceEncode = true;
         }
     
         Logger.ILog(`Video is ${videoDescription}`);
@@ -190,33 +241,6 @@ For further help or feature requests find me in the discord
         if (video.Stream.DolbyVision && !video.Stream.HDR && FixDolby5) {
             Logger.ILog("Video is DoVi without a fallback, so were creating one");
             forceEncode = true;
-            Logger.ILog("Testing for openCL");
-            let process = Flow.Execute({
-                command: ffmpeg,
-                argumentList: [
-                    '-hwaccel', 'opencl', '-f', 'lavfi', '-i', 'testsrc=size=640x480:rate=25', '-t', '1', '-c:v', 'libx264', '-f', 'null', '-'
-                ]
-            })
-            if (process.exitCode == 0) {
-                [
-                    "-init_hw_device",
-                    "opencl=ocl",
-                    "-filter_hw_device",
-                    "ocl"
-                ].forEach((ob) => {
-                    Variables.FfmpegBuilderModel.CustomParameters.Add(ob);
-                });
-                video.filter.Add("format=p010le,hwupload=derive_device=opencl,tonemap_opencl=tonemap=bt2390:transfer=smpte2084:matrix=bt2020:primaries=bt2020:format=p010le,hwdownload,format=p010le")
-            } else {
-                Logger.WLog("Could not find openCL, you may want the oneVPL DockerMod")
-                video.filter.Add(
-                    "tonemapx=tonemap=bt2390:transfer=smpte2084:matrix=bt2020:primaries=bt2020"
-                );
-            }
-            if (TargetCodec.includes("qsv")) {
-                Logger.WLog("QSV does not support dolby vision 5 decode properly so we are disabling it");
-                Variables.NoQSV = true;
-            }
         }
     
         // If the bitrate is more than we want then we don't care what the codec is
@@ -302,16 +326,24 @@ For further help or feature requests find me in the discord
                 crf_arg = "-global_quality";
             }
             
-            Variables.ManualParameters = `${attempt.command} ${crf_arg}:v ${attempt.winner.crf}`;
+            attempt.command
+                .split(" ")
+                .concat(`${crf_arg}:v`, attempt.winner.crf)
+                .forEach((obj) => {
+                    Variables.FfmpegBuilderModel?.VideoStreams[0].EncodingParameters.Add(
+                        obj
+                    );
+                });
+
             Logger.ILog(
                 `Attempt successful with ${attempt.winner.size}% size, ${attempt.winner.score}% VMAF`
             );
+            Logger.ILog(`Encoding settings: ${attempt.command} ${crf_arg}:v ${attempt.winner.crf}`);
             Flow.AdditionalInfoRecorder("Score", attempt.winner.score, 1000);
             Flow.AdditionalInfoRecorder("CRF", attempt.winner.crf, 1000);
             if (UseTags) {
                 Flow.AddTags(["VMAF", `CRF ${attempt.winner.crf}`]);
             }
-            return 1;
         }
     
         if (attempt.error) {
@@ -319,11 +351,52 @@ For further help or feature requests find me in the discord
             Flow.fail(`AutoCRF: ${attempt.message}`);
             return -1;
         }
+
+        if (video.Stream.DolbyVision && !video.Stream.HDR && FixDolby5) {
+            Logger.ILog("Testing for openCL");
+            let process = Flow.Execute({
+                command: ffmpeg,
+                argumentList: [
+                    '-hwaccel', 'opencl', '-f', 'lavfi', '-i', 'testsrc=size=640x480:rate=25', '-t', '1', '-c:v', 'libx264', '-f', 'null', '-'
+                ]
+            })
+            if (process.exitCode == 0) {
+                [
+                    "-init_hw_device",
+                    "opencl=ocl",
+                    "-filter_hw_device",
+                    "ocl"
+                ].forEach((ob) => {
+                    Variables.FfmpegBuilderModel.CustomParameters.Add(ob);
+                });
+                video.filter.Add("format=p010le,hwupload=derive_device=opencl,tonemap_opencl=tonemap=bt2390:transfer=smpte2084:matrix=bt2020:primaries=bt2020:format=p010le,hwdownload,format=p010le")
+            } else {
+                Logger.WLog("Could not find openCL, you may want the oneVPL DockerMod")
+                video.filter.Add(
+                    "tonemapx=tonemap=bt2390:transfer=smpte2084:matrix=bt2020:primaries=bt2020"
+                );
+            }
+            if (TargetCodec.includes("qsv")) {
+                Logger.WLog("QSV does not support dolby vision 5 decode properly so we are disabling it");
+                Variables.NoQSV = true;
+            }
+        }
+
+        if (attempt.winner) {
+            return 1;
+        }
     
         // fallback
         if (forceEncode) {
             // setup bitrate encode
-            Variables.ManualParameters = attempt.command;
+           attempt.command
+                .split(" ")
+                .forEach((obj) => {
+                    Variables.FfmpegBuilderModel?.VideoStreams[0].EncodingParameters.Add(
+                        obj
+                    );
+                });
+                
             let t = targetBitRate / 1024.00 / 1024.00;
     
             let obs = [
@@ -347,6 +420,7 @@ For further help or feature requests find me in the discord
                     targetBitRate
                 )}`
             );
+            Logger.ILog(`Encoding settings: ${attempt.command}`);
             Flow.AdditionalInfoRecorder("Score", "Not found", 1000);
             Flow.AdditionalInfoRecorder("CRF", bytesToHuman(targetBitRate), 1000);
             // Falling back bitrate encode as we could not find a suitable CRF
@@ -365,12 +439,12 @@ For further help or feature requests find me in the discord
         let abAv1 = ToolPath("ab-av1", "/opt/autocrf");
         let path = abAv1.replace(/[^\/]+$/, "");
     
-        if (Variables.SVT) {
-            returnValue.command = `${returnValue.command} -svtav1-params ${Variables.SVT}`
+        if (Variables['AutoCRF.SVT']) {
+            returnValue.command = `${returnValue.command} -svtav1-params ${Variables['AutoCRF.SVT']}`
         }
     
-        if (Variables.KeyInt) {
-            returnValue.command = `${returnValue.command} -g ${Variables.KeyInt}`
+        if (Variables['AutoCRF.KeyInt']) {
+            returnValue.command = `${returnValue.command} -g ${Variables['AutoCRF.KeyInt']}`
         } else {
             returnValue.command = `${returnValue.command} -g ${Math.round(Variables.vi.VideoInfo.VideoStreams[0].FramesPerSecond) * 10}`
         }
@@ -381,13 +455,15 @@ For further help or feature requests find me in the discord
     
         let videoPixelFormat = "yuv420p";
     
-        if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit) {
+
+        if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit || Variables['AutoCRF.Force10Bit']) {
             videoPixelFormat = "yuv420p10le";
+            Variables.vi.VideoInfo.VideoStreams[0].Bits = 10;
            if (TargetCodec.includes("hevc") || TargetCodec.includes("265")) {
                returnValue.command = `${returnValue.command} -pix_fmt:v:0 p010le -profile:v:0 main10`;
            }
         }
-    
+   
         let targetBitRate = (bitratePercent / 100) * videoBitRate;
     
         Logger.ILog(
@@ -431,18 +507,68 @@ For further help or feature requests find me in the discord
         ];
     
         if (Variables.SVT) {
-            executeArgs.argumentList = executeArgs.argumentList.concat(
-                ["--svt", Variables.SVT]
-            );
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--svt",
+                Variables.SVT,
+            ]);
         }
-    
+
         if (Variables.KeyInt) {
-            executeArgs.argumentList = executeArgs.argumentList.concat(
-                ["--keyint", Variables.KeyInt]
-            );
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--keyint",
+                Variables.KeyInt,
+            ]);
         }
     
-    
+        if (Variables['AutoCRF.SVT']) {
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--svt",
+                Variables['AutoCRF.SVT'],
+            ]);
+        }
+
+        if (Variables['AutoCRF.KeyInt']) {
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--keyint",
+                Variables['AutoCRF.KeyInt'],
+            ]);
+        }
+
+        if (Variables["AutoCRF.Threads"]) {
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--vmaf", `n_threads=${Variables['AutoCRF.Threads']}`
+            ]);
+        } else {
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--vmaf", `n_threads=4`
+            ]);
+        }
+
+        if (TargetCodec.includes("vaapi")) {
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--enc-input",
+                "hwaccel=vaapi",
+                "--enc-input",
+                "hwaccel_output_format=vaapi",
+            ]);
+        }
+  
+        if (Variables.FfmpegBuilderModel.CustomParameters.length) {
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--enc",
+                Variables.FfmpegBuilderModel.CustomParameters.join(" ")
+                    .replace(/-([\S]+)\s([\S]+)/g, "$1=$2")
+                    .replace(/" "/g, ":"),
+            ]);
+        }
+
+        if (TargetCodec.includes("qsv")) {
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--enc",
+                "look_ahead=1:extbrc=1:look_ahead_depth=40",
+            ]);
+        }
+     
         if (!Flow.IsWindows) {
             executeArgs.command = "bash";
             let args = executeArgs.argumentList.join(" ");
@@ -576,3 +702,4 @@ For further help or feature requests find me in the discord
             `${tool} cannot be found! Please create a Variable called "${tool}" that points too the correct location, please see ffmpeg as an example`
         );
     }
+
