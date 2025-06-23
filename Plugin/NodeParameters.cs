@@ -1355,6 +1355,23 @@ public class NodeParameters
 
 
     /// <summary>
+    /// Gets the CPU Threads available
+    /// </summary>
+    /// <returns>the CPU threads available</returns>
+    public int GetCpuThreads()
+    {
+        int threads = Environment.ProcessorCount;
+        if (threads == 1)
+            threads = 6;
+        
+        if(TryGetVariable<int>("CpuThreads", out var cpuThreads))
+            threads = cpuThreads;
+        if(int.TryParse(Environment.GetEnvironmentVariable("CPU_THREADS") ?? string.Empty, out var cpuThread))
+            threads = cpuThread;
+        return threads;
+    }
+    
+    /// <summary>
     /// Tests if a input string matches a variable
     /// </summary>
     /// <param name="variableName">The name of the variable</param>
