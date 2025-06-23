@@ -27,7 +27,7 @@
       "Path": "Scripts/Shared/Radarr.js",
       "Name": "Radarr",
       "Description": "Class that interacts with Radarr\n/",
-      "Revision": 9,
+      "Revision": 10,
       "MinimumVersion": "1.0.0.0",
       "Uid": "88e66e7d-f835-4620-9616-9beaa4ee42dc"
     },
@@ -35,7 +35,7 @@
       "Path": "Scripts/Shared/Sonarr.js",
       "Name": "Sonarr",
       "Description": "Class that interacts with Sonarr\n/",
-      "Revision": 12,
+      "Revision": 13,
       "MinimumVersion": "1.0.0.0",
       "Uid": "0f5836c0-d20b-4740-9824-f81b5200ec3d"
     },
@@ -382,7 +382,7 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Movie Lookup.js",
       "Name": "Radarr - Movie Lookup",
       "Description": "This script looks up a Movie from Radarr and retrieves its metadata\nStores the Metadata inside the variable \u0027MovieInfo\u0027.\n/",
-      "Revision": 7,
+      "Revision": 8,
       "Uid": "1153e3fb-e7bb-4162-87ad-5c15cd9c081f"
     },
     {
@@ -410,7 +410,7 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Trigger Manual Import.js",
       "Name": "Radarr - Trigger Manual Import",
       "Description": "Trigger Radarr to manually import the media.\nRun last after file move.\n/",
-      "Revision": 6,
+      "Revision": 7,
       "Uid": "0e522a46-ed76-4b40-bd1f-b3baac64264c"
     },
     {
@@ -431,14 +431,14 @@
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - Trigger Manual Import.js",
       "Name": "Sonarr - Trigger Manual Import",
       "Description": "Trigger Sonarr to manually import the media.\nRun last after file move.\n/",
-      "Revision": 6,
+      "Revision": 7,
       "Uid": "8fe63a47-4a97-4b08-99f4-368d29279ad2"
     },
     {
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - TV Show Lookup.js",
       "Name": "Sonarr - TV Show Lookup",
       "Description": "This script looks up a TV Show from Sonarr and retrieves its metadata\nStores the Metadata inside the variable \u0027TVShowInfo\u0027.\n/",
-      "Revision": 7,
+      "Revision": 8,
       "Uid": "9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8"
     },
     {
