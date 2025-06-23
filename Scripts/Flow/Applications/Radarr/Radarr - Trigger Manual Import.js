@@ -7,7 +7,7 @@ import { Radarr } from 'Shared/Radarr';
  * @help Performs Radarr import to the Movie
  * Run last after file move.
  * @author iBuSH
- * @revision 6
+ * @revision 7
  * @param {string} URL Radarr root URL and port (e.g. http://radarr:7878).
  * @param {string} ApiKey Radarr API Key.
  * @param {string} ImportPath The output path for import triggering (default Working File).
@@ -114,7 +114,6 @@ function getManualImportCandidates(radarr, importPath) {
 function buildManualImportFile(src, movieId, importPath) {
     const path =  src.path || importPath
     const fallbackFolder = System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(path)) ?? Variables.folder.Name;
-    Logger.ILog(`fallbackFolder ${fallbackFolder}`);
 
     return {
         path: path,
@@ -233,8 +232,8 @@ function parseMovie(searchPattern, radarr) {
         }
         Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
         return null;
-    } catch (error) {
-        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${error.message}`);
+    } catch (e) {
+        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${e.message}`);
         return null;
     }
 }

@@ -282,7 +282,7 @@ export class Sonarr
                 return false;
             }
             Logger.ILog(`Checking status: ${response.status}`);
-            Sleep(100);
+            Sleep(1000);    // Delay before next check
         }
         Logger.WLog(`Timeout: Command ${commandId} did not complete within ${timeout / 1000} seconds.`);
         return false;

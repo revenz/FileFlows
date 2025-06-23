@@ -7,7 +7,7 @@ import { Radarr } from 'Shared/Radarr';
  * Stores the Metadata inside the variable 'MovieInfo'.
  * @author iBuSH
  * @uid 1153e3fb-e7bb-4162-87ad-5c15cd9c081f
- * @revision 7
+ * @revision 8
  * @param {string} URL Radarr root URL and port (e.g., http://radarr:1234)
  * @param {string} ApiKey API Key for Radarr
  * @param {bool} UseFolderName Whether to use the folder name instead of the file name for search
@@ -61,11 +61,11 @@ function updateMovieMetadata(movie) {
     };
 
     Variables["Radarr.movieId"] = movie.id ?? null;
-    Logger.ILog(`Detected movieId: ${movie.id}`);
-    
     Variables.MovieInfo = movie;
     Variables.OriginalLanguage = lang;
+
     Logger.ILog(`Detected Original Language: ${lang}`);
+    Logger.ILog(`Detected movieId: ${movie.id}`);
 
     // Extract the url of the poster image
     const poster = movie.images?.find(image => image.coverType === 'poster');
@@ -118,8 +118,8 @@ function parseMovie(searchPattern, radarr, fullOutput=false) {
         }
         Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
         return null;
-    } catch (error) {
-        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${error.message}`);
+    } catch (e) {
+        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${e.message}`);
         return null;
     }
 }
@@ -213,8 +213,8 @@ function searchRadarrAPI(endpoint, searchPattern, radarr, matchFunction, extraPa
 
             page++;
         }
-    } catch (error) {
-        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${error.message}`);
+    } catch (e) {
+        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${e.message}`);
         return null;
     }
 }

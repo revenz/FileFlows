@@ -7,7 +7,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * Stores the Metadata inside the variable 'TVShowInfo'.
  * @author iBuSH
  * @uid 9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8
- * @revision 7
+ * @revision 8
  * @param {string} URL Sonarr root URL and port (e.g., http://sonarr:8989)
  * @param {string} ApiKey API Key for Sonarr
  * @param {bool} UseFolderName Whether to use the folder name instead of the file name for the search pattern.<br>If the folder starts with "Season", "Staffel", "Saison", or "Specials", the parent folder will be used.<br>If lookup returning with more then 2 episodes then it will fallback to file name search pattern.
@@ -100,8 +100,8 @@ function updateSeriesMetadata(series) {
     Logger.ILog(`Detected Original Language: ${lang}`);
     Logger.ILog(
         series.EpisodesInfo.length
-            ? `Found TV Show: ${series.title} (id=${series.id}) - episodes gathered: ${series.EpisodesInfo.length} [ ${series.EpisodesInfo.map(e => e.id).join(', ')} ]`
-            : `Found TV Show: ${series.title} (id=${series.id}) (no episode info)`
+            ? `Detected seriesId: ${series.id} - episodeIds gathered (${series.EpisodesInfo.length}): [ ${series.EpisodesInfo.map(e => e.id).join(', ')} ]`
+            : `Detected seriesId: ${series.id} (no episodeIds)`
     );
 
     // Extract the url of the poster image
@@ -164,8 +164,8 @@ function parseSeries(searchPattern, sonarr, fullOutput=false) {
         }
         Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
         return null;
-    } catch (error) {
-        Logger.ELog(`Error fetching Sonarr ${endpoint} endpoint: ${error.message}`);
+    } catch (e) {
+        Logger.ELog(`Error fetching Sonarr ${endpoint} endpoint: ${e.message}`);
         return null;
     }
 }
@@ -287,8 +287,8 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
 
             page++;
         }
-    } catch (error) {
-        Logger.ELog(`Error fetching Sonarr ${endpoint} endpoint: ${error.message}`);
+    } catch (e) {
+        Logger.ELog(`Error fetching Sonarr ${endpoint} endpoint: ${e.message}`);
         return null;
     }
 

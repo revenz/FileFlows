@@ -7,7 +7,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * @help Performs Sonarr import to the TV Show
  * Run last after file move.
  * @author iBuSH
- * @revision 6
+ * @revision 7
  * @param {string} URL Sonarr root URL and port (e.g. http://sonarr:8989).
  * @param {string} ApiKey Sonarr API Key.
  * @param {string} ImportPath The output path for import triggering (default Working File).
@@ -256,8 +256,8 @@ function parseSeries(searchPattern, sonarr) {
         }
         Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
         return null;
-    } catch (error) {
-        Logger.ELog(`Error fetching Sonarr ${endpoint} endpoint: ${error.message}`);
+    } catch (e) {
+        Logger.ELog(`Error fetching Sonarr ${endpoint} endpoint: ${e.message}`);
         return null;
     }
 }
