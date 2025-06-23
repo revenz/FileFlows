@@ -15,12 +15,12 @@ import { Sonarr } from 'Shared/Sonarr';
  * @output TV Show NOT found
  */
 function Script(URL, ApiKey, UseFolderName) {
-    URL = URL || Variables['Sonarr.Url'] || Variables['Sonarr.URI'];
+    URL = (URL || Variables['Sonarr.Url'] || Variables['Sonarr.URI']).replace(/\/+$/g, '');
     ApiKey = ApiKey || Variables['Sonarr.ApiKey'];
     const sonarr = new Sonarr(URL, ApiKey);
     const folderPath = Variables.folder.Orig.FullName;
-    const searchPattern = UseFolderName ? getSeriesFolderName(folderPath) : Variables.file.Orig.FileNameNoExtension;
     const fileNameNoExt = Variables.file.Orig.FileNameNoExtension;
+    const searchPattern = UseFolderName ? getSeriesFolderName(folderPath) : fileNameNoExt;
 
     Logger.ILog(`Sonarr URL: ${URL}`);
     Logger.ILog(`Lookup TV Show: ${searchPattern}`);
@@ -29,35 +29,29 @@ function Script(URL, ApiKey, UseFolderName) {
     let series = searchInQueue(searchPattern, sonarr) ||
                  searchInGrabHistory(searchPattern, sonarr) ||
                  searchInDownloadHistory(searchPattern, sonarr) ||
-                 (!UseFolderName && parseSeries(searchPattern, sonarr));
+                 (!UseFolderName && parseSeries(searchPattern, sonarr));    // skip parse if folder-name search
 
     /*──────────── Secondary refinement ───────────────*/
     if (series && series.EpisodesInfo && series.EpisodesInfo.length > 1) {
-        Logger.WLog(
-            `More than two episodes detected (${series.EpisodesInfo.length}). `
-          + 'Refining to keeps only the episodes that match the season/episode numbers parsed from the file name.'
-        );
+        Logger.WLog(`More than two episodes detected (${series.EpisodesInfo.length}). Refining match...`);
 
         /*───────── Parse filename to know which episodes we expect ─────────*/
-        const fileNameNoExt = Variables.file.Orig.FileNameNoExtension;
         const parsedSeries = parseSeries(fileNameNoExt, sonarr, true);
         const wantedSeason   = parsedSeries?.parsedEpisodeInfo?.seasonNumber ?? null;
         const wantedEpisodes = parsedSeries?.parsedEpisodeInfo?.episodeNumbers ?? [];
 
         /*──────── Keep only the matched episodes ──────────────────────────*/
         if (wantedSeason !== null && wantedEpisodes.length) {
-            const matched = (series.EpisodesInfo || []).filter(
-                ep =>
-                    ep.seasonNumber === wantedSeason &&
-                    wantedEpisodes.includes(ep.episodeNumber)
+            const matched = (series.EpisodesInfo || []).filter(ep => 
+                ep.seasonNumber === wantedSeason &&
+                wantedEpisodes.includes(ep.episodeNumber)
             );
 
             series.EpisodesInfo = matched;          // Overwrite with matched only
-
             Logger.ILog(
                 matched.length
-                    ? `Episodes retained after match: [ ${matched.map(e => `S${e.seasonNumber}E${e.episodeNumber}`).join(', ')} ]`
-                    : 'No matching episodes retained.'
+                    ? `Retained episodes after match: [ ${matched.map(e => `S${e.seasonNumber}E${e.episodeNumber}`).join(', ')} ]`
+                    : 'No matching episodes retained after refinement.'
             );
         }
     }
@@ -76,39 +70,41 @@ function Script(URL, ApiKey, UseFolderName) {
  * @param {Object} series - Series object returned from Sonarr API
  */
 function updateSeriesMetadata(series) {
-    const lang = LanguageHelper.GetIso2Code(series.originalLanguage.name);
+    const isoLang  = LanguageHelper.GetIso2Code(series.originalLanguage?.name);
 
-    Variables["tvshow.Title"] = series.title;
+    Object.assign(Variables, {
+        'tvshow.Title': series.title,
+        'tvshow.Year': series.year,
+        'Sonarr.seriesId': series.id ?? null,
+        'Sonarr.episodeIds': series.EpisodesInfo?.map(ep => ep.id) ?? [],
+        TVShowInfo: series,
+        OriginalLanguage: isoLang,
+        VideoMetadata: {
+            Title: series.title,
+            Description: series.overview,
+            Year: series.year,
+            ReleaseDate: series.firstAired,
+            OriginalLanguage: isoLang,
+            Genres: series.genres
+        }
+    });
+
     Logger.ILog(`Detected Title: ${series.title}`);
-    Variables["tvshow.Year"] = series.year;
     Logger.ILog(`Detected Year: ${series.year}`);
-
-    Variables.VideoMetadata = {
-        Title: series.title,
-        Description: series.overview,
-        Year: series.year,
-        ReleaseDate: series.firstAired,
-        OriginalLanguage: lang,
-        Genres: series.genres
-    };
-
     Variables["Sonarr.seriesId"] = series.id ?? null;
     Variables["Sonarr.episodeIds"] = series.EpisodesInfo && series.EpisodesInfo.length ? series.EpisodesInfo.map(ep => ep.id) : [];
     
-    Variables.TVShowInfo = series;
-    Variables.OriginalLanguage = lang;
-    Logger.ILog(`Detected Original Language: ${lang}`);
+    Logger.ILog(`Detected Original Language: ${isoLang }`);
     Logger.ILog(
         series.EpisodesInfo.length
-            ? `Detected seriesId: ${series.id} - episodeIds gathered (${series.EpisodesInfo.length}): [ ${series.EpisodesInfo.map(e => e.id).join(', ')} ]`
-            : `Detected seriesId: ${series.id} (no episodeIds)`
+            ? `Detected Sonarr seriesId: ${series.id} - episodeIds gathered (${series.EpisodesInfo.length}): [ ${series.EpisodesInfo.map(e => e.id).join(', ')} ]`
+            : `Detected Sonarr seriesId: ${series.id} (no episodeIds)`
     );
 
     // Extract the url of the poster image
     const poster = series.images?.find(image => image.coverType === 'poster');
     if (poster && poster.remoteUrl) {
         Variables["tvshow.PosterUrl"] = poster.remoteUrl;
-        Logger.ILog(`Detected Poster URL: ${poster.remoteUrl}`);
         Flow.SetThumbnail(poster.remoteUrl); // Set the FileFlows Thumbnail
     } else {
         Logger.WLog("No poster image found.");
