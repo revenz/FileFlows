@@ -46,7 +46,7 @@ public class PrefixedLogger(ILogger logger, string prefix) : ILogger
     /// <param name="args">the arguments of the message</param>
     private void Log(LogType type, params object[] args)
     {
-        string message = prefix + string.Join(", ", args.Select(x =>
+        string message = prefix + ": " + string.Join(", ", args.Select(x =>
             x == null ? "null" :
             x.GetType().IsPrimitive ? x.ToString() :
             x is string ? x.ToString() :
