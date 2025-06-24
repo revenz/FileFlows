@@ -541,7 +541,7 @@
         "FileExtensionsDescription": "Ange filändelser för att behandla i detta bibliotek.",
         "OnlyOnePerLanguage": "Endast ett spår per angivet språk kommer att behållas. Alla andra spår, även från de angivna språken, tas bort. Om ett angivet språk inte finns i källvideon, kommer det att hoppas över och inte inkluderas.",
         "Optimized": "Optimerad",
-        "OptimizeDescription": "Väljer automatiskt bästa kvalitet och storlek baserat på visuell kvalitet och önskad filstorlek.",
+        "OptimizedDescription": "Väljer automatiskt bästa kvalitet och storlek baserat på visuell kvalitet och önskad filstorlek.",
         "Quality": "Kvalitet",
         "QualityDescription": "Använder adaptiv kodning baserat på videons ingång för att uppnå ett konstant kvalitetsnivå. Detta rekommenderas och ger en konstant kvalitet över videor och producerar också de minsta filerna.",
         "UseOriginal": "Använd original utan modifiering",

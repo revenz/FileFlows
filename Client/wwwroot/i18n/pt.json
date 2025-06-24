@@ -541,7 +541,7 @@
         "FileExtensionsDescription": "Especifique as extensões para processar nesta biblioteca.",
         "OnlyOnePerLanguage": "Será mantida apenas uma faixa por idioma especificado. Todas as outras faixas, mesmo dos idiomas especificados, serão removidas. Se um idioma especificado não for encontrado no vídeo de origem, ele será ignorado e não incluído.",
         "Optimized": "Otimizado",
-        "OptimizeDescription": "Seleciona automaticamente a melhor qualidade e tamanho com base na qualidade visual e no tamanho de arquivo desejado.",
+        "OptimizedDescription": "Seleciona automaticamente a melhor qualidade e tamanho com base na qualidade visual e no tamanho de arquivo desejado.",
         "Quality": "Qualidade",
         "QualityDescription": "Usa codificação adaptativa com base na entrada do vídeo para alcançar um nível de qualidade constante. Isso é recomendado e resulta em qualidade constante entre vídeos e também nos menores arquivos.",
         "UseOriginal": "Usar original sem modificação",

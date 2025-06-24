@@ -541,7 +541,7 @@
         "FileExtensionsDescription": "指定在此庫中處理的檔案副檔名。",
         "OnlyOnePerLanguage": "每種指定語言僅保留一個音軌。即使是指定語言的其他音軌也會被移除。如果指定語言在源視頻中未找到，則會跳過，不會包含。",
         "Optimized": "已優化",
-        "OptimizeDescription": "根據視覺品質和目標檔案大小自動選擇最佳品質和大小。",
+        "OptimizedDescription": "根據視覺品質和目標檔案大小自動選擇最佳品質和大小。",
         "Quality": "品質",
         "QualityDescription": "根據影片的輸入使用自適應編碼來達到固定的品質水準。這是推薦的方式，可以確保影片品質一致，並且生成最小的檔案。",
         "UseOriginal": "使用未修改的原始檔案",

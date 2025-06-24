@@ -27,7 +27,7 @@ public partial class NewVideoFlowWizard
     /// </summary>
     private int SelectedVideoEncodingType;
 
-    private int Quality = 6, Bitrate = 5000, Optimize = 0;
+    private int Quality = 6, Bitrate = 5000, Optimized = 0;
     private bool CropBlackBars, AttemptHardwareEncode = true;
     private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
     /// <summary>
@@ -365,7 +365,7 @@ public partial class NewVideoFlowWizard
                             {
                                 Codec = VideoCodec,
                                 Encoder= "CPU",
-                                Mode = Optimize,
+                                Mode = Optimized,
                                 MaxSizePercent = 90f
                             })
                         },
@@ -620,7 +620,7 @@ public partial class NewVideoFlowWizard
                     Encoder = AttemptHardwareEncode ? "" : "CPU",
                     Bitrate
                 })
-            });
+            }, allOutputs: true);
         }
         else if (SelectedVideoEncodingType == 2)
         {
@@ -634,10 +634,10 @@ public partial class NewVideoFlowWizard
                 {
                     Codec = VideoCodec,
                     Encoder = AttemptHardwareEncode ? "" : "CPU",
-                    Mode = Optimize,
+                    Mode = Optimized,
                     MaxSizePercent = 90f
                 })
-            });
+            }, allOutputs: true);
         }
         else
         {
@@ -655,7 +655,7 @@ public partial class NewVideoFlowWizard
                     Quality = Quality,
                     Speed = 3
                 })
-            });
+            }, allOutputs: true);
         }
     }
 
