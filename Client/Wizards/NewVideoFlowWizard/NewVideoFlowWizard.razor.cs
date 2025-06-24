@@ -26,7 +26,8 @@ public partial class NewVideoFlowWizard
     /// Gets the selected encoding type
     /// </summary>
     private int SelectedVideoEncodingType;
-    private int Quality = 6, Bitrate = 5000;
+
+    private int Quality = 6, Bitrate = 5000, Optimize = 0;
     private bool CropBlackBars, AttemptHardwareEncode = true;
     private List<string> Audio1Languages = [], Audio2Languages = [], SubtitleLanguages = [], AudioMode1Languages = [];
     /// <summary>
@@ -66,7 +67,8 @@ public partial class NewVideoFlowWizard
         AudioCodecs = [],
         AudioChannels = [],
         LanguageOptions = [],
-        QualityOptions = [];
+        QualityOptions = [],
+        OptimizeOptions = [];
     
     /// <summary>
     /// Gets or sets the flow wizard
@@ -253,6 +255,12 @@ public partial class NewVideoFlowWizard
             new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.High"), Value = 7},
             new () { Label = Translater.Instant("Dialogs.NewVideoFlowWizard.Fields.QualityLevel.VeryHigh"), Value = 8},
         ];
+        OptimizeOptions =
+        [
+            new () { Label = Translater.Instant("Flow.Parts.FfmpegBuilderVideoEncodeOptimized.Enums.OptimizedMode.FastScan"), Value = 1},
+            new () { Label = Translater.Instant("Flow.Parts.FfmpegBuilderVideoEncodeOptimized.Enums.OptimizedMode.Balanced"), Value = 0},
+            new () { Label = Translater.Instant("Flow.Parts.FfmpegBuilderVideoEncodeOptimized.Enums.OptimizedMode.Thorough"), Value = 2},
+        ];
 
         initDone = true;
         StateHasChanged();
@@ -332,8 +340,8 @@ public partial class NewVideoFlowWizard
                 builder.CurrentColumn = preOutputColumn + 4;
                 builder.CurrentRow = 0;
                 var secondEncode = builder.Add(
-                    SelectedVideoEncodingType == 1
-                        ? new FlowPart()
+                    SelectedVideoEncodingType switch {
+                        1 => new FlowPart()
                         {
                             // bitrate encode
                             FlowElementUid = FlowElementUids.FFmpegBuilderVideoBitrateEncode,
@@ -346,8 +354,22 @@ public partial class NewVideoFlowWizard
                                 Encoder= "CPU",
                                 Bitrate
                             })
-                        }
-                        : new FlowPart()
+                        },
+                        2 => new FlowPart()
+                        {
+                            FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncodeOptimized,
+                            Outputs = 2,
+                            Name = Translater.Instant("Dialogs.NewVideoFlowWizard.Parts.CpuFailOverEncode"),
+                            Type = FlowElementType.BuildPart,
+                            Model = ExpandoHelper.ToExpandoObject(new
+                            {
+                                Codec = VideoCodec,
+                                Encoder= "CPU",
+                                Mode = Optimize,
+                                MaxSizePercent = 90f
+                            })
+                        },
+                        _ => new FlowPart()
                         {
                             FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncodeSimple,
                             Outputs = 1,
@@ -360,7 +382,8 @@ public partial class NewVideoFlowWizard
                                 Quality,
                                 Speed = 3
                             })
-                        }, row: 1);
+                        }
+                    }, row: 1);
                 builder.Connect(executor, secondEncode, -1);
                 
                 var secondExecutor = builder.AddAndConnect(new FlowPart()
@@ -566,6 +589,22 @@ public partial class NewVideoFlowWizard
             "h265" => "HEVC",
             _ => VideoCodec.ToUpper()
         };
+
+        // this must be first, as Video Encode Optimized needs to know if cropping will take place to force encoding if it does
+        if (CropBlackBars)
+        {
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = FlowElementUids.FFmpegBuildeCropBlackBars,
+                Outputs = 2,
+                Type = FlowElementType.BuildPart,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    CroppingThreshold = 10
+                })
+            });
+        }
+        
         if (SelectedVideoEncodingType == 1)
         {
             // bitrate encode
@@ -580,6 +619,23 @@ public partial class NewVideoFlowWizard
                     Codec = VideoCodec,
                     Encoder = AttemptHardwareEncode ? "" : "CPU",
                     Bitrate
+                })
+            });
+        }
+        else if (SelectedVideoEncodingType == 2)
+        {
+            builder.AddAndConnect(new FlowPart()
+            {
+                FlowElementUid = FlowElementUids.FFmpegBuilderVideoEncodeOptimized,
+                Outputs = 2,
+                Name = codecLabel,
+                Type = FlowElementType.BuildPart,
+                Model = ExpandoHelper.ToExpandoObject(new
+                {
+                    Codec = VideoCodec,
+                    Encoder = AttemptHardwareEncode ? "" : "CPU",
+                    Mode = Optimize,
+                    MaxSizePercent = 90f
                 })
             });
         }
@@ -598,20 +654,6 @@ public partial class NewVideoFlowWizard
                     Encoder = AttemptHardwareEncode ? "" : "CPU",
                     Quality = Quality,
                     Speed = 3
-                })
-            });
-        }
-
-        if (CropBlackBars)
-        {
-            builder.AddAndConnect(new FlowPart()
-            {
-                FlowElementUid = FlowElementUids.FFmpegBuildeCropBlackBars,
-                Outputs = 2,
-                Type = FlowElementType.BuildPart,
-                Model = ExpandoHelper.ToExpandoObject(new
-                {
-                    CroppingThreshold = 10
                 })
             });
         }

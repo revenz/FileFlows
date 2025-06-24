@@ -540,6 +540,8 @@
         "FileExtensions": "文件扩展名",
         "FileExtensionsDescription": "指定在此库中处理的文件扩展名。",
         "OnlyOnePerLanguage": "每种指定语言仅保留一个音轨。即使是指定语言的其他音轨也会被移除。如果指定语言在源视频中未找到，则会跳过，不会包含。",
+        "Optimized": "已优化",
+        "OptimizeDescription": "根据视觉质量和目标文件大小自动选择最佳质量和大小。",
         "Quality": "质量",
         "QualityDescription": "基于视频的输入使用自适应编码来实现恒定的质量水平。推荐使用此方法，它能确保视频质量一致，并且产生最小的文件。",
         "UseOriginal": "使用未修改的原始文件",

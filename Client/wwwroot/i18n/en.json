@@ -540,6 +540,8 @@
         "FileExtensions": "Extensions",
         "FileExtensionsDescription": "Specify the extensions to process in this library.",
         "OnlyOnePerLanguage": "This will keep only one track per specified language. All other tracks, even from the specified languages, will be removed. If a specified language is not found in the source video, it will be skipped and not included.",
+        "Optimized": "Optimized",
+        "OptimizeDescription": "Automatically selects the best quality and size based on visual quality and target file size.",
         "Quality": "Quality",
         "QualityDescription": "Uses adaptive encoding based on the input video to achieve a constant quality level. This is recommended as it produces consistent quality across videos and results in the smallest file sizes.",
         "UseOriginal": "Use original without modification",

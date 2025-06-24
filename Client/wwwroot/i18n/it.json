@@ -540,6 +540,8 @@
         "FileExtensions": "Estensioni",
         "FileExtensionsDescription": "Specifica le estensioni da elaborare in questa libreria.",
         "OnlyOnePerLanguage": "Verrà mantenuta solo una traccia per ogni lingua specificata. Tutte le altre tracce, anche di lingue specificate, verranno rimosse. Se una lingua specificata non è presente nel video sorgente, verrà ignorata e non inclusa.",
+        "Optimized": "Ottimizzato",
+        "OptimizeDescription": "Seleziona automaticamente la migliore qualità e dimensione in base alla qualità visiva e alla dimensione del file desiderata.",
         "Quality": "Qualità",
         "QualityDescription": "Utilizza una codifica adattativa basata sull'input del video per ottenere un livello di qualità costante. Questo è raccomandato e produce una qualità costante tra i video e anche i file più piccoli.",
         "UseOriginal": "Usa l'originale senza modifiche",
