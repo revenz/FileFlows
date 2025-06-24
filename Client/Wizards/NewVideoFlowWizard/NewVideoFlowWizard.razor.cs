@@ -366,7 +366,16 @@ public partial class NewVideoFlowWizard
                                 Codec = VideoCodec,
                                 Encoder= "CPU",
                                 Mode = Optimized,
-                                MaxSizePercent = 90f
+                                MaxSizePercent = 90f,
+                                
+                                // Defaults
+                                MinVmaf = 93f,
+                                MaxBitrate = 10_000,
+                                Samples = 3,
+                                SampleLengthSeconds = 20,
+                                QualityLowerBound = 15f,
+                                QualityUpperBound = 25f,
+                                MaxIterations = 5
                             })
                         },
                         _ => new FlowPart()
@@ -635,7 +644,16 @@ public partial class NewVideoFlowWizard
                     Codec = VideoCodec,
                     Encoder = AttemptHardwareEncode ? "" : "CPU",
                     Mode = Optimized,
-                    MaxSizePercent = 90f
+                    MaxSizePercent = 90f,
+                    
+                    // Defaults
+                    MinVmaf = 93f,
+                    MaxBitrate = 10_000,
+                    Samples = 3,
+                    SampleLengthSeconds = 20,
+                    QualityLowerBound = 15f,
+                    QualityUpperBound = 25f,
+                    MaxIterations = 5
                 })
             }, allOutputs: true);
         }
