@@ -2,6 +2,7 @@ import { Sonarr } from 'Shared/Sonarr';
 
 /**
  * @name Sonarr - TV Show Lookup
+ * @uid 7f705b22-24e3-46f0-a966-158f82a44581
  * @description This script looks up a TV Show from Sonarr and retrieves its metadata
  * @help Performs a search on Sonarr for a TV Show.
  * Stores the Metadata inside the variable 'TVShowInfo'.
