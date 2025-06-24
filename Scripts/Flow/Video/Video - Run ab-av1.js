@@ -91,6 +91,8 @@ function Script(Preset,Encoder,EncOptions,PixFormat,MinVmaf,MaxEncodedPercent,Mi
     if (returnValue.winner){
         Variables.AbAv1CRFValue = returnValue.winner.crf
         Logger.ILog(`Set CRF value to ${Variables.AbAv1CRFValue}`)
+        Flow.AdditionalInfoRecorder("Score", returnValue.winner.score, 1000);
+        Flow.AdditionalInfoRecorder("CRF", returnValue.winner.crf, 1000);
         return 2        
     } else {
         return 1
