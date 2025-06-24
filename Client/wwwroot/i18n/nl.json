@@ -541,7 +541,7 @@
         "FileExtensionsDescription": "Geef de extensies op die in deze bibliotheek verwerkt moeten worden.",
         "OnlyOnePerLanguage": "Er wordt slechts één track per opgegeven taal behouden. Alle andere tracks, zelfs van de opgegeven talen, worden verwijderd. Als een opgegeven taal niet in de bronvideo wordt gevonden, wordt deze overgeslagen en niet opgenomen.",
         "Optimized": "Geoptimaliseerd",
-        "OptimizedDescription": "Selecteert automatisch de beste kwaliteit en bestandsgrootte op basis van visuele kwaliteit en doelformaat.",
+        "OptimizedDescription": "Selecteert automatisch de beste kwaliteit en kleinste bestandsgrootte op basis van visuele kwaliteit en doelformaat. Dit is een langzamer proces omdat het segmenten van de video analyseert en test om de optimale instellingen te bepalen.",
         "Quality": "Kwaliteit",
         "QualityDescription": "Gebruik adaptieve codering op basis van de invoer van de video om een constant kwaliteitsniveau te bereiken. Dit wordt aanbevolen en zorgt voor een constante kwaliteit tussen video's en ook voor de kleinste bestanden.",
         "UseOriginal": "Gebruik origineel zonder wijziging",
