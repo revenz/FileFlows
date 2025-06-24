@@ -21,17 +21,18 @@ Recommended defaults:
     MaxBitRate: 11.5 MBps for SDR and 23.5 MBps Dolby Vision
 
 All parameters can also be overridden using Variables for example
-    AutoCRF.TargetCodec = hevc_nvenc
-    AutoCRF.MaxBitRate = 12
-    AutoCRF.FallBackCodecs = hevc|h.264|mpeg4|custom
-    AutoCRF.SVT = lookahead=64:film-grain=8
-    AutoCRF.KeyInt = 240
-    AutoCRF.Threads = 4
-    AutoCRF.Preset = veryslow
+    TargetCodec = hevc_nvenc
+    MaxBitRate = 12
+    FallBackCodecs = hevc|h.264|mpeg4|custom
+    SVT = lookahead=64:film-grain=8
+    KeyInt = 240
+    Threads = 4
+    Preset = veryslow
+    Force10Bit = True
 
 For further help or feature requests find me in the discord
  * @author lawrence
- * @revision 12
+ * @revision 13
  * @param {('hevc_qsv'|'hevc_nvenc'|'hevc'|'av1_qsv'|'libsvtav1'|'av1_nvenc'|'h264_qsv'|'h264'|'h264_nvenc'|'hevc_vaapi')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
@@ -61,40 +62,21 @@ For further help or feature requests find me in the discord
             return -1;
         }
 
-        if (
-            Variables.Preset ||
-            Variables.TargetCodec ||
-            Variables.KeyInt ||
-            Variables.FixDolby5 ||
-            Variables.UseTags ||
-            Variables.ErrorOnFail ||
-            Variables.SVT
-            //     Variables.FallBackCodecs ||
-            //     Variables.MaxBitRate ||
-            //     Variables.FirstTryPercentage ||
-            //     Variables.SecondTryPercentage ||
-            //     Variables.FirstTryScore ||
-            //     Variables.SecondTryScore ||
-        ) {
-            return Flow.Fail(
-                "Please prefix your variables, (e.g. AutoCRF.TargetCodec) and remove FFmpeg Builder Video Manual"
-            );
-        }
-        
-        if (Variables['AutoCRF.FixDolby5']) {
-            FixDolby5 = Variables['AutoCRF.FixDolby5'];
+               
+        if (Variables['FixDolby5']) {
+            FixDolby5 = Variables['FixDolby5'];
         }
     
-        if (Variables['AutoCRF.UseTags']) {
-            UseTags = Variables['AutoCRF.UseTags'];
+        if (Variables['UseTags']) {
+            UseTags = Variables['UseTags'];
         }
     
-        if (Variables['AutoCRF.ErrorOnFail']) {
-            ErrorOnFail = Variables['AutoCRF.ErrorOnFail'];
+        if (Variables['ErrorOnFail']) {
+            ErrorOnFail = Variables['ErrorOnFail'];
         }
     
-        if (Variables['AutoCRF.TargetCodec']) {
-            TargetCodec = Variables['AutoCRF.TargetCodec'];
+        if (Variables['TargetCodec']) {
+            TargetCodec = Variables['TargetCodec'];
         }
     
         if (!TargetCodec) {
@@ -105,18 +87,14 @@ For further help or feature requests find me in the discord
         if (Variables.FallBackCodecs) {
             FallBackCodecs = Variables.FallBackCodecs.split("|");
         }
-        if (Variables['AutoCRF.FallBackCodecs']) {
-            FallBackCodecs = Variables['AutoCRF.FallBackCodecs'].split("|");
-        }
+
         FallBackCodecs = FallBackCodecs.map((name) => name.toLowerCase());
     
         // MaxBitRate
         if (Variables.MaxBitRate) {
             MaxBitRate = Variables.MaxBitRate;
         }
-        if (Variables['AutoCRF.MaxBitRate']) {
-            MaxBitRate = Variables['AutoCRF.MaxBitRate'];
-        }
+
         if (!MaxBitRate) {
             Flow.Fail(
                 "AutoCRF: Please set the Max Bit Rate or Variable MaxBitRate"
@@ -211,25 +189,8 @@ For further help or feature requests find me in the discord
             secondTryScore = Variables.SecondTryScore;
         }
     
-
-        if (Variables['AutoCRF.FirstTryPercentage']) {
-            firstTryPercentage = Variables['AutoCRF.FirstTryPercentage'];
-        }
-    
-        if (Variables['AutoCRF.SecondTryPercentage']) {
-            secondTryPercentage = Variables['AutoCRF.SecondTryPercentage'];
-        }
-    
-        if (Variables['AutoCRF.FirstTryScore']) {
-            firstTryScore = Variables['AutoCRF.FirstTryScore'];
-        }
-    
-        if (Variables['AutoCRF.SecondTryScore']) {
-            secondTryScore = Variables['AutoCRF.SecondTryScore'];
-        }
-    
-        if (Variables['AutoCRF.Preset']) {
-            preset = Variables['AutoCRF.Preset'];
+        if (Variables['Preset']) {
+            preset = Variables['Preset'];
         }
 
         if (Variables.FfmpegBuilderModel.ForceEncode) {
@@ -439,12 +400,12 @@ For further help or feature requests find me in the discord
         let abAv1 = ToolPath("ab-av1", "/opt/autocrf");
         let path = abAv1.replace(/[^\/]+$/, "");
     
-        if (Variables['AutoCRF.SVT']) {
-            returnValue.command = `${returnValue.command} -svtav1-params ${Variables['AutoCRF.SVT']}`
+        if (Variables['SVT']) {
+            returnValue.command = `${returnValue.command} -svtav1-params ${Variables['SVT']}`
         }
     
-        if (Variables['AutoCRF.KeyInt']) {
-            returnValue.command = `${returnValue.command} -g ${Variables['AutoCRF.KeyInt']}`
+        if (Variables['KeyInt']) {
+            returnValue.command = `${returnValue.command} -g ${Variables['KeyInt']}`
         } else {
             returnValue.command = `${returnValue.command} -g ${Math.round(Variables.vi.VideoInfo.VideoStreams[0].FramesPerSecond) * 10}`
         }
@@ -456,7 +417,7 @@ For further help or feature requests find me in the discord
         let videoPixelFormat = "yuv420p";
     
 
-        if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit || Variables['AutoCRF.Force10Bit']) {
+        if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit || Variables['Force10Bit']) {
             videoPixelFormat = "yuv420p10le";
             Variables.vi.VideoInfo.VideoStreams[0].Bits = 10;
            if (TargetCodec.includes("hevc") || TargetCodec.includes("265")) {
@@ -520,23 +481,9 @@ For further help or feature requests find me in the discord
             ]);
         }
     
-        if (Variables['AutoCRF.SVT']) {
+        if (Variables["Threads"]) {
             executeArgs.argumentList = executeArgs.argumentList.concat([
-                "--svt",
-                Variables['AutoCRF.SVT'],
-            ]);
-        }
-
-        if (Variables['AutoCRF.KeyInt']) {
-            executeArgs.argumentList = executeArgs.argumentList.concat([
-                "--keyint",
-                Variables['AutoCRF.KeyInt'],
-            ]);
-        }
-
-        if (Variables["AutoCRF.Threads"]) {
-            executeArgs.argumentList = executeArgs.argumentList.concat([
-                "--vmaf", `n_threads=${Variables['AutoCRF.Threads']}`
+                "--vmaf", `n_threads=${Variables['Threads']}`
             ]);
         } else {
             executeArgs.argumentList = executeArgs.argumentList.concat([
