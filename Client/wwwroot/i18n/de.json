@@ -630,14 +630,14 @@
         "VideoDescription": "Wählen Sie die Kodiermethode für den Videostream."
       },
       "Parts": {
-        "CpuFailOverEncode": "Резервная кодировка на CPU",
-        "CpuFailOverExecutor": "Исполнитель резервной кодировки на CPU",
-        "DefaultLanguage": "Язык по умолчанию ''{lang}''",
-        "PrimaryAudio": "Основной аудиотрек",
-        "RemoveUnsupportedSubtitles": "Удалить неподдерживаемые субтитры",
-        "RemoveUnwantedSubtitles": "Удалить нежелательные языки субтитров",
-        "RemuxToContainer": "Перемонтировать в {container}",
-        "SecondaryAudio": "Вторичный аудиотрек"
+        "CpuFailOverEncode": "CPU-Ausweichcodierung",
+        "CpuFailOverExecutor": "CPU-Ausweichausführung",
+        "DefaultLanguage": "Standardsprache auf „{lang}“ setzen",
+        "PrimaryAudio": "Primäre Audiospur",
+        "RemoveUnsupportedSubtitles": "Nicht unterstützte Untertitel entfernen",
+        "RemoveUnwantedSubtitles": "Nicht gewünschte Untertitelsprache entfernen",
+        "RemuxToContainer": "In {container} remuxen",
+        "SecondaryAudio": "Sekundäre Audiospur"
       }
     },
     "PauseDialog": {
