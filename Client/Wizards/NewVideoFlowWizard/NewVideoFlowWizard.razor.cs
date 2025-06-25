@@ -363,7 +363,7 @@ public partial class NewVideoFlowWizard
                             Type = FlowElementType.BuildPart,
                             Model = ExpandoHelper.ToExpandoObject(new
                             {
-                                Codec = VideoCodec,
+                                Codec = VideoCodec == "h265" ? "hevc" :  VideoCodec,
                                 Encoder= "CPU",
                                 Mode = Optimized,
                                 MaxSizePercent = 90f,
@@ -641,7 +641,7 @@ public partial class NewVideoFlowWizard
                 Type = FlowElementType.BuildPart,
                 Model = ExpandoHelper.ToExpandoObject(new
                 {
-                    Codec = VideoCodec,
+                    Codec = VideoCodec == "h265" ? "hevc" :  VideoCodec,
                     Encoder = AttemptHardwareEncode ? "" : "CPU",
                     Mode = Optimized,
                     MaxSizePercent = 90f,
