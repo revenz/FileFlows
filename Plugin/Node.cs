@@ -1,3 +1,5 @@
+using FileFlows.Plugin.Models;
+
 namespace FileFlows.Plugin;
 
 /// <summary>
@@ -107,4 +109,9 @@ public class Node
     /// </summary>
     /// <returns>cancels the node</returns>
     public virtual Task Cancel() => Task.CompletedTask;
+
+    /// <summary>
+    /// Gets tab definitions for this flow element
+    /// </summary>
+    public virtual TabDefinition[]? Tabs => null;
 }
