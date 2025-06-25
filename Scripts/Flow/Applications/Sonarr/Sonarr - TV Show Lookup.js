@@ -2,13 +2,12 @@ import { Sonarr } from 'Shared/Sonarr';
 
 /**
  * @name Sonarr - TV Show Lookup
- * @uid 7f705b22-24e3-46f0-a966-158f82a44581
  * @description This script looks up a TV Show from Sonarr and retrieves its metadata
  * @help Performs a search on Sonarr for a TV Show.
  * Stores the Metadata inside the variable 'TVShowInfo'.
  * @author iBuSH
  * @uid 9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8
- * @revision 8
+ * @revision 9
  * @param {string} URL Sonarr root URL and port (e.g., http://sonarr:8989)
  * @param {string} ApiKey API Key for Sonarr
  * @param {bool} UseFolderName Whether to use the folder name instead of the file name for the search pattern.<br>If the folder starts with "Season", "Staffel", "Saison", or "Specials", the parent folder will be used.<br>If lookup returning with more then 2 episodes then it will fallback to file name search pattern.
@@ -27,7 +26,8 @@ function Script(URL, ApiKey, UseFolderName) {
     Logger.ILog(`Lookup TV Show: ${searchPattern}`);
 
     /*──────────── Primary lookup sequence ────────────*/
-    let series = searchInQueue(searchPattern, sonarr) ||
+    let series = searchSeriesByPath(searchPattern, sonarr) ||
+                 searchInQueue(searchPattern, sonarr) ||
                  searchInGrabHistory(searchPattern, sonarr) ||
                  searchInDownloadHistory(searchPattern, sonarr) ||
                  (!UseFolderName && parseSeries(searchPattern, sonarr));    // skip parse if folder-name search
@@ -126,6 +126,24 @@ function getSeriesFolderName(folderPath) {
     }
 
     return System.IO.Path.GetFileName(folderPath);
+}
+
+/**
+ * @description Searches for a series by file or folder path in Sonarr
+ * @param {string} searchPattern - The search string to use (from the folder or file name)
+ * @param {Object} sonarr - Sonarr API instance
+ * @returns {Object|null} Series object if found, or null if not found
+ */
+function searchSeriesByPath(searchPattern, sonarr) {
+    Logger.ILog(`Searching by Series path`);
+
+    try {
+        const series = sonarr.getShowByPath(searchPattern);
+        return series || null;
+    } catch (e) {
+        Logger.ELog(`Error searching series by path: ${e.message}`);
+        return null;
+    }
 }
 
 /**
