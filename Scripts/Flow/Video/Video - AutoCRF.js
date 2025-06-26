@@ -55,10 +55,10 @@ For further help or feature requests find me in the discord
  */
     function Script() {
         // Checking dependencies
-        if (!ToolPath("ab-av1", "/opt/autocrf")) {
+        if (!ToolPath("ab-av1", "/app/common/autocrf")) {
             return -1;
         }
-        let ffmpeg = ToolPath("ffmpeg", "/opt/autocrf")
+        let ffmpeg = ToolPath("ffmpeg", "/app/common/autocrf")
         if (!ffmpeg) {
             return -1;
         }
@@ -407,7 +407,7 @@ For further help or feature requests find me in the discord
     }
     
     function search(returnValue, bitratePercent, targetPercent, videoBitRate, preset) {
-        let abAv1 = ToolPath("ab-av1", "/opt/autocrf");
+        let abAv1 = ToolPath("ab-av1", "/app/common/autocrf");
         let path = abAv1.replace(/[^\/]+$/, "");
     
         if (Variables['SVT']) {

@@ -8,7 +8,7 @@
 
 #!/bin/bash
 
-DESTINATION_FOLDER="/opt/autocrf"
+DESTINATION_FOLDER="/app/common/autocrf"
 
 # Function to handle errors
 function handle_error {

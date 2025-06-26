@@ -24,10 +24,10 @@ Executes the ab-av1 command.
 function Script(Preset,Encoder,EncOptions,PixFormat,MinVmaf,MaxEncodedPercent,MinCRF,MaxCRF,MinSamples,Thorough,AdditionalOptions)
 {
 
-    if (!ToolPath("ab-av1", "/opt/autocrf")) {
+    if (!ToolPath("ab-av1", "/app/common/autocrf")) {
         return -1;
     }
-    if (!ToolPath("ffmpeg", "/opt/autocrf")) {
+    if (!ToolPath("ffmpeg", "/app/common/autocrf")) {
         return -1;
     }
     if (!ToolPath("ffmpeg", "/app/common/ffmpeg-static")) {
@@ -103,7 +103,7 @@ function Script(Preset,Encoder,EncOptions,PixFormat,MinVmaf,MaxEncodedPercent,Mi
 // Stolen from lawrence
 function search(abav1Command){
 
-    let abAv1 = ToolPath("ab-av1", "/opt/autocrf");
+    let abAv1 = ToolPath("ab-av1", "/app/common/autocrf");
     let path = abAv1.replace(/[^\/]+$/, "");
     abav1Command = `${abAv1} ${abav1Command}`
     var executeArgs = new ExecuteArgs();
