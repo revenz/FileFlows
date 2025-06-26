@@ -369,7 +369,7 @@ public partial class NewVideoFlowWizard
                                 MaxSizePercent = 90f,
                                 
                                 // Defaults
-                                MinVmaf = 93f,
+                                MinVmaf = 94.5f,
                                 MaxBitrate = 10_000,
                                 Samples = 3,
                                 SampleLengthSeconds = 20,
@@ -647,7 +647,7 @@ public partial class NewVideoFlowWizard
                     MaxSizePercent = 90f,
                     
                     // Defaults
-                    MinVmaf = 93f,
+                    MinVmaf = 94.5f,
                     MaxBitrate = 10_000,
                     Samples = 3,
                     SampleLengthSeconds = 20,
