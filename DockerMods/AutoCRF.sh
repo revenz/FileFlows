@@ -71,7 +71,7 @@ chmod +x ${DESTINATION_FOLDER}/ffmpeg
 echo "Installation complete."
 
 # Install openCL if we find a QSV device
-! lspci | grep -Ei 'VGA|Display' | grep Intel || ! apt update || ! apt install -y intel-opencl-icd
+! lspci | grep -Ei 'VGA|Display' | grep Intel || ! apt update || ! apt install -y libmfx-gen1.2 libmfx-dev i965-va-driver-shaders intel-media-va-driver-non-free intel-opencl-icd
 
 # Verify installation
 if command -v ${DESTINATION_FOLDER}/ab-av1 &>/dev/null; then

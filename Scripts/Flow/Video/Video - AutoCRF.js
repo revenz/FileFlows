@@ -22,7 +22,7 @@ You do not need to hook up any of the FFmpeg Builder flow elements!
 Should you wish to test custom parameters you can do so by using the flow element before this script (e.g. -x265-params or -qsv_device)
 Good defaults for QSV encodes that yield better results
 Ability to force all encodes to 10bit, this will very slightly improve your score
-Changed default to veryslow, this can be changed in a variable called Preset
+Changed default to veryslow (QSV), this can be changed in a variable called Preset
 ~~~~~~~~~~~~~~~~~ NEW ~~~~~~~~~~~~~~~~~
 
 Recommended defaults:
@@ -181,7 +181,11 @@ For further help or feature requests find me in the discord
         let secondTryPercentage = 100;
         let firstTryScore = 97;
         let secondTryScore = 95;
-        let preset = 'veryslow';
+        let preset = 'slow';
+
+        if (TargetCodec.includes("qsv")) {
+            preset = 'veryslow';
+        }
     
         if (Variables.FirstTryPercentage) {
             firstTryPercentage = Variables.FirstTryPercentage;
@@ -350,6 +354,7 @@ For further help or feature requests find me in the discord
             if (TargetCodec.includes("qsv")) {
                 Logger.WLog("QSV does not support dolby vision 5 decode properly so we are disabling it");
                 Variables.NoQSV = true;
+                Variables.NoVAAPI = true;
             }
         }
 
@@ -434,7 +439,7 @@ For further help or feature requests find me in the discord
             ForceTenBit = Variables.ForceTenBit;
         }
     
-        if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit || Force10Bit) {
+        if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit || ForceTenBit) {
             videoPixelFormat = "yuv420p10le";
             Variables.vi.VideoInfo.VideoStreams[0].Bits = 10;
            if (TargetCodec.includes("hevc") || TargetCodec.includes("265")) {
