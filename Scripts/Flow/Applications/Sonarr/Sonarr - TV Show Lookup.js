@@ -97,7 +97,7 @@ function updateSeriesMetadata(series) {
     
     Logger.ILog(`Detected Original Language: ${isoLang }`);
     Logger.ILog(
-        series.EpisodesInfo.length
+        series.EpisodesInfo && series.EpisodesInfo.length
             ? `Detected Sonarr seriesId: ${series.id} - episodeIds gathered (${series.EpisodesInfo.length}): [ ${series.EpisodesInfo.map(e => e.id).join(', ')} ]`
             : `Detected Sonarr seriesId: ${series.id} (no episodeIds)`
     );
