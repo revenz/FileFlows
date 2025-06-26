@@ -26,7 +26,7 @@ function Script(URL, ApiKey, UseFolderName) {
     Logger.ILog(`Lookup Movie name: ${searchPattern}`);
 
     // Search for the movie in Radarr by path, queue, or download history
-    let movie = searchMovieByPath(searchPattern, radarr) ||
+    let movie = (UseFolderName && searchMovieByPath(searchPattern, radarr)) ||
                 searchInQueue(searchPattern, radarr) ||
                 searchInGrabHistory(searchPattern, radarr) ||
                 searchInDownloadHistory(searchPattern, radarr) ||

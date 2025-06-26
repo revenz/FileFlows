@@ -26,7 +26,7 @@ function Script(URL, ApiKey, UseFolderName) {
     Logger.ILog(`Lookup TV Show: ${searchPattern}`);
 
     /*──────────── Primary lookup sequence ────────────*/
-    let series = searchSeriesByPath(searchPattern, sonarr) ||
+    let series = (UseFolderName && searchSeriesByPath(searchPattern, sonarr)) ||
                  searchInQueue(searchPattern, sonarr) ||
                  searchInGrabHistory(searchPattern, sonarr) ||
                  searchInDownloadHistory(searchPattern, sonarr) ||
