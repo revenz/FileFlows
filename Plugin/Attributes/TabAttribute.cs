@@ -3,7 +3,7 @@ namespace FileFlows.Plugin.Attributes;
 /// <summary>
 /// Attribute to indicate a property should be on a specific tab
 /// </summary>
-public class TabAttribute
+public class TabAttribute : Attribute
 {
     /// <summary>
     /// Gets or sets the name of the tab
