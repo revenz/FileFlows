@@ -2,19 +2,28 @@
  * @name Video - AutoCRF
  * @uid d08608d8-3b50-4784-ad68-fd4ed102577c
  * @description Finds the correct CRF using VMAF score based on a
-maximum BitRate and your selected codec types
+maximum BitRate and your selected codec types, years of testing and community input
  * @help Put me between 'FFMPEG Builder: Start' and 'FFMPEG Builder: Executor'
-Required DockerMods: AutoCRF, FFmpeg7, FFmpeg-BtbN
+Required DockerMods: AutoCRF, FFmpeg FileFlows Edition
+
+~~~~~~~~~~~~~~~~~ NEW ~~~~~~~~~~~~~~~~~
+!!Please remove FFmpeg Builder Video Manual from output 1, it is no longer required!!
+~~~~~~~~~~~~~~~~~ NEW ~~~~~~~~~~~~~~~~~
+This script will always try and convert the video to the target codec by trying to calculate a CRF for a smaller file.
+
+In the event of it not finding a suitable CRF and the codec isn't in FallBackCodecs it will do BitRate encoding automatically
 
 This Flow Element two outputs:
-1: The video will be encoded, you no longer need {ManualParameters}
-2: The video is in an acceptable codec and bitrate and should *not* be encoded
-
+1: The video will be encoded
+2: The video is in an acceptable codec and bitrate
 You do not need to hook up any of the FFmpeg Builder flow elements!
 
-This script will always try and convert the video to the target codec by trying to calculate a CRF for a smaller file.
-In the event of it not finding a suitable CRF and the codec isn't in FallBackCodecs it will do BitRate encoding automatically
-Should you wish to test custom parameters (e.g. -x265-params or -qsv_device) you can do so by using the flow element before this script
+~~~~~~~~~~~~~~~~~ NEW ~~~~~~~~~~~~~~~~~
+Should you wish to test custom parameters you can do so by using the flow element before this script (e.g. -x265-params or -qsv_device)
+Good defaults for QSV encodes that yield better results
+Ability to force all encodes to 10bit, this will very slightly improve your score
+Changed default to veryslow, this can be changed in a variable called Preset
+~~~~~~~~~~~~~~~~~ NEW ~~~~~~~~~~~~~~~~~
 
 Recommended defaults:
     FallBackCodecs: hevc, h.264
@@ -27,16 +36,17 @@ All parameters can also be overridden using Variables for example
     SVT = lookahead=64:film-grain=8
     KeyInt = 240
     Threads = 4
-    Preset = veryslow
-    Force10Bit = True
+    Preset = slow
+    ForceTenBit = True
 
 For further help or feature requests find me in the discord
  * @author lawrence
- * @revision 13
+ * @revision 14
  * @param {('hevc_qsv'|'hevc_nvenc'|'hevc'|'av1_qsv'|'libsvtav1'|'av1_nvenc'|'h264_qsv'|'h264'|'h264_nvenc'|'hevc_vaapi')} TargetCodec Which codec you want as the output
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
  * @param {bool} FixDolby5 Create a SDR fallback for Dolby Vision profile 5 (aka the green/purple one) [CPU decode]
+ * @param {bool} ForceTenBit Force encodings to 10 bit
  * @param {bool} UseTags Create tags (premium feature) such as "Copy", "CRF 17", "Fallback"
  * @param {bool} ErrorOnFail Error on CRF detection fail rather than fallback
  * @param {bool} TestMode This doesn't calculate you a score, instead just tells you if it would need too
@@ -52,7 +62,7 @@ For further help or feature requests find me in the discord
         if (!ffmpeg) {
             return -1;
         }
-        if (!ToolPath("ffmpeg", "/opt/ffmpeg-static/bin")) {
+        if (!ToolPath("ffmpeg", "/app/common/ffmpeg-static")) {
             // check for urination
             if (!ToolPath("ffmpeg", "/opt/ffmpeg-uranite-static/bin")) {
                 return -1;
@@ -171,7 +181,7 @@ For further help or feature requests find me in the discord
         let secondTryPercentage = 100;
         let firstTryScore = 97;
         let secondTryScore = 95;
-        let preset = 'slow';
+        let preset = 'veryslow';
     
         if (Variables.FirstTryPercentage) {
             firstTryPercentage = Variables.FirstTryPercentage;
@@ -415,9 +425,16 @@ For further help or feature requests find me in the discord
         }
     
         let videoPixelFormat = "yuv420p";
-    
 
-        if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit || Variables['Force10Bit']) {
+        if (Variables.Force10Bit) {
+            ForceTenBit = Variables.Force10Bit;
+        }
+
+        if (Variables.ForceTenBit) {
+            ForceTenBit = Variables.ForceTenBit;
+        }
+    
+        if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit || Force10Bit) {
             videoPixelFormat = "yuv420p10le";
             Variables.vi.VideoInfo.VideoStreams[0].Bits = 10;
            if (TargetCodec.includes("hevc") || TargetCodec.includes("265")) {
@@ -463,8 +480,6 @@ For further help or feature requests find me in the discord
             "25",
             "--min-samples",
             "5",
-            //"--sample-duration",
-            //"5s",
         ];
     
         if (Variables.SVT) {
@@ -491,6 +506,22 @@ For further help or feature requests find me in the discord
             ]);
         }
 
+        if (Variables["SubSample"]) {
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--vmaf", `n_subsample=${Variables['SubSample']}`
+            ]);
+        }
+
+        if (Variables["SampleDuration"]) {
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--sample-duration", Variables["SampleDuration"]
+            ]);
+        } else {
+            executeArgs.argumentList = executeArgs.argumentList.concat([
+                "--sample-duration", "20s"
+            ]);
+        }
+
         if (TargetCodec.includes("vaapi")) {
             executeArgs.argumentList = executeArgs.argumentList.concat([
                 "--enc-input",
@@ -498,6 +529,30 @@ For further help or feature requests find me in the discord
                 "--enc-input",
                 "hwaccel_output_format=vaapi",
             ]);
+
+            // VAAPI can only handle values divisible by 8
+            let w = Variables.vi.VideoInfo.VideoStreams[0].Width;
+            let h = Variables.vi.VideoInfo.VideoStreams[0].Height;
+
+            if (w % 8 !== 0 || h % 8 !== 0) {
+                if (w <= 1920 || h <= 1080) {
+                    w = 1920;
+                    h = 1080;
+                }
+
+                if (w <= 3840 || h <= 2160) {
+                    w = 3840;
+                    h = 2160;
+                }
+
+                // AMD can only use vaapi if you can divide the pixels by 8
+                executeArgs.argumentList = executeArgs.argumentList.concat([
+                    "--vfilter",
+                    `hwupload,scale_vaapi=${w}:${h}`,
+                    "--reference-vfilter",
+                    `scale=${w}:${h}:flags=bicubic`,
+                ]);
+            }
         }
   
         if (Variables.FfmpegBuilderModel.CustomParameters.length) {
@@ -629,13 +684,16 @@ For further help or feature requests find me in the discord
             if (System.IO.File.Exists(`${path}/${tool}`)) {
                 return `${path}/${tool}`;
             } else {
-                Logger.ELog("You may need to remove the FFmpeg6 DockerMod");
+                Logger.ELog("You may need to remove other FFmpeg DockerMods");
                 Logger.WLog(`Cannot find ${path}/${tool}`);
                 Logger.WLog(
-                    `AutoCRF: If you're absolutely sure you installed the DockerMods please restart the node`
+                    "AutoCRF: If you're absolutely sure you installed the DockerMods please restart the node"
+                );
+                Logger.WLog(
+                    "AutoCRF: Please remove FFmpeg Builder Video Manual from output 1, it is no longer required"
                 );
                 Flow.Fail(
-                    `AutoCRF: Missing required DockerMods: AutoCRF, FFmpeg7, FFmpeg-BtbN`
+                    "AutoCRF: Please also remove FFmpeg Builder Video Manual, Missing required DockerMods: AutoCRF, FFmpeg FileFlows Edition"
                 );
                 return null;
             }
@@ -650,3 +708,6 @@ For further help or feature requests find me in the discord
         );
     }
 
+    function roundToNearestEight(number) {
+        return Math.round(number / 8) * 8;
+    }

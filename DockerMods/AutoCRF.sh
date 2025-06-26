@@ -1,8 +1,8 @@
 # ----------------------------------------------------------------------------------------------------
 # Name: AutoCRF
 # Author: lawrence
-# Description: This DockerMod installs ab-av1 and a FFmpeg wrapper script, it requires both FFmpeg7 and FFmpeg-BtbN installed (you may have to uninstall FFmpeg6 first)
-# Revision: 4
+# Description: This DockerMod installs ab-av1 and a FFmpeg wrapper script, it requires both FFmpeg FileFlows Edition installed (you may have to uninstall other FFmpegs)
+# Revision: 5
 # Icon: fas fa-compress-alt
 # ----------------------------------------------------------------------------------------------------
 
@@ -55,7 +55,7 @@ if [[ "\$@" =~ libvmaf|libsvtav1|libaom-av1 ]]; then
     if [ -e /opt/ffmpeg-uranite-static/bin/ffmpeg ]; then
         /opt/ffmpeg-uranite-static/bin/ffmpeg "\$@"
     else
-        /opt/ffmpeg-static/bin/ffmpeg "\$@"
+        /app/common/ffmpeg-static/ffmpeg "\$@"
     fi
 else
     if [ -e /usr/local/bin/ffmpeg ]; then
@@ -69,6 +69,9 @@ EOF
 chmod +x ${DESTINATION_FOLDER}/ffmpeg
 
 echo "Installation complete."
+
+# Install openCL if we find a QSV device
+! lspci | grep -Ei 'VGA|Display' | grep Intel || ! apt update || ! apt install -y intel-opencl-icd
 
 # Verify installation
 if command -v ${DESTINATION_FOLDER}/ab-av1 &>/dev/null; then
