@@ -446,7 +446,7 @@ function search(
     preset
 ) {
     let abAv1 = ToolPath("ab-av1", "/app/common/autocrf");
-    let path = abAv1.replace(/[^\/]+$/, "");
+    let path = abAv1.replace(/\/[^\/]+$/, "");
 
     if (Variables["SVT"]) {
         returnValue.command = `${returnValue.command} -svtav1-params ${Variables["SVT"]}`;
@@ -491,24 +491,18 @@ function search(
         )} @ ${targetPercent}% original quality`
     );
 
-    let fileName = Flow.FileService.GetLocalPath(Variables.file.FullName).Value;
-
-    if (!Flow.IsWindows) {
-        fileName = `"${fileName}"`;
-    }
-
     var executeArgs = new ExecuteArgs();
     executeArgs.command = abAv1;
     executeArgs.argumentList = [
         "crf-search",
         "-i",
-        fileName,
+        Flow.FileService.GetLocalPath(Variables.file.FullName).Value,
         "--preset",
         preset,
         "-e",
         TargetCodec,
         "--temp-dir",
-        !Flow.IsWindows ? `"${Flow.TempPath}"` : Flow.TempPath,
+        Flow.TempPath,
         "--min-vmaf",
         targetPercent,
         "--max-encoded-percent",
@@ -618,15 +612,13 @@ function search(
     }
 
     if (!Flow.IsWindows) {
-        executeArgs.command = "bash";
-        let args = executeArgs.argumentList.join(" ");
         let cache = Flow.TempPath.replace(/[^\/]+$/, "");
+        let existingPath = System.Environment.GetEnvironmentVariable("PATH");
 
-        executeArgs.argumentList = [
-            "-c",
-            `XDG_CACHE_HOME='${cache}' PATH=${path}:\$PATH ${abAv1} ${args}`,
-            "/dev/null",
-        ];
+        executeArgs.EnvironmentalVariables[
+            "PATH"
+        ] = `${path}${System.IO.Path.PathSeparator}${existingPath}`;
+        executeArgs.EnvironmentalVariables["XDG_CACHE_HOME"] = cache;
     }
 
     executeArgs.add_Error((line) => {
