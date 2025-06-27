@@ -621,6 +621,10 @@ function search(
         executeArgs.EnvironmentalVariables["XDG_CACHE_HOME"] = cache;
     }
 
+    if (Flow.IsDocker) {
+        executeArgs.EnvironmentalVariables["XDG_CACHE_HOME"] = "/app/common/autocrf/cache";
+    }
+
     executeArgs.add_Error((line) => {
         line = line.substring(line.indexOf(" ") + 1);
         let matches = "";

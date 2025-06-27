@@ -55,6 +55,8 @@ mkdir -p ${DESTINATION_FOLDER}
 wget -O ${DESTINATION_FOLDER}/ab-av1.tar.zst $(curl -s https://api.github.com/repos/alexheretic/ab-av1/releases/latest | grep -m 1 'browser_' | cut -d\" -f4)
 tar xvf ${DESTINATION_FOLDER}/ab-av1.tar.zst -C ${DESTINATION_FOLDER}
 rm ${DESTINATION_FOLDER}/ab-av1.tar.zst
+mkdir -p ${DESTINATION_FOLDER}/cache
+chmod 777 ${DESTINATION_FOLDER}/cache
 
 cat > ${DESTINATION_FOLDER}/ffmpeg <<EOF
 #!/bin/bash
