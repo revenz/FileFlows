@@ -32,6 +32,11 @@ if [ "$1" == "--uninstall" ]; then
     fi
 fi
 
+if [ -f ${DESTINATION_FOLDER}/ab-av1 ]; then
+    echo "AutoCRF already installed."
+    exit 0
+fi
+
 # Check if zstd is installed
 if command -v zstd &>/dev/null; then
     echo "zstd already installed."
