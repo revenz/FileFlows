@@ -3,8 +3,8 @@
 <FlowTabs @ref="FlowTabs">
     @foreach (var tab in Tabs)
     {
-        <FlowTab Title=@tab.Key>
-            <FlowPanel Fields=@tab.Value OnSubmit=@OnSubmit OnClose=@OnClose></FlowPanel>
+        <FlowTab Title=@tab.Name Visible="@(!tab.Hidden)">
+            <FlowPanel Fields=@tab.Fields OnSubmit=@OnSubmit OnClose=@OnClose></FlowPanel>
         </FlowTab>
     }
 </FlowTabs>

@@ -1,3 +1,4 @@
+using FileFlows.Client.ClientModels;
 using Microsoft.AspNetCore.Components;
 using FileFlows.Client.Components.Common;
 using Microsoft.JSInterop;
@@ -27,7 +28,7 @@ public partial class InlineEditor : EditorBase
 
     private RenderFragment FieldsFragment;
 
-    protected Dictionary<string, List<ElementField>> Tabs { get; set; }
+    protected List<EditorTab> Tabs { get; set; } = [];
     
     /// <summary>
     /// Gets or sets the submit callback
