@@ -42,7 +42,7 @@ public class LibraryFileController : Controller
         int pageSize = 500;
         if (status > 0)
         {
-            var settings = await ServiceLoader.Load<SettingsService>().Get();
+            var settings = await ServiceLoader.Load<ISettingsService>().Get();
             if (settings.MaxPageSize > 0)
                 pageSize = settings.MaxPageSize;
         }
