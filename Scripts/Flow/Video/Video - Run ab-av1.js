@@ -1,12 +1,12 @@
 /**
  * @description Run ab-av1 to find the best CRF of a video for a given VMAF. This is saved to Variables.AbAv1CRFValue if found.
 Important: This script was made to be ran with the docker version of FileFlows. Results on other platforms may vary.
- * @help Dependencies (DockerMods): AutoVMAF, FFmpeg7-BtbN
+ * @help Dependencies (DockerMods): AutoVMAF, FFmpeg FileFlows Edition
 If CRF is found, it is saved to Variables.AbAv1CRFValue.
 Executes the ab-av1 command.
  * @author CanofSocks
  * @uid e31fbd4d-dc96-4ae6-9122-a9f30c102b1d
- * @revision 7
+ * @revision 8
  * @param {string} Preset The preset to use
  * @param {string} Encoder The target encoder
  * @param {string} EncOptions A '|' separated list of additional options to pass to ab-av1. The first '=' symbol will be used to infer that this is an option with a value. Passed to ffmpeg like "x265-params=lossless=1" -> ['-x265-params', 'lossless=1'] 
@@ -24,13 +24,13 @@ Executes the ab-av1 command.
 function Script(Preset,Encoder,EncOptions,PixFormat,MinVmaf,MaxEncodedPercent,MinCRF,MaxCRF,MinSamples,Thorough,AdditionalOptions)
 {
 
-    if (!ToolPath("ab-av1", "/opt/autocrf")) {
+    if (!ToolPath("ab-av1", "/app/common/autocrf")) {
         return -1;
     }
-    if (!ToolPath("ffmpeg", "/opt/autocrf")) {
+    if (!ToolPath("ffmpeg", "/app/common/autocrf")) {
         return -1;
     }
-    if (!ToolPath("ffmpeg", "/opt/ffmpeg-static/bin")) {
+    if (!ToolPath("ffmpeg", "/app/common/ffmpeg-static")) {
         return -1;
     }
 
@@ -103,7 +103,7 @@ function Script(Preset,Encoder,EncOptions,PixFormat,MinVmaf,MaxEncodedPercent,Mi
 // Stolen from lawrence
 function search(abav1Command){
 
-    let abAv1 = ToolPath("ab-av1", "/opt/autocrf");
+    let abAv1 = ToolPath("ab-av1", "/app/common/autocrf");
     let path = abAv1.replace(/[^\/]+$/, "");
     abav1Command = `${abAv1} ${abav1Command}`
     var executeArgs = new ExecuteArgs();
@@ -189,13 +189,13 @@ function ToolPath(tool, path) {
         if (System.IO.File.Exists(`${path}/${tool}`)) {
             return `${path}/${tool}`;
         } else {
-            Logger.ELog("You may need to remove the FFmpeg6 DockerMod");
+            Logger.ELog("You may need to remove other FFmpeg DockerMods");
             Logger.WLog(`Cannot find ${path}/${tool}`);
             Logger.WLog(
                 `AutoCRF: If you're absolutely sure you installed the DockerMods please restart the node`
             );
             Flow.Fail(
-                `AutoCRF: Missing required DockerMods: AutoCRF, FFmpeg7, FFmpeg7-BtbN`
+                `AutoCRF: Missing required DockerMods: AutoCRF, FFmpeg FileFlows Edition`
             );
             return null;
         }
