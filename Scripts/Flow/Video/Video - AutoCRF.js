@@ -21,7 +21,6 @@ You do not need to hook up any of the FFmpeg Builder flow elements!
 ~~~~~~~~~~~~~~~~~ NEW ~~~~~~~~~~~~~~~~~
 Should you wish to test custom parameters you can do so by using the flow element before this script (e.g. -x265-params or -qsv_device)
 Good defaults for QSV encodes that yield better results
-Ability to force all encodes to 10bit, this will very slightly improve your score
 Changed default to veryslow (QSV), this can be changed in a variable called Preset
 ~~~~~~~~~~~~~~~~~ NEW ~~~~~~~~~~~~~~~~~
 
@@ -37,7 +36,6 @@ All parameters can also be overridden using Variables for example
     KeyInt = 240
     Threads = 4
     Preset = slow
-    ForceTenBit = True
 
 For further help or feature requests find me in the discord
  * @author lawrence
@@ -46,7 +44,6 @@ For further help or feature requests find me in the discord
  * @param {('hevc'|'h264'|'av1'|'vp9'|'mpeg2'|'mpeg4')[]} FallBackCodecs Video codecs that you are happy to keep if no CRf can be found
  * @param {int} MaxBitRate The maximum acceptable bitrate in MBps
  * @param {bool} FixDolby5 Create a SDR fallback for Dolby Vision profile 5 (aka the green/purple one) [CPU decode]
- * @param {bool} ForceTenBit Force encodings to 10 bit
  * @param {bool} UseTags Create tags (premium feature) such as "Copy", "CRF 17", "Fallback"
  * @param {bool} ErrorOnFail Error on CRF detection fail rather than fallback
  * @param {bool} TestMode This doesn't calculate you a score, instead just tells you if it would need too
@@ -467,15 +464,7 @@ function search(
 
     let videoPixelFormat = "yuv420p";
 
-    if (Variables.Force10Bit) {
-        ForceTenBit = Variables.Force10Bit;
-    }
-
-    if (Variables.ForceTenBit) {
-        ForceTenBit = Variables.ForceTenBit;
-    }
-
-    if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit || ForceTenBit) {
+    if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit) {
         videoPixelFormat = "yuv420p10le";
         Variables.vi.VideoInfo.VideoStreams[0].Bits = 10;
         if (TargetCodec.includes("hevc") || TargetCodec.includes("265")) {
