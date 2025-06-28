@@ -477,7 +477,7 @@ function search(
 
     if (Variables.vi.VideoInfo.VideoStreams[0].Is10Bit || ForceTenBit) {
         videoPixelFormat = "yuv420p10le";
-        Variables.vi.VideoInfo.VideoStreams[0].Bits = 10;
+        Variables.FfmpegBuilderModel.VideoStreams[0].Bits = 10;
         if (TargetCodec.includes("hevc") || TargetCodec.includes("265")) {
             returnValue.command = `${returnValue.command} -pix_fmt:v:0 p010le -profile:v:0 main10`;
         }
