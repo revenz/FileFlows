@@ -237,3 +237,6 @@ Optimized
 optimization
 VMAF
 kilobits
+HD
+UHD
+Bitrates
