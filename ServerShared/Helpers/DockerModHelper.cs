@@ -72,17 +72,37 @@ public static class DockerModHelper
             var useSudo = ShouldUseSudo();
             // Run dpkg to configure any pending package installations
             //await Process.Start("dpkg", "--configure -a").WaitForExitAsync();
-            await Process.Start(new ProcessStartInfo
+            // await Process.Start(new ProcessStartInfo
+            // {
+            //     //FileName = "/bin/bash",
+            //     FileName = useSudo ? "sudo" : "/bin/su",
+            //     ArgumentList =
+            //     {
+            //         useSudo ? "-E" : "-c",
+            //         useSudo ? "dpkg --configure -a" : "dpkg --configure -a"
+            //     },
+            //     UseShellExecute = false
+            // })!.WaitForExitAsync();
+            
+            var psi = new ProcessStartInfo
             {
-                //FileName = "/bin/bash",
                 FileName = useSudo ? "sudo" : "/bin/su",
-                ArgumentList =
-                {
-                    useSudo ? "-E" : "-c",
-                    useSudo ? "dpkg --configure -a" : "dpkg --configure -a"
-                },
                 UseShellExecute = false
-            })!.WaitForExitAsync();
+            };
+            if (useSudo)
+            {
+                psi.ArgumentList.Add("-E");
+                psi.ArgumentList.Add("dpkg");
+                psi.ArgumentList.Add("--configure");
+                psi.ArgumentList.Add("-a");
+            }
+            else
+            {
+                psi.ArgumentList.Add("-c");
+                psi.ArgumentList.Add("dpkg --configure -a");
+            }
+            await Process.Start(psi)!.WaitForExitAsync();
+
 
             Logger.Instance.ILog($"Installing DockerMod: {file}");
             
