@@ -225,7 +225,7 @@ function searchRadarrAPI(endpoint, searchPattern, radarr, matchFunction, extraPa
                 return matchingItem.movie;
             }
 
-            if (endpoint === 'queue') {
+            if (endpoint === 'queue' || page === 10) {
                 Logger.WLog(`Reached the end of ${endpoint} endpoint with no match.`);
                 break;
             }

@@ -295,7 +295,7 @@ function searchSonarrAPI(endpoint, searchPattern, sonarr, matchFunction, extraPa
                 }
             };
 
-            if (endpoint === 'queue') {
+            if (endpoint === 'queue' || page === 10) {
                 Logger.WLog(`Reached the end of ${endpoint} endpoint with no match.`);
                 break;
             }
