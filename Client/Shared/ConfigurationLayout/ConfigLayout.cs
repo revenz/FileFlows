@@ -41,7 +41,7 @@ public class ConfigLayout : ConfigurationLayout
                     profile.HasRole(UserRole.Variables)
                         ? new("Pages.Variables.Title", "fas fa-at", "config/variables")
                         : null,
-                    profile.HasRole(UserRole.Tags) ? new("Pages.Tags.Title", "fas fa-tags", "config/tags") : null,
+                    (int)profile.LicenseLevel > 0 && profile.HasRole(UserRole.Tags) ? new("Pages.Tags.Title", "fas fa-tags", "config/tags") : null,
                 }.Where(x => x != null)
                 .OrderBy(x => x.Title.ToLowerInvariant()).ToList()
         });

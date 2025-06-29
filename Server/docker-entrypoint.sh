@@ -180,6 +180,7 @@ else
     if ! grep -q "^$user" /etc/sudoers.d/$user 2>/dev/null; then
         echo "Adding $user to sudoers"
         usermod -aG sudo "$user"
+        mkdir -p /etc/sudoers.d
         echo "$user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$user
         chmod 0440 /etc/sudoers.d/$user
     else
@@ -243,6 +244,7 @@ else
 
     printf "Changing ownership of /app to: ${PUID}:$pgid\n"
     chown -R "${PUID}:$pgid" /app
+    chown -R "${PUID}:$pgid" /temp
     passwd -d root
 
     # Run DockerMods before starting

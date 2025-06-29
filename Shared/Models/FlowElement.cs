@@ -1,3 +1,5 @@
+using FileFlows.Plugin.Models;
+
 namespace FileFlows.Shared.Models;
 
 using System.Collections.Generic;
@@ -113,6 +115,11 @@ public class FlowElement
     /// Gets or sets the fields this element has
     /// </summary>
     public List<ElementField> Fields { get; set; }
+
+    /// <summary>
+    /// Gets or sets the tabs for a flow element
+    /// </summary>
+    public List<TabDefinition>? Tabs { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the model for this element

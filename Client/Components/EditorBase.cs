@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using FileFlows.Client.ClientModels;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 
@@ -394,10 +395,11 @@ public class EditorOpenArgs
     /// Gets or sets any additional fields ot show
     /// </summary>
     public RenderFragment AdditionalFields  { get; set; }
+
     /// <summary>
     /// Gets or sets the tabs for the editor
     /// </summary>
-    public Dictionary<string, List<IFlowField>> Tabs { get; set; }
+    public List<EditorTab> Tabs { get; set; } = [];
     /// <summary>
     /// Gets or sets the URL for the help button
     /// </summary>

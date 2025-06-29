@@ -19,7 +19,7 @@ public partial class Variables : ListPage<Guid, Variable>, IDisposable
     protected override void OnInitialized()
     {
         Profile = feService.Profile.Profile;
-        Layout.SetInfo(Translater.Instant("Pages.Variables.Title"), "fas fa-at");
+        Layout.SetInfo(Translater.Instant("Pages.Variables.Title"), "fas fa-at", noPadding: true);
         base.OnInitialized(false);
         lblValue = Translater.Instant("Pages.Flow.Fields.VariablesValue");
         feService.Variable.VariablesUpdated += VariableOnVariablesUpdated ;

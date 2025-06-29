@@ -153,12 +153,11 @@ public partial class FilesWidget : ComponentBase, IDisposable
     /// <summary>
     /// Upcoming files have changed
     /// </summary>
-    /// <param name="files">the updated files</param>
-    /// <param name="total">the total unprocessed files</param>
-    private void UnprocessedUpdated(List<LibraryFileMinimal> files, int total)
+    /// <param name="data">the updated data</param>
+    private void UnprocessedUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
-        TotalUpcoming = total;
-        UpcomingFiles = files.Count > 50 ? files.Take(50).ToList() : files;
+        TotalUpcoming = data.Total;
+        UpcomingFiles = data.Data.Take(50).ToList();
         lblUpcoming = Translater.Instant("Pages.Dashboard.Widgets.Files.Upcoming", new { count = TotalUpcoming, formatted = TotalUpcoming.ToString("N0")});
         StateHasChanged();
         OptionButtons?.TriggerStateHasChanged();

@@ -44,14 +44,13 @@ public partial class LibraryFiles
     /// <summary>
     /// Called when the files are updated
     /// </summary>
-    /// <param name="files">the files</param>
-    /// <param name="total">the total unprocessed</param>
-    private void OnUnprocessedUpdated(List<LibraryFileMinimal> files, int total)
+    /// <param name="data">the data</param>
+    private void OnUnprocessedUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
         if (SelectedStatus != FileStatus.Unprocessed)
             return;
 
-        Data = files;
+        Data = data.Data;
         Table?.TriggerStateHasChanged();
         StateHasChanged();
     }

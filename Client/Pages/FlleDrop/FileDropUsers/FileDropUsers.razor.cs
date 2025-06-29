@@ -29,7 +29,7 @@ public partial class FileDropUsers : ListPage<Guid, FileDropUser>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        Layout.SetInfo(Translater.Instant("Pages.FileDrop.User.Plural"), "fas fa-user-astronaut");
+        Layout.SetInfo(Translater.Instant("Pages.FileDrop.User.Plural"), "fas fa-user-astronaut", noPadding: true);
         base.OnInitialized();
     }
 

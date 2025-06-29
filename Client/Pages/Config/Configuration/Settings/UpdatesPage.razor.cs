@@ -66,7 +66,7 @@ public partial class UpdatesPage : InputRegister
             return;
         }
 
-        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Updates"), "fas fa-cloud");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Updates"), "fas fa-cloud", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         lblCheckNow = Translater.Instant("Pages.Settings.Labels.CheckNow");
         

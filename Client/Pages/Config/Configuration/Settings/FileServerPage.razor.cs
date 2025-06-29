@@ -61,7 +61,7 @@ public partial class FileServerPage : InputRegister
             return;
         }
 
-        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.FileServer"), "fas fa-server");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.FileServer"), "fas fa-server", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         lblFileServerDescription = Translater.Instant("Pages.Settings.Fields.FileServer.Description");
         

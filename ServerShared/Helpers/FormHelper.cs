@@ -1,4 +1,5 @@
-﻿using FileFlows.Plugin.Types;
+﻿using System.Net.Mail;
+using FileFlows.Plugin.Types;
 
 namespace FileFlows.ServerShared.Helpers;
 
@@ -171,6 +172,9 @@ public class FormHelper
                 });
             }
 
+            var tabAttribute = prop.GetCustomAttributes(typeof(TabAttribute), false).FirstOrDefault() as TabAttribute;
+            if (tabAttribute != null)
+                ef.Tab = tabAttribute.Name;
 
             foreach (ChangeValueAttribute cva in prop.GetCustomAttributes(typeof(ChangeValueAttribute), false) ?? new ChangeValueAttribute[]{})
             {

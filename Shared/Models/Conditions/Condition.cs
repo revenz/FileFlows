@@ -100,7 +100,7 @@ public class Condition
     /// <param name="value">the value to test</param>
     /// <param name="isNot">if the result should be inverted</param>
     /// <returns>the result of the match</returns>
-    protected static bool Matches(object? expected, object? value, bool isNot)
+    public static bool Matches(object? expected, object? value, bool isNot)
     {
         bool matches = false;
         string strValue = expected?.ToString() ?? string.Empty;

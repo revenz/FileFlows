@@ -15,7 +15,7 @@ public partial class Revisions: ListPage<Guid, RevisionedObject>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Layout.SetInfo(Translater.Instant("Pages.Revisions.Title"), "fas fa-history");
+        Layout.SetInfo(Translater.Instant("Pages.Revisions.Title"), "fas fa-history", noPadding: true);
     }
 
     /// <summary>

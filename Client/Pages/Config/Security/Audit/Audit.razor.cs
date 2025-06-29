@@ -77,7 +77,7 @@ public partial class Audit : ComponentBase
             NavigationManager.NavigateTo("/");
             return;
         }
-        Layout.SetInfo(Translater.Instant("Pages.Audit.Title"), "fas fa-clipboard-list");
+        Layout.SetInfo(Translater.Instant("Pages.Audit.Title"), "fas fa-clipboard-list", noPadding: true);
         lblDate = Translater.Instant("Pages.Audit.Columns.Date"); 
         lblType = Translater.Instant("Pages.Audit.Columns.Type");
         lblAction = Translater.Instant("Pages.Audit.Columns.Action");

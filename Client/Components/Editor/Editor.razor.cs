@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using FileFlows.Plugin;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using FileFlows.Client.ClientModels;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Components.Dialogs;
 using Microsoft.JSInterop;
@@ -70,7 +71,11 @@ public partial class Editor : EditorBase, IDisposable
 
     protected string lblSave, lblSaving, lblNext, lblCancel, lblClose, lblHelp, lblDownloadButton;
 
-    protected Dictionary<string, List<IFlowField>> Tabs { get; set; }
+    /// <summary>
+    /// Gets or sets the tabs
+    /// </summary>
+    //protected Dictionary<string, List<IFlowField>> Tabs { get; set; }
+    protected List<EditorTab> Tabs { get; set; } =  new ();
 
     TaskCompletionSource<(bool Success, ExpandoObject? Model)> OpenTask;
 
@@ -189,7 +194,7 @@ public partial class Editor : EditorBase, IDisposable
         else
             this.Title = Translater.TranslateIfNeeded(args.Title);
         this.Fields = args.Fields;
-        this.Tabs = args.Tabs;
+        this.Tabs = args.Tabs ?? [];
         this.ReadOnly = args.ReadOnly;
         this.Large = args.Large;
         this.ShowDownload = string.IsNullOrWhiteSpace(args.DownloadUrl) == false;

@@ -11,14 +11,19 @@ namespace FileFlows.WebServer.Controllers;
 [Route("/api/tag")]
 [FileFlowsAuthorize]
 public class TagController : BaseController
-{   
+{
     /// <summary>
     /// Get all tags configured in the system
     /// </summary>
     /// <returns>A list of all configured tags</returns>
     [HttpGet]
-    public async Task<IEnumerable<Tag>> GetAll() 
-        => (await ServiceLoader.Load<TagService>().GetAllAsync() ?? []).OrderBy(x => x.Name.ToLowerInvariant());
+    public async Task<IEnumerable<Tag>> GetAll()
+    {
+        if(LicenseService.IsLicensed() == false)
+            return [];
+                
+        return (await ServiceLoader.Load<TagService>().GetAllAsync() ?? []).OrderBy(x => x.Name.ToLowerInvariant());
+    }
 
     /// <summary>
     /// Get tag
@@ -26,8 +31,12 @@ public class TagController : BaseController
     /// <param name="uid">The UID of the tag to get</param>
     /// <returns>The tag instance</returns>
     [HttpGet("{uid}")]
-    public Task<Tag?> Get(Guid uid)
-        => ServiceLoader.Load<TagService>().GetByUidAsync(uid);
+    public async Task<Tag?> Get(Guid uid)
+    {
+        if (LicenseService.IsLicensed() == false)
+            return null;
+        return await ServiceLoader.Load<TagService>().GetByUidAsync(uid);
+    }
 
     /// <summary>
     /// Get a tag by its name, case insensitive
@@ -35,8 +44,12 @@ public class TagController : BaseController
     /// <param name="name">The name of the tag</param>
     /// <returns>The tag instance if found</returns>
     [HttpGet("name/{name}")]
-    public Task<Tag?> GetByName(string name)
-        => ServiceLoader.Load<TagService>().GetByName(name);
+    public async Task<Tag?> GetByName(string name)
+    {
+        if (LicenseService.IsLicensed() == false)
+            return null;
+        return await ServiceLoader.Load<TagService>().GetByName(name);
+    }
 
     /// <summary>
     /// Saves a tag
@@ -47,6 +60,9 @@ public class TagController : BaseController
     [FileFlowsAuthorize(UserRole.Tags)]
     public async Task<IActionResult> Save([FromBody] Tag tag)
     {
+        if (LicenseService.IsLicensed() == false)
+            return BadRequest("Not licensed");
+        
         var result = await ServiceLoader.Load<TagService>().Update(tag, await GetAuditDetails());
         if (result.Failed(out string error))
             return BadRequest(error);
@@ -61,5 +77,9 @@ public class TagController : BaseController
     [HttpDelete]
     [FileFlowsAuthorize(UserRole.Tags)]
     public async Task Delete([FromBody] ReferenceModel<Guid> model)
-        => await ServiceLoader.Load<TagService>().Delete(model.Uids, await GetAuditDetails());
+    {
+        if (LicenseService.IsLicensed() == false)
+            return;
+        await ServiceLoader.Load<TagService>().Delete(model.Uids, await GetAuditDetails());
+    }
 }

@@ -215,9 +215,17 @@ public class FlowHelper
         if (part.Type == FlowElementType.SubFlow)
         {
             string sUid = part.FlowElementUid[8..]; // remove SubFlow:
-            var subFlow = runInstance.Properties.Config.Flows.FirstOrDefault(x => x.Uid.ToString() == sUid);
+            if(Guid.TryParse(sUid, out var sfUid) == false)
+                return Result<Node>.Fail("Failed to parse subflow UID: " + sUid);
+            var subFlow = runInstance.Properties.Config.Flows.FirstOrDefault(x => x.Uid == sfUid);
             if (subFlow == null)
+            {
+                Logger.Instance.ILog("Available Flows:\n" +
+                                     string.Join("\n", runInstance.Properties.Config.Flows.Select(x =>
+                                         "- " + x.Uid + " : " + x.Name)));
                 return Result<Node>.Fail($"Failed to locate sub flow '{sUid}'.");
+            }
+
             // add all the fields into the variables 
             if (subFlow.Properties?.Fields?.Any() == true && part.Model is IDictionary<string, object> subFlowModel)
             {

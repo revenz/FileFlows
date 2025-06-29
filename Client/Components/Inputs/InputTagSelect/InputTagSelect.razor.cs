@@ -18,7 +18,7 @@ public partial class InputTagSelect : Input<List<Guid>>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        base.OnInitializedAsync();
+        base.OnInitialized();
         Tags = feService.Tag.Tags;
         Value ??= [];
     }

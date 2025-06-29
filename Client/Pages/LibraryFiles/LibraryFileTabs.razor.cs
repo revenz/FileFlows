@@ -36,11 +36,11 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
 
     protected override void OnInitialized()
     {
-        Unprocessed = new(FileStatus.Unprocessed, "fas fa-hourglass", feService.Files.Unprocessed.Count);
+        Unprocessed = new(FileStatus.Unprocessed, "fas fa-hourglass", feService.Files.UnprocessedTotal);
         Processing = new (FileStatus.Processing, "fas fa-file-medical-alt",feService.Files.Processing.Count);
-        OnHold = new(FileStatus.OnHold, "fas fa-hand-paper", feService.Files.OnHold.Count);
-        Disabled = new(FileStatus.Disabled, "fas fa-toggle-off", feService.Files.Disabled.Count);
-        OutOfSchedule = new(FileStatus.OutOfSchedule, "fas fa-clock", feService.Files.OutOfSchedule.Count);
+        OnHold = new(FileStatus.OnHold, "fas fa-hand-paper", feService.Files.OnHoldTotal);
+        Disabled = new(FileStatus.Disabled, "fas fa-toggle-off", feService.Files.DisabledTotal);
+        OutOfSchedule = new(FileStatus.OutOfSchedule, "fas fa-clock", feService.Files.OutOfScheduleTotal);
         ProcessingFailed = new(FileStatus.ProcessingFailed, "far far fa-times-circle", feService.Files.FailedFilesTotal);
         Processed = new(FileStatus.Processed, "far fa-check-circle", feService.Files.ProcessedTotal);
         
@@ -63,11 +63,10 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
     /// Called when the unprocessing data is updated
     /// </summary>
     /// <param name="data">the data</param>
-    /// <param name="total">the total unprocessed</param>
-    private void OnUnprocessedUpdated(List<LibraryFileMinimal> data, int total)
+    private void OnUnprocessedUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
-        if (Unprocessed.Count == total) return;
-        Unprocessed.Count = total;
+        if (Unprocessed.Count == data.Total) return;
+        Unprocessed.Count = data.Total;
         StateHasChanged();
     }
 
@@ -103,26 +102,15 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
         Processed.Count = data.Total;
         StateHasChanged();
     }
-    /// <summary>
-    /// 
-    /// Called when the processing data is updated
-    /// </summary>
-    /// <param name="data">the data</param>
-    private void FilesOnUnprocessedUpdated(List<LibraryFileMinimal> data)
-    {
-        if (Unprocessed.Count == data.Count) return;
-        Unprocessed.Count = data.Count;
-        StateHasChanged();
-    }
 
     /// <summary>
     /// Called when the processing data is updated
     /// </summary>
     /// <param name="data">the data</param>
-    private void OnOnHoldUpdated(List<LibraryFileMinimal> data)
+    private void OnOnHoldUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
-        if (OnHold.Count == data.Count) return;
-        OnHold.Count = data.Count;
+        if (OnHold.Count == data.Total) return;
+        OnHold.Count = data.Total;
         StateHasChanged();
     }
     
@@ -130,10 +118,10 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
     /// Called when the processing data is updated
     /// </summary>
     /// <param name="data">the data</param>
-    private void OnOutOfScheduleUpdated(List<LibraryFileMinimal> data)
+    private void OnOutOfScheduleUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
-        if (OutOfSchedule.Count == data.Count) return;
-        OutOfSchedule.Count = data.Count;
+        if (OutOfSchedule.Count == data.Total) return;
+        OutOfSchedule.Count = data.Total;
         StateHasChanged();
     }
     
@@ -141,10 +129,10 @@ public partial class LibraryFileTabs : ComponentBase, IDisposable
     /// Called when the processing data is updated
     /// </summary>
     /// <param name="data">the data</param>
-    private void OnDisabledUpdated(List<LibraryFileMinimal> data)
+    private void OnDisabledUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
-        if (Disabled.Count == data.Count) return;
-        Disabled.Count = data.Count;
+        if (Disabled.Count == data.Total) return;
+        Disabled.Count = data.Total;
         StateHasChanged();
     }
 

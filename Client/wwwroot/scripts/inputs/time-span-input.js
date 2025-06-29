@@ -1,10 +1,9 @@
 window.createTimeSpanInput = function(eleUid, jsInvokeRef) {
     let updateFunction = (value) => jsInvokeRef.invokeMethodAsync("OnTimeSpanChange", value);
     
-    
     return new TimeSpanInput(eleUid, updateFunction);
-
 }
+
 class TimeSpanInput {
     constructor(elementUid, updateValueCallback) {
         this.element = document.getElementById(elementUid);

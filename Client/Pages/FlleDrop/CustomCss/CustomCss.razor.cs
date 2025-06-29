@@ -55,7 +55,7 @@ public partial class CustomCss
             return;
         }
 
-        Layout.SetInfo("Custom CSS", "fab fa-css3-alt");
+        Layout.SetInfo("Custom CSS", "fab fa-css3-alt", noPadding: true);
         
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");

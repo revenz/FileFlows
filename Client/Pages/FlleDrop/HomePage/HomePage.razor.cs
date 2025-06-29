@@ -55,7 +55,7 @@ public partial class HomePage
             return;
         }
 
-        Layout.SetInfo("Home Page", "fas fa-home");
+        Layout.SetInfo("Home Page", "fas fa-home", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

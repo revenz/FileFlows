@@ -98,7 +98,7 @@ public partial class DatabasePage : InputRegister
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Database"), "fas fa-database");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Database"), "fas fa-database", noPadding: true);
         Profile = feService.Profile.Profile;
         lblSaving = Translater.Instant("Labels.Saving");
         lblDbDescription = Translater.Instant("Pages.Settings.Fields.Database.Description");

@@ -1216,6 +1216,162 @@ public class NodeParameters
     }
 
     /// <summary>
+    /// Tries to get a variable by name (case-insensitive) and convert it to the specified type.
+    /// Handles primitive parsing, JsonElement unwrapping, and deserialization for objects.
+    /// </summary>
+    /// <typeparam name="T">The type to convert the variable to.</typeparam>
+    /// <param name="name">The name of the variable.</param>
+    /// <param name="value">The resulting value if found and successfully converted.</param>
+    /// <returns><c>true</c> if the variable was found and converted; otherwise, <c>false</c>.</returns>
+    public bool TryGetVariable<T>(string name, out T value)
+    {
+        value = default!;
+        if (Variables == null || string.IsNullOrWhiteSpace(name))
+            return false;
+
+        var kvp = Variables.FirstOrDefault(x => string.Equals(x.Key, name, StringComparison.OrdinalIgnoreCase));
+        if (string.IsNullOrEmpty(kvp.Key))
+            return false;
+
+        object? raw = kvp.Value;
+
+        // Already the correct type?
+        if (raw is T direct)
+        {
+            value = direct;
+            return true;
+        }
+
+        // unwrap JsonElement if needed
+        if (raw is JsonElement je)
+        {
+            // Try to deserialize to T if it's not a primitive type and JSON is object or array
+            if (!typeof(T).IsPrimitive && typeof(T) != typeof(string) &&
+                (je.ValueKind == JsonValueKind.Object || je.ValueKind == JsonValueKind.Array))
+            {
+                try
+                {
+                    value = je.Deserialize<T>()!;
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            // Extract primitive values
+            if (je.ValueKind == JsonValueKind.String)
+                raw = je.GetString();
+            else if (je.ValueKind == JsonValueKind.Number)
+            {
+                if (typeof(T) == typeof(int) && je.TryGetInt32(out int i)) raw = i;
+                else if (typeof(T) == typeof(long) && je.TryGetInt64(out long l)) raw = l;
+                else if (typeof(T) == typeof(double) && je.TryGetDouble(out double d)) raw = d;
+                else if (typeof(T) == typeof(float) && je.TryGetSingle(out float f)) raw = f;
+                else raw = je.ToString();
+            }
+            else if (je.ValueKind == JsonValueKind.True || je.ValueKind == JsonValueKind.False)
+            {
+                raw = je.GetBoolean();
+            }
+            else
+            {
+                raw = je.ToString();
+            }
+        }
+
+        try
+        {
+            if (typeof(T) == typeof(bool))
+            {
+                string s = raw?.ToString()?.Trim().ToLowerInvariant() ?? "";
+                if (s is "true" or "1")
+                {
+                    value = (T)(object)true;
+                    return true;
+                }
+
+                if (s is "false" or "0")
+                {
+                    value = (T)(object)false;
+                    return true;
+                }
+
+                return false;
+            }
+
+            if (raw is T converted)
+            {
+                value = converted;
+                return true;
+            }
+
+            string str = raw?.ToString() ?? "";
+            if (typeof(T) == typeof(int) && int.TryParse(str, out int i))
+            {
+                value = (T)(object)i;
+                return true;
+            }
+
+            if (typeof(T) == typeof(long) && long.TryParse(str, out long l))
+            {
+                value = (T)(object)l;
+                return true;
+            }
+
+            if (typeof(T) == typeof(float) && float.TryParse(str, out float f))
+            {
+                value = (T)(object)f;
+                return true;
+            }
+
+            if (typeof(T) == typeof(double) && double.TryParse(str, out double d))
+            {
+                value = (T)(object)d;
+                return true;
+            }
+
+            if (typeof(T) == typeof(string))
+            {
+                value = (T)(object)str;
+                return true;
+            }
+
+            // fallback deserialization for non-primitive types from stringified JSON
+            if (!typeof(T).IsPrimitive && typeof(T) != typeof(string))
+            {
+                value = JsonSerializer.Deserialize<T>(str)!;
+                return true;
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+
+        return false;
+    }
+
+
+    /// <summary>
+    /// Gets the CPU Threads available
+    /// </summary>
+    /// <returns>the CPU threads available</returns>
+    public int GetCpuThreads()
+    {
+        int threads = Environment.ProcessorCount;
+        if (threads == 1)
+            threads = 6;
+        
+        if(TryGetVariable<int>("CpuThreads", out var cpuThreads))
+            threads = cpuThreads;
+        if(int.TryParse(Environment.GetEnvironmentVariable("CPU_THREADS") ?? string.Empty, out var cpuThread))
+            threads = cpuThread;
+        return threads;
+    }
+    
+    /// <summary>
     /// Tests if a input string matches a variable
     /// </summary>
     /// <param name="variableName">The name of the variable</param>

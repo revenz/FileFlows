@@ -54,7 +54,7 @@ public partial class AutoTokens
             NavigationManager.NavigateTo("/");
             return;
         }
-        Layout.SetInfo("Auto Tokens", "fas fa-clock");
+        Layout.SetInfo("Auto Tokens", "fas fa-clock", noPadding: true);
         
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");

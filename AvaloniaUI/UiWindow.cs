@@ -9,7 +9,7 @@ namespace FileFlows.AvaloniaUi;
 /// <summary>
 /// Common base class for UI Windows
 /// </summary>
-public abstract class UiWindow : Window
+public abstract class UiWindow : Window, IMessageHandler
 {
     public UiWindow()
     {
@@ -43,14 +43,14 @@ public abstract class UiWindow : Window
     /// <summary>
     /// Quits the app
     /// </summary>
-    public void Quit()
+    public void Quit(bool noPrompt = false)
     {
         WindowState = WindowState.Normal;
         Show();
         
         _ = Task.Run(async () =>
         {
-            if (await Confirm("Quit", QuitMessage))
+            if (noPrompt || await Confirm("Quit", QuitMessage))
             {
                 _quitting = true;
                 _ = Dispatcher.UIThread.InvokeAsync(Close);
@@ -87,12 +87,7 @@ public abstract class UiWindow : Window
         this.Close();
     }
 
-    /// <summary>
-    /// Show a confirmation prompt
-    /// </summary>
-    /// <param name="title">the title of the confirmation prompt</param>
-    /// <param name="message">the message of the confirmation prompt</param>
-    /// <returns>the confirmation result</returns>
+    /// <inheritdoc />
     public async Task<bool> Confirm(string title, string message)
     {
         return await Dispatcher.UIThread.InvokeAsync(() =>
@@ -105,12 +100,7 @@ public abstract class UiWindow : Window
         });
     }
     
-    /// <summary>
-    /// Show a message 
-    /// </summary>
-    /// <param name="title"></param>
-    /// <param name="message"></param>
-    /// <returns>the task to await</returns>
+    /// <inheritdoc />
     public async Task Message(string title, string message)
     {
         await Dispatcher.UIThread.InvokeAsync(async () =>

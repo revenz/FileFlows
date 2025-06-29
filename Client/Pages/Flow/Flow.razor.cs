@@ -10,6 +10,7 @@ using FileFlows.Plugin;
 using System.Text.RegularExpressions;
 using System.Web;
 using BlazorContextMenu;
+using FileFlows.Client.ClientModels;
 using FileFlows.Client.Components.Common;
 using FileFlows.Client.Components.Inputs;
 using FileFlows.Client.Helpers;
@@ -508,19 +509,33 @@ public partial class Flow : ComponentBase, IDisposable
         if (typeDisplayName.ToLowerInvariant().StartsWith("ffmpeg builder: "))
             typeDisplayName = typeDisplayName["ffmpeg builder: ".Length..];
 
-        var fields = flowElement.Fields == null
-            ? new()
-            : ObjectCloner.Clone(flowElement.Fields).Select(x =>
+        List<EditorTab> tabs = flowElement.Tabs?.Select(x => new EditorTab()
+        {
+            Name = x.Name,
+            ConditionProperty = x.ConditionProperty,
+            ConditionInverse = x.ConditionInverse,
+            ConditionValue = x.ConditionValue
+        })?.ToList() ?? [];
+        
+        List<ElementField> fields = new();
+        if (flowElement.Fields != null)
+        {
+            foreach (var field in flowElement.Fields)
             {
-                // if (FieldsTabOpened)
-                x.CopyValue = $"{part.Uid}.{x.Name}";
+                if (string.IsNullOrWhiteSpace(field.Tab) == false)
+                    continue;
+                var copy = ObjectCloner.Clone(field);
+                copy.CopyValue = $"{part.Uid}.{field.Name}";
+
                 if (editor.Flow.Type is FlowType.FileDrop)
                 {
-                    x.CustomFieldAction = async void () => await EditCustomVariable(editor, x, part);
+                    copy.CustomFieldAction = async void () => await EditCustomVariable(editor, copy, part);
                 }
 
-                return x;
-            }).ToList();
+                fields.Add(copy);
+            }
+        }
+
         // add the name to the fields, so a node can be renamed
         fields.Insert(0, new ElementField
         {
@@ -551,6 +566,30 @@ public partial class Flow : ComponentBase, IDisposable
                 ReadOnlyValue = part.Uid.ToString(),
                 UiOnly = true
             });
+        }
+        
+        
+        List<ElementField> allFields = fields.ToList();
+
+        if (tabs.Count > 0 && flowElement.Fields is { Count: > 0 })
+        {
+            foreach (var tab in tabs)
+            {
+                var tabFields = flowElement.Fields.Where(x =>
+                    tab.Name.Equals(x.Tab, StringComparison.InvariantCultureIgnoreCase));
+                foreach (var field in tabFields)
+                {
+                    var cloned = ObjectCloner.Clone(field);
+                    cloned.CopyValue = field.CopyValue = $"{part.Uid}.{field.Name}";
+                    if (editor.Flow.Type is FlowType.FileDrop)
+                    {
+                        cloned.CustomFieldAction = async void () => await EditCustomVariable(editor, cloned, part);
+                    }
+
+                    tab.Fields.Add(cloned);
+                    allFields.Add(cloned);
+                }
+            }
         }
 
         bool isFunctionNode = flowElement.Uid == "FileFlows.BasicNodes.Functions.Function" || 
@@ -586,7 +625,7 @@ public partial class Flow : ComponentBase, IDisposable
         List<ListOption>? libraryOptions = null;
         List<ListOption>? variableOptions = null;
 
-        foreach (var field in fields)
+        foreach (var field in allFields)
         {
             field.Variables = variables;
             if (field.Conditions?.Any() == true)
@@ -597,7 +636,7 @@ public partial class Flow : ComponentBase, IDisposable
                         condition.Owner = field;
                     if (condition.Field == null && string.IsNullOrWhiteSpace(condition.Property) == false)
                     {
-                        var other = fields.FirstOrDefault(x => x.Name == condition.Property);
+                        var other = allFields.FirstOrDefault(x => x.Name == condition.Property);
                         if (other != null && model is IDictionary<string, object> mdict)
                         {
                             var otherValue = mdict.ContainsKey(other.Name) ? mdict[other.Name] : null;
@@ -722,13 +761,49 @@ public partial class Flow : ComponentBase, IDisposable
 
 
 
+        if (tabs.Count > 0)
+        {
+            tabs.Insert(0, new()
+            {
+                Name = Translater.Instant("Labels.General"),
+                Fields = new List<IFlowField>(fields)
+            });
+            fields = []; // clear the list since all fields are on the genral tab at least
+
+            foreach (var tab in tabs)
+            {
+                tab.Name = Translater.Instant($"Flow.Parts.{typeName}.Tabs.{tab.Name}");
+                if (string.IsNullOrWhiteSpace(tab.ConditionProperty))
+                    continue;
+                
+                var other = allFields.FirstOrDefault(x => x.Name == tab.ConditionProperty);
+                if (other != null)
+                {
+                    if( model is IDictionary<string, object> mdict){
+                        var otherValue = mdict.ContainsKey(other.Name) ? mdict[other.Name] : null;
+                        bool shown = Condition.Matches(tab.ConditionValue, otherValue, tab.ConditionInverse);
+                        tab.Hidden = !shown;
+                    }
+
+                    other.ValueChanged += (sender, value) =>
+                    {
+                        bool shown = Condition.Matches(tab.ConditionValue, value, tab.ConditionInverse);
+                        tab.Hidden = !shown;
+                    };
+                }
+
+            }
+        }
+
         string title = typeDisplayName;
         EditorOpen = true;
         StateHasChanged();
         EditorVariables = variables;
         var result = await Editor.Open(new()
         {
-            TypeName = "Flow.Parts." + typeName, Title = title, Fields = fields.Select(x => (IFlowField)x).ToList(), Model = model,
+            TypeName = "Flow.Parts." + typeName, Title = title, 
+            Fields = fields.Select(x => (IFlowField)x).ToList(), Model = model,
+            Tabs = tabs,
             Description = typeDescription,
             Large = fields.Count > 1, HelpUrl = flowElement.HelpUrl,
             SaveCallback = isFunctionNode && functionLanguage == "javascript" ? FunctionSaveCallback : null

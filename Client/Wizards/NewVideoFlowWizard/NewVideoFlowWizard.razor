@@ -39,6 +39,9 @@
                     <FlowRadioGroupItem TItem="Int32" Value="1" Icon="fas fa-compact-disc" TLabel="Bitrate">
                         <InputNumber TItem="int" HideLabel="true" Min="0" Max="1000000000" @bind-Value="Bitrate" Label="Dialogs.NewVideoFlowWizard.Fields.Bitrate"></InputNumber>
                     </FlowRadioGroupItem>
+                    <FlowRadioGroupItem TItem="Int32" Value="2" Icon="fas fa-tachometer-alt" TLabel="Optimized">
+                        <InputRadioGroup @bind-Value="Optimized" TItem="Int32" HideLabel="true" Label="Dialogs.NewVideoFlowWizard.Fields.Optimized" Options="OptimizeOptions" />
+                    </FlowRadioGroupItem>
                 </FlowRadioGroup>
             </FlowWizardPage>
 

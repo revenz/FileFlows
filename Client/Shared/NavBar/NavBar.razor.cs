@@ -99,9 +99,9 @@ public partial class NavBar
         PausedService.OnPaused += OnPaused;
         PausedService.OnResume += OnResume;
 
-        TotalUnprocessed = feService.Files.Unprocessed.Count;
+        TotalUnprocessed = feService.Files.UnprocessedTotal;
         TotalProcessing = feService.Files.Processing.Count;
-        TotalFailed = feService.Files.FailedFiles.Count;
+        TotalFailed = feService.Files.FailedFilesTotal;
         
         LoadMenu();
 
@@ -170,23 +170,23 @@ public partial class NavBar
         StateHasChanged();
     }
 
-    private void OnUnprocessedUpdated(List<LibraryFileMinimal> obj, int total)
+    private void OnUnprocessedUpdated(FileHandler.ListAndCount<LibraryFileMinimal> data)
     {
-        if (TotalUnprocessed == total)
+        if (TotalUnprocessed == data.Total)
             return;
-        TotalUnprocessed = total;
+        TotalUnprocessed = data.Total;
         StateHasChanged();
     }
 
     /// <summary>
     /// Called when the processing files is updated
     /// </summary>
-    /// <param name="obj">the data</param>
-    private void OnProcessingUpdated(List<ProcessingLibraryFile> obj)
+    /// <param name="data">the data</param>
+    private void OnProcessingUpdated(List<ProcessingLibraryFile>  data)
     {
-        if (TotalProcessing == obj.Count)
+        if (TotalProcessing == data.Count)
             return;
-        TotalProcessing = obj.Count;
+        TotalProcessing = data.Count;
         StateHasChanged();
     }
 

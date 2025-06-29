@@ -38,7 +38,7 @@ public partial class Tasks : ListPage<Guid, FileFlowsTask>
     
     protected override void OnInitialized()
     {
-        Layout.SetInfo(Translater.Instant("Pages.Tasks.Title"), "fas fa-clock");
+        Layout.SetInfo(Translater.Instant("Pages.Tasks.Title"), "fas fa-clock", noPadding: true);
         lblRunAt = Translater.Instant("Labels.RunAt");
         lblSuccess = Translater.Instant("Labels.Success");
         lblReturnCode = Translater.Instant("Labels.ReturnCode");

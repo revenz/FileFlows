@@ -120,7 +120,7 @@ public class InitialConfigController : BaseController
                 item.TranslationPrefix = $"DockerMods-{x.Name.Replace(" ", "").Replace(".", "")}";
                 item.Description = x.Description;
                 item.Icon = x.Icon?.EmptyAsNull() ?? "fab fa-docker";
-                item.Checked = x.Name.Equals("FFmpeg6", StringComparison.OrdinalIgnoreCase) ||
+                item.Checked = x.Name.Equals("FFmpeg FileFlows Edition", StringComparison.OrdinalIgnoreCase) ||
                                x.Name.Equals("rar", StringComparison.OrdinalIgnoreCase) ||
                                x.Name.Equals("ImageMagick", StringComparison.OrdinalIgnoreCase);
                 item.Value = x.Path;

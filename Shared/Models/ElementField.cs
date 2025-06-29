@@ -94,6 +94,11 @@ public class ElementField : IFlowField
     /// Gets or sets the input type of this field
     /// </summary>
     public FormInputType InputType { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if this property belongs to a specific tab
+    /// </summary>
+    public string? Tab { get; set; }
 
     /// <summary>
     /// Gets or sets if this field is only only a UI field

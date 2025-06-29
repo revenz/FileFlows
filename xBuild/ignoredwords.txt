@@ -232,3 +232,11 @@ Config
 UI
 —
 ALAC
+optimized
+Optimized
+optimization
+VMAF
+kilobits
+HD
+UHD
+Bitrates

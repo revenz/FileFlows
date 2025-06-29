@@ -53,7 +53,7 @@ public partial class General
             return;
         }
 
-        Layout.SetInfo("General", "fas fa-cogs");
+        Layout.SetInfo("General", "fas fa-cogs", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         Blocker.Show("Loading Settings");
         try

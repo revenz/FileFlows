@@ -22,7 +22,7 @@ public struct ProcessResult
     /// </summary>
     public int? ExitCode;
     /// <summary>
-    /// The output of the process
+    /// The complete output, standard and error outputs of the process as the messages were received
     /// </summary>
     public string Output;
 
@@ -116,6 +116,16 @@ public class ExecuteArgs
     /// An event that is called when there is error output from a process
     /// </summary>
     public event OutputRecievedEvent ErrorOutput;
+
+    /// <summary>
+    /// Optional extra variables to pass into the process
+    /// </summary>
+    public Dictionary<string, object> Variables { get; set; } = [];
+
+    /// <summary>
+    /// Gets environmental variables to set on the process
+    /// </summary>
+    public Dictionary<string, string> EnvironmentalVariables { get; init; } = new ();
 
     /// <summary>
     /// Called when there is standard output received and invokes the StandardOutput event
@@ -251,12 +261,43 @@ public class ProcessHelper : IProcessHelper
         if (!string.IsNullOrEmpty(args.WorkingDirectory))
             process.StartInfo.WorkingDirectory = args.WorkingDirectory;
 
+        if (args.EnvironmentalVariables != null && args.EnvironmentalVariables.Count > 0)
+        {
+            foreach (var ev in args.EnvironmentalVariables)
+                process.StartInfo.EnvironmentVariables[ev.Key] = ev.Value;
+        }
+
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardInput = true;
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
         process.StartInfo.CreateNoWindow = true;
         process.EnableRaisingEvents = true;
+
+        if (OperatingSystem.IsWindows() && args.Variables != null && args.Variables.TryGetValue("Infinity", out var oInfinity))
+        {
+            try
+            {
+                long affinityMask = oInfinity switch
+                {
+                    int i => i,
+                    long l => l,
+                    string s when long.TryParse(s, out var parsed) => parsed,
+                    _ => -1
+                };
+
+                if (affinityMask > 0)
+                {
+                    Logger.ILog($"Using Infinity '{affinityMask}' for process");
+                    process.ProcessorAffinity = (IntPtr)affinityMask;
+                }
+            }
+            catch (Exception ex)
+            {
+                // log or ignore as needed
+                Logger.WLog($"Failed getting infinity: {ex}");
+            }
+        }
 
         if (!args.Silent)
         {
@@ -330,11 +371,6 @@ public class ProcessHelper : IProcessHelper
 
                 result.Completed = true;
                 result.ExitCode = process.ExitCode;
-                result.StandardError = errorBuilder.ToString();
-                result.StandardOutput = standardOutputBuilder.ToString();
-                result.Output = outputBuilder.ToString();
-                if (string.IsNullOrEmpty(result.Output))
-                    result.Output = result.StandardError;
             }
             else
             {
@@ -350,11 +386,10 @@ public class ProcessHelper : IProcessHelper
                 {
                     Logger.WLog("Error killing process: " + ex.Message);
                 }
-
-                result.StandardError = errorBuilder.ToString();
-                result.StandardOutput = standardOutputBuilder.ToString();
-                result.Output = result.StandardOutput?.EmptyAsNull() ?? result.StandardError;
             }
+            result.StandardError = errorBuilder.ToString();
+            result.StandardOutput = standardOutputBuilder.ToString();
+            result.Output = outputBuilder.ToString().EmptyAsNull() ?? result.StandardError;
         }
         finally
         {
@@ -449,4 +484,5 @@ public class ProcessHelper : IProcessHelper
             .Replace("[" + '', string.Empty)
             .Replace(''.ToString(), string.Empty);
     }
+
 }

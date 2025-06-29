@@ -278,10 +278,15 @@ public class FlowElementUids
     public static string FFmpegBuilderAudioSetLanguage => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderAudioSetLanguage";
 
     /// <summary>
-    /// Gets the UID for FFmpeg Builder Video Encode (Quality Encoding)
+    /// Gets the UID for FFmpeg Builder Video Encode Simple
     /// </summary>
     public static string FFmpegBuilderVideoEncodeSimple => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncodeSimple";
 
+    /// <summary>
+    /// Gets the UID for FFmpeg Builder Video Encode Optimized
+    /// </summary>
+    public static string FFmpegBuilderVideoEncodeOptimized => "FileFlows.VideoNodes.FfmpegBuilderNodes.FfmpegBuilderVideoEncodeOptimized";
+    
     /// <summary>
     /// Gets the UID for FFmpeg Builder Bitrate Encode
     /// </summary>

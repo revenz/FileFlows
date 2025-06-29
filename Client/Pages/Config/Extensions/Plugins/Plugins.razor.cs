@@ -27,7 +27,7 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
     {
         Profile = feService.Profile.Profile;
         base.OnInitialized(false);
-        Layout.SetInfo(Translater.Instant("Pages.Plugins.Title"), "fas fa-puzzle-piece");
+        Layout.SetInfo(Translater.Instant("Pages.Plugins.Title"), "fas fa-puzzle-piece", noPadding: true);
         lblSettings = Translater.Instant("Labels.Settings");
         lblInUse = Translater.Instant("Labels.InUse");
         lblFlowElement = Translater.Instant("Labels.FlowElement");

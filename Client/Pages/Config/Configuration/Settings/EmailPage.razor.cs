@@ -68,7 +68,7 @@ public partial class EmailPage : InputRegister
     protected override async Task OnInitializedAsync()
     {
         Profile = feService.Profile.Profile;
-        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Email"), "fas fa-envelope");
+        Layout.SetInfo(Translater.Instant("Pages.Settings.Labels.Email"), "fas fa-envelope", noPadding: true);
         lblSaving = Translater.Instant("Labels.Saving");
         lblEmailDescription = Translater.Instant("Pages.Settings.Labels.EmailDescription");
         
