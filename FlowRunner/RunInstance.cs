@@ -76,6 +76,12 @@ public class RunInstance(RunnerProperties properties)
             }
 
             var config = JsonSerializer.Deserialize<ConfigurationRevision>(cfgJson);
+            if (parameters.LibraryFile != null)
+            {
+                var library = config.Libraries.FirstOrDefault(x => x.Uid == parameters.LibraryFile.LibraryUid);
+                if (library != null)
+                    Properties.LibraryPath = library.Path;
+            }
 
             string hostname = parameters.Hostname?.EmptyAsNull() ?? Environment.MachineName;
 
