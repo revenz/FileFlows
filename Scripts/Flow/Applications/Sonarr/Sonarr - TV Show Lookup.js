@@ -10,7 +10,7 @@ import { Sonarr } from 'Shared/Sonarr';
  * @revision 9
  * @param {string} URL Sonarr root URL and port (e.g., http://sonarr:8989)
  * @param {string} ApiKey API Key for Sonarr
- * @param {bool} UseFolderName Whether to use the folder name instead of the file name for the search pattern.<br>If the folder starts with "Season", "Staffel", "Saison", or "Specials", the parent folder will be used.<br>If lookup returning with more then 2 episodes then it will fallback to file name search pattern.
+ * @param {bool} UseFolderName Whether to use the folder name instead of the file name for the search pattern.<br>- If the folder starts with "Season", "Staffel", "Saison", or "Specials", the parent folder will be used.<br>- Best option if your downlad library is the same as your media library.<br>- If lookup returning with more then 2 episodes then it will fallback to file name search pattern.
  * @output TV Show found
  * @output TV Show NOT found
  */

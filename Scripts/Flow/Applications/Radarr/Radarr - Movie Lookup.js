@@ -10,7 +10,7 @@ import { Radarr } from 'Shared/Radarr';
  * @revision 9
  * @param {string} URL Radarr root URL and port (e.g., http://radarr:1234)
  * @param {string} ApiKey API Key for Radarr
- * @param {bool} UseFolderName Whether to use the folder name instead of the file name for search
+ * @param {bool} UseFolderName Whether to use the folder name instead of the file name for search<br>- Best option if your downlad library is the same as your media library.
  * @output Movie found
  * @output Movie not found
  */
