@@ -382,7 +382,7 @@
       "Path": "Scripts/Flow/Applications/Radarr/Radarr - Movie Lookup.js",
       "Name": "Radarr - Movie Lookup",
       "Description": "This script looks up a Movie from Radarr and retrieves its metadata\nStores the Metadata inside the variable \u0027MovieInfo\u0027.\n/",
-      "Revision": 8,
+      "Revision": 9,
       "Uid": "1153e3fb-e7bb-4162-87ad-5c15cd9c081f"
     },
     {
@@ -438,7 +438,7 @@
       "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - TV Show Lookup.js",
       "Name": "Sonarr - TV Show Lookup",
       "Description": "This script looks up a TV Show from Sonarr and retrieves its metadata\nStores the Metadata inside the variable \u0027TVShowInfo\u0027.\n/",
-      "Revision": 8,
+      "Revision": 9,
       "Uid": "9f25c573-1c3c-4a1e-8429-5f1fc69fc6d8"
     },
     {
@@ -454,13 +454,6 @@
       "Description": "Lookups a file in Sonarr and gets its original language ISO-693-1 code for it\n/",
       "Revision": 9,
       "Uid": "51cf3c4f-f4a3-45e2-a083-6629397aab90"
-    },
-    {
-      "Path": "Scripts/Flow/Applications/Sonarr/Sonarr - TV Show Lookup (Library).js",
-      "Name": "Sonarr - TV Show Lookup (Library)",
-      "Description": "This script looks up a TV Show from Sonarr and retrieves its metadata by its library path.\n Stores the Metadata inside the variable \u0027TVShowInfo\u0027.\n/",
-      "Revision": 1,
-      "Uid": "445de4b1-246c-4d5f-80b4-c3f063fb7cde"
     }
   ],
   "FunctionScripts": [
