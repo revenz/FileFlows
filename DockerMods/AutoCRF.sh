@@ -2,7 +2,7 @@
 # Name: AutoCRF
 # Author: lawrence
 # Description: This DockerMod installs ab-av1 and a FFmpeg wrapper script, it requires both FFmpeg FileFlows Edition installed (you may have to uninstall other FFmpegs)
-# Revision: 5
+# Revision: 6
 # Icon: fas fa-compress-alt
 # ----------------------------------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ if [ "$1" == "--uninstall" ]; then
 fi
 
 # Install openCL if we find a QSV device
-! lspci | grep -Ei 'VGA|Display' | grep Intel || ! apt update || ! apt install -y libmfx-gen1.2 libmfx-dev i965-va-driver-shaders intel-media-va-driver-non-free intel-opencl-icd
+! lspci | grep -Ei 'VGA|Display' | grep Intel || ! apt-get -qq update || ! apt-get install -yqq libmfx-gen1.2 libmfx-dev i965-va-driver-shaders intel-media-va-driver-non-free intel-opencl-icd
 
 if [ -f ${DESTINATION_FOLDER}/ab-av1 ]; then
     echo "AutoCRF already installed."
@@ -45,14 +45,14 @@ if command -v zstd &>/dev/null; then
     echo "zstd already installed."
 else
     # Update package lists and install dependencies
-    if ! apt update || ! apt install -y zstd; then
+    if ! apt-get -qq update || ! apt-get install -yqq zstd; then
         handle_error
     fi
 fi
 
 # Install auto crf
 mkdir -p ${DESTINATION_FOLDER}
-wget -O ${DESTINATION_FOLDER}/ab-av1.tar.zst $(curl -s https://api.github.com/repos/alexheretic/ab-av1/releases/latest | grep -m 1 'browser_' | cut -d\" -f4)
+wget --no-verbose -O ${DESTINATION_FOLDER}/ab-av1.tar.zst $(curl -s https://api.github.com/repos/alexheretic/ab-av1/releases/latest | grep -m 1 'browser_' | cut -d\" -f4)
 tar xvf ${DESTINATION_FOLDER}/ab-av1.tar.zst -C ${DESTINATION_FOLDER}
 rm ${DESTINATION_FOLDER}/ab-av1.tar.zst
 mkdir -p ${DESTINATION_FOLDER}/cache
