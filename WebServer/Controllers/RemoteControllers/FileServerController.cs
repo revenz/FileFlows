@@ -699,9 +699,8 @@ public class FileServerController(SettingsService settingsService) : Controller
         var directoryName = FileHelper.GetDirectoryName(path);
         log.AppendLine("DirectoryName: " + directoryName);
         var fileInfo = new FileInfo(path);
-        DirectoryInfo tempDirLocation;
         
-        tempDirLocation = new DirectoryInfo(directory + "_" + Guid.NewGuid());
+        var tempDirLocation = new DirectoryInfo(Path.Combine(directory, Guid.NewGuid().ToString()));
         log.AppendLine("tempDirLocation: " + tempDirLocation);
 
         string dirPath = tempDirLocation.FullName;
