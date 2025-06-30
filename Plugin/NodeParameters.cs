@@ -140,6 +140,11 @@ public class NodeParameters
     /// Gets or sets a method used for setting the files thumbnail
     /// </summary>
     public Action<byte[]>? SetThumbnailActual { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the method sued for setting the original size of the file
+    /// </summary>
+    public Action<long>? SetOriginalSizeActual { get; set; }
 
     /// <summary>
     /// Gets or sets the method to set the display name of the file which is shown in the UI/webconsole.
@@ -544,6 +549,9 @@ public class NodeParameters
         Logger.ILog("Downloaded file: "  + newFile);
         return newFile;
     }
+
+    public void SetOriginalSize(long size)
+        => SetOriginalSizeActual?.Invoke(size);
 
     /// <summary>
     /// Sets the files thumbnail

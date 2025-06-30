@@ -11,6 +11,7 @@ using FileFlows.Plugin.Helpers;
 using FileFlows.Plugin.Services;
 using FileFlows.RemoteServices;
 using FileFlows.ServerShared.FileServices;
+using FileFlows.Shared.Formatters;
 using FileFlows.Shared.Helpers;
 using FlowHelper = FileFlows.FlowRunner.Helpers.FlowHelper;
 
@@ -215,6 +216,11 @@ public class Runner
             SetThumbnailActual = (binaryData) =>
             {
                 runInstance.RpcClient.LibraryFileHandler.SetThumbnail(binaryData).Wait();
+            },
+            SetOriginalSizeActual = (size) =>
+            {
+                logger.ILog("Setting original size: " + FileSizeFormatter.Format(size));
+                runInstance.RpcClient.LibraryFileHandler.SetOriginalSize(size).Wait();
             },
             SetDisplayNameActual = (displayName) =>
             {

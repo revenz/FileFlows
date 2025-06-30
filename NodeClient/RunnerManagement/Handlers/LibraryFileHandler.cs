@@ -17,6 +17,7 @@ public class LibraryFileHandler
         // rpcRegister.Register(nameof(DeleteLibraryFile), DeleteLibraryFile);
         rpcRegister.Register<ExistsOnServerModel, bool>(nameof(ExistsOnServer), ExistsOnServer);
         rpcRegister.Register(nameof(SetThumbnail), SetThumbnail);
+        rpcRegister.Register(nameof(SetOriginalSize), SetOriginalSize);
     }
     
     public void UpdateLibraryFile(LibraryFile libraryFile)
@@ -87,6 +88,13 @@ public class LibraryFileHandler
             // Ignore
         }
     }
+
+    /// <summary>
+    /// Sets the original size of the file
+    /// </summary>
+    /// <param name="size">the files original size</param>
+    public void SetOriginalSize(long size)
+        => rpcServer._libraryFile.OriginalSize = size;
 
     /// <summary>
     /// Model for exists on server

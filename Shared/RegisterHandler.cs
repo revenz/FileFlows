@@ -50,6 +50,11 @@ public abstract class RegisterHandler
     public void Register(string name, Action<Guid> handler) => _handlers[name] = handler;
 
     /// <summary>
+    /// Registers a handler that takes a long and returns nothing (void).
+    /// </summary>
+    public void Register(string name, Action<long> handler) => _handlers[name] = handler;
+
+    /// <summary>
     /// Registers a handler that takes a generic type and returns an object.
     /// </summary>
     public void Register<T>(string name, Func<T, Task<object?>> handler)
@@ -206,6 +211,9 @@ public abstract class RegisterHandler
                 case Action<Guid> guidAction when parameters.Length == 1 && parameters[0] is string guidStr:
                     guidAction(Guid.Parse(guidStr));
                     return null;
+                case Action<long> longAction when parameters.Length == 1 && parameters[0] is long lValue:
+                    longAction(lValue);
+                    return null;
             }
 
             if (handler is Func<object[], Task> objArrayTask)
@@ -241,7 +249,7 @@ public abstract class RegisterHandler
             var typeName = genericType.Name;
             var tickIndex = typeName.IndexOf('`');
             if (tickIndex > 0)
-                typeName = typeName.Substring(0, tickIndex);
+                typeName = typeName[..tickIndex];
 
             var genericArgs = type.GetGenericArguments()
                 .Select(GetFriendlyTypeName);

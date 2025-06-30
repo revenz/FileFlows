@@ -70,4 +70,12 @@ public class LibraryFileHandler(JsonRpcClient client)
         await client.SendRequest(nameof(SetThumbnail), Convert.ToBase64String(binaryData));
         client.RunnerInfo.HasThumbnail = true;
     }
+
+    /// <summary>
+    /// Sets the original file size
+    /// </summary>
+    /// <param name="size">the original file size</param>
+    /// <returns>a completed task</returns>
+    public async Task SetOriginalSize(long size)
+        => await client.SendRequest(nameof(SetOriginalSize), size);
 }
