@@ -524,6 +524,27 @@ public class NodeParameters
     public bool HasThumbnailBeenSet()
         => _thumbnailSet;
 
+
+    /// <summary>
+    /// Downloads a file
+    /// </summary>
+    /// <param name="url">the url to download</param>
+    /// <returns>return the full path of the new file</returns>
+    public string DownloadFile(string url)
+    {
+        Logger?.ILog("Downloading: " + url);
+        var extension = GetExtensionFromUrl(url);
+        var newFile = Path.Combine(TempPath, Guid.NewGuid() + extension);
+        var result2 = DownloadHelper.Download(url, newFile).GetAwaiter().GetResult();
+        if (result2.Failed(out var error2))
+        {
+            Logger.WLog(error2);
+            return string.Empty;
+        }
+        Logger.ILog("Downloaded file: "  + newFile);
+        return newFile;
+    }
+
     /// <summary>
     /// Sets the files thumbnail
     /// </summary>
@@ -1072,6 +1093,39 @@ public class NodeParameters
     public string ReplaceVariables(string input, bool stripMissing = false, bool cleanSpecialCharacters = false) 
         => VariablesHelper.ReplaceVariables(input, Variables, stripMissing, cleanSpecialCharacters);
 
+
+    /// <summary>
+    /// Returns a safe filename by removing or replacing invalid characters.
+    /// Also removes specific unwanted substrings like ":", 
+    /// and collapses multiple spaces into a single space.
+    /// </summary>
+    /// <param name="input">The original filename string to sanitize.</param>
+    /// <returns>A sanitized, filesystem-safe filename.</returns>
+    public string GetSafeFilename(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return string.Empty;
+
+        // Remove specific unwanted substrings first
+        input = input.Replace(":", " - ");
+        
+        // Collect invalid filename characters
+        var invalids = Path.GetInvalidFileNameChars().ToList();
+        invalids.Add('"'); // explicitly add quote if you want
+
+        // Remove invalid characters
+        var result = "";
+        foreach (var c in input)
+        {
+            if (!invalids.Contains(c))
+                result += c;
+        }
+
+        // Collapse multiple spaces to single space
+        result = Regex.Replace(result, @"\s{2,}", " ");
+
+        return result.Trim();
+    }
     
     /// <summary>
     /// Gets a safe filename with any reserved characters removed or replaced
