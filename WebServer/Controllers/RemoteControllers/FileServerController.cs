@@ -698,19 +698,10 @@ public class FileServerController(SettingsService settingsService) : Controller
         log.AppendLine("Directory: " + directory);
         var directoryName = FileHelper.GetDirectoryName(path);
         log.AppendLine("DirectoryName: " + directoryName);
-        string parent = FileHelper.GetDirectory(directory);
-        log.AppendLine("Parent: " + parent);
         var fileInfo = new FileInfo(path);
         DirectoryInfo tempDirLocation;
-        if (string.IsNullOrWhiteSpace(parent) == false)
-        {
-            tempDirLocation = new DirectoryInfo(Path.Combine(parent,
-                "_TEMP_" + directoryName + "_" + Guid.NewGuid()));
-        }
-        else
-        {
-            tempDirLocation = new DirectoryInfo(directory + "_" + Guid.NewGuid());
-        }
+        
+        tempDirLocation = new DirectoryInfo(directory + "_" + Guid.NewGuid());
         log.AppendLine("tempDirLocation: " + tempDirLocation);
 
         string dirPath = tempDirLocation.FullName;
