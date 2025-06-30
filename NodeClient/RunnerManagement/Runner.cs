@@ -72,6 +72,7 @@ public class Runner(Client client, RunFileArguments args, ProcessingNode node, s
         try
         {
             lf = await Execute(lf, _cancellationTokenSource.Token);
+            Logger.Instance.ILog($"Finished file '{lf.Name}' , original size: '{lf.OriginalSize}'");
         }
         catch (Exception ex)
         {

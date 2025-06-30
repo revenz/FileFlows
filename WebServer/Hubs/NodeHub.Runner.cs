@@ -92,7 +92,7 @@ public partial class NodeHub
     /// <returns>true that it was received</returns>
     public async Task<bool> FileFinishProcessing(LibraryFile libraryFile, string log)
     {
-        _logger.ILog($"NodeHub.FileFinishProcessing: {libraryFile.Name}");
+        _logger.ILog($"NodeHub.FileFinishProcessing: {libraryFile.Name} ,  original size: '{libraryFile.OriginalSize}'");
         await _lfLogger.WLog(libraryFile.Uid, "File Finished Processing \ud83d\ude42");
         var libraryFileService = ServiceLoader.Load<LibraryFileService>();
         await libraryFileService.FinishProcessing(libraryFile, log);
