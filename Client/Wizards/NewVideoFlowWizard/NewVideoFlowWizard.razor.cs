@@ -367,6 +367,7 @@ public partial class NewVideoFlowWizard
                                 Encoder= "CPU",
                                 Mode = Optimized,
                                 MaxSizePercent = 90f,
+                                ForceCodec = true,
                                 
                                 // Defaults
                                 MinVmaf = 94.5f,
@@ -645,6 +646,7 @@ public partial class NewVideoFlowWizard
                     Encoder = AttemptHardwareEncode ? "" : "CPU",
                     Mode = Optimized,
                     MaxSizePercent = 90f,
+                    ForceCodec = true,
                     
                     // Defaults
                     MinVmaf = 94.5f,
