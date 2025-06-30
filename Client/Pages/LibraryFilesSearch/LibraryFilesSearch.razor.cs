@@ -91,8 +91,8 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
 
     public void OnRangeSelect(DateRange range)
     {
-        SearchModel.FromDate = range.Start.Date;
-        SearchModel.ToDate = range.End.Date;
+        SearchModel.FromDate = range.Start.DateTime.ToUniversalTime();
+        SearchModel.ToDate = range.End.DateTime.ToUniversalTime();
     }
 
     public override Task Load(Guid selectedUid, bool showBlocker = true)
