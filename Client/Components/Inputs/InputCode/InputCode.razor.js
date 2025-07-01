@@ -299,6 +299,18 @@ GetProperty: function(name:string):string {},
  */
 SetProperty: function(name:string, value:string) {},
 /**
+ * Sets the original size of the file being processed.
+ * Useful when processing a URL that downloads a file.
+ * @param {number} size - The file size in bytes.
+ */
+SetOriginalSize: function(size:number) {},
+/**
+ * Downloads a file from the specified URL.
+ * @param {string} url - The URL to download.
+ * @returns {string} The full path of the downloaded file.
+ */
+DownloadFile: function(url) {},
+/**
  * Fails the flow with the given reason.
  *
  * Example usage: return Flow.Fail('File not found');

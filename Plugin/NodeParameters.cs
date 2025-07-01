@@ -550,6 +550,10 @@ public class NodeParameters
         return newFile;
     }
 
+    /// <summary>
+    /// Sets the original size of the file
+    /// </summary>
+    /// <param name="size">the size in bytes</param>
     public void SetOriginalSize(long size)
         => SetOriginalSizeActual?.Invoke(size);
 
