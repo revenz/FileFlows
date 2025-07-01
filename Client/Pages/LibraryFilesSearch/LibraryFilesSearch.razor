@@ -1,10 +1,8 @@
 @namespace FileFlows.Client.Pages
 
-
 @using FileFlows.Shared.Models
-@using Microsoft.AspNetCore.Components
 @using FileFlows.Client.Helpers
-@inherits ListPage<Guid, LibraryFile>
+@inherits LibraryFilePageBase
 
 @page "/library-files/search"
 
@@ -14,19 +12,24 @@
 
         <div class="search-fields">
             <div class="search-field input search-path">
-                <div class="label">Path</div>
+                <div class="label">@lblPath</div>
                 <div class="value">
                     <input id="lfs-path" type="text" @bind="SearchModel.Path">
                 </div>
             </div>
             <div class="search-field input">
-                <div class="label">Library Name</div>
+                <div class="label">@lblLibrary</div>
                 <div class="value">
-                    <input type="text" @bind="SearchModel.LibraryName">
+                    <select @bind="SearchModel.Library">
+                        @foreach (var opt in LibraryOptions)
+                        {
+                            <option value=@opt.Value>@opt.Label</option>
+                        }
+                    </select>
                 </div>
             </div>
             <div class="search-field input">
-                <div class="label">Status</div>
+                <div class="label">@lblStatus</div>
                 <div class="value">
                     <select @bind="SearchModel.Status">
                         @foreach (var opt in StatusOptions)
@@ -37,7 +40,7 @@
                 </div>
             </div>
             <div class="search-field input">
-                <div class="label">Date</div>
+                <div class="label">@lblPeriod</div>
                 <div class="value">
                     <DateRangePicker OnRangeSelect=@OnRangeSelect Ranges=@DateRangeHelper.DateRanges TimePicker="true" TimePicker24Hour="true" DateFormat="@($"d MMM HH:mm")">
                         <PickerTemplate>
@@ -47,7 +50,7 @@
                                     @if ((context.TStartDate == null && context.TEndDate == null) ||
                                          (context.TStartDate < new DateTime(2000,1,1) && context.TEndDate > new DateTime(2100,1,1) ))
                                     {
-                                        <span>Any Time</span>
+                                        <span>@lblAnyTime</span>
                                     }
                                     else
                                     {
@@ -63,7 +66,7 @@
                 </div>
             </div>
             <div class="search-field input">
-                <div class="label">Limit</div>
+                <div class="label">@lblLimit</div>
                 <div class="value">
                     <input type="number" @bind="SearchModel.Limit">
                 </div>
@@ -76,37 +79,51 @@
     </div>
     <div class="search-content">
 
-        <FlowTable @ref="Table" Data="@Data" TItem="LibraryFile" Selection="SelectionMode.Multiple" TableIdentifier="LibraryFilesSearch"
-                   DoubleClick="@OnDoubleClick" MinWidth="@NameMinWidth">
+        <FlowTable @ref="Table" Data="@Data" TItem="LibraryFileMinimal" Selection="SelectionMode.Multiple" TableIdentifier="LibraryFilesSearch"
+                   DoubleClick="@OnDoubleClick">
             <ToolBar>
                 <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-file" Label="Labels.View"/>
-                <FlowTableButton Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Remove"/>
+                <FlowTableButton Visible="@(SearchedStatus != null && SearchedStatus == FileStatus.OutOfSchedule || SearchedStatus == FileStatus.Disabled)" 
+                                 Clicked=ForceProcessing SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Process"/>
+                <FlowTableButton Visible="@(SearchedStatus != null && SearchedStatus == FileStatus.Processing)" 
+                                 Clicked=Cancel SelectedOneOrMore="true" Icon="fas fa-window-close" Label="Labels.Cancel"/>
+                <FlowTableButton Visible="@(SearchedStatus != null && SearchedStatus != FileStatus.Processing)" 
+                                 Clicked=Delete SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Remove"/>
+                <FlowTableButton Visible="@(SearchedStatus != null && SearchedStatus != FileStatus.Processing)" Area="ButtonArea.ContextMenu" 
+                                 Clicked=DeleteFile SelectedOneOrMore="true" Icon="fas fa-trash" Label="Labels.Delete"/>
+                <FlowTableButton Visible="@(SearchedStatus != null && SearchedStatus != FileStatus.Processing)" Area="ButtonArea.ContextMenu" 
+                                 Clicked=DownloadFile SelectedOne="true" Icon="fas fa-download" Label="Labels.Download"/>
+
+                <FlowTableButtonSeparator Mobile="false" Visible="@(SearchedStatus == FileStatus.Unprocessed)"/>
+                <FlowTableButton Visible="@(SearchedStatus == FileStatus.Unprocessed)" 
+                                 Clicked=MoveToTop SelectedOneOrMore="true" Icon="far fa-caret-square-up" Label="Pages.LibraryFiles.Buttons.MoveToTop"/>
+                <FlowTableButton Mobile="false" Visible="@(SearchedStatus == FileStatus.Unprocessed)" 
+                                 Clicked=Rescan Icon="fas fa-search-plus" Label="Labels.Rescan"/>
+
+                <FlowTableButtonSeparator Visible="@(SearchedStatus == FileStatus.Processed || SearchedStatus == FileStatus.ProcessingFailed)"/>
+                <FlowTableButton Visible="@(SearchedStatus is FileStatus.Unprocessed or FileStatus.OnHold)" 
+                                 Clicked=@(() => Reprocess(SearchedStatus!.Value)) SelectedOneOrMore="true" Icon="fas fa-cogs" Label="Pages.LibraryFiles.Buttons.ProcessOptions"/>
+                <FlowTableButton Visible="@(SearchedStatus is FileStatus.Processed or FileStatus.ProcessingFailed)" 
+                                 Clicked=@(() => Reprocess(SearchedStatus!.Value)) SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Reprocess"/>
+
+                <FlowTableButton Visible="@(SearchedStatus != FileStatus.Processing && SearchedStatus != FileStatus.Processed)" Area="ButtonArea.ContextMenu" 
+                                 Clicked="(() => SetStatus(FileStatus.Processed))" SelectedOneOrMore="true" Icon="far fa-check-circle" Label="Labels.SetStatusProcessed"/>
+
+                <FlowTableButtonSeparator Visible="@(SearchedStatus == FileStatus.OnHold)"/>
+                <FlowTableButton Visible=@(SearchedStatus == FileStatus.OnHold) 
+                                 Clicked=Unhold SelectedOneOrMore="true" Icon="fas fa-running" Label="Pages.LibraryFiles.Buttons.Unhold"/>
+                <FlowTableButton Visible=@(SearchedStatus == FileStatus.Unprocessed) Area="ButtonArea.ContextMenu" 
+                                 Clicked=ToggleForce SelectedOneOrMore="true" Icon="fas fa-hammer" Label="Pages.LibraryFiles.Buttons.ToggleForce"/>
+
+                
                 <FlowTableHelpButton HelpUrl="overview/files"/>
             </ToolBar>
 
             <Columns>
-                <FlowTableColumn TItem="LibraryFile">
-                    <Header>
-                        @Globals.lblName
-                    </Header>
+                <FlowTableColumn TItem="LibraryFileMinimal" NoHeight="true">
+                    <Header></Header>
                     <Cell Context="item">
-                        <span>@item.RelativePath</span>
-                    </Cell>
-                </FlowTableColumn>
-                <FlowTableColumn TItem="LibraryFile" Width="10rem" MobileWidth="7rem">
-                    <Header>
-                        Status
-                    </Header>
-                    <Cell Context="item">
-                        <span>@item.Status</span>
-                    </Cell>
-                </FlowTableColumn>
-                <FlowTableColumn TItem="LibraryFile" Width="12rem" MobileWidth="0" Hidden="App.Instance.IsMobile">
-                    <Header>
-                        Library
-                    </Header>
-                    <Cell Context="item">
-                        <span>@item.Library</span>
+                        <FileCard Model="@item" InTable="true" @key="item.Uid" />
                     </Cell>
                 </FlowTableColumn>
             </Columns>

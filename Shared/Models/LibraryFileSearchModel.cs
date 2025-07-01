@@ -32,7 +32,7 @@ public class LibraryFileSearchModel
     /// <summary>
     /// Gets or sets the name of the library
     /// </summary>
-    public string LibraryName { get; set; }
+    public Guid Library { get; set; }
     
     /// <summary>
     /// Gets or sets the name of the library

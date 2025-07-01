@@ -344,10 +344,18 @@ public class LibraryFileController : Controller
     /// <returns>a list of matching library files</returns>
     [HttpPost("search")]
     [FileFlowsAuthorize] // needed for the dashboard
-    public Task<List<LibraryFile>> Search([FromBody] LibraryFileSearchModel filter)
-        => ServiceLoader.Load<LibraryFileService>().Search(filter);
+    public async Task<List<LibraryFileMinimal>> Search([FromBody] LibraryFileSearchModel filter)
+        => (await ServiceLoader.Load<LibraryFileService>().Search(filter)).Select(x => (LibraryFileMinimal)x).ToList();
 
 
+    /// <summary>
+    /// Finds all libraries even those that have been deleted
+    /// </summary>
+    /// <returns>all the libraries in the library file table</returns>
+    [HttpGet("find-all-libraries")]
+    public async Task<Dictionary<Guid, string>> FindAllLibraries()
+        => await ServiceLoader.Load<LibraryFileService>().FindAllLibraries();
+    
     /// <summary>
     /// Get a specific library file using cache
     /// </summary>

@@ -11,16 +11,12 @@ namespace FileFlows.Client.Pages;
 /// <summary>
 /// Library Files Page
 /// </summary>
-public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposable
+public partial class LibraryFiles : LibraryFilePageBase, IDisposable
 {
     private string filter = string.Empty;
     private FileStatus? filterStatus;
     /// <inheritdoc />
     public override string ApiUrl => "/api/library-file";
-    /// <summary>
-    /// Gets or sets the modal service
-    /// </summary>
-    [Inject] private IModalService ModalService { get; set; }
     
     /// <summary>
     /// Gets or sets the navigation service
@@ -36,11 +32,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     /// </summary>
     [Inject] private NavigationManager Navigation { get; set; }
     
-    /// <summary>
-    /// Gets or sets the JavaScript runtime
-    /// </summary>
-    [Inject] private IJSRuntime jsRuntime { get; set; }
-    
 
     private FileFlows.Shared.Models.FileStatus SelectedStatus;
 
@@ -52,7 +43,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     private Guid? SelectedNode, SelectedLibrary, SelectedFlow, SelectedTag;
     private FilesSortBy? SelectedSortBy;
 
-    private string lblSearch, lblDeleteSwitch, lblSortBy, lblNode, lblFlow, lblLibrary, lblTag;
+    private string lblSearch, lblSortBy, lblNode, lblFlow, lblLibrary, lblTag;
 
     private string TableIdentifier => "LibraryFiles_" + this.SelectedStatus; 
 
@@ -91,6 +82,7 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         Layout.SetInfo(Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-file", pageClass: "library-files");
             
         lblAdd = Translater.Instant("Labels.Add");
@@ -125,7 +117,6 @@ public partial class LibraryFiles : ListPage<Guid, LibraryFileMinimal>, IDisposa
         await base.OnInitializedAsync();
         
         this.lblSearch = Translater.Instant("Labels.Search");
-        this.lblDeleteSwitch = Translater.Instant("Labels.DeleteLibraryFilesPhysicallySwitch");
         lblSortBy = Translater.Instant("Labels.SortBy");
         lblNode = Translater.Instant("Labels.Node");
         lblFlow = Translater.Instant("Labels.Flow");

@@ -1,6 +1,6 @@
 @namespace FileFlows.Client.Pages
 @using FileFlows.Shared.Models
-@inherits ListPage<Guid, LibraryFileMinimal>
+@inherits LibraryFilePageBase
 
 
 @page "/library-files"
@@ -29,8 +29,8 @@
     <FlowTableButton Mobile="false" Visible="@(SelectedStatus == FileStatus.Unprocessed)" Clicked=Rescan Icon="fas fa-search-plus" Label="Labels.Rescan"/>
 
     <FlowTableButtonSeparator Visible="@(SelectedStatus == FileStatus.Processed || SelectedStatus == FileStatus.ProcessingFailed)"/>
-    <FlowTableButton Visible="@(SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-cogs" Label="Pages.LibraryFiles.Buttons.ProcessOptions"/>
-    <FlowTableButton Visible="@(SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed)" Clicked=Reprocess SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Reprocess"/>
+    <FlowTableButton Visible="@(SelectedStatus is FileStatus.Unprocessed or FileStatus.OnHold)" Clicked=@(() => Reprocess(SelectedStatus)) SelectedOneOrMore="true" Icon="fas fa-cogs" Label="Pages.LibraryFiles.Buttons.ProcessOptions"/>
+    <FlowTableButton Visible="@(SelectedStatus is FileStatus.Processed or FileStatus.ProcessingFailed)" Clicked=@(() => Reprocess(SelectedStatus)) SelectedOneOrMore="true" Icon="fas fa-redo" Label="Pages.LibraryFiles.Buttons.Reprocess"/>
 
     <FlowTableButton Visible="@(SelectedStatus != FileStatus.Processing && SelectedStatus != FileStatus.Processed)" Area="ButtonArea.ContextMenu" Clicked="(() => SetStatus(FileStatus.Processed))" SelectedOneOrMore="true" Icon="far fa-check-circle" Label="Labels.SetStatusProcessed"/>
 

@@ -1,7 +1,6 @@
 using BlazorDateRangePicker;
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Editors;
-using FileFlows.Client.Shared;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -11,21 +10,18 @@ namespace FileFlows.Client.Pages;
 /// <summary>
 /// A search page for library files
 /// </summary>
-public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
+public partial class LibraryFilesSearch : LibraryFilePageBase
 {
-    /// <summary>
-    /// Gets or sets the modal service
-    /// </summary>
-    [Inject] private IModalService ModalService { get; set; }
     [Inject] private INavigationService NavigationService { get; set; }
     public override string ApiUrl => "/api/library-file";
-    private string lblSearch, lblSearching, lblClose;
-    private string NameMinWidth = "20ch";
+    private string lblSearch, lblSearching, lblClose, lblAnyTime, lblLimit, lblPeriod, lblStatus, lblLibrary, lblPath;
     private bool Searched = false;
-    [Inject] private IJSRuntime jsRuntime { get; set; }
     SearchPane SearchPane { get; set; }
+    
 
-    private List<ListOption> StatusOptions;
+    private List<ListOption> StatusOptions, LibraryOptions;
+
+    private FileStatus? SearchedStatus = null;
     
     /// <inheritdoc />
     protected override string DeleteMessage => "Labels.DeleteLibraryFiles";
@@ -36,14 +32,23 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
         FromDate = DateTime.MinValue,
         ToDate = DateTime.MaxValue,
         Limit = 1000,
-        LibraryName = string.Empty
+        Library = Guid.Empty
     };
-    
-    protected override void OnInitialized()
+
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
     {
         Layout.SetInfo(Translater.Instant("Pages.LibraryFiles.Title"), "fas fa-file", noPadding: true);
         
-        base.OnInitialized();
+        await base.OnInitializedAsync();
+        
+        lblAnyTime = Translater.Instant("Labels.DateRanges.AnyTime");
+        lblLimit = Translater.Instant("Labels.Limit");
+        lblPeriod = Translater.Instant("Labels.Period");
+        lblStatus = Translater.Instant("Labels.Status");
+        lblPath = Translater.Instant("Labels.Path");
+        lblLibrary = Translater.Instant("Pages.Library.Title");
+        
         this.lblSearch = Translater.Instant("Labels.Search");
         this.lblClose = Translater.Instant("Labels.Close");
         this.lblSearching = Translater.Instant("Labels.Searching");
@@ -52,14 +57,27 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
             new() { Value = null, Label = Translater.Instant("Enums.FileStatus.Any") }
         }.Union(new List<ListOption>()
         {
-            new() { Value = FileStatus.Processed, Label = Translater.Instant("Enums.FileStatus.Processed") },
-            new() { Value = FileStatus.Processing, Label = Translater.Instant("Enums.FileStatus.Processing") },
             new() { Value = FileStatus.Unprocessed, Label = Translater.Instant("Enums.FileStatus.Unprocessed") },
-            new()
+            new() { Value = FileStatus.Processing, Label = Translater.Instant("Enums.FileStatus.Processing") },
+            new() { Value = FileStatus.Processed, Label = Translater.Instant("Enums.FileStatus.Processed") },
+            new() { Value = FileStatus.ProcessingFailed, Label = Translater.Instant("Enums.FileStatus.ProcessingFailed") },
+            new() { Value = FileStatus.Disabled, Label = Translater.Instant("Enums.FileStatus.Disabled") },
+            new() { Value = FileStatus.OnHold, Label = Translater.Instant("Enums.FileStatus.OnHold") },
+            new() { Value = FileStatus.OutOfSchedule, Label = Translater.Instant("Enums.FileStatus.OutOfSchedule") },
+        }) //.OrderBy(x => x.Label!.ToLowerInvariant()))
+        .ToList();
+
+        LibraryOptions = [
+            new () { Label = Translater.Instant("Labels.Any"), Value = Guid.Empty }
+        ];
+        var librariesResult = await HttpHelper.Get<Dictionary<Guid, string>>("/api/library-file/find-all-libraries");
+        if (librariesResult.Success && librariesResult.Data.Count > 0)
+            LibraryOptions.AddRange(librariesResult.Data.Select(x => new ListOption()
             {
-                Value = FileStatus.ProcessingFailed, Label = Translater.Instant("Enums.FileStatus.ProcessingFailed")
-            }
-        }.OrderBy(x => x.Label!.ToLowerInvariant())).ToList();
+                Value = x.Key,
+                Label = x.Value
+            }).OrderBy(x => x.Label));
+
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -68,17 +86,10 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
             await jsRuntime.InvokeVoidAsync("eval", $"document.getElementById('lfs-path').focus()");
     }
 
-    public override async Task<bool> Edit(LibraryFile item)
-    {
-        await ModalService.ShowModal<FileViewer>(new ModalEditorOptions()
-        {
-            Uid = item.Uid
-        });
-        return false;
-    }
     async Task Search()
     {
         this.Searched = true;
+        SearchedStatus = SearchModel.Status;
         Blocker.Show(lblSearching);
         await Refresh();
         Blocker.Hide();
@@ -102,8 +113,8 @@ public partial class LibraryFilesSearch : ListPage<Guid, LibraryFile>
         return base.Load(selectedUid, showBlocker: showBlocker);
     }
 
-    protected override Task<RequestResult<List<LibraryFile>>> FetchData()
+    protected override Task<RequestResult<List<LibraryFileMinimal>>> FetchData()
     {
-        return HttpHelper.Post<List<LibraryFile>>($"{ApiUrl}/search", SearchModel);
+        return HttpHelper.Post<List<LibraryFileMinimal>>($"{ApiUrl}/search", SearchModel);
     }
 }
