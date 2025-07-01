@@ -77,5 +77,8 @@ public class LibraryFileHandler(JsonRpcClient client)
     /// <param name="size">the original file size</param>
     /// <returns>a completed task</returns>
     public async Task SetOriginalSize(long size)
-        => await client.SendRequest(nameof(SetOriginalSize), size);
+    {
+        client.LibraryFile.OriginalSize = size;
+        await client.SendRequest(nameof(SetOriginalSize), size);
+    }
 }

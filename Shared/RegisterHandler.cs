@@ -214,10 +214,14 @@ public abstract class RegisterHandler
                 case Action<long> longAction when parameters.Length == 1:
                     if(long.TryParse(parameters[0].ToString(), out  var longVlaue))
                         longAction(longVlaue);
+                    else 
+                        Logger.Instance.WLog($"Could not convert parameter '{parameters[0]}' to long for method '{name}'.");
                     return null;
                 case Action<Int64> int64Action when parameters.Length == 1:
                     if(long.TryParse(parameters[0].ToString(), out  var int64Value))
                         int64Action(int64Value);
+                    else 
+                        Logger.Instance.WLog($"Could not convert parameter '{parameters[0]}' to long for method '{name}'.");
                     return null;
             }
 
