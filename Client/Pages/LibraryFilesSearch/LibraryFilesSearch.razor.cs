@@ -22,6 +22,8 @@ public partial class LibraryFilesSearch : LibraryFilePageBase
     private List<ListOption> StatusOptions, LibraryOptions;
 
     private FileStatus? SearchedStatus = null;
+    private const int AnyStatus = 10000;
+    private int BoundStatus = AnyStatus;
     
     /// <inheritdoc />
     protected override string DeleteMessage => "Labels.DeleteLibraryFiles";
@@ -54,17 +56,17 @@ public partial class LibraryFilesSearch : LibraryFilePageBase
         this.lblSearching = Translater.Instant("Labels.Searching");
         StatusOptions = new List<ListOption>()
         {
-            new() { Value = null, Label = Translater.Instant("Enums.FileStatus.Any") }
+            new() { Value = AnyStatus, Label = Translater.Instant("Enums.FileStatus.Any") }
         }.Union(new List<ListOption>()
         {
-            new() { Value = FileStatus.Unprocessed, Label = Translater.Instant("Enums.FileStatus.Unprocessed") },
-            new() { Value = FileStatus.Processing, Label = Translater.Instant("Enums.FileStatus.Processing") },
-            new() { Value = FileStatus.Processed, Label = Translater.Instant("Enums.FileStatus.Processed") },
-            new() { Value = FileStatus.ProcessingFailed, Label = Translater.Instant("Enums.FileStatus.ProcessingFailed") },
-            new() { Value = FileStatus.Disabled, Label = Translater.Instant("Enums.FileStatus.Disabled") },
-            new() { Value = FileStatus.OnHold, Label = Translater.Instant("Enums.FileStatus.OnHold") },
-            new() { Value = FileStatus.OutOfSchedule, Label = Translater.Instant("Enums.FileStatus.OutOfSchedule") },
-        }) //.OrderBy(x => x.Label!.ToLowerInvariant()))
+            new() { Value = (int)FileStatus.Unprocessed, Label = Translater.Instant("Enums.FileStatus.Unprocessed") },
+            new() { Value = (int)FileStatus.Processing, Label = Translater.Instant("Enums.FileStatus.Processing") },
+            new() { Value = (int)FileStatus.Processed, Label = Translater.Instant("Enums.FileStatus.Processed") },
+            new() { Value = (int)FileStatus.ProcessingFailed, Label = Translater.Instant("Enums.FileStatus.ProcessingFailed") },
+            new() { Value = (int)FileStatus.Disabled, Label = Translater.Instant("Enums.FileStatus.Disabled") },
+            new() { Value = (int)FileStatus.OnHold, Label = Translater.Instant("Enums.FileStatus.OnHold") },
+            new() { Value = (int)FileStatus.OutOfSchedule, Label = Translater.Instant("Enums.FileStatus.OutOfSchedule") },
+        })
         .ToList();
 
         LibraryOptions = [
@@ -89,7 +91,7 @@ public partial class LibraryFilesSearch : LibraryFilePageBase
     async Task Search()
     {
         this.Searched = true;
-        SearchedStatus = SearchModel.Status;
+        SearchedStatus = BoundStatus == AnyStatus ? null : (FileStatus)BoundStatus;
         Blocker.Show(lblSearching);
         await Refresh();
         Blocker.Hide();
@@ -115,6 +117,17 @@ public partial class LibraryFilesSearch : LibraryFilePageBase
 
     protected override Task<RequestResult<List<LibraryFileMinimal>>> FetchData()
     {
-        return HttpHelper.Post<List<LibraryFileMinimal>>($"{ApiUrl}/search", SearchModel);
+        return HttpHelper.Post<List<LibraryFileMinimal>>($"{ApiUrl}/search", new
+        {
+            SearchModel.FromDate,
+            SearchModel.ToDate,
+            SearchModel.Library,
+            Status = BoundStatus == AnyStatus ? null : (FileStatus)BoundStatus as FileStatus?,
+            SearchModel.FinishedProcessingFrom,
+            SearchModel.FinishedProcessingTo,
+            SearchModel.Limit,
+            SearchModel.OrderBy,
+            SearchModel.Path
+        });
     }
 }

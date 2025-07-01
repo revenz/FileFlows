@@ -31,7 +31,7 @@
             <div class="search-field input">
                 <div class="label">@lblStatus</div>
                 <div class="value">
-                    <select @bind="SearchModel.Status">
+                    <select @bind="BoundStatus">
                         @foreach (var opt in StatusOptions)
                         {
                             <option value=@opt.Value>@opt.Label</option>
