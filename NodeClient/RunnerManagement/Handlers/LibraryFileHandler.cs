@@ -1,6 +1,4 @@
-using System.Text.Json;
 using FileFlows.Shared.Models;
-using Microsoft.AspNetCore.SignalR.Client;
 
 namespace FileFlows.NodeClient.Handlers;
 
@@ -94,7 +92,10 @@ public class LibraryFileHandler
     /// </summary>
     /// <param name="size">the files original size</param>
     public void SetOriginalSize(long size)
-        => rpcServer._libraryFile.OriginalSize = size;
+    {
+        rpcServer._logMessage("LibraryFileHandler.SetOriginalSize: " + size);
+        rpcServer._libraryFile.OriginalSize = size;
+    }
 
     /// <summary>
     /// Model for exists on server
