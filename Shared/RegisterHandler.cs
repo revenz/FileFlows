@@ -211,8 +211,13 @@ public abstract class RegisterHandler
                 case Action<Guid> guidAction when parameters.Length == 1 && parameters[0] is string guidStr:
                     guidAction(Guid.Parse(guidStr));
                     return null;
-                case Action<long> longAction when parameters.Length == 1 && parameters[0] is long lValue:
-                    longAction(lValue);
+                case Action<long> longAction when parameters.Length == 1:
+                    if(long.TryParse(parameters[0].ToString(), out  var longVlaue))
+                        longAction(longVlaue);
+                    return null;
+                case Action<Int64> int64Action when parameters.Length == 1:
+                    if(long.TryParse(parameters[0].ToString(), out  var int64Value))
+                        int64Action(int64Value);
                     return null;
             }
 
