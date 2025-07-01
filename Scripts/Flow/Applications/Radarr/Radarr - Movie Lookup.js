@@ -7,25 +7,27 @@ import { Radarr } from 'Shared/Radarr';
  * Stores the Metadata inside the variable 'MovieInfo'.
  * @author iBuSH
  * @uid 1153e3fb-e7bb-4162-87ad-5c15cd9c081f
- * @revision 7
+ * @revision 9
  * @param {string} URL Radarr root URL and port (e.g., http://radarr:1234)
  * @param {string} ApiKey API Key for Radarr
- * @param {bool} UseFolderName Whether to use the folder name instead of the file name for search
+ * @param {bool} UseFolderName Whether to use the folder name instead of the file name for search<br>- Best option if your downlad library is the same as your media library.
  * @output Movie found
  * @output Movie not found
  */
 function Script(URL, ApiKey, UseFolderName) {
-    URL = URL || Variables['Radarr.Url'] || Variables['Radarr.URI'];
+    URL = (URL || Variables['Radarr.Url'] || Variables['Radarr.URI']).replace(/\/+$/g, '');
     ApiKey = ApiKey || Variables['Radarr.ApiKey'];
     const radarr = new Radarr(URL, ApiKey);
     const folderPath = Variables.folder.Orig.FullName;
-    const searchPattern = UseFolderName ? getMovieFolderName(folderPath) : Variables.file.Orig.FileNameNoExtension;
+    const fileNameNoExt = Variables.file.Orig.FileNameNoExtension;
+    const searchPattern = UseFolderName ? getMovieFolderName(folderPath) : fileNameNoExt;
 
     Logger.ILog(`Radarr URL: ${URL}`);
     Logger.ILog(`Lookup Movie name: ${searchPattern}`);
 
     // Search for the movie in Radarr by path, queue, or download history
-    let movie = searchInQueue(searchPattern, radarr) ||
+    let movie = (UseFolderName && searchMovieByPath(searchPattern, radarr)) ||
+                searchInQueue(searchPattern, radarr) ||
                 searchInGrabHistory(searchPattern, radarr) ||
                 searchInDownloadHistory(searchPattern, radarr) ||
                 parseMovie(searchPattern, radarr);
@@ -44,34 +46,33 @@ function Script(URL, ApiKey, UseFolderName) {
  * @param {Object} movie - Movie object returned from Radarr API
  */
 function updateMovieMetadata(movie) {
-    const lang = LanguageHelper.GetIso2Code(movie.originalLanguage.name);
+    const isoLang = LanguageHelper.GetIso2Code(movie.originalLanguage.name);
 
-    Variables["movie.Title"] = movie.title;
+    Object.assign(Variables, {
+        'movie.Title': movie.title,
+        'movie.Year': movie.year,
+        'Radarr.movieId': movie.id,
+        MovieInfo: movie,
+        OriginalLanguage: isoLang,
+        VideoMetadata: {
+            Title: movie.title,
+            Description: movie.overview,
+            Year: movie.year,
+            ReleaseDate: movie.firstAired,
+            OriginalLanguage: isoLang,
+            Genres: movie.genres
+        }
+    })
+
     Logger.ILog(`Detected Movie Title: ${movie.title}`);
-    Variables["movie.Year"] = movie.year;
     Logger.ILog(`Detected Movie Year: ${movie.year}`);
-
-    Variables.VideoMetadata = {
-        Title: movie.title,
-        Description: movie.overview,
-        Year: movie.year,
-        ReleaseDate: movie.firstAired,
-        OriginalLanguage: lang,
-        Genres: movie.genres
-    };
-
-    Variables["Radarr.movieId"] = movie.id ?? null;
-    Logger.ILog(`Detected movieId: ${movie.id}`);
-    
-    Variables.MovieInfo = movie;
-    Variables.OriginalLanguage = lang;
-    Logger.ILog(`Detected Original Language: ${lang}`);
+    Logger.ILog(`Detected Original Language: ${isoLang}`);
+    Logger.ILog(`Detected Radarr movieId: ${movie.id}`);
 
     // Extract the url of the poster image
     const poster = movie.images?.find(image => image.coverType === 'poster');
     if (poster && poster.remoteUrl) {
         Variables["movie.PosterUrl"] = poster.remoteUrl;
-        Logger.ILog(`Detected Poster URL: ${poster.remoteUrl}`);
         Flow.SetThumbnail(poster.remoteUrl); // Set the FileFlows Thumbnail
     } else {
         Logger.WLog("No poster image found.");
@@ -85,6 +86,24 @@ function updateMovieMetadata(movie) {
  */
 function getMovieFolderName(folderPath) {
     return System.IO.Path.GetFileName(folderPath);
+}
+
+/**
+ * @description Searches for a movie by file or folder path in Radarr
+ * @param {string} searchPattern - The search string to use (from the folder or file name)
+ * @param {Object} radarr - Radarr API instance
+ * @returns {Object|null} Movie object if found, or null if not found
+ */
+function searchMovieByPath(searchPattern, radarr) {
+    Logger.ILog(`Searching by Movie path`);
+
+    try {
+        const movie = radarr.getMovieByPath(searchPattern);
+        return movie || null;
+    } catch (e) {
+        Logger.ELog(`Error searching movie by path: ${e.message}`);
+        return null;
+    }
 }
 
 /**
@@ -118,8 +137,8 @@ function parseMovie(searchPattern, radarr, fullOutput=false) {
         }
         Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
         return null;
-    } catch (error) {
-        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${error.message}`);
+    } catch (e) {
+        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${e.message}`);
         return null;
     }
 }
@@ -206,15 +225,15 @@ function searchRadarrAPI(endpoint, searchPattern, radarr, matchFunction, extraPa
                 return matchingItem.movie;
             }
 
-            if (endpoint === 'queue') {
+            if (endpoint === 'queue' || page === 10) {
                 Logger.WLog(`Reached the end of ${endpoint} endpoint with no match.`);
                 break;
             }
 
             page++;
         }
-    } catch (error) {
-        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${error.message}`);
+    } catch (e) {
+        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${e.message}`);
         return null;
     }
 }

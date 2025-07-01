@@ -2,7 +2,7 @@
 # Name: Git
 # Description: Git simplifies the process of downloading and managing various resources, like software packages or configurations, from remote repositories, making it an essential tool for users seeking efficient access to files and projects.
 # Author: reven
-# Revision: 3
+# Revision: 4
 # Icon: fab fa-git-alt:#FF4500
 # ----------------------------------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ fi
 echo "Git is not installed. Installing..."
 
 # Update package lists and install Git
-if ! apt update || ! apt install -y git; then
+if ! apt-get -qq update || ! apt-get install -yqq git; then
     handle_error
 fi
 

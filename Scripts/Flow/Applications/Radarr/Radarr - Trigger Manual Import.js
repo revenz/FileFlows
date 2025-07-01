@@ -7,20 +7,20 @@ import { Radarr } from 'Shared/Radarr';
  * @help Performs Radarr import to the Movie
  * Run last after file move.
  * @author iBuSH
- * @revision 6
+ * @revision 7
  * @param {string} URL Radarr root URL and port (e.g. http://radarr:7878).
  * @param {string} ApiKey Radarr API Key.
  * @param {string} ImportPath The output path for import triggering (default Working File).
  * @param {bool} UseUnmappedPath Whether to Unmap the path to the original FileFlows Server path when using nodes in different platforms (e.g. Docker and Windows).
  * @param {bool} MoveMode Import mode 'copy' or 'move' (default copy).
- * @param {int} TimeOut Set in seconds the timeout for waiting completion (default 60 seconds, max 600 seconds).
+ * @param {int} TimeOut Set in seconds the timeout for waiting completion (default 60 seconds, max 3600 seconds).
  * @output Command sent
  */
 function Script(URL, ApiKey, ImportPath, UseUnmappedPath, MoveMode, TimeOut) {
     URL = (URL || Variables['Radarr.Url'] || Variables['Radarr.URI']).replace(/\/+$/g, '');
     ApiKey = ApiKey || Variables['Radarr.ApiKey'];
     ImportPath = ImportPath || Variables.file.FullName;
-    TimeOut = TimeOut ? Math.min(TimeOut, 600) * 1000 : 60000;  // ms
+    TimeOut = TimeOut ? Math.min(TimeOut, 3600) * 1000 : 60000;  // ms
     ImportPath = UseUnmappedPath ? Flow.UnMapPath(ImportPath) : ImportPath;
     const importMode = MoveMode ? 'move' : 'copy';
 
@@ -114,7 +114,6 @@ function getManualImportCandidates(radarr, importPath) {
 function buildManualImportFile(src, movieId, importPath) {
     const path =  src.path || importPath
     const fallbackFolder = System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(path)) ?? Variables.folder.Name;
-    Logger.ILog(`fallbackFolder ${fallbackFolder}`);
 
     return {
         path: path,
@@ -233,8 +232,8 @@ function parseMovie(searchPattern, radarr) {
         }
         Logger.WLog(`The ${endpoint} endpoint did not recognise this title.`);
         return null;
-    } catch (error) {
-        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${error.message}`);
+    } catch (e) {
+        Logger.ELog(`Error fetching Radarr ${endpoint} endpoint: ${e.message}`);
         return null;
     }
 }

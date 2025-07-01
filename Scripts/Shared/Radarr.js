@@ -1,7 +1,7 @@
 /**
  * @name Radarr
  * @uid 88e66e7d-f835-4620-9616-9beaa4ee42dc
- * @revision 9
+ * @revision 10
  * @description Class that interacts with Radarr
  * @minimumVersion 1.0.0.0
  */
@@ -241,7 +241,7 @@ export class Radarr
                 return false;
             }
             Logger.ILog(`Checking status: ${response.status}`);
-            Sleep(100); // Delay before next check
+            Sleep(1000);    // Delay before next check
         }
         Logger.WLog(`Timeout: Command ${commandId} did not complete within ${timeout / 1000} seconds.`);
         return false;

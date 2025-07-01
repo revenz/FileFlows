@@ -2,7 +2,7 @@
 # Name: comskip
 # Description: Comskip is a application used for commercial detection in video files. It analyzes MPEG or H.264 files and generates output files containing the location of commercials.
 # Author: reven
-# Revision: 3
+# Revision: 4
 # Default: true
 # Icon: fas fa-tv:#DA70D6
 # ----------------------------------------------------------------------------------------------------
@@ -35,12 +35,12 @@ fi
 echo "comskip is not installed. Installing..."
 
 # Update package lists
-if ! apt update; then
+if ! apt-get -qq update; then
     handle_error
 fi
 
 # Install comskip
-if ! apt install -y comskip; then
+if ! apt-get install -yqq comskip; then
     handle_error
 fi
 
