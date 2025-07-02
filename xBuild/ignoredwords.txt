@@ -240,3 +240,4 @@ kilobits
 HD
 UHD
 Bitrates
+dBFS
