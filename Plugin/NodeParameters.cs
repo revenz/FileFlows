@@ -1012,7 +1012,7 @@ public class NodeParameters
         }
 
         // Ignore it before the move
-        LibraryIgnorePath(MapPath(destination));
+        LibraryIgnorePath?.Invoke(MapPath(destination));
 
         var result = FileService.FileMove(WorkingFile, destination, true);
         if (result.Failed(out var error))
@@ -1049,7 +1049,7 @@ public class NodeParameters
             return Result<bool>.Fail("CopyFile.Destination was not supplied");
 
         // Ignore it before the copy
-        LibraryIgnorePath(MapPath(destination));
+        LibraryIgnorePath?.Invoke(MapPath(destination));
         
         var result = FileService.FileCopy(source, destination, true);
         if (result.Failed(out var error))
