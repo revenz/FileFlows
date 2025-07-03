@@ -189,4 +189,34 @@ public class DetectionTests : TestBase
             return LibraryMatches.MatchesDetection(lib, info, size);
         }
     }
+    
+    [TestMethod]
+    public void MatchesValueTests()
+    {
+        long low = 100;
+        long high = 500;
+
+        Assert.IsFalse(LibraryMatches.MatchesValue(99, MatchRange.GreaterThan, low, high, null, null));
+        Assert.IsTrue(LibraryMatches.MatchesValue(101, MatchRange.GreaterThan, low, high, null, null));
+        Assert.IsFalse(LibraryMatches.MatchesValue(100, MatchRange.GreaterThan, low, high, null, null));
+
+        Assert.IsTrue(LibraryMatches.MatchesValue(99, MatchRange.LessThan, low, high, null, null));
+        Assert.IsFalse(LibraryMatches.MatchesValue(101, MatchRange.LessThan, low, high, null, null));
+        Assert.IsFalse(LibraryMatches.MatchesValue(100, MatchRange.LessThan, low, high, null, null));
+
+        Assert.IsFalse(LibraryMatches.MatchesValue(99, MatchRange.Between, low, high, null, null));
+        Assert.IsTrue(LibraryMatches.MatchesValue(101, MatchRange.Between, low, high, null, null));
+        Assert.IsTrue(LibraryMatches.MatchesValue(499, MatchRange.Between, low, high, null, null));
+        Assert.IsFalse(LibraryMatches.MatchesValue(501, MatchRange.Between, low, high, null, null));
+        Assert.IsTrue(LibraryMatches.MatchesValue(100, MatchRange.Between, low, high, null, null));
+        Assert.IsTrue(LibraryMatches.MatchesValue(500, MatchRange.Between, low, high, null, null));
+
+        Assert.IsTrue(LibraryMatches.MatchesValue(99, MatchRange.NotBetween, low, high, null, null));
+        Assert.IsFalse(LibraryMatches.MatchesValue(101, MatchRange.NotBetween, low, high, null, null));
+        Assert.IsFalse(LibraryMatches.MatchesValue(499, MatchRange.NotBetween, low, high, null, null));
+        Assert.IsTrue(LibraryMatches.MatchesValue(501, MatchRange.NotBetween, low, high, null, null));
+        Assert.IsFalse(LibraryMatches.MatchesValue(100, MatchRange.NotBetween, low, high, null, null));
+        Assert.IsFalse(LibraryMatches.MatchesValue(500, MatchRange.NotBetween, low, high, null, null));
+    }
+
 }
