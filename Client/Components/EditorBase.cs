@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using FileFlows.Client.ClientModels;
@@ -248,6 +249,9 @@ public abstract class EditorBase : InputRegister
             {
                 try
                 {
+                    var s = je.GetRawText();  // "94.54"
+                    if (float.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out var fValue))
+                        return (T)(object)fValue;
                     return (T)(object)(float)je.GetInt64();
                 }
                 catch (Exception)

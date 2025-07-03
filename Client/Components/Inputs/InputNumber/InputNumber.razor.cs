@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace FileFlows.Client.Components.Inputs;
 
 using Microsoft.AspNetCore.Components;
@@ -49,7 +51,7 @@ public partial class InputNumber<TItem> : Input<TItem>
         string strValue = e.Value?.ToString() ?? string.Empty;
         if (string.IsNullOrWhiteSpace(strValue) && ZeroAsEmpty)
             strValue = "0";
-        if (double.TryParse(strValue, out double value))
+        if (double.TryParse(strValue, NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
         {
             if (value > int.MaxValue)
                 value = int.MaxValue;
@@ -85,5 +87,13 @@ public partial class InputNumber<TItem> : Input<TItem>
             await OnSubmit.InvokeAsync();
         // else if (e.Code == "Escape")
         //     await OnClose.InvokeAsync();
+    }
+
+    private string GetBoundValue()
+    {
+        if(Value?.ToString() == "0" && ZeroAsEmpty)
+            return string.Empty;
+        double dValue = Convert.ToDouble(Value);
+        return dValue.ToString("0.##", CultureInfo.InvariantCulture);
     }
 }

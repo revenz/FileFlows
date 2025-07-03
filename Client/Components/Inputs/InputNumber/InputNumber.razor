@@ -1,5 +1,6 @@
 @namespace FileFlows.Client.Components.Inputs
 @inherits Input<TItem>
+@using System.Globalization
 @typeparam TItem
 
 @{
@@ -26,7 +27,7 @@
 <InputWrapper Input="@this">
     <div class="input-number-wrapper">
         <div class="flow-numeric">
-            <input id=@Uid type="number" value="@(Value?.ToString() == "0" && ZeroAsEmpty ? "" : Value)" 
+            <input id=@Uid type="number" value="@GetBoundValue()" 
                    disabled=@(Disabled || ReadOnly ? string.Empty : null) @onchange="ChangeValue" placeholder="@Placeholder" 
                    min="@Min" max="@(showMax ? null : Max)" step="@step" 
                    @onkeydown="OnKeyDown" />
