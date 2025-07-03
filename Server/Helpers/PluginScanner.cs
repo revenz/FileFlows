@@ -187,37 +187,6 @@ public class PluginScanner : IPluginScanner
                 Logger.Instance.DLog("Plugin.Name: " + plugin.Name);
                 Logger.Instance.DLog("Plugin.Version: " + plugin.Version);
 
-                if (Version.TryParse(pi.Version, out Version? piVersion) && piVersion != null)
-                {
-                    if (piVersion.Major < 23)
-                    {
-                        _ = ServiceLoader.Load<INotificationService>().Record(NotificationSeverity.Critical,
-                            $"'{plugin.Name}' is very old and should be upgraded or deleted",
-                            "This plugin is very old and needs upgrading or it has been deprecated and should " +
-                            "be removed.\nUsing it will cause unexpected issues");
-                    }
-                    else
-                    {
-                        bool old = false;
-                        if (piVersion.Major < 24)
-                            old = true;
-                        else
-                        {
-                            var oldDate = new DateTime(piVersion.Major + 2000, piVersion.Minor, 1);
-                            if (oldDate < new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1).AddMonths(-1))
-                                old = true;
-                        }
-
-                        if (old)
-                        {
-                            _ = ServiceLoader.Load<INotificationService>().Record(NotificationSeverity.Warning,
-                                $"'{plugin.Name}' should be upgraded or deleted",
-                                "This plugin is either old and needs upgrading or it has been deprecated and should " +
-                                "be removed.\nUsing it may cause unexpected issues");
-                        }
-                    }
-                }
-
                 if (isNew == false)
                 {
                     if (isDifferent)
