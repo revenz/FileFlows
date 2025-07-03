@@ -93,14 +93,15 @@ public class PluginController : BaseController
     {
         bool updated = false;
         
-        var pluginsResult = await ServiceLoader.Load<PluginService>().GetPluginPackagesActual();
+        var pluginService = ServiceLoader.Load<PluginService>();
+        var pluginsResult = await pluginService.GetPluginPackagesActual();
         var plugins = pluginsResult.IsFailed ? new() : pluginsResult.Value;
 
         var pluginDownloader = new PluginDownloader();
         var pluginScanner = ServiceLoader.Load<IPluginScanner>();
         foreach (var uid in model?.Uids ?? new Guid[] { })
         {
-            var plugin = await ServiceLoader.Load<PluginService>().GetByUid(uid);
+            var plugin = await pluginService.GetByUid(uid);
             if (plugin == null)
                 continue;
 
@@ -118,7 +119,7 @@ public class PluginController : BaseController
                 continue;
             }
 
-            if (Version.Parse(ppi.Version) <= Version.Parse(plugin.Version))
+            if (Version.Parse(ppi.Version).Revision <= Version.Parse(plugin.Version).Revision)
             {
                 // no new version, cannot update
                 Logger.Instance.ILog("PluginUpdate: No newer version to download for plugin: " + plugin.Name);
@@ -135,7 +136,7 @@ public class PluginController : BaseController
             }
 
             // save the ffplugin file
-            bool success = await pluginScanner.UpdatePlugin(ppi.Package, dlResult.Data);
+            bool success = await pluginScanner.UpdatePlugin(ppi.Package, dlResult.Data, noScan: true);
             if(success)
                 Logger.Instance.ILog("PluginUpdate: Successfully updated plugin: " + plugin.Name);
             else
@@ -143,6 +144,9 @@ public class PluginController : BaseController
 
             updated |= success;
         }
+
+        if(updated)
+            await pluginScanner.Scan();
         
         await ServiceLoader.Load<UpdateService>().Trigger();
         return updated;

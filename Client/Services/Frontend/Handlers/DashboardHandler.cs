@@ -57,6 +57,7 @@ public class DashboardHandler(FrontendService feService)
         });
         feService.Registry.Register<UpdateInfo>(nameof(UpdateInfo), (ed) =>
         {
+            Logger.Instance.ILog("UpdateInfo Received: ", ed);
             CurrentUpdatesInfo = ed;
             UpdateInfoUpdated?.Invoke(ed);
         });

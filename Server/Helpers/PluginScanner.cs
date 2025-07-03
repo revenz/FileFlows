@@ -216,7 +216,7 @@ public class PluginScanner : IPluginScanner
 
         foreach (var plugin in dbPluginInfos.Where(x => installed.Contains(x.Name) == false))
         {
-            if (String.IsNullOrEmpty(plugin.PackageName))
+            if (string.IsNullOrEmpty(plugin.PackageName))
             {
                 Logger.Instance.DLog("Delete old plugin: " + plugin.Name);
                 // its an old style plugin, perm delete it
@@ -372,8 +372,9 @@ public class PluginScanner : IPluginScanner
     /// </summary>
     /// <param name="packageName">the plugin package name</param>
     /// <param name="data">the binary data of the plugin (ffplugin byte[] data)</param>
+    /// <param name="noScan">if the scan shouldn't happen</param>
     /// <returns>true if successful</returns>
-    public async Task<bool> UpdatePlugin(string packageName, byte[] data)
+    public async Task<bool> UpdatePlugin(string packageName, byte[] data, bool noScan = false)
     {
         if (string.IsNullOrEmpty(packageName))
             throw new InvalidDataException("PackageName is required");
@@ -388,7 +389,8 @@ public class PluginScanner : IPluginScanner
             Logger.Instance.ILog("PluginScanner: Saving plugin : " + dest);
 
             // rescan for plugins
-            await Scan();
+            if (noScan == false)
+                await Scan();
 
             return true;
         }
