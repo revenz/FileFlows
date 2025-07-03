@@ -11,11 +11,6 @@ using System.Collections.Generic;
 public class PluginInfo : FileFlowObject
 {
     /// <summary>
-    /// Gets or sets if the plugin is enabled
-    /// </summary>
-    public bool Enabled { get; set; }
-    
-    /// <summary>
     /// Gets or sets the plugin version
     /// </summary>
     public string Version { get; set; }

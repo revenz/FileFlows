@@ -276,7 +276,7 @@ public partial class Plugins : ListPage<Guid, PluginInfoModel>, IDisposable
     {
         if (initialSortOrder == null)
         {
-            Data = Data?.OrderByDescending(x => x.Enabled)?.ThenBy(x => x.Name)
+            Data = Data?.OrderBy(x => x.Name)
                 ?.ToList();
             initialSortOrder = Data?.Select(x => x.Uid)?.ToList();
         }

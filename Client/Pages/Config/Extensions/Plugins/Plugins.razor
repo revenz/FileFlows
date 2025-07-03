@@ -8,7 +8,7 @@
 
 
 <FlowTable @ref="Table" Data="@Data" TItem="PluginInfoModel" Selection="SelectionMode.Multiple"
-    DoubleClick="@DoubleClick" TableIdentifier="Plugins"  DisableColumn="(item) => !item.Enabled">
+    DoubleClick="@DoubleClick" TableIdentifier="Plugins">
     <ToolBar>            
         <FlowTableButton Clicked=Add Icon="fas fa-plus" Label="Labels.Add" />
         <FlowTableButton Clicked=Edit SelectedOne="true" Icon="fas fa-edit" Label="Labels.Edit" />
@@ -55,7 +55,6 @@
                     </div>
                     <div class="right">
                         <span class="top-right @(item.UpdateAvailable ? "warning" :"")">@item.Version</span>
-                        <FlowSwitch Value="@item.Enabled" ValueChanged="@(args => { item.Enabled= args; Enable(args, item); })"  />
                     </div>
                 </div>
                     

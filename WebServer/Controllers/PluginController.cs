@@ -332,29 +332,6 @@ public class PluginController : BaseController
         await service.SetSettingsJson(packageName, newJson, await GetAuditDetails());
         await ((SettingsService)ServiceLoader.Load<ISettingsService>()).RevisionIncrement();
     }
-
-    
-    /// <summary>
-    /// Set state of the plugin
-    /// </summary>
-    /// <param name="uid">The UID of the plugin node</param>
-    /// <param name="enable">Whether or not this plugin is enabled</param>
-    /// <returns>an awaited task</returns>
-    [HttpPut("state/{uid}")]
-    public async Task<PluginInfo> SetState([FromRoute] Guid uid, [FromQuery] bool? enable)
-    {
-        var service = ServiceLoader.Load<PluginService>();
-        var plugin = await service.GetByUid(uid);
-        if (plugin == null)
-            throw new Exception("Plugin not found.");
-        if (enable != null && plugin.Enabled != enable.Value)
-        {
-            plugin.Enabled = enable.Value;
-            await service.Update(plugin, await GetAuditDetails());
-        }
-
-        return plugin;
-    }
     
     /// <summary>
     /// Download model

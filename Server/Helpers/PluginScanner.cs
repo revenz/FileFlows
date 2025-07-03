@@ -199,13 +199,11 @@ public class PluginScanner : IPluginScanner
                 else
                 {
                     // new dll
-
                     plugin.DateModified = DateTime.UtcNow;
                     Logger.Instance.ILog("Adding new plugin: " + pi.Name);
                     plugin.Name = pi.Name;
                     plugin.DateCreated = DateTime.UtcNow;
                     plugin.DateModified = DateTime.UtcNow;
-                    plugin.Enabled = true;
                     await service.Update(plugin, auditDetails: AuditDetails.ForServer());
                 }
             }
