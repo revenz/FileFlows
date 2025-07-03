@@ -167,8 +167,10 @@ public partial class ExtensionUpdatesWidget : ComponentBase, IDisposable
         
         if (Mode == MODE_PLUGINS)
             await UpdatePlugins();
-        if (Mode == MODE_SCRIPTS)
+        else if (Mode == MODE_SCRIPTS)
             await UpdateScripts();
+        else if (Mode == MODE_DOCKERMODS)
+            await UpdateDockerMods();
     }
 
     /// <summary>
