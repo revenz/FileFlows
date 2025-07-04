@@ -78,7 +78,7 @@
     "Loading": "Loading",
     "Log": "Log",
     "Logout": "Logout",
-    "LogPartialNotAvailable": "Unable to find partial log for node.",
+    "LogPartialNotAvailable": "Unable to find partial log for flow element.",
     "ManualLibrary": "Manual Library",
     "MappingIssue": "Mapping Issue",
     "Memory": "Memory",
