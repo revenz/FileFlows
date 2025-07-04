@@ -19,29 +19,29 @@ public class DetectionTests : TestBase
             switch (range)
             {
                 case MatchRange.GreaterThan:
-                    lib.DetectFileCreationLower = 30; // 30 minutes 
+                    lib.DetectFileCreationLower = 30 * 60; // 30 minutes 
                     info.CreationTime = DateTime.UtcNow;
                     Assert.IsFalse(Test()); 
                     info.CreationTime = DateTime.UtcNow.AddMinutes(-31);
                     Assert.IsTrue(Test());
                     break;
                 case MatchRange.LessThan:
-                    lib.DetectFileCreationLower = 30; // 30 minutes 
+                    lib.DetectFileCreationLower = 30 * 60; // 30 minutes 
                     info.CreationTime = DateTime.UtcNow;
                     Assert.IsTrue(Test()); 
                     info.CreationTime = DateTime.UtcNow.AddMinutes(-31);
                     Assert.IsFalse(Test());
                     break;
                 case MatchRange.Any:
-                    lib.DetectFileCreationLower = 30; // 30 minutes 
+                    lib.DetectFileCreationLower = 30 * 60; // 30 minutes 
                     info.CreationTime = DateTime.UtcNow;
                     Assert.IsTrue(Test()); 
                     info.CreationTime = DateTime.UtcNow.AddMinutes(-31);
                     Assert.IsTrue(Test());
                     break;
                 case MatchRange.Between:
-                    lib.DetectFileCreationLower = 30; // 30 minutes
-                    lib.DetectFileCreationUpper = 60; // 60 minutes 
+                    lib.DetectFileCreationLower = 30 * 60; // 30 minutes
+                    lib.DetectFileCreationUpper = 60 * 60; // 60 minutes 
                     info.CreationTime = DateTime.UtcNow;
                     Assert.IsFalse(Test()); 
                     info.CreationTime = DateTime.UtcNow.AddMinutes(-31);
@@ -52,8 +52,8 @@ public class DetectionTests : TestBase
                     Assert.IsFalse(Test());
                     break;
                 case MatchRange.NotBetween:
-                    lib.DetectFileCreationLower = 30; // 30 minutes
-                    lib.DetectFileCreationUpper = 60; // 60 minutes 
+                    lib.DetectFileCreationLower = 30 * 60; // 30 minutes
+                    lib.DetectFileCreationUpper = 60 * 60; // 60 minutes 
                     info.CreationTime = DateTime.UtcNow;
                     Assert.IsTrue(Test()); 
                     info.CreationTime = DateTime.UtcNow.AddMinutes(-31);
@@ -84,29 +84,29 @@ public class DetectionTests : TestBase
             switch (range)
             {
                 case MatchRange.GreaterThan:
-                    lib.DetectFileLastWrittenLower = 30; // 30 minutes 
+                    lib.DetectFileLastWrittenLower = 30 * 60; // 30 minutes 
                     info.LastWriteTime = DateTime.UtcNow;
                     Assert.IsFalse(Test()); 
                     info.LastWriteTime = DateTime.UtcNow.AddMinutes(-31);
                     Assert.IsTrue(Test());
                     break;
                 case MatchRange.LessThan:
-                    lib.DetectFileLastWrittenLower = 30; // 30 minutes 
+                    lib.DetectFileLastWrittenLower = 30 * 60; // 30 minutes 
                     info.LastWriteTime = DateTime.UtcNow;
                     Assert.IsTrue(Test()); 
                     info.LastWriteTime = DateTime.UtcNow.AddMinutes(-31);
                     Assert.IsFalse(Test());
                     break;
                 case MatchRange.Any:
-                    lib.DetectFileLastWrittenLower = 30; // 30 minutes 
+                    lib.DetectFileLastWrittenLower = 30 * 60; // 30 minutes 
                     info.LastWriteTime = DateTime.UtcNow;
                     Assert.IsTrue(Test()); 
                     info.LastWriteTime = DateTime.UtcNow.AddMinutes(-31);
                     Assert.IsTrue(Test());
                     break;
                 case MatchRange.Between:
-                    lib.DetectFileLastWrittenLower = 30; // 30 minutes
-                    lib.DetectFileLastWrittenUpper = 60; // 60 minutes 
+                    lib.DetectFileLastWrittenLower = 30 * 60; // 30 minutes
+                    lib.DetectFileLastWrittenUpper = 60 * 60; // 60 minutes 
                     info.LastWriteTime = DateTime.UtcNow;
                     Assert.IsFalse(Test()); 
                     info.LastWriteTime = DateTime.UtcNow.AddMinutes(-31);
@@ -117,8 +117,8 @@ public class DetectionTests : TestBase
                     Assert.IsFalse(Test());
                     break;
                 case MatchRange.NotBetween:
-                    lib.DetectFileLastWrittenLower = 30; // 30 minutes
-                    lib.DetectFileLastWrittenUpper = 60; // 60 minutes 
+                    lib.DetectFileLastWrittenLower = 30 * 60; // 30 minutes
+                    lib.DetectFileLastWrittenUpper = 60 * 60; // 60 minutes 
                     info.LastWriteTime = DateTime.UtcNow;
                     Assert.IsTrue(Test()); 
                     info.LastWriteTime = DateTime.UtcNow.AddMinutes(-31);
