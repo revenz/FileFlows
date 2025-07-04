@@ -142,6 +142,13 @@ public interface IImageHelper
     /// <param name="imagePath">The path to the image.</param>
     /// <returns>A value between 0 and 100 indicating how dark the image is.</returns>
     Result<int> CalculateImageDarkness(string imagePath);
+    
+    /// <summary>
+    /// Tests if a image file is a black or credits frame
+    /// </summary>
+    /// <param name="imageFile">the path to the image file to test</param>
+    /// <returns>true if a credits or black frame</returns>
+    bool IsCreditsOrBlackFrame(string imageFile);
 }
 
 /// <summary>
@@ -173,6 +180,11 @@ public class ImageOptions
     /// Gets or sets the resize mode
     /// </summary>
     public ResizeMode Mode { get; set; }
+
+    /// <summary>
+    /// Gets or sets optional additional arguemtns used by ImageMagick
+    /// </summary>
+    public string[] AdditionalArguments { get; set; } = [];
 }
 
 /// <summary>

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Node", "Node\Node.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerShared", "ServerShared\ServerShared.csproj", "{90B4D560-CFF1-4C92-9865-BD32E4B0BFFF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowRunner", "FlowRunner\FlowRunner.csproj", "{91772B3A-AE4D-4817-9D3A-44073ECDE626}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowRunner", "..\FileFlowsAdditional\FlowRunner\FlowRunner.csproj", "{91772B3A-AE4D-4817-9D3A-44073ECDE626}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptExecution", "ScriptExecution\ScriptExecution.csproj", "{09568E2E-EBE2-447D-9628-19C618AE7461}"
 EndProject
