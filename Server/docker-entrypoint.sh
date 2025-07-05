@@ -243,8 +243,8 @@ else
     fi
 
     printf "Changing ownership of /app to: ${PUID}:$pgid\n"
-    chown -R "${PUID}:$pgid" /app
-    chown -R "${PUID}:$pgid" /temp
+    chown -R "${PUID}:${PGID}" /app 2>/dev/null || true
+    chown -R "${PUID}:${PGID}" /temp 2>/dev/null || true
     passwd -d root
 
     # Run DockerMods before starting
