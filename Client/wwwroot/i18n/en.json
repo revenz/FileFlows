@@ -1371,6 +1371,8 @@
         "HoldMinutes": "Hold Minutes",
         "HoldMinutes-Help": "Optionally hold any files found in this library for this amount of minutes before processing them.  Each file will be held for this amount of time.",
         "HoldMinutes-Suffix": "minutes",
+        "IgnoreFileSizeChanges": "Ignore Size Changes",
+        "IgnoreFileSizeChanges-Help": "If enabled, changes in file size will be ignored and will not trigger reprocessing.",
         "MaxRunners": "Max Runners",
         "MaxRunners-Help": "The maximum runners that can process files in this library at one time.\nSet to 0 for unlimited.",
         "Name": "Name",

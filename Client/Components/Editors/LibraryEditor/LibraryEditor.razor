@@ -95,6 +95,9 @@
                              Hidden="@(Model.Folders == false)" />
 
                 <InputSwitch @bind-Value="@Model.DownloadsDirectory" Label="Pages.Library.Fields.DownloadsDirectory" />
+                
+                <InputSwitch @bind-Value="@Model.IgnoreFileSizeChanges" Label="Pages.Library.Fields.IgnoreFileSizeChanges"
+                             Hidden="@(Model.Folders ||Model.DownloadsDirectory)" />
             </FlowTab>
         </FlowTabs>
     }

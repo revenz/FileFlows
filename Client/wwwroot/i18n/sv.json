@@ -1371,6 +1371,8 @@
         "HoldMinutes": "Håll minuter",
         "HoldMinutes-Help": "Valfritt håll några filer som finns i detta bibliotek i detta antal minuter innan de bearbetas. Varje fil kommer att hållas under denna tid.",
         "HoldMinutes-Suffix": "minuter",
+        "IgnoreFileSizeChanges": "Ignorera storleksändringar",
+        "IgnoreFileSizeChanges-Help": "Om aktiverat ignoreras ändringar i filstorlek och ingen ombearbetning triggas.",
         "MaxRunners": "Max antal körningar",
         "MaxRunners-Help": "Det maximala antalet körningar som kan bearbeta filer i detta bibliotek samtidigt.\nStäll in till 0 för obegränsat.",
         "Name": "Namn",

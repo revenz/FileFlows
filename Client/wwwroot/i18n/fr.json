@@ -1337,6 +1337,8 @@
         "LastWriteTime": "Dernière Date d'Écriture"
       },
       "Fields": {
+        "IgnoreFileSizeChanges": "Ignorer les changements de taille",
+        "IgnoreFileSizeChanges-Help": "Si activé, les changements de taille de fichier seront ignorés et ne déclencheront pas de retraitement.",
         "DetectFileCreation": "Création de Fichier",
         "DetectFileCreationDate": "",
         "DetectFileCreationLower": "",

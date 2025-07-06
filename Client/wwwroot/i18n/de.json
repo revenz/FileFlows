@@ -1337,6 +1337,8 @@
         "LastWriteTime": "Letzter Schreibzeitpunkt"
       },
       "Fields": {
+        "IgnoreFileSizeChanges": "Größenänderungen ignorieren",
+        "IgnoreFileSizeChanges-Help": "Wenn aktiviert, werden Änderungen der Dateigröße ignoriert und lösen keine erneute Verarbeitung aus.",
         "DetectFileCreation": "Erstellung von Dateien",
         "DetectFileCreationDate": "",
         "DetectFileCreationLower": "",

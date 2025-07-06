@@ -1337,6 +1337,8 @@
         "LastWriteTime": "Última Hora de Escritura"
       },
       "Fields": {
+        "IgnoreFileSizeChanges": "Ignorar cambios de tamaño",
+        "IgnoreFileSizeChanges-Help": "Si está habilitado, los cambios en el tamaño del archivo se ignorarán y no activarán un reprocesamiento.",
         "DetectFileCreation": "Creación de Archivo",
         "DetectFileCreationDate": "",
         "DetectFileCreationLower": "",

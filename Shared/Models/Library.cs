@@ -135,6 +135,11 @@ public class Library : FileFlowObject
     /// Gets or sets the schedule for this library
     /// </summary>
     public string Schedule { get; set; }
+    
+    /// <summary>
+    /// Gets or sets if file size changes should be ignored on the items in this library
+    /// </summary>
+    public bool IgnoreFileSizeChanges { get; set; }
 
     /// <summary>
     /// When the library was last scanned

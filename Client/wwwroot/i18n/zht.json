@@ -1371,6 +1371,8 @@
         "HoldMinutes": "等待分鐘數",
         "HoldMinutes-Help": "可選地將找到的檔案在處理前保留此時間段。\n每個檔案將保留此時間段。",
         "HoldMinutes-Suffix": "分鐘",
+        "IgnoreFileSizeChanges": "忽略檔案大小變化",
+        "IgnoreFileSizeChanges-Help": "啟用後，將忽略檔案大小的變化，不會觸發重新處理。",
         "MaxRunners": "最大運行數",
         "MaxRunners-Help": "同時處理此資料庫檔案的最大運行數。\n設為 0 表示無限制。",
         "Name": "名稱",

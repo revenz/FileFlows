@@ -1370,7 +1370,9 @@
         "Folders-Help": "이 라이브러리가 파일 대신 폴더를 처리하는 경우입니다.\n이는 하위 폴더를 스캔하는 것을 의미하지 않습니다. 라이브러리는 이미 이를 수행합니다.\n이는 개별 파일 대신 폴더 객체가 처리됨을 의미합니다.",
         "HoldMinutes": "보류 시간",
         "HoldMinutes-Help": "이 라이브러리에서 발견된 모든 파일을 처리하기 전에 이 시간(분) 동안 보류할 수 있습니다. 각 파일은 이 시간 동안 보류됩니다.",
-        "HoldMinutes-Suffix": "분",
+        "HoldMinutes-Suffix": "분","IgnoreFileSizeChanges": "파일 크기 변경 무시",
+        "IgnoreFileSizeChanges-Help": "활성화하면 파일 크기 변경을 무시하고 재처리가 트리거되지 않습니다.",
+
         "MaxRunners": "최대 실행자",
         "MaxRunners-Help": "이 라이브러리에서 한 번에 처리할 수 있는 최대 실행자 수입니다.\n무제한은 0으로 설정합니다.",
         "Name": "이름",

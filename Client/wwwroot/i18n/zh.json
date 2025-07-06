@@ -1371,6 +1371,8 @@
         "HoldMinutes": "保留分钟数",
         "HoldMinutes-Help": "可选地将在此库中找到的任何文件保留此分钟数，然后再处理它们。每个文件将保留此时间。",
         "HoldMinutes-Suffix": "分钟",
+        "IgnoreFileSizeChanges": "忽略文件大小变化",
+        "IgnoreFileSizeChanges-Help": "启用后，将忽略文件大小的变化，不会触发重新处理。",
         "MaxRunners": "最大运行者",
         "MaxRunners-Help": "可以同时处理此库中文件的最大运行者。\n设置为 0 表示无限制。",
         "Name": "名称",
