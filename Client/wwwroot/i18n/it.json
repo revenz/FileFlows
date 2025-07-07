@@ -1370,9 +1370,9 @@
         "Folders-Help": "Se questa biblioteca elabora Cartelle invece di File.\nQuesto non significa scansionare le sottocartelle, una biblioteca lo farà già.\nQuesto significa che verrà elaborato un oggetto Cartella invece di file singoli.",
         "HoldMinutes": "Attendere Minuti",
         "HoldMinutes-Help": "Facoltativamente, mantieni qualsiasi file trovato in questa biblioteca per questo numero di minuti prima di elaborarli. Ogni file verrà trattenuto per questo periodo di tempo.",
-        "HoldMinutes-Suffix": "minuti","IgnoreFileSizeChanges": "Ignora le modifiche di dimensione",
+        "HoldMinutes-Suffix": "minuti",
+        "IgnoreFileSizeChanges": "Ignora le modifiche di dimensione",
         "IgnoreFileSizeChanges-Help": "Se abilitato, le modifiche alla dimensione del file verranno ignorate e non attiveranno un nuovo processamento.",
-
         "MaxRunners": "Max Esecutori",
         "MaxRunners-Help": "Il numero massimo di esecutori che possono elaborare file in questa biblioteca contemporaneamente.\nImposta a 0 per illimitato.",
         "Name": "Nome",

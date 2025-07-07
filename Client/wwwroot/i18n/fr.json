@@ -1337,8 +1337,6 @@
         "LastWriteTime": "Dernière Date d'Écriture"
       },
       "Fields": {
-        "IgnoreFileSizeChanges": "Ignorer les changements de taille",
-        "IgnoreFileSizeChanges-Help": "Si activé, les changements de taille de fichier seront ignorés et ne déclencheront pas de retraitement.",
         "DetectFileCreation": "Création de Fichier",
         "DetectFileCreationDate": "",
         "DetectFileCreationLower": "",
@@ -1373,6 +1371,8 @@
         "HoldMinutes": "Minutes de Maintien",
         "HoldMinutes-Help": "Optionnellement, maintenez tous les fichiers trouvés dans cette bibliothèque pendant ce nombre de minutes avant de les traiter. Chaque fichier sera maintenu pendant cette durée.",
         "HoldMinutes-Suffix": "minutes",
+        "IgnoreFileSizeChanges": "Ignorer les changements de taille",
+        "IgnoreFileSizeChanges-Help": "Si activé, les changements de taille de fichier seront ignorés et ne déclencheront pas de retraitement.",
         "MaxRunners": "Max Runners",
         "MaxRunners-Help": "Le nombre maximum de runners qui peuvent traiter des fichiers dans cette bibliothèque en même temps.\nDéfinir à 0 pour illimité.",
         "Name": "Nom",

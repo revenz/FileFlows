@@ -1370,9 +1370,9 @@
         "Folders-Help": "Als deze bibliotheek mappen in plaats van bestanden verwerkt.\nDit betekent niet dat submappen worden gescand, een bibliotheek doet dit al.\nDit betekent dat een mapobject wordt verwerkt in plaats van individuele bestanden.",
         "HoldMinutes": "Vasthouden Minuten",
         "HoldMinutes-Help": "Optioneel om bestanden die in deze bibliotheek zijn gevonden voor deze hoeveelheid minuten vast te houden voordat ze worden verwerkt. Elk bestand wordt voor deze hoeveelheid tijd vastgehouden.",
-        "HoldMinutes-Suffix": "minuten","IgnoreFileSizeChanges": "Bestandsgroottewijzigingen negeren",
+        "HoldMinutes-Suffix": "minuten",
+        "IgnoreFileSizeChanges": "Bestandsgroottewijzigingen negeren",
         "IgnoreFileSizeChanges-Help": "Indien ingeschakeld, worden wijzigingen in de bestandsgrootte genegeerd en wordt er geen herverwerking gestart.",
-
         "MaxRunners": "Max. Runner",
         "MaxRunners-Help": "Het maximale aantal runners dat bestanden in deze bibliotheek tegelijkertijd kan verwerken.\nStel in op 0 voor onbeperkt.",
         "Name": "Naam",
