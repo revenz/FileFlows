@@ -41,7 +41,7 @@ public class CreditsTests : TestBase
                  })
         {
             Logger.ILog("Testing file is not credits: " + file);
-            bool isCredits = helper.IsCreditsOrBlackFrame(file);
+            bool isCredits = helper.IsCreditsOrBlackFrame(file) != CreditsFrameType.Other;
             results.Add(new CreditResult(file, isCredits));
             success &= !isCredits;
         }
@@ -70,7 +70,7 @@ public class CreditsTests : TestBase
                  })
         {
             Logger.ILog("Testing file is credits: " + file);
-            bool isCredits = helper.IsCreditsOrBlackFrame(file);
+            bool isCredits = helper.IsCreditsOrBlackFrame(file) != CreditsFrameType.Other;
             results.Add(new CreditResult(file, isCredits));
             success &= isCredits;
         }
