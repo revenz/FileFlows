@@ -112,6 +112,7 @@ public class ScheduledReportWorker:ServerWorker
             Dictionary<string, object> model = new();
             model["Flow"] = report.Flows;
             model["Node"] = report.Nodes;
+            model["Tags"] = report.Tags;
             model["Library"] = report.Libraries;
             model["Direction"] = report.Direction;
             model["StartUtc"] = startLocal.ToUniversalTime();
