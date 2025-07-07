@@ -483,3 +483,24 @@ public enum LicenseStatus
     Revoked = 4
 }
 
+
+
+
+/// <summary>
+/// The classification result of a frame.
+/// </summary>
+public enum CreditsFrameType
+{
+    /// <summary>
+    /// Pure black frame
+    /// </summary>
+    PureBlack,
+    /// <summary>
+    /// Credits frame
+    /// </summary>
+    BlackWithCredits,
+    /// <summary>
+    /// Other frame
+    /// </summary>
+    Other
+}

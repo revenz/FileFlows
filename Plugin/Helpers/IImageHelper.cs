@@ -147,8 +147,8 @@ public interface IImageHelper
     /// Tests if a image file is a black or credits frame
     /// </summary>
     /// <param name="imageFile">the path to the image file to test</param>
-    /// <returns>true if a credits or black frame</returns>
-    bool IsCreditsOrBlackFrame(string imageFile);
+    /// <returns>the frame as it was detected</returns>
+    CreditsFrameType IsCreditsOrBlackFrame(string imageFile);
 }
 
 /// <summary>
