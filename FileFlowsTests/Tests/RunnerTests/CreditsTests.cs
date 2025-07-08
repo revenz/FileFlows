@@ -19,6 +19,9 @@ public class CreditsTests : TestBase
     string Not03 = Path.Combine(ResourcesTestFilesDir, "Credits", "not03.jpg");
     string Not04 = Path.Combine(ResourcesTestFilesDir, "Credits", "not04.jpg");
     string Not05 = Path.Combine(ResourcesTestFilesDir, "Credits", "not05.jpg");
+    string Not06 = Path.Combine(ResourcesTestFilesDir, "Credits", "not06.jpg");
+    string Not07 = Path.Combine(ResourcesTestFilesDir, "Credits", "not07.jpg");
+    string Not08 = Path.Combine(ResourcesTestFilesDir, "Credits", "not08.jpg");
     
     string Brown = Path.Combine(ResourcesTestFilesDir, "Credits", "brown.png");
     string Logos = Path.Combine(ResourcesTestFilesDir, "Credits", "logos.jpg");
@@ -37,12 +40,14 @@ public class CreditsTests : TestBase
         bool success = true;
         foreach (var file in new[]
                  {
-                     Not01, Not02, Not03, Not04, Not05
+                     Not01, Not02, Not03, Not04, Not05, 
+                     Not06, Not07, Not08
                  })
         {
             Logger.ILog("Testing file is not credits: " + file);
-            bool isCredits = helper.IsCreditsOrBlackFrame(file) != CreditsFrameType.Other;
-            results.Add(new CreditResult(file, isCredits));
+            var result = helper.IsCreditsOrBlackFrame(file);
+            results.Add(new CreditResult(file, result));
+            bool isCredits  = result !=  CreditsFrameType.Other;
             success &= !isCredits;
         }
         ((ILogger)Logger).Table(results);
@@ -70,8 +75,9 @@ public class CreditsTests : TestBase
                  })
         {
             Logger.ILog("Testing file is credits: " + file);
-            bool isCredits = helper.IsCreditsOrBlackFrame(file) != CreditsFrameType.Other;
-            results.Add(new CreditResult(file, isCredits));
+            var result = helper.IsCreditsOrBlackFrame(file);
+            results.Add(new CreditResult(file, result));
+            bool isCredits  = result !=  CreditsFrameType.Other;
             success &= isCredits;
         }
         
@@ -79,5 +85,5 @@ public class CreditsTests : TestBase
         Assert.IsTrue(success);
     }
 
-    record CreditResult(string Name, bool Credit);
+    record CreditResult(string Name, CreditsFrameType Credit);
 }
