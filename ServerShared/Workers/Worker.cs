@@ -45,6 +45,11 @@ public abstract class Worker
     /// Gets if this worker is quiet and has reduced logging
     /// </summary>
     protected bool Quiet { get; init; }
+    
+    /// <summary>
+    /// Gets the logger to use
+    /// </summary>
+    protected virtual ILogger Logger { get; set; }
 
     /// <summary>
     /// Creates an instance of a worker
@@ -55,6 +60,7 @@ public abstract class Worker
     protected Worker(ScheduleType schedule, int interval, bool quiet = false)
     {
         Quiet = quiet;
+        Logger = new PrefixedLogger(FileFlows.Shared.Logger.Instance, GetType().Name);
         Initialize(schedule, interval);
     }
 
@@ -79,7 +85,7 @@ public abstract class Worker
     public virtual void Start()
     {
         if(Quiet == false)
-            Logger.Instance?.ILog("Starting worker: " + this.GetType().Name);
+            Logger.ILog("Starting worker: " + this.GetType().Name);
         if (timer != null)
         {
             if (timer.Enabled)
@@ -104,7 +110,7 @@ public abstract class Worker
     public virtual void Stop()
     {
         if(Quiet == false)
-            Logger.Instance?.ILog("Stopping worker: " + this.GetType().Name);
+            Logger.ILog("Stopping worker: " + this.GetType().Name);
         if (timer == null)
             return;
         timer.Stop();
@@ -151,7 +157,7 @@ public abstract class Worker
         try
         {
             if(Quiet == false)
-                Logger.Instance.DLog("Triggering worker: " + workerName);
+                Logger.DLog("Triggering worker: " + workerName);
 
             _ = Task.Run(() =>
             {
@@ -162,7 +168,7 @@ public abstract class Worker
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance?.ELog(
+                    Logger.ELog(
                         $"Error in worker '{workerName}': {ex.Message}{Environment.NewLine}{ex.StackTrace}");
                 }
                 finally
@@ -174,7 +180,7 @@ public abstract class Worker
         catch (Exception ex)
         {
             // FF-410 - catch any errors to avoid this call killing the application
-            Logger.Instance.WLog($"Error triggering worker '{workerName}': " + ex.Message);
+            Logger.WLog($"Error triggering worker '{workerName}': " + ex.Message);
         }
     }
 

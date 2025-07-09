@@ -67,7 +67,7 @@ public class LogFileCleaner : Worker
             try
             {
                 file.Delete();
-                Logger.Instance.ILog("Deleted log file: " + file.Name);
+                Logger.ILog("Deleted log file: " + file.Name);
             }
             catch (Exception)
             {

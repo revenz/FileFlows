@@ -36,29 +36,19 @@ public class RepositoryUpdaterWorker: ServerWorker
         });
     }
 
-    class RevisionCleaner
+    class RevisionCleaner(string folderPath, ILogger logger)
     {
-        private readonly string FolderPath;
-
-        /// <summary>
-        /// Creates an instance
-        /// </summary>
-        /// <param name="folderPath">the folder path</param>
-        public RevisionCleaner(string folderPath)
-        {
-            this.FolderPath = folderPath;
-        }
 
         /// <summary>
         /// Deletes older revisions of JSON files based on a naming convention.
         /// </summary>
         public void DeleteOldRevisions()
         {
-            if (Directory.Exists(FolderPath) == false)
+            if (Directory.Exists(folderPath) == false)
                 return;
 
             // Group files by base filename and sort by revision number
-            var revisionGroups = Directory.GetFiles(FolderPath, "*_*.json")
+            var revisionGroups = Directory.GetFiles(folderPath, "*_*.json")
                 .Where(file => GetRevisionNumber(file) >= 0)
                 .GroupBy(file => GetBaseFileName(file))
                 .Select(group => group.OrderByDescending(file => GetRevisionNumber(file)));
@@ -67,14 +57,14 @@ public class RepositoryUpdaterWorker: ServerWorker
             {
                 foreach (var file in group.Skip(1)) // Skip the newest revision
                 {
-                    Logger.Instance.ILog("Deleting old file revision: " + file);
+                    logger.ILog("Deleting old file revision: " + file);
                     try
                     {
                         File.Delete(file);
                     }
                     catch (Exception ex)
                     {
-                        Logger.Instance.WLog("Failed to delete file: " + ex.Message);
+                        logger.WLog("Failed to delete file: " + ex.Message);
                     }
                 }
             }

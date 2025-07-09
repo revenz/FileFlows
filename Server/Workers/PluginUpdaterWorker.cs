@@ -32,7 +32,7 @@ public class PluginUpdaterWorker : ServerWorker
 
     private async Task ExecuteAsync()
     {
-        Logger.Instance?.ILog("Plugin Updater started");
+        Logger.ILog("Plugin Updater started");
         var service = ServiceLoader.Load<PluginService>();
         var plugins = await service.GetAllAsync();
         var latestPackagesResult = await ServiceLoader.Load<PluginService>().GetPluginPackagesActual();
@@ -61,16 +61,16 @@ public class PluginUpdaterWorker : ServerWorker
 
                 if (dlResult.Success == false)
                 {
-                    Logger.Instance.WLog($"Failed to download package '{plugin.PackageName}' update");
+                    Logger.WLog($"Failed to download package '{plugin.PackageName}' update");
                     continue;
                 }
                 await pluginScanner.UpdatePlugin(package.Package, dlResult.Data);
             }
             catch(Exception ex)
             {
-                Logger.Instance.WLog($"Failed to update plugin '{plugin.PackageName}': " + ex.Message + Environment.NewLine + ex.StackTrace);
+                Logger.WLog($"Failed to update plugin '{plugin.PackageName}': " + ex.Message + Environment.NewLine + ex.StackTrace);
             }
         }
-        Logger.Instance?.ILog("Plugin Updater finished");
+        Logger.ILog("Plugin Updater finished");
     }
 }

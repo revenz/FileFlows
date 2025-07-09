@@ -51,7 +51,7 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
             // var dictLibraries = libraries.ToDictionary(x => x.Uid, x => x.Name);
             // var dictFlows = flows.ToDictionary(x => x.Uid, x => x.Name);
             
-            Logger.Instance.ILog("Time Taken to prepare for ObjectReference rename: "+ DateTime.UtcNow.Subtract(start));
+            Logger.ILog("Time Taken to prepare for ObjectReference rename: "+ DateTime.UtcNow.Subtract(start));
             
             foreach (var lib in libraries)
             {
@@ -72,7 +72,7 @@ public class ObjectReferenceUpdater:ServerWorker, IObjectReferenceUpdater
                     await lfService.UpdateFlowName(flow.Uid, flow.Name);
                 
             }
-            Logger.Instance.ILog("Time Taken to complete for ObjectReference rename: "+ DateTime.UtcNow.Subtract(start));
+            Logger.ILog("Time Taken to complete for ObjectReference rename: "+ DateTime.UtcNow.Subtract(start));
         }
         finally
         {

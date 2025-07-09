@@ -25,7 +25,7 @@ public class FileFlowsTasksWorker: ServerWorker, ITaskService
     /// <summary>
     /// The logger used for tasks
     /// </summary>
-    private Logger Logger;
+    private Logger _logger;
     
     /// <summary>
     /// Creates a new instance of the Scheduled Task Worker
@@ -34,8 +34,9 @@ public class FileFlowsTasksWorker: ServerWorker, ITaskService
     {
         ServiceLoader.AddSpecialCase<ITaskService>(this);
         Instance = this;
-        Logger = new Logger();
-        Logger.RegisterWriter(new FileLogger(DirectoryHelper.LoggingDirectory, "FileFlowsTasks", false));
+        _logger = new Logger();
+        _logger.RegisterWriter(new FileLogger(DirectoryHelper.LoggingDirectory, "FileFlowsTasks", false));
+        Logger = _logger;
 
         var service = ServiceLoader.Load<ISystemEventsService>();
         service.OnLibraryFileAdd += SystemEventsOnOnLibraryFileAdd;

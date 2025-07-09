@@ -45,7 +45,7 @@ public class TempFileCleaner : Worker
 
         var executors = uids.Select(x => "Runner-" + x).ToList();
         
-        Logger.Instance?.ILog("About to clean temporary directory: " + tempDir.FullName);
+        Logger.ILog("About to clean temporary directory: " + tempDir.FullName);
         foreach (var dir in tempDir.GetDirectories())
         {
             if (dir.Name.StartsWith("Runner-", StringComparison.InvariantCultureIgnoreCase) == false)
@@ -53,7 +53,7 @@ public class TempFileCleaner : Worker
             
             if (executors.Contains(dir.Name))
             {
-                Logger.Instance?.ILog($"Skipping directory '{dir.Name}' as it still executing");
+                Logger.ILog($"Skipping directory '{dir.Name}' as it still executing");
                 continue; // still executing
             }
 
@@ -62,11 +62,11 @@ public class TempFileCleaner : Worker
                 try
                 {
                     dir.Delete(recursive: true);
-                    Logger.Instance?.ILog($"Deleted directory '{dir.Name}' from temp directory");
+                    Logger.ILog($"Deleted directory '{dir.Name}' from temp directory");
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance?.WLog($"Failed to delete directory '{dir.Name}' from temp directory: " + ex.Message);
+                    Logger.WLog($"Failed to delete directory '{dir.Name}' from temp directory: " + ex.Message);
                 }
             }
         }

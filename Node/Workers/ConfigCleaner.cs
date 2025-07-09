@@ -41,7 +41,7 @@ public class ConfigCleaner: Worker
             try
             {
                 kv.Value.Delete(true);
-                Logger.Instance.ILog("Deleted old configuration from node: " + kv.Value.FullName);
+                Logger.ILog("Deleted old configuration from node: " + kv.Value.FullName);
             }
             catch (Exception)
             {

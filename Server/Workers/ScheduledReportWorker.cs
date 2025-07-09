@@ -1,6 +1,4 @@
-using FileFlows.DataLayer.Reports;
 using FileFlows.Managers;
-using FileFlows.Server.Helpers;
 using FileFlows.Services;
 using FileFlows.Shared.Models;
 
@@ -11,14 +9,12 @@ namespace FileFlows.Server.Workers;
 /// </summary>
 public class ScheduledReportWorker:ServerWorker
 {
-    private ILogger logger;
     
     /// <summary>
     /// Initializes a new instance of the scheduled report worker
     /// </summary>
     public ScheduledReportWorker() : base (ScheduleType.Hourly, 1)
     {
-        logger = new PrefixedLogger(Logger.Instance, "ScheduledReportWorker");
         Trigger();
     }
 
@@ -120,7 +116,7 @@ public class ScheduledReportWorker:ServerWorker
             model["StartUtc"] = startLocal.ToUniversalTime();
             model["EndUtc"] = endLocal.ToUniversalTime();
             
-            logger.ILog($"Scheduled Report '{report.Name}' [{startLocal}] to [{endLocal}]");
+            Logger.ILog($"Scheduled Report '{report.Name}' [{startLocal}] to [{endLocal}]");
 
             try
             {
@@ -145,7 +141,7 @@ public class ScheduledReportWorker:ServerWorker
             }
             catch (Exception ex)
             {
-                logger.WLog($"Failed running scheduled report '{report.Name}': {ex.Message}");
+                Logger.WLog($"Failed running scheduled report '{report.Name}': {ex.Message}");
             }
 
             report.LastSentUtc = DateTime.UtcNow;

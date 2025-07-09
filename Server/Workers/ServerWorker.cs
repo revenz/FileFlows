@@ -22,7 +22,7 @@ public abstract class ServerWorker (Worker.ScheduleType schedule, int interval, 
             var settings = await ServiceLoader.Load<ISettingsService>().Get();
             if (settings.EulaAccepted == false)
             {
-                Logger.Instance.ILog("EULA Not accepted cannot execute worker: " + GetType().Name);
+                Logger.ILog("EULA Not accepted cannot execute worker: " + GetType().Name);
                 return; // cannot proceed unless they have accepted the EULA
             }
 

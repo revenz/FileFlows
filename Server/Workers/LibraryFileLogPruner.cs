@@ -67,7 +67,7 @@ public class LibraryFileLogPruner:ServerWorker
             try
             {
                 file.Delete();
-                Logger.Instance?.DLog("Deleted library file log: " + file);
+                Logger.DLog("Deleted library file log: " + file);
             }
             catch (Exception)
             {
