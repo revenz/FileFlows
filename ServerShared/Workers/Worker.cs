@@ -45,11 +45,16 @@ public abstract class Worker
     /// Gets if this worker is quiet and has reduced logging
     /// </summary>
     protected bool Quiet { get; init; }
-    
+
+    private ILogger _Logger;
     /// <summary>
     /// Gets the logger to use
     /// </summary>
-    protected virtual ILogger Logger { get; set; }
+    protected virtual ILogger Logger
+    {
+        get => _Logger;
+        set => _Logger = value;
+    }
 
     /// <summary>
     /// Creates an instance of a worker
@@ -60,7 +65,7 @@ public abstract class Worker
     protected Worker(ScheduleType schedule, int interval, bool quiet = false)
     {
         Quiet = quiet;
-        Logger = new PrefixedLogger(FileFlows.Shared.Logger.Instance, GetType().Name);
+        _Logger = new PrefixedLogger(FileFlows.Shared.Logger.Instance, GetType().Name);
         Initialize(schedule, interval);
     }
 
@@ -154,7 +159,6 @@ public abstract class Worker
         if (Executing)
             return; // dont let run twice
         
-        string workerName = GetType().Name;
         try
         {
             if(Quiet == false)

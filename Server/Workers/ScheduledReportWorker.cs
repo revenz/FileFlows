@@ -35,6 +35,7 @@ public class ScheduledReportWorker:ServerWorker
     {
         var service = ServiceLoader.Load<ScheduledReportService>();
         var reports = (await service.GetAll()).Where(x => x.Enabled).ToList();
+        Logger.ILog("Scheduled Reports: " + reports.Count);
         if (reports.Count == 0)
             return;
             
@@ -43,6 +44,7 @@ public class ScheduledReportWorker:ServerWorker
 
         foreach (var report in reports)
         {
+            Logger.ILog("Report: " +  report.Name);
 // #if(!DEBUG)
 //             if (report.LastSentUtc > DateTime.UtcNow.AddHours(-12))
 //                 continue; // prevent the system being reboot and sending the same report multiple times
