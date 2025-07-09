@@ -67,7 +67,7 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>, IDispos
         lblLastSent = Translater.Instant("Pages.ScheduledReport.Labels.LastSent");
         lblNever = Translater.Instant("Pages.ScheduledReport.Labels.Never");
         feService.Report.ScheduledReportsUpdated += ReportOnScheduledReportsUpdated;
-        Data = feService.Report.ScheduledReports;
+        Data = feService.Report.ScheduledReports.OrderBy(x => x.Name.ToLowerInvariant()).ToList();
         ReportDefinitions = feService.Report.ReportDefinitions;
         
         Libraries = feService.Library.LibraryList.Select(x => new ListOption
@@ -101,7 +101,7 @@ public partial class ScheduledReports : ListPage<Guid, ScheduledReport>, IDispos
     /// <param name="obj">the updated scheduled reports</param>
     private void ReportOnScheduledReportsUpdated(List<ScheduledReport> obj)
     {
-        Data = feService.Report.ScheduledReports;
+        Data = feService.Report.ScheduledReports.OrderBy(x => x.Name.ToLowerInvariant()).ToList();
         StateHasChanged();
     }
 
