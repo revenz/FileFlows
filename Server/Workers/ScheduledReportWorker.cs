@@ -11,11 +11,14 @@ namespace FileFlows.Server.Workers;
 /// </summary>
 public class ScheduledReportWorker:ServerWorker
 {
+    private ILogger logger;
+    
     /// <summary>
     /// Initializes a new instance of the scheduled report worker
     /// </summary>
     public ScheduledReportWorker() : base (ScheduleType.Hourly, 1)
     {
+        logger = new PrefixedLogger(Logger.Instance, "ScheduledReportWorker");
         Trigger();
     }
 
@@ -44,10 +47,10 @@ public class ScheduledReportWorker:ServerWorker
 
         foreach (var report in reports)
         {
-#if(!DEBUG)
-            if (report.LastSentUtc > DateTime.UtcNow.AddHours(-12))
-                continue; // prevent the system being reboot and sending the same report multiple times
-#endif
+// #if(!DEBUG)
+//             if (report.LastSentUtc > DateTime.UtcNow.AddHours(-12))
+//                 continue; // prevent the system being reboot and sending the same report multiple times
+// #endif
             bool forceSend = false;
             
             switch (report.Schedule)
@@ -92,7 +95,6 @@ public class ScheduledReportWorker:ServerWorker
 
                     int daysInPreviousMonth = DateTime.DaysInMonth(currentYear, previousMonth);
                     int daysInCurrentMonth = DateTime.DaysInMonth(DateTime.Now.Year, currentMonth);
-
                     int scheduleDay = Math.Min(report.ScheduleInterval, daysInPreviousMonth);
                     startLocal = new DateTime(currentYear, previousMonth, scheduleDay);
 
@@ -118,7 +120,7 @@ public class ScheduledReportWorker:ServerWorker
             model["StartUtc"] = startLocal.ToUniversalTime();
             model["EndUtc"] = endLocal.ToUniversalTime();
             
-            Logger.Instance.ILog($"Scheduled Report '{report.Name}' [{startLocal}] to [{endLocal}]");
+            logger.ILog($"Scheduled Report '{report.Name}' [{startLocal}] to [{endLocal}]");
 
             try
             {
@@ -143,7 +145,7 @@ public class ScheduledReportWorker:ServerWorker
             }
             catch (Exception ex)
             {
-                Logger.Instance.WLog($"Failed running scheduled report '{report.Name}': {ex.Message}");
+                logger.WLog($"Failed running scheduled report '{report.Name}': {ex.Message}");
             }
 
             report.LastSentUtc = DateTime.UtcNow;
