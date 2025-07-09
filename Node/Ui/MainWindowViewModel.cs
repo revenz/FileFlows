@@ -111,7 +111,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         // - Hostnames (e.g., "bob", "my-server")
         // - Domains (e.g., example.com)
         // - Must have a port unless it's an IP
-        string pattern = @"^https?://([a-zA-Z0-9-]+|\d{1,3}(\.\d{1,3}){3})(:\d+)?/$";
+        string pattern = @"^https?://[^/\s]+(:\d+)?(/.*)?$";
 
         if (!Regex.IsMatch(url, pattern, RegexOptions.IgnoreCase))
             return Result<bool>.Fail("Invalid URL format.");
