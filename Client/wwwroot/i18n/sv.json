@@ -200,6 +200,13 @@
       "Today": "Idag",
       "Yesterday": "Igår"
     },
+    "LicenseRequired": {
+      "Basic": "Baslicens eller högre krävs",
+      "Enterprise": "Enterprise-licens krävs",
+      "Premium": "Premiumlicens eller högre krävs",
+      "Professional": "Professionell licens eller högre krävs",
+      "Standard": "Standardlicens eller högre krävs"
+    },
     "ObsoleteConfirm": {
       "Message": "Det rekommenderas att du byter till ett annat flödeselement.",
       "Question": "Detta flödeselement är nu föråldrat och kommer snart att tas bort. Är du säker på att du vill använda detta?",

@@ -200,6 +200,13 @@
       "Today": "Hoy",
       "Yesterday": "Ayer"
     },
+    "LicenseRequired": {
+      "Basic": "Se requiere licencia básica o superior",
+      "Enterprise": "Se requiere licencia empresarial",
+      "Premium": "Se requiere licencia premium o superior",
+      "Professional": "Se requiere licencia profesional o superior",
+      "Standard": "Se requiere licencia estándar o superior"
+    },
     "ObsoleteConfirm": {
       "Message": "Se recomienda que cambie a un elemento de flow diferente.",
       "Question": "Este elemento de flow ahora es obsoleto y será eliminado pronto. ¿Está seguro de que desea usar esto?",

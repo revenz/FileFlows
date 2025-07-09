@@ -200,6 +200,13 @@
       "Today": "今天",
       "Yesterday": "昨天"
     },
+    "LicenseRequired": {
+      "Basic": "需要基礎版或更高版本的授權",
+      "Enterprise": "需要企業版授權",
+      "Premium": "需要高級版或更高版本的授權",
+      "Professional": "需要專業版或更高版本的授權",
+      "Standard": "需要標準版或更高版本的授權"
+    },
     "ObsoleteConfirm": {
       "Message": "建議您切換到不同的流程元素。",
       "Question": "此流程元素現已過時，將很快被移除。您確定要使用此元素嗎？",

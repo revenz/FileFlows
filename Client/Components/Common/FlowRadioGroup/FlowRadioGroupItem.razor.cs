@@ -54,6 +54,11 @@ public partial class FlowRadioGroupItem<TItem> : ComponentBase
     [Parameter]public RenderFragment ChildContent { get; set; }
     
     /// <summary>
+    /// Gets or sets the license needed to use this feature
+    /// </summary>
+    [Parameter] public LicenseLevel LicenseLevel { get; set; }
+    
+    /// <summary>
     /// Initializes the tab when it is first rendered.
     /// </summary>
     protected override void OnInitialized()

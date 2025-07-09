@@ -200,6 +200,13 @@
       "Today": "오늘",
       "Yesterday": "어제"
     },
+    "LicenseRequired": {
+      "Basic": "Basic 라이선스 이상이 필요합니다",
+      "Enterprise": "Enterprise 라이선스가 필요합니다",
+      "Premium": "Premium 라이선스 이상이 필요합니다",
+      "Professional": "Professional 라이선스 이상이 필요합니다",
+      "Standard": "Standard 라이선스 이상이 필요합니다"
+    },
     "ObsoleteConfirm": {
       "Message": "다른 흐름 요소로 전환하는 것이 좋습니다.",
       "Question": "이 흐름 요소는 이제 구식이며 곧 제거될 예정입니다. 계속 사용하시겠습니까?",

@@ -200,6 +200,13 @@
       "Today": "Heute",
       "Yesterday": "Gestern"
     },
+    "LicenseRequired": {
+      "Basic": "Basislizenz oder höher erforderlich",
+      "Enterprise": "Enterprise-Lizenz erforderlich",
+      "Premium": "Premium-Lizenz oder höher erforderlich",
+      "Professional": "Professionelle Lizenz oder höher erforderlich",
+      "Standard": "Standardlizenz oder höher erforderlich"
+    },
     "ObsoleteConfirm": {
       "Message": "Es wird empfohlen, zu einem anderen Node zu wechseln.",
       "Question": "Dieser Node ist jetzt veraltet und wird bald entfernt. Sind Sie sicher, dass Sie diesen Knoten verwenden möchten?",

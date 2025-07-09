@@ -5,9 +5,10 @@
     @foreach (var item in Items)
     {
         bool selected = item.Value.Equals(Value);
+        bool licensed = LicensedFor(item.LicenseLevel);
         
-        <li @onclick="() => Select(item.Value)" class="clickable-radio @(selected ? "active" : "")"
-            @ondblclick="() => DblClick(item.Value)">
+        <li @onclick="() => Select(item)" class="clickable-radio @(selected ? "active" : "") @(licensed ? "licensed" : "un-licensed")"
+            @ondblclick="() => DblClick(item)">
             <span class="icon">
                 <TableItemIcon Icon="@item.Icon" Unwrapped="true"/>
             </span>
@@ -20,6 +21,12 @@
                 <div class="options">
                     @item.ChildContent
                 </div>
+            }
+            @if (licensed == false)
+            {
+                <span class="license-level">
+                    @GetLicenseTranslation(item.LicenseLevel)
+                </span>
             }
         </li>
     }

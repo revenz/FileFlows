@@ -200,6 +200,13 @@
       "Today": "今天",
       "Yesterday": "昨天"
     },
+    "LicenseRequired": {
+      "Basic": "需要基础版或更高版本的许可证",
+      "Enterprise": "需要企业版许可证",
+      "Premium": "需要高级版或更高版本的许可证",
+      "Professional": "需要专业版或更高版本的许可证",
+      "Standard": "需要标准版或更高版本的许可证"
+    },
     "ObsoleteConfirm": {
       "Message": "建议您切换到其他流元素。",
       "Question": "此流元素已过时并将很快被移除。您确定要使用它吗？",

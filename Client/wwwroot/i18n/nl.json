@@ -200,6 +200,13 @@
       "Today": "Vandaag",
       "Yesterday": "Gisteren"
     },
+    "LicenseRequired": {
+      "Basic": "Basislicentie of hoger vereist",
+      "Enterprise": "Enterprise-licentie vereist",
+      "Premium": "Premiumlicentie of hoger vereist",
+      "Professional": "Professionele licentie of hoger vereist",
+      "Standard": "Standaardlicentie of hoger vereist"
+    },
     "ObsoleteConfirm": {
       "Message": "Het wordt aanbevolen om over te schakelen naar een ander stroomelement.",
       "Question": "Dit stroomelement is nu verouderd en zal binnenkort worden verwijderd. Weet je zeker dat je dit wilt gebruiken?",

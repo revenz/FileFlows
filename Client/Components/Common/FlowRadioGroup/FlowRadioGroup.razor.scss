@@ -14,6 +14,8 @@ li {
   cursor: pointer;
   border-radius: var(--border-radius);
   padding: 0.5rem 0.5rem 0.5rem 0;
+  position: relative;
+  overflow: hidden;
 
   + li {
     margin-top:1rem;
@@ -43,6 +45,7 @@ li {
 
   span {
     font-weight: var(--bold, 600);
+    margin: 0.25rem 0 0.5rem;
   }
 
   p {
@@ -69,5 +72,22 @@ li {
       margin:1.5rem 0 1rem 0;
       grid-column: 2 / 3;
     }
+  }
+  
+  &.un-licensed {
+    background-image: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) 10px, transparent 10px, transparent 20px);
+    color: #777;
+    cursor: not-allowed;
+    border: solid 1px #333;
+  }
+  .license-level {
+    position: absolute;
+    top: -3px;
+    right: 0;
+    border-bottom-left-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--danger);
+    overflow: hidden;
+    color: #a9a9a9;
   }
 }

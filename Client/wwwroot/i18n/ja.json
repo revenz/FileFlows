@@ -200,6 +200,13 @@
       "Today": "今日",
       "Yesterday": "昨日"
     },
+    "LicenseRequired": {
+      "Basic": "Basicライセンス以上が必要です",
+      "Enterprise": "Enterpriseライセンスが必要です",
+      "Premium": "Premiumライセンス以上が必要です",
+      "Professional": "Professionalライセンス以上が必要です",
+      "Standard": "Standardライセンス以上が必要です"
+    },
     "ObsoleteConfirm": {
       "Message": "別のフロー要素に切り替えることをお勧めします。",
       "Question": "このフロー要素は現在廃止されており、まもなく削除されます。本当にこれを使用してもよろしいですか？",

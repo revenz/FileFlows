@@ -200,6 +200,13 @@
       "Today": "Today",
       "Yesterday": "Yesterday"
     },
+    "LicenseRequired": {
+      "Basic": "Basic License or higher required",
+      "Enterprise": "Enterprise License required",
+      "Premium": "Premium License or higher required",
+      "Professional": "Professional License or higher required",
+      "Standard": "Standard License or higher required"
+    },
     "ObsoleteConfirm": {
       "Message": "It is recommended you switch to a different flow element.",
       "Question": "This flow element is now obsolete and will soon be removed.  Are you sure you want to use this?",
