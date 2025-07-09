@@ -85,7 +85,7 @@ public abstract class Worker
     public virtual void Start()
     {
         if(Quiet == false)
-            Logger.ILog("Starting worker: " + this.GetType().Name);
+            Logger.ILog("Starting worker");
         if (timer != null)
         {
             if (timer.Enabled)
@@ -110,7 +110,7 @@ public abstract class Worker
     public virtual void Stop()
     {
         if(Quiet == false)
-            Logger.ILog("Stopping worker: " + this.GetType().Name);
+            Logger.ILog("Stopping worker");
         if (timer == null)
             return;
         timer.Stop();
@@ -133,6 +133,7 @@ public abstract class Worker
         }
         catch (Exception)
         {
+            // Ignored
         }
         finally
         {
@@ -157,7 +158,7 @@ public abstract class Worker
         try
         {
             if(Quiet == false)
-                Logger.DLog("Triggering worker: " + workerName);
+                Logger.DLog("Triggering worker");
 
             _ = Task.Run(() =>
             {
@@ -169,7 +170,7 @@ public abstract class Worker
                 catch (Exception ex)
                 {
                     Logger.ELog(
-                        $"Error in worker '{workerName}': {ex.Message}{Environment.NewLine}{ex.StackTrace}");
+                        $"Error in worker: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
                 }
                 finally
                 {
@@ -180,7 +181,7 @@ public abstract class Worker
         catch (Exception ex)
         {
             // FF-410 - catch any errors to avoid this call killing the application
-            Logger.WLog($"Error triggering worker '{workerName}': " + ex.Message);
+            Logger.WLog($"Error triggering worker: " + ex.Message);
         }
     }
 

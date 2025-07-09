@@ -129,15 +129,12 @@ public class ScheduledReportWorker:ServerWorker
                     continue;
                 }
 
-                if (string.IsNullOrWhiteSpace(result.Value))
-                {
-                    _ = ServiceLoader.Load<INotificationService>()
-                        .Record(NotificationSeverity.Information,
-                            $"Scheduled Report '{report.Name}' had not matching data", rError);
-                    return;
-                }
+                string html = result.Value;
 
-                _ = service.Email(report.Report.Name, report.Recipients, report.Name, result.Value);
+                if (string.IsNullOrWhiteSpace(result.Value))
+                    html = $"Your scheduled report <b>{report.Name}</b> was generated, but there was no data available for the selected criteria.";
+
+                _ = service.Email(report.Report.Name, report.Recipients, report.Name, html);
             }
             catch (Exception ex)
             {
