@@ -278,13 +278,13 @@ public class ProcessHelper : IProcessHelper
         {
             try
             {
-                long affinityMask = oInfinity switch
-                {
-                    int i => i,
-                    long l => l,
-                    string s when long.TryParse(s, out var parsed) => parsed,
-                    _ => -1
-                };
+                long affinityMask = -1;
+                if (oInfinity is int iInfinity)
+                    affinityMask = iInfinity;
+                else if (oInfinity is long lInfinity)
+                    affinityMask = lInfinity;
+                else if (long.TryParse(oInfinity?.ToString() ?? "", out var parsed))
+                    affinityMask = parsed;
 
                 if (affinityMask > 0)
                 {
