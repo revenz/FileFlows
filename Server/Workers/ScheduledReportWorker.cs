@@ -57,6 +57,7 @@ public class ScheduledReportWorker:ServerWorker
                     startLocal = DateTime.Now.Date.AddDays(-1);
                     endLocal = DateTime.Now.Date.AddMilliseconds(-1);
                     forceSend = report.LastSentUtc < startLocal.ToUniversalTime().AddDays(-1);
+                    Logger.ILog("Report: " +  report.Name + $" daily, {startLocal} to {endLocal}");
                     break;
                 case ReportSchedule.Weekly:
                     if ((int)DateTime.Now.DayOfWeek != report.ScheduleInterval)
@@ -65,6 +66,7 @@ public class ScheduledReportWorker:ServerWorker
                     startLocal = DateTime.Now.Date.AddDays(-7);
                     endLocal = DateTime.Now.Date.AddMilliseconds(-1);
                     forceSend = report.LastSentUtc < startLocal.ToUniversalTime().AddDays(-1);
+                    Logger.ILog("Report: " +  report.Name + $" weekly, {startLocal} to {endLocal}, force send: {forceSend}");
                     break;
                 case ReportSchedule.Monthly:
                     int currentDay = DateTime.Now.Day;
@@ -99,15 +101,16 @@ public class ScheduledReportWorker:ServerWorker
                     scheduleDay = Math.Min(report.ScheduleInterval, daysInCurrentMonth);
                     endLocal = new DateTime(DateTime.Now.Year, currentMonth, scheduleDay).AddMilliseconds(-1);
                     forceSend = report.LastSentUtc < startLocal.ToUniversalTime().AddDays(-1);
+                    Logger.ILog("Report: " +  report.Name + $" monthly, {startLocal} to {endLocal}, force send: {forceSend}");
                     
                     break;
                 default:
                     continue;
             }
-#if(!DEBUG)
-            if (forceSend == false && DateTime.Now.Hour != 1)
-                return; // only run this at 1 am
-#endif
+// #if(!DEBUG)
+//             if (forceSend == false && DateTime.Now.Hour != 1)
+//                 return; // only run this at 1 am
+// #endif
 
             Dictionary<string, object> model = new();
             model["Flow"] = report.Flows;
