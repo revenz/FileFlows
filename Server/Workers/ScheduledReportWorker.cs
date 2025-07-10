@@ -44,11 +44,10 @@ public class ScheduledReportWorker:ServerWorker
 
         foreach (var report in reports)
         {
-            Logger.ILog("Report: " +  report.Name);
-// #if(!DEBUG)
-//             if (report.LastSentUtc > DateTime.UtcNow.AddHours(-12))
-//                 continue; // prevent the system being reboot and sending the same report multiple times
-// #endif
+#if(!DEBUG)
+            if (report.LastSentUtc > DateTime.UtcNow.AddHours(-12))
+                continue; // prevent the system being reboot and sending the same report multiple times
+#endif
             bool forceSend = false;
             
             switch (report.Schedule)
@@ -107,10 +106,10 @@ public class ScheduledReportWorker:ServerWorker
                 default:
                     continue;
             }
-// #if(!DEBUG)
-//             if (forceSend == false && DateTime.Now.Hour != 1)
-//                 return; // only run this at 1 am
-// #endif
+#if(!DEBUG)
+            if (forceSend == false && DateTime.Now.Hour != 1)
+                return; // only run this at 1 am
+#endif
 
             Dictionary<string, object> model = new();
             model["Flow"] = report.Flows;
