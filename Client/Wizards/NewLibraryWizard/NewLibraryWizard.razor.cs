@@ -1,5 +1,6 @@
 using FileFlows.Client.Components;
 using FileFlows.Client.Components.Common;
+using FileFlows.Client.Components.Editors;
 using FileFlows.Client.Services.Frontend;
 using FileFlows.Plugin;
 using Microsoft.AspNetCore.Components;
@@ -30,6 +31,11 @@ public partial class NewLibraryWizard : IModal
     }
     
     /// <summary>
+    /// Gets or sets the modal service
+    /// </summary>
+    [Inject] private IModalService ModalService { get; set; }
+    
+    /// <summary>
     /// Gets or sets the frontend service
     /// </summary>
     [Inject] private FrontendService feService { get; set; }
@@ -41,6 +47,8 @@ public partial class NewLibraryWizard : IModal
     /// <inheritdoc />
     [Parameter]
     public TaskCompletionSource<object> TaskCompletionSource { get; set; }
+
+    private bool EditAfterwards;
     
     /// <summary>
     /// Closes the dialog
@@ -62,7 +70,8 @@ public partial class NewLibraryWizard : IModal
     /// Translation strings
     /// </summary>
     private string lblLibraryType, lblLibraryTypeDescription, lblGeneral, lblGeneralDescription,
-        lblFileTypes, lblFileTypesDescription, lblFileExtensions, lblFileExtensionsDescription;
+        lblFileTypes, lblFileTypesDescription, lblFileExtensions, lblFileExtensionsDescription,
+        lblFinish, lblFinishDescription;
 
     /// <summary>
     /// Gets the selected library type
@@ -189,6 +198,8 @@ public partial class NewLibraryWizard : IModal
         lblFileTypesDescription = Translater.Instant("Dialogs.NewLibraryWizard.Labels.FileTypesDescription");
         lblFileExtensions = Translater.Instant("Dialogs.NewLibraryWizard.Labels.FileExtensions");
         lblFileExtensionsDescription = Translater.Instant("Dialogs.NewLibraryWizard.Labels.FileExtensionsDescription");
+        lblFinish = Translater.Instant("Dialogs.NewLibraryWizard.Labels.Finish");
+        lblFinishDescription = Translater.Instant("Dialogs.NewLibraryWizard.Labels.FinishDescription");
 
         int indexValue = 0;
         foreach (var (name, icon) in new[]
@@ -238,12 +249,13 @@ public partial class NewLibraryWizard : IModal
     private async Task Save()
     {
         await Editor.Validate();
-        
+
         if (string.IsNullOrWhiteSpace(LibraryName))
         {
             feService.Notifications.ShowError("Dialogs.NewLibraryWizard.Messages.NameRequired");
             return;
         }
+
         if (string.IsNullOrWhiteSpace(LibraryPath))
         {
             feService.Notifications.ShowError("Dialogs.NewLibraryWizard.Messages.PathRequired");
@@ -259,79 +271,91 @@ public partial class NewLibraryWizard : IModal
             return;
         }
 
+        var library = new Library()
+        {
+            Name = LibraryName.Trim(),
+            Path = LibraryPath.Trim(),
+            Flow = new()
+            {
+                Uid = flowUid,
+                Name = flowName,
+                Type = typeof(Flow).FullName
+            },
+            Enabled = true,
+            Schedule = new string('1', 672),
+            ScanInterval = 3 * 60 * 60,
+            FileSizeDetectionInterval = 5
+        };
+        if (SelectedLibraryType == 1)
+            library.Folders = true;
+        else
+        {
+            if (SelectedLibraryType == 2)
+                library.DownloadsDirectory = true;
+
+            switch (SelectedFileType)
+            {
+                case 0: // video
+                    library.Extensions =
+                    [
+                        "ts", "mp4", "mkv", "avi", "mpe", "mpeg", "mpg", "mov", "mpv", "flv", "wmv", "webm", "avchd",
+                        "h264", "h265"
+                    ];
+                    break;
+                case 1: // audio
+                    library.Extensions = ["mp3", "wav", "ogg", "aac", "wma", "flac", "alac", "m4a", "m4p"];
+                    break;
+                case 2: // images
+                    library.Extensions = ["jpg", "jpeg", "jpe", "tiff", "gif", "png", "webp", "tga", "pbm", "bmp"];
+                    break;
+                case 3: // comics
+                    library.Extensions = ["cbz", "cbr", "cb7", "pdf", "bz2", "gz"];
+                    break;
+                case 4: // audiobook
+                    library.Extensions = ["m4b", "mp3", "flac", "wma", "m4a", "aac", "wav"];
+                    break;
+                case 5: // ebook
+                    library.Extensions = ["epub", "mobi", "pdf", "azw"];
+                    break;
+                case 6: // custom
+                    library.Extensions = Extensions?.ToList() ?? [];
+                    break;
+            }
+        }
+
+
+        if (EditAfterwards)
+        {
+            _ = ModalService.ShowModal<LibraryEditor, Library>(new ModalEditorOptions()
+            {
+                Model = library
+            });
+            TaskCompletionSource.TrySetResult(null);
+            return;
+        }
 
         Wizard.ShowBlocker("Labels.Saving");
 
         try
         {
-            var library = new Library()
-            {
-                Name = LibraryName.Trim(),
-                Path = LibraryPath.Trim(),
-                Flow = new()
-                {
-                    Uid = flowUid,
-                    Name = flowName,
-                    Type = typeof(Flow).FullName
-                },
-                Enabled = true,
-                Schedule = new string('1', 672),
-                ScanInterval = 3 * 60 * 60,
-                FileSizeDetectionInterval = 5
-            };
-            if (SelectedLibraryType == 1)
-                library.Folders = true;
-            else
-            {
-                if (SelectedLibraryType == 2)
-                    library.DownloadsDirectory = true;
 
-                switch (SelectedFileType)
-                {
-                    case 0: // video
-                        library.Extensions =
-                        [
-                            "ts", "mp4", "mkv", "avi", "mpe", "mpeg", "mpg", "mov", "mpv", "flv", "wmv", "webm", "avchd",
-                            "h264", "h265"
-                        ];
-                        break;
-                    case 1: // audio
-                        library.Extensions = ["mp3", "wav", "ogg", "aac", "wma", "flac", "alac", "m4a", "m4p"];
-                        break;
-                    case 2: // images
-                        library.Extensions = ["jpg", "jpeg", "jpe", "tiff", "gif", "png", "webp", "tga", "pbm", "bmp"];
-                        break;
-                    case 3: // comics
-                        library.Extensions = ["cbz", "cbr", "cb7", "pdf", "bz2", "gz"];
-                        break;
-                    case 4: // audiobook
-                        library.Extensions = ["m4b", "mp3", "flac", "wma", "m4a", "aac", "wav"];
-                        break;
-                    case 5: // ebook
-                        library.Extensions = ["epub", "mobi", "pdf", "azw"];
-                        break;
-                    case 6: // custom
-                        library.Extensions = Extensions?.ToList() ?? [];
-                        break;
-                }
-            }
-            
             var saveResult = await HttpHelper.Post<Library>("/api/library", library);
             if (saveResult.Success == false)
             {
                 Wizard.HideBlocker();
-                feService.Notifications.ShowError( Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
+                feService.Notifications.ShowError(
+                    Translater.TranslateIfNeeded(saveResult.Body?.EmptyAsNull() ?? "ErrorMessages.SaveFailed"));
                 return;
             }
-            
-            TaskCompletionSource.TrySetResult(saveResult.Data); 
+
+            TaskCompletionSource.TrySetResult(saveResult.Data);
         }
-        catch(Exception)
+        catch (Exception)
         {
             Wizard.HideBlocker();
         }
     }
-    
+
     /// <summary>
     /// Required validator
     /// </summary>
@@ -357,15 +381,17 @@ public class RadioListOption
     /// Gets or sets the title
     /// </summary>
     public string Title { get; init; }
+
     /// <summary>
     /// Gets or sets the description
     /// </summary>
     public string Description { get; init; }
+
     /// <summary>
     /// Gets or sets the icon
     /// </summary>
     public string Icon { get; init; }
-    
+
     /// <summary>
     /// Gets or sets the value
     /// </summary>

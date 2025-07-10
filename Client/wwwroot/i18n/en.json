@@ -491,6 +491,8 @@
         "FileExtensionsDescription": "Specify the extensions to process in this library.",
         "FileTypes": "File Types",
         "FileTypesDescription": "Specify what types of files should be detected and processed in this library.",
+        "Finish": "Finish",
+        "FinishDescription": "Review all settings for your library and confirm to save your changes.",
         "General": "General",
         "GeneralDescription": "Enter the general information about this library",
         "LibraryType": "Type",
@@ -520,7 +522,13 @@
         "Path": "Path",
         "Path-Help": "Specify the directory path for the library.",
         "PathWindows": "Path",
-        "PathWindows-Help": "Specify the directory path for the library. For network paths, use the format \\\\my-nas\\media\\movies."
+        "PathWindows-Help": "Specify the directory path for the library. For network paths, use the format \\\\my-nas\\media\\movies.",
+        "Finish": {
+          "Edit": "Edit",
+          "EditDescription": "Open the editor to customize your library settings before saving.",
+          "Finish": "Save",
+          "FinishDescription": "Save the library and start scanning for items."
+        }
       },
       "FileTypes": {
         "Audio": "Audio",

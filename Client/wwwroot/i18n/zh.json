@@ -491,6 +491,8 @@
         "FileExtensionsDescription": "指定在此库中要处理的文件扩展名。",
         "FileTypes": "文件类型",
         "FileTypesDescription": "指定要在此库中检测并处理的文件类型。",
+        "Finish": "完成",
+        "FinishDescription": "请检查您的库设置，并确认以保存更改。",
         "General": "常规",
         "GeneralDescription": "输入有关此库的一般信息。",
         "LibraryType": "类型",
@@ -520,7 +522,13 @@
         "Path": "路径",
         "Path-Help": "指定库目录的路径。",
         "PathWindows": "路径",
-        "PathWindows-Help": "指定库目录的路径。对于网络路径，请使用格式 \\\\我的-nas\\媒体\\电影。"
+        "PathWindows-Help": "指定库目录的路径。对于网络路径，请使用格式 \\\\我的-nas\\媒体\\电影。",
+        "Finish": {
+          "Edit": "编辑",
+          "EditDescription": "在保存之前，打开编辑器以自定义库设置。",
+          "Finish": "保存",
+          "FinishDescription": "保存库并开始扫描项目。"
+        }
       },
       "FileTypes": {
         "Audio": "音频",

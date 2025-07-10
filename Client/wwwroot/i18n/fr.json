@@ -491,6 +491,8 @@
         "FileExtensionsDescription": "Spécifiez les extensions à traiter dans cette bibliothèque.",
         "FileTypes": "Types de Fichiers",
         "FileTypesDescription": "Indiquez les types de fichiers à détecter et à traiter dans cette bibliothèque.",
+        "Finish": "Terminer",
+        "FinishDescription": "Vérifiez tous les paramètres de votre bibliothèque et confirmez pour enregistrer vos modifications.",
         "General": "Général",
         "GeneralDescription": "Entrez des informations générales sur cette bibliothèque.",
         "LibraryType": "Type",
@@ -520,7 +522,13 @@
         "Path": "Chemin",
         "Path-Help": "Spécifiez le chemin du répertoire pour la bibliothèque.",
         "PathWindows": "Chemin",
-        "PathWindows-Help": "Spécifiez le chemin du répertoire pour la bibliothèque. Pour les chemins réseau, utilisez le format \\\\mon-nas\\medias\\films."
+        "PathWindows-Help": "Spécifiez le chemin du répertoire pour la bibliothèque. Pour les chemins réseau, utilisez le format \\\\mon-nas\\medias\\films.",
+        "Finish": {
+          "Edit": "Modifier",
+          "EditDescription": "Ouvrez l’éditeur pour personnaliser les paramètres de votre bibliothèque avant l’enregistrement.",
+          "Finish": "Enregistrer",
+          "FinishDescription": "Enregistrez la bibliothèque et commencez à analyser les éléments."
+        }
       },
       "FileTypes": {
         "Audio": "Audio",

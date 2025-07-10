@@ -491,6 +491,8 @@
         "FileExtensionsDescription": "Geben Sie die Erweiterungen an, die in dieser Bibliothek verarbeitet werden sollen.",
         "FileTypes": "Dateitypen",
         "FileTypesDescription": "Geben Sie an, welche Dateitypen in dieser Bibliothek erkannt und verarbeitet werden sollen.",
+        "Finish": "Fertigstellen",
+        "FinishDescription": "Überprüfen Sie alle Einstellungen für Ihre Bibliothek und bestätigen Sie, um Ihre Änderungen zu speichern.",
         "General": "Allgemein",
         "GeneralDescription": "Geben Sie allgemeine Informationen zu dieser Bibliothek ein.",
         "LibraryType": "Typ",
@@ -520,7 +522,13 @@
         "Path": "Pfad",
         "Path-Help": "Geben Sie den Verzeichnispfad für die Bibliothek an.",
         "PathWindows": "Pfad",
-        "PathWindows-Help": "Geben Sie den Verzeichnispfad für die Bibliothek an. Für Netzwerkpfade verwenden Sie das Format \\\\mein-nas\\medien\\filme."
+        "PathWindows-Help": "Geben Sie den Verzeichnispfad für die Bibliothek an. Für Netzwerkpfade verwenden Sie das Format \\\\mein-nas\\medien\\filme.",
+        "Finish": {
+          "Edit": "Bearbeiten",
+          "EditDescription": "Öffnen Sie den Editor, um die Bibliothekseinstellungen vor dem Speichern anzupassen.",
+          "Finish": "Speichern",
+          "FinishDescription": "Die Bibliothek speichern und mit dem Scannen von Elementen beginnen."
+        }
       },
       "FileTypes": {
         "Audio": "Audio",

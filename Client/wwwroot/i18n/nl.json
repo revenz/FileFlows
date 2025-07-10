@@ -491,6 +491,8 @@
         "FileExtensionsDescription": "Specificeer de extensies die in deze bibliotheek verwerkt moeten worden.",
         "FileTypes": "Bestandstypen",
         "FileTypesDescription": "Specificeer welke bestandstypen moeten worden gedetecteerd en verwerkt in deze bibliotheek.",
+        "Finish": "Voltooien",
+        "FinishDescription": "Controleer alle instellingen voor uw bibliotheek en bevestig om uw wijzigingen op te slaan.",
         "General": "Algemeen",
         "GeneralDescription": "Voer algemene informatie in over deze bibliotheek.",
         "LibraryType": "Type",
@@ -520,7 +522,13 @@
         "Path": "Pad",
         "Path-Help": "Specificeer het pad van de directory voor de bibliotheek.",
         "PathWindows": "Pad",
-        "PathWindows-Help": "Specificeer het pad van de directory voor de bibliotheek. Voor netwerklocaties gebruikt u het formaat \\\\mijn-nas\\media\\films."
+        "PathWindows-Help": "Specificeer het pad van de directory voor de bibliotheek. Voor netwerklocaties gebruikt u het formaat \\\\mijn-nas\\media\\films.",
+        "Finish": {
+          "Edit": "Bewerken",
+          "EditDescription": "Open de editor om je bibliotheekinstellingen aan te passen voordat je opslaat.",
+          "Finish": "Opslaan",
+          "FinishDescription": "Sla de bibliotheek op en begin met het scannen van items."
+        }
       },
       "FileTypes": {
         "Audio": "Audio",

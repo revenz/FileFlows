@@ -78,6 +78,13 @@ public partial class LibraryEditor : ModalEditor
     /// <inheritdoc />
     public override async Task LoadModel()
     {
+        if (Options is ModalEditorOptions meOptions && meOptions.Model is Library library)
+        {
+            Model = library;
+            StateHasChanged();
+            return;
+        }
+        
         var uid = GetModelUid();
 
         var result = await HttpHelper.Get<Library>("/api/library/" + uid);

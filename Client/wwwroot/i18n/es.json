@@ -491,6 +491,8 @@
         "FileExtensionsDescription": "Especifica las extensiones a procesar en esta biblioteca.",
         "FileTypes": "Tipos de Archivos",
         "FileTypesDescription": "Especifica qué tipos de archivos deben detectarse y procesarse en esta biblioteca.",
+        "Finish": "Finalizar",
+        "FinishDescription": "Revise todas las configuraciones de su biblioteca y confirme para guardar los cambios.",
         "General": "General",
         "GeneralDescription": "Introduce la información general sobre esta biblioteca.",
         "LibraryType": "Tipo",
@@ -520,7 +522,13 @@
         "Path": "Ruta",
         "Path-Help": "Especifica la ruta del directorio para la biblioteca.",
         "PathWindows": "Ruta",
-        "PathWindows-Help": "Especifica la ruta del directorio para la biblioteca. Para rutas de red, usa el formato \\\\mi-nas\\medios\\películas."
+        "PathWindows-Help": "Especifica la ruta del directorio para la biblioteca. Para rutas de red, usa el formato \\\\mi-nas\\medios\\películas.",
+        "Finish": {
+          "Edit": "Editar",
+          "EditDescription": "Abre el editor para personalizar la configuración de tu biblioteca antes de guardarla.",
+          "Finish": "Guardar",
+          "FinishDescription": "Guarda la biblioteca y comienza a escanear elementos."
+        }
       },
       "FileTypes": {
         "Audio": "Audio",

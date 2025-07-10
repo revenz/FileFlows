@@ -491,6 +491,8 @@
         "FileExtensionsDescription": "Ange filändelser som ska behandlas i det här biblioteket.",
         "FileTypes": "Filtyper",
         "FileTypesDescription": "Ange vilka filtyper som ska detekteras och behandlas i det här biblioteket.",
+        "Finish": "Slutför",
+        "FinishDescription": "Granska alla inställningar för ditt bibliotek och bekräfta för att spara ändringarna.",
         "General": "Allmänt",
         "GeneralDescription": "Fyll i allmän information om det här biblioteket.",
         "LibraryType": "Typ",
@@ -520,7 +522,13 @@
         "Path": "Sökväg",
         "Path-Help": "Ange sökvägen till bibliotekets katalog.",
         "PathWindows": "Sökväg",
-        "PathWindows-Help": "Ange sökvägen till bibliotekets katalog. För nätverksvägar, använd formatet \\\\min-nas\\media\\filmer."
+        "PathWindows-Help": "Ange sökvägen till bibliotekets katalog. För nätverksvägar, använd formatet \\\\min-nas\\media\\filmer.",
+        "Finish": {
+          "Edit": "Redigera",
+          "EditDescription": "Öppna redigeraren för att anpassa biblioteksinställningarna innan du sparar.",
+          "Finish": "Spara",
+          "FinishDescription": "Spara biblioteket och börja skanna efter objekt."
+        }
       },
       "FileTypes": {
         "Audio": "Ljud",

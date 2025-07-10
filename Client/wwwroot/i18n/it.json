@@ -491,6 +491,8 @@
         "FileExtensionsDescription": "Specifica le estensioni da elaborare in questa libreria.",
         "FileTypes": "Tipi di File",
         "FileTypesDescription": "Specifica quali tipi di file devono essere rilevati ed elaborati in questa libreria.",
+        "Finish": "Fine",
+        "FinishDescription": "Rivedi tutte le impostazioni della libreria e conferma per salvare le modifiche.",
         "General": "Generale",
         "GeneralDescription": "Inserisci le informazioni generali su questa libreria.",
         "LibraryType": "Tipo",
@@ -520,7 +522,13 @@
         "Path": "Percorso",
         "Path-Help": "Specifica il percorso della directory per la libreria.",
         "PathWindows": "Percorso",
-        "PathWindows-Help": "Specifica il percorso della directory per la libreria. Per i percorsi di rete, usa il formato \\\\mio-nas\\media\\film."
+        "PathWindows-Help": "Specifica il percorso della directory per la libreria. Per i percorsi di rete, usa il formato \\\\mio-nas\\media\\film.",
+        "Finish": {
+          "Edit": "Modifica",
+          "EditDescription": "Apri l'editor per personalizzare le impostazioni della libreria prima di salvarla.",
+          "Finish": "Salva",
+          "FinishDescription": "Salva la libreria e avvia la scansione degli elementi."
+        }
       },
       "FileTypes": {
         "Audio": "Audio",

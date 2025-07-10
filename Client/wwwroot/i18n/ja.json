@@ -491,6 +491,8 @@
         "FileExtensionsDescription": "このライブラリで処理する拡張子を指定します。",
         "FileTypes": "ファイルタイプ",
         "FileTypesDescription": "このライブラリで検出および処理するファイルタイプを指定します。",
+        "Finish": "完了",
+        "FinishDescription": "ライブラリのすべての設定を確認し、変更を保存するには確認してください。",
         "General": "一般",
         "GeneralDescription": "このライブラリに関する一般的な情報を入力してください。",
         "LibraryType": "タイプ",
@@ -520,7 +522,13 @@
         "Path": "パス",
         "Path-Help": "ライブラリ用のディレクトリパスを指定してください。",
         "PathWindows": "パス",
-        "PathWindows-Help": "ライブラリ用のディレクトリパスを指定してください。ネットワークパスの場合は、\\\\my-nas\\media\\movies の形式を使用してください。"
+        "PathWindows-Help": "ライブラリ用のディレクトリパスを指定してください。ネットワークパスの場合は、\\\\my-nas\\media\\movies の形式を使用してください。",
+        "Finish": {
+          "Edit": "編集",
+          "EditDescription": "保存する前にライブラリ設定をカスタマイズするためにエディターを開きます。",
+          "Finish": "保存",
+          "FinishDescription": "ライブラリを保存してアイテムのスキャンを開始します。"
+        }
       },
       "FileTypes": {
         "Audio": "オーディオ",

@@ -137,7 +137,7 @@ public class LibraryController : BaseController
             //RefreshCaches();
 
             if (newLib)
-                Rescan(new() { Uids = new[] { library.Uid } });
+                await Rescan(new ReferenceModel<Guid> { Uids = [library.Uid] });
         });
         
         return Ok(library);

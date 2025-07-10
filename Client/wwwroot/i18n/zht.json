@@ -491,6 +491,8 @@
         "FileExtensionsDescription": "指定在此庫中要處理的檔案副檔名。",
         "FileTypes": "檔案類型",
         "FileTypesDescription": "指定要在此庫中檢測並處理的檔案類型。",
+        "Finish": "完成",
+        "FinishDescription": "請檢查您的資料庫設定，並確認以儲存變更。",
         "General": "常規",
         "GeneralDescription": "輸入有關此庫的一般資訊。",
         "LibraryType": "類型",
@@ -520,7 +522,13 @@
         "Path": "路徑",
         "Path-Help": "指定庫資料夾的路徑。",
         "PathWindows": "路徑",
-        "PathWindows-Help": "指定庫資料夾的路徑。對於網路路徑，請使用格式 \\\\我的-nas\\媒體\\電影。"
+        "PathWindows-Help": "指定庫資料夾的路徑。對於網路路徑，請使用格式 \\\\我的-nas\\媒體\\電影。",
+        "Finish": {
+          "Edit": "編輯",
+          "EditDescription": "在儲存之前，開啟編輯器以自訂資料庫設定。",
+          "Finish": "儲存",
+          "FinishDescription": "儲存資料庫並開始掃描項目。"
+        }
       },
       "FileTypes": {
         "Audio": "音訊",

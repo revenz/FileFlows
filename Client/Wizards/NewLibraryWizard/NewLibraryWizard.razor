@@ -75,6 +75,13 @@
 
 
             </FlowWizardPage>
+            
+            <FlowWizardPage Title="@lblFinish" Description="@lblFinishDescription">
+                <FlowRadioGroup TItem="bool" @bind-Value="EditAfterwards" LabelPrefix="Dialogs.NewLibraryWizard.Fields.Finish">
+                    <FlowRadioGroupItem TItem="bool" Value="false" Icon="fas fa-check-circle" TLabel="Finish" />
+                    <FlowRadioGroupItem TItem="bool" Value="true" Icon="fas fa-edit" TLabel="Edit" />
+                </FlowRadioGroup>
+            </FlowWizardPage>
         </FlowWizard>
     </CascadingValue>
 }
