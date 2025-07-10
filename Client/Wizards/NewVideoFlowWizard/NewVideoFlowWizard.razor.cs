@@ -236,6 +236,7 @@ public partial class NewVideoFlowWizard
             //new () { Label = lblUseOriginal, Value = ""},
             new() { Label = "AAC", Value = "aac" },
             new() { Label = "AC3", Value = "ac3" },
+            new() { Label = "EAC3", Value = "eac3" },
             // new() { Label = "DTS", Value = "dts" },
             new() { Label = "FLAC", Value = "flac" },
             new() { Label = "OPUS", Value = "opus" }
