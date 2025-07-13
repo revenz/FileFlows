@@ -1,5 +1,5 @@
 /**
- * @description Manage concurrent execution of a flow.
+ * @description Manage concurrent execution of a flow. IMPORTANT: Variable "FileFlowsBaseUrl" with URL/IP of the server is required
  * @author blue5h1ft
  * @version 1.0.0
  * @param {int} maxConcurrentJobs Number of concurrent jobs for this flow
@@ -14,7 +14,7 @@ function randomSleep(minMs, maxMs) {
 
 // Fetch active jobs from FileFlows API and organize by flow name
 function getActiveJobs() {
-	const BASE_URL = Variables.FileFlowsBaseUrl;
+	var BASE_URL = Variables.FileFlowsBaseUrl;
   var url = 'https://' + BASE_URL + '/api/library-file?status=2';
   Logger.ILog(`Fetching data using curl from: ${url}`);
 
