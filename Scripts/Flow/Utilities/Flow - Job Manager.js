@@ -4,7 +4,7 @@
  * @version 1.0.0
  * @param {int} maxConcurrentJobs Number of concurrent jobs for this flow
  * @output Continue – Max concurrent jobs not reached, continue processing.
- * @output Skip – Max concurrent jobs reached, skipping. Use "Reprocess" plugin to add the file back to the queue and try again later.
+ * @output Skip – Max concurrent jobs reached, skipping. Use "Reprocess" plugin to add the file back to the queue and try again later.
  */
 function randomSleep(minMs, maxMs) {
   var start = Date.now();
@@ -14,8 +14,8 @@ function randomSleep(minMs, maxMs) {
 
 // Fetch active jobs from FileFlows API and organize by flow name
 function getActiveJobs() {
-	var BASE_URL = Variables.FileFlowsBaseUrl;
-  var url = 'https://' + BASE_URL + '/api/library-file?status=2';
+  var baseUrl = Variables.FileFlowsBaseUrl;
+  var url = 'https://' + baseUrl + '/api/library-file?status=2';
   Logger.ILog(`Fetching data using curl from: ${url}`);
 
   const args = ['-s', '-X', 'GET', url];
@@ -27,8 +27,8 @@ function getActiveJobs() {
   if (result.exitCode !== 0) {
     Logger.ELog(`curl command failed with exit code: ${result.exitCode}`);
     Logger.ELog(`Error output: ${result.standardError}`);
-    
-		return -1;
+
+    return -1;
   }
 
   Logger.ILog('curl command executed successfully.');
@@ -47,7 +47,7 @@ function getActiveJobs() {
         }
         flowJobs[flowName].push({
           uid: job.Uid,
-          processingStarted: job.ProcessingStarted ? Date.parse(job.ProcessingStarted) : null
+          processingStarted: job.ProcessingStarted ? Date.parse(job.ProcessingStarted) : null,
         });
       }
     }
@@ -63,13 +63,13 @@ function getActiveJobs() {
     }
 
     Logger.ILog('Flow jobs: ' + JSON.stringify(flowJobs, null, 2));
-    
-		return flowJobs;
+
+    return flowJobs;
   } catch (e) {
     Logger.ELog(`Failed to parse JSON response: ${e.message}`);
     Logger.WLog(`Received text: ${responseText}`);
-    
-		return -1;
+
+    return -1;
   }
 }
 
@@ -89,18 +89,32 @@ function Script(maxConcurrentJobs) {
 
       // Get allowed Uids for this flow (first n=maxConcurrentJobs jobs)
       var jobsForFlow = activeJobs[flowName];
-      var allowedUids = jobsForFlow.slice(0, maxConcurrentJobs).map(job => String(job.uid));
+      var allowedUids = jobsForFlow.slice(0, maxConcurrentJobs).map((job) => String(job.uid));
 
       // If current Uid is not allowed, skip processing
       if (!allowedUids.includes(currentUid)) {
         if (Logger && Logger.ILog)
-          Logger.ILog('Maximum concurrent jobs (' + maxConcurrentJobs + ") reached for '" + flowName + "'. Skipping. Current Uid: " + currentUid);
-        
-				return 2;
+          Logger.ILog(
+            'Maximum concurrent jobs (' +
+              maxConcurrentJobs +
+              ") reached for '" +
+              flowName +
+              "'. Skipping. Current Uid: " +
+              currentUid
+          );
+
+        return 2;
       }
 
       if (Logger && Logger.ILog)
-        Logger.ILog("Starting job for '" + flowName + "'. Current active jobs: " + allowedUids.length + ", Current Uid: " + currentUid);
+        Logger.ILog(
+          "Starting job for '" +
+            flowName +
+            "'. Current active jobs: " +
+            allowedUids.length +
+            ', Current Uid: ' +
+            currentUid
+        );
     }
   }
 
