@@ -1,7 +1,8 @@
 /**
  * @description Manage concurrent execution of a flow. IMPORTANT: Variable "FileFlowsBaseUrl" with URL/IP of the server is required
  * @author blue5h1ft
- * @version 1.0.0
+ * @uid df4df16f-510e-49b8-a941-447e4f8beff7
+ * @revision 1
  * @param {int} maxConcurrentJobs Number of concurrent jobs for this flow
  * @output Continue – Max concurrent jobs not reached, continue processing.
  * @output Skip – Max concurrent jobs reached, skipping. Use "Reprocess" plugin to add the file back to the queue and try again later.
@@ -14,8 +15,8 @@ function randomSleep(minMs, maxMs) {
 
 // Fetch active jobs from FileFlows API and organize by flow name
 function getActiveJobs() {
-  var baseUrl = Variables.FileFlowsBaseUrl;
-  var url = 'https://' + baseUrl + '/api/library-file?status=2';
+  var baseUrl = Variables.FileFlows.Url";
+  var url = baseUrl + '/api/library-file?status=2';
   Logger.ILog(`Fetching data using curl from: ${url}`);
 
   const args = ['-s', '-X', 'GET', url];
@@ -78,14 +79,13 @@ function Script(maxConcurrentJobs) {
     // Sleep randomly to avoid race conditions
     randomSleep(500, 2000);
 
-    var flowName = Variables && Variables.FlowName;
+    var flowName = Variables.FlowName;
     var activeJobs = getActiveJobs();
 
     // If there are active jobs for this flow, check concurrency
     if (activeJobs && flowName && activeJobs[flowName] && Array.isArray(activeJobs[flowName])) {
       // Extract current file Uid from temp path
-      var tempPath = Variables && Variables.temp;
-      var currentUid = tempPath ? tempPath.replace('/temp/Runner-', '') : '';
+      var currentUid = Flow.RunnerUid;
 
       // Get allowed Uids for this flow (first n=maxConcurrentJobs jobs)
       var jobsForFlow = activeJobs[flowName];
@@ -106,16 +106,14 @@ function Script(maxConcurrentJobs) {
         return 2;
       }
 
-      if (Logger && Logger.ILog)
-        Logger.ILog(
-          "Starting job for '" +
-            flowName +
-            "'. Current active jobs: " +
-            allowedUids.length +
-            ', Current Uid: ' +
-            currentUid
-        );
-    }
+      Logger.ILog(
+        "Starting job for '" +
+          flowName +
+          "'. Current active jobs: " +
+          allowedUids.length +
+          ', Current Uid: ' +
+          currentUid
+      );
   }
 
   return 1;
