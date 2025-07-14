@@ -7,6 +7,7 @@
  * @output Continue – Max concurrent jobs not reached, continue processing.
  * @output Skip – Max concurrent jobs reached, skipping. Use "Reprocess" plugin to add the file back to the queue and try again later.
  */
+ 
 function randomSleep(minMs, maxMs) {
   var start = Date.now();
   var delay = minMs + Math.floor(Math.random() * (maxMs - minMs));
@@ -15,8 +16,9 @@ function randomSleep(minMs, maxMs) {
 
 // Fetch active jobs from FileFlows API and organize by flow name
 function getActiveJobs() {
-  var baseUrl = Variables.FileFlows.Url";
+  var baseUrl = Variables.FileFlows.Url;
   var url = baseUrl + '/api/library-file?status=2';
+
   Logger.ILog(`Fetching data using curl from: ${url}`);
 
   const args = ['-s', '-X', 'GET', url];
@@ -32,7 +34,6 @@ function getActiveJobs() {
     return -1;
   }
 
-  Logger.ILog('curl command executed successfully.');
   const responseText = result.output;
 
   try {
@@ -63,7 +64,7 @@ function getActiveJobs() {
       });
     }
 
-    Logger.ILog('Flow jobs: ' + JSON.stringify(flowJobs, null, 2));
+    Logger.ILog(`Active flow jobs: ${JSON.stringify(flowJobs, null, 2)}`);
 
     return flowJobs;
   } catch (e) {
@@ -84,8 +85,7 @@ function Script(maxConcurrentJobs) {
 
     // If there are active jobs for this flow, check concurrency
     if (activeJobs && flowName && activeJobs[flowName] && Array.isArray(activeJobs[flowName])) {
-      // Extract current file Uid from temp path
-      var currentUid = Flow.RunnerUid;
+      var currentUid = String(Flow.RunnerUid);
 
       // Get allowed Uids for this flow (first n=maxConcurrentJobs jobs)
       var jobsForFlow = activeJobs[flowName];
@@ -93,27 +93,12 @@ function Script(maxConcurrentJobs) {
 
       // If current Uid is not allowed, skip processing
       if (!allowedUids.includes(currentUid)) {
-        if (Logger && Logger.ILog)
-          Logger.ILog(
-            'Maximum concurrent jobs (' +
-              maxConcurrentJobs +
-              ") reached for '" +
-              flowName +
-              "'. Skipping. Current Uid: " +
-              currentUid
-          );
+        Logger.ILog(`Maximum concurrent jobs (${maxConcurrentJobs}) reached for '${flowName}'. Skipping. Current Uid: ${currentUid}`);
 
         return 2;
       }
-
-      Logger.ILog(
-        "Starting job for '" +
-          flowName +
-          "'. Current active jobs: " +
-          allowedUids.length +
-          ', Current Uid: ' +
-          currentUid
-      );
+      Logger.ILog(`Starting job for '${flowName}'. Current Uid: '${currentUid}'`);
+    }
   }
 
   return 1;
