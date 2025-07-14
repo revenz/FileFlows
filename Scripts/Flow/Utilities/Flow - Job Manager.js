@@ -1,5 +1,5 @@
 /**
- * @description Manage concurrent execution of a flow. IMPORTANT: Variable "FileFlowsBaseUrl" with URL/IP of the server is required
+ * @description Manage concurrent execution of a flow.
  * @author blue5h1ft
  * @uid df4df16f-510e-49b8-a941-447e4f8beff7
  * @revision 1
